@@ -26,6 +26,9 @@ hugo server -D
 npm run dev
 ```
 
+BLOGのURLは`http://localhost:1313/`になる。
+SimulationsのURLは`http://localhost:1313/simulations/{SIMULATION_NAME}/`になる。
+
 ### 使い方
 
 記事の追加
