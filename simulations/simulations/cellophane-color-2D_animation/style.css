@@ -1,0 +1,38 @@
+ body {
+     padding: 0;
+     margin: 0;
+     position: fixed;
+     font-size: 16px;
+     width: 100vw;
+     height: 100vh;
+ }
+
+ .upper-bar {
+     height: 10vh;
+ }
+
+ .upper-bar-content {
+     height: 100%
+ }
+
+ .simuation-title {
+     padding: 0;
+ }
+
+ #p5Canvas {
+     height: 90vh;
+ }
+
+ #mainSpectrumGraphParent {
+     height: 80vh;
+ }
+
+ #color {
+     height: 10vh;
+     font-size: 16px;
+ }
+
+
+ .color-display {
+     height: 5vh;
+ }
