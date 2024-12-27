@@ -1,6 +1,6 @@
 baseurl: https://bicpema-blog.web.app/
 languageCode: ja-JP
-theme: hugo-theme-stack
+theme: tailwind
 pagination:
   pagerSize: 5
 title: BICPEMA
