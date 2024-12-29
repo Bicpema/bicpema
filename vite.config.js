@@ -1,19 +1,30 @@
 import { resolve } from "path";
+import { defineConfig } from "vite";
+import { viteStaticCopy } from "vite-plugin-static-copy";
+import { getHtmlInputsRecursively } from "./vite/_build/getHtmlInputsRecursively";
 
-const outDir = resolve(__dirname, "static");
-const root = resolve(__dirname, "simulations");
+const root = resolve(__dirname, "vite");
+const outDir = resolve(__dirname, "static/vite");
 
-export default {
+export default defineConfig({
   root,
+  emptyOutDir: true,
   build: {
     outDir,
+    emptyOutDir: true,
     rollupOptions: {
-      input: {
-        "wave-reflection": resolve(
-          root,
-          "simulations/wave-reflection/index.html"
-        ),
-      },
+      input: getHtmlInputsRecursively(root),
     },
   },
-};
+  plugins: [
+    viteStaticCopy({
+      targets: [
+        {
+          src: resolve(root, "simulations"),
+          dest: outDir,
+          overwrite: false,
+        },
+      ],
+    }),
+  ],
+});
