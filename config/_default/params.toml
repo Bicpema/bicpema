@@ -11,7 +11,7 @@ jsonLD = true
 showAuthor = true
 
 [author]
-  name = "Xiaoliang Wang"
+  name = "kenji"
   email = "user@example.com"
 
 [header]
@@ -47,7 +47,7 @@ showAuthor = true
     enabled = true
     title = 'Twitter'
     icon = 'brand-x'
-    link = 'https://twitter.com/__PurPleFoX__'
+    link = 'https://twitter.com'
 
   [[social_media.items]]
     enabled = true
@@ -65,7 +65,7 @@ showAuthor = true
     enabled = true
     title = 'Github'
     icon = 'brand-github'
-    link = 'https://github.com/tomowang'
+    link = 'https://github.com'
 
 [pwa]
   enabled = true

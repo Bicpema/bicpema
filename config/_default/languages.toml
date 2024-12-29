@@ -1,35 +1,17 @@
-[en]
-  languageCode = 'en-US'
+[jp]
+  languageCode = 'ja-JP'
   languageDirection = 'ltr'
-  languageName = 'English'
-  weight = 1
-  [en.menu]
-  [[en.menu.main]]
+  languageName = '日本語'
+  weight = 3
+  [jp.menu]
+  [[jp.menu.main]]
     identifier = "post"
-    name = "Post"
+    name = "ブログ"
     pageRef = "post"
     weight = 10
 
-  [[en.menu.main]]
-    identifier = "about"
-    name = "About"
-    pageRef = "about"
-    weight = 20
-
-[zh-cn]
-  languageCode = 'zh-CN'
-  languageDirection = 'ltr'
-  languageName = '中文'
-  weight = 2
-  [zh-cn.menu]
-  [[zh-cn.menu.main]]
-    identifier = "post"
-    name = "文章"
-    pageRef = "post"
-    weight = 10
-
-  [[zh-cn.menu.main]]
-    identifier = "about"
-    name = "关于"
-    pageRef = "about"
-    weight = 20
+  # [[jp.menu.main]]
+  #   identifier = "about"
+  #   name = "BICPEMA"
+  #   pageRef = "about"
+  #   weight = 20
