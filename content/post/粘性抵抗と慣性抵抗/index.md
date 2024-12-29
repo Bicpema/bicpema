@@ -1,16 +1,15 @@
 ---
-title: "粘性抵抗と慣性抵抗"
-description: "本教材は物体の質量を変えながら抵抗の種類による運動への影響を観察するためのシミュレーション教材です。"
 author: "kenji"
+title: "粘性抵抗と慣性抵抗"
 date: "2023-09-03"
-image: "thumbnail.png"
 tags: ["物理", "力学", "大学"]
+categories: ["Sample"]
+series: ["Sample Series"]
+description: "本教材は物体の質量を変えながら抵抗の種類による運動への影響を観察するためのシミュレーション教材です。"
+image: "thumbnail.png"
 lastmod: "2023-09-03"
-playLink: "https://app.bicpema.com/simulations/air-resistance"
+aliases: ["sample-alias"]
 ---
-
-※上記の画像をクリックするとシミュレーションが起動します。
-
 ## 扱っている現象および本教材の説明
 
 ## 対象
