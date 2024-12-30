@@ -15,6 +15,14 @@ export default defineConfig({
     rollupOptions: {
       input: getHtmlInputsRecursively(root),
     },
+    chunkSizeWarningLimit: 1500,
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        quietDeps: true,
+      },
+    },
   },
   plugins: [
     viteStaticCopy({
