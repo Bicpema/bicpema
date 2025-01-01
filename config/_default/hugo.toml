@@ -1,7 +1,7 @@
 baseURL = "https://gohugo.io"
 title = "Hugo Theme Tailwind Example Site"
 copyright = "BICPEMA"
-languageCode = "en"
+languageCode = "ja-JP"
 defaultContentLanguage = "jp"
 enableInlineShortcodes = true
 # prevent build failures when using Hugo's Instagram shortcode due to deprecated Instagram API.
