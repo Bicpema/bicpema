@@ -21,7 +21,7 @@ npm -v
 
 ## Setup
 
-リポジトリをクローンする
+リポジトリをクローンする  
 ※サブモジュールを使用しているため、`--recursive`オプションをつけること
 
 ```bash
@@ -48,10 +48,13 @@ simulationsのhtmlをビルドする
 npm run dev
 ```
 
-BLOGのURLは`http://localhost:1313/`になる。
-SimulationsのURLは`http://localhost:1313/vite/simulations/{SIMULATION_NAME}/`になる。
+TOPページ
+<http://localhost:1313/>
 
-### Blog
+シミュレーション
+<http://localhost:1313/vite/simulations/wave-reflection/>
+
+## Blog
 
 記事の追加
 
@@ -87,15 +90,15 @@ hugo new series/sample-series/_index.md
 
 使用できるマークダウンの記法は以下を参照
 
-プレビュー
+プレビュー  
 <https://hugo-theme-tailwind.tomo.dev/post/markdown-syntax/>
-
-ソースコード
+  
+ソースコード  
 <https://github.com/tomowang/hugo-theme-tailwind/blob/main/exampleSite/content/post/markdown-syntax/index.md?plain=1>
 
-### Simulation
+## Simulation
 
-`vite`ディレクトリにシミュレーションのHTMLを配置する。
+[`vite`](./vite/)ディレクトリにシミュレーションのHTMLを配置する。  
 新規のシミュレーションを追加する場合は、以下のコマンドを実行する。
 
 ```bash
@@ -104,13 +107,13 @@ mkdir vite/simulations/[simulation-name]
 mkdir vite/simulations/sample-simulation
 ```
 
-重いファイルは[Firebase Storage](https://console.firebase.google.com/project/bicpema/storage/bicpema.firebasestorage.app/files)にアップロードしてURLを貼る。
+重いファイルは[Firebase Storage](https://console.firebase.google.com/project/bicpema/storage/bicpema.firebasestorage.app/files)にアップロードしてURLで参照すること。
 
-### Structure
+## Structure
 
 ```txt
 bicpema
-├── archetypes # hugo new で生成されるファイルのテンプレート
+├── archetypes # hugo newで生成されるファイルのテンプレート
 ├── config 
 │   ├── _default # ローカル、検証、本番で共通のHugoの設定
 │   └── production # 本番環境のHugoの設定
@@ -129,7 +132,7 @@ bicpema
     └── simulations # シミュレーションのHTML, CSS, JS
 ```
 
-### Others
+## Others
 
 - `main`ブランチにマージすると、GitHub Actionsで自動的にデプロイされる。
 - デプロイの状況は[こちら](https://github.com/Bicpema/bicpema/actions)で確認できる。
