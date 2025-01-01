@@ -1,5 +1,5 @@
-import { readdirSync } from "fs";
-import { resolve } from "path";
+import { readdirSync } from "node:fs";
+import { resolve } from "node:path";
 
 /**
  * 指定したディレクトリから再帰的にHTMLファイルを取得
