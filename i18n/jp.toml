@@ -2,13 +2,13 @@ table_of_contents = "目次"
 open_main_menu = "メインメニューを開く"
 open_lang_switcher = "言語スイッチャーを開く"
 [reading_time]
-  one = "1分読む"
+  one = "1分"
   other = "{{ .Count }}分"
 
 [search]
 title = "検索"
 empty_result = "検索結果が見つかりませんでした"
-placeholder = "入力..."
+placeholder = "キーワードで検索できます"
 
 [header]
 darkmode_toggle = "ダークモードを切り替える"

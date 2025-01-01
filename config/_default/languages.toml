@@ -2,16 +2,5 @@
   languageCode = 'ja-JP'
   languageDirection = 'ltr'
   languageName = '日本語'
-  weight = 3
-  [jp.menu]
-  [[jp.menu.main]]
-    identifier = "post"
-    name = "ブログ"
-    pageRef = "post"
-    weight = 10
-
-  # [[jp.menu.main]]
-  #   identifier = "about"
-  #   name = "BICPEMA"
-  #   pageRef = "about"
-  #   weight = 20
+  weight = 1
+ 

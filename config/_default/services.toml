@@ -8,8 +8,3 @@
 [twitter]
   disableInlineCSS = true
 
-# comments
-[disqus]
-# https://gohugo.io/templates/internal/#disqus
-# disqusShortname = "your-disqus-shortname"
-  shortname = ''
