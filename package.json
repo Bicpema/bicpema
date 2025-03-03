@@ -8,7 +8,7 @@
     "build": "vite build"
   },
   "devDependencies": {
-    "sass": "^1.83.0",
+    "sass": "^1.85.1",
     "vite": "^6.0.6",
     "vite-plugin-static-copy": "^2.2.0"
   },
