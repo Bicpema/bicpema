@@ -21,6 +21,7 @@ image = "images/david-drucsko-eZ_hyar3qqc-unsplash.jpg"
 +++
 
 本文档提供可用于 Hugo 内容文件的基本 Markdown 语法示例，并且还展示了 Hugo 主题中是否用 CSS 修饰了 HTML 基本元素。
+
 <!--more-->
 
 ## 标题
@@ -28,10 +29,15 @@ image = "images/david-drucsko-eZ_hyar3qqc-unsplash.jpg"
 以下 HTML `<h1>`-`<h6>` 元素表示六个级别的分节标题。 `<h1>` 是最高级别分节标题，而 `<h6>` 是最低级别分节标题。
 
 # H1
+
 ## H2
+
 ### H3
+
 #### H4
+
 ##### H5
+
 ###### H6
 
 ## 段落
@@ -47,11 +53,12 @@ blockquote 元素表示从另一个资源引用的内容，可能带有一个在
 ### 没有归属的块引用
 
 > Tiam, ad mint andaepu dandae nostion secatur sequo quae.
-> **请注意**在代码块中可以使用 *Markdown 语法*。
+> **请注意**在代码块中可以使用 _Markdown 语法_。
 
 ### 带有归属的块引用
 
 > 不要通过共享内存进行通信，而是通过通信共享内存。<br>
+>
 > - <cite>Rob Pike[^1]</cite>
 
 [^1] 上述引用摘自 Rob Pike 于 2015 年 11 月 18 日在 Gopherfest 期间进行的 [演讲](https://www.youtube.com/watch?v=PAAkCSZUG1c)。
@@ -60,16 +67,16 @@ blockquote 元素表示从另一个资源引用的内容，可能带有一个在
 
 表格不是核心 Markdown 规范的一部分，但 Hugo 开箱即用地支持表格。
 
-| Name | Age
-| ------ | ------ |
-| Bob | 27
-| Alice | 23
+| Name  | Age |
+| ----- | --- |
+| Bob   | 27  |
+| Alice | 23  |
 
 ### 表格中的行内 Markdown
 
-| 斜体 | 粗体 | 代码 |
-| ------ | ------ | ------ |
-| *斜体* | **粗体** | `代码` |
+| 斜体   | 粗体     | 代码   |
+| ------ | -------- | ------ |
+| _斜体_ | **粗体** | `代码` |
 
 ## 代码块
 
@@ -78,13 +85,13 @@ blockquote 元素表示从另一个资源引用的内容，可能带有一个在
 ```html {linenos=true}
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Example HTML5 Document</title>
-</head>
-<body>
-  <p>Test</p>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>Example HTML5 Document</title>
+  </head>
+  <body>
+    <p>Test</p>
+  </body>
 </html>
 ```
 
@@ -104,6 +111,7 @@ blockquote 元素表示从另一个资源引用的内容，可能带有一个在
 ### 带有 Hugo 内部高亮短代码的代码块
 
 {{< highlight html >}}
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -126,19 +134,19 @@ blockquote 元素表示从另一个资源引用的内容，可能带有一个在
 
 ### 无序列表
 
-* 项目一
-* 项目二
-* 项目三
+- 项目一
+- 项目二
+- 项目三
 
 ### 嵌套列表
 
-* 水果
-  * 苹果
-  * 橙子
-  * 香蕉
-* 乳制品
-  * 牛奶
-  * 奶酪
+- 水果
+  - 苹果
+  - 橙子
+  - 香蕉
+- 乳制品
+  - 牛奶
+  - 奶酪
 
 ### 带有复选框的列表
 

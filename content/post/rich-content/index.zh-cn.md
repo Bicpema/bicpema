@@ -11,8 +11,8 @@ asciinema = true
 +++
 
 Hugo 附带了几个用于丰富内容的[Shortcodes](https://gohugo.io/content-management/shortcodes/#use-hugos-built-in-shortcodes)，以及一个[隐私配置](https: //gohugo.io/about/hugo-and-gdpr/）和一组简单的短代码，可实现各种社交媒体嵌入的静态和非 JS 版本。
-<!--more-->
----
+
+## <!--more-->
 
 ## Github gist Shortcode
 

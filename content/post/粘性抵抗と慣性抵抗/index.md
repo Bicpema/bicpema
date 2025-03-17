@@ -10,6 +10,7 @@ image: "thumbnail.png"
 lastmod: "2023-09-03"
 aliases: ["sample-alias"]
 ---
+
 ## 扱っている現象および本教材の説明
 
 ## 対象
