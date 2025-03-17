@@ -1,3 +1,4 @@
+import fg from "fast-glob";
 import { resolve } from "node:path";
 import { defineConfig } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
@@ -25,6 +26,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    // simulationsディレクトリを静的ファイルとしてコピーする
     viteStaticCopy({
       targets: [
         {
@@ -34,5 +36,16 @@ export default defineConfig({
         },
       ],
     }),
+    // vite-ignoreをしているファイルに差分があった際も再ビルドする
+    // https://stackoverflow.com/questions/63373804/rollup-watch-include-directory/63548394
+    {
+      name: "watch-external",
+      async buildStart() {
+        const files = await fg("vite/**/*");
+        for (let file of files) {
+          this.addWatchFile(file);
+        }
+      },
+    },
   ],
 });
