@@ -9,6 +9,7 @@ image: "/images/antoine-dautry-05A-kdOH6Hw-unsplash.jpg"
 ---
 
 在 Hugo 项目中，可以通过使用第三方 JavaScript 库来启用数学符号。
+
 <!--more-->
 
 在本示例中，我们将使用 [KaTeX](https://katex.org/)
@@ -30,6 +31,7 @@ image: "/images/antoine-dautry-05A-kdOH6Hw-unsplash.jpg"
 
 {{< math.inline >}}
 {{ if or .Page.Params.math .Site.Params.math }}
+
 <!-- KaTeX -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV" crossorigin="anonymous">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-XjKyOOlGwcjNTAIQHIpgOno0Hl1YQqzUOEleOLALmuqehneUG+vnGctmUb0ZY0l8" crossorigin="anonymous"></script>
@@ -40,12 +42,14 @@ image: "/images/antoine-dautry-05A-kdOH6Hw-unsplash.jpg"
 ## 示例
 
 {{< math.inline >}}
+
 <p>
 行内数学：\( arphi = \dfrac{1+\sqrt5}{2}= 1.6180339887…\)
 </p>
 {{</ math.inline >}}
 
 块级数学：
+
 $$
   arphi = 1+rac{1} {1+rac{1} {1+rac{1} {1+\cdots} } }
 $$

@@ -92,7 +92,7 @@ hugo new series/sample-series/_index.md
 
 プレビュー  
 <https://hugo-theme-tailwind.tomo.dev/post/markdown-syntax/>
-  
+
 ソースコード  
 <https://github.com/tomowang/hugo-theme-tailwind/blob/main/exampleSite/content/post/markdown-syntax/index.md?plain=1>
 
@@ -114,7 +114,7 @@ mkdir vite/simulations/sample-simulation
 ```txt
 bicpema
 ├── archetypes # hugo newで生成されるファイルのテンプレート
-├── config 
+├── config
 │   ├── _default # ローカル、検証、本番で共通のHugoの設定
 │   └── production # 本番環境のHugoの設定
 ├── content
