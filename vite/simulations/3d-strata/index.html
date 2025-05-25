@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html lang="ja">
+
+<head>
+    <title>3D地層観察</title>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script type="module" src="/js/common.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous" vite-ignore></script>
+    <link rel="stylesheet" href="./css/style.css" type="text/css" vite-ignore />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+        integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+
+<body class="bg-dark" oncontextmenu="return false;">
+    <nav class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top" data-bs-theme="dark"
+        id="navBar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
+            <span class="text-light fw-lighter">3D地層観察</span>
+        </div>
+    </nav>
+    <!-- シミュレーション画面 -->
+    <div class="container-fluid" id="p5Container">
+        <div class="position-absolute start-0 m-3 card collapse col-sm-6 col-lg-3" id="collapse">
+            <div class="card-body">
+                <ul class="list-group list-group-flush border border-0">
+                    <li class="list-group-item container border-0">
+                        <div class="row">
+                            <div class="col-10">砂岩層</div>
+                            <div class="p-2 sandstone col-2"></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item container border-0">
+                        <div class="row">
+                            <div class="col-10">泥岩層</div>
+                            <div class="p-2 mudstone col-2"></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item container border-0">
+                        <div class="row">
+                            <div class="col-10">れき岩層</div>
+                            <div class="p-2 gravelstone col-2"></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item container border-0">
+                        <div class="row">
+                            <div class="col-10">石灰岩層</div>
+                            <div class="p-2 limestone col-2"></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item container border-0">
+                        <div class="row">
+                            <div class="col-10">凝灰岩層・火山灰層</div>
+                            <div class="p-2 tuffstone col-2"></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item container border-0">
+                        <div class="row">
+                            <div class="col-10">ローム層</div>
+                            <div class="p-2 loam col-2"></div>
+                        </div>
+                    </li>
+                    <li class="list-group-item container border-0">
+                        <div class="row">
+                            <div class="col-10">その他の層</div>
+                            <div class="p-2 other col-2"></div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- モーダル -->
+        <div class="modal fade" id="dataRegisterModal" tabindex="-1" aria-labelledby="dataRegisterModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48px" height="48px" fill="currentColor"
+                            class="bi bi-clipboard2-data pb-1" viewBox="0 0 16 16">
+                            <path
+                                d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 .5.5.5.5 0 0 1 .5.5V2a.5.5 0 0 1-.5.5h-5A.5.5 0 0 1 5 2v-.5a.5.5 0 0 1 .5-.5.5.5 0 0 0 .5-.5.5.5 0 0 1 .5-.5h3Z" />
+                            <path
+                                d="M3 2.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 0 0-1h-.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1H12a.5.5 0 0 0 0 1h.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5v-12Z" />
+                            <path
+                                d="M10 7a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V7Zm-6 4a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1Zm4-3a1 1 0 0 0-1 1v3a1 1 0 1 0 2 0V9a1 1 0 0 0-1-1Z" />
+                        </svg>
+                        <h1 class="modal-title" id="dataRegisterModalLabel">データの登録</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body container">
+                        <div class="alert alert-primary d-flex align-items-center" role="alert">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-check-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                <path
+                                    d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
+                            </svg>
+                            <div>地点データ、地層データ、表示する平面の順に登録してください。</div>
+                        </div>
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="#placePointNameRegister"
+                                    data-bs-toggle="tab">地点データの登録</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#placePointDataRegister" data-bs-toggle="tab">地層データの登録</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#planeDataRegister" data-bs-toggle="tab">表示する平面の登録</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="placePointNameRegister">
+                                <div class="container">
+                                    <h2 class="mt-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px"
+                                            fill="currentColor" class="bi bi-cursor pb-2" viewBox="0 0 16 16">
+                                            <path
+                                                d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52 2.25 8.184z" />
+                                        </svg>
+                                        地点データの登録
+                                    </h2>
+                                    <button class="btn btn-outline-primary mb-2" id="placeAddButton">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
+                                            fill="currentColor" class="bi bi-plus-circle pb-1" viewBox="0 0 16 16">
+                                            <path
+                                                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                            <path
+                                                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                                        </svg>
+                                        追加
+                                    </button>
+                                    <button class="btn btn-outline-danger mb-2" id="placeRemoveButton">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
+                                            fill="currentColor" class="bi bi-dash-circle pb-1" viewBox="0 0 16 16">
+                                            <path
+                                                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                                        </svg>
+                                        削除
+                                    </button>
+                                    <div class="row" id="placePointNameInput"></div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="placePointDataRegister">
+                                <div class="container">
+                                    <h2 class="mt-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px"
+                                            fill="currentColor" class="bi bi-layers pb-2" viewBox="0 0 16 16">
+                                            <path
+                                                d="M8.235 1.559a.5.5 0 0 0-.47 0l-7.5 4a.5.5 0 0 0 0 .882L3.188 8 .264 9.559a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882L12.813 8l2.922-1.559a.5.5 0 0 0 0-.882l-7.5-4zm3.515 7.008L14.438 10 8 13.433 1.562 10 4.25 8.567l3.515 1.874a.5.5 0 0 0 .47 0l3.515-1.874zM8 9.433 1.562 6 8 2.567 14.438 6 8 9.433z" />
+                                        </svg>
+                                        地層データの登録
+                                    </h2>
+                                    <p>※地層データ登録用のサブウィンドウが開きます。</p>
+                                    <div class="row" id="placePointDataInput"></div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="planeDataRegister">
+                                <div class="container">
+                                    <div class="container">
+                                        <h2 class="mt-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px"
+                                                fill="currentColor" class="bi bi-cursor pb-2" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52 2.25 8.184z" />
+                                            </svg>
+                                            平面を構成する地点の組み合わせ
+                                        </h2>
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center" style="width: 33%">１つめの地点</th>
+                                                    <th class="text-center" style="width: 33%">２つめの地点</th>
+                                                    <th class="text-center" style="width: 33%">３つめの地点</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <select class="form-select" id="firstPlaceSelect"></select>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-select" id="secondPlaceSelect"></select>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-select" id="thirdPlaceSelect"></select>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="container border-top">
+                                        <h2 class="mt-2">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="32px" height="32px"
+                                                fill="currentColor" class="bi bi-layers pb-2" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M8.235 1.559a.5.5 0 0 0-.47 0l-7.5 4a.5.5 0 0 0 0 .882L3.188 8 .264 9.559a.5.5 0 0 0 0 .882l7.5 4a.5.5 0 0 0 .47 0l7.5-4a.5.5 0 0 0 0-.882L12.813 8l2.922-1.559a.5.5 0 0 0 0-.882l-7.5-4zm3.515 7.008L14.438 10 8 13.433 1.562 10 4.25 8.567l3.515 1.874a.5.5 0 0 0 .47 0l3.515-1.874zM8 9.433 1.562 6 8 2.567 14.438 6 8 9.433z" />
+                                            </svg>
+                                            表示する地層の組み合わせ
+                                        </h2>
+                                        <button class="btn btn-outline-primary mb-2" id="strataAddButton">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
+                                                fill="currentColor" class="bi bi-plus-circle pb-1" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                <path
+                                                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                                            </svg>
+                                            追加
+                                        </button>
+                                        <button class="btn btn-outline-danger mb-2" id="strataRemoveButton">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px"
+                                                fill="currentColor" class="bi bi-dash-circle pb-1" viewBox="0 0 16 16">
+                                                <path
+                                                    d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                                                <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z" />
+                                            </svg>
+                                            削除
+                                        </button>
+                                        <table class="table table-bordered table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center" style="width: 10%">組番号</th>
+                                                    <th class="text-center" style="width: 22.5%">層の種類</th>
+                                                    <th class="text-center" id="firstPlaceName" style="width: 22.5%">-
+                                                    </th>
+                                                    <th class="text-center" id="secondPlaceName" style="width: 22.5%">-
+                                                    </th>
+                                                    <th class="text-center" id="thirdPlaceName" style="width: 22.5%">-
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="strataSelect"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">閉じる</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ボタン -->
+        <div class="position-absolute m-3 end-0">
+            <button class="btn btn-secondary rounded-pill" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapse" aria-expanded="false" aria-controls="collapse">
+                凡例の表示・非表示
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                    class="bi bi-activity pb-1" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M6 2a.5.5 0 0 1 .47.33L10 12.036l1.53-4.208A.5.5 0 0 1 12 7.5h3.5a.5.5 0 0 1 0 1h-3.15l-1.88 5.17a.5.5 0 0 1-.94 0L6 3.964 4.47 8.171A.5.5 0 0 1 4 8.5H.5a.5.5 0 0 1 0-1h3.15l1.88-5.17A.5.5 0 0 1 6 2Z" />
+                </svg>
+            </button>
+            <a class="btn btn-primary rounded-pill" id="screenshotButton" type="button">
+                スクリーンショット
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                    class="bi bi-camera pb-1" viewBox="0 0 16 16">
+                    <path
+                        d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2z" />
+                    <path
+                        d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z" />
+                </svg>
+            </a>
+            <button class="btn btn-primary rounded-pill" type="button" data-bs-toggle="modal"
+                data-bs-target="#dataRegisterModal">
+                データの登録
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                    class="bi bi-plus-circle pb-1" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
+                    <path
+                        d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+                </svg>
+            </button>
+        </div>
+        <div class="position-absolute m-3 start-0 bottom-0">
+            <button class="btn btn-success rounded-pill" type="button" id="aSetButton">
+                Aセット
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                    class="bi bi-bar-chart-line pb-1" viewBox="0 0 16 16">
+                    <path
+                        d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
+                </svg>
+            </button>
+            <button class="btn btn-success rounded-pill" type="button" id="bSetButton">
+                Bセット
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                    class="bi bi-bar-chart-line pb-1" viewBox="0 0 16 16">
+                    <path
+                        d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
+                </svg>
+            </button>
+            <button class="btn btn-success rounded-pill" type="button" id="cSetButton">
+                Cセット
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                    class="bi bi-bar-chart-line pb-1" viewBox="0 0 16 16">
+                    <path
+                        d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
+                </svg>
+            </button>
+            <button class="btn btn-success rounded-pill" type="button" id="dSetButton">
+                Dセット
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                    class="bi bi-bar-chart-line pb-1" viewBox="0 0 16 16">
+                    <path
+                        d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
+                </svg>
+            </button>
+            <button class="btn btn-success rounded-pill" type="button" id="allSetButton">
+                全体
+                <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="currentColor"
+                    class="bi bi-bar-chart-line pb-1" viewBox="0 0 16 16">
+                    <path
+                        d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2zm1 12h2V2h-2v12zm-3 0V7H7v7h2zm-5 0v-3H2v3h2z" />
+                </svg>
+            </button>
+        </div>
+        <div id="p5Canvas"></div>
+    </div>
+    <script language="javascript" src="./js/index.js" type="text/javascript" vite-ignore></script>
+</body>
+
+</html>
