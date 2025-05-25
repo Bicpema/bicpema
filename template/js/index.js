@@ -2,32 +2,36 @@
 
 /////////////////////////// 以上の記述は不必要であれば削除してください。/////////////////////////////////
 
-// preload関数
-// setup関数よりも前に一度だけ呼び出される。
-function preload() {
-  font = loadFont("https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580");
-}
+import p5 from "https://cdn.jsdelivr.net/npm/p5@1.11.7/+esm";
+import { elementPositionInit, elementSelectInit, settingInit, valueInit } from "./init.js";
+import { BicpemaCanvasController } from "./class.js";
+const sketch = (p) => {
+  let font;
+  p.preload = function () {
+    font = p.loadFont("https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580");
+  };
 
-// setup関数
-// シミュレーションを実行する際に１度だけ呼び出される。
-function setup() {
-  settingInit();
-  elementSelectInit();
-  elementPositionInit();
-  valueInit();
-}
+  let canvasController;
+  p.setup = function () {
+    canvasController = new BicpemaCanvasController(p);
+    canvasController.fullScreen();
+    settingInit(p, font);
+    elementSelectInit();
+    elementPositionInit();
+    valueInit();
+  };
 
-// draw関数
-// シミュレーションを実行した後、繰り返し呼び出され続ける
-function draw() {
-  scale(width / 1000);
-  background(0);
-  // drawGraph();
-}
+  p.draw = function () {
+    p.scale(p.width / 1000);
+    p.background(0);
+    // drawGraph();
+  };
 
-// windowResized関数
-// シミュレーションを利用しているデバイスの画面サイズが変わった際に呼び出される。
-function windowResized() {
-  canvasController.resizeScreen();
-  elementPositionInit();
-}
+  p.windowResized = function () {
+    canvasController.resizeScreen();
+    elementPositionInit();
+  };
+};
+
+// スケッチのインスタンスを生成
+new p5(sketch);

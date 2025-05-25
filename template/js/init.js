@@ -2,32 +2,35 @@
 
 /////////////////////////// 以上の記述は不必要であれば削除してください。/////////////////////////////////
 
-// settingInit関数
-// シミュレーションそのものの設定を行う関数
-const FPS = 30;
-let canvasController;
-function settingInit() {
-  canvasController = new BicpemaCanvasController(true, false);
-  canvasController.fullScreen();
-  frameRate(FPS);
-  textAlign(CENTER, CENTER);
-  textFont(font);
-  textSize(16);
+/**
+ * シミュレーションそのものの設定を行う関数
+ * @param {p5instance} p
+ * @param {font} font
+ */
+export function settingInit(p, font) {
+  p.frameRate(30);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.textFont(font);
+  p.textSize(16);
 }
 
-// elementSelectInit関数
-// 仮想DOMを読み込むための関数
-// グラフを利用する際には、graph,graphCanvasのコメントアウトをはずしてください。
 //   let graph, graphCanvas;
-function elementSelectInit() {
+
+/**
+ * 仮想DOMを読み込むための関数
+ * グラフを利用する際には、graph,graphCanvasのコメントアウトをはずしてください。
+ */
+export function elementSelectInit() {
   //   graph = select("#graph");
   //   graphCanvas = select("#graphCanvas");
 }
 
-// elementPositionInit関数
-// 仮想DOMの場所や実行関数を設定するための関数
-function elementPositionInit() {}
+/**
+ * 仮想DOMの場所や実行関数を設定するための関数
+ */
+export function elementPositionInit() {}
 
-// valueInit関数
-// 初期値を設定するための関数
-function valueInit() {}
+/**
+ * 初期値を設定するための関数
+ */
+export function valueInit() {}

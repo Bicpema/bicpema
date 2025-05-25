@@ -1,7 +1,7 @@
 // function.jsはその他のメソッド管理専用のファイルです。
 
 // メソッドの定義方法の例
-// function exampleMethod() {
+// export function exampleMethod() {
 //   console.log("これは例です。");
 // }
 
