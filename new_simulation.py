@@ -22,7 +22,7 @@ def main():
     replace_list = {"title": "", "path": ""}
     template_path = "template"
     base_path = "vite/simulations/"
-    p = re.compile("[a-zA-Z0-9_-]*")
+    p = re.compile("^[a-zA-Z0-9_-]+$")
 
     title = get_input(
         "シミュレーションのタイトルを日本語で入力してください：",
