@@ -1,5 +1,5 @@
-import fg from "fast-glob";
 import { resolve } from "node:path";
+import { globSync } from "tinyglobby";
 import { defineConfig } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import { getHtmlInputsRecursively } from "./vite/_build/getHtmlInputsRecursively";
@@ -41,7 +41,7 @@ export default defineConfig({
     {
       name: "watch-external",
       async buildStart() {
-        const files = await fg("vite/**/*");
+        const files = await globSync("vite/**/*");
         for (let file of files) {
           this.addWatchFile(file);
         }
