@@ -1,6 +1,9 @@
 // Import our custom CSS
 import "../scss/common.scss";
 
+// Import jQuery
+import "jquery";
+
 // Import all of Bootstrap's JS
 import "bootstrap";
 
