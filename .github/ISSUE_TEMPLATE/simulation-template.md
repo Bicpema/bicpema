@@ -1,9 +1,10 @@
 ---
 name: simulation template
 about: シミュレーションの追加やメンテナンスのためのテンプレートです。
-title: ""
-labels: ""
-assignees: ""
+title: ''
+labels: ''
+assignees: ''
+
 ---
 
 ## シミュレーションの該当箇所
