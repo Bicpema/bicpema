@@ -1,3 +1,10 @@
+// p5.jsとhtml2canvasのインポート
+import p5 from "p5";
+import html2canvas from "html2canvas";
+
+// p5をグローバルに公開（グローバルモードで動作させる）
+new p5();
+
 // html要素が全て読み込まれた後に読み込む
 window.onload = function () {
   // screenshotButtonの設定
@@ -24,6 +31,8 @@ function fullScreen() {
 
 // 外部ファイルの読み込み
 // フォント変数を宣言（後で非同期で読み込む）
+// Note: jaFont is declared in the global scope to ensure accessibility throughout the script
+// after being loaded asynchronously via loadFont() in setup().
 let jaFont = null;
 
 // 地点を追加、削除するボタン
@@ -610,6 +619,11 @@ function setup() {
     () => {
       // フォント読み込み失敗時はデフォルトフォントを使用
       console.warn("Japanese font could not be loaded. Using default font.");
+      textFont("sans-serif");
+      textSize(25);
+      textAlign(CENTER);
+      // デフォルトフォントを使用可能にする
+      jaFont = true;
     }
   );
 }
@@ -834,7 +848,6 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
     pop();
     fill(0);
     push();
-    translate();
     if (jaFont) {
       text(
         kind,

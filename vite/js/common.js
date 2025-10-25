@@ -10,9 +10,7 @@ import "bootstrap";
 
 // Import simulation's dependencies
 import "chart.js";
-import p5 from "p5";
-window.p5 = p5;
-import html2canvas from "html2canvas";
-window.html2canvas = html2canvas;
+import "p5";
+import "html2canvas";
 import "mathjs";
 import "matter-js";

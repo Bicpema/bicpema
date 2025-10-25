@@ -1,3 +1,9 @@
+// p5.jsのインポート（グローバルモードで使用）
+import p5 from "p5";
+
+// p5をグローバルに公開
+new p5();
+
 // html要素が全て読み込まれた後に読み込まれる
 window.onload = function () {
   // 受け取った地点名入りURLから地点名を抽出
