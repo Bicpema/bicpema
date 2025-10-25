@@ -1,8 +1,21 @@
-// p5.jsのインポート（グローバルモードで使用）
-import p5 from "p5";
+// p5.jsがcommon.jsから読み込まれるのを待機
+function waitForP5() {
+  return new Promise((resolve) => {
+    if (typeof window.createCanvas !== 'undefined') {
+      resolve();
+    } else {
+      const checkInterval = setInterval(() => {
+        if (typeof window.createCanvas !== 'undefined') {
+          clearInterval(checkInterval);
+          resolve();
+        }
+      }, 50);
+    }
+  });
+}
 
-// p5をグローバルに公開
-new p5();
+// p5が利用可能になるまで待機
+await waitForP5();
 
 // html要素が全て読み込まれた後に読み込まれる
 window.onload = function () {
@@ -167,3 +180,7 @@ class TR {
     idArr.push(str(num));
   }
 }
+
+// p5.jsのグローバルモードのためにsetup/draw関数をwindowオブジェクトに公開
+window.setup = setup;
+window.draw = draw;

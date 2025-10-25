@@ -1,9 +1,25 @@
-// p5.jsとhtml2canvasのインポート
-import p5 from "p5";
+// html2canvasのインポート
 import html2canvas from "html2canvas";
 
-// p5をグローバルに公開（グローバルモードで動作させる）
-new p5();
+// p5.jsがcommon.jsから読み込まれるのを待機
+// common.jsでimport "p5"によりp5がグローバルに登録される
+function waitForP5() {
+  return new Promise((resolve) => {
+    if (typeof window.createCanvas !== 'undefined') {
+      resolve();
+    } else {
+      const checkInterval = setInterval(() => {
+        if (typeof window.createCanvas !== 'undefined') {
+          clearInterval(checkInterval);
+          resolve();
+        }
+      }, 50);
+    }
+  });
+}
+
+// p5が利用可能になるまで待機
+await waitForP5();
 
 // html要素が全て読み込まれた後に読み込む
 window.onload = function () {
@@ -1293,3 +1309,7 @@ class DOM {
       .id("placeDataInput" + str(this.n));
   }
 }
+
+// p5.jsのグローバルモードのためにsetup/draw関数をwindowオブジェクトに公開
+window.setup = setup;
+window.draw = draw;
