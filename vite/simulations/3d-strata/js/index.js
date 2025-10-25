@@ -588,11 +588,6 @@ let allSetIs;
 // 初期値やシミュレーションの設定
 function initValue() {
   camera(800, -500, 800, 0, 0, 0, 0, 1, 0);
-  textSize(25);
-  if (jaFont) {
-    textFont(jaFont);
-  }
-  textAlign(CENTER);
   allSetIs = false;
 }
 
@@ -609,6 +604,8 @@ function setup() {
     (font) => {
       jaFont = font;
       textFont(jaFont);
+      textSize(25);
+      textAlign(CENTER);
     },
     () => {
       // フォント読み込み失敗時はデフォルトフォントを使用
@@ -685,13 +682,13 @@ function backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax) {
       translate(-500, 0, 500);
       let xMap = map(x, 0, 1000, float(xMin), float(xMax));
       if (xMin == xMax) xMap = x / 100;
-      text(nf(xMap, 1, 4), x, -10);
+      if (jaFont) text(nf(xMap, 1, 4), x, -10);
       pop();
     }
   }
   push();
   translate(0, 0, 500);
-  text("経度", 0, -50);
+  if (jaFont) text("経度", 0, -50);
   pop();
 
   for (let z = 0; z <= 500; z += 50) {
@@ -704,13 +701,13 @@ function backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax) {
       translate(0, 0, -500);
       let zMap = map(z, 0, 500, zMin, zMax);
       if (zMin == zMax) zMap = z;
-      text(nf(zMap, 1, 4), -500, z);
+      if (jaFont) text(nf(zMap, 1, 4), -500, z);
       pop();
     }
   }
   push();
   translate(0, 0, -500);
-  text("深さ", -550, 250, 0);
+  if (jaFont) text("深さ", -550, 250, 0);
   pop();
   for (let y = 0; y <= 1000; y += 50) {
     line(-500, 0, y - 500, 500, 0, y - 500);
@@ -722,14 +719,14 @@ function backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax) {
       if (yMin == yMax) yMap = (1000 - y) / 100;
       rotateY(PI / 2);
       translate(-y + 500, 0, 500);
-      text(nf(yMap, 1, 4), 0, -10);
+      if (jaFont) text(nf(yMap, 1, 4), 0, -10);
       pop();
     }
   }
   push();
   rotateY(PI / 2);
   translate(0, -50, 500);
-  text("緯度", 0, -10);
+  if (jaFont) text("緯度", 0, -10);
   pop();
 }
 
@@ -789,10 +786,12 @@ function drawDirMark(x, y) {
   line(x + 20, y - 50, x - 20, y - 50);
   line(x, y - 100, x, +y + 100);
   line(x, y - 100, x - 20, y - 50);
-  text("東", x + 70, y + 8);
-  text("西", x - 70, y + 8);
-  text("南", x, y + 70 + 60);
-  text("北", x, y - 70 - 40);
+  if (jaFont) {
+    text("東", x + 70, y + 8);
+    text("西", x - 70, y + 8);
+    text("南", x, y + 70 + 60);
+    text("北", x, y - 70 - 40);
+  }
   pop();
 }
 
@@ -831,16 +830,18 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
     box(50, map(zLength, 0, zMax - zMin, 0, 500), 50);
     translate(100, 10, 0);
     fill(0);
-    text(kind, 0, 0);
+    if (jaFont) text(kind, 0, 0);
     pop();
     fill(0);
     push();
     translate();
-    text(
-      kind,
-      x,
-      map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2
-    );
+    if (jaFont) {
+      text(
+        kind,
+        x,
+        map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2
+      );
+    }
     pop();
   }
   fill(0);
@@ -852,7 +853,7 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
   } else {
     translate(0, -25, 0);
   }
-  text(name, 0, -55);
+  if (jaFont) text(name, 0, -55);
   fill(255, 0, 0);
   cone(10, 50, 10, 3, true);
   pop();
