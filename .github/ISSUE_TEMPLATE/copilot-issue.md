@@ -1,9 +1,9 @@
 ---
-name: copilot用のissue
+name: copilot issue
 about: github copilot coding agent 用のカスタムIssueテンプレートです。
 title: ''
 labels: ''
-assignees: ''
+assignees: Copilot
 
 ---
 
@@ -13,3 +13,5 @@ Issueとして取り組むべき課題の概要を書いてください。
 Issueとして取り組むべき課題の詳細を書いてください。
 # クローズ条件
 Issueをクローズさせる際の条件をこちらに箇条書きで書いてください。
+# カスタムインストラクション
+`.github/copilot-instructions.md`を参照してください。
