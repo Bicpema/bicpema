@@ -633,13 +633,8 @@ function setup() {
       textAlign(CENTER);
     },
     () => {
-      // フォント読み込み失敗時はデフォルトフォントを使用
-      console.warn("Japanese font could not be loaded. Using default font.");
-      textFont("sans-serif");
-      textSize(25);
-      textAlign(CENTER);
-      // デフォルトフォントを使用可能にする
-      jaFont = true;
+      // フォント読み込み失敗時はテキストを表示しない
+      console.warn("Japanese font could not be loaded. Text labels will not be displayed.");
     }
   );
 }
