@@ -23,12 +23,8 @@ function fullScreen() {
 }
 
 // 外部ファイルの読み込み
-function preload() {
-  // フォントのデータ
-  jaFont = loadFont(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
-  );
-}
+// フォント変数を宣言（後で非同期で読み込む）
+let jaFont = null;
 
 // 地点を追加、削除するボタン
 let placeAddButton, placeRemoveButton;
@@ -593,7 +589,9 @@ let allSetIs;
 function initValue() {
   camera(800, -500, 800, 0, 0, 0, 0, 1, 0);
   textSize(25);
-  textFont(jaFont);
+  if (jaFont) {
+    textFont(jaFont);
+  }
   textAlign(CENTER);
   allSetIs = false;
 }
@@ -605,6 +603,18 @@ function setup() {
   elInit();
   initValue();
   loadTestDataButtonFunction();
+  // フォントを非同期で読み込む（読み込み失敗してもシミュレーションは動作する）
+  loadFont(
+    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
+    (font) => {
+      jaFont = font;
+      textFont(jaFont);
+    },
+    () => {
+      // フォント読み込み失敗時はデフォルトフォントを使用
+      console.warn("Japanese font could not be loaded. Using default font.");
+    }
+  );
 }
 
 // 緯度経度、深さの最小値と最大値を計算する関数
