@@ -1,8 +1,9 @@
 // Import our custom CSS
 import "../scss/common.scss";
 
-// Import jQuery
-import "jquery";
+// Import jQuery and expose it globally
+import $ from "jquery";
+window.$ = window.jQuery = $;
 
 // Import all of Bootstrap's JS
 import "bootstrap";
