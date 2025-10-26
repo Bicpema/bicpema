@@ -1,5 +1,9 @@
+import { IncidentWave } from './incident-wave.js';
+import { ReflectedWave } from './reflected-wave.js';
+import { Medium } from './medium.js';
+
 // 合成波の点の数
-let MEDIUM_QUANTITY = 100;
+const MEDIUM_QUANTITY = 100;
 // 合成波
 let mediums = new Array(MEDIUM_QUANTITY);
 // 器具とボタンの画像を格納する変数
@@ -49,13 +53,14 @@ function initValue() {
   reflectedWaves = new Array();
 
   for (let i = 0; i < MEDIUM_QUANTITY; i++) {
-    // mediums[i] = new Medium(x座標, y座標, 番号(0~MEDIUM_QUANTITY))
+    // mediums[i] = new Medium(x座標, y座標, 番号(0~MEDIUM_QUANTITY), 入射波配列, 反射波配列, 媒質数)
     mediums[i] = new Medium(
       (i * (width - 200)) / MEDIUM_QUANTITY,
       0,
       i,
       incidentWaves,
-      reflectedWaves
+      reflectedWaves,
+      MEDIUM_QUANTITY
     );
   }
 
@@ -120,7 +125,8 @@ function buttonFunction() {
             100,
             reflectedWaves.length,
             MEDIUM_QUANTITY - i - 2,
-            true
+            true,
+            MEDIUM_QUANTITY
           )
         );
       }
@@ -145,10 +151,10 @@ function draw() {
   background(100);
   if (buttonClickedIs == true) {
     for (let i = 0; i < incidentWaves.length; i++) {
-      incidentWaves[i].calculate();
+      incidentWaves[i].calculate(speed);
     }
     for (let i = 0; i < reflectedWaves.length; i++) {
-      reflectedWaves[i].calculate();
+      reflectedWaves[i].calculate(speed, fixedIs);
     }
     for (let i = 0; i < MEDIUM_QUANTITY; i++) {
       mediums[i].calculate();
@@ -166,3 +172,9 @@ function windowResized() {
   fullScreen();
   initValue();
 }
+
+// p5.jsのグローバルモード用の関数をwindowオブジェクトに登録
+window.preload = preload;
+window.setup = setup;
+window.draw = draw;
+window.windowResized = windowResized;
