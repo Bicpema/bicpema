@@ -48,7 +48,7 @@ export class Medium {
       this.posx + 100,
       this.posy + height / 2,
       (this.number * (width - 200)) / this.mediumQuantity + 100,
-      height / 2
+      height / 2,
     );
     strokeWeight(1);
     noStroke();
