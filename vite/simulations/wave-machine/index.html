@@ -8,28 +8,6 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <script type="module" src="/js/common.js"></script>
   <link rel="stylesheet" href="./css/style.css" type="text/css" vite-ignore />
-  <style>
-    body {
-      padding: 0;
-      margin: 0;
-      position: fixed;
-      font-size: 16px;
-      width: 100vw;
-      height: 100vh;
-    }
-
-    .upper-bar {
-      height: 10vh;
-    }
-
-    .upper-bar-content {
-      height: 100%;
-    }
-
-    .simuation-title {
-      padding: 0;
-    }
-  </style>
 </head>
 
 <body oncontextmenu="return false;">
@@ -61,37 +39,10 @@
     </div>
   </div>
   <div id="p5Canvas"></div>
-  <div class="position-absolute bottom-0">
-    <button type="button" class="btn btn-dark ms-2 mb-2" data-bs-toggle="button" id="decelerationButton">
-      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-        class="bi bi-skip-start-fill skip-1" viewBox="0 0 16 16">
-        <path
-          d="M4 4a.5.5 0 0 1 1 0v3.248l6.267-3.636c.54-.313 1.232.066 1.232.696v7.384c0 .63-.692 1.01-1.232.697L5 8.753V12a.5.5 0 0 1-1 0V4z" />
-      </svg>
-    </button>
-    <button type="button" class="btn btn-primary ms-2 mb-2" data-bs-toggle="button" id="startButton">
-      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-caret-right-fill"
-        viewBox="0 0 16 16">
-        <path
-          d="m12.14 8.753-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z" />
-      </svg>
-    </button>
-    <button type="button" class="btn btn-light ms-2 mb-2" data-bs-toggle="button" id="stopButton">
-      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-pause"
-        viewBox="0 0 16 16">
-        <path
-          d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5zm4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z" />
-      </svg>
-    </button>
-    <button type="button" class="btn btn-dark ms-2 mb-2" data-bs-toggle="button" id="accelerationButton">
-      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
-        class="bi bi-skip-start-fill skip-2" viewBox="0 0 16 16">
-        <path
-          d="M4 4a.5.5 0 0 1 1 0v3.248l6.267-3.636c.54-.313 1.232.066 1.232.696v7.384c0 .63-.692 1.01-1.232.697L5 8.753V12a.5.5 0 0 1-1 0V4z" />
-      </svg>
-    </button>
-  </div>
   <script src="./js/index.js" type="text/javascript" vite-ignore></script>
+  <script src="./js/medium.js" type="text/javascript" vite-ignore></script>
+  <script src="./js/incident-wave.js" type="text/javascript" vite-ignore></script>
+  <script src="./js/reflected-wave.js" type="text/javascript" vite-ignore></script>
 </body>
 
 </html>
