@@ -15,9 +15,11 @@ export const getHtmlInputsRecursively = (dir, baseDir = dir) => {
       // ディレクトリの場合、再帰的に取得
       Object.assign(inputs, getHtmlInputsRecursively(fullPath, baseDir));
     } else if (entry.isFile() && entry.name.endsWith(".html")) {
-      // 最後のディレクトリ名をキーにする
+      // ファイル名（拡張子なし）と親ディレクトリ名を組み合わせてキーにする
       const directories = fullPath.split("/");
-      const key = directories[directories.length - 2];
+      const parentDir = directories[directories.length - 2];
+      const fileName = entry.name.replace(/\.html$/, "");
+      const key = fileName === "index" ? parentDir : `${parentDir}-${fileName}`;
       inputs[key] = fullPath;
     }
     return inputs;

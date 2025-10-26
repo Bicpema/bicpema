@@ -34,6 +34,11 @@ export default defineConfig({
           dest: outDir,
           overwrite: false,
         },
+        {
+          src: resolve(root, "js"),
+          dest: outDir,
+          overwrite: false,
+        },
       ],
     }),
     // vite-ignoreをしているファイルに差分があった際も再ビルドする
