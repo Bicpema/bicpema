@@ -96,7 +96,7 @@ function placeNameInputFunction() {
   for (let i = 0; i < placeNum; i++) {
     let place = "地点" + str(i + 1);
     let placeName = dataInputArr[place].name.value();
-    if (placeName == "") {
+    if (placeName === "") {
       placeName = place;
       dataInputArr[place].edit.html("地点" + str(i + 1) + "のデータを編集");
     } else {
@@ -129,7 +129,7 @@ function firstPlaceSelectFunction() {
     }
   }
   let trNum = document.getElementById("strataSelect").childElementCount;
-  if (Object.keys(dataInputArr).length !== 0 && placeName != "-") {
+  if (Object.keys(dataInputArr).length !== 0 && placeName !== "-") {
     let strataArr = dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
       let strataSelect = document.getElementById("select2-" + str(i + 1));
@@ -139,7 +139,7 @@ function firstPlaceSelectFunction() {
       let strataKind = select("#select1-" + str(i + 1)).value();
       let element = select("#select2-" + str(i + 1));
       for (let j = 0; j < strataArr.length; j++) {
-        if (strataKind == strataArr[j][2]) {
+        if (strataKind === strataArr[j][2]) {
           element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
         }
       }
@@ -166,7 +166,7 @@ function secondPlaceSelectFunction() {
     }
   }
   let trNum = document.getElementById("strataSelect").childElementCount;
-  if (Object.keys(dataInputArr).length !== 0 && placeName != "-") {
+  if (Object.keys(dataInputArr).length !== 0 && placeName !== "-") {
     let strataArr = dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
       let strataSelect = document.getElementById("select3-" + str(i + 1));
@@ -176,7 +176,7 @@ function secondPlaceSelectFunction() {
       let strataKind = select("#select1-" + str(i + 1)).value();
       let element = select("#select3-" + str(i + 1));
       for (let j = 0; j < strataArr.length; j++) {
-        if (strataKind == strataArr[j][2]) {
+        if (strataKind === strataArr[j][2]) {
           element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
         }
       }
@@ -203,7 +203,7 @@ function thirdPlaceSelectFunction() {
     }
   }
   let trNum = document.getElementById("strataSelect").childElementCount;
-  if (Object.keys(dataInputArr).length !== 0 && placeName != "-") {
+  if (Object.keys(dataInputArr).length !== 0 && placeName !== "-") {
     let strataArr = dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
       let strataSelect = document.getElementById("select4-" + str(i + 1));
@@ -213,7 +213,7 @@ function thirdPlaceSelectFunction() {
       let strataKind = select("#select1-" + str(i + 1)).value();
       let element = select("#select4-" + str(i + 1));
       for (let j = 0; j < strataArr.length; j++) {
-        if (strataKind == strataArr[j][2]) {
+        if (strataKind === strataArr[j][2]) {
           element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
         }
       }

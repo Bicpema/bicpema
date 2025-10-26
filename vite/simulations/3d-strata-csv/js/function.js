@@ -15,7 +15,7 @@ window.onload = () => {
   };
 };
 
-let xMin,xMax,yMin,yMax,zMin,zMax;
+let xMin, xMax, yMin, yMax, zMin, zMax;
 
 // 緯度経度、深さの最小値と最大値を計算する関数
 calculateValue = (setRadioButtonValue, unitSelectValue) => {
@@ -53,8 +53,8 @@ calculateValue = (setRadioButtonValue, unitSelectValue) => {
     if (yMax === -Infinity) yMax = 0;
     zMin = min(depthArr);
     zMax = max(depthArr);
-    if (zMin == Infinity) zMin = 0;
-    if (zMax == -Infinity) zMax = 0;
+    if (zMin === Infinity) zMin = 0;
+    if (zMax === -Infinity) zMax = 0;
     if (unitSelectValue === "meter") {
       let m = max(xMax, yMax);
       xMin = 0;
@@ -318,7 +318,7 @@ function connectStrata() {
   let p1Name = select("#firstPlaceSelect").value();
   let p2Name = select("#secondPlaceSelect").value();
   let p3Name = select("#thirdPlaceSelect").value();
-  if (p1Name != "-" && p2Name != "-" && p3Name != "-") {
+  if (p1Name !== "-" && p2Name !== "-" && p3Name !== "-") {
     let p1 = [0, 0];
     let p2 = [0, 0];
     let p3 = [0, 0];
@@ -385,7 +385,7 @@ function connectStrata() {
       }
 
       // ３点を結び平面を生成する関数
-      createPlane1 = (x1, z1, y1, x2, z2, y2, x3, z3, y3) => {
+      const createPlane1 = (x1, z1, y1, x2, z2, y2, x3, z3, y3) => {
         beginShape();
         vertex(x1, y1, z1);
         vertex(x2, y2, z2);
@@ -394,7 +394,7 @@ function connectStrata() {
       };
 
       // ４点を結び平面を生成する関数
-      createPlane2 = (x1, z1, y1, x2, z2, y2, x3, z3, y3, x4, z4, y4) => {
+      const createPlane2 = (x1, z1, y1, x2, z2, y2, x3, z3, y3, x4, z4, y4) => {
         beginShape();
         vertex(x1, y1, z1);
         vertex(x2, y2, z2);
