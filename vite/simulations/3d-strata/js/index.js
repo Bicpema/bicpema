@@ -1,3 +1,27 @@
+// jQueryとhtml2canvasのインポート
+import $ from "jquery";
+import html2canvas from "html2canvas";
+
+// p5.jsがcommon.jsから読み込まれるのを待機
+// common.jsでimport "p5"によりp5がグローバルに登録される
+function waitForP5() {
+  return new Promise((resolve) => {
+    if (typeof window.createCanvas !== "undefined") {
+      resolve();
+    } else {
+      const checkInterval = setInterval(() => {
+        if (typeof window.createCanvas !== "undefined") {
+          clearInterval(checkInterval);
+          resolve();
+        }
+      }, 50);
+    }
+  });
+}
+
+// p5が利用可能になるまで待機
+await waitForP5();
+
 // html要素が全て読み込まれた後に読み込む
 window.onload = function () {
   // screenshotButtonの設定
@@ -23,10 +47,10 @@ function fullScreen() {
 }
 
 // 外部ファイルの読み込み
-function preload() {
-  // フォントのデータ
-  jaFont = loadFont("https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580");
-}
+// フォント変数を宣言（後で非同期で読み込む）
+// Note: jaFont is declared in the global scope to ensure accessibility throughout the script
+// after being loaded asynchronously via loadFont() in setup().
+let jaFont = null;
 
 // 地点を追加、削除するボタン
 let placeAddButton, placeRemoveButton;
@@ -90,13 +114,14 @@ function placeNameInputFunction() {
     } else {
       dataInputArr[place].edit.html(placeName + "のデータを編集");
     }
-    document.getElementById("placeDataInput" + str(i + 1)).onclick = function () {
-      let win = window.open(
-        "/vite/simulations/3d-strata/childWindow.html?" + placeName,
-        "window_name",
-        "width=1000,height=500"
-      );
-    };
+    document.getElementById("placeDataInput" + str(i + 1)).onclick =
+      function () {
+        let win = window.open(
+          "/vite/simulations/3d-strata/childWindow.html?" + placeName,
+          "window_name",
+          "width=1000,height=500"
+        );
+      };
   }
 
   // 平面データの設定を常に更新
@@ -121,19 +146,25 @@ function placeAddButtonFunction() {
   let placeName = "地点" + str(newPlaceNum);
 
   // 生成したオブジェクトを連想配列に登録
-  dataInputArr[placeName] = { name: newDom.placeNameInput, data: { x: "", y: "" }, edit: "", layer: "" };
+  dataInputArr[placeName] = {
+    name: newDom.placeNameInput,
+    data: { x: "", y: "" },
+    edit: "",
+    layer: "",
+  };
   dataInputArr[placeName]["data"]["x"] = newDom.xInput;
   dataInputArr[placeName]["data"]["y"] = newDom.yInput;
   dataInputArr[placeName]["edit"] = newDom.placeDataInput;
 
   // サブウィンドウを開く機構の付与
-  document.getElementById("placeDataInput" + str(newPlaceNum)).onclick = function () {
-    let win = window.open(
-      "/vite/simulations/3d-strata/childWindow.html?" + placeName,
-      "window_name",
-      "width=1000,height=500"
-    );
-  };
+  document.getElementById("placeDataInput" + str(newPlaceNum)).onclick =
+    function () {
+      let win = window.open(
+        "/vite/simulations/3d-strata/childWindow.html?" + placeName,
+        "window_name",
+        "width=1000,height=500"
+      );
+    };
 
   placeRefreshFunction();
 }
@@ -309,6 +340,11 @@ function placeRefreshFunction() {
   secondPlaceSelectDoc.addEventListener("change", secondPlaceSelectFunction);
   thirdPlaceSelectDoc.addEventListener("change", thirdPlaceSelectFunction);
 }
+// グローバルに公開
+window.placeRefreshFunction = placeRefreshFunction;
+window.firstPlaceSelectFunction = firstPlaceSelectFunction;
+window.secondPlaceSelectFunction = secondPlaceSelectFunction;
+window.thirdPlaceSelectFunction = thirdPlaceSelectFunction;
 
 // 平面を構成する地層の組を追加するボタンを押した時の処理
 function strataAddButtonFunction() {
@@ -328,7 +364,15 @@ function strataAddButtonFunction() {
     .id("select1-" + NextTrNum);
   let select1doc = document.getElementById("select1-" + NextTrNum);
   select1doc.addEventListener("change", strataSelectFunction);
-  let strataArr = ["砂岩層", "泥岩層", "れき岩層", "石灰岩層", "凝灰岩層・火山灰層", "ローム層", "その他の層"];
+  let strataArr = [
+    "砂岩層",
+    "泥岩層",
+    "れき岩層",
+    "石灰岩層",
+    "凝灰岩層・火山灰層",
+    "ローム層",
+    "その他の層",
+  ];
   for (let i = 0; i < strataArr.length; i++) select1.option(strataArr[i]);
   let td2 = createElement("td")
     .parent("tr-" + NextTrNum)
@@ -359,15 +403,30 @@ function strataAddButtonFunction() {
 // 平面を構成する地層の組を削除するボタンを押した時の処理
 function strataRemoveButtonFunction() {
   let strataSelect = document.getElementById("strataSelect");
-  if (strataSelect.childElementCount > 0) strataSelect.removeChild(strataSelect.lastChild);
+  if (strataSelect.childElementCount > 0)
+    strataSelect.removeChild(strataSelect.lastChild);
 }
 
 function loadTestDataButtonFunction() {
   if (Object.keys(dataInputArr).length == 0) {
-    let name_arr = ["南白糸台小", "警察学校", "府中第六中", "府中第四小", "飛田給小", "府中第二中", "石原小"];
+    let name_arr = [
+      "南白糸台小",
+      "警察学校",
+      "府中第六中",
+      "府中第四小",
+      "飛田給小",
+      "府中第二中",
+      "石原小",
+    ];
     let place_arr = [
-      [35.660552, 35.668404, 35.660752, 35.666669, 35.654647, 35.672779, 35.660607],
-      [139.516632, 139.519548, 139.507364, 139.507854, 139.523045, 139.508945, 139.538435],
+      [
+        35.660552, 35.668404, 35.660752, 35.666669, 35.654647, 35.672779,
+        35.660607,
+      ],
+      [
+        139.516632, 139.519548, 139.507364, 139.507854, 139.523045, 139.508945,
+        139.538435,
+      ],
     ];
     let test_data = {
       // "砂岩層","泥岩層","れき岩層","石灰岩層","凝灰岩層・火山灰層","ローム層","その他の層"
@@ -560,9 +619,6 @@ let allSetIs;
 // 初期値やシミュレーションの設定
 function initValue() {
   camera(800, -500, 800, 0, 0, 0, 0, 1, 0);
-  textSize(25);
-  textFont(jaFont);
-  textAlign(CENTER);
   allSetIs = false;
 }
 
@@ -573,6 +629,22 @@ function setup() {
   elInit();
   initValue();
   loadTestDataButtonFunction();
+  // フォントを非同期で読み込む（読み込み失敗してもシミュレーションは動作する）
+  loadFont(
+    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
+    (font) => {
+      jaFont = font;
+      textFont(jaFont);
+      textSize(25);
+      textAlign(CENTER);
+    },
+    () => {
+      // フォント読み込み失敗時はテキストを表示しない
+      console.warn(
+        "Japanese font could not be loaded. Text labels will not be displayed."
+      );
+    }
+  );
 }
 
 // 緯度経度、深さの最小値と最大値を計算する関数
@@ -643,13 +715,13 @@ function backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax) {
       translate(-500, 0, 500);
       let xMap = map(x, 0, 1000, float(xMin), float(xMax));
       if (xMin == xMax) xMap = x / 100;
-      text(nf(xMap, 1, 4), x, -10);
+      if (jaFont) text(nf(xMap, 1, 4), x, -10);
       pop();
     }
   }
   push();
   translate(0, 0, 500);
-  text("経度", 0, -50);
+  if (jaFont) text("経度", 0, -50);
   pop();
 
   for (let z = 0; z <= 500; z += 50) {
@@ -662,13 +734,13 @@ function backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax) {
       translate(0, 0, -500);
       let zMap = map(z, 0, 500, zMin, zMax);
       if (zMin == zMax) zMap = z;
-      text(nf(zMap, 1, 4), -500, z);
+      if (jaFont) text(nf(zMap, 1, 4), -500, z);
       pop();
     }
   }
   push();
   translate(0, 0, -500);
-  text("深さ", -550, 250, 0);
+  if (jaFont) text("深さ", -550, 250, 0);
   pop();
   for (let y = 0; y <= 1000; y += 50) {
     line(-500, 0, y - 500, 500, 0, y - 500);
@@ -680,14 +752,14 @@ function backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax) {
       if (yMin == yMax) yMap = (1000 - y) / 100;
       rotateY(PI / 2);
       translate(-y + 500, 0, 500);
-      text(nf(yMap, 1, 4), 0, -10);
+      if (jaFont) text(nf(yMap, 1, 4), 0, -10);
       pop();
     }
   }
   push();
   rotateY(PI / 2);
   translate(0, -50, 500);
-  text("緯度", 0, -10);
+  if (jaFont) text("緯度", 0, -10);
   pop();
 }
 
@@ -722,6 +794,8 @@ function submit(arr) {
     }
   }
 }
+// グローバルに公開
+window.submit = submit;
 
 // input済みの地層データを引き継ぐ関数
 function loadLayers(placeName) {
@@ -736,6 +810,8 @@ function loadLayers(placeName) {
   let layers = value.layer;
   return layers;
 }
+// グローバルに公開
+window.loadLayers = loadLayers;
 
 // 方角を描画する関数
 function drawDirMark(x, y) {
@@ -747,10 +823,12 @@ function drawDirMark(x, y) {
   line(x + 20, y - 50, x - 20, y - 50);
   line(x, y - 100, x, +y + 100);
   line(x, y - 100, x - 20, y - 50);
-  text("東", x + 70, y + 8);
-  text("西", x - 70, y + 8);
-  text("南", x, y + 70 + 60);
-  text("北", x, y - 70 - 40);
+  if (jaFont) {
+    text("東", x + 70, y + 8);
+    text("西", x - 70, y + 8);
+    text("南", x, y + 70 + 60);
+    text("北", x, y - 70 - 40);
+  }
   pop();
 }
 
@@ -781,16 +859,25 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
     if (kind == "ローム層") fill(112, 58, 21, 200);
     if (kind == "その他の層") fill(0, 200);
     push();
-    translate(x, map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2, y);
+    translate(
+      x,
+      map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2,
+      y
+    );
     box(50, map(zLength, 0, zMax - zMin, 0, 500), 50);
     translate(100, 10, 0);
     fill(0);
-    text(kind, 0, 0);
+    if (jaFont) text(kind, 0, 0);
     pop();
     fill(0);
     push();
-    translate();
-    text(kind, x, map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2);
+    if (jaFont) {
+      text(
+        kind,
+        x,
+        map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2
+      );
+    }
     pop();
   }
   fill(0);
@@ -802,7 +889,7 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
   } else {
     translate(0, -25, 0);
   }
-  text(name, 0, -55);
+  if (jaFont) text(name, 0, -55);
   fill(255, 0, 0);
   cone(10, 50, 10, 3, true);
   pop();
@@ -1006,11 +1093,70 @@ function draw() {
       if (select1 == "凝灰岩層・火山灰層") fill(200, 200, 200, 150);
       if (select1 == "ローム層") fill(112, 58, 21, 150);
       if (select1 == "その他の層") fill(0, 150);
-      createPlane1(p1[0], p1[1], p1Min, p2[0], p2[1], p2Min, p3[0], p3[1], p3Min);
-      createPlane1(p1[0], p1[1], p1Max, p2[0], p2[1], p2Max, p3[0], p3[1], p3Max);
-      createPlane2(p1[0], p1[1], p1Min, p2[0], p2[1], p2Min, p2[0], p2[1], p2Max, p1[0], p1[1], p1Max);
-      createPlane2(p1[0], p1[1], p1Min, p3[0], p3[1], p3Min, p3[0], p3[1], p3Max, p1[0], p1[1], p1Max);
-      createPlane2(p2[0], p2[1], p2Min, p3[0], p3[1], p3Min, p3[0], p3[1], p3Max, p2[0], p2[1], p2Max);
+      createPlane1(
+        p1[0],
+        p1[1],
+        p1Min,
+        p2[0],
+        p2[1],
+        p2Min,
+        p3[0],
+        p3[1],
+        p3Min
+      );
+      createPlane1(
+        p1[0],
+        p1[1],
+        p1Max,
+        p2[0],
+        p2[1],
+        p2Max,
+        p3[0],
+        p3[1],
+        p3Max
+      );
+      createPlane2(
+        p1[0],
+        p1[1],
+        p1Min,
+        p2[0],
+        p2[1],
+        p2Min,
+        p2[0],
+        p2[1],
+        p2Max,
+        p1[0],
+        p1[1],
+        p1Max
+      );
+      createPlane2(
+        p1[0],
+        p1[1],
+        p1Min,
+        p3[0],
+        p3[1],
+        p3Min,
+        p3[0],
+        p3[1],
+        p3Max,
+        p1[0],
+        p1[1],
+        p1Max
+      );
+      createPlane2(
+        p2[0],
+        p2[1],
+        p2Min,
+        p3[0],
+        p3[1],
+        p3Min,
+        p3[0],
+        p3[1],
+        p3Max,
+        p2[0],
+        p2[1],
+        p2Max
+      );
     }
   }
   if (allSetIs) {
@@ -1037,11 +1183,70 @@ function draw() {
         if (layer == "凝灰岩層・火山灰層") fill(200, 200, 200, 150);
         if (layer == "ローム層") fill(112, 58, 21, 150);
         if (layer == "その他の層") fill(0, 150);
-        createPlane1(p1[0], p1[1], p1Min, p2[0], p2[1], p2Min, p3[0], p3[1], p3Min);
-        createPlane1(p1[0], p1[1], p1Max, p2[0], p2[1], p2Max, p3[0], p3[1], p3Max);
-        createPlane2(p1[0], p1[1], p1Min, p2[0], p2[1], p2Min, p2[0], p2[1], p2Max, p1[0], p1[1], p1Max);
-        createPlane2(p1[0], p1[1], p1Min, p3[0], p3[1], p3Min, p3[0], p3[1], p3Max, p1[0], p1[1], p1Max);
-        createPlane2(p2[0], p2[1], p2Min, p3[0], p3[1], p3Min, p3[0], p3[1], p3Max, p2[0], p2[1], p2Max);
+        createPlane1(
+          p1[0],
+          p1[1],
+          p1Min,
+          p2[0],
+          p2[1],
+          p2Min,
+          p3[0],
+          p3[1],
+          p3Min
+        );
+        createPlane1(
+          p1[0],
+          p1[1],
+          p1Max,
+          p2[0],
+          p2[1],
+          p2Max,
+          p3[0],
+          p3[1],
+          p3Max
+        );
+        createPlane2(
+          p1[0],
+          p1[1],
+          p1Min,
+          p2[0],
+          p2[1],
+          p2Min,
+          p2[0],
+          p2[1],
+          p2Max,
+          p1[0],
+          p1[1],
+          p1Max
+        );
+        createPlane2(
+          p1[0],
+          p1[1],
+          p1Min,
+          p3[0],
+          p3[1],
+          p3Min,
+          p3[0],
+          p3[1],
+          p3Max,
+          p1[0],
+          p1[1],
+          p1Max
+        );
+        createPlane2(
+          p2[0],
+          p2[1],
+          p2Min,
+          p3[0],
+          p3[1],
+          p3Min,
+          p3[0],
+          p3[1],
+          p3Max,
+          p2[0],
+          p2[1],
+          p2Max
+        );
       }
     }
   }
@@ -1081,19 +1286,37 @@ class DOM {
     createElement("span", "地点" + str(this.n) + "：")
       .parent(this.inputGroup1)
       .class("input-group-text");
-    this.placeNameInput = createInput().parent(this.inputGroup1).class("form-control").input(placeNameInputFunction);
+    this.placeNameInput = createInput()
+      .parent(this.inputGroup1)
+      .class("form-control")
+      .input(placeNameInputFunction);
     // input要素の下の部分
-    createElement("span", "緯度").parent(this.inputGroup2).class("input-group-text");
-    this.yInput = createInput(0, "number").parent(this.inputGroup2).class("form-control");
-    createElement("span", "経度").parent(this.inputGroup2).class("input-group-text");
-    this.xInput = createInput(0, "number").parent(this.inputGroup2).class("form-control");
+    createElement("span", "緯度")
+      .parent(this.inputGroup2)
+      .class("input-group-text");
+    this.yInput = createInput(0, "number")
+      .parent(this.inputGroup2)
+      .class("form-control");
+    createElement("span", "経度")
+      .parent(this.inputGroup2)
+      .class("input-group-text");
+    this.xInput = createInput(0, "number")
+      .parent(this.inputGroup2)
+      .class("form-control");
     createDiv("地点" + str(this.n) + "の名前、緯度、経度を入力してください。")
       .parent(this.parentDiv)
       .class("form-text");
     // サブウィンドウ生成用のDOM
-    this.placeDataInput = createA("javascript:void(0)", "地点" + str(this.n) + "のデータを編集")
+    this.placeDataInput = createA(
+      "javascript:void(0)",
+      "地点" + str(this.n) + "のデータを編集"
+    )
       .class("btn btn-outline-primary mb-2")
       .parent("placePointDataInput")
       .id("placeDataInput" + str(this.n));
   }
 }
+
+// p5.jsのグローバルモードのためにsetup/draw関数をwindowオブジェクトに公開
+window.setup = setup;
+window.draw = draw;

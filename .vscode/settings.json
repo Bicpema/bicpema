@@ -2,5 +2,8 @@
   "editor.formatOnType": true,
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    { "file": "/.vscode/commit-style.md" }
+  ]
 }
