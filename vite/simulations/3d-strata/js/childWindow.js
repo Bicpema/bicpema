@@ -1,11 +1,11 @@
 // p5.jsがcommon.jsから読み込まれるのを待機
 function waitForP5() {
   return new Promise((resolve) => {
-    if (typeof window.createCanvas !== 'undefined') {
+    if (typeof window.createCanvas !== "undefined") {
       resolve();
     } else {
       const checkInterval = setInterval(() => {
-        if (typeof window.createCanvas !== 'undefined') {
+        if (typeof window.createCanvas !== "undefined") {
           clearInterval(checkInterval);
           resolve();
         }
@@ -20,7 +20,7 @@ await waitForP5();
 // html要素が全て読み込まれた後に読み込まれる
 window.onload = function () {
   // 受け取った地点名入りURLから地点名を抽出
-  placeName = decodeURI(location.search);
+  let placeName = decodeURI(location.search);
   placeName = placeName.substring(1, placeName.length);
 
   // 親ウィンドウがない場合の処理
@@ -29,7 +29,8 @@ window.onload = function () {
     return false;
   }
 
-  document.getElementById("place_name").innerHTML = placeName + "のデータを編集";
+  document.getElementById("place_name").innerHTML =
+    placeName + "のデータを編集";
   document.title = placeName + "のデータを編集";
 
   // 入力済み地層データがあれば引き継ぎinputに入力
@@ -37,9 +38,12 @@ window.onload = function () {
   let layersNum = layers.length;
   for (let i = 0; i < layersNum; i++) {
     trAddButtonFunction();
-    document.getElementById("td1Input" + (i + 1).toString()).value = layers[i][0];
-    document.getElementById("td2Input" + (i + 1).toString()).value = layers[i][1];
-    document.getElementById("td3Select" + (i + 1).toString()).value = layers[i][2];
+    document.getElementById("td1Input" + (i + 1).toString()).value =
+      layers[i][0];
+    document.getElementById("td2Input" + (i + 1).toString()).value =
+      layers[i][1];
+    document.getElementById("td3Select" + (i + 1).toString()).value =
+      layers[i][2];
   }
 };
 
@@ -86,7 +90,11 @@ function draw() {
 
   // input要素からvalueを取得
   for (let i = 0; i < trArr.length; i++) {
-    strataData.push([trArr[i].td1Input.value(), trArr[i].td2Input.value(), trArr[i].td3Select.value()]);
+    strataData.push([
+      trArr[i].td1Input.value(),
+      trArr[i].td2Input.value(),
+      trArr[i].td3Select.value(),
+    ]);
   }
 
   // ヘッダー部分のhtml要素から地点名を取得
@@ -155,7 +163,8 @@ class TR {
       "ローム層",
       "その他の層",
     ];
-    for (let i = 0; i < this.td3SelectOptionArr.length; i++) this.td3Select.option(this.td3SelectOptionArr[i]);
+    for (let i = 0; i < this.td3SelectOptionArr.length; i++)
+      this.td3Select.option(this.td3SelectOptionArr[i]);
 
     // 削除ボタンを押した時の処理
     function _removeButtonFunction() {

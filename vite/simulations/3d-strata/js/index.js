@@ -1,15 +1,16 @@
-// html2canvasのインポート
+// jQueryとhtml2canvasのインポート
+import $ from "jquery";
 import html2canvas from "html2canvas";
 
 // p5.jsがcommon.jsから読み込まれるのを待機
 // common.jsでimport "p5"によりp5がグローバルに登録される
 function waitForP5() {
   return new Promise((resolve) => {
-    if (typeof window.createCanvas !== 'undefined') {
+    if (typeof window.createCanvas !== "undefined") {
       resolve();
     } else {
       const checkInterval = setInterval(() => {
-        if (typeof window.createCanvas !== 'undefined') {
+        if (typeof window.createCanvas !== "undefined") {
           clearInterval(checkInterval);
           resolve();
         }
@@ -339,6 +340,11 @@ function placeRefreshFunction() {
   secondPlaceSelectDoc.addEventListener("change", secondPlaceSelectFunction);
   thirdPlaceSelectDoc.addEventListener("change", thirdPlaceSelectFunction);
 }
+// グローバルに公開
+window.placeRefreshFunction = placeRefreshFunction;
+window.firstPlaceSelectFunction = firstPlaceSelectFunction;
+window.secondPlaceSelectFunction = secondPlaceSelectFunction;
+window.thirdPlaceSelectFunction = thirdPlaceSelectFunction;
 
 // 平面を構成する地層の組を追加するボタンを押した時の処理
 function strataAddButtonFunction() {
@@ -634,7 +640,9 @@ function setup() {
     },
     () => {
       // フォント読み込み失敗時はテキストを表示しない
-      console.warn("Japanese font could not be loaded. Text labels will not be displayed.");
+      console.warn(
+        "Japanese font could not be loaded. Text labels will not be displayed."
+      );
     }
   );
 }
@@ -786,6 +794,8 @@ function submit(arr) {
     }
   }
 }
+// グローバルに公開
+window.submit = submit;
 
 // input済みの地層データを引き継ぐ関数
 function loadLayers(placeName) {
@@ -800,6 +810,8 @@ function loadLayers(placeName) {
   let layers = value.layer;
   return layers;
 }
+// グローバルに公開
+window.loadLayers = loadLayers;
 
 // 方角を描画する関数
 function drawDirMark(x, y) {
