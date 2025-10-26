@@ -1,7 +1,7 @@
 /**
  * 入射波クラスです。
  */
-class IncidentWave {
+export class IncidentWave {
   /**
    * コンストラクタです。
    * @param {number} x x方向の位置。
@@ -21,8 +21,9 @@ class IncidentWave {
 
   /**
    * 変位を計算します。
+   * @param {number} speed 波の進行速度。
    */
-  calculate() {
+  calculate(speed) {
     if (this.number < this.time) {
       if (this.theta > -30) {
         this.theta--;
