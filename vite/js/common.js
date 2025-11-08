@@ -9,7 +9,8 @@ window.$ = window.jQuery = $;
 import "bootstrap";
 
 // Import simulation's dependencies
-import "chart.js";
+import Chart from "chart.js/auto";
+window.Chart = Chart;
 import p5 from "p5";
 // p5をグローバルモードで初期化(全シミュレーションで利用可能に)
 new p5();
@@ -19,4 +20,6 @@ import * as math from "mathjs";
 // mathjsの必要な関数のみをMathオブジェクトに追加
 Math.sum = math.sum;
 Math.multiply = math.multiply;
+// mathをグローバルに公開
+window.math = math;
 import "matter-js";
