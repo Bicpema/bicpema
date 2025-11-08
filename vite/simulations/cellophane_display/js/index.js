@@ -233,7 +233,7 @@ function intensity_max() {
   for (let i = 380; i <= 750; i++) {
     Intensity_all_box[i - 380] = osArrOrigin[i - 380];
   }
-  Intensity_all = Math.sum(Intensity_all_box);
+  Intensity_all = math.sum(Intensity_all_box);
   return Intensity_all;
 }
 
@@ -541,13 +541,13 @@ function colabNum2_normal() {
       Bdraw++;
       if (Bcount == 0) {
         // rgbを格納する配列の初期化
-        rAftera = new Array(Math.pow(2, colabNum)); //2024.6.17 colabNum修正 colabNum-1から
-        gAftera = new Array(Math.pow(2, colabNum));
-        bAftera = new Array(Math.pow(2, colabNum));
+        rAftera = new Array(math.pow(2, colabNum)); //2024.6.17 colabNum修正 colabNum-1から
+        gAftera = new Array(math.pow(2, colabNum));
+        bAftera = new Array(math.pow(2, colabNum));
         Bcount += 1;
       }
       //if(colabNum<=15){
-      //Bsize = Math.pow(colabNum,2);s
+      //Bsize = math.pow(colabNum,2);s
       push();
       fill(255, 0, 0, 10);
       ellipse(0, 0, frameRate() * 8, frameRate() * 8);
@@ -562,7 +562,7 @@ function colabNum2_normal() {
       }
 
       let start = (Bdraw - 1) * Bsize;
-      let end = min(Math.pow(2, colabNum), start + Bsize);
+      let end = min(math.pow(2, colabNum), start + Bsize);
       for (let i = start; i < end; i++) {
         //その枚数で生み出せる全ての色を生成(2角目以降)
         let binaryString = "";
@@ -578,7 +578,7 @@ function colabNum2_normal() {
         gAftera[i] = gAfter2;
         bAftera[i] = bAfter2;
       }
-      if (end == Math.pow(2, colabNum)) {
+      if (end == math.pow(2, colabNum)) {
         BisDead = true;
       }
     }
@@ -696,11 +696,11 @@ function toRGB(a) {
   if (a <= 0.0031308) {
     a = 12.92 * a;
   } else {
-    a = 1.055 * Math.pow(a, 1 / 2.4) - 0.055;
+    a = 1.055 * math.pow(a, 1 / 2.4) - 0.055;
   }
   // 0〜1にクリップ
-  a = Math.max(0, Math.min(1, a));
-  return Math.round(a * 255);
+  a = math.max(0, math.min(1, a));
+  return math.round(a * 255);
 }
 
 // セロハンの総数の数え上げをする処理
@@ -726,22 +726,22 @@ function beforeColorCalculate() {
       R_all[i - 380] * osArrOrigin[i - 380] * zLambda[i - 380];
     R_os[i - 380] = R_all[i - 380] * osArrOrigin[i - 380];
   }
-  Intensity_all_now = Math.sum(R_os);
+  Intensity_all_now = math.sum(R_os);
   for (let i = 380; i <= 750; i++) {
     speyBox[i - 380] = osArrOrigin[i - 380] * yLambda[i - 380] * R_all[i - 380];
   }
-  spey = Math.sum(speyBox);
+  spey = math.sum(speyBox);
   K = 1.0 / spey; //0.5
   // RGBへの変換
-  xSumBefore = Math.sum(xArrBefore) * K;
-  ySumBefore = Math.sum(yArrBefore) * K;
-  zSumBefore = Math.sum(zArrBefore) * K;
+  xSumBefore = math.sum(xArrBefore) * K;
+  ySumBefore = math.sum(yArrBefore) * K;
+  zSumBefore = math.sum(zArrBefore) * K;
   tosRGB = [
     [3.2406, -1.5372, -0.4986],
     [-0.9689, 1.8758, 0.0415],
     [0.0557, -0.204, 1.057],
   ];
-  rgbBefore = Math.multiply(tosRGB, [xSumBefore, ySumBefore, zSumBefore]);
+  rgbBefore = math.multiply(tosRGB, [xSumBefore, ySumBefore, zSumBefore]);
   rBefore = toRGB(rgbBefore[0]);
   gBefore = toRGB(rgbBefore[1]);
   bBefore = toRGB(rgbBefore[2]);
@@ -779,9 +779,9 @@ function afterColorCalculate() {
         100;
       let cello = [
         [1, 0],
-        [0, Math.exp(Math.complex(0, -delta))],
+        [0, math.exp(math.complex(0, -delta))],
       ];
-      E_2 = Math.multiply(cello, E_1);
+      E_2 = math.multiply(cello, E_1);
 
       // セロハンの組数が2組以上の場合、それぞれのセロハンに関する計算を再帰的に行う
       if (colabNum >= 2) {
@@ -798,13 +798,13 @@ function afterColorCalculate() {
             100;
           let cello = [
             [1, 0],
-            [0, Math.exp(Math.complex(0, -delta))],
+            [0, math.exp(math.complex(0, -delta))],
           ];
           let targetAngle = select("#rotateInput-" + n);
           let b = radians(targetAngle.value() - referenceAngle.value());
-          E_2 = Math.multiply(
+          E_2 = math.multiply(
             r_theta(b),
-            Math.multiply(cello, Math.multiply(mai_r_theta(b), E_2))
+            math.multiply(cello, math.multiply(mai_r_theta(b), E_2))
           );
         }
       }
@@ -816,10 +816,10 @@ function afterColorCalculate() {
         c = radians(-referenceAngle.value()) - radians(90);
       }
 
-      E_3 = Math.multiply(jhons(c), E_2);
-      let relativeStrength = Math.abs(
-        Math.abs(Math.multiply(E_3[0], E_3[0])) +
-          Math.abs(Math.multiply(E_3[1], E_3[1]))
+      E_3 = math.multiply(jhons(c), E_2);
+      let relativeStrength = math.abs(
+        math.abs(math.multiply(E_3[0], E_3[0])) +
+          math.abs(math.multiply(E_3[1], E_3[1]))
       );
       osArr[i - 380] = relativeStrength * osArrOrigin[i - 380] * R_all[i - 380];
       xArrAfter[i - 380] = osArr[i - 380] * xLambda[i - 380];
@@ -833,25 +833,25 @@ function afterColorCalculate() {
       ls_zArrAfter[i - 380] =
         osArrOrigin[i - 380] * R_all[i - 380] * zLambda[i - 380];
     }
-    Intensity_all_now = Math.sum(osArr);
-    let sum_ls_xArrAfter = Math.sum(ls_xArrAfter);
-    let sum_ls_yArrAfter = Math.sum(ls_yArrAfter);
-    let sum_ls_zArrAfter = Math.sum(ls_zArrAfter);
+    Intensity_all_now = math.sum(osArr);
+    let sum_ls_xArrAfter = math.sum(ls_xArrAfter);
+    let sum_ls_yArrAfter = math.sum(ls_yArrAfter);
+    let sum_ls_zArrAfter = math.sum(ls_zArrAfter);
     for (let i = 380; i <= 750; i++) {
       speyBox[i - 380] =
         osArrOrigin[i - 380] * yLambda[i - 380] * R_all[i - 380];
     }
-    spey = Math.sum(speyBox);
+    spey = math.sum(speyBox);
     K = 1.0 / spey;
-    xSumAfter = Math.sum(xArrAfter) * K;
-    ySumAfter = Math.sum(yArrAfter) * K;
-    zSumAfter = Math.sum(zArrAfter) * K;
+    xSumAfter = math.sum(xArrAfter) * K;
+    ySumAfter = math.sum(yArrAfter) * K;
+    zSumAfter = math.sum(zArrAfter) * K;
     tosRGB = [
       [3.2406, -1.5372, -0.4986],
       [-0.9689, 1.8758, 0.0415],
       [0.0557, -0.204, 1.057],
     ];
-    sRGB = Math.multiply(tosRGB, [xSumAfter, ySumAfter, zSumAfter]);
+    sRGB = math.multiply(tosRGB, [xSumAfter, ySumAfter, zSumAfter]);
     rAfter = toRGB(sRGB[0]);
     gAfter = toRGB(sRGB[1]);
     bAfter = toRGB(sRGB[2]);
@@ -913,19 +913,19 @@ function afterColorCalculate1() {
         100;
       let cello = [
         [1, 0],
-        [0, Math.exp(Math.complex(0, -delta))],
+        [0, math.exp(math.complex(0, -delta))],
       ];
-      E_2 = Math.multiply(cello, E_1);
+      E_2 = math.multiply(cello, E_1);
       if (polarizerSelect.value() == "平行ニコル配置") {
         c = radians(-referenceAngle.value());
       } else if (polarizerSelect.value() == "直交ニコル配置") {
         c = radians(-referenceAngle.value()) - radians(90);
       }
 
-      E_3 = Math.multiply(jhons(c), E_2);
-      let relativeStrength = Math.abs(
-        Math.abs(Math.multiply(E_3[0], E_3[0])) +
-          Math.abs(Math.multiply(E_3[1], E_3[1]))
+      E_3 = math.multiply(jhons(c), E_2);
+      let relativeStrength = math.abs(
+        math.abs(math.multiply(E_3[0], E_3[0])) +
+          math.abs(math.multiply(E_3[1], E_3[1]))
       );
       osArr[i - 380] = relativeStrength * osArrOrigin[i - 380] * R_all[i - 380];
       xArrAfter[i - 380] = osArr[i - 380] * xLambda[i - 380];
@@ -939,25 +939,25 @@ function afterColorCalculate1() {
       ls_zArrAfter[i - 380] =
         osArrOrigin[i - 380] * R_all[i - 380] * zLambda[i - 380];
     }
-    Intensity_all_now = Math.sum(osArr);
-    sum_ls_xArrAfter = Math.sum(ls_xArrAfter);
-    sum_ls_yArrAfter = Math.sum(ls_yArrAfter);
-    sum_ls_zArrAfter = Math.sum(ls_zArrAfter);
+    Intensity_all_now = math.sum(osArr);
+    sum_ls_xArrAfter = math.sum(ls_xArrAfter);
+    sum_ls_yArrAfter = math.sum(ls_yArrAfter);
+    sum_ls_zArrAfter = math.sum(ls_zArrAfter);
     for (let i = 380; i <= 750; i++) {
       speyBox[i - 380] =
         osArrOrigin[i - 380] * yLambda[i - 380] * R_all[i - 380];
     }
-    spey = Math.sum(speyBox);
+    spey = math.sum(speyBox);
     K = 1.0 / spey;
-    xSumAfter = Math.sum(xArrAfter) * K;
-    ySumAfter = Math.sum(yArrAfter) * K;
-    zSumAfter = Math.sum(zArrAfter) * K;
+    xSumAfter = math.sum(xArrAfter) * K;
+    ySumAfter = math.sum(yArrAfter) * K;
+    zSumAfter = math.sum(zArrAfter) * K;
     tosRGB = [
       [3.2406, -1.5372, -0.4986],
       [-0.9689, 1.8758, 0.0415],
       [0.0557, -0.204, 1.057],
     ];
-    sRGB = Math.multiply(tosRGB, [xSumAfter, ySumAfter, zSumAfter]);
+    sRGB = math.multiply(tosRGB, [xSumAfter, ySumAfter, zSumAfter]);
     rAfter1 = toRGB(sRGB[0]);
     gAfter1 = toRGB(sRGB[1]);
     bAfter1 = toRGB(sRGB[2]);
@@ -1059,9 +1059,9 @@ function afterColorCalculates(binaryString) {
         100; //2024.6.22 firstCellophaneの値をvalueで数値化しないとだめだった!
       let cello = [
         [1, 0],
-        [0, Math.exp(Math.complex(0, -delta))],
+        [0, math.exp(math.complex(0, -delta))],
       ];
-      E_2 = Math.multiply(cello, E_1);
+      E_2 = math.multiply(cello, E_1);
 
       if (bit[0] == 0) {
         for (let j = 1; j < colabNum; j++) {
@@ -1079,14 +1079,14 @@ function afterColorCalculates(binaryString) {
             100;
           let cello = [
             [1, 0],
-            [0, Math.exp(Math.complex(0, -delta))],
+            [0, math.exp(math.complex(0, -delta))],
           ];
           let targetAngle = select("#rotateInput-" + n);
           let b = radians(targetAngle.value() - referenceAngle.value());
           if (bit[j] == 0) {
-            E_2 = Math.multiply(
+            E_2 = math.multiply(
               r_theta(b),
-              Math.multiply(cello, Math.multiply(mai_r_theta(b), E_2))
+              math.multiply(cello, math.multiply(mai_r_theta(b), E_2))
             );
           } else {
             E_2 = E_2;
@@ -1108,14 +1108,14 @@ function afterColorCalculates(binaryString) {
             100;
           let cello = [
             [1, 0],
-            [0, Math.exp(Math.complex(0, -delta))],
+            [0, math.exp(math.complex(0, -delta))],
           ];
           let targetAngle = select("#rotateInput-" + num);
           let b = radians(targetAngle.value() - referenceAngle.value());
           if (bit[k] == 0) {
-            E_2 = Math.multiply(
+            E_2 = math.multiply(
               r_theta(b),
-              Math.multiply(cello, Math.multiply(mai_r_theta(b), E_2))
+              math.multiply(cello, math.multiply(mai_r_theta(b), E_2))
             ); //2024.6.21 ここでバグが生じる
           } else {
             E_2 = E_2;
@@ -1130,10 +1130,10 @@ function afterColorCalculates(binaryString) {
         c = radians(-referenceAngle.value()) - radians(90);
       }
 
-      E_3 = Math.multiply(jhons(c), E_2);
-      let relativeStrength = Math.abs(
-        Math.abs(Math.multiply(E_3[0], E_3[0])) +
-          Math.abs(Math.multiply(E_3[1], E_3[1]))
+      E_3 = math.multiply(jhons(c), E_2);
+      let relativeStrength = math.abs(
+        math.abs(math.multiply(E_3[0], E_3[0])) +
+          math.abs(math.multiply(E_3[1], E_3[1]))
       );
       osArr[i - 380] = relativeStrength * osArrOrigin[i - 380] * R_all[i - 380];
       xArrAfter[i - 380] = osArr[i - 380] * xLambda[i - 380];
@@ -1147,25 +1147,25 @@ function afterColorCalculates(binaryString) {
       ls_zArrAfter[i - 380] =
         osArrOrigin[i - 380] * R_all[i - 380] * zLambda[i - 380];
     }
-    Intensity_all_now = Math.sum(osArr);
-    sum_ls_xArrAfter = Math.sum(ls_xArrAfter);
-    sum_ls_yArrAfter = Math.sum(ls_yArrAfter);
-    sum_ls_zArrAfter = Math.sum(ls_zArrAfter);
+    Intensity_all_now = math.sum(osArr);
+    sum_ls_xArrAfter = math.sum(ls_xArrAfter);
+    sum_ls_yArrAfter = math.sum(ls_yArrAfter);
+    sum_ls_zArrAfter = math.sum(ls_zArrAfter);
     for (let i = 380; i <= 750; i++) {
       speyBox[i - 380] =
         osArrOrigin[i - 380] * yLambda[i - 380] * R_all[i - 380];
     }
-    spey = Math.sum(speyBox);
+    spey = math.sum(speyBox);
     K = 1.0 / spey;
-    xSumAfter = Math.sum(xArrAfter) * K;
-    ySumAfter = Math.sum(yArrAfter) * K;
-    zSumAfter = Math.sum(zArrAfter) * K;
+    xSumAfter = math.sum(xArrAfter) * K;
+    ySumAfter = math.sum(yArrAfter) * K;
+    zSumAfter = math.sum(zArrAfter) * K;
     tosRGB = [
       [3.2406, -1.5372, -0.4986],
       [-0.9689, 1.8758, 0.0415],
       [0.0557, -0.204, 1.057],
     ];
-    sRGB = Math.multiply(tosRGB, [xSumAfter, ySumAfter, zSumAfter]);
+    sRGB = math.multiply(tosRGB, [xSumAfter, ySumAfter, zSumAfter]);
     rAfter2 = toRGB(sRGB[0]);
     gAfter2 = toRGB(sRGB[1]);
     bAfter2 = toRGB(sRGB[2]);
@@ -1506,9 +1506,9 @@ function drawGraph2_1(x1, y1) {
 
   // 円のデータを作成（360分割）
   let circleArr = [];
-  for (let theta = 0; theta < 2 * Math.PI; theta += Math.PI / 180) {
+  for (let theta = 0; theta < 2 * math.PI; theta += math.PI / 180) {
     // 1度刻み
-    circleArr.push({ x: Math.cos(theta), y: Math.sin(theta) });
+    circleArr.push({ x: math.cos(theta), y: math.sin(theta) });
   }
 
   // データ設定
@@ -1583,17 +1583,17 @@ function drawGraph2() {
   // 2次元データを格納する配列
   let osArr = [];
   for (let i = 0; i < colabNum; i++) {
-    let x2 = sAfterak[i] * Math.cos(hAfterak[i]);
-    let y2 = sAfterak[i] * Math.sin(hAfterak[i]);
+    let x2 = sAfterak[i] * math.cos(hAfterak[i]);
+    let y2 = sAfterak[i] * math.sin(hAfterak[i]);
 
     osArr.push({ x: x2, y: y2 });
   }
 
   // 円のデータを作成（360分割）
   let circleArr = [];
-  for (let theta = 0; theta < 2 * Math.PI; theta += Math.PI / 180) {
+  for (let theta = 0; theta < 2 * math.PI; theta += math.PI / 180) {
     // 1度刻み
-    circleArr.push({ x: Math.cos(theta), y: Math.sin(theta) });
+    circleArr.push({ x: math.cos(theta), y: math.sin(theta) });
   }
 
   // データ設定
