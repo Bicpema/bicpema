@@ -1,1 +1,8 @@
 themes
+node_modules
+dist
+public
+_build
+__pycache__
+*.min.js
+*.min.css
