@@ -5,7 +5,7 @@ date: 2019-03-08
 description: KaTeX 设置简要指南
 math: true
 # Photo by <a href="https://unsplash.com/@antoine1003?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Antoine Dautry</a> on <a href="https://unsplash.com/photos/mathematics-computation-05A-kdOH6Hw?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a>
-image: "/images/antoine-dautry-05A-kdOH6Hw-unsplash.jpg"
+image: '/images/antoine-dautry-05A-kdOH6Hw-unsplash.jpg'
 ---
 
 在 Hugo 项目中，可以通过使用第三方 JavaScript 库来启用数学符号。

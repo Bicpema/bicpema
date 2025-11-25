@@ -21,8 +21,8 @@ class BicpemaCanvasController {
    * HTML要素で生成している#p5Canvasと#navBarを元にcanvasを生成する。
    */
   fullScreen() {
-    const P5_CANVAS = select("#p5Canvas");
-    const NAV_BAR = select("#navBar");
+    const P5_CANVAS = select('#p5Canvas');
+    const NAV_BAR = select('#navBar');
     let canvas, w, h;
     if (this.fixed) {
       const RATIO = 9 / 16;
@@ -41,14 +41,14 @@ class BicpemaCanvasController {
     } else {
       canvas = createCanvas(w * this.widthRatio, h * this.heightRatio);
     }
-    canvas.parent(P5_CANVAS).class("rounded border border-1");
+    canvas.parent(P5_CANVAS).class('rounded border border-1');
   }
 
   /**
    * HTML要素で生成している#p5Canvasと#navBarを元にcanvasをリサイズする。
    */
   resizeScreen() {
-    const NAV_BAR = select("#navBar");
+    const NAV_BAR = select('#navBar');
     let w = 0;
     let h = 0;
     if (this.fixed) {

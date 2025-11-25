@@ -7,22 +7,26 @@ let stopper, button;
 
 function preload() {
   mediums = new Array(MEDIUM_QUANTITY);
-  stopper = loadImage("https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fstopper.png?alt=media&token=c0470026-cb1a-42c5-b814-539ea0961917");
-  button = loadImage("https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FredButton.png?alt=media&token=519d5552-ac04-4fc2-8863-b8bc5e2fd174");
+  stopper = loadImage(
+    'https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fstopper.png?alt=media&token=c0470026-cb1a-42c5-b814-539ea0961917'
+  );
+  button = loadImage(
+    'https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FredButton.png?alt=media&token=519d5552-ac04-4fc2-8863-b8bc5e2fd174'
+  );
 }
 
 function fullScreen() {
-  let parent = document.getElementById("p5Canvas");
+  let parent = document.getElementById('p5Canvas');
   let p5Canvas = createCanvas(windowWidth, (9 * windowHeight) / 10);
   p5Canvas.parent(parent);
 }
 
 let decelerationButton, startButton, stopButton, accelerationButton;
 function elCreate() {
-  decelerationButton = select("#decelerationButton");
-  startButton = select("#startButton");
-  stopButton = select("#stopButton");
-  accelerationButton = select("#accelerationButton");
+  decelerationButton = select('#decelerationButton');
+  startButton = select('#startButton');
+  stopButton = select('#stopButton');
+  accelerationButton = select('#accelerationButton');
 }
 
 function decelerationButtonFunction() {
@@ -119,8 +123,8 @@ function buttonFunction() {
             100,
             incidentWaves.length,
             i,
-            true,
-          ),
+            true
+          )
         );
       }
       for (let i = 0; i < MEDIUM_QUANTITY; i++) {
@@ -130,8 +134,8 @@ function buttonFunction() {
             100,
             reflectedWaves.length,
             MEDIUM_QUANTITY - i - 2,
-            true,
-          ),
+            true
+          )
         );
       }
     }
@@ -140,10 +144,7 @@ function buttonFunction() {
 
 function imageFunction() {
   tint(255);
-  if (
-    mouseIsPressed &&
-    dist(100, height / 2 + button.height, mouseX, mouseY) < button.height / 2
-  ) {
+  if (mouseIsPressed && dist(100, height / 2 + button.height, mouseX, mouseY) < button.height / 2) {
     tint(255, 200, 200, 200);
   }
   image(button, 100 - button.width / 2, height / 2 + button.height / 2);
@@ -253,7 +254,7 @@ class Medium {
       this.posx + 100,
       this.posy + height / 2,
       (this.number * (width - 200)) / MEDIUM_QUANTITY + 100,
-      height / 2,
+      height / 2
     );
     strokeWeight(1);
     noStroke();

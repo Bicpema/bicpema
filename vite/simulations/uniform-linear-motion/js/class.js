@@ -35,12 +35,16 @@ class CAR {
     stroke(255, 0, 0);
     strokeWeight(3);
     for (let i = 0; i < this.xarr.length; i++) {
-      if ((this.xarr[i]["y"] - this.xarr[0]["y"]) * 50 < this.posx) {
-        image(this.img, (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50 - this.img.width / 2, this.posy);
+      if ((this.xarr[i]['y'] - this.xarr[0]['y']) * 50 < this.posx) {
+        image(
+          this.img,
+          (this.xarr[i]['y'] - this.xarr[0]['y']) * 50 - this.img.width / 2,
+          this.posy
+        );
         line(
-          (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50,
+          (this.xarr[i]['y'] - this.xarr[0]['y']) * 50,
           this.posy + this.img.height - 10,
-          (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50,
+          (this.xarr[i]['y'] - this.xarr[0]['y']) * 50,
           this.posy + this.img.height + 10
         );
       }
@@ -79,8 +83,8 @@ class BicpemaCanvasController {
    * HTML要素で生成している#p5Canvasと#navBarを元にcanvasを生成する。
    */
   fullScreen() {
-    const P5_CANVAS = select("#p5Canvas");
-    const NAV_BAR = select("#navBar");
+    const P5_CANVAS = select('#p5Canvas');
+    const NAV_BAR = select('#navBar');
     let canvas, w, h;
     if (this.fixed) {
       const RATIO = 9 / 16;
@@ -99,14 +103,14 @@ class BicpemaCanvasController {
     } else {
       canvas = createCanvas(w * this.widthRatio, h * this.heightRatio);
     }
-    canvas.parent(P5_CANVAS).class("rounded border border-1");
+    canvas.parent(P5_CANVAS).class('rounded border border-1');
   }
 
   /**
    * HTML要素で生成している#p5Canvasと#navBarを元にcanvasをリサイズする。
    */
   resizeScreen() {
-    const NAV_BAR = select("#navBar");
+    const NAV_BAR = select('#navBar');
     let w = 0;
     let h = 0;
     if (this.fixed) {

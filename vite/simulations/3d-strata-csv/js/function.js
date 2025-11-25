@@ -1,25 +1,25 @@
 // html要素が全て読み込まれた後に読み込む
 window.onload = () => {
   // screenshotButtonの設定
-  document.getElementById("screenshotButton").addEventListener("click", () => {
-    html2canvas(document.body).then((canvas) => {
+  document.getElementById('screenshotButton').addEventListener('click', () => {
+    html2canvas(document.body).then(canvas => {
       downloadImage(canvas.toDataURL());
     });
   });
-  downloadImage = (dataUrl) => {
-    const name = "screenshot.png";
-    const a = document.createElement("a");
+  downloadImage = dataUrl => {
+    const name = 'screenshot.png';
+    const a = document.createElement('a');
     a.href = dataUrl;
     a.download = name;
     a.click();
   };
 };
 
-let xMin,xMax,yMin,yMax,zMin,zMax;
+let xMin, xMax, yMin, yMax, zMin, zMax;
 
 // 緯度経度、深さの最小値と最大値を計算する関数
 calculateValue = (setRadioButtonValue, unitSelectValue) => {
-  if (setRadioButtonValue === "auto") {
+  if (setRadioButtonValue === 'auto') {
     let latitudeArr = [];
     let longitudeArr = [];
     let depthArr = [];
@@ -28,12 +28,12 @@ calculateValue = (setRadioButtonValue, unitSelectValue) => {
       let data = value.data;
       let latitude = data.y.value();
       let longitude = data.x.value();
-      if (latitude !== "") {
+      if (latitude !== '') {
         latitudeArr.push(latitude);
       } else {
         latitudeArr.push(0);
       }
-      if (longitude !== "") {
+      if (longitude !== '') {
         longitudeArr.push(longitude);
       } else {
         longitudeArr.push(0);
@@ -55,7 +55,7 @@ calculateValue = (setRadioButtonValue, unitSelectValue) => {
     zMax = max(depthArr);
     if (zMin == Infinity) zMin = 0;
     if (zMax == -Infinity) zMax = 0;
-    if (unitSelectValue === "meter") {
+    if (unitSelectValue === 'meter') {
       let m = max(xMax, yMax);
       xMin = 0;
       xMax = m;
@@ -74,11 +74,11 @@ calculateValue = (setRadioButtonValue, unitSelectValue) => {
       yMin -= addLenValue;
       yMax += addLenValue;
     }
-  } else if (setRadioButtonValue === "manual") {
-    let ele1 = select("#widthDirectionInput");
-    let ele2 = select("#depthDirectionMaxInput");
-    let ele3 = select("#depthDirectionMinInput");
-    if (unitSelectValue === "meter") {
+  } else if (setRadioButtonValue === 'manual') {
+    let ele1 = select('#widthDirectionInput');
+    let ele2 = select('#depthDirectionMaxInput');
+    let ele3 = select('#depthDirectionMinInput');
+    if (unitSelectValue === 'meter') {
       xMin = 0;
       xMax = ele1.value();
       yMin = 0;
@@ -157,7 +157,7 @@ function backgroundSetting(coordinateData) {
   }
   push();
   translate(0, 0, -500);
-  text("深さ", -550, 250, 0);
+  text('深さ', -550, 250, 0);
   pop();
   for (let y = 0; y <= 1000; y += 50) {
     line(-500, 0, y - 500, 500, 0, y - 500);
@@ -174,12 +174,12 @@ function backgroundSetting(coordinateData) {
     }
   }
   let x, y;
-  if (unitSelect.value() === "latlng") {
-    x = "経度";
-    y = "緯度";
+  if (unitSelect.value() === 'latlng') {
+    x = '経度';
+    y = '緯度';
   } else {
-    x = "x方向(m)";
-    y = "y方向(m)";
+    x = 'x方向(m)';
+    y = 'y方向(m)';
   }
   push();
   translate(0, 0, 500);
@@ -198,7 +198,7 @@ function submit(arr) {
   let dataArr = arr[1];
   for (let key in dataInputArr) {
     let placeName = dataInputArr[key].name.value();
-    if (placeName === "") placeName = key;
+    if (placeName === '') placeName = key;
     if (placeName === name) {
       dataInputArr[key].layer = dataArr;
     }
@@ -229,10 +229,10 @@ drawDirMark = (x, y) => {
   line(x + 20, y - 50, x - 20, y - 50);
   line(x, y - 100, x, +y + 100);
   line(x, y - 100, x - 20, y - 50);
-  text("東", x + 70, y + 8);
-  text("西", x - 70, y + 8);
-  text("南", x, y + 70 + 60);
-  text("北", x, y - 70 - 40);
+  text('東', x + 70, y + 8);
+  text('西', x - 70, y + 8);
+  text('南', x, y + 70 + 60);
+  text('北', x, y - 70 - 40);
   pop();
 };
 
@@ -245,13 +245,13 @@ drawStrata = (key, rotateTime, coordinateData) => {
   zMin = coordinateData.z.min;
   zMax = coordinateData.z.max;
   let name = dataInputArr[key].name.value();
-  if (name === "") name = key;
+  if (name === '') name = key;
   let data = dataInputArr[key].data;
   let x = data.x.value();
-  if (x === "") x = 0;
+  if (x === '') x = 0;
   x = map(x, xMin, xMax, -500, 500);
   let y = data.y.value();
-  if (y === "") y = 0;
+  if (y === '') y = 0;
   y = map(y, yMin, yMax, 500, -500);
   let layer = dataInputArr[key].layer;
   noStroke();
@@ -262,25 +262,25 @@ drawStrata = (key, rotateTime, coordinateData) => {
     let zLength = layer[i][1] - layer[i][0];
     let kind = layer[i][2];
     switch (kind) {
-      case "砂岩層":
+      case '砂岩層':
         fill(215, 205, 166, 200);
         break;
-      case "泥岩層":
+      case '泥岩層':
         fill(156, 154, 143, 200);
         break;
-      case "れき岩層":
+      case 'れき岩層':
         fill(252, 180, 172, 200);
         break;
-      case "石灰岩層":
+      case '石灰岩層':
         fill(120, 170, 170, 200);
         break;
-      case "凝灰岩層・火山灰層":
+      case '凝灰岩層・火山灰層':
         fill(200, 200, 200, 200);
         break;
-      case "ローム層":
+      case 'ローム層':
         fill(112, 58, 21, 200);
         break;
-      case "その他の層":
+      case 'その他の層':
         fill(0, 200);
         break;
       default:
@@ -314,11 +314,11 @@ drawStrata = (key, rotateTime, coordinateData) => {
 };
 
 function connectStrata() {
-  let trNum = document.getElementById("strataSelect").childElementCount;
-  let p1Name = select("#firstPlaceSelect").value();
-  let p2Name = select("#secondPlaceSelect").value();
-  let p3Name = select("#thirdPlaceSelect").value();
-  if (p1Name != "-" && p2Name != "-" && p3Name != "-") {
+  let trNum = document.getElementById('strataSelect').childElementCount;
+  let p1Name = select('#firstPlaceSelect').value();
+  let p2Name = select('#secondPlaceSelect').value();
+  let p3Name = select('#thirdPlaceSelect').value();
+  if (p1Name != '-' && p2Name != '-' && p3Name != '-') {
     let p1 = [0, 0];
     let p2 = [0, 0];
     let p3 = [0, 0];
@@ -341,43 +341,43 @@ function connectStrata() {
       }
     }
     for (let i = 0; i < trNum; i++) {
-      let select1 = select("#select1-" + str(i + 1)).value();
-      let select2 = select("#select2-" + str(i + 1)).value();
-      let select3 = select("#select3-" + str(i + 1)).value();
-      let select4 = select("#select4-" + str(i + 1)).value();
-      if (select2 === "" || select3 === "" || select4 === "") {
+      let select1 = select('#select1-' + str(i + 1)).value();
+      let select2 = select('#select2-' + str(i + 1)).value();
+      let select3 = select('#select3-' + str(i + 1)).value();
+      let select4 = select('#select4-' + str(i + 1)).value();
+      if (select2 === '' || select3 === '' || select4 === '') {
         continue;
       }
-      let p1Min = select2.substr(0, select2.indexOf("m-"));
-      let p1Max = select2.substr(select2.indexOf("m-") + 2);
-      p1Max = p1Max.substr(0, p1Max.indexOf("m"));
-      let p2Min = select3.substr(0, select3.indexOf("m-"));
-      let p2Max = select3.substr(select3.indexOf("m-") + 2);
-      p2Max = p2Max.substr(0, p2Max.indexOf("m"));
-      let p3Min = select4.substr(0, select4.indexOf("m-"));
-      let p3Max = select4.substr(select4.indexOf("m-") + 2);
-      p3Max = p3Max.substr(0, p3Max.indexOf("m"));
+      let p1Min = select2.substr(0, select2.indexOf('m-'));
+      let p1Max = select2.substr(select2.indexOf('m-') + 2);
+      p1Max = p1Max.substr(0, p1Max.indexOf('m'));
+      let p2Min = select3.substr(0, select3.indexOf('m-'));
+      let p2Max = select3.substr(select3.indexOf('m-') + 2);
+      p2Max = p2Max.substr(0, p2Max.indexOf('m'));
+      let p3Min = select4.substr(0, select4.indexOf('m-'));
+      let p3Max = select4.substr(select4.indexOf('m-') + 2);
+      p3Max = p3Max.substr(0, p3Max.indexOf('m'));
 
       switch (select1) {
-        case "砂岩層":
+        case '砂岩層':
           fill(215, 205, 166, 150);
           break;
-        case "泥岩層":
+        case '泥岩層':
           fill(156, 154, 143, 150);
           break;
-        case "れき岩層":
+        case 'れき岩層':
           fill(252, 180, 172, 150);
           break;
-        case "石灰岩層":
+        case '石灰岩層':
           fill(120, 170, 170, 150);
           break;
-        case "凝灰岩層・火山灰層":
+        case '凝灰岩層・火山灰層':
           fill(200, 200, 200, 150);
           break;
-        case "ローム層":
+        case 'ローム層':
           fill(112, 58, 21, 150);
           break;
-        case "その他の層":
+        case 'その他の層':
           fill(0, 150);
           break;
         default:
@@ -411,9 +411,48 @@ function connectStrata() {
       p3Max = map(p3Max, zMin, zMax, 0, 500);
       createPlane1(p1[0], p1[1], p1Min, p2[0], p2[1], p2Min, p3[0], p3[1], p3Min);
       createPlane1(p1[0], p1[1], p1Max, p2[0], p2[1], p2Max, p3[0], p3[1], p3Max);
-      createPlane2(p1[0], p1[1], p1Min, p2[0], p2[1], p2Min, p2[0], p2[1], p2Max, p1[0], p1[1], p1Max);
-      createPlane2(p1[0], p1[1], p1Min, p3[0], p3[1], p3Min, p3[0], p3[1], p3Max, p1[0], p1[1], p1Max);
-      createPlane2(p2[0], p2[1], p2Min, p3[0], p3[1], p3Min, p3[0], p3[1], p3Max, p2[0], p2[1], p2Max);
+      createPlane2(
+        p1[0],
+        p1[1],
+        p1Min,
+        p2[0],
+        p2[1],
+        p2Min,
+        p2[0],
+        p2[1],
+        p2Max,
+        p1[0],
+        p1[1],
+        p1Max
+      );
+      createPlane2(
+        p1[0],
+        p1[1],
+        p1Min,
+        p3[0],
+        p3[1],
+        p3Min,
+        p3[0],
+        p3[1],
+        p3Max,
+        p1[0],
+        p1[1],
+        p1Max
+      );
+      createPlane2(
+        p2[0],
+        p2[1],
+        p2Min,
+        p3[0],
+        p3[1],
+        p3Min,
+        p3[0],
+        p3[1],
+        p3Max,
+        p2[0],
+        p2[1],
+        p2Max
+      );
     }
   }
 }

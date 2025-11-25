@@ -142,14 +142,14 @@ let lastSlider;
 
 // screenshotButtonの設定
 window.onload = function () {
-  document.getElementById("screenshotButton").addEventListener("click", () => {
-    html2canvas(document.body).then((canvas) => {
+  document.getElementById('screenshotButton').addEventListener('click', () => {
+    html2canvas(document.body).then(canvas => {
       downloadImage(canvas.toDataURL());
     });
   });
   function downloadImage(dataUrl) {
-    const name = "screenshot.png";
-    const a = document.createElement("a");
+    const name = 'screenshot.png';
+    const a = document.createElement('a');
     a.href = dataUrl;
     a.download = name;
     a.click();
@@ -158,52 +158,52 @@ window.onload = function () {
 
 // p5Canvasという要素を親要素にする
 function fullScreen() {
-  let p5Canvas = document.getElementById("p5Canvas");
+  let p5Canvas = document.getElementById('p5Canvas');
   let canvas = createCanvas(p5Canvas.clientWidth, p5Canvas.clientHeight, WEBGL);
-  canvas.parent("p5Canvas");
+  canvas.parent('p5Canvas');
 }
 
 // 外部ファイルの読み込み
 function preload() {
   cmfTable = loadTable(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fcmf.csv?alt=media&token=df4cb716-5da8-4640-822e-5107acbdb916",
-    "csv",
-    "header"
+    'https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fcmf.csv?alt=media&token=df4cb716-5da8-4640-822e-5107acbdb916',
+    'csv',
+    'header'
   ); // 等色関数のデータ
   osTable = loadTable(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fos_PC2_new_6.18.csv?alt=media&token=0ba4f938-5669-456b-81dc-e4c62c66ce46",
-    "csv",
-    "header"
+    'https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fos_PC2_new_6.18.csv?alt=media&token=0ba4f938-5669-456b-81dc-e4c62c66ce46',
+    'csv',
+    'header'
   ); // 偏光板を一枚通したときの波長毎の強度分布 PC-最新
   dTableOPP = loadTable(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fdata_d_100_film3.csv?alt=media&token=68edd450-dd93-4b8b-851f-28c1ffe14999.csv",
-    "csv",
-    "header"
+    'https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fdata_d_100_film3.csv?alt=media&token=68edd450-dd93-4b8b-851f-28c1ffe14999.csv',
+    'csv',
+    'header'
   ); //光路差の分散特性(380nmで100に規格化)
   dTable = loadTable(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fdata_d_100.csv?alt=media&token=eaf5a4d5-ab04-42fd-8245-eb4896a5eaf5",
-    "csv",
-    "header"
+    'https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fdata_d_100.csv?alt=media&token=eaf5a4d5-ab04-42fd-8245-eb4896a5eaf5',
+    'csv',
+    'header'
   );
   rTable = loadTable(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2FR.csv?alt=media&token=203b2f68-a0c0-42c2-af5e-df5c240ea27d",
-    "csv",
-    "header"
+    'https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2FR.csv?alt=media&token=203b2f68-a0c0-42c2-af5e-df5c240ea27d',
+    'csv',
+    'header'
   ); //偏光板2枚目による強度補正分のdata
   img = loadImage(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2Fwhite.png?alt=media&token=038ee120-ec5e-4440-8130-3b764f11d25e"
+    'https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2Fwhite.png?alt=media&token=038ee120-ec5e-4440-8130-3b764f11d25e'
   );
   img2 = loadImage(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2FR.jpg?alt=media&token=9e82b742-fe5b-4332-af54-5796f92bd9ba"
+    'https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2FR.jpg?alt=media&token=9e82b742-fe5b-4332-af54-5796f92bd9ba'
   );
 }
 
 // DOM要素の生成
 function elCreate() {
-  polarizerSelect = select("#polarizerSelect");
-  cellophaneAddButton = select("#cellophaneAddButton");
-  cellophaneRemoveButton = select("#cellophaneRemoveButton");
-  opdInput = select("#opdInput");
+  polarizerSelect = select('#polarizerSelect');
+  cellophaneAddButton = select('#cellophaneAddButton');
+  cellophaneRemoveButton = select('#cellophaneRemoveButton');
+  opdInput = select('#opdInput');
 }
 
 // 追加ボタンを押したときの処理
@@ -215,7 +215,7 @@ function cellophaneAddButtonFunction() {
 // 削除ボタンを押したときの処理
 function cellophaneRemoveButtonFunction() {
   if (colabNum > 0) {
-    let targetDiv = select("#cellophane-" + colabNum);
+    let targetDiv = select('#cellophane-' + colabNum);
     cellophaneArr.pop(-1);
     targetDiv.remove();
     colabNum -= 1;
@@ -238,13 +238,13 @@ function intensity_max() {
 }
 
 function optChanged() {
-  if (optRadio.value() == "セロハンテープ") {
-    dArr = dTable.getColumn("d");
+  if (optRadio.value() == 'セロハンテープ') {
+    dArr = dTable.getColumn('d');
     dRowNum = dTable.getRowCount();
     preValue = optRadio.value();
   }
-  if (optRadio.value() == "OPPフィルム") {
-    dArr = dTableOPP.getColumn("d");
+  if (optRadio.value() == 'OPPフィルム') {
+    dArr = dTableOPP.getColumn('d');
     dRowNum = dTableOPP.getRowCount();
     preValue = optRadio.value();
   }
@@ -254,17 +254,17 @@ function optChanged() {
 function initValue() {
   // テーブルからそれぞれのデータを取得
   cmfRowNum = cmfTable.getRowCount();
-  waveLengthArr = cmfTable.getColumn("wave-length");
-  waveLengthArr = waveLengthArr.map((str) => parseInt(str, 10));
-  xLambda = cmfTable.getColumn("x(lambda)");
-  yLambda = cmfTable.getColumn("y(lambda)");
-  zLambda = cmfTable.getColumn("z(lambda)");
+  waveLengthArr = cmfTable.getColumn('wave-length');
+  waveLengthArr = waveLengthArr.map(str => parseInt(str, 10));
+  xLambda = cmfTable.getColumn('x(lambda)');
+  yLambda = cmfTable.getColumn('y(lambda)');
+  zLambda = cmfTable.getColumn('z(lambda)');
   osRowNum = osTable.getRowCount();
-  osArr = osTable.getColumn("optical-strength");
-  osArrOrigin = osTable.getColumn("optical-strength");
-  dArr = dTable.getColumn("d");
+  osArr = osTable.getColumn('optical-strength');
+  osArrOrigin = osTable.getColumn('optical-strength');
+  dArr = dTable.getColumn('d');
   dRowNum = dTable.getRowCount();
-  R_all = rTable.getColumn("optical-strength");
+  R_all = rTable.getColumn('optical-strength');
 
   // xyzを格納する配列の初期化
   for (let i = 0; i < osRowNum; i++) {
@@ -297,8 +297,8 @@ function initValue() {
   clusterCount1 = 0;
   Cluster1isDead = false;
   changeisDead = false;
-  document.getElementById("mainSpectrumGraphParent").style.display = "block"; //On
-  document.getElementById("mainSpectrumGraphParent0").style.display = "none"; //OFf
+  document.getElementById('mainSpectrumGraphParent').style.display = 'block'; //On
+  document.getElementById('mainSpectrumGraphParent0').style.display = 'none'; //OFf
 }
 
 // ★ setup関数
@@ -320,13 +320,13 @@ function draw() {
   prenormal();
   colabNum1_normal();
   colabNum2_normal();
-  if (lineradio.value() === "補助線あり") {
+  if (lineradio.value() === '補助線あり') {
     checked();
   } else {
   }
   (rAfter, gAfter, (bAfter = afterColorCalculate()));
-  document.getElementById("mainSpectrumGraphParent0").style.display = "none";
-  document.getElementById("mainSpectrumGraphParent").style.display = "block";
+  document.getElementById('mainSpectrumGraphParent0').style.display = 'none';
+  document.getElementById('mainSpectrumGraphParent').style.display = 'block';
   // グラフの描画
   drawGraph();
   if (preValue !== currentValue) {
@@ -346,7 +346,7 @@ function checked() {
   for (let i = 0; i < colabNum; i++) {
     //colabNumが3の場合, 0,1,2 (1,2,3枚)
     let num = i + 1;
-    let rotateInput = select("#rotateInput-" + num);
+    let rotateInput = select('#rotateInput-' + num);
     push();
     rotateZ((rotateInput.value() * PI) / 180);
     stroke(0, 0, 0); //2024.6.14 透明度を50から20へ変更 (157, 204, 224, 0)
@@ -364,15 +364,15 @@ function createSliderandRadio() {
   slider.position(50, 100);
   lastSlider = slider.value();
   lineradio = createRadio();
-  lineradio.option("補助線あり");
-  lineradio.option("補助線なし");
-  lineradio.selected("補助線なし");
+  lineradio.option('補助線あり');
+  lineradio.option('補助線なし');
+  lineradio.selected('補助線なし');
   lineradio.position(400, 130);
   optRadio = createRadio();
-  optRadio.option("セロハンテープ");
-  optRadio.option("OPPフィルム");
+  optRadio.option('セロハンテープ');
+  optRadio.option('OPPフィルム');
   optRadio.position(400, 100);
-  optRadio.selected("セロハンテープ");
+  optRadio.selected('セロハンテープ');
   preValue = optRadio.value();
 }
 
@@ -403,9 +403,9 @@ function prenormal() {
   // 偏光板の描画
   createPolarizer(200, 0, 0, 0, 0);
   cellophaneNum = numInputFunction();
-  if (polarizerSelect.value() == "平行ニコル配置")
+  if (polarizerSelect.value() == '平行ニコル配置')
     createPolarizer(200, 0, 0, -0.1 * cellophaneNum, 0);
-  if (polarizerSelect.value() == "直交ニコル配置")
+  if (polarizerSelect.value() == '直交ニコル配置')
     createPolarizer(200, 0, 0, -0.1 * cellophaneNum, 1);
 }
 
@@ -438,9 +438,9 @@ function prefilledimage() {
   // 偏光板の描画
   createPolarizer(200, 0, 0, 0, 0);
   cellophaneNum = numInputFunction();
-  if (polarizerSelect.value() == "平行ニコル配置")
+  if (polarizerSelect.value() == '平行ニコル配置')
     createPolarizer(200, 0, 0, -0.1 * cellophaneNum, 0);
-  if (polarizerSelect.value() == "直交ニコル配置")
+  if (polarizerSelect.value() == '直交ニコル配置')
     createPolarizer(200, 0, 0, -0.1 * cellophaneNum, 1);
 }
 
@@ -450,8 +450,8 @@ function colabNum1_normal() {
     let z = 0;
     let i = 0;
     let num = i + 1;
-    let numInput = select("#numInput-" + num);
-    let rotateInput = select("#rotateInput-" + num);
+    let numInput = select('#numInput-' + num);
+    let rotateInput = select('#rotateInput-' + num);
     createCellophane(numInput.value(), rotateInput.value(), z, angle_1);
     z += parseInt(numInput.value());
     //tape1枚のみに色を塗る
@@ -491,8 +491,8 @@ function colabNum2_normal() {
     let check = 0;
     for (let n = 1; n <= colabNum; n++) {
       //1でなく2では..?
-      let numInputValue = parseInt(select("#numInput-" + n).value()); // 数値型に変換
-      let rotateInputValue = parseFloat(select("#rotateInput-" + n).value()); // 数値型に変換
+      let numInputValue = parseInt(select('#numInput-' + n).value()); // 数値型に変換
+      let rotateInputValue = parseFloat(select('#rotateInput-' + n).value()); // 数値型に変換
       let optInputValue = opdInput.value(); // 数値型に変換
       let nowpolarizer = polarizerSelect.value();
       if (numInputValue !== last_otherCellophaneNums[n - 2]) {
@@ -552,7 +552,7 @@ function colabNum2_normal() {
       fill(255, 0, 0, 10);
       ellipse(0, 0, frameRate() * 8, frameRate() * 8);
       pop();
-      if (typeof Bsize === "undefined") {
+      if (typeof Bsize === 'undefined') {
         Bsize = 100;
       }
       if (frameRate() < 30) {
@@ -565,15 +565,11 @@ function colabNum2_normal() {
       let end = min(Math.pow(2, colabNum), start + Bsize);
       for (let i = start; i < end; i++) {
         //その枚数で生み出せる全ての色を生成(2角目以降)
-        let binaryString = "";
-        binaryString = i.toString(2).padStart(colabNum, "0"); // colabNum=2 //00,01,10,11
+        let binaryString = '';
+        binaryString = i.toString(2).padStart(colabNum, '0'); // colabNum=2 //00,01,10,11
         (rAfter2,
           gAfter2,
-          (bAfter2 = afterColorCalculates(
-            binaryString,
-            tape_angle_cal,
-            tape_number_cal
-          )));
+          (bAfter2 = afterColorCalculates(binaryString, tape_angle_cal, tape_number_cal)));
         rAftera[i] = rAfter2;
         gAftera[i] = gAfter2;
         bAftera[i] = bAfter2;
@@ -589,8 +585,8 @@ function colabNum2_normal() {
         for (let i = 0; i < colabNum; i++) {
           //colabNumが3の場合, 0,1,2 (1,2,3枚)
           let num = i + 1;
-          let numInput = select("#numInput-" + num);
-          let rotateInput = select("#rotateInput-" + num);
+          let numInput = select('#numInput-' + num);
+          let rotateInput = select('#rotateInput-' + num);
           createCellophane(numInput.value(), rotateInput.value(), z, angle_1);
           z += parseInt(numInput.value());
           tape_angle[i] = rotateInput.value(); //テープの全角度を収納する
@@ -708,7 +704,7 @@ function numInputFunction() {
   cellophaneNum = 0;
   for (let i = 0; i < colabNum; i++) {
     let num = i + 1;
-    let numInput = select("#numInput-" + num);
+    let numInput = select('#numInput-' + num);
     cellophaneNum += int(numInput.value());
   }
   return cellophaneNum;
@@ -718,12 +714,9 @@ function numInputFunction() {
 function beforeColorCalculate() {
   // XYZ刺激値への変換（等色関数×スペクトル）
   for (let i = 380; i <= 750; i++) {
-    xArrBefore[i - 380] =
-      R_all[i - 380] * osArrOrigin[i - 380] * xLambda[i - 380];
-    yArrBefore[i - 380] =
-      R_all[i - 380] * osArrOrigin[i - 380] * yLambda[i - 380];
-    zArrBefore[i - 380] =
-      R_all[i - 380] * osArrOrigin[i - 380] * zLambda[i - 380];
+    xArrBefore[i - 380] = R_all[i - 380] * osArrOrigin[i - 380] * xLambda[i - 380];
+    yArrBefore[i - 380] = R_all[i - 380] * osArrOrigin[i - 380] * yLambda[i - 380];
+    zArrBefore[i - 380] = R_all[i - 380] * osArrOrigin[i - 380] * zLambda[i - 380];
     R_os[i - 380] = R_all[i - 380] * osArrOrigin[i - 380];
   }
   Intensity_all_now = math.sum(R_os);
@@ -746,15 +739,9 @@ function beforeColorCalculate() {
   gBefore = toRGB(rgbBefore[1]);
   bBefore = toRGB(rgbBefore[2]);
   // 要素へのRGBの反映
-  let beforeColor = select("#beforeColor");
+  let beforeColor = select('#beforeColor');
   beforeColor.style(
-    "background-color:rgb(" +
-      str(rBefore) +
-      "," +
-      str(gBefore) +
-      "," +
-      str(bBefore) +
-      ")"
+    'background-color:rgb(' + str(rBefore) + ',' + str(gBefore) + ',' + str(bBefore) + ')'
   );
   return (rBefore, gBefore, bBefore);
 }
@@ -768,23 +755,17 @@ function afterColorCalculate() {
     let ls_zArrAfter = [];
 
     // 計算には１組目のセロハンを基準とした相対角度を使う
-    let referenceAngle = select("#rotateInput-1");
+    let referenceAngle = select('#rotateInput-1');
     let a = radians(-referenceAngle.value()); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
-    let firstCellophaneNum = select("#numInput-1"); // セロハン１組目の枚数
-    let firstopdInput = select("#opdInput"); // セロハン1組目の光路差
+    let firstCellophaneNum = select('#numInput-1'); // セロハン１組目の枚数
+    let firstopdInput = select('#opdInput'); // セロハン1組目の光路差
     E_1 = [[-sin(a)], [cos(a)]];
 
     // それぞれの波長毎に計算
     for (let i = 380; i <= 750; i++) {
       let l = i;
       let delta =
-        (dArr[i - 380] *
-          firstCellophaneNum.value() *
-          2 *
-          firstopdInput.value() *
-          PI) /
-        l /
-        100;
+        (dArr[i - 380] * firstCellophaneNum.value() * 2 * firstopdInput.value() * PI) / l / 100;
       let cello = [
         [1, 0],
         [0, math.exp(math.complex(0, -delta))],
@@ -794,60 +775,46 @@ function afterColorCalculate() {
       // セロハンの組数が2組以上の場合、それぞれのセロハンに関する計算を再帰的に行う
       if (colabNum >= 2) {
         for (let n = 2; n <= colabNum; n++) {
-          let otherCellophaneNum = select("#numInput-" + n);
-          let otheropdInput = select("#opdInput");
+          let otherCellophaneNum = select('#numInput-' + n);
+          let otheropdInput = select('#opdInput');
           let delta =
-            (dArr[i - 380] *
-              otherCellophaneNum.value() *
-              2 *
-              otheropdInput.value() *
-              PI) /
-            l /
-            100;
+            (dArr[i - 380] * otherCellophaneNum.value() * 2 * otheropdInput.value() * PI) / l / 100;
           let cello = [
             [1, 0],
             [0, math.exp(math.complex(0, -delta))],
           ];
-          let targetAngle = select("#rotateInput-" + n);
+          let targetAngle = select('#rotateInput-' + n);
           let b = radians(targetAngle.value() - referenceAngle.value());
-          E_2 = math.multiply(
-            r_theta(b),
-            math.multiply(cello, math.multiply(mai_r_theta(b), E_2))
-          );
+          E_2 = math.multiply(r_theta(b), math.multiply(cello, math.multiply(mai_r_theta(b), E_2)));
         }
       }
 
       let c;
-      if (polarizerSelect.value() == "平行ニコル配置") {
+      if (polarizerSelect.value() == '平行ニコル配置') {
         c = radians(-referenceAngle.value());
-      } else if (polarizerSelect.value() == "直交ニコル配置") {
+      } else if (polarizerSelect.value() == '直交ニコル配置') {
         c = radians(-referenceAngle.value()) - radians(90);
       }
 
       E_3 = math.multiply(jhons(c), E_2);
       let relativeStrength = math.abs(
-        math.abs(math.multiply(E_3[0], E_3[0])) +
-          math.abs(math.multiply(E_3[1], E_3[1]))
+        math.abs(math.multiply(E_3[0], E_3[0])) + math.abs(math.multiply(E_3[1], E_3[1]))
       );
       osArr[i - 380] = relativeStrength * osArrOrigin[i - 380] * R_all[i - 380];
       xArrAfter[i - 380] = osArr[i - 380] * xLambda[i - 380];
       yArrAfter[i - 380] = osArr[i - 380] * yLambda[i - 380];
       zArrAfter[i - 380] = osArr[i - 380] * zLambda[i - 380];
       // 明度の表現の為の, 光源スペクトル成分*等色関数*補正関数
-      ls_xArrAfter[i - 380] =
-        osArrOrigin[i - 380] * R_all[i - 380] * xLambda[i - 380];
-      ls_yArrAfter[i - 380] =
-        osArrOrigin[i - 380] * R_all[i - 380] * yLambda[i - 380];
-      ls_zArrAfter[i - 380] =
-        osArrOrigin[i - 380] * R_all[i - 380] * zLambda[i - 380];
+      ls_xArrAfter[i - 380] = osArrOrigin[i - 380] * R_all[i - 380] * xLambda[i - 380];
+      ls_yArrAfter[i - 380] = osArrOrigin[i - 380] * R_all[i - 380] * yLambda[i - 380];
+      ls_zArrAfter[i - 380] = osArrOrigin[i - 380] * R_all[i - 380] * zLambda[i - 380];
     }
     Intensity_all_now = math.sum(osArr);
     let sum_ls_xArrAfter = math.sum(ls_xArrAfter);
     let sum_ls_yArrAfter = math.sum(ls_yArrAfter);
     let sum_ls_zArrAfter = math.sum(ls_zArrAfter);
     for (let i = 380; i <= 750; i++) {
-      speyBox[i - 380] =
-        osArrOrigin[i - 380] * yLambda[i - 380] * R_all[i - 380];
+      speyBox[i - 380] = osArrOrigin[i - 380] * yLambda[i - 380] * R_all[i - 380];
     }
     spey = math.sum(speyBox);
     K = 1.0 / spey;
@@ -877,11 +844,11 @@ function afterColorCalculate() {
   }
   // セロハンの組が0組の場合
   else {
-    if (polarizerSelect.value() == "平行ニコル配置") {
+    if (polarizerSelect.value() == '平行ニコル配置') {
       rAfter = rBefore;
       gAfter = gBefore;
       bAfter = bBefore;
-    } else if (polarizerSelect.value() == "直交ニコル配置") {
+    } else if (polarizerSelect.value() == '直交ニコル配置') {
       rAfter = 0;
       gAfter = 0;
       bAfter = 0;
@@ -892,15 +859,9 @@ function afterColorCalculate() {
   }
 
   // 色を要素に反映
-  let afterColor = select("#afterColor");
+  let afterColor = select('#afterColor');
   afterColor.style(
-    "background-color:rgb(" +
-      str(rAfter) +
-      "," +
-      str(gAfter) +
-      "," +
-      str(bAfter) +
-      ")"
+    'background-color:rgb(' + str(rAfter) + ',' + str(gAfter) + ',' + str(bAfter) + ')'
   );
   return (rAfter, gAfter, bAfter);
 }
@@ -910,58 +871,47 @@ function afterColorCalculate1() {
   // セロハンの組数が１枚以上ある場合
   if (colabNum >= 1) {
     // 計算には１組目のセロハンを基準とした相対角度を使う
-    let referenceAngle = select("#rotateInput-1");
+    let referenceAngle = select('#rotateInput-1');
     let a = radians(-referenceAngle.value()); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
-    let firstCellophaneNum = select("#numInput-1"); // セロハン１組目の枚数
-    let firstopdInput = select("#opdInput"); // セロハン1組目の光路差
+    let firstCellophaneNum = select('#numInput-1'); // セロハン１組目の枚数
+    let firstopdInput = select('#opdInput'); // セロハン1組目の光路差
     E_1 = [[-sin(a)], [cos(a)]];
 
     // それぞれの波長毎に計算
     for (let i = 380; i <= 750; i++) {
       let l = i;
       let delta =
-        (dArr[i - 380] *
-          firstCellophaneNum.value() *
-          2 *
-          firstopdInput.value() *
-          PI) /
-        l /
-        100;
+        (dArr[i - 380] * firstCellophaneNum.value() * 2 * firstopdInput.value() * PI) / l / 100;
       let cello = [
         [1, 0],
         [0, math.exp(math.complex(0, -delta))],
       ];
       E_2 = math.multiply(cello, E_1);
-      if (polarizerSelect.value() == "平行ニコル配置") {
+      if (polarizerSelect.value() == '平行ニコル配置') {
         c = radians(-referenceAngle.value());
-      } else if (polarizerSelect.value() == "直交ニコル配置") {
+      } else if (polarizerSelect.value() == '直交ニコル配置') {
         c = radians(-referenceAngle.value()) - radians(90);
       }
 
       E_3 = math.multiply(jhons(c), E_2);
       let relativeStrength = math.abs(
-        math.abs(math.multiply(E_3[0], E_3[0])) +
-          math.abs(math.multiply(E_3[1], E_3[1]))
+        math.abs(math.multiply(E_3[0], E_3[0])) + math.abs(math.multiply(E_3[1], E_3[1]))
       );
       osArr[i - 380] = relativeStrength * osArrOrigin[i - 380] * R_all[i - 380];
       xArrAfter[i - 380] = osArr[i - 380] * xLambda[i - 380];
       yArrAfter[i - 380] = osArr[i - 380] * yLambda[i - 380];
       zArrAfter[i - 380] = osArr[i - 380] * zLambda[i - 380];
       // 明度の表現の為の, 光源スペクトル成分*等色関数*補正関数
-      ls_xArrAfter[i - 380] =
-        osArrOrigin[i - 380] * R_all[i - 380] * xLambda[i - 380];
-      ls_yArrAfter[i - 380] =
-        osArrOrigin[i - 380] * R_all[i - 380] * yLambda[i - 380];
-      ls_zArrAfter[i - 380] =
-        osArrOrigin[i - 380] * R_all[i - 380] * zLambda[i - 380];
+      ls_xArrAfter[i - 380] = osArrOrigin[i - 380] * R_all[i - 380] * xLambda[i - 380];
+      ls_yArrAfter[i - 380] = osArrOrigin[i - 380] * R_all[i - 380] * yLambda[i - 380];
+      ls_zArrAfter[i - 380] = osArrOrigin[i - 380] * R_all[i - 380] * zLambda[i - 380];
     }
     Intensity_all_now = math.sum(osArr);
     sum_ls_xArrAfter = math.sum(ls_xArrAfter);
     sum_ls_yArrAfter = math.sum(ls_yArrAfter);
     sum_ls_zArrAfter = math.sum(ls_zArrAfter);
     for (let i = 380; i <= 750; i++) {
-      speyBox[i - 380] =
-        osArrOrigin[i - 380] * yLambda[i - 380] * R_all[i - 380];
+      speyBox[i - 380] = osArrOrigin[i - 380] * yLambda[i - 380] * R_all[i - 380];
     }
     spey = math.sum(speyBox);
     K = 1.0 / spey;
@@ -989,11 +939,11 @@ function afterColorCalculate1() {
 
   // セロハンの組が0組の場合
   else {
-    if (polarizerSelect.value() == "平行ニコル配置") {
+    if (polarizerSelect.value() == '平行ニコル配置') {
       rAfter1 = rBefore;
       gAfter1 = gBefore;
       bAfter1 = bBefore;
-    } else if (polarizerSelect.value() == "直交ニコル配置") {
+    } else if (polarizerSelect.value() == '直交ニコル配置') {
       rAfter1 = 0;
       gAfter1 = 0;
       bAfter1 = 0;
@@ -1028,9 +978,9 @@ function afterColorCalculates(binaryString) {
   if (bit[0] == 0) {
     //colabNum2: 00,01
     // 計算には１組目のセロハンを基準とした相対角度を使う
-    referenceAngle = select("#rotateInput-1");
+    referenceAngle = select('#rotateInput-1');
     a = radians(-referenceAngle.value()); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
-    firstCellophaneNum = select("#numInput-1"); // セロハン１組目の枚数
+    firstCellophaneNum = select('#numInput-1'); // セロハン１組目の枚数
     E_1 = [[-sin(a)], [cos(a)]];
     numStart = 1;
   } else {
@@ -1053,9 +1003,9 @@ function afterColorCalculates(binaryString) {
     }
     if (numStart != 0) {
       let numS = numStart + 1;
-      referenceAngle = select("#rotateInput-" + numS);
+      referenceAngle = select('#rotateInput-' + numS);
       a = radians(-referenceAngle.value()); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
-      firstCellophaneNum = select("#numInput-" + numS); // セロハン１組目の枚数
+      firstCellophaneNum = select('#numInput-' + numS); // セロハン１組目の枚数
       E_1 = [[-sin(a)], [cos(a)]];
     }
   }
@@ -1064,15 +1014,9 @@ function afterColorCalculates(binaryString) {
     // それぞれの波長毎に計算
     for (let i = 380; i <= 750; i++) {
       let l = i;
-      let firstopdInput = select("#opdInput"); // セロハン1組目の光路差
+      let firstopdInput = select('#opdInput'); // セロハン1組目の光路差
       let delta =
-        (dArr[i - 380] *
-          firstCellophaneNum.value() *
-          2 *
-          firstopdInput.value() *
-          PI) /
-        l /
-        100; //2024.6.22 firstCellophaneの値をvalueで数値化しないとだめだった!
+        (dArr[i - 380] * firstCellophaneNum.value() * 2 * firstopdInput.value() * PI) / l / 100; //2024.6.22 firstCellophaneの値をvalueで数値化しないとだめだった!
       let cello = [
         [1, 0],
         [0, math.exp(math.complex(0, -delta))],
@@ -1083,21 +1027,15 @@ function afterColorCalculates(binaryString) {
         for (let j = 1; j < colabNum; j++) {
           //2角組目以降..
           let n = j + 1;
-          let otherCellophaneNum = select("#numInput-" + n);
-          let otheropdInput = select("#opdInput");
+          let otherCellophaneNum = select('#numInput-' + n);
+          let otheropdInput = select('#opdInput');
           let delta =
-            (dArr[i - 380] *
-              otherCellophaneNum.value() *
-              2 *
-              otheropdInput.value() *
-              PI) /
-            l /
-            100;
+            (dArr[i - 380] * otherCellophaneNum.value() * 2 * otheropdInput.value() * PI) / l / 100;
           let cello = [
             [1, 0],
             [0, math.exp(math.complex(0, -delta))],
           ];
-          let targetAngle = select("#rotateInput-" + n);
+          let targetAngle = select('#rotateInput-' + n);
           let b = radians(targetAngle.value() - referenceAngle.value());
           if (bit[j] == 0) {
             E_2 = math.multiply(
@@ -1112,21 +1050,15 @@ function afterColorCalculates(binaryString) {
         for (let k = numStart + 1; k < binaryString.length; k++) {
           //2024.6.19 n=numStartから+1?
           let num = k + 1;
-          let otherCellophaneNum = select("#numInput-" + num);
-          let otheropdInput = select("#opdInput");
+          let otherCellophaneNum = select('#numInput-' + num);
+          let otheropdInput = select('#opdInput');
           let delta =
-            (dArr[i - 380] *
-              otherCellophaneNum.value() *
-              2 *
-              otheropdInput.value() *
-              PI) /
-            l /
-            100;
+            (dArr[i - 380] * otherCellophaneNum.value() * 2 * otheropdInput.value() * PI) / l / 100;
           let cello = [
             [1, 0],
             [0, math.exp(math.complex(0, -delta))],
           ];
-          let targetAngle = select("#rotateInput-" + num);
+          let targetAngle = select('#rotateInput-' + num);
           let b = radians(targetAngle.value() - referenceAngle.value());
           if (bit[k] == 0) {
             E_2 = math.multiply(
@@ -1140,36 +1072,31 @@ function afterColorCalculates(binaryString) {
       }
 
       let c;
-      if (polarizerSelect.value() == "平行ニコル配置") {
+      if (polarizerSelect.value() == '平行ニコル配置') {
         c = radians(-referenceAngle.value());
-      } else if (polarizerSelect.value() == "直交ニコル配置") {
+      } else if (polarizerSelect.value() == '直交ニコル配置') {
         c = radians(-referenceAngle.value()) - radians(90);
       }
 
       E_3 = math.multiply(jhons(c), E_2);
       let relativeStrength = math.abs(
-        math.abs(math.multiply(E_3[0], E_3[0])) +
-          math.abs(math.multiply(E_3[1], E_3[1]))
+        math.abs(math.multiply(E_3[0], E_3[0])) + math.abs(math.multiply(E_3[1], E_3[1]))
       );
       osArr[i - 380] = relativeStrength * osArrOrigin[i - 380] * R_all[i - 380];
       xArrAfter[i - 380] = osArr[i - 380] * xLambda[i - 380];
       yArrAfter[i - 380] = osArr[i - 380] * yLambda[i - 380];
       zArrAfter[i - 380] = osArr[i - 380] * zLambda[i - 380];
       // 明度の表現の為の, 光源スペクトル成分*等色関数*補正関数
-      ls_xArrAfter[i - 380] =
-        osArrOrigin[i - 380] * R_all[i - 380] * xLambda[i - 380];
-      ls_yArrAfter[i - 380] =
-        osArrOrigin[i - 380] * R_all[i - 380] * yLambda[i - 380];
-      ls_zArrAfter[i - 380] =
-        osArrOrigin[i - 380] * R_all[i - 380] * zLambda[i - 380];
+      ls_xArrAfter[i - 380] = osArrOrigin[i - 380] * R_all[i - 380] * xLambda[i - 380];
+      ls_yArrAfter[i - 380] = osArrOrigin[i - 380] * R_all[i - 380] * yLambda[i - 380];
+      ls_zArrAfter[i - 380] = osArrOrigin[i - 380] * R_all[i - 380] * zLambda[i - 380];
     }
     Intensity_all_now = math.sum(osArr);
     sum_ls_xArrAfter = math.sum(ls_xArrAfter);
     sum_ls_yArrAfter = math.sum(ls_yArrAfter);
     sum_ls_zArrAfter = math.sum(ls_zArrAfter);
     for (let i = 380; i <= 750; i++) {
-      speyBox[i - 380] =
-        osArrOrigin[i - 380] * yLambda[i - 380] * R_all[i - 380];
+      speyBox[i - 380] = osArrOrigin[i - 380] * yLambda[i - 380] * R_all[i - 380];
     }
     spey = math.sum(speyBox);
     K = 1.0 / spey;
@@ -1197,11 +1124,11 @@ function afterColorCalculates(binaryString) {
     //gAfter2 *=ratio
     //bAfter2 *=ratio
   } else {
-    if (polarizerSelect.value() == "平行ニコル配置") {
+    if (polarizerSelect.value() == '平行ニコル配置') {
       rAfter2 = 200;
       gAfter2 = 200;
       bAfter2 = 200;
-    } else if (polarizerSelect.value() == "直交ニコル配置") {
+    } else if (polarizerSelect.value() == '直交ニコル配置') {
       rAfter2 = 0;
       gAfter2 = 0;
       bAfter2 = 0;
@@ -1240,11 +1167,11 @@ function drawTape_1(rAfter1, gAfter1, bAfter1, rotateInput) {
       img.pixels[i + 1] = gAfter1;
       img.pixels[i + 2] = bAfter1;
     } else {
-      if (polarizerSelect.value() == "平行ニコル配置") {
+      if (polarizerSelect.value() == '平行ニコル配置') {
         img.pixels[i + 0] = 200;
         img.pixels[i + 1] = 200;
         img.pixels[i + 2] = 200;
-      } else if (polarizerSelect.value() == "直交ニコル配置") {
+      } else if (polarizerSelect.value() == '直交ニコル配置') {
         img.pixels[i + 0] = 0;
         img.pixels[i + 1] = 0;
         img.pixels[i + 2] = 0;
@@ -1258,8 +1185,8 @@ function drawTapes(tape_angle, rAftera, gAftera, bAftera, DrawisDead) {
   if (!DrawisDead) {
     drawT++;
     if (drawCount == 0) {
-      tape_array = new Array(img.pixels.length / 4).fill("");
-      tape_arraySum = new Array(img.pixels.length / 4).fill("");
+      tape_array = new Array(img.pixels.length / 4).fill('');
+      tape_arraySum = new Array(img.pixels.length / 4).fill('');
       drawCount++;
     }
     drawSize = floor(img.height / colabNum);
@@ -1273,9 +1200,9 @@ function drawTapes(tape_angle, rAftera, gAftera, bAftera, DrawisDead) {
 
       for (let i = startYT * img.width; i < endYT * img.width; i++) {
         if (checkA(i)) {
-          tape_array[i] = "0";
+          tape_array[i] = '0';
         } else {
-          tape_array[i] = "1";
+          tape_array[i] = '1';
         }
         tape_arraySum[i] += tape_array[i];
       }
@@ -1352,10 +1279,7 @@ function checkA(i) {
   let c3 = crossProduct(P0, P3, P4);
   let c4 = crossProduct(P0, P4, P1);
 
-  return (
-    (c1 > 0 && c2 > 0 && c3 > 0 && c4 > 0) ||
-    (c1 < 0 && c2 < 0 && c3 < 0 && c4 < 0)
-  );
+  return (c1 > 0 && c2 > 0 && c3 > 0 && c4 > 0) || (c1 < 0 && c2 < 0 && c3 < 0 && c4 < 0);
 }
 
 //tape内部にあることを判定する外積計算S
@@ -1367,7 +1291,7 @@ function crossProduct(P, A, B) {
 
 // windowがリサイズされたときの処理
 function windowResized() {
-  let p5Canvas = document.getElementById("p5Canvas");
+  let p5Canvas = document.getElementById('p5Canvas');
   let canvas = resizeCanvas(p5Canvas.clientWidth, p5Canvas.clientHeight, WEBGL);
   elInit();
   for (let i = 0; i < cellophaneNum; i++) cellophaneRemoveButtonFunction();
@@ -1381,25 +1305,25 @@ class Cellophane {
   constructor(n) {
     this.number = n;
     let parentDiv = createDiv()
-      .parent("#cellophaneColabNum")
-      .id("cellophane-" + this.number)
-      .class("mb-1 pb-1");
-    let inputGroup = createDiv().parent(parentDiv).class("input-group");
-    let numSpan = createSpan(this.number + "組目の枚数")
+      .parent('#cellophaneColabNum')
+      .id('cellophane-' + this.number)
+      .class('mb-1 pb-1');
+    let inputGroup = createDiv().parent(parentDiv).class('input-group');
+    let numSpan = createSpan(this.number + '組目の枚数')
       .parent(inputGroup)
-      .class("input-group-text");
-    let numInput = createInput(1, "number")
+      .class('input-group-text');
+    let numInput = createInput(1, 'number')
       .parent(inputGroup)
-      .class("form-control")
-      .attribute("min", 1)
-      .id("numInput-" + this.number);
-    let rotateSpan = createSpan(this.number + "組目の回転角")
+      .class('form-control')
+      .attribute('min', 1)
+      .id('numInput-' + this.number);
+    let rotateSpan = createSpan(this.number + '組目の回転角')
       .parent(inputGroup)
-      .class("input-group-text");
-    let rotateInput = createInput(1, "number")
+      .class('input-group-text');
+    let rotateInput = createInput(1, 'number')
       .parent(inputGroup)
-      .class("form-control")
-      .id("rotateInput-" + this.number);
+      .class('form-control')
+      .id('rotateInput-' + this.number);
     //let opdSpan = createSpan(this.number + "組目の光路差").parent(inputGroup).class("input-group-text")
     //let opdIInput = createInput(270, "number").parent(inputGroup).class("form-control").id("opdInput-" + this.number)
   }
@@ -1410,7 +1334,7 @@ let subChartObj;
 
 // HSV色空間分布の場合について
 function drawGraph() {
-  if (typeof mainChartObj !== "undefined" && mainChartObj) {
+  if (typeof mainChartObj !== 'undefined' && mainChartObj) {
     mainChartObj.destroy();
   }
   //データ
@@ -1418,23 +1342,21 @@ function drawGraph() {
     labels: waveLengthArr,
     datasets: [
       {
-        label: "シミュレーションのスペクトル", //options.legend で凡例の表示・非表示を設定できる
+        label: 'シミュレーションのスペクトル', //options.legend で凡例の表示・非表示を設定できる
         data: osArr,
-        backgroundColor:
-          "rgba(" + rAfter + "," + gAfter + "," + bAfter + ",0.5)", //点の色
-        borderColor: "rgba(" + rAfter + "," + gAfter + "," + bAfter + ",1)",
+        backgroundColor: 'rgba(' + rAfter + ',' + gAfter + ',' + bAfter + ',0.5)', //点の色
+        borderColor: 'rgba(' + rAfter + ',' + gAfter + ',' + bAfter + ',1)',
         pointRadius: 0,
-        fill: "start",
+        fill: 'start',
         showLine: true,
       },
       {
-        label: "１枚目の偏光板を透過した時のスペクトル", //options.legend で凡例の表示・非表示を設定できる
+        label: '１枚目の偏光板を透過した時のスペクトル', //options.legend で凡例の表示・非表示を設定できる
         data: osArrOrigin,
-        backgroundColor:
-          "rgba(" + rBefore + "," + gBefore + "," + bBefore + ",0.5)", //点の色
-        borderColor: "rgba(" + rBefore + "," + gBefore + "," + bBefore + ",1)",
+        backgroundColor: 'rgba(' + rBefore + ',' + gBefore + ',' + bBefore + ',0.5)', //点の色
+        borderColor: 'rgba(' + rBefore + ',' + gBefore + ',' + bBefore + ',1)',
         pointRadius: 0,
-        fill: "start",
+        fill: 'start',
         showLine: true,
       },
     ],
@@ -1452,7 +1374,7 @@ function drawGraph() {
       },
       title: {
         display: true,
-        text: "１枚目の偏光板を透過した後とシミュレーションのスペクトルの比較",
+        text: '１枚目の偏光板を透過した後とシミュレーションのスペクトルの比較',
         font: {
           size: 20,
         },
@@ -1466,7 +1388,7 @@ function drawGraph() {
         display: true,
         title: {
           display: true,
-          text: "波長(nm)",
+          text: '波長(nm)',
           font: {
             size: 16,
           },
@@ -1483,7 +1405,7 @@ function drawGraph() {
         display: true,
         title: {
           display: true,
-          text: "強度(a.u.)",
+          text: '強度(a.u.)',
           font: {
             size: 16,
           },
@@ -1500,19 +1422,19 @@ function drawGraph() {
   };
 
   let mainChartsetup = {
-    type: "scatter",
+    type: 'scatter',
     data: mainData,
     options: mainOptions,
   };
 
   //canvasにグラフを描画
   //Chart.Scatter() で散布図になる
-  let mainCtx = document.getElementById("mainSpectrumGraph");
+  let mainCtx = document.getElementById('mainSpectrumGraph');
   mainChartObj = new Chart(mainCtx, mainChartsetup);
 }
 
 function drawGraph2_1(x1, y1) {
-  if (typeof mainChartObj !== "undefined" && mainChartObj) {
+  if (typeof mainChartObj !== 'undefined' && mainChartObj) {
     mainChartObj.destroy();
   }
 
@@ -1531,17 +1453,17 @@ function drawGraph2_1(x1, y1) {
   let mainData = {
     datasets: [
       {
-        label: "各層の色座標(円の外側程鮮やかS=1)",
+        label: '各層の色座標(円の外側程鮮やかS=1)',
         data: osArr,
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        borderColor: "rgba(200, 200, 200, 1)",
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        borderColor: 'rgba(200, 200, 200, 1)',
         pointRadius: 5,
         showLine: false,
       },
       {
-        label: "HSV色空間の境界",
+        label: 'HSV色空間の境界',
         data: circleArr,
-        borderColor: "red",
+        borderColor: 'red',
         borderWidth: 2,
         showLine: true, // 線として描画
         fill: false,
@@ -1556,7 +1478,7 @@ function drawGraph2_1(x1, y1) {
       legend: { labels: { font: { size: 16 } } },
       title: {
         display: true,
-        text: "HSV色空間上での各層の色",
+        text: 'HSV色空間上での各層の色',
         font: { size: 20 },
       },
     },
@@ -1566,14 +1488,14 @@ function drawGraph2_1(x1, y1) {
     scales: {
       x: {
         display: true,
-        title: { display: true, text: "x", font: { size: 16 } },
+        title: { display: true, text: 'x', font: { size: 16 } },
         max: 1,
         min: -1,
         ticks: { font: { size: 14 }, stepSize: 0.1 },
       },
       y: {
         display: true,
-        title: { display: true, text: "y", font: { size: 16 } },
+        title: { display: true, text: 'y', font: { size: 16 } },
         max: 1,
         min: -1,
         ticks: { font: { size: 14 }, stepSize: 0.1 },
@@ -1582,17 +1504,17 @@ function drawGraph2_1(x1, y1) {
   };
 
   let mainChartsetup = {
-    type: "scatter",
+    type: 'scatter',
     data: mainData,
     options: mainOptions,
   };
 
-  let mainCtx = document.getElementById("mainSpectrumGraph0");
+  let mainCtx = document.getElementById('mainSpectrumGraph0');
   mainChartObj = new Chart(mainCtx, mainChartsetup);
 }
 
 function drawGraph2() {
-  if (typeof mainChartObj !== "undefined" && mainChartObj) {
+  if (typeof mainChartObj !== 'undefined' && mainChartObj) {
     mainChartObj.destroy();
   }
 
@@ -1616,17 +1538,17 @@ function drawGraph2() {
   let mainData = {
     datasets: [
       {
-        label: "各層の色座標(円の外側程鮮やかS=1)",
+        label: '各層の色座標(円の外側程鮮やかS=1)',
         data: osArr,
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        borderColor: "rgba(200, 200, 200, 1)",
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        borderColor: 'rgba(200, 200, 200, 1)',
         pointRadius: 5,
         showLine: false,
       },
       {
-        label: "HSV色空間の境界",
+        label: 'HSV色空間の境界',
         data: circleArr,
-        borderColor: "red",
+        borderColor: 'red',
         borderWidth: 2,
         showLine: true, // 線として描画
         fill: false,
@@ -1641,7 +1563,7 @@ function drawGraph2() {
       legend: { labels: { font: { size: 16 } } },
       title: {
         display: true,
-        text: "HSV色空間上での各層の色",
+        text: 'HSV色空間上での各層の色',
         font: { size: 20 },
       },
     },
@@ -1651,14 +1573,14 @@ function drawGraph2() {
     scales: {
       x: {
         display: true,
-        title: { display: true, text: "x", font: { size: 16 } },
+        title: { display: true, text: 'x', font: { size: 16 } },
         max: 1,
         min: -1,
         ticks: { font: { size: 14 }, stepSize: 0.1 },
       },
       y: {
         display: true,
-        title: { display: true, text: "y", font: { size: 16 } },
+        title: { display: true, text: 'y', font: { size: 16 } },
         max: 1,
         min: -1,
         ticks: { font: { size: 14 }, stepSize: 0.1 },
@@ -1667,11 +1589,11 @@ function drawGraph2() {
   };
 
   let mainChartsetup = {
-    type: "scatter",
+    type: 'scatter',
     data: mainData,
     options: mainOptions,
   };
 
-  let mainCtx = document.getElementById("mainSpectrumGraph0");
+  let mainCtx = document.getElementById('mainSpectrumGraph0');
   mainChartObj = new Chart(mainCtx, mainChartsetup);
 }

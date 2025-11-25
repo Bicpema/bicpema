@@ -4,7 +4,6 @@ about: 汎用的なIssueテンプレートです。
 title: ''
 labels: not triaged
 assignees: ''
-
 ---
 
 ## 概要

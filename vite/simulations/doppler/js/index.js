@@ -18,26 +18,22 @@ let parentDiv = null,
   spanText = null;
 speedButton = null;
 function elementSelectInit() {
-  parentDiv = createDiv().addClass("input-group");
-  startButton = createButton("スタート")
+  parentDiv = createDiv().addClass('input-group');
+  startButton = createButton('スタート')
     .mousePressed(startButtonFunction)
     .parent(parentDiv)
-    .addClass("btn btn-outline-primary");
-  stopButton = createButton("ストップ")
+    .addClass('btn btn-outline-primary');
+  stopButton = createButton('ストップ')
     .mousePressed(stopButtonFunction)
     .parent(parentDiv)
-    .addClass("btn btn-outline-danger");
-  resetButton = createButton("リセット")
+    .addClass('btn btn-outline-danger');
+  resetButton = createButton('リセット')
     .mousePressed(resetButtonAction)
     .parent(parentDiv)
-    .addClass("btn btn-outline-secondary");
-  spanText = createSpan("音源の速度（m/s）")
-    .parent(parentDiv)
-    .addClass("input-group-text");
+    .addClass('btn btn-outline-secondary');
+  spanText = createSpan('音源の速度（m/s）').parent(parentDiv).addClass('input-group-text');
 
-  speedButton = createInput(340, "number")
-    .parent(parentDiv)
-    .addClass("form-control");
+  speedButton = createInput(340, 'number').parent(parentDiv).addClass('form-control');
 }
 
 let posx, posy;
@@ -79,7 +75,7 @@ function draw() {
   fill(0);
   ellipse(posx, posy, 20, 20);
   textSize(20);
-  text(speedButton.value() + " m/s", posx, posy + 20);
+  text(speedButton.value() + ' m/s', posx, posy + 20);
 }
 
 // windowResized関数

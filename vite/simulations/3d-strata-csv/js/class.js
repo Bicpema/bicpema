@@ -4,28 +4,31 @@ class DOM {
     this.n = n;
     this.parentDiv = createDiv()
       .parent(placePointNameInput)
-      .class("mb-2")
-      .id("placeNameInput" + str(this.n));
-    this.inputGroup1 = createDiv().parent(this.parentDiv).class("input-group");
-    this.inputGroup2 = createDiv().parent(this.parentDiv).class("input-group");
+      .class('mb-2')
+      .id('placeNameInput' + str(this.n));
+    this.inputGroup1 = createDiv().parent(this.parentDiv).class('input-group');
+    this.inputGroup2 = createDiv().parent(this.parentDiv).class('input-group');
     // input要素の上の部分
-    createElement("span", "地点" + str(this.n) + "：")
+    createElement('span', '地点' + str(this.n) + '：')
       .parent(this.inputGroup1)
-      .class("input-group-text");
-    this.placeNameInput = createInput().parent(this.inputGroup1).class("form-control").input(placeNameInputFunction);
+      .class('input-group-text');
+    this.placeNameInput = createInput()
+      .parent(this.inputGroup1)
+      .class('form-control')
+      .input(placeNameInputFunction);
     // input要素の下の部分
-    createElement("span", "y方向").parent(this.inputGroup2).class("input-group-text");
-    this.yInput = createInput(0, "number").parent(this.inputGroup2).class("form-control");
-    createElement("span", "x方向").parent(this.inputGroup2).class("input-group-text");
-    this.xInput = createInput(0, "number").parent(this.inputGroup2).class("form-control");
-    createDiv("地点" + str(this.n) + "の名前、y方向、x方向を入力してください。")
+    createElement('span', 'y方向').parent(this.inputGroup2).class('input-group-text');
+    this.yInput = createInput(0, 'number').parent(this.inputGroup2).class('form-control');
+    createElement('span', 'x方向').parent(this.inputGroup2).class('input-group-text');
+    this.xInput = createInput(0, 'number').parent(this.inputGroup2).class('form-control');
+    createDiv('地点' + str(this.n) + 'の名前、y方向、x方向を入力してください。')
       .parent(this.parentDiv)
-      .class("form-text");
+      .class('form-text');
     // サブウィンドウ生成用のDOM
-    this.placeDataInput = createA("javascript:void(0)", "地点" + str(this.n) + "のデータを編集")
-      .class("btn btn-outline-primary mb-2")
-      .parent("placePointDataInput")
-      .id("placeDataInput" + str(this.n));
+    this.placeDataInput = createA('javascript:void(0)', '地点' + str(this.n) + 'のデータを編集')
+      .class('btn btn-outline-primary mb-2')
+      .parent('placePointDataInput')
+      .id('placeDataInput' + str(this.n));
   }
 }
 
@@ -52,8 +55,8 @@ class BicpemaCanvasController {
    * HTML要素で生成している#p5Canvasと#navBarを元にcanvasを生成する。
    */
   fullScreen() {
-    const P5_CANVAS = select("#p5Canvas");
-    const NAV_BAR = select("#navBar");
+    const P5_CANVAS = select('#p5Canvas');
+    const NAV_BAR = select('#navBar');
     let canvas, w, h;
     if (this.fixed) {
       const RATIO = 9 / 16;
@@ -72,14 +75,14 @@ class BicpemaCanvasController {
     } else {
       canvas = createCanvas(w * this.widthRatio, h * this.heightRatio);
     }
-    canvas.parent(P5_CANVAS).class("rounded border border-1");
+    canvas.parent(P5_CANVAS).class('rounded border border-1');
   }
 
   /**
    * HTML要素で生成している#p5Canvasと#navBarを元にcanvasをリサイズする。
    */
   resizeScreen() {
-    const NAV_BAR = select("#navBar");
+    const NAV_BAR = select('#navBar');
     let w = 0;
     let h = 0;
     if (this.fixed) {
@@ -97,7 +100,6 @@ class BicpemaCanvasController {
     resizeCanvas(w * this.widthRatio, h * this.heightRatio);
   }
 }
-
 
 /**
  * 3D座標系を描画するクラス

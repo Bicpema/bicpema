@@ -13,9 +13,7 @@ let reflectSelect,
   amplitudeInput;
 // DOM要素の生成
 function startButtonFunction() {
-  waveArr.push(
-    new incidenceWave(60 * amplitudeInput.value(), waveSelect.value()),
-  );
+  waveArr.push(new incidenceWave(60 * amplitudeInput.value(), waveSelect.value()));
   moveIs = true;
 }
 function stopButtonFunction() {
@@ -28,14 +26,14 @@ function resetButtonFunction() {
   initValue();
 }
 function elCreate() {
-  reflectSelect = select("#reflectSelect");
-  startButton = select("#startButton").mousePressed(startButtonFunction);
-  stopButton = select("#stopButton").mousePressed(stopButtonFunction);
-  restartButton = select("#restartButton").mousePressed(restartButtonFunction);
-  resetButton = select("#resetButton").mousePressed(resetButtonFunction);
-  waveSelect = select("#waveSelect");
-  speedInput = select("#speedInput");
-  amplitudeInput = select("#amplitudeInput");
+  reflectSelect = select('#reflectSelect');
+  startButton = select('#startButton').mousePressed(startButtonFunction);
+  stopButton = select('#stopButton').mousePressed(stopButtonFunction);
+  restartButton = select('#restartButton').mousePressed(restartButtonFunction);
+  resetButton = select('#resetButton').mousePressed(resetButtonFunction);
+  waveSelect = select('#waveSelect');
+  speedInput = select('#speedInput');
+  amplitudeInput = select('#amplitudeInput');
 }
 let mediumWave;
 let waveArr;
@@ -73,15 +71,12 @@ function backgroundSetting() {
   for (let y = height / 2; y < height; y += 60) line(60, y, max_time, y);
   noStroke();
 
-  for (let x = 300; x <= max_time; x += 300)
-    text(x / 60, x + 60, height / 2 + 20);
-  for (let y = height / 2 - 60; y > 0; y -= 60)
-    text(int((height / 2 - y) / 60), 30, y + 8);
-  for (let y = height / 2 + 60; y < height; y += 60)
-    text(int((height / 2 - y) / 60), 30, y + 8);
-  text("O", 60 - 30, height / 2 + 7);
-  text("y", 60 - 30, 20);
-  text("x", max_time - 15, height / 2 + 30);
+  for (let x = 300; x <= max_time; x += 300) text(x / 60, x + 60, height / 2 + 20);
+  for (let y = height / 2 - 60; y > 0; y -= 60) text(int((height / 2 - y) / 60), 30, y + 8);
+  for (let y = height / 2 + 60; y < height; y += 60) text(int((height / 2 - y) / 60), 30, y + 8);
+  text('O', 60 - 30, height / 2 + 7);
+  text('y', 60 - 30, 20);
+  text('x', max_time - 15, height / 2 + 30);
 
   stroke(0);
   strokeWeight(3);
@@ -131,7 +126,7 @@ class incidenceWave {
     this.count = 0;
     this.height = h;
     this.judge = false;
-    if (t == "sin波") {
+    if (t == 'sin波') {
       this.waveType = -1;
     } else {
       this.waveType = 1;
@@ -142,8 +137,7 @@ class incidenceWave {
     if (max_time + 360 > this.count) {
       this.count += 1;
       if (this.count <= 360) {
-        this.arr[0] =
-          this.height * sin((this.waveType * 2 * PI * this.count) / 360);
+        this.arr[0] = this.height * sin((this.waveType * 2 * PI * this.count) / 360);
       }
       for (let i = this.arr.length - 1; i > 0; i--) {
         this.arr[i] = this.arr[i - 1];
@@ -166,7 +160,7 @@ class reflectingWave {
   }
   _draw() {
     let reflectType;
-    if (reflectSelect.value() == "固定端反射") {
+    if (reflectSelect.value() == '固定端反射') {
       reflectType = -1;
     } else {
       reflectType = 1;
@@ -176,8 +170,7 @@ class reflectingWave {
       this.count += 1;
       if (this.count <= 360) {
         this.arr[this.arr.length - 1] =
-          this.height *
-          sin((this.waveType * reflectType * 2 * PI * this.count) / 360);
+          this.height * sin((this.waveType * reflectType * 2 * PI * this.count) / 360);
       }
       for (let i = 0; i < this.arr.length - 1; i++) {
         this.arr[i] = this.arr[i + 1];

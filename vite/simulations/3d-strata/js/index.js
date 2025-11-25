@@ -1,16 +1,16 @@
 // jQueryとhtml2canvasのインポート
-import $ from "jquery";
-import html2canvas from "html2canvas";
+import $ from 'jquery';
+import html2canvas from 'html2canvas';
 
 // p5.jsがcommon.jsから読み込まれるのを待機
 // common.jsでimport "p5"によりp5がグローバルに登録される
 function waitForP5() {
-  return new Promise((resolve) => {
-    if (typeof window.createCanvas !== "undefined") {
+  return new Promise(resolve => {
+    if (typeof window.createCanvas !== 'undefined') {
       resolve();
     } else {
       const checkInterval = setInterval(() => {
-        if (typeof window.createCanvas !== "undefined") {
+        if (typeof window.createCanvas !== 'undefined') {
           clearInterval(checkInterval);
           resolve();
         }
@@ -25,14 +25,14 @@ await waitForP5();
 // html要素が全て読み込まれた後に読み込む
 window.onload = function () {
   // screenshotButtonの設定
-  document.getElementById("screenshotButton").addEventListener("click", () => {
-    html2canvas(document.body).then((canvas) => {
+  document.getElementById('screenshotButton').addEventListener('click', () => {
+    html2canvas(document.body).then(canvas => {
       downloadImage(canvas.toDataURL());
     });
   });
   function downloadImage(dataUrl) {
-    const name = "screenshot.png";
-    const a = document.createElement("a");
+    const name = 'screenshot.png';
+    const a = document.createElement('a');
     a.href = dataUrl;
     a.download = name;
     a.click();
@@ -41,9 +41,9 @@ window.onload = function () {
 
 //全画面表示
 function fullScreen() {
-  let p5Canvas = select("#p5Canvas");
+  let p5Canvas = select('#p5Canvas');
   let canvas = createCanvas(windowWidth, windowHeight - 60, WEBGL);
-  canvas.parent(p5Canvas).class("rounded border border-1");
+  canvas.parent(p5Canvas).class('rounded border border-1');
 }
 
 // 外部ファイルの読み込み
@@ -61,15 +61,15 @@ let aSetButton, bSetButton, cSetButton, dSetButton, allSetButton;
 
 // DOM要素の生成
 function elCreate() {
-  placeAddButton = select("#placeAddButton");
-  placeRemoveButton = select("#placeRemoveButton");
-  strataAddButton = select("#strataAddButton");
-  strataRemoveButton = select("#strataRemoveButton");
-  aSetButton = select("#aSetButton");
-  bSetButton = select("#bSetButton");
-  cSetButton = select("#cSetButton");
-  dSetButton = select("#dSetButton");
-  allSetButton = select("#allSetButton");
+  placeAddButton = select('#placeAddButton');
+  placeRemoveButton = select('#placeRemoveButton');
+  strataAddButton = select('#strataAddButton');
+  strataRemoveButton = select('#strataRemoveButton');
+  aSetButton = select('#aSetButton');
+  bSetButton = select('#bSetButton');
+  cSetButton = select('#cSetButton');
+  dSetButton = select('#dSetButton');
+  allSetButton = select('#allSetButton');
 }
 
 // 地点のデータを入力するインプットの連想配列
@@ -106,22 +106,21 @@ function placeNameInputFunction() {
 
   // データを編集するボタンのhtml要素を書き換える繰り返し
   for (let i = 0; i < placeNum; i++) {
-    let place = "地点" + str(i + 1);
+    let place = '地点' + str(i + 1);
     let placeName = dataInputArr[place].name.value();
-    if (placeName == "") {
+    if (placeName == '') {
       placeName = place;
-      dataInputArr[place].edit.html("地点" + str(i + 1) + "のデータを編集");
+      dataInputArr[place].edit.html('地点' + str(i + 1) + 'のデータを編集');
     } else {
-      dataInputArr[place].edit.html(placeName + "のデータを編集");
+      dataInputArr[place].edit.html(placeName + 'のデータを編集');
     }
-    document.getElementById("placeDataInput" + str(i + 1)).onclick =
-      function () {
-        let win = window.open(
-          "/vite/simulations/3d-strata/childWindow.html?" + placeName,
-          "window_name",
-          "width=1000,height=500"
-        );
-      };
+    document.getElementById('placeDataInput' + str(i + 1)).onclick = function () {
+      let win = window.open(
+        '/vite/simulations/3d-strata/childWindow.html?' + placeName,
+        'window_name',
+        'width=1000,height=500'
+      );
+    };
   }
 
   // 平面データの設定を常に更新
@@ -143,28 +142,27 @@ function placeAddButtonFunction() {
   let newDom = new DOM(newPlaceNum);
 
   // 新しく生成する地点名
-  let placeName = "地点" + str(newPlaceNum);
+  let placeName = '地点' + str(newPlaceNum);
 
   // 生成したオブジェクトを連想配列に登録
   dataInputArr[placeName] = {
     name: newDom.placeNameInput,
-    data: { x: "", y: "" },
-    edit: "",
-    layer: "",
+    data: { x: '', y: '' },
+    edit: '',
+    layer: '',
   };
-  dataInputArr[placeName]["data"]["x"] = newDom.xInput;
-  dataInputArr[placeName]["data"]["y"] = newDom.yInput;
-  dataInputArr[placeName]["edit"] = newDom.placeDataInput;
+  dataInputArr[placeName]['data']['x'] = newDom.xInput;
+  dataInputArr[placeName]['data']['y'] = newDom.yInput;
+  dataInputArr[placeName]['edit'] = newDom.placeDataInput;
 
   // サブウィンドウを開く機構の付与
-  document.getElementById("placeDataInput" + str(newPlaceNum)).onclick =
-    function () {
-      let win = window.open(
-        "/vite/simulations/3d-strata/childWindow.html?" + placeName,
-        "window_name",
-        "width=1000,height=500"
-      );
-    };
+  document.getElementById('placeDataInput' + str(newPlaceNum)).onclick = function () {
+    let win = window.open(
+      '/vite/simulations/3d-strata/childWindow.html?' + placeName,
+      'window_name',
+      'width=1000,height=500'
+    );
+  };
 
   placeRefreshFunction();
 }
@@ -175,9 +173,9 @@ function placeRemoveButtonFunction() {
   let placeNum = Object.keys(dataInputArr).length;
 
   if (placeNum > 0) {
-    select("#placeNameInput" + str(placeNum)).remove();
-    select("#placeDataInput" + str(placeNum)).remove();
-    delete dataInputArr["地点" + placeNum];
+    select('#placeNameInput' + str(placeNum)).remove();
+    select('#placeDataInput' + str(placeNum)).remove();
+    delete dataInputArr['地点' + placeNum];
   }
 
   placeRefreshFunction();
@@ -185,8 +183,8 @@ function placeRemoveButtonFunction() {
 
 // 平面を構成する１つ目の地点のデータに関連する処理
 function firstPlaceSelectFunction() {
-  let firstPlaceSelect = select("#firstPlaceSelect");
-  let firstPlaceName = document.getElementById("firstPlaceName");
+  let firstPlaceSelect = select('#firstPlaceSelect');
+  let firstPlaceName = document.getElementById('firstPlaceName');
   firstPlaceName.innerHTML = firstPlaceSelect.value();
   let placeName = firstPlaceName.innerHTML;
   for (let key in dataInputArr) {
@@ -194,25 +192,25 @@ function firstPlaceSelectFunction() {
       placeName = key;
     }
   }
-  let trNum = document.getElementById("strataSelect").childElementCount;
-  if (Object.keys(dataInputArr).length != 0 && placeName != "-") {
+  let trNum = document.getElementById('strataSelect').childElementCount;
+  if (Object.keys(dataInputArr).length != 0 && placeName != '-') {
     let strataArr = dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
-      let strataSelect = document.getElementById("select2-" + str(i + 1));
+      let strataSelect = document.getElementById('select2-' + str(i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
-      let strataKind = select("#select1-" + str(i + 1)).value();
-      let element = select("#select2-" + str(i + 1));
+      let strataKind = select('#select1-' + str(i + 1)).value();
+      let element = select('#select2-' + str(i + 1));
       for (let j = 0; j < strataArr.length; j++) {
         if (strataKind == strataArr[j][2]) {
-          element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
+          element.option(strataArr[j][0] + 'm-' + strataArr[j][1] + 'm');
         }
       }
     }
   } else {
     for (let i = 0; i < trNum; i++) {
-      let strataSelect = document.getElementById("select2-" + str(i + 1));
+      let strataSelect = document.getElementById('select2-' + str(i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -222,8 +220,8 @@ function firstPlaceSelectFunction() {
 
 // 平面を構成する２つ目の地点のデータに関連する処理
 function secondPlaceSelectFunction() {
-  let secondPlaceSelect = select("#secondPlaceSelect");
-  let secondPlaceName = document.getElementById("secondPlaceName");
+  let secondPlaceSelect = select('#secondPlaceSelect');
+  let secondPlaceName = document.getElementById('secondPlaceName');
   secondPlaceName.innerHTML = secondPlaceSelect.value();
   let placeName = secondPlaceName.innerHTML;
   for (let key in dataInputArr) {
@@ -231,25 +229,25 @@ function secondPlaceSelectFunction() {
       placeName = key;
     }
   }
-  let trNum = document.getElementById("strataSelect").childElementCount;
-  if (Object.keys(dataInputArr).length != 0 && placeName != "-") {
+  let trNum = document.getElementById('strataSelect').childElementCount;
+  if (Object.keys(dataInputArr).length != 0 && placeName != '-') {
     let strataArr = dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
-      let strataSelect = document.getElementById("select3-" + str(i + 1));
+      let strataSelect = document.getElementById('select3-' + str(i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
-      let strataKind = select("#select1-" + str(i + 1)).value();
-      let element = select("#select3-" + str(i + 1));
+      let strataKind = select('#select1-' + str(i + 1)).value();
+      let element = select('#select3-' + str(i + 1));
       for (let j = 0; j < strataArr.length; j++) {
         if (strataKind == strataArr[j][2]) {
-          element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
+          element.option(strataArr[j][0] + 'm-' + strataArr[j][1] + 'm');
         }
       }
     }
   } else {
     for (let i = 0; i < trNum; i++) {
-      let strataSelect = document.getElementById("select3-" + str(i + 1));
+      let strataSelect = document.getElementById('select3-' + str(i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -259,8 +257,8 @@ function secondPlaceSelectFunction() {
 
 // 平面を構成する３つ目の地点のデータに関連する処理
 function thirdPlaceSelectFunction() {
-  let thirdPlaceSelect = select("#thirdPlaceSelect");
-  let thirdPlaceName = document.getElementById("thirdPlaceName");
+  let thirdPlaceSelect = select('#thirdPlaceSelect');
+  let thirdPlaceName = document.getElementById('thirdPlaceName');
   thirdPlaceName.innerHTML = thirdPlaceSelect.value();
   let placeName = thirdPlaceName.innerHTML;
   for (let key in dataInputArr) {
@@ -268,25 +266,25 @@ function thirdPlaceSelectFunction() {
       placeName = key;
     }
   }
-  let trNum = document.getElementById("strataSelect").childElementCount;
-  if (Object.keys(dataInputArr).length != 0 && placeName != "-") {
+  let trNum = document.getElementById('strataSelect').childElementCount;
+  if (Object.keys(dataInputArr).length != 0 && placeName != '-') {
     let strataArr = dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
-      let strataSelect = document.getElementById("select4-" + str(i + 1));
+      let strataSelect = document.getElementById('select4-' + str(i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
-      let strataKind = select("#select1-" + str(i + 1)).value();
-      let element = select("#select4-" + str(i + 1));
+      let strataKind = select('#select1-' + str(i + 1)).value();
+      let element = select('#select4-' + str(i + 1));
       for (let j = 0; j < strataArr.length; j++) {
         if (strataKind == strataArr[j][2]) {
-          element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
+          element.option(strataArr[j][0] + 'm-' + strataArr[j][1] + 'm');
         }
       }
     }
   } else {
     for (let i = 0; i < trNum; i++) {
-      let strataSelect = document.getElementById("select4-" + str(i + 1));
+      let strataSelect = document.getElementById('select4-' + str(i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -303,13 +301,13 @@ function strataSelectFunction() {
 
 // 平面を構成する地点を更新する処理
 function placeRefreshFunction() {
-  let firstPlaceSelect = select("#firstPlaceSelect");
-  let secondPlaceSelect = select("#secondPlaceSelect");
-  let thirdPlaceSelect = select("#thirdPlaceSelect");
+  let firstPlaceSelect = select('#firstPlaceSelect');
+  let secondPlaceSelect = select('#secondPlaceSelect');
+  let thirdPlaceSelect = select('#thirdPlaceSelect');
 
-  let firstPlaceSelectDoc = document.getElementById("firstPlaceSelect");
-  let secondPlaceSelectDoc = document.getElementById("secondPlaceSelect");
-  let thirdPlaceSelectDoc = document.getElementById("thirdPlaceSelect");
+  let firstPlaceSelectDoc = document.getElementById('firstPlaceSelect');
+  let secondPlaceSelectDoc = document.getElementById('secondPlaceSelect');
+  let thirdPlaceSelectDoc = document.getElementById('thirdPlaceSelect');
 
   while (firstPlaceSelectDoc.childElementCount > 0) {
     firstPlaceSelectDoc.remove(0);
@@ -320,25 +318,25 @@ function placeRefreshFunction() {
   while (thirdPlaceSelectDoc.childElementCount > 0) {
     thirdPlaceSelectDoc.remove(0);
   }
-  firstPlaceSelect.option("-");
-  secondPlaceSelect.option("-");
-  thirdPlaceSelect.option("-");
+  firstPlaceSelect.option('-');
+  secondPlaceSelect.option('-');
+  thirdPlaceSelect.option('-');
   // 地点データの数
   let placeNum = Object.keys(dataInputArr).length;
   // データを編集するボタンのhtml要素を書き換える繰り返し
   for (let i = 0; i < placeNum; i++) {
-    let place = "地点" + str(i + 1);
+    let place = '地点' + str(i + 1);
     let placeName = dataInputArr[place].name.value();
-    if (placeName == "") {
+    if (placeName == '') {
       placeName = place;
     }
     firstPlaceSelect.option(placeName);
     secondPlaceSelect.option(placeName);
     thirdPlaceSelect.option(placeName);
   }
-  firstPlaceSelectDoc.addEventListener("change", firstPlaceSelectFunction);
-  secondPlaceSelectDoc.addEventListener("change", secondPlaceSelectFunction);
-  thirdPlaceSelectDoc.addEventListener("change", thirdPlaceSelectFunction);
+  firstPlaceSelectDoc.addEventListener('change', firstPlaceSelectFunction);
+  secondPlaceSelectDoc.addEventListener('change', secondPlaceSelectFunction);
+  thirdPlaceSelectDoc.addEventListener('change', thirdPlaceSelectFunction);
 }
 // グローバルに公開
 window.placeRefreshFunction = placeRefreshFunction;
@@ -348,53 +346,53 @@ window.thirdPlaceSelectFunction = thirdPlaceSelectFunction;
 
 // 平面を構成する地層の組を追加するボタンを押した時の処理
 function strataAddButtonFunction() {
-  let NextTrNum = document.getElementById("strataSelect").childElementCount + 1;
-  let tr = createElement("tr")
-    .parent("strataSelect")
-    .id("tr-" + NextTrNum);
-  let th = createElement("th", NextTrNum + "組目")
-    .parent("tr-" + NextTrNum)
-    .id("th-" + NextTrNum);
-  let td1 = createElement("td")
-    .parent("tr-" + NextTrNum)
-    .id("td1-" + NextTrNum);
+  let NextTrNum = document.getElementById('strataSelect').childElementCount + 1;
+  let tr = createElement('tr')
+    .parent('strataSelect')
+    .id('tr-' + NextTrNum);
+  let th = createElement('th', NextTrNum + '組目')
+    .parent('tr-' + NextTrNum)
+    .id('th-' + NextTrNum);
+  let td1 = createElement('td')
+    .parent('tr-' + NextTrNum)
+    .id('td1-' + NextTrNum);
   let select1 = createSelect()
-    .parent("td1-" + NextTrNum)
-    .class("form-select")
-    .id("select1-" + NextTrNum);
-  let select1doc = document.getElementById("select1-" + NextTrNum);
-  select1doc.addEventListener("change", strataSelectFunction);
+    .parent('td1-' + NextTrNum)
+    .class('form-select')
+    .id('select1-' + NextTrNum);
+  let select1doc = document.getElementById('select1-' + NextTrNum);
+  select1doc.addEventListener('change', strataSelectFunction);
   let strataArr = [
-    "砂岩層",
-    "泥岩層",
-    "れき岩層",
-    "石灰岩層",
-    "凝灰岩層・火山灰層",
-    "ローム層",
-    "その他の層",
+    '砂岩層',
+    '泥岩層',
+    'れき岩層',
+    '石灰岩層',
+    '凝灰岩層・火山灰層',
+    'ローム層',
+    'その他の層',
   ];
   for (let i = 0; i < strataArr.length; i++) select1.option(strataArr[i]);
-  let td2 = createElement("td")
-    .parent("tr-" + NextTrNum)
-    .id("td2-" + NextTrNum);
+  let td2 = createElement('td')
+    .parent('tr-' + NextTrNum)
+    .id('td2-' + NextTrNum);
   let select2 = createSelect()
-    .parent("td2-" + NextTrNum)
-    .class("form-select")
-    .id("select2-" + NextTrNum);
-  let td3 = createElement("td")
-    .parent("tr-" + NextTrNum)
-    .id("td3-" + NextTrNum);
+    .parent('td2-' + NextTrNum)
+    .class('form-select')
+    .id('select2-' + NextTrNum);
+  let td3 = createElement('td')
+    .parent('tr-' + NextTrNum)
+    .id('td3-' + NextTrNum);
   let select3 = createSelect()
-    .parent("td3-" + NextTrNum)
-    .class("form-select")
-    .id("select3-" + NextTrNum);
-  let td4 = createElement("td")
-    .parent("tr-" + NextTrNum)
-    .id("td4-" + NextTrNum);
+    .parent('td3-' + NextTrNum)
+    .class('form-select')
+    .id('select3-' + NextTrNum);
+  let td4 = createElement('td')
+    .parent('tr-' + NextTrNum)
+    .id('td4-' + NextTrNum);
   let select4 = createSelect()
-    .parent("td4-" + NextTrNum)
-    .class("form-select")
-    .id("select4-" + NextTrNum);
+    .parent('td4-' + NextTrNum)
+    .class('form-select')
+    .id('select4-' + NextTrNum);
   firstPlaceSelectFunction();
   secondPlaceSelectFunction();
   thirdPlaceSelectFunction();
@@ -402,84 +400,77 @@ function strataAddButtonFunction() {
 
 // 平面を構成する地層の組を削除するボタンを押した時の処理
 function strataRemoveButtonFunction() {
-  let strataSelect = document.getElementById("strataSelect");
-  if (strataSelect.childElementCount > 0)
-    strataSelect.removeChild(strataSelect.lastChild);
+  let strataSelect = document.getElementById('strataSelect');
+  if (strataSelect.childElementCount > 0) strataSelect.removeChild(strataSelect.lastChild);
 }
 
 function loadTestDataButtonFunction() {
   if (Object.keys(dataInputArr).length == 0) {
     let name_arr = [
-      "南白糸台小",
-      "警察学校",
-      "府中第六中",
-      "府中第四小",
-      "飛田給小",
-      "府中第二中",
-      "石原小",
+      '南白糸台小',
+      '警察学校',
+      '府中第六中',
+      '府中第四小',
+      '飛田給小',
+      '府中第二中',
+      '石原小',
     ];
     let place_arr = [
-      [
-        35.660552, 35.668404, 35.660752, 35.666669, 35.654647, 35.672779,
-        35.660607,
-      ],
-      [
-        139.516632, 139.519548, 139.507364, 139.507854, 139.523045, 139.508945,
-        139.538435,
-      ],
+      [35.660552, 35.668404, 35.660752, 35.666669, 35.654647, 35.672779, 35.660607],
+      [139.516632, 139.519548, 139.507364, 139.507854, 139.523045, 139.508945, 139.538435],
     ];
     let test_data = {
       // "砂岩層","泥岩層","れき岩層","石灰岩層","凝灰岩層・火山灰層","ローム層","その他の層"
       // のいずれかから選択
       地点1: [
         // [-53, -36, "その他の層"],
-        [-36, -35, "その他の層"],
-        [-35, -34, "ローム層"],
-        [-34, -29, "れき岩層"],
-        [-29, -25, "砂岩層"],
+        [-36, -35, 'その他の層'],
+        [-35, -34, 'ローム層'],
+        [-34, -29, 'れき岩層'],
+        [-29, -25, '砂岩層'],
       ],
       地点2: [
         // [-53, -46, "その他の層"],
-        [-46, -44, "その他の層"],
-        [-44, -42, "ローム層"],
-        [-42, -37, "れき岩層"],
+        [-46, -44, 'その他の層'],
+        [-44, -42, 'ローム層'],
+        [-42, -37, 'れき岩層'],
       ],
       地点3: [
         // [-53, -39, "その他の層"],
-        [-39, -38, "その他の層"],
-        [-38, -35, "ローム層"],
-        [-35, -27, "れき岩層"],
+        [-39, -38, 'その他の層'],
+        [-38, -35, 'ローム層'],
+        [-35, -27, 'れき岩層'],
       ],
       地点4: [
         // [-53, -50, "その他の層"],
-        [-50, -49, "その他の層"],
-        [-49, -48, "ローム層"],
-        [-48, -44, "れき岩層"],
-        [-44, -41, "砂岩層"],
-        [-41, -37, "泥岩層"],
+        [-50, -49, 'その他の層'],
+        [-49, -48, 'ローム層'],
+        [-48, -44, 'れき岩層'],
+        [-44, -41, '砂岩層'],
+        [-41, -37, '泥岩層'],
       ],
       地点5: [
         // [-53, -35, "その他の層"],
-        [-35, -34, "その他の層"],
-        [-34, -28, "れき岩層"],
+        [-35, -34, 'その他の層'],
+        [-34, -28, 'れき岩層'],
       ],
       地点6: [
         // [-53, -49, "その他の層"],
-        [-49, -48, "その他の層"],
-        [-48, -45, "ローム層"],
-        [-45, -38, "れき岩層"],
+        [-49, -48, 'その他の層'],
+        [-48, -45, 'ローム層'],
+        [-45, -38, 'れき岩層'],
       ],
       地点7: [
         // [-53, -40, "その他の層"],
-        [-40, -39, "その他の層"],
-        [-39, -36, "ローム層"],
-        [-36, -32, "れき岩層"],
-        [-32, -28, "泥岩層"],
+        [-40, -39, 'その他の層'],
+        [-39, -36, 'ローム層'],
+        [-36, -32, 'れき岩層'],
+        [-32, -28, '泥岩層'],
       ],
     };
     for (let i = 0; i < name_arr.length; i++) {
       placeAddButtonFunction();
-      let el = document.getElementById("placeNameInput" + (i + 1));
+      let el = document.getElementById('placeNameInput' + (i + 1));
       let pa1 = el.children[0];
       let pl = pa1.children[1];
       pl.value = name_arr[i];
@@ -487,7 +478,7 @@ function loadTestDataButtonFunction() {
       let vl = pa2.children;
       vl[1].value = place_arr[0][i];
       vl[3].value = place_arr[1][i];
-      dataInputArr["地点" + (i + 1)].layer = test_data["地点" + (i + 1)];
+      dataInputArr['地点' + (i + 1)].layer = test_data['地点' + (i + 1)];
     }
     placeNameInputFunction();
   }
@@ -495,111 +486,111 @@ function loadTestDataButtonFunction() {
 
 function aSetButtonFunction() {
   allSetIs = false;
-  while (document.getElementById("strataSelect").childElementCount != 0) {
+  while (document.getElementById('strataSelect').childElementCount != 0) {
     strataRemoveButtonFunction();
   }
-  document.getElementById("firstPlaceSelect").options[1].selected = true;
-  document.getElementById("secondPlaceSelect").options[3].selected = true;
-  document.getElementById("thirdPlaceSelect").options[5].selected = true;
+  document.getElementById('firstPlaceSelect').options[1].selected = true;
+  document.getElementById('secondPlaceSelect').options[3].selected = true;
+  document.getElementById('thirdPlaceSelect').options[5].selected = true;
   firstPlaceSelectFunction();
   secondPlaceSelectFunction();
   thirdPlaceSelectFunction();
   for (let i = 0; i < 2; i++) strataAddButtonFunction();
-  document.getElementById("select1-1").options[6].selected = true;
-  document.getElementById("select1-2").options[2].selected = true;
+  document.getElementById('select1-1').options[6].selected = true;
+  document.getElementById('select1-2').options[2].selected = true;
   strataSelectFunction();
   // １層目
-  document.getElementById("select2-1").options[0].selected = true;
-  document.getElementById("select3-1").options[0].selected = true;
-  document.getElementById("select4-1").options[0].selected = true;
+  document.getElementById('select2-1').options[0].selected = true;
+  document.getElementById('select3-1').options[0].selected = true;
+  document.getElementById('select4-1').options[0].selected = true;
   // ２層目
-  document.getElementById("select2-2").options[0].selected = true;
-  document.getElementById("select3-2").options[0].selected = true;
-  document.getElementById("select4-2").options[0].selected = true;
+  document.getElementById('select2-2').options[0].selected = true;
+  document.getElementById('select3-2').options[0].selected = true;
+  document.getElementById('select4-2').options[0].selected = true;
 }
 
 function bSetButtonFunction() {
   allSetIs = false;
-  while (document.getElementById("strataSelect").childElementCount != 0) {
+  while (document.getElementById('strataSelect').childElementCount != 0) {
     strataRemoveButtonFunction();
   }
-  document.getElementById("firstPlaceSelect").options[1].selected = true;
-  document.getElementById("secondPlaceSelect").options[5].selected = true;
-  document.getElementById("thirdPlaceSelect").options[7].selected = true;
+  document.getElementById('firstPlaceSelect').options[1].selected = true;
+  document.getElementById('secondPlaceSelect').options[5].selected = true;
+  document.getElementById('thirdPlaceSelect').options[7].selected = true;
   firstPlaceSelectFunction();
   secondPlaceSelectFunction();
   thirdPlaceSelectFunction();
   for (let i = 0; i < 2; i++) strataAddButtonFunction();
-  document.getElementById("select1-1").options[6].selected = true;
-  document.getElementById("select1-2").options[2].selected = true;
+  document.getElementById('select1-1').options[6].selected = true;
+  document.getElementById('select1-2').options[2].selected = true;
   strataSelectFunction();
   // １層目
-  document.getElementById("select2-1").options[0].selected = true;
-  document.getElementById("select3-1").options[0].selected = true;
-  document.getElementById("select4-1").options[0].selected = true;
+  document.getElementById('select2-1').options[0].selected = true;
+  document.getElementById('select3-1').options[0].selected = true;
+  document.getElementById('select4-1').options[0].selected = true;
   // ２層目
-  document.getElementById("select2-2").options[0].selected = true;
-  document.getElementById("select3-2").options[0].selected = true;
-  document.getElementById("select4-2").options[0].selected = true;
+  document.getElementById('select2-2').options[0].selected = true;
+  document.getElementById('select3-2').options[0].selected = true;
+  document.getElementById('select4-2').options[0].selected = true;
 }
 
 function cSetButtonFunction() {
   allSetIs = false;
-  while (document.getElementById("strataSelect").childElementCount != 0) {
+  while (document.getElementById('strataSelect').childElementCount != 0) {
     strataRemoveButtonFunction();
   }
-  document.getElementById("firstPlaceSelect").options[1].selected = true;
-  document.getElementById("secondPlaceSelect").options[4].selected = true;
-  document.getElementById("thirdPlaceSelect").options[2].selected = true;
+  document.getElementById('firstPlaceSelect').options[1].selected = true;
+  document.getElementById('secondPlaceSelect').options[4].selected = true;
+  document.getElementById('thirdPlaceSelect').options[2].selected = true;
   firstPlaceSelectFunction();
   secondPlaceSelectFunction();
   thirdPlaceSelectFunction();
   for (let i = 0; i < 3; i++) strataAddButtonFunction();
-  document.getElementById("select1-1").options[6].selected = true;
-  document.getElementById("select1-2").options[5].selected = true;
-  document.getElementById("select1-3").options[2].selected = true;
+  document.getElementById('select1-1').options[6].selected = true;
+  document.getElementById('select1-2').options[5].selected = true;
+  document.getElementById('select1-3').options[2].selected = true;
   strataSelectFunction();
   // １層目
-  document.getElementById("select2-1").options[0].selected = true;
-  document.getElementById("select3-1").options[0].selected = true;
-  document.getElementById("select4-1").options[0].selected = true;
+  document.getElementById('select2-1').options[0].selected = true;
+  document.getElementById('select3-1').options[0].selected = true;
+  document.getElementById('select4-1').options[0].selected = true;
   // ２層目
-  document.getElementById("select2-2").options[0].selected = true;
-  document.getElementById("select3-2").options[0].selected = true;
-  document.getElementById("select4-2").options[0].selected = true;
+  document.getElementById('select2-2').options[0].selected = true;
+  document.getElementById('select3-2').options[0].selected = true;
+  document.getElementById('select4-2').options[0].selected = true;
   // ３層目
-  document.getElementById("select2-3").options[0].selected = true;
-  document.getElementById("select3-3").options[0].selected = true;
-  document.getElementById("select4-3").options[0].selected = true;
+  document.getElementById('select2-3').options[0].selected = true;
+  document.getElementById('select3-3').options[0].selected = true;
+  document.getElementById('select4-3').options[0].selected = true;
 }
 function dSetButtonFunction() {
   allSetIs = false;
-  while (document.getElementById("strataSelect").childElementCount != 0) {
+  while (document.getElementById('strataSelect').childElementCount != 0) {
     strataRemoveButtonFunction();
   }
-  document.getElementById("firstPlaceSelect").options[4].selected = true;
-  document.getElementById("secondPlaceSelect").options[6].selected = true;
-  document.getElementById("thirdPlaceSelect").options[2].selected = true;
+  document.getElementById('firstPlaceSelect').options[4].selected = true;
+  document.getElementById('secondPlaceSelect').options[6].selected = true;
+  document.getElementById('thirdPlaceSelect').options[2].selected = true;
   firstPlaceSelectFunction();
   secondPlaceSelectFunction();
   thirdPlaceSelectFunction();
   for (let i = 0; i < 3; i++) strataAddButtonFunction();
-  document.getElementById("select1-1").options[6].selected = true;
-  document.getElementById("select1-2").options[5].selected = true;
-  document.getElementById("select1-3").options[2].selected = true;
+  document.getElementById('select1-1').options[6].selected = true;
+  document.getElementById('select1-2').options[5].selected = true;
+  document.getElementById('select1-3').options[2].selected = true;
   strataSelectFunction();
   // １層目
-  document.getElementById("select2-1").options[0].selected = true;
-  document.getElementById("select3-1").options[0].selected = true;
-  document.getElementById("select4-1").options[0].selected = true;
+  document.getElementById('select2-1').options[0].selected = true;
+  document.getElementById('select3-1').options[0].selected = true;
+  document.getElementById('select4-1').options[0].selected = true;
   // ２層目
-  document.getElementById("select2-2").options[0].selected = true;
-  document.getElementById("select3-2").options[0].selected = true;
-  document.getElementById("select4-2").options[0].selected = true;
+  document.getElementById('select2-2').options[0].selected = true;
+  document.getElementById('select3-2').options[0].selected = true;
+  document.getElementById('select4-2').options[0].selected = true;
   // ３層目
-  document.getElementById("select2-3").options[0].selected = true;
-  document.getElementById("select3-3").options[0].selected = true;
-  document.getElementById("select4-3").options[0].selected = true;
+  document.getElementById('select2-3').options[0].selected = true;
+  document.getElementById('select3-3').options[0].selected = true;
+  document.getElementById('select4-3').options[0].selected = true;
 }
 // DOM要素の設定
 function elInit() {
@@ -631,8 +622,8 @@ function setup() {
   loadTestDataButtonFunction();
   // フォントを非同期で読み込む（読み込み失敗してもシミュレーションは動作する）
   loadFont(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
-    (font) => {
+    'https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580',
+    font => {
       jaFont = font;
       textFont(jaFont);
       textSize(25);
@@ -640,9 +631,7 @@ function setup() {
     },
     () => {
       // フォント読み込み失敗時はテキストを表示しない
-      console.warn(
-        "Japanese font could not be loaded. Text labels will not be displayed."
-      );
+      console.warn('Japanese font could not be loaded. Text labels will not be displayed.');
     }
   );
 }
@@ -657,12 +646,12 @@ function calculateValue() {
     let data = value.data;
     let latitude = data.y.value();
     let longitude = data.x.value();
-    if (latitude != "") {
+    if (latitude != '') {
       latitudeArr.push(latitude);
     } else {
       latitudeArr.push(0);
     }
-    if (longitude != "") {
+    if (longitude != '') {
       longitudeArr.push(longitude);
     } else {
       longitudeArr.push(0);
@@ -721,7 +710,7 @@ function backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax) {
   }
   push();
   translate(0, 0, 500);
-  if (jaFont) text("経度", 0, -50);
+  if (jaFont) text('経度', 0, -50);
   pop();
 
   for (let z = 0; z <= 500; z += 50) {
@@ -740,7 +729,7 @@ function backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax) {
   }
   push();
   translate(0, 0, -500);
-  if (jaFont) text("深さ", -550, 250, 0);
+  if (jaFont) text('深さ', -550, 250, 0);
   pop();
   for (let y = 0; y <= 1000; y += 50) {
     line(-500, 0, y - 500, 500, 0, y - 500);
@@ -759,7 +748,7 @@ function backgroundSetting(xMin, xMax, yMin, yMax, zMin, zMax) {
   push();
   rotateY(PI / 2);
   translate(0, -50, 500);
-  if (jaFont) text("緯度", 0, -10);
+  if (jaFont) text('緯度', 0, -10);
   pop();
 }
 
@@ -788,7 +777,7 @@ function submit(arr) {
   let dataArr = arr[1];
   for (let key in dataInputArr) {
     let placeName = dataInputArr[key].name.value();
-    if (placeName == "") placeName = key;
+    if (placeName == '') placeName = key;
     if (placeName == name) {
       dataInputArr[key].layer = dataArr;
     }
@@ -824,10 +813,10 @@ function drawDirMark(x, y) {
   line(x, y - 100, x, +y + 100);
   line(x, y - 100, x - 20, y - 50);
   if (jaFont) {
-    text("東", x + 70, y + 8);
-    text("西", x - 70, y + 8);
-    text("南", x, y + 70 + 60);
-    text("北", x, y - 70 - 40);
+    text('東', x + 70, y + 8);
+    text('西', x - 70, y + 8);
+    text('南', x, y + 70 + 60);
+    text('北', x, y - 70 - 40);
   }
   pop();
 }
@@ -835,13 +824,13 @@ function drawDirMark(x, y) {
 // 地層の平面を描画する処理
 function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
   let name = dataInputArr[key].name.value();
-  if (name == "") name = key;
+  if (name == '') name = key;
   let data = dataInputArr[key].data;
   let x = data.x.value();
-  if (x == "") x = 0;
+  if (x == '') x = 0;
   x = map(x, xMin, xMax, -500, 500);
   let y = data.y.value();
-  if (y == "") y = 0;
+  if (y == '') y = 0;
   y = map(y, yMin, yMax, 500, -500);
   let layer = dataInputArr[key].layer;
   noStroke();
@@ -851,19 +840,15 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
     zArr.push(z);
     let zLength = layer[i][1] - layer[i][0];
     let kind = layer[i][2];
-    if (kind == "砂岩層") fill(215, 205, 166, 200);
-    if (kind == "泥岩層") fill(156, 154, 143, 200);
-    if (kind == "れき岩層") fill(252, 180, 172, 200);
-    if (kind == "石灰岩層") fill(120, 170, 170, 200);
-    if (kind == "凝灰岩層・火山灰層") fill(200, 200, 200, 200);
-    if (kind == "ローム層") fill(112, 58, 21, 200);
-    if (kind == "その他の層") fill(0, 200);
+    if (kind == '砂岩層') fill(215, 205, 166, 200);
+    if (kind == '泥岩層') fill(156, 154, 143, 200);
+    if (kind == 'れき岩層') fill(252, 180, 172, 200);
+    if (kind == '石灰岩層') fill(120, 170, 170, 200);
+    if (kind == '凝灰岩層・火山灰層') fill(200, 200, 200, 200);
+    if (kind == 'ローム層') fill(112, 58, 21, 200);
+    if (kind == 'その他の層') fill(0, 200);
     push();
-    translate(
-      x,
-      map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2,
-      y
-    );
+    translate(x, map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2, y);
     box(50, map(zLength, 0, zMax - zMin, 0, 500), 50);
     translate(100, 10, 0);
     fill(0);
@@ -872,11 +857,7 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
     fill(0);
     push();
     if (jaFont) {
-      text(
-        kind,
-        x,
-        map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2
-      );
+      text(kind, x, map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2);
     }
     pop();
   }
@@ -897,7 +878,7 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
 
 let allSetData = {
   aSet: {
-    layers: ["その他の層", "れき岩層"],
+    layers: ['その他の層', 'れき岩層'],
     coordinates: [
       [-201.7154259601411, 101.7347365710445],
       [-500, 95.29786617744429],
@@ -917,7 +898,7 @@ let allSetData = {
     ],
   },
   bSet: {
-    layers: ["その他の層", "れき岩層"],
+    layers: ['その他の層', 'れき岩層'],
     coordinates: [
       [-201.7154259601411, 101.7347365710445],
       [4.682823211423681, 291.78333494271374],
@@ -937,7 +918,7 @@ let allSetData = {
     ],
   },
   cSet: {
-    layers: ["その他の層", "ローム層", "れき岩層"],
+    layers: ['その他の層', 'ローム層', 'れき岩層'],
     coordinates: [
       [-201.7154259601411, 101.7347365710445],
       [-484.2296675352107, -95.13694441755285],
@@ -962,7 +943,7 @@ let allSetData = {
     ],
   },
   dSet: {
-    layers: ["その他の層", "ローム層", "れき岩層"],
+    layers: ['その他の層', 'ローム層', 'れき岩層'],
     coordinates: [
       [-484.2296675352107, -95.13694441755285],
       [-449.11653953796264, -291.7833349424851],
@@ -1025,7 +1006,7 @@ function draw() {
   drawDirMark(-600, -600);
 
   // データ登録モーダルを開いている時にオービットコントロールを無効化
-  let modalIs = $("#dataRegisterModal").is(":hidden");
+  let modalIs = $('#dataRegisterModal').is(':hidden');
   if (modalIs) {
     orbitControl(2);
   }
@@ -1035,11 +1016,11 @@ function draw() {
     drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax);
   }
 
-  let trNum = document.getElementById("strataSelect").childElementCount;
-  let p1Name = select("#firstPlaceSelect").value();
-  let p2Name = select("#secondPlaceSelect").value();
-  let p3Name = select("#thirdPlaceSelect").value();
-  if (p1Name != "-" && p2Name != "-" && p3Name != "-") {
+  let trNum = document.getElementById('strataSelect').childElementCount;
+  let p1Name = select('#firstPlaceSelect').value();
+  let p2Name = select('#secondPlaceSelect').value();
+  let p3Name = select('#thirdPlaceSelect').value();
+  if (p1Name != '-' && p2Name != '-' && p3Name != '-') {
     let p1 = [0, 0];
     let p2 = [0, 0];
     let p3 = [0, 0];
@@ -1062,22 +1043,22 @@ function draw() {
       }
     }
     for (let i = 0; i < trNum; i++) {
-      let select1 = select("#select1-" + str(i + 1)).value();
-      let select2 = select("#select2-" + str(i + 1)).value();
-      let select3 = select("#select3-" + str(i + 1)).value();
-      let select4 = select("#select4-" + str(i + 1)).value();
-      if (select2 == "" || select3 == "" || select4 == "") {
+      let select1 = select('#select1-' + str(i + 1)).value();
+      let select2 = select('#select2-' + str(i + 1)).value();
+      let select3 = select('#select3-' + str(i + 1)).value();
+      let select4 = select('#select4-' + str(i + 1)).value();
+      if (select2 == '' || select3 == '' || select4 == '') {
         continue;
       }
-      let p1Min = select2.substr(0, select2.indexOf("m-"));
-      let p1Max = select2.substr(select2.indexOf("m-") + 2);
-      p1Max = p1Max.substr(0, p1Max.indexOf("m"));
-      let p2Min = select3.substr(0, select3.indexOf("m-"));
-      let p2Max = select3.substr(select3.indexOf("m-") + 2);
-      p2Max = p2Max.substr(0, p2Max.indexOf("m"));
-      let p3Min = select4.substr(0, select4.indexOf("m-"));
-      let p3Max = select4.substr(select4.indexOf("m-") + 2);
-      p3Max = p3Max.substr(0, p3Max.indexOf("m"));
+      let p1Min = select2.substr(0, select2.indexOf('m-'));
+      let p1Max = select2.substr(select2.indexOf('m-') + 2);
+      p1Max = p1Max.substr(0, p1Max.indexOf('m'));
+      let p2Min = select3.substr(0, select3.indexOf('m-'));
+      let p2Max = select3.substr(select3.indexOf('m-') + 2);
+      p2Max = p2Max.substr(0, p2Max.indexOf('m'));
+      let p3Min = select4.substr(0, select4.indexOf('m-'));
+      let p3Max = select4.substr(select4.indexOf('m-') + 2);
+      p3Max = p3Max.substr(0, p3Max.indexOf('m'));
 
       p1Min = map(p1Min, zMin, zMax, 0, 500);
       p1Max = map(p1Max, zMin, zMax, 0, 500);
@@ -1086,35 +1067,15 @@ function draw() {
       p3Min = map(p3Min, zMin, zMax, 0, 500);
       p3Max = map(p3Max, zMin, zMax, 0, 500);
 
-      if (select1 == "砂岩層") fill(215, 205, 166, 150);
-      if (select1 == "泥岩層") fill(156, 154, 143, 150);
-      if (select1 == "れき岩層") fill(252, 180, 172, 150);
-      if (select1 == "石灰岩層") fill(120, 170, 170, 150);
-      if (select1 == "凝灰岩層・火山灰層") fill(200, 200, 200, 150);
-      if (select1 == "ローム層") fill(112, 58, 21, 150);
-      if (select1 == "その他の層") fill(0, 150);
-      createPlane1(
-        p1[0],
-        p1[1],
-        p1Min,
-        p2[0],
-        p2[1],
-        p2Min,
-        p3[0],
-        p3[1],
-        p3Min
-      );
-      createPlane1(
-        p1[0],
-        p1[1],
-        p1Max,
-        p2[0],
-        p2[1],
-        p2Max,
-        p3[0],
-        p3[1],
-        p3Max
-      );
+      if (select1 == '砂岩層') fill(215, 205, 166, 150);
+      if (select1 == '泥岩層') fill(156, 154, 143, 150);
+      if (select1 == 'れき岩層') fill(252, 180, 172, 150);
+      if (select1 == '石灰岩層') fill(120, 170, 170, 150);
+      if (select1 == '凝灰岩層・火山灰層') fill(200, 200, 200, 150);
+      if (select1 == 'ローム層') fill(112, 58, 21, 150);
+      if (select1 == 'その他の層') fill(0, 150);
+      createPlane1(p1[0], p1[1], p1Min, p2[0], p2[1], p2Min, p3[0], p3[1], p3Min);
+      createPlane1(p1[0], p1[1], p1Max, p2[0], p2[1], p2Max, p3[0], p3[1], p3Max);
       createPlane2(
         p1[0],
         p1[1],
@@ -1176,35 +1137,15 @@ function draw() {
         let p2Min = range[1][1];
         let p3Max = range[2][0];
         let p3Min = range[2][1];
-        if (layer == "砂岩層") fill(215, 205, 166, 150);
-        if (layer == "泥岩層") fill(156, 154, 143, 150);
-        if (layer == "れき岩層") fill(252, 180, 172, 150);
-        if (layer == "石灰岩層") fill(120, 170, 170, 150);
-        if (layer == "凝灰岩層・火山灰層") fill(200, 200, 200, 150);
-        if (layer == "ローム層") fill(112, 58, 21, 150);
-        if (layer == "その他の層") fill(0, 150);
-        createPlane1(
-          p1[0],
-          p1[1],
-          p1Min,
-          p2[0],
-          p2[1],
-          p2Min,
-          p3[0],
-          p3[1],
-          p3Min
-        );
-        createPlane1(
-          p1[0],
-          p1[1],
-          p1Max,
-          p2[0],
-          p2[1],
-          p2Max,
-          p3[0],
-          p3[1],
-          p3Max
-        );
+        if (layer == '砂岩層') fill(215, 205, 166, 150);
+        if (layer == '泥岩層') fill(156, 154, 143, 150);
+        if (layer == 'れき岩層') fill(252, 180, 172, 150);
+        if (layer == '石灰岩層') fill(120, 170, 170, 150);
+        if (layer == '凝灰岩層・火山灰層') fill(200, 200, 200, 150);
+        if (layer == 'ローム層') fill(112, 58, 21, 150);
+        if (layer == 'その他の層') fill(0, 150);
+        createPlane1(p1[0], p1[1], p1Min, p2[0], p2[1], p2Min, p3[0], p3[1], p3Min);
+        createPlane1(p1[0], p1[1], p1Max, p2[0], p2[1], p2Max, p3[0], p3[1], p3Max);
         createPlane2(
           p1[0],
           p1[1],
@@ -1261,12 +1202,12 @@ function windowResized() {
 
 function allSetButtonFunction() {
   allSetIs = true;
-  while (document.getElementById("strataSelect").childElementCount != 0) {
+  while (document.getElementById('strataSelect').childElementCount != 0) {
     strataRemoveButtonFunction();
   }
-  document.getElementById("firstPlaceSelect").options[0].selected = true;
-  document.getElementById("secondPlaceSelect").options[0].selected = true;
-  document.getElementById("thirdPlaceSelect").options[0].selected = true;
+  document.getElementById('firstPlaceSelect').options[0].selected = true;
+  document.getElementById('secondPlaceSelect').options[0].selected = true;
+  document.getElementById('thirdPlaceSelect').options[0].selected = true;
   firstPlaceSelectFunction();
   secondPlaceSelectFunction();
   thirdPlaceSelectFunction();
@@ -1278,42 +1219,31 @@ class DOM {
     this.n = n;
     this.parentDiv = createDiv()
       .parent(placePointNameInput)
-      .class("mb-2")
-      .id("placeNameInput" + str(this.n));
-    this.inputGroup1 = createDiv().parent(this.parentDiv).class("input-group");
-    this.inputGroup2 = createDiv().parent(this.parentDiv).class("input-group");
+      .class('mb-2')
+      .id('placeNameInput' + str(this.n));
+    this.inputGroup1 = createDiv().parent(this.parentDiv).class('input-group');
+    this.inputGroup2 = createDiv().parent(this.parentDiv).class('input-group');
     // input要素の上の部分
-    createElement("span", "地点" + str(this.n) + "：")
+    createElement('span', '地点' + str(this.n) + '：')
       .parent(this.inputGroup1)
-      .class("input-group-text");
+      .class('input-group-text');
     this.placeNameInput = createInput()
       .parent(this.inputGroup1)
-      .class("form-control")
+      .class('form-control')
       .input(placeNameInputFunction);
     // input要素の下の部分
-    createElement("span", "緯度")
-      .parent(this.inputGroup2)
-      .class("input-group-text");
-    this.yInput = createInput(0, "number")
-      .parent(this.inputGroup2)
-      .class("form-control");
-    createElement("span", "経度")
-      .parent(this.inputGroup2)
-      .class("input-group-text");
-    this.xInput = createInput(0, "number")
-      .parent(this.inputGroup2)
-      .class("form-control");
-    createDiv("地点" + str(this.n) + "の名前、緯度、経度を入力してください。")
+    createElement('span', '緯度').parent(this.inputGroup2).class('input-group-text');
+    this.yInput = createInput(0, 'number').parent(this.inputGroup2).class('form-control');
+    createElement('span', '経度').parent(this.inputGroup2).class('input-group-text');
+    this.xInput = createInput(0, 'number').parent(this.inputGroup2).class('form-control');
+    createDiv('地点' + str(this.n) + 'の名前、緯度、経度を入力してください。')
       .parent(this.parentDiv)
-      .class("form-text");
+      .class('form-text');
     // サブウィンドウ生成用のDOM
-    this.placeDataInput = createA(
-      "javascript:void(0)",
-      "地点" + str(this.n) + "のデータを編集"
-    )
-      .class("btn btn-outline-primary mb-2")
-      .parent("placePointDataInput")
-      .id("placeDataInput" + str(this.n));
+    this.placeDataInput = createA('javascript:void(0)', '地点' + str(this.n) + 'のデータを編集')
+      .class('btn btn-outline-primary mb-2')
+      .parent('placePointDataInput')
+      .id('placeDataInput' + str(this.n));
   }
 }
 

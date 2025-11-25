@@ -1,11 +1,11 @@
 // p5.jsがcommon.jsから読み込まれるのを待機
 function waitForP5() {
-  return new Promise((resolve) => {
-    if (typeof window.createCanvas !== "undefined") {
+  return new Promise(resolve => {
+    if (typeof window.createCanvas !== 'undefined') {
       resolve();
     } else {
       const checkInterval = setInterval(() => {
-        if (typeof window.createCanvas !== "undefined") {
+        if (typeof window.createCanvas !== 'undefined') {
           clearInterval(checkInterval);
           resolve();
         }
@@ -25,25 +25,21 @@ window.onload = function () {
 
   // 親ウィンドウがない場合の処理
   if (!window.opener || window.opener.closed) {
-    window.alert("親ウィンドウがありません。");
+    window.alert('親ウィンドウがありません。');
     return false;
   }
 
-  document.getElementById("place_name").innerHTML =
-    placeName + "のデータを編集";
-  document.title = placeName + "のデータを編集";
+  document.getElementById('place_name').innerHTML = placeName + 'のデータを編集';
+  document.title = placeName + 'のデータを編集';
 
   // 入力済み地層データがあれば引き継ぎinputに入力
   let layers = window.opener.loadLayers(placeName);
   let layersNum = layers.length;
   for (let i = 0; i < layersNum; i++) {
     trAddButtonFunction();
-    document.getElementById("td1Input" + (i + 1).toString()).value =
-      layers[i][0];
-    document.getElementById("td2Input" + (i + 1).toString()).value =
-      layers[i][1];
-    document.getElementById("td3Select" + (i + 1).toString()).value =
-      layers[i][2];
+    document.getElementById('td1Input' + (i + 1).toString()).value = layers[i][0];
+    document.getElementById('td2Input' + (i + 1).toString()).value = layers[i][1];
+    document.getElementById('td3Select' + (i + 1).toString()).value = layers[i][2];
   }
 };
 
@@ -68,7 +64,7 @@ function trAddButtonFunction() {
 // DOM要素の生成
 let trAddButton;
 function elCreate() {
-  trAddButton = select("#trAddButton");
+  trAddButton = select('#trAddButton');
 }
 
 // DOM要素の設定
@@ -98,8 +94,8 @@ function draw() {
   }
 
   // ヘッダー部分のhtml要素から地点名を取得
-  let name = document.getElementById("place_name").innerHTML;
-  name = name.split("のデータを編集")[0];
+  let name = document.getElementById('place_name').innerHTML;
+  name = name.split('のデータを編集')[0];
 
   // 地点名と地層データが格納された配列を生成
   let arr = [name, strataData];
@@ -121,69 +117,69 @@ class TR {
     let num = n;
 
     // tr要素に関連するinput要素などの生成
-    this.tr = createElement("tr")
-      .id("tr" + num)
-      .parent("tablebody");
-    this.th = createElement("th")
-      .id("th" + num)
-      .html(trNum + "層目")
-      .parent("tr" + num);
-    this.td1 = createElement("td")
-      .id("td1" + num)
-      .parent("tr" + num);
-    this.td1Input = createInput(0, "number")
-      .id("td1Input" + num)
-      .parent("td1" + num)
-      .class("form-control");
-    this.td2 = createElement("td")
-      .id("td2" + num)
-      .parent("tr" + num);
-    this.td2Input = createInput(0, "number")
-      .id("td2Input" + num)
-      .parent("td2" + num)
-      .class("form-control");
-    this.td3 = createElement("td")
-      .id("td3" + num)
-      .parent("tr" + num);
+    this.tr = createElement('tr')
+      .id('tr' + num)
+      .parent('tablebody');
+    this.th = createElement('th')
+      .id('th' + num)
+      .html(trNum + '層目')
+      .parent('tr' + num);
+    this.td1 = createElement('td')
+      .id('td1' + num)
+      .parent('tr' + num);
+    this.td1Input = createInput(0, 'number')
+      .id('td1Input' + num)
+      .parent('td1' + num)
+      .class('form-control');
+    this.td2 = createElement('td')
+      .id('td2' + num)
+      .parent('tr' + num);
+    this.td2Input = createInput(0, 'number')
+      .id('td2Input' + num)
+      .parent('td2' + num)
+      .class('form-control');
+    this.td3 = createElement('td')
+      .id('td3' + num)
+      .parent('tr' + num);
     this.td3Select = createSelect()
-      .id("td3Select" + num)
-      .parent("td3" + num)
-      .class("form-select");
-    this.td4 = createElement("td")
-      .id("td4" + num)
-      .parent("tr" + num);
+      .id('td3Select' + num)
+      .parent('td3' + num)
+      .class('form-select');
+    this.td4 = createElement('td')
+      .id('td4' + num)
+      .parent('tr' + num);
 
     // select要素（td3）にoption（選択肢）の追加
     this.td3SelectOptionArr = [
-      "砂岩層",
-      "泥岩層",
-      "れき岩層",
-      "石灰岩層",
-      "凝灰岩層・火山灰層",
-      "ローム層",
-      "その他の層",
+      '砂岩層',
+      '泥岩層',
+      'れき岩層',
+      '石灰岩層',
+      '凝灰岩層・火山灰層',
+      'ローム層',
+      'その他の層',
     ];
     for (let i = 0; i < this.td3SelectOptionArr.length; i++)
       this.td3Select.option(this.td3SelectOptionArr[i]);
 
     // 削除ボタンを押した時の処理
     function _removeButtonFunction() {
-      select("#tr" + str(num)).remove();
+      select('#tr' + str(num)).remove();
       trArr.pop(num);
       trNum -= 1;
       idArr.splice(
-        idArr.findIndex((idIndex) => idIndex == str(num)),
+        idArr.findIndex(idIndex => idIndex == str(num)),
         1
       );
       for (let i = 0; i < idArr.length; i++) {
-        select("#th" + idArr[i]).html(i + 1 + "層目");
+        select('#th' + idArr[i]).html(i + 1 + '層目');
       }
     }
 
-    this.trRemoveButton = createButton("削除")
-      .parent("td4" + num)
-      .class("btn btn-outline-danger w-100")
-      .id("trRemoveButton" + num)
+    this.trRemoveButton = createButton('削除')
+      .parent('td4' + num)
+      .class('btn btn-outline-danger w-100')
+      .id('trRemoveButton' + num)
       .mousePressed(_removeButtonFunction);
 
     idArr.push(str(num));

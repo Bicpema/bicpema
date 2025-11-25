@@ -1,40 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>地層データの登録</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="container">
-        <div class="m-2">
-            <h1 id="placeName">地層データ編集</h1>
-            <p>※地層を追加する際には右の「地層を追加」ボタンを押し、削除する際にはそれぞれの行の「削除」ボタンを押してください。</p>
-            <div class="text-end mb-3">
-                <button class="btn btn-outline-primary" id="trAddButton">地層の追加</button>
-            </div>
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th style="width: 11%;">番号</th>
-                        <th style="width: 26%;">堆積物の上端の深さ</th>
-                        <th style="width: 26%;">堆積物の下端の深さ</th>
-                        <th style="width: 26%;">岩相の種類</th>
-                        <th style="width: 11%;">削除ボタン</th>
-                    </tr>
-                </thead>
-                <tbody id="tablebody">
-                </tbody>
-            </table>
-            <div class="text-end">
-                <button class="btn btn-outline-secondary" href="javascript:void(0);"
-                    onclick="window.close()">閉じる</button>
-            </div>
+      <div class="m-2">
+        <h1 id="placeName">地層データ編集</h1>
+        <p>
+          ※地層を追加する際には右の「地層を追加」ボタンを押し、削除する際にはそれぞれの行の「削除」ボタンを押してください。
+        </p>
+        <div class="text-end mb-3">
+          <button class="btn btn-outline-primary" id="trAddButton">地層の追加</button>
         </div>
+        <table class="table table-bordered table-hover">
+          <thead>
+            <tr>
+              <th style="width: 11%">番号</th>
+              <th style="width: 26%">堆積物の上端の深さ</th>
+              <th style="width: 26%">堆積物の下端の深さ</th>
+              <th style="width: 26%">岩相の種類</th>
+              <th style="width: 11%">削除ボタン</th>
+            </tr>
+          </thead>
+          <tbody id="tablebody"></tbody>
+        </table>
+        <div class="text-end">
+          <button class="btn btn-outline-secondary" href="javascript:void(0);" onclick="window.close()">閉じる</button>
+        </div>
+      </div>
     </div>
     <script language="javascript" src="./js/setWindow.js" type="text/javascript" vite-ignore></script>
-</body>
-
+  </body>
 </html>

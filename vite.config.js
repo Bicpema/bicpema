@@ -1,15 +1,15 @@
-import { resolve } from "node:path";
-import { globSync } from "tinyglobby";
-import { defineConfig } from "vite";
-import { viteStaticCopy } from "vite-plugin-static-copy";
-import { getHtmlInputsRecursively } from "./vite/_build/getHtmlInputsRecursively";
+import { resolve } from 'node:path';
+import { globSync } from 'tinyglobby';
+import { defineConfig } from 'vite';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
+import { getHtmlInputsRecursively } from './vite/_build/getHtmlInputsRecursively';
 
-const root = resolve(__dirname, "vite");
-const outDir = resolve(__dirname, "static/vite");
+const root = resolve(__dirname, 'vite');
+const outDir = resolve(__dirname, 'static/vite');
 
 export default defineConfig({
   root,
-  base: "/vite",
+  base: '/vite',
   build: {
     outDir,
     emptyOutDir: true,
@@ -30,12 +30,12 @@ export default defineConfig({
     viteStaticCopy({
       targets: [
         {
-          src: resolve(root, "simulations"),
+          src: resolve(root, 'simulations'),
           dest: outDir,
           overwrite: false,
         },
         {
-          src: resolve(root, "js"),
+          src: resolve(root, 'js'),
           dest: outDir,
           overwrite: false,
         },
@@ -44,9 +44,9 @@ export default defineConfig({
     // vite-ignoreをしているファイルに差分があった際も再ビルドする
     // https://stackoverflow.com/questions/63373804/rollup-watch-include-directory/63548394
     {
-      name: "watch-external",
+      name: 'watch-external',
       async buildStart() {
-        const files = await globSync("vite/**/*");
+        const files = await globSync('vite/**/*');
         for (let file of files) {
           this.addWatchFile(file);
         }
