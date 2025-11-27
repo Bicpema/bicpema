@@ -19,11 +19,11 @@ function mousePressed() {
   const scaledMouseX = mouseX / (width / 1000);
   const scaledMouseY = mouseY / (width / 1000);
   const currentTime = millis();
-  
+
   // ダブルクリック判定
   const isDoubleClick = currentTime - lastClickTime < DOUBLE_CLICK_DELAY;
   lastClickTime = currentTime;
-  
+
   // クリックされた本を探す
   for (let book of books) {
     if (book.isMouseOver(scaledMouseX, scaledMouseY)) {

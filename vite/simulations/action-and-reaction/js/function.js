@@ -28,16 +28,16 @@ function drawTable() {
   stroke(100);
   strokeWeight(2);
   rect(50, tableY, 900, 20, 5); // 机の天板
-  
+
   // 机の脚
   rect(100, tableY + 20, 15, 100);
   rect(835, tableY + 20, 15, 100);
-  
+
   // ラベル
   fill(255);
   noStroke();
   textSize(18);
   textAlign(CENTER, CENTER);
-  text('机', 500, tableY + 10);
+  text("机", 500, tableY + 10);
   pop();
 }

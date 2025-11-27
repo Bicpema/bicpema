@@ -29,16 +29,16 @@ function elementSelectInit() {
 function elementPositionInit() {
   // 本を追加するボタンを作成
   if (!addButton) {
-    addButton = createButton('本を追加');
+    addButton = createButton("本を追加");
     addButton.position(20, 70);
     addButton.mousePressed(addBook);
-    addButton.style('padding', '10px 20px');
-    addButton.style('font-size', '16px');
-    addButton.style('background-color', '#4CAF50');
-    addButton.style('color', 'white');
-    addButton.style('border', 'none');
-    addButton.style('border-radius', '5px');
-    addButton.style('cursor', 'pointer');
+    addButton.style("padding", "10px 20px");
+    addButton.style("font-size", "16px");
+    addButton.style("background-color", "#4CAF50");
+    addButton.style("color", "white");
+    addButton.style("border", "none");
+    addButton.style("border-radius", "5px");
+    addButton.style("cursor", "pointer");
   }
 }
 
