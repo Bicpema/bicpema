@@ -9,7 +9,12 @@ function placeAddButtonFunction() {
   // 新しく生成する地点名
   let placeName = "地点" + str(newPlaceNum);
   // 生成したオブジェクトを連想配列に登録
-  dataInputArr[placeName] = { name: newDom.placeNameInput, data: { x: "", y: "" }, edit: "", layer: "" };
+  dataInputArr[placeName] = {
+    name: newDom.placeNameInput,
+    data: { x: "", y: "" },
+    edit: "",
+    layer: "",
+  };
   dataInputArr[placeName]["data"]["x"] = newDom.xInput;
   dataInputArr[placeName]["data"]["y"] = newDom.yInput;
   dataInputArr[placeName]["edit"] = newDom.placeDataInput;
@@ -54,7 +59,15 @@ function strataAddButtonFunction() {
     .id("select1-" + NextTrNum);
   let select1doc = document.getElementById("select1-" + NextTrNum);
   select1doc.addEventListener("change", strataSelectFunction);
-  let strataArr = ["砂岩層", "泥岩層", "れき岩層", "石灰岩層", "凝灰岩層・火山灰層", "ローム層", "その他の層"];
+  let strataArr = [
+    "砂岩層",
+    "泥岩層",
+    "れき岩層",
+    "石灰岩層",
+    "凝灰岩層・火山灰層",
+    "ローム層",
+    "その他の層",
+  ];
   for (let i = 0; i < strataArr.length; i++) select1.option(strataArr[i]);
   let td2 = createElement("td")
     .parent("tr-" + NextTrNum)
@@ -85,7 +98,8 @@ function strataAddButtonFunction() {
 // 平面を構成する地層の組を削除するボタンを押した時の処理
 function strataRemoveButtonFunction() {
   let strataSelect = document.getElementById("strataSelect");
-  if (strataSelect.childElementCount > 0) strataSelect.removeChild(strataSelect.lastChild);
+  if (strataSelect.childElementCount > 0)
+    strataSelect.removeChild(strataSelect.lastChild);
 }
 
 // 地点データが入力された時に動く関数
@@ -339,16 +353,26 @@ function processCSV(csvText) {
   let place_arr = [[], []];
   let test_data = {};
   let placeNum = 0;
-  for (let i = 0; i < dataRows.length - 1; i++) {
+  for (let i = 0; i < dataRows.length; i++) {
     let data = dataRows[i];
-    if (!name_arr.includes(data[0]) && data[0] !== "") {
+    // 空行をスキップ
+    if (!data[0] || data[0].trim() === "") continue;
+
+    if (!name_arr.includes(data[0])) {
       placeNum++;
       name_arr.push(data[0]);
       place_arr[0].push(parseFloat(data[1]));
       place_arr[1].push(parseFloat(data[2]));
       test_data["地点" + placeNum] = [];
     }
-    test_data["地点" + placeNum].push([parseFloat(data[3]), parseFloat(data[4]), data[5]]);
+    // 地層データを追加(深さと種類がある場合のみ)
+    if (data[3] && data[4] && data[5]) {
+      test_data["地点" + placeNum].push([
+        parseFloat(data[3]),
+        parseFloat(data[4]),
+        data[5],
+      ]);
+    }
   }
   for (let i = 0; i < name_arr.length; i++) {
     placeAddButtonFunction();
@@ -363,4 +387,5 @@ function processCSV(csvText) {
     dataInputArr["地点" + (i + 1)].layer = test_data["地点" + (i + 1)];
   }
   placeNameInputFunction();
+  console.log("CSVデータ読み込み完了:", dataInputArr);
 }
