@@ -72,7 +72,9 @@ function draw() {
 
   // ボールの更新と描画
   if (isRunning && !hasLanded) {
-    ball.update(1 / 60, GRAVITY);
+    // deltaTimeはミリ秒なので、秒に変換する
+    const dt = deltaTime / 1000;
+    ball.update(dt, GRAVITY);
 
     // 地面に到達したか確認（ボールの位置がビルの高さを超えたら）
     if (ball.y >= buildingHeight) {
