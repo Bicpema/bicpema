@@ -601,8 +601,8 @@ function calculateValue() {
       yMin = 0;
       yMax = parseFloat(ele1.value());
     }
-    zMax = parseInt(ele2.value());
-    zMin = parseInt(ele3.value());
+    zMax = parseFloat(ele2.value());
+    zMin = parseFloat(ele3.value());
   }
 
   return {
