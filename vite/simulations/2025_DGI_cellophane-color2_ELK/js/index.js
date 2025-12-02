@@ -167,33 +167,33 @@ function preload() {
   cmfTable = loadTable(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fcmf.csv?alt=media&token=df4cb716-5da8-4640-822e-5107acbdb916",
     "csv",
-    "header"
+    "header",
   ); // 等色関数のデータ
   osTable = loadTable(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fos_PC2_new_6.18.csv?alt=media&token=0ba4f938-5669-456b-81dc-e4c62c66ce46",
     "csv",
-    "header"
+    "header",
   ); // 偏光板を一枚通したときの波長毎の強度分布 PC-最新
   dTableOPP = loadTable(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fdata_d_100_film3.csv?alt=media&token=68edd450-dd93-4b8b-851f-28c1ffe14999.csv",
     "csv",
-    "header"
+    "header",
   ); //光路差の分散特性(380nmで100に規格化)
   dTable = loadTable(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fdata_d_100.csv?alt=media&token=eaf5a4d5-ab04-42fd-8245-eb4896a5eaf5",
     "csv",
-    "header"
+    "header",
   );
   rTable = loadTable(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2FR.csv?alt=media&token=203b2f68-a0c0-42c2-af5e-df5c240ea27d",
     "csv",
-    "header"
+    "header",
   ); //偏光板2枚目による強度補正分のdata
   img = loadImage(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2Fwhite.png?alt=media&token=038ee120-ec5e-4440-8130-3b764f11d25e"
+    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2Fwhite.png?alt=media&token=038ee120-ec5e-4440-8130-3b764f11d25e",
   );
   img2 = loadImage(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2FR.jpg?alt=media&token=9e82b742-fe5b-4332-af54-5796f92bd9ba"
+    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2FR.jpg?alt=media&token=9e82b742-fe5b-4332-af54-5796f92bd9ba",
   );
 }
 
@@ -304,7 +304,7 @@ function setup() {
   elCreate();
   elInit();
   initValue();
-  rBefore, gBefore, (bBefore = beforeColorCalculate());
+  (rBefore, gBefore, (bBefore = beforeColorCalculate()));
   camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
   createStartimg();
   createSliderandRadio();
@@ -321,7 +321,7 @@ function draw() {
     checked();
   } else {
   }
-  rAfter, gAfter, (bAfter = afterColorCalculate());
+  (rAfter, gAfter, (bAfter = afterColorCalculate()));
   document.getElementById("mainSpectrumGraphParent0").style.display = "none";
   document.getElementById("mainSpectrumGraphParent").style.display = "block";
   // グラフの描画
@@ -452,7 +452,7 @@ function colabNum1_normal() {
     createCellophane(numInput.value(), rotateInput.value(), z, angle_1);
     z += parseInt(numInput.value());
     //tape1枚のみに色を塗る
-    rAfter1, gAfter1, (bAfter1 = afterColorCalculate1());
+    (rAfter1, gAfter1, (bAfter1 = afterColorCalculate1()));
     drawTape_1(rAfter1, gAfter1, bAfter1, rotateInput.value());
     img.updatePixels();
   }
@@ -512,9 +512,9 @@ function colabNum1_filledimage() {
       createCellophane(numInput.value(), rotateInput.value(), z, angle_1);
       z += parseInt(numInput.value());
       //tape1枚のみに色を塗る
-      rAfter1, gAfter1, (bAfter1 = afterColorCalculate1());
+      (rAfter1, gAfter1, (bAfter1 = afterColorCalculate1()));
       processClustering(rAfter1, gAfter1, bAfter1, thresholds);
-      hAfter1, sAfter1, (vAfter1 = rgbToHsv1(rAfter1, gAfter1, bAfter1));
+      (hAfter1, sAfter1, (vAfter1 = rgbToHsv1(rAfter1, gAfter1, bAfter1)));
       Cluster1isDead = true;
     }
     // 位置情報の獲得
@@ -659,13 +659,13 @@ function colabNum2_normal() {
         //その枚数で生み出せる全ての色を生成(2角目以降)
         let binaryString = "";
         binaryString = i.toString(2).padStart(colabNum, "0"); // colabNum=2 //00,01,10,11
-        rAfter2,
+        (rAfter2,
           gAfter2,
           (bAfter2 = afterColorCalculates(
             binaryString,
             tape_angle_cal,
-            tape_number_cal
-          ));
+            tape_number_cal,
+          )));
         rAftera[i] = rAfter2;
         gAftera[i] = gAfter2;
         bAftera[i] = bAfter2;
@@ -752,7 +752,7 @@ function colabNum2_filledimage() {
         // 0 から colabNum-1 に修正
         let numInputValue2 = parseInt(select("#numInput-" + (n + 1)).value()); // 数値型に変換
         let rotateInputValue2 = parseFloat(
-          select("#rotateInput-" + (n + 1)).value()
+          select("#rotateInput-" + (n + 1)).value(),
         ); // 数値型に変換
 
         if (numInputValue2 !== last_otherCellophaneNums[n]) {
@@ -815,14 +815,16 @@ function colabNum2_filledimage() {
           let binaryString = "";
           if (i == 1) {
             binaryString = (0).toString(2).padStart(colabNum, "0");
-            rAfter2,
+            (rAfter2,
               gAfter2,
               (bAfter2 = afterColorCalculates(
                 binaryString,
                 tape_angle_cal,
-                tape_number_cal
-              ));
-            hAfter2, sAfter2, (vAfter2 = rgbToHsv2(rAfter2, gAfter2, bAfter2));
+                tape_number_cal,
+              )));
+            (hAfter2,
+              sAfter2,
+              (vAfter2 = rgbToHsv2(rAfter2, gAfter2, bAfter2)));
             rAfterak[i - 1] = rAfter2;
             gAfterak[i - 1] = gAfter2;
             bAfterak[i - 1] = bAfter2;
@@ -833,14 +835,16 @@ function colabNum2_filledimage() {
             binaryString = (Math.pow(2, i - 1) - 1)
               .toString(2)
               .padStart(colabNum, "0");
-            rAfter2,
+            (rAfter2,
               gAfter2,
               (bAfter2 = afterColorCalculates(
                 binaryString,
                 tape_angle_cal,
-                tape_number_cal
-              ));
-            hAfter2, sAfter2, (vAfter2 = rgbToHsv2(rAfter2, gAfter2, bAfter2));
+                tape_number_cal,
+              )));
+            (hAfter2,
+              sAfter2,
+              (vAfter2 = rgbToHsv2(rAfter2, gAfter2, bAfter2)));
             rAfterak[i - 1] = rAfter2;
             gAfterak[i - 1] = gAfter2;
             bAfterak[i - 1] = bAfter2;
@@ -1060,9 +1064,9 @@ function beforeColorCalculate() {
       str(gBefore) +
       "," +
       str(bBefore) +
-      ")"
+      ")",
   );
-  return rBefore, gBefore, bBefore;
+  return (rBefore, gBefore, bBefore);
 }
 
 // セロハン及び二枚目の偏光板を透過した時の処理
@@ -1118,7 +1122,7 @@ function afterColorCalculate() {
           let b = radians(targetAngle.value() - referenceAngle.value());
           E_2 = math.multiply(
             r_theta(b),
-            math.multiply(cello, math.multiply(mai_r_theta(b), E_2))
+            math.multiply(cello, math.multiply(mai_r_theta(b), E_2)),
           );
         }
       }
@@ -1133,7 +1137,7 @@ function afterColorCalculate() {
       E_3 = math.multiply(jhons(c), E_2);
       let relativeStrength = math.abs(
         math.abs(math.multiply(E_3[0], E_3[0])) +
-          math.abs(math.multiply(E_3[1], E_3[1]))
+          math.abs(math.multiply(E_3[1], E_3[1])),
       );
       osArr[i - 380] = relativeStrength * osArrOrigin[i - 380] * R_all[i - 380];
       xArrAfter[i - 380] = osArr[i - 380] * xLambda[i - 380];
@@ -1206,9 +1210,9 @@ function afterColorCalculate() {
       str(gAfter) +
       "," +
       str(bAfter) +
-      ")"
+      ")",
   );
-  return rAfter, gAfter, bAfter;
+  return (rAfter, gAfter, bAfter);
 }
 
 // セロハン及び二枚目の偏光板を透過した時の処理(セロハン1枚のみ)
@@ -1247,7 +1251,7 @@ function afterColorCalculate1() {
       E_3 = math.multiply(jhons(c), E_2);
       let relativeStrength = math.abs(
         math.abs(math.multiply(E_3[0], E_3[0])) +
-          math.abs(math.multiply(E_3[1], E_3[1]))
+          math.abs(math.multiply(E_3[1], E_3[1])),
       );
       osArr[i - 380] = relativeStrength * osArrOrigin[i - 380] * R_all[i - 380];
       xArrAfter[i - 380] = osArr[i - 380] * xLambda[i - 380];
@@ -1312,7 +1316,7 @@ function afterColorCalculate1() {
   //色を要素に反映
   //let afterColor = select("#afterColor")
   //afterColor.style("background-color:rgb(" + str(rAfter1) + "," + str(gAfter1) + "," + str(bAfter1) + ")")
-  return rAfter1, gAfter1, bAfter1;
+  return (rAfter1, gAfter1, bAfter1);
 }
 
 // セロハン及び二枚目の偏光板を透過した時の処理
@@ -1408,7 +1412,7 @@ function afterColorCalculates(binaryString) {
           if (bit[j] == 0) {
             E_2 = math.multiply(
               r_theta(b),
-              math.multiply(cello, math.multiply(mai_r_theta(b), E_2))
+              math.multiply(cello, math.multiply(mai_r_theta(b), E_2)),
             );
           } else {
             E_2 = E_2;
@@ -1437,7 +1441,7 @@ function afterColorCalculates(binaryString) {
           if (bit[k] == 0) {
             E_2 = math.multiply(
               r_theta(b),
-              math.multiply(cello, math.multiply(mai_r_theta(b), E_2))
+              math.multiply(cello, math.multiply(mai_r_theta(b), E_2)),
             ); //2024.6.21 ここでバグが生じる
           } else {
             E_2 = E_2;
@@ -1455,7 +1459,7 @@ function afterColorCalculates(binaryString) {
       E_3 = math.multiply(jhons(c), E_2);
       let relativeStrength = math.abs(
         math.abs(math.multiply(E_3[0], E_3[0])) +
-          math.abs(math.multiply(E_3[1], E_3[1]))
+          math.abs(math.multiply(E_3[1], E_3[1])),
       );
       osArr[i - 380] = relativeStrength * osArrOrigin[i - 380] * R_all[i - 380];
       xArrAfter[i - 380] = osArr[i - 380] * xLambda[i - 380];
@@ -1517,7 +1521,7 @@ function afterColorCalculates(binaryString) {
   // 色を要素に反映
   //let afterColor = select("#afterColor")
   //afterColor.style("background-color:rgb(" + str(rAfter) + "," + str(gAfter) + "," + str(bAfter) + ")")
-  return rAfter2, gAfter2, bAfter2;
+  return (rAfter2, gAfter2, bAfter2);
 
   //rAfter2 = 255-50*tape_sum
 }
@@ -1759,7 +1763,7 @@ function kmeans(data, k) {
 
   for (let i = 1; i < k; i++) {
     let distances = data.map((point) =>
-      Math.min(...centroids.map((c) => distSq(point, c)))
+      Math.min(...centroids.map((c) => distSq(point, c))),
     );
     let sumDist = distances.reduce((a, b) => a + b, 0);
     let r = random(sumDist);
@@ -1825,7 +1829,7 @@ function kmeans(data, k) {
 
   // 2. ピクセル数の少ない順にクラスタのインデックスを並び替える
   let sortedClusters = Array.from({ length: k }, (_, i) => i).sort(
-    (a, b) => clusterSizes[b] - clusterSizes[a]
+    (a, b) => clusterSizes[b] - clusterSizes[a],
   );
 
   // 3. 古いクラスタ番号 → 新しいクラスタ番号 の対応を作る
@@ -1919,7 +1923,7 @@ function rgbToHsv1(r, g, b) {
   hAfter1 = h;
   sAfter1 = s;
   vAfter1 = v;
-  return hAfter1, sAfter1, vAfter1;
+  return (hAfter1, sAfter1, vAfter1);
 }
 
 function rgbToHsv2(r, g, b) {
@@ -1958,7 +1962,7 @@ function rgbToHsv2(r, g, b) {
   hAfter2 = h;
   sAfter2 = s;
   vAfter2 = v;
-  return hAfter2, sAfter2, vAfter2;
+  return (hAfter2, sAfter2, vAfter2);
 }
 
 // windowがリサイズされたときの処理

@@ -15,7 +15,7 @@ window.onload = () => {
   };
 };
 
-let xMin,xMax,yMin,yMax,zMin,zMax;
+let xMin, xMax, yMin, yMax, zMin, zMax;
 
 // 緯度経度、深さの最小値と最大値を計算する関数
 calculateValue = (setRadioButtonValue, unitSelectValue) => {
@@ -287,7 +287,11 @@ drawStrata = (key, rotateTime, coordinateData) => {
         break;
     }
     push();
-    translate(x, map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2, y);
+    translate(
+      x,
+      map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2,
+      y,
+    );
     box(50, map(zLength, 0, zMax - zMin, 0, 500), 50);
     translate(100, 10, 0);
     fill(0);
@@ -296,7 +300,11 @@ drawStrata = (key, rotateTime, coordinateData) => {
     fill(0);
     push();
     translate();
-    text(kind, x, map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2);
+    text(
+      kind,
+      x,
+      map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2,
+    );
     pop();
   }
   fill(0);
@@ -409,11 +417,70 @@ function connectStrata() {
       p2Max = map(p2Max, zMin, zMax, 0, 500);
       p3Min = map(p3Min, zMin, zMax, 0, 500);
       p3Max = map(p3Max, zMin, zMax, 0, 500);
-      createPlane1(p1[0], p1[1], p1Min, p2[0], p2[1], p2Min, p3[0], p3[1], p3Min);
-      createPlane1(p1[0], p1[1], p1Max, p2[0], p2[1], p2Max, p3[0], p3[1], p3Max);
-      createPlane2(p1[0], p1[1], p1Min, p2[0], p2[1], p2Min, p2[0], p2[1], p2Max, p1[0], p1[1], p1Max);
-      createPlane2(p1[0], p1[1], p1Min, p3[0], p3[1], p3Min, p3[0], p3[1], p3Max, p1[0], p1[1], p1Max);
-      createPlane2(p2[0], p2[1], p2Min, p3[0], p3[1], p3Min, p3[0], p3[1], p3Max, p2[0], p2[1], p2Max);
+      createPlane1(
+        p1[0],
+        p1[1],
+        p1Min,
+        p2[0],
+        p2[1],
+        p2Min,
+        p3[0],
+        p3[1],
+        p3Min,
+      );
+      createPlane1(
+        p1[0],
+        p1[1],
+        p1Max,
+        p2[0],
+        p2[1],
+        p2Max,
+        p3[0],
+        p3[1],
+        p3Max,
+      );
+      createPlane2(
+        p1[0],
+        p1[1],
+        p1Min,
+        p2[0],
+        p2[1],
+        p2Min,
+        p2[0],
+        p2[1],
+        p2Max,
+        p1[0],
+        p1[1],
+        p1Max,
+      );
+      createPlane2(
+        p1[0],
+        p1[1],
+        p1Min,
+        p3[0],
+        p3[1],
+        p3Min,
+        p3[0],
+        p3[1],
+        p3Max,
+        p1[0],
+        p1[1],
+        p1Max,
+      );
+      createPlane2(
+        p2[0],
+        p2[1],
+        p2Min,
+        p3[0],
+        p3[1],
+        p3Min,
+        p3[0],
+        p3[1],
+        p3Max,
+        p2[0],
+        p2[1],
+        p2Max,
+      );
     }
   }
 }

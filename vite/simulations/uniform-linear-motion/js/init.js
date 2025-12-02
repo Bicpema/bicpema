@@ -6,7 +6,7 @@ const elInit = () => {
   const GRAPH = createDiv(
     `
         <canvas id="graphCanvas"></canvas>
-      `
+      `,
   )
     .id("graph")
     .parent(select("#p5Container"))
@@ -18,7 +18,7 @@ const elInit = () => {
         <button type="button" class="btn btn-secondary" id="graphButton">
           グラフの切り替え
         </button>
-      `
+      `,
   )
     .id("graphButtonParent")
     .parent(select("#p5Container"));
@@ -62,7 +62,7 @@ const elInit = () => {
             </div>
           </div>
         </div>
-      `
+      `,
   )
     .class("modal fade")
     .id("modal")
@@ -71,7 +71,9 @@ const elInit = () => {
     .attribute("aria-labelledby", "modalLabel")
     .attribute("aria-hidden", "true");
 
-  const YELLOW_CAR_SPEED_INPUT = select("#yellowCarSpeedInput").changed(initValue);
+  const YELLOW_CAR_SPEED_INPUT = select("#yellowCarSpeedInput").changed(
+    initValue,
+  );
   const RED_CAR_SPEED_INPUT = select("#redCarSpeedInput").changed(initValue);
 };
 
@@ -84,12 +86,24 @@ const elSetting = () => {
   // リサイズ処理
   if (width <= 992) {
     GRAPH.position((windowWidth - width) / 2, height + 125).size(width, width);
-    GRAPH_BUTTON_PARENT.position((windowWidth - width) / 2, height + width + 140);
+    GRAPH_BUTTON_PARENT.position(
+      (windowWidth - width) / 2,
+      height + width + 140,
+    );
   } else {
-    GRAPH.position(windowWidth / 2 - width / 4, height + 125).size(width / 2, width / 2);
-    GRAPH_BUTTON_PARENT.position(windowWidth / 2 - width / 4, height + width / 2 + 140);
+    GRAPH.position(windowWidth / 2 - width / 4, height + 125).size(
+      width / 2,
+      width / 2,
+    );
+    GRAPH_BUTTON_PARENT.position(
+      windowWidth / 2 - width / 4,
+      height + width / 2 + 140,
+    );
   }
-  const MODAL_BUTTON = select("#modalButton").position(windowWidth / 2 - width / 2, 60 + height + 10);
+  const MODAL_BUTTON = select("#modalButton").position(
+    windowWidth / 2 - width / 2,
+    60 + height + 10,
+  );
 };
 
 /**
@@ -114,8 +128,22 @@ const initValue = () => {
     carNum = Math.floor(20 / yMin);
   }
 
-  YELLOW_CAR = new CAR(0, CANVAS_HEIGHT / 2 - YELLOW_CAR_IMG.height - 50, YELLOW_CAR_IMG, YELLOW_CAR_SPEED, [], []);
-  RED_CAR = new CAR(0, CANVAS_HEIGHT - RED_CAR_IMAGE.height - 50, RED_CAR_IMAGE, RED_CAR_SPEED, [], []);
+  YELLOW_CAR = new CAR(
+    0,
+    CANVAS_HEIGHT / 2 - YELLOW_CAR_IMG.height - 50,
+    YELLOW_CAR_IMG,
+    YELLOW_CAR_SPEED,
+    [],
+    [],
+  );
+  RED_CAR = new CAR(
+    0,
+    CANVAS_HEIGHT - RED_CAR_IMAGE.height - 50,
+    RED_CAR_IMAGE,
+    RED_CAR_SPEED,
+    [],
+    [],
+  );
 
   for (let i = 0; i <= carNum; i++) {
     YELLOW_CAR.xarr.push({ x: i, y: YELLOW_CAR.speed * i });

@@ -119,7 +119,7 @@ function placeNameInputFunction() {
         let win = window.open(
           "/vite/simulations/3d-strata/childWindow.html?" + placeName,
           "window_name",
-          "width=1000,height=500"
+          "width=1000,height=500",
         );
       };
   }
@@ -162,7 +162,7 @@ function placeAddButtonFunction() {
       let win = window.open(
         "/vite/simulations/3d-strata/childWindow.html?" + placeName,
         "window_name",
-        "width=1000,height=500"
+        "width=1000,height=500",
       );
     };
 
@@ -641,9 +641,9 @@ function setup() {
     () => {
       // フォント読み込み失敗時はテキストを表示しない
       console.warn(
-        "Japanese font could not be loaded. Text labels will not be displayed."
+        "Japanese font could not be loaded. Text labels will not be displayed.",
       );
-    }
+    },
   );
 }
 
@@ -862,7 +862,7 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
     translate(
       x,
       map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2,
-      y
+      y,
     );
     box(50, map(zLength, 0, zMax - zMin, 0, 500), 50);
     translate(100, 10, 0);
@@ -875,7 +875,7 @@ function drawStrata(key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
       text(
         kind,
         x,
-        map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2
+        map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2,
       );
     }
     pop();
@@ -1102,7 +1102,7 @@ function draw() {
         p2Min,
         p3[0],
         p3[1],
-        p3Min
+        p3Min,
       );
       createPlane1(
         p1[0],
@@ -1113,7 +1113,7 @@ function draw() {
         p2Max,
         p3[0],
         p3[1],
-        p3Max
+        p3Max,
       );
       createPlane2(
         p1[0],
@@ -1127,7 +1127,7 @@ function draw() {
         p2Max,
         p1[0],
         p1[1],
-        p1Max
+        p1Max,
       );
       createPlane2(
         p1[0],
@@ -1141,7 +1141,7 @@ function draw() {
         p3Max,
         p1[0],
         p1[1],
-        p1Max
+        p1Max,
       );
       createPlane2(
         p2[0],
@@ -1155,7 +1155,7 @@ function draw() {
         p3Max,
         p2[0],
         p2[1],
-        p2Max
+        p2Max,
       );
     }
   }
@@ -1192,7 +1192,7 @@ function draw() {
           p2Min,
           p3[0],
           p3[1],
-          p3Min
+          p3Min,
         );
         createPlane1(
           p1[0],
@@ -1203,7 +1203,7 @@ function draw() {
           p2Max,
           p3[0],
           p3[1],
-          p3Max
+          p3Max,
         );
         createPlane2(
           p1[0],
@@ -1217,7 +1217,7 @@ function draw() {
           p2Max,
           p1[0],
           p1[1],
-          p1Max
+          p1Max,
         );
         createPlane2(
           p1[0],
@@ -1231,7 +1231,7 @@ function draw() {
           p3Max,
           p1[0],
           p1[1],
-          p1Max
+          p1Max,
         );
         createPlane2(
           p2[0],
@@ -1245,7 +1245,7 @@ function draw() {
           p3Max,
           p2[0],
           p2[1],
-          p2Max
+          p2Max,
         );
       }
     }
@@ -1309,7 +1309,7 @@ class DOM {
     // サブウィンドウ生成用のDOM
     this.placeDataInput = createA(
       "javascript:void(0)",
-      "地点" + str(this.n) + "のデータを編集"
+      "地点" + str(this.n) + "のデータを編集",
     )
       .class("btn btn-outline-primary mb-2")
       .parent("placePointDataInput")
