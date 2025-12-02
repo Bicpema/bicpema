@@ -1,7 +1,3 @@
-// init.jsは初期処理専用のファイルです。
-
-/////////////////////////// 以上の記述は不必要であれば削除してください。/////////////////////////////////
-
 // settingInit関数
 // シミュレーションそのものの設定を行う関数
 const FPS = 30;
@@ -17,30 +13,35 @@ function settingInit() {
 
 // elementSelectInit関数
 // 仮想DOMを読み込むための関数
-// グラフを利用する際には、graph,graphCanvasのコメントアウトをはずしてください。
-//   let graph, graphCanvas;
-let heightSlider, heightValue, resetButton, playPauseButton;
+let heightInput,
+  resetButton,
+  playPauseButton,
+  toggleModal,
+  closeModal,
+  settingsModal;
 function elementSelectInit() {
-  //   graph = select("#graph");
-  //   graphCanvas = select("#graphCanvas");
-  heightSlider = select("#heightSlider");
-  heightValue = select("#heightValue");
+  heightInput = select("#heightInput");
   resetButton = select("#resetButton");
   playPauseButton = select("#playPauseButton");
+  toggleModal = select("#toggleModal");
+  closeModal = select("#closeModal");
+  settingsModal = select("#settingsModal");
 }
 
 // elementPositionInit関数
 // 仮想DOMの場所や実行関数を設定するための関数
 function elementPositionInit() {
-  heightSlider.input(onHeightChange);
+  heightInput.input(onHeightChange);
   resetButton.mousePressed(onReset);
   playPauseButton.mousePressed(onPlayPause);
+  toggleModal.mousePressed(onToggleModal);
+  closeModal.mousePressed(onCloseModal);
 }
 
 // valueInit関数
 // 初期値を設定するための関数
 let ball;
 function valueInit() {
-  const initialHeight = parseFloat(heightSlider.value());
+  const initialHeight = parseFloat(heightInput.value());
   ball = new Ball(initialHeight, 0);
 }

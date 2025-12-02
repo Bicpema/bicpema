@@ -1,48 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-
-<head>
+  <head>
     <title>鉛直投げ下ろし運動</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script type="module" src="/js/common.js"></script>
     <link href="./css/style.css" rel="stylesheet" vite-ignore />
-</head>
+  </head>
 
-<body class="bg-dark">
-
-    <nav class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top" data-bs-theme="dark"
-        id="navBar">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
-            <span class="text-light fw-lighter">鉛直投げ下ろし運動</span>
-        </div>
+  <body class="bg-dark">
+    <nav
+      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
+      data-bs-theme="dark"
+      id="navBar"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
+        <span class="text-light fw-lighter">鉛直投げ下ろし運動</span>
+      </div>
     </nav>
 
     <div class="container-fluid" id="p5Container">
-        <div id="p5Canvas">
-        </div>
+      <div id="p5Canvas"></div>
 
-        <div id="controls" class="text-light mt-3">
-            <div class="row">
-                <div class="col-md-6">
-                    <label for="heightSlider">初期高さ (m): <span id="heightValue">50</span></label>
-                    <input type="range" class="form-range" id="heightSlider" min="10" max="100" value="50" step="1">
-                </div>
-                <div class="col-md-6">
-                    <button id="resetButton" class="btn btn-primary">リセット</button>
-                    <button id="playPauseButton" class="btn btn-success">開始</button>
-                </div>
-            </div>
+      <!-- モーダルパネル -->
+      <div id="settingsModal" class="settings-modal" style="display: none">
+        <div class="modal-content">
+          <h5>設定</h5>
+          <div class="mb-3">
+            <label for="heightInput" class="form-label">ボールの高さ (m)</label>
+            <input
+              type="number"
+              class="form-control"
+              id="heightInput"
+              min="10"
+              max="100"
+              value="50"
+              step="1"
+            />
+          </div>
+          <button id="closeModal" class="btn btn-secondary w-100">
+            閉じる
+          </button>
         </div>
+      </div>
 
+      <!-- 左下コントロール -->
+      <div class="left-bottom-controls">
+        <button id="resetButton" class="btn btn-primary">🔄 リセット</button>
+        <button id="playPauseButton" class="btn btn-success">▶ 開始</button>
+      </div>
+
+      <!-- 右上コントロール -->
+      <div class="right-top-controls">
+        <button id="toggleModal" class="btn btn-info">⚙ 設定</button>
+      </div>
     </div>
-    <script language="javascript" type="text/javascript" src="./js/elementFunction.js" vite-ignore></script>
-    <script language="javascript" type="text/javascript" src="./js/function.js" vite-ignore></script>
-    <script language="javascript" type="text/javascript" src="./js/class.js" vite-ignore></script>
-    <script language="javascript" type="text/javascript" src="./js/init.js" vite-ignore></script>
-    <script language="javascript" type="text/javascript" src="./js/index.js" vite-ignore></script>
-    <script language="javascript" type="text/javascript" src="./js/graph.js" vite-ignore></script>
-</body>
-
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./js/elementFunction.js"
+      vite-ignore
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./js/function.js"
+      vite-ignore
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./js/class.js"
+      vite-ignore
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./js/init.js"
+      vite-ignore
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./js/index.js"
+      vite-ignore
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./js/graph.js"
+      vite-ignore
+    ></script>
+  </body>
 </html>

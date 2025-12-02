@@ -1,20 +1,3 @@
-// class.jsはクラス管理専用のファイルです。
-
-// クラスの定義方法の例
-// class ExampleClass{
-//     constructor(p1,p2){
-//         this.property1 =p1;
-//         this.property2 =p2;
-//     }
-//     exampleMethod(){
-//         this.property1 += this.property2
-//     }
-// }
-
-/////////////////////////// 以上の記述は不必要であれば削除してください。/////////////////////////////////
-
-// 以下にクラスを定義してください。
-
 /**
  * Ballクラス
  * 鉛直投げ下ろし運動をする物体を表現
@@ -52,8 +35,8 @@ class Ball {
       (this.initialVelocity * this.time + 0.5 * this.g * this.time * this.time);
 
     // 地面に到達したら停止
-    if (this.height <= 0) {
-      this.height = 0;
+    if (this.height <= 1) {
+      this.height = 1;
       this.isMoving = false;
     }
   }
@@ -63,19 +46,25 @@ class Ball {
    * @param {number} canvasHeight キャンバスの高さ
    */
   display(canvasHeight) {
+    // ビルの固定サイズ
+    const buildingHeight = 400; // ビルの高さを固定
+    const groundHeight = 50;
+
+    // ビルの位置（キャンバスの中央やや左）
+    const buildingCenterX = 400;
+
     // 座標系の変換 (物理座標からキャンバス座標へ)
-    const maxHeight = this.initialHeight + 10;
-    const scale = (canvasHeight - 100) / maxHeight;
-    const y = canvasHeight - 50 - this.height * scale;
-    const x = 500; // 中央に配置
+    // ボールの高さをビルの高さに基づいてスケーリング
+    const scale = buildingHeight / 100; // 100mの高さに対してビルの高さを使用
+    const ballY =
+      canvasHeight - groundHeight - this.height * scale - this.radius;
 
     // 背景にビルの画像を描画
     if (typeof tallBuildingImage !== "undefined") {
-      const buildingHeight = this.initialHeight * scale;
       const buildingWidth =
         buildingHeight * (tallBuildingImage.width / tallBuildingImage.height);
-      const buildingX = x - buildingWidth / 2;
-      const buildingY = canvasHeight - 50 - buildingHeight;
+      const buildingX = buildingCenterX - buildingWidth / 2;
+      const buildingY = canvasHeight - groundHeight - buildingHeight;
 
       imageMode(CORNER);
       image(
@@ -83,32 +72,83 @@ class Ball {
         buildingX,
         buildingY,
         buildingWidth,
-        buildingHeight
+        buildingHeight,
+      );
+
+      // 初期位置の点線を描画（ビルの横幅と同じ長さ）
+      const initialBallY =
+        canvasHeight - groundHeight - this.initialHeight * scale;
+      stroke(0, 0, 0);
+      strokeWeight(3);
+      drawingContext.setLineDash([10, 10]);
+      line(
+        buildingX + buildingWidth,
+        initialBallY,
+        buildingX + 2 * buildingWidth,
+        initialBallY,
+      );
+      drawingContext.setLineDash([]);
+
+      // 点線の右側に初期高さを描画
+      fill(0, 0, 0);
+      noStroke();
+      textAlign(LEFT, CENTER);
+      textSize(16);
+      text(
+        `${this.initialHeight.toFixed(0)} m`,
+        buildingX + 2 * buildingWidth + 10,
+        initialBallY,
       );
     }
 
+    // ボールをビルの右側に配置
+    const buildingWidth =
+      buildingHeight * (tallBuildingImage.width / tallBuildingImage.height);
+    const ballX = buildingCenterX + buildingWidth;
+
     // ボール
+    if (typeof ballImage !== "undefined") {
+      imageMode(CENTER);
+      image(ballImage, ballX, ballY, this.radius * 2, this.radius * 2);
+    } else {
+      fill(255, 100, 100);
+      noStroke();
+      circle(ballX, ballY, this.radius * 2);
+    }
+
+    // ボールの右側に速度を描画
     fill(255, 100, 100);
     noStroke();
-    circle(x, y, this.radius * 2);
+    textAlign(LEFT, CENTER);
+    textSize(16);
+    text(`${this.velocity.toFixed(1)} m/s`, ballX + this.radius + 10, ballY);
 
     // 地面
-    stroke(255);
-    strokeWeight(2);
-    line(0, canvasHeight - 50, 1000, canvasHeight - 50);
+    if (typeof groundImage !== "undefined") {
+      const groundWidth = 1000;
+      imageMode(CORNER);
+      image(
+        groundImage,
+        0,
+        canvasHeight - groundHeight - 10, // 微調整
+        groundWidth,
+        groundHeight,
+      );
+    } else {
+      stroke(255);
+      strokeWeight(2);
+      line(0, canvasHeight - groundHeight, 1000, canvasHeight - groundHeight);
+    }
 
-    // 高さのライン
-    stroke(100, 100, 255);
-    strokeWeight(1);
-    line(x, y, x, canvasHeight - 50);
-
-    // 情報表示
+    // 情報表示（右上）
     fill(255);
     noStroke();
-    textAlign(LEFT, TOP);
-    text(`時間: ${this.time.toFixed(2)} s`, 20, 20);
-    text(`高さ: ${this.height.toFixed(2)} m`, 20, 45);
-    text(`速度: ${this.velocity.toFixed(2)} m/s`, 20, 70);
+    textAlign(RIGHT, TOP);
+    textSize(18);
+    const rightX = canvasHeight * (16 / 9) - 20; // キャンバスの右端
+    text(`時間: ${this.time.toFixed(2)} s`, rightX, 20);
+    text(`高さ: ${this.height.toFixed(2)} m`, rightX, 50);
+    text(`速度: ${this.velocity.toFixed(2)} m/s`, rightX, 80);
   }
 
   /**

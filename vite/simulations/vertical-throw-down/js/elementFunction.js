@@ -1,20 +1,16 @@
-// elementFunction.jsは仮想DOMメソッド管理専用のファイルです。
-
-// メソッドの定義方法の例
-// function exampleMethod() {
-//   console.log("これは例です。");
-// }
-
-/////////////////////////// 以上の記述は不必要であれば削除してください。/////////////////////////////////
-
-// 以下に仮想DOMメソッドを定義してください。
-
 /**
- * 高さスライダーの値が変更されたときの処理
+ * 高さ入力の値が変更されたときの処理
  */
 function onHeightChange() {
-  const newHeight = parseFloat(heightSlider.value());
-  heightValue.html(newHeight);
+  let newHeight = parseFloat(heightInput.value());
+  // 入力値のバリデーション
+  if (isNaN(newHeight) || newHeight < 10) {
+    newHeight = 10;
+    heightInput.value(10);
+  } else if (newHeight > 100) {
+    newHeight = 100;
+    heightInput.value(100);
+  }
   if (!ball.isMoving) {
     ball.reset(newHeight);
   }
@@ -24,9 +20,9 @@ function onHeightChange() {
  * リセットボタンが押されたときの処理
  */
 function onReset() {
-  const newHeight = parseFloat(heightSlider.value());
+  const newHeight = parseFloat(heightInput.value());
   ball.reset(newHeight);
-  playPauseButton.html("開始");
+  playPauseButton.html("▶ 開始");
 }
 
 /**
@@ -35,12 +31,31 @@ function onReset() {
 function onPlayPause() {
   if (ball.isMoving) {
     ball.stop();
-    playPauseButton.html("再開");
+    playPauseButton.html("▶ 再開");
   } else {
     if (ball.height <= 0) {
       ball.reset(parseFloat(heightSlider.value()));
     }
     ball.start();
-    playPauseButton.html("停止");
+    playPauseButton.html("⏸ 停止");
   }
+}
+
+/**
+ * モーダルを表示/非表示
+ */
+function onToggleModal() {
+  const currentDisplay = settingsModal.style("display");
+  if (currentDisplay === "none") {
+    settingsModal.style("display", "block");
+  } else {
+    settingsModal.style("display", "none");
+  }
+}
+
+/**
+ * モーダルを閉じる
+ */
+function onCloseModal() {
+  settingsModal.style("display", "none");
 }
