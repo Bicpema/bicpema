@@ -44,6 +44,7 @@ aliases: []
 - **自由端反射波**: $y' = A\sin(kx + \omega t)$
 
 ここで:
+
 - $A$: 振幅
 - $k = \frac{2\pi}{\lambda}$: 波数($\lambda$は波長)
 - $\omega = 2\pi f$: 角振動数($f$は周波数)
