@@ -34,7 +34,7 @@ function onPlayPause() {
     playPauseButton.html("▶ 再開");
   } else {
     if (ball.height <= 0) {
-      ball.reset(parseFloat(heightSlider.value()));
+      ball.reset(parseFloat(heightInput.value()));
     }
     ball.start();
     playPauseButton.html("⏸ 停止");
