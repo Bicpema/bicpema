@@ -1,8 +1,8 @@
 ---
 name: copilot issue
 about: github copilot coding agent 用のカスタムIssueテンプレートです。
-title: ''
-labels: ''
+title: ""
+labels: ""
 assignees: Copilot
 ---
 

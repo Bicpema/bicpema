@@ -304,7 +304,7 @@ function setup() {
   elCreate();
   elInit();
   initValue();
-  rBefore, gBefore, (bBefore = beforeColorCalculate());
+  (rBefore, gBefore, (bBefore = beforeColorCalculate()));
   camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
   createStartimg();
   createSliderandRadio();
@@ -321,7 +321,7 @@ function draw() {
     checked();
   } else {
   }
-  rAfter, gAfter, (bAfter = afterColorCalculate());
+  (rAfter, gAfter, (bAfter = afterColorCalculate()));
   document.getElementById("mainSpectrumGraphParent0").style.display = "none";
   document.getElementById("mainSpectrumGraphParent").style.display = "block";
   // グラフの描画
@@ -452,7 +452,7 @@ function colabNum1_normal() {
     createCellophane(numInput.value(), rotateInput.value(), z, angle_1);
     z += parseInt(numInput.value());
     //tape1枚のみに色を塗る
-    rAfter1, gAfter1, (bAfter1 = afterColorCalculate1());
+    (rAfter1, gAfter1, (bAfter1 = afterColorCalculate1()));
     drawTape_1(rAfter1, gAfter1, bAfter1, rotateInput.value());
     img.updatePixels();
   }
@@ -512,9 +512,9 @@ function colabNum1_filledimage() {
       createCellophane(numInput.value(), rotateInput.value(), z, angle_1);
       z += parseInt(numInput.value());
       //tape1枚のみに色を塗る
-      rAfter1, gAfter1, (bAfter1 = afterColorCalculate1());
+      (rAfter1, gAfter1, (bAfter1 = afterColorCalculate1()));
       processClustering(rAfter1, gAfter1, bAfter1, thresholds);
-      hAfter1, sAfter1, (vAfter1 = rgbToHsv1(rAfter1, gAfter1, bAfter1));
+      (hAfter1, sAfter1, (vAfter1 = rgbToHsv1(rAfter1, gAfter1, bAfter1)));
       Cluster1isDead = true;
     }
     // 位置情報の獲得
@@ -659,13 +659,13 @@ function colabNum2_normal() {
         //その枚数で生み出せる全ての色を生成(2角目以降)
         let binaryString = "";
         binaryString = i.toString(2).padStart(colabNum, "0"); // colabNum=2 //00,01,10,11
-        rAfter2,
+        (rAfter2,
           gAfter2,
           (bAfter2 = afterColorCalculates(
             binaryString,
             tape_angle_cal,
             tape_number_cal
-          ));
+          )));
         rAftera[i] = rAfter2;
         gAftera[i] = gAfter2;
         bAftera[i] = bAfter2;
@@ -815,14 +815,16 @@ function colabNum2_filledimage() {
           let binaryString = "";
           if (i == 1) {
             binaryString = (0).toString(2).padStart(colabNum, "0");
-            rAfter2,
+            (rAfter2,
               gAfter2,
               (bAfter2 = afterColorCalculates(
                 binaryString,
                 tape_angle_cal,
                 tape_number_cal
-              ));
-            hAfter2, sAfter2, (vAfter2 = rgbToHsv2(rAfter2, gAfter2, bAfter2));
+              )));
+            (hAfter2,
+              sAfter2,
+              (vAfter2 = rgbToHsv2(rAfter2, gAfter2, bAfter2)));
             rAfterak[i - 1] = rAfter2;
             gAfterak[i - 1] = gAfter2;
             bAfterak[i - 1] = bAfter2;
@@ -833,14 +835,16 @@ function colabNum2_filledimage() {
             binaryString = (Math.pow(2, i - 1) - 1)
               .toString(2)
               .padStart(colabNum, "0");
-            rAfter2,
+            (rAfter2,
               gAfter2,
               (bAfter2 = afterColorCalculates(
                 binaryString,
                 tape_angle_cal,
                 tape_number_cal
-              ));
-            hAfter2, sAfter2, (vAfter2 = rgbToHsv2(rAfter2, gAfter2, bAfter2));
+              )));
+            (hAfter2,
+              sAfter2,
+              (vAfter2 = rgbToHsv2(rAfter2, gAfter2, bAfter2)));
             rAfterak[i - 1] = rAfter2;
             gAfterak[i - 1] = gAfter2;
             bAfterak[i - 1] = bAfter2;
@@ -1062,7 +1066,7 @@ function beforeColorCalculate() {
       str(bBefore) +
       ")"
   );
-  return rBefore, gBefore, bBefore;
+  return (rBefore, gBefore, bBefore);
 }
 
 // セロハン及び二枚目の偏光板を透過した時の処理
@@ -1208,7 +1212,7 @@ function afterColorCalculate() {
       str(bAfter) +
       ")"
   );
-  return rAfter, gAfter, bAfter;
+  return (rAfter, gAfter, bAfter);
 }
 
 // セロハン及び二枚目の偏光板を透過した時の処理(セロハン1枚のみ)
@@ -1312,7 +1316,7 @@ function afterColorCalculate1() {
   //色を要素に反映
   //let afterColor = select("#afterColor")
   //afterColor.style("background-color:rgb(" + str(rAfter1) + "," + str(gAfter1) + "," + str(bAfter1) + ")")
-  return rAfter1, gAfter1, bAfter1;
+  return (rAfter1, gAfter1, bAfter1);
 }
 
 // セロハン及び二枚目の偏光板を透過した時の処理
@@ -1517,7 +1521,7 @@ function afterColorCalculates(binaryString) {
   // 色を要素に反映
   //let afterColor = select("#afterColor")
   //afterColor.style("background-color:rgb(" + str(rAfter) + "," + str(gAfter) + "," + str(bAfter) + ")")
-  return rAfter2, gAfter2, bAfter2;
+  return (rAfter2, gAfter2, bAfter2);
 
   //rAfter2 = 255-50*tape_sum
 }
@@ -1919,7 +1923,7 @@ function rgbToHsv1(r, g, b) {
   hAfter1 = h;
   sAfter1 = s;
   vAfter1 = v;
-  return hAfter1, sAfter1, vAfter1;
+  return (hAfter1, sAfter1, vAfter1);
 }
 
 function rgbToHsv2(r, g, b) {
@@ -1958,7 +1962,7 @@ function rgbToHsv2(r, g, b) {
   hAfter2 = h;
   sAfter2 = s;
   vAfter2 = v;
-  return hAfter2, sAfter2, vAfter2;
+  return (hAfter2, sAfter2, vAfter2);
 }
 
 // windowがリサイズされたときの処理

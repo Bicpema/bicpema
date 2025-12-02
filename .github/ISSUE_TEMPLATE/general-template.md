@@ -1,10 +1,9 @@
 ---
 name: general template
 about: 汎用的なIssueテンプレートです。
-title: ''
+title: ""
 labels: not triaged
-assignees: ''
-
+assignees: ""
 ---
 
 ## 概要

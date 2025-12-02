@@ -36,7 +36,11 @@ class CAR {
     strokeWeight(3);
     for (let i = 0; i < this.xarr.length; i++) {
       if ((this.xarr[i]["y"] - this.xarr[0]["y"]) * 50 < this.posx) {
-        image(this.img, (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50 - this.img.width / 2, this.posy);
+        image(
+          this.img,
+          (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50 - this.img.width / 2,
+          this.posy
+        );
         line(
           (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50,
           this.posy + this.img.height - 10,

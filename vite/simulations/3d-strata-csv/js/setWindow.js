@@ -16,9 +16,12 @@ window.onload = () => {
   let layersNum = layers.length;
   for (let i = 0; i < layersNum; i++) {
     trAddButtonFunction();
-    document.getElementById("td1Input" + (i + 1).toString()).value = layers[i][0];
-    document.getElementById("td2Input" + (i + 1).toString()).value = layers[i][1];
-    document.getElementById("td3Select" + (i + 1).toString()).value = layers[i][2];
+    document.getElementById("td1Input" + (i + 1).toString()).value =
+      layers[i][0];
+    document.getElementById("td2Input" + (i + 1).toString()).value =
+      layers[i][1];
+    document.getElementById("td3Select" + (i + 1).toString()).value =
+      layers[i][2];
   }
 };
 
@@ -65,7 +68,11 @@ function draw() {
 
   // input要素からvalueを取得
   for (let i = 0; i < trArr.length; i++) {
-    strataData.push([trArr[i].td1Input.value(), trArr[i].td2Input.value(), trArr[i].td3Select.value()]);
+    strataData.push([
+      trArr[i].td1Input.value(),
+      trArr[i].td2Input.value(),
+      trArr[i].td3Select.value(),
+    ]);
   }
 
   // ヘッダー部分のhtml要素から地点名を取得

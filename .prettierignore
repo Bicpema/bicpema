@@ -1,1 +1,22 @@
+# Dependencies
+node_modules
+__pycache__
+
+# Build outputs
+public
+resources
+vite/_build
+dist
+
+# Hugo
+.hugo_build.lock
+
+# Git
+.git
+
+# Themes (managed separately)
 themes
+
+# Configuration
+*.min.js
+*.min.css
