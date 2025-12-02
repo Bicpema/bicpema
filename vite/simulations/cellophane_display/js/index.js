@@ -168,33 +168,33 @@ function preload() {
   cmfTable = loadTable(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fcmf.csv?alt=media&token=df4cb716-5da8-4640-822e-5107acbdb916",
     "csv",
-    "header",
+    "header"
   ); // 等色関数のデータ
   osTable = loadTable(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fos_PC2_new_6.18.csv?alt=media&token=0ba4f938-5669-456b-81dc-e4c62c66ce46",
     "csv",
-    "header",
+    "header"
   ); // 偏光板を一枚通したときの波長毎の強度分布 PC-最新
   dTableOPP = loadTable(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fdata_d_100_film3.csv?alt=media&token=68edd450-dd93-4b8b-851f-28c1ffe14999.csv",
     "csv",
-    "header",
+    "header"
   ); //光路差の分散特性(380nmで100に規格化)
   dTable = loadTable(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fdata_d_100.csv?alt=media&token=eaf5a4d5-ab04-42fd-8245-eb4896a5eaf5",
     "csv",
-    "header",
+    "header"
   );
   rTable = loadTable(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2FR.csv?alt=media&token=203b2f68-a0c0-42c2-af5e-df5c240ea27d",
     "csv",
-    "header",
+    "header"
   ); //偏光板2枚目による強度補正分のdata
   img = loadImage(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2Fwhite.png?alt=media&token=038ee120-ec5e-4440-8130-3b764f11d25e",
+    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2Fwhite.png?alt=media&token=038ee120-ec5e-4440-8130-3b764f11d25e"
   );
   img2 = loadImage(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2FR.jpg?alt=media&token=9e82b742-fe5b-4332-af54-5796f92bd9ba",
+    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2FR.jpg?alt=media&token=9e82b742-fe5b-4332-af54-5796f92bd9ba"
   );
 }
 
@@ -572,7 +572,7 @@ function colabNum2_normal() {
           (bAfter2 = afterColorCalculates(
             binaryString,
             tape_angle_cal,
-            tape_number_cal,
+            tape_number_cal
           )));
         rAftera[i] = rAfter2;
         gAftera[i] = gAfter2;
@@ -804,7 +804,7 @@ function afterColorCalculate() {
           let b = radians(targetAngle.value() - referenceAngle.value());
           E_2 = math.multiply(
             r_theta(b),
-            math.multiply(cello, math.multiply(mai_r_theta(b), E_2)),
+            math.multiply(cello, math.multiply(mai_r_theta(b), E_2))
           );
         }
       }
@@ -819,7 +819,7 @@ function afterColorCalculate() {
       E_3 = math.multiply(jhons(c), E_2);
       let relativeStrength = math.abs(
         math.abs(math.multiply(E_3[0], E_3[0])) +
-          math.abs(math.multiply(E_3[1], E_3[1])),
+          math.abs(math.multiply(E_3[1], E_3[1]))
       );
       osArr[i - 380] = relativeStrength * osArrOrigin[i - 380] * R_all[i - 380];
       xArrAfter[i - 380] = osArr[i - 380] * xLambda[i - 380];
@@ -925,7 +925,7 @@ function afterColorCalculate1() {
       E_3 = math.multiply(jhons(c), E_2);
       let relativeStrength = math.abs(
         math.abs(math.multiply(E_3[0], E_3[0])) +
-          math.abs(math.multiply(E_3[1], E_3[1])),
+          math.abs(math.multiply(E_3[1], E_3[1]))
       );
       osArr[i - 380] = relativeStrength * osArrOrigin[i - 380] * R_all[i - 380];
       xArrAfter[i - 380] = osArr[i - 380] * xLambda[i - 380];
@@ -1086,7 +1086,7 @@ function afterColorCalculates(binaryString) {
           if (bit[j] == 0) {
             E_2 = math.multiply(
               r_theta(b),
-              math.multiply(cello, math.multiply(mai_r_theta(b), E_2)),
+              math.multiply(cello, math.multiply(mai_r_theta(b), E_2))
             );
           } else {
             E_2 = E_2;
@@ -1115,7 +1115,7 @@ function afterColorCalculates(binaryString) {
           if (bit[k] == 0) {
             E_2 = math.multiply(
               r_theta(b),
-              math.multiply(cello, math.multiply(mai_r_theta(b), E_2)),
+              math.multiply(cello, math.multiply(mai_r_theta(b), E_2))
             ); //2024.6.21 ここでバグが生じる
           } else {
             E_2 = E_2;
@@ -1133,7 +1133,7 @@ function afterColorCalculates(binaryString) {
       E_3 = math.multiply(jhons(c), E_2);
       let relativeStrength = math.abs(
         math.abs(math.multiply(E_3[0], E_3[0])) +
-          math.abs(math.multiply(E_3[1], E_3[1])),
+          math.abs(math.multiply(E_3[1], E_3[1]))
       );
       osArr[i - 380] = relativeStrength * osArrOrigin[i - 380] * R_all[i - 380];
       xArrAfter[i - 380] = osArr[i - 380] * xLambda[i - 380];

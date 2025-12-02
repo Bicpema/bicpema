@@ -290,7 +290,7 @@ drawStrata = (key, rotateTime, coordinateData) => {
     translate(
       x,
       map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2,
-      y,
+      y
     );
     box(50, map(zLength, 0, zMax - zMin, 0, 500), 50);
     translate(100, 10, 0);
@@ -303,7 +303,7 @@ drawStrata = (key, rotateTime, coordinateData) => {
     text(
       kind,
       x,
-      map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2,
+      map(z, zMin, zMax, 0, 500) + map(zLength, 0, zMax - zMin, 0, 500) / 2
     );
     pop();
   }
@@ -426,7 +426,7 @@ function connectStrata() {
         p2Min,
         p3[0],
         p3[1],
-        p3Min,
+        p3Min
       );
       createPlane1(
         p1[0],
@@ -437,7 +437,7 @@ function connectStrata() {
         p2Max,
         p3[0],
         p3[1],
-        p3Max,
+        p3Max
       );
       createPlane2(
         p1[0],
@@ -451,7 +451,7 @@ function connectStrata() {
         p2Max,
         p1[0],
         p1[1],
-        p1Max,
+        p1Max
       );
       createPlane2(
         p1[0],
@@ -465,7 +465,7 @@ function connectStrata() {
         p3Max,
         p1[0],
         p1[1],
-        p1Max,
+        p1Max
       );
       createPlane2(
         p2[0],
@@ -479,7 +479,7 @@ function connectStrata() {
         p3Max,
         p2[0],
         p2[1],
-        p2Max,
+        p2Max
       );
     }
   }

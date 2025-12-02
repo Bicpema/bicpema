@@ -39,13 +39,13 @@ class CAR {
         image(
           this.img,
           (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50 - this.img.width / 2,
-          this.posy,
+          this.posy
         );
         line(
           (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50,
           this.posy + this.img.height - 10,
           (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50,
-          this.posy + this.img.height + 10,
+          this.posy + this.img.height + 10
         );
       }
     }

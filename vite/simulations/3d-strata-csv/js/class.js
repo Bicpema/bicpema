@@ -35,7 +35,7 @@ class DOM {
     // サブウィンドウ生成用のDOM
     this.placeDataInput = createA(
       "javascript:void(0)",
-      "地点" + str(this.n) + "のデータを編集",
+      "地点" + str(this.n) + "のデータを編集"
     )
       .class("btn btn-outline-primary mb-2")
       .parent("placePointDataInput")

@@ -152,7 +152,7 @@ class TR {
       trNum -= 1;
       idArr.splice(
         idArr.findIndex((idIndex) => idIndex == str(num)),
-        1,
+        1
       );
       for (let i = 0; i < idArr.length; i++) {
         select("#th" + idArr[i]).html(i + 1 + "層目");

@@ -14,7 +14,7 @@ let reflectSelect,
 // DOM要素の生成
 function startButtonFunction() {
   waveArr.push(
-    new incidenceWave(60 * amplitudeInput.value(), waveSelect.value()),
+    new incidenceWave(60 * amplitudeInput.value(), waveSelect.value())
   );
   moveIs = true;
 }

@@ -23,7 +23,7 @@ function placeAddButtonFunction() {
     let win = window.open(
       "/simulations/3d-strata-csv/setWindow.html?" + placeName,
       "window_name",
-      "width=1000,height=500",
+      "width=1000,height=500"
     );
   };
   placeRefreshFunction();
@@ -120,7 +120,7 @@ function placeNameInputFunction() {
       let win = window.open(
         "/simulations/3d-strata-csv/setWindow.html?" + placeName,
         "window_name",
-        "width=1000,height=500",
+        "width=1000,height=500"
       );
     };
   }

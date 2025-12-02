@@ -6,7 +6,7 @@ const elInit = () => {
   const GRAPH = createDiv(
     `
         <canvas id="graphCanvas"></canvas>
-      `,
+      `
   )
     .id("graph")
     .parent(select("#p5Container"))
@@ -18,7 +18,7 @@ const elInit = () => {
         <button type="button" class="btn btn-secondary" id="graphButton">
           グラフの切り替え
         </button>
-      `,
+      `
   )
     .id("graphButtonParent")
     .parent(select("#p5Container"));
@@ -62,7 +62,7 @@ const elInit = () => {
             </div>
           </div>
         </div>
-      `,
+      `
   )
     .class("modal fade")
     .id("modal")
@@ -72,7 +72,7 @@ const elInit = () => {
     .attribute("aria-hidden", "true");
 
   const YELLOW_CAR_SPEED_INPUT = select("#yellowCarSpeedInput").changed(
-    initValue,
+    initValue
   );
   const RED_CAR_SPEED_INPUT = select("#redCarSpeedInput").changed(initValue);
 };
@@ -88,21 +88,21 @@ const elSetting = () => {
     GRAPH.position((windowWidth - width) / 2, height + 125).size(width, width);
     GRAPH_BUTTON_PARENT.position(
       (windowWidth - width) / 2,
-      height + width + 140,
+      height + width + 140
     );
   } else {
     GRAPH.position(windowWidth / 2 - width / 4, height + 125).size(
       width / 2,
-      width / 2,
+      width / 2
     );
     GRAPH_BUTTON_PARENT.position(
       windowWidth / 2 - width / 4,
-      height + width / 2 + 140,
+      height + width / 2 + 140
     );
   }
   const MODAL_BUTTON = select("#modalButton").position(
     windowWidth / 2 - width / 2,
-    60 + height + 10,
+    60 + height + 10
   );
 };
 
@@ -134,7 +134,7 @@ const initValue = () => {
     YELLOW_CAR_IMG,
     YELLOW_CAR_SPEED,
     [],
-    [],
+    []
   );
   RED_CAR = new CAR(
     0,
@@ -142,7 +142,7 @@ const initValue = () => {
     RED_CAR_IMAGE,
     RED_CAR_SPEED,
     [],
-    [],
+    []
   );
 
   for (let i = 0; i <= carNum; i++) {
