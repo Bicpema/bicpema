@@ -1,14 +1,3 @@
-// elementFunction.jsは仮想DOMメソッド管理専用のファイルです。
-
-// メソッドの定義方法の例
-// function exampleMethod() {
-//   console.log("これは例です。");
-// }
-
-/////////////////////////// 以上の記述は不必要であれば削除してください。/////////////////////////////////
-
-// 以下に仮想DOMメソッドを定義してください。
-
 /**
  * 初速度入力の値が変更されたときの処理
  */
@@ -33,22 +22,22 @@ function onVelocityChange() {
 function onReset() {
   const newVelocity = parseFloat(velocityInput.value());
   ball.reset(newVelocity);
-  playPauseButton.html("▶ 開始");
+  playPauseButton.html("開始");
 }
 
 /**
- * 開始/停止ボタンが押されたときの処理
+ * 開始/一時停止ボタンが押されたときの処理
  */
 function onPlayPause() {
   if (ball.isMoving) {
     ball.stop();
-    playPauseButton.html("▶ 再開");
+    playPauseButton.html("再開");
   } else {
     if (ball.height <= 0 && ball.time > 0) {
       ball.reset(parseFloat(velocityInput.value()));
     }
     ball.start();
-    playPauseButton.html("⏸ 停止");
+    playPauseButton.html("一時停止");
   }
 }
 

@@ -1,20 +1,3 @@
-// class.jsはクラス管理専用のファイルです。
-
-// クラスの定義方法の例
-// class ExampleClass{
-//     constructor(p1,p2){
-//         this.property1 =p1;
-//         this.property2 =p2;
-//     }
-//     exampleMethod(){
-//         this.property1 += this.property2
-//     }
-// }
-
-/////////////////////////// 以上の記述は不必要であれば削除してください。/////////////////////////////////
-
-// 以下にクラスを定義してください。
-
 /**
  * Ballクラス
  * 鉛直投げ上げ運動をする物体を表現
@@ -65,44 +48,19 @@ class Ball {
     const groundHeight = 50;
     const scale = 8; // スケール調整
 
-    // 人物の位置（キャンバスの中央やや左）
-    const personCenterX = 400;
-    const personHeight = 80; // 人物の高さ
+    // ボールの位置（キャンバスの中央）
+    const ballX = 400;
 
     // 座標系の変換 (物理座標からキャンバス座標へ)
     const ballY =
       canvasHeight - groundHeight - this.height * scale - this.radius;
-
-    // 人物を描画（簡易的な棒人間）
-    const personX = personCenterX;
-    const personY = canvasHeight - groundHeight - personHeight;
-
-    // 体
-    stroke(255);
-    strokeWeight(3);
-    line(personX, personY + 15, personX, personY + 50);
-
-    // 腕（投げ上げたポーズ）
-    if (this.time < 0.1 || !this.isMoving) {
-      // 右腕を上に
-      line(personX, personY + 20, personX + 20, personY - 5);
-    } else {
-      // 通常の腕
-      line(personX, personY + 20, personX + 20, personY + 30);
-    }
-    // 左腕
-    line(personX, personY + 20, personX - 20, personY + 30);
-
-    // 脚
-    line(personX, personY + 50, personX + 15, personY + 80);
-    line(personX, personY + 50, personX - 15, personY + 80);
 
     // 最高到達点の点線を描画
     const maxHeightY = canvasHeight - groundHeight - this.maxHeight * scale;
     stroke(0);
     strokeWeight(2);
     drawingContext.setLineDash([10, 10]);
-    line(personX + 50, maxHeightY, personX + 250, maxHeightY);
+    line(ballX + 50, maxHeightY, ballX + 250, maxHeightY);
     drawingContext.setLineDash([]);
 
     // 点線の右側に最高到達点の高さを描画
@@ -110,14 +68,7 @@ class Ball {
     noStroke();
     textAlign(LEFT, CENTER);
     textSize(16);
-    text(
-      `最高到達点: ${this.maxHeight.toFixed(1)} m`,
-      personX + 260,
-      maxHeightY
-    );
-
-    // ボールを人物の上に配置
-    const ballX = personX;
+    text(`最高到達点: ${this.maxHeight.toFixed(1)} m`, ballX + 260, maxHeightY);
 
     // ボール
     if (typeof ballImage !== "undefined") {
