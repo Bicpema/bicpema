@@ -22,22 +22,22 @@ function onHeightChange() {
 function onReset() {
   const newHeight = parseFloat(heightInput.value());
   ball.reset(newHeight);
-  playPauseButton.html("▶ 開始");
+  playPauseButton.html("開始");
 }
 
 /**
- * 開始/停止ボタンが押されたときの処理
+ * 開始/一時停止ボタンが押されたときの処理
  */
 function onPlayPause() {
   if (ball.isMoving) {
     ball.stop();
-    playPauseButton.html("▶ 再開");
+    playPauseButton.html("再開");
   } else {
     if (ball.height <= 0) {
       ball.reset(parseFloat(heightInput.value()));
     }
     ball.start();
-    playPauseButton.html("⏸ 停止");
+    playPauseButton.html("一時停止");
   }
 }
 
