@@ -3,7 +3,7 @@ title: "波の反射"
 description: "本教材は波が端で反射する現象を観察するシミュレーション教材です。固定端反射と自由端反射の違いを視覚的に理解できます。"
 author: "kenji"
 date: "2025-12-02"
-image: "thumbnail.png"
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthumbnail%2Fwave-reflection.png?alt=media&token=7bea7749-0dac-4c79-8612-d744550a1788"
 tags: ["物理", "波動", "大学"]
 categories: ["Sample"]
 series: ["Sample Series"]
