@@ -3,7 +3,7 @@ title: "ウェーブマシン"
 description: "本教材はウェーブマシンによる波の伝播を視覚的に理解するためのシミュレーション教材です。多数の振り子の連動によって波が伝わる様子を観察できます。"
 author: "kenji"
 date: "2025-12-02"
-image: "thumbnail.png"
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthumbnail%2Fwave-machine.png?alt=media&token=57b9c91f-8826-4bf4-9058-4246fb2e8c48"
 tags: ["物理", "波動", "大学"]
 categories: ["Sample"]
 series: ["Sample Series"]
