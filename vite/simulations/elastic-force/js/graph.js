@@ -1,5 +1,9 @@
 let graphChart = null;
 
+// グラフの定数
+const GRAPH_MAX_EXTENSION = 300;
+const GRAPH_STEP_SIZE = 10;
+
 /**
  * グラフを更新する
  */
@@ -20,7 +24,7 @@ function updateGraph() {
     
     // フックの法則に基づく理論曲線を生成
     const theoreticalData = [];
-    for (let x = 0; x <= 300; x += 10) {
+    for (let x = 0; x <= GRAPH_MAX_EXTENSION; x += GRAPH_STEP_SIZE) {
       theoreticalData.push({
         x: x,
         y: spring.springConstant * x
@@ -94,7 +98,7 @@ function updateGraph() {
           type: 'linear',
           position: 'bottom',
           min: 0,
-          max: 300,
+          max: GRAPH_MAX_EXTENSION,
           title: {
             display: true,
             text: 'バネの伸び (x) [cm]',

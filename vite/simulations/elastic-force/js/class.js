@@ -94,7 +94,8 @@ class Spring {
    * @returns {number} バネの伸び
    */
   getExtension() {
-    return dist(this.baseX, this.baseY, this.endX, this.endY) - this.naturalLength;
+    // 引っ張りのみを扱うため、負の値は0にする
+    return Math.max(0, dist(this.baseX, this.baseY, this.endX, this.endY) - this.naturalLength);
   }
 
   /**
@@ -184,8 +185,9 @@ class Spring {
     circle(this.endX, this.endY, 20);
     
     // 弾性力の矢印を描画
+    const MIN_EXTENSION_THRESHOLD = 0.1;
     const extension = this.getExtension();
-    if (extension > 0.1) {
+    if (extension > MIN_EXTENSION_THRESHOLD) {
       const force = this.getElasticForce();
       const arrowLength = map(force, 0, 100, 0, 100);
       

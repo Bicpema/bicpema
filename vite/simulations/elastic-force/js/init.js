@@ -32,13 +32,14 @@ let springs = [];
 let draggedSpring = null;
 let graphVisible = false;
 
+// 物理定数
+const WALL_X = 100;
+const NATURAL_LENGTH = 150;
+const SPRING_CONSTANT = 0.5;
+
 function valueInit() {
   // 3つのバネを作成（壁から横に並べる）
-  const wallX = 100;
-  const naturalLength = 150;
-  const springConstant = 0.5;
-  
-  springs.push(new Spring(wallX, 150, naturalLength, springConstant));
-  springs.push(new Spring(wallX, 300, naturalLength, springConstant));
-  springs.push(new Spring(wallX, 450, naturalLength, springConstant));
+  springs.push(new Spring(WALL_X, 150, NATURAL_LENGTH, SPRING_CONSTANT));
+  springs.push(new Spring(WALL_X, 300, NATURAL_LENGTH, SPRING_CONSTANT));
+  springs.push(new Spring(WALL_X, 450, NATURAL_LENGTH, SPRING_CONSTANT));
 }
