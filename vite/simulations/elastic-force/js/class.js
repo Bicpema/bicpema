@@ -78,12 +78,14 @@ class Spring {
    * @param {number} y バネの基点のy座標
    * @param {number} naturalLength バネの自然長
    * @param {number} springConstant バネ定数
+   * @param {number} id バネの識別番号
    */
-  constructor(x, y, naturalLength, springConstant) {
+  constructor(x, y, naturalLength, springConstant, id) {
     this.baseX = x;
     this.baseY = y;
     this.naturalLength = naturalLength;
     this.springConstant = springConstant;
+    this.id = id;
     this.endX = x + naturalLength;
     this.endY = y;
     this.isDragging = false;
@@ -177,6 +179,13 @@ class Spring {
       vertex(x + perpX * offset, y + perpY * offset);
     }
     endShape();
+    
+    // バネ定数を表示
+    fill(200, 255, 200);
+    noStroke();
+    textAlign(LEFT, CENTER);
+    textSize(14);
+    text(`バネ${this.id}: k = ${this.springConstant.toFixed(1)} N/m`, this.baseX + 10, this.baseY - 25);
     
     // 端点を描画（ドラッグ可能な点）
     fill(this.isDragging ? color(255, 100, 100) : color(100, 150, 255));
