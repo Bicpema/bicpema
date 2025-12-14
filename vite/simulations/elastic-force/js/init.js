@@ -41,13 +41,14 @@ let graphVisible = false;
 // 物理定数
 const WALL_X = 100;
 const NATURAL_LENGTH = 150;
+const DEFAULT_SPRING_CONSTANT = 0.5;
 
 function valueInit() {
   // 3つのバネを作成（壁から横に並べる）
-  // 初期バネ定数は入力フィールドの値から取得
-  const k1 = parseFloat(spring1Input.value());
-  const k2 = parseFloat(spring2Input.value());
-  const k3 = parseFloat(spring3Input.value());
+  // 初期バネ定数は入力フィールドの値から取得（デフォルトは0.5）
+  const k1 = spring1Input ? parseFloat(spring1Input.value()) || DEFAULT_SPRING_CONSTANT : DEFAULT_SPRING_CONSTANT;
+  const k2 = spring2Input ? parseFloat(spring2Input.value()) || DEFAULT_SPRING_CONSTANT : DEFAULT_SPRING_CONSTANT;
+  const k3 = spring3Input ? parseFloat(spring3Input.value()) || DEFAULT_SPRING_CONSTANT : DEFAULT_SPRING_CONSTANT;
   
   springs.push(new Spring(WALL_X, 150, NATURAL_LENGTH, k1, 1));
   springs.push(new Spring(WALL_X, 300, NATURAL_LENGTH, k2, 2));

@@ -181,11 +181,13 @@ class Spring {
     endShape();
     
     // バネ定数を表示
+    const LABEL_OFFSET_X = 10;
+    const LABEL_OFFSET_Y = -25;
     fill(200, 255, 200);
     noStroke();
     textAlign(LEFT, CENTER);
     textSize(14);
-    text(`バネ${this.id}: k = ${this.springConstant.toFixed(1)} N/m`, this.baseX + 10, this.baseY - 25);
+    text(`バネ${this.id}: k = ${this.springConstant.toFixed(1)} N/m`, this.baseX + LABEL_OFFSET_X, this.baseY + LABEL_OFFSET_Y);
     
     // 端点を描画（ドラッグ可能な点）
     fill(this.isDragging ? color(255, 100, 100) : color(100, 150, 255));
