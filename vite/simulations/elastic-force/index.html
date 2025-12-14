@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <title>弾性力</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="/js/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="./css/style.css" rel="stylesheet" vite-ignore />
+  </head>
+
+  <body class="bg-dark" style="overflow: hidden;">
+    <nav
+      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
+      data-bs-theme="dark"
+      id="navBar"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
+        <span class="text-light fw-lighter">弾性力</span>
+        <button
+          id="toggleGraphButton"
+          class="btn btn-sm btn-outline-light ms-auto"
+        >
+          グラフを表示
+        </button>
+      </div>
+
+      <!-- Settings Modal -->
+      <div class="position-absolute end-0 m-3">
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#simulationSettingModal"
+        >
+          バネ定数の設定
+        </button>
+      </div>
+
+      <div
+        class="modal fade"
+        id="simulationSettingModal"
+        tabindex="-1"
+        aria-labelledby="simulationSettingModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="simulationSettingModalLabel">
+                バネ定数の設定
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="spring1Input" class="form-label">バネ1のバネ定数 (N/m)</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="spring1Input"
+                  value="0.5"
+                  min="0.1"
+                  max="2.0"
+                  step="0.1"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="spring2Input" class="form-label">バネ2のバネ定数 (N/m)</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="spring2Input"
+                  value="0.5"
+                  min="0.1"
+                  max="2.0"
+                  step="0.1"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="spring3Input" class="form-label">バネ3のバネ定数 (N/m)</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="spring3Input"
+                  value="0.5"
+                  min="0.1"
+                  max="2.0"
+                  step="0.1"
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-primary"
+                data-bs-dismiss="modal"
+                id="applySettingsButton"
+              >
+                適用
+              </button>
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                data-bs-dismiss="modal"
+              >
+                閉じる
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container-fluid" id="p5Container">
+      <div id="p5Canvas"></div>
+
+      <div id="graph" class="rounded border border-1" style="display: none;">
+        <canvas id="graphCanvas"></canvas>
+      </div>
+    </div>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./js/elementFunction.js"
+      vite-ignore
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./js/function.js"
+      vite-ignore
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./js/class.js"
+      vite-ignore
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./js/init.js"
+      vite-ignore
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./js/index.js"
+      vite-ignore
+    ></script>
+    <script
+      language="javascript"
+      type="text/javascript"
+      src="./js/graph.js"
+      vite-ignore
+    ></script>
+  </body>
+</html>
