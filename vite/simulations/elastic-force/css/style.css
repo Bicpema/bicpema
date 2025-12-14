@@ -1,0 +1,19 @@
+#p5Container {
+  padding: 0px;
+  margin-top: 60px;
+}
+
+#p5Canvas {
+  text-align: center;
+}
+
+#graph {
+  background-color: white;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 400px;
+  height: 300px;
+  padding: 10px;
+  z-index: 1000;
+}
