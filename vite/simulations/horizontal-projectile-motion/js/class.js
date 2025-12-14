@@ -7,7 +7,7 @@ class Ball {
    * @constructor
    * @param {number} initialVelocity 初速度 (m/s) - 水平方向
    */
-  constructor(initialVelocity = 15) {
+  constructor(initialVelocity = 10) {
     this.initialVelocity = initialVelocity;
     this.x = 0; // 水平方向の位置 (m)
     this.y = 0; // 鉛直方向の位置 (m) - 下向きを正とする
@@ -17,7 +17,7 @@ class Ball {
     this.g = 9.8; // 重力加速度 (m/s^2)
     this.radius = 15; // ボールの半径 (ピクセル)
     this.isMoving = false;
-    this.platformHeight = 6; // 台の高さ (m)
+    this.platformHeight = 15; // 台の高さ (m)
 
     // ストロボ写真用の軌跡を保存
     this.trajectory = [];
@@ -41,9 +41,17 @@ class Ball {
     this.vy = this.g * this.time;
     this.y = 0.5 * this.g * this.time * this.time;
 
-    // ストロボ写真の記録
-    if (this.time - this.lastStrobeTime >= this.strobeInterval) {
-      this.trajectory.push({ x: this.x, y: this.y, time: this.time });
+    // ストロボ写真の記録 (strobeIntervalの倍数のタイミングで記録)
+    const currentStrobeIndex = Math.floor(this.time / this.strobeInterval);
+    const lastStrobeIndex = Math.floor(
+      this.lastStrobeTime / this.strobeInterval
+    );
+    if (currentStrobeIndex > lastStrobeIndex) {
+      // 正確なストロボ時刻での位置を計算
+      const strobeTime = currentStrobeIndex * this.strobeInterval;
+      const strobeX = this.vx * strobeTime;
+      const strobeY = 0.5 * this.g * strobeTime * strobeTime;
+      this.trajectory.push({ x: strobeX, y: strobeY, time: strobeTime });
       this.lastStrobeTime = this.time;
     }
 
@@ -97,16 +105,14 @@ class Ball {
     stroke(100, 100, 100);
     strokeWeight(1);
 
-    // 縦方向の線 (一定時間ごと)
-    const timeInterval = 0.2; // 0.2秒ごと
-    for (let t = 0; t <= 3; t += timeInterval) {
-      const x = this.vx * t * scale - width / 4 + 25;
-      const maxY = 0.5 * this.g * t * t * scale;
-      if (maxY > 200) continue; // 画面外は描画しない
+    // 縦方向の線 (ストロボ写真の各位置に描画)
+    for (let point of this.trajectory) {
+      const x = point.x * scale - width / 4 + 25;
+      const maxY = point.y * scale;
 
       push();
       stroke(150, 150, 150);
-      strokeWeight(1);
+      strokeWeight(3);
       line(x, 0, 0, x, maxY, 0);
       pop();
     }
@@ -129,24 +135,17 @@ class Ball {
    * @param {number} scale スケール
    */
   drawProjectionCircles(scale) {
-    if (!this.isMoving && this.time === 0) return;
+    if (this.trajectory.length === 0) return;
 
-    const numCircles = 8;
-    const interval = this.strobeInterval;
-
-    for (let i = 0; i <= numCircles; i++) {
-      const t = i * interval;
-      if (t > this.time) break;
-
-      const x = this.vx * t * scale - width / 4 + 25;
-      const y = 0.5 * this.g * t * t * scale;
-
-      if (y > 200) continue;
+    // ストロボ写真の各位置に投影円を描画
+    for (let point of this.trajectory) {
+      const x = point.x * scale - width / 4 + 25;
+      const y = point.y * scale;
 
       // 横方向の点線の円 (等速直線運動) - 手動で点線を描画
       push();
       noFill();
-      stroke(255, 100, 100, 150);
+      stroke(255, 255, 255);
       strokeWeight(2);
       translate(x, 0, 0);
       rotateX(HALF_PI);
@@ -156,7 +155,7 @@ class Ball {
       // 縦方向の点線の円 (自由落下運動) - 手動で点線を描画
       push();
       noFill();
-      stroke(100, 100, 255, 150);
+      stroke(255, 255, 255);
       strokeWeight(2);
       translate(-width / 4 + 25, y, 0);
       rotateY(HALF_PI);
@@ -215,7 +214,7 @@ class Ball {
     this.vy = 0;
     this.time = 0;
     this.isMoving = false;
-    this.trajectory = [];
+    this.trajectory = [{ x: 0, y: 0, time: 0 }]; // 初期位置を記録
     this.lastStrobeTime = 0;
   }
 

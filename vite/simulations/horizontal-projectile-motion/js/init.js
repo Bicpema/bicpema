@@ -6,7 +6,12 @@ function settingInit() {
   canvasController = new BicpemaCanvasController(true, true); // 3Dモード
   canvasController.fullScreen();
   frameRate(FPS);
-  // カメラの初期位置を設定（球の進行方向を横から見る - 左から右へ進むように）
+  // カメラの初期位置を設定（シミュレーション全体が見えるように調整）
+  // camera(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ)
+  // eyeX: カメラのX位置 (右側から見る)
+  // eyeY: カメラのY位置 (やや上から見る)
+  // eyeZ: カメラのZ位置 (手前に配置)
+  // center: 注視点 (シミュレーションの中心)
   camera(0, 0, 800, 100, 200, 0, 0, 1, 0);
 }
 
