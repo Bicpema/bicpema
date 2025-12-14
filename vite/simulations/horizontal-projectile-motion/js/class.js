@@ -147,31 +147,48 @@ class Ball {
       
       if (y > 200) continue;
       
-      // 横方向の点線の円 (等速直線運動)
+      // 横方向の点線の円 (等速直線運動) - 手動で点線を描画
       push();
       noFill();
       stroke(255, 100, 100, 150);
-      strokeWeight(1);
-      drawingContext.setLineDash([5, 5]);
+      strokeWeight(2);
       translate(x, 0, 0);
       rotateX(HALF_PI);
-      circle(0, 0, this.radius * 2);
+      this.drawDashedCircle(this.radius * 2);
       pop();
       
-      // 縦方向の点線の円 (自由落下運動)
+      // 縦方向の点線の円 (自由落下運動) - 手動で点線を描画
       push();
       noFill();
       stroke(100, 100, 255, 150);
-      strokeWeight(1);
-      drawingContext.setLineDash([5, 5]);
+      strokeWeight(2);
       translate(-width / 4 + 25, y, 0);
       rotateY(HALF_PI);
-      circle(0, 0, this.radius * 2);
+      this.drawDashedCircle(this.radius * 2);
       pop();
     }
+  }
+
+  /**
+   * 点線の円を描画するヘルパー関数
+   * @param {number} diameter 円の直径
+   */
+  drawDashedCircle(diameter) {
+    const segments = 24; // 円を分割する数
+    const dashLength = 3; // 線の数
+    const radius = diameter / 2;
     
-    // リセット
-    drawingContext.setLineDash([]);
+    for (let i = 0; i < segments; i++) {
+      if (i % 2 === 0) { // 交互に線を描画
+        const angle1 = (i / segments) * TWO_PI;
+        const angle2 = ((i + 1) / segments) * TWO_PI;
+        const x1 = cos(angle1) * radius;
+        const y1 = sin(angle1) * radius;
+        const x2 = cos(angle2) * radius;
+        const y2 = sin(angle2) * radius;
+        line(x1, y1, x2, y2);
+      }
+    }
   }
 
   /**
