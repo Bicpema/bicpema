@@ -7,7 +7,7 @@ function settingInit() {
   canvasController.fullScreen();
   frameRate(FPS);
   // カメラの初期位置を設定（球の進行方向を横から見る - 左から右へ進むように）
-  camera(0, 0, 400, 0, 0, 0, 0, 1, 0);
+  camera(0, 0, 800, 100, 200, 0, 0, 1, 0);
 }
 
 // elementSelectInit関数

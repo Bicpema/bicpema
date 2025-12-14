@@ -17,8 +17,8 @@ class Ball {
     this.g = 9.8; // 重力加速度 (m/s^2)
     this.radius = 15; // ボールの半径 (ピクセル)
     this.isMoving = false;
-    this.platformHeight = 3; // 台の高さ (m)
-    
+    this.platformHeight = 6; // 台の高さ (m)
+
     // ストロボ写真用の軌跡を保存
     this.trajectory = [];
     this.strobeInterval = 0.2; // ストロボの間隔 (秒)
@@ -33,10 +33,10 @@ class Ball {
     if (!this.isMoving) return;
 
     this.time += dt;
-    
+
     // 等速直線運動 (水平方向)
     this.x = this.vx * this.time;
-    
+
     // 自由落下運動 (鉛直方向)
     this.vy = this.g * this.time;
     this.y = 0.5 * this.g * this.time * this.time;
@@ -59,37 +59,33 @@ class Ball {
    */
   display() {
     const scale = 50; // スケール (ピクセル/m)
-    
+
     push();
-    
+
     // 白い台を描画
     push();
     fill(255);
     translate(-width / 4, 0, 0);
     box(50, 20, 50);
     pop();
-    
+
     // グリッド線を描画 (一定時間ごとに)
     this.drawGrid(scale);
-    
+
     // 投影円を描画
     this.drawProjectionCircles(scale);
-    
+
     // ストロボ写真の軌跡を描画
     this.drawTrajectory(scale);
-    
+
     // 現在のボール位置
     push();
     fill(255, 204, 0); // 黄色
     noStroke();
-    translate(
-      this.x * scale - width / 4 + 25,
-      this.y * scale,
-      0
-    );
+    translate(this.x * scale - width / 4 + 25, this.y * scale, 0);
     sphere(this.radius);
     pop();
-    
+
     pop();
   }
 
@@ -100,26 +96,26 @@ class Ball {
   drawGrid(scale) {
     stroke(100, 100, 100);
     strokeWeight(1);
-    
+
     // 縦方向の線 (一定時間ごと)
     const timeInterval = 0.2; // 0.2秒ごと
     for (let t = 0; t <= 3; t += timeInterval) {
       const x = this.vx * t * scale - width / 4 + 25;
       const maxY = 0.5 * this.g * t * t * scale;
       if (maxY > 200) continue; // 画面外は描画しない
-      
+
       push();
       stroke(150, 150, 150);
       strokeWeight(1);
       line(x, 0, 0, x, maxY, 0);
       pop();
     }
-    
+
     // 横方向の線 (一定の高さごと)
     for (let h = 0; h <= this.platformHeight; h += 0.5) {
       const y = h * scale;
       const maxX = width / 2;
-      
+
       push();
       stroke(150, 150, 150);
       strokeWeight(1);
@@ -134,19 +130,19 @@ class Ball {
    */
   drawProjectionCircles(scale) {
     if (!this.isMoving && this.time === 0) return;
-    
+
     const numCircles = 8;
     const interval = this.strobeInterval;
-    
+
     for (let i = 0; i <= numCircles; i++) {
       const t = i * interval;
       if (t > this.time) break;
-      
+
       const x = this.vx * t * scale - width / 4 + 25;
       const y = 0.5 * this.g * t * t * scale;
-      
+
       if (y > 200) continue;
-      
+
       // 横方向の点線の円 (等速直線運動) - 手動で点線を描画
       push();
       noFill();
@@ -156,7 +152,7 @@ class Ball {
       rotateX(HALF_PI);
       this.drawDashedCircle(this.radius * 2);
       pop();
-      
+
       // 縦方向の点線の円 (自由落下運動) - 手動で点線を描画
       push();
       noFill();
@@ -177,9 +173,10 @@ class Ball {
     const segments = 24; // 円を分割する数
     const dashLength = 3; // 線の数
     const radius = diameter / 2;
-    
+
     for (let i = 0; i < segments; i++) {
-      if (i % 2 === 0) { // 交互に線を描画
+      if (i % 2 === 0) {
+        // 交互に線を描画
         const angle1 = (i / segments) * TWO_PI;
         const angle2 = ((i + 1) / segments) * TWO_PI;
         const x1 = cos(angle1) * radius;
@@ -200,11 +197,7 @@ class Ball {
       push();
       fill(255, 204, 0, 180); // 黄色 (半透明)
       noStroke();
-      translate(
-        point.x * scale - width / 4 + 25,
-        point.y * scale,
-        0
-      );
+      translate(point.x * scale - width / 4 + 25, point.y * scale, 0);
       sphere(this.radius * 0.8);
       pop();
     }
