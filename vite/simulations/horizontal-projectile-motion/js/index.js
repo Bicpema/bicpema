@@ -75,8 +75,8 @@ function draw() {
   // ボールの状態を更新 (dt = 1/FPS)
   ball.update(1 / FPS);
 
-  // カメラの設定
-  camera(200, -150, 300, 0, 0, 0, 0, 1, 0);
+  // カメラコントロールを有効化（マウスドラッグで視点変更可能）
+  orbitControl();
 
   // ライティング
   ambientLight(100);

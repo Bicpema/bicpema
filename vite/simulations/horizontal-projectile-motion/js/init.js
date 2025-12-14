@@ -6,6 +6,8 @@ function settingInit() {
   canvasController = new BicpemaCanvasController(true, true); // 3Dモード
   canvasController.fullScreen();
   frameRate(FPS);
+  // カメラの初期位置を設定（横方向から見る）
+  camera(400, 0, 0, 0, 0, 0, 0, 1, 0);
 }
 
 // elementSelectInit関数
