@@ -19,7 +19,6 @@ function settingInit() {
   
   frameRate(FPS);
   textAlign(CENTER, CENTER);
-  textFont(font);
   textSize(16);
 }
 
