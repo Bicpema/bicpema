@@ -2,7 +2,7 @@
 title: "熱の移動"
 description: "本教材は熱の移動に関する現象を観察するシミュレーション教材です。伝導、対流、放射の違いを視覚的に理解できます。"
 author: "kenji"
-date: "2025-12-02"
+date: "2026-02-16"
 image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthumbnail%2Fvisualization-of-heat-transfer.png?alt=media&token=66e871aa-325a-4e73-baae-d5737efb8a5f"
 tags: ["物理", "熱", "大学"]
 categories: ["Sample"]
