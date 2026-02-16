@@ -2,7 +2,7 @@
 title: "熱力学第一法則"
 description: "本教材は熱力学第一法則に関するシミュレーション教材です。エネルギー保存の概念を視覚的に理解できます。"
 author: "kenji"
-date: "2025-02-16"
+date: "2026-02-16"
 image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthumbnail%2Ffirst-law-of-thermodynamics.png?alt=media&token=0ec248e8-0126-4cb8-955a-b4a54559d862"
 tags: ["物理", "熱", "大学"]
 categories: ["Sample"]
