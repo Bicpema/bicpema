@@ -2,7 +2,7 @@
 title: "比熱の測定"
 description: "本教材は物体の比熱を測定するシミュレーション教材です。比熱の概念を視覚的に理解できます。"
 author: "kenji"
-date: "2025-02-16"
+date: "2026-02-16"
 image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthumbnail%2Fconservation-of-heat-and-specific-heat.png?alt=media&token=a3cf2c62-d413-4a8e-9cac-b15800361314"
 tags: ["物理", "熱", "大学"]
 categories: ["Sample"]
