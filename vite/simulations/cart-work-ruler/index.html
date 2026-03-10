@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <title>力学台車が定規にする仕事</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="/js/common.js"></script>
+    <link href="./css/style.css" rel="stylesheet" vite-ignore />
+  </head>
+
+  <body class="bg-dark">
+    <nav
+      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
+      data-bs-theme="dark"
+      id="navBar"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
+        <span class="text-light fw-lighter">力学台車が定規にする仕事</span>
+      </div>
+    </nav>
+
+    <div class="container-fluid" id="p5Container">
+      <div id="p5Canvas"></div>
+
+      <!-- 設定モーダル -->
+      <div id="settingsModal" class="settings-modal" style="display: none">
+        <div class="modal-content-inner">
+          <h5>設定</h5>
+          <div class="mb-3">
+            <label for="massInput" class="form-label">台車の質量 m (kg)</label>
+            <input
+              type="number"
+              class="form-control"
+              id="massInput"
+              min="0.1"
+              max="2.0"
+              step="0.1"
+              value="0.5"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="velocityInput" class="form-label"
+              >初速度 v₀ (m/s)</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              id="velocityInput"
+              min="0.5"
+              max="3.0"
+              step="0.5"
+              value="2.0"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="forceInput" class="form-label">抵抗力 F (N)</label>
+            <input
+              type="number"
+              class="form-control"
+              id="forceInput"
+              min="1"
+              max="50"
+              step="1"
+              value="5"
+            />
+          </div>
+          <button id="closeModal" class="btn btn-secondary w-100">
+            閉じる
+          </button>
+        </div>
+      </div>
+
+      <!-- 左下コントロール -->
+      <div class="left-bottom-controls">
+        <button id="resetButton" class="btn btn-primary">🔄 リセット</button>
+        <button id="playPauseButton" class="btn btn-success">▶ 開始</button>
+      </div>
+
+      <!-- 右上コントロール -->
+      <div class="right-top-controls">
+        <button id="toggleModal" class="btn btn-info">⚙ 設定</button>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="./js/class.js" vite-ignore></script>
+    <script type="text/javascript" src="./js/function.js" vite-ignore></script>
+    <script
+      type="text/javascript"
+      src="./js/elementFunction.js"
+      vite-ignore
+    ></script>
+    <script type="text/javascript" src="./js/init.js" vite-ignore></script>
+    <script type="text/javascript" src="./js/index.js" vite-ignore></script>
+  </body>
+</html>
