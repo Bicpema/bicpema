@@ -10,4 +10,4 @@ resources/_gen
 
 node_modules
 
-static/vite
+static/vitenohup.out
