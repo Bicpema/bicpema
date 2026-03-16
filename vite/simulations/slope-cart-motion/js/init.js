@@ -68,6 +68,12 @@ function elementSelectInit() {
   angleInput = select("#angleInput");
   intervalInput = select("#intervalInput");
 
+  // イベントハンドラーをここで一度だけ登録
+  resetButton.mousePressed(onReset);
+  playPauseButton.mousePressed(onPlayPause);
+  toggleModal.mousePressed(onToggleModal);
+  closeModal.mousePressed(onCloseModal);
+
   // グラフトグルボタン
   const graphToggleParent = createDiv()
     .id("graphToggleParent")
@@ -92,11 +98,6 @@ function elementSelectInit() {
  * DOM要素の位置・サイズを設定する（リサイズ時も呼ばれる）
  */
 function elementPositionInit() {
-  resetButton.mousePressed(onReset);
-  playPauseButton.mousePressed(onPlayPause);
-  toggleModal.mousePressed(onToggleModal);
-  closeModal.mousePressed(onCloseModal);
-
   const graphToggleParent = select("#graphToggleParent");
   const graphDiv = select("#graph");
 

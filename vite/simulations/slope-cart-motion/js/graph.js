@@ -19,7 +19,7 @@ function updateGraph() {
   const maxT = Math.sqrt(2 * SLOPE_LENGTH_M / cart.accel) + 0.1;
   const theoreticalData = [];
   for (let t = 0; t <= maxT; t += 0.05) {
-    theoreticalData.push({ x: parseFloat(t.toFixed(3)), y: parseFloat((cart.accel * t).toFixed(4) )});
+    theoreticalData.push({ x: parseFloat(t.toFixed(3)), y: parseFloat((cart.accel * t).toFixed(4))});
   }
 
   const data = {

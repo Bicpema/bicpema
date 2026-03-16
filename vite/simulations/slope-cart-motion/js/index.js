@@ -36,6 +36,8 @@ function draw() {
     while ((tapeMarks.length + 1) * recInterval <= cart.time) {
       const t = (tapeMarks.length + 1) * recInterval;
       const s = 0.5 * cart.accel * t * t;
+      // 斜面の範囲を超える位置は記録しない
+      if (s > cart.slopeLengthM) break;
       const v = cart.accel * t;
       tapeMarks.push(s);
       vtData.push({ x: t, y: v });
