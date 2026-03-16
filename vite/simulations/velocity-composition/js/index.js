@@ -48,7 +48,7 @@ function draw() {
   // 観測者を描画する
   person.draw();
 
-  // 情報パネルを描画する
+  // 速度情報パネルを描画する
   drawInfoPanel();
 }
 
@@ -56,114 +56,118 @@ function draw() {
  * シーンの背景（川・岸・ラベル）を描画する。
  */
 function drawScene() {
-  // 川の水面（背景）
-  background(30, 100, 170);
+  // 川（水面）の背景
+  background(28, 98, 165);
 
-  // 対岸（遠岸）
-  fill(160, 130, 75);
+  // 対岸（遠岸）の帯
+  fill(155, 125, 70);
   noStroke();
-  rect(0, 0, V_W, FAR_BANK_BOTTOM);
-
-  // 対岸の草
-  fill(80, 140, 60);
+  rect(0, 0, V_W, 20);
+  fill(70, 130, 50);
   noStroke();
-  rect(0, 0, V_W, 12);
+  rect(0, 0, V_W, 9);
 
   // 手前の岸（原っぱ）
-  fill(85, 160, 65);
+  fill(82, 155, 62);
   noStroke();
   rect(0, RIVER_BOTTOM, V_W, V_H - RIVER_BOTTOM);
 
   // 水面ライン
-  stroke(120, 185, 230);
+  stroke(110, 180, 225);
   strokeWeight(3);
   line(0, RIVER_BOTTOM, V_W, RIVER_BOTTOM);
-  line(0, FAR_BANK_BOTTOM, V_W, FAR_BANK_BOTTOM);
+  line(0, 20, V_W, 20);
 
-  // 川の流れ方向ラベル
+  // 川の流れ方向ラベル（← 左向き）
   noStroke();
-  fill(255, 255, 255, 200);
-  textSize(16);
+  fill(255, 255, 255, 210);
+  textSize(18);
   textAlign(LEFT, CENTER);
-  text("川の流れ →", 30, FAR_BANK_BOTTOM / 2);
+  text("← 川の流れ", 28, 38);
 
   // 原っぱラベル
   fill(255, 255, 200);
   textSize(20);
   textAlign(LEFT, CENTER);
-  text("原っぱ", 30, RIVER_BOTTOM + 60);
+  text("原っぱ", 28, RIVER_BOTTOM + 52);
 
-  // 凡例を描画する
+  // 凡例
   drawLegend();
 }
 
 /**
- * 速度の凡例を描画する。
+ * 速度矢印の色凡例を描画する。
  */
 function drawLegend() {
   const lx = 28;
-  const ly = FAR_BANK_BOTTOM + 14;
-  const lineH = 22;
+  const ly = RIVER_BOTTOM - 108;
+  const lineH = 24;
 
   // 背景
-  fill(0, 0, 0, 145);
+  fill(0, 0, 0, 150);
   noStroke();
-  rect(lx - 8, ly - 8, 210, 72, 6);
+  rect(lx - 8, ly - 10, 250, 80, 6);
 
   textSize(13);
   textAlign(LEFT, CENTER);
 
-  // 船の速度（緑）
-  fill(30, 210, 30);
-  text("← 船の速度 (v船)", lx, ly + lineH * 0);
+  fill(230, 60, 60);
+  text("━━ v川: 川の速度（常に左向き）", lx, ly + lineH * 0);
 
-  // 川の速度（赤）
-  fill(220, 50, 50);
-  text("→ 川の速度 (v川)", lx, ly + lineH * 1);
+  fill(30, 210, 60);
+  text("━━ v船: 船の速度（水に対して）", lx, ly + lineH * 1);
 
-  // 合成速度（青）
-  fill(50, 130, 255);
-  text("↔ 合成速度 (v合)", lx, ly + lineH * 2);
+  fill(60, 130, 255);
+  text("━━ v合: 岸から観測した合成速度", lx, ly + lineH * 2);
 }
 
 /**
- * 現在の速度情報パネルを右下に描画する。
+ * 右下に速度情報パネルを描画する。
+ * v_合 = v_川 + v_船 の関係を視覚的に確認できる。
  */
 function drawInfoPanel() {
-  const px = V_W - 20;
-  const py = V_H - 20;
-  const panelW = 240;
-  const panelH = 86;
-  const lineH = 22;
+  const px = V_W - 16;
+  const py = V_H - 16;
+  const panelW = 260;
+  const panelH = 100;
+  const lineH = 24;
 
-  fill(0, 0, 0, 155);
+  fill(0, 0, 0, 160);
   noStroke();
   rect(px - panelW, py - panelH, panelW, panelH, 6);
 
   textSize(13);
   textAlign(LEFT, CENTER);
 
-  const compSpeed = boat.compositeSpeed;
-  let dirLabel;
-  if (Math.abs(compSpeed) < 0.05) {
-    dirLabel = "（静止）";
-  } else if (compSpeed > 0) {
-    dirLabel = "→（右向き）";
-  } else {
-    dirLabel = "←（左向き）";
-  }
+  // 速度の符号から方向文字を返す（左向き正）
+  const dirChar = (v) => {
+    if (Math.abs(v) < 0.05) return "（静止）";
+    return v > 0 ? "←" : "→";
+  };
 
-  fill(30, 210, 30);
-  text(`v船: ${boat.boatSpeed.toFixed(1)} m/s`, px - panelW + 10, py - panelH + lineH * 0.6);
+  const cs = boat.compositeSpeed;
 
-  fill(220, 50, 50);
-  text(`v川: ${boat.riverSpeed.toFixed(1)} m/s`, px - panelW + 10, py - panelH + lineH * 1.6);
-
-  fill(50, 130, 255);
+  fill(230, 60, 60);
   text(
-    `v合: ${Math.abs(compSpeed).toFixed(1)} m/s ${dirLabel}`,
+    `v川: ${boat.riverSpeed.toFixed(1)} m/s ←`,
     px - panelW + 10,
-    py - panelH + lineH * 2.6
+    py - panelH + lineH * 0.6
+  );
+
+  fill(30, 210, 60);
+  const boatDir = dirChar(boat.boatSpeed);
+  const boatAbs = Math.abs(boat.boatSpeed).toFixed(1);
+  text(
+    `v船: ${boatAbs} m/s ${boatDir}`,
+    px - panelW + 10,
+    py - panelH + lineH * 1.7
+  );
+
+  fill(60, 130, 255);
+  text(
+    `v合: ${Math.abs(cs).toFixed(1)} m/s ${dirChar(cs)}`,
+    px - panelW + 10,
+    py - panelH + lineH * 2.8
   );
 }
 
@@ -174,3 +178,4 @@ function windowResized() {
   canvasController.resizeScreen();
   elementPositionInit();
 }
+

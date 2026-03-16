@@ -4,12 +4,10 @@
 const V_W = 1000;
 /** 仮想キャンバス高さ */
 const V_H = 562;
-/** 対岸（遠岸）の下端Y座標 */
-const FAR_BANK_BOTTOM = 65;
-/** 川の下端Y座標 / 手前の岸の上端Y座標 */
-const RIVER_BOTTOM = 330;
-/** 船のY座標（川の中央） */
-const BOAT_Y = (FAR_BANK_BOTTOM + RIVER_BOTTOM) / 2;
+/** 川の下端Y座標（手前の岸の上端） */
+const RIVER_BOTTOM = 320;
+/** 船のY座標（川の中央付近） */
+const BOAT_Y = 160;
 
 /**
  * BicpemaCanvasControllerクラス
@@ -85,7 +83,7 @@ class BicpemaCanvasController {
  * WaterParticleクラス
  *
  * 川の流れを視覚的に表現する水の粒子。
- * 川は右向きに流れる（v川の方向）。
+ * 川は左向きに流れる（イメージの矢印 ← に対応）。
  */
 class WaterParticle {
   /**
@@ -96,20 +94,20 @@ class WaterParticle {
   constructor(x, y) {
     this.x = x;
     this.y = y;
-    this.waveWidth = random(14, 32);
-    this.alpha = random(70, 150);
-    this.speed = random(45, 85); // 仮想ピクセル/秒（右向き固定）
+    this.waveWidth = random(14, 34);
+    this.alpha = random(70, 155);
+    this.speed = random(48, 90); // 仮想ピクセル/秒（左向き固定）
   }
 
   /**
-   * 座標を更新する。
+   * 座標を更新する（左方向へ移動）。
    * @param {number} dt 時間刻み（秒）
    */
   update(dt) {
-    this.x += this.speed * dt;
-    if (this.x > 1060) {
-      this.x = -60;
-      this.y = random(FAR_BANK_BOTTOM + 10, RIVER_BOTTOM - 20);
+    this.x -= this.speed * dt;
+    if (this.x < -60) {
+      this.x = 1060;
+      this.y = random(20, RIVER_BOTTOM - 20);
     }
   }
 
@@ -118,9 +116,9 @@ class WaterParticle {
    */
   draw() {
     noFill();
-    stroke(180, 225, 255, this.alpha);
-    strokeWeight(2);
-    arc(this.x, this.y, this.waveWidth, 9, PI, TWO_PI);
+    stroke(150, 210, 255, this.alpha);
+    strokeWeight(1.8);
+    arc(this.x, this.y, this.waveWidth, 9, 0, PI);
   }
 }
 
@@ -128,39 +126,41 @@ class WaterParticle {
  * Boatクラス
  *
  * 川を進む船を表現する。
- * 船は水面に対して左向き（v船）に進もうとする。
- * 川は右向き（v川）に流れる。
- * 岸から観測した合成速度 = v川 - v船（右向き正）。
+ *
+ * 速度の定義（左向き正）:
+ *   v_川: 川の流速（常に左向き、≥0）
+ *   v_船: 船の速度（水に対して。+＝下流左向き、−＝上流右向き）
+ *   v_合: 岸から見た合成速度 ＝ v_川 ＋ v_船
  */
 class Boat {
   /**
    * @constructor
-   * @param {number} boatSpeed 船の速度（左向き、m/s）
-   * @param {number} riverSpeed 川の速度（右向き、m/s）
+   * @param {number} boatSpeed 船の速度（水に対して、左向き正）
+   * @param {number} riverSpeed 川の速度（左向き、≥0）
    */
   constructor(boatSpeed, riverSpeed) {
     this.boatSpeed = boatSpeed;
     this.riverSpeed = riverSpeed;
-    this.x = V_W / 2;
+    this.x = V_W * 0.55;
     this.isMoving = false;
   }
 
   /**
-   * 合成速度（右向き正）を返す。
+   * 岸から観測した合成速度（左向き正）を返す。
    */
   get compositeSpeed() {
-    return this.riverSpeed - this.boatSpeed;
+    return this.riverSpeed + this.boatSpeed;
   }
 
   /**
    * 座標を更新する。
+   * 左向き正なので、compositeSpeed > 0 のとき x は減少（左移動）。
    * @param {number} dt 時間刻み（秒）
    */
   update(dt) {
     if (!this.isMoving) return;
-    const SPEED_SCALE = 25; // 1 m/s = 25 仮想ピクセル/秒
-    this.x += this.compositeSpeed * SPEED_SCALE * dt;
-    // 画面外に出たら反対側から戻る
+    const PX_PER_MPS = 20; // 1 m/s = 20 仮想ピクセル/秒
+    this.x -= this.compositeSpeed * PX_PER_MPS * dt;
     if (this.x > 1100) this.x = -100;
     if (this.x < -100) this.x = 1100;
   }
@@ -171,107 +171,73 @@ class Boat {
   draw() {
     push();
     translate(this.x, BOAT_Y);
-    this.drawBody();
-    this.drawVelocityArrows();
+    this._drawBody();
+    this._drawArrows();
     pop();
   }
 
   /**
-   * 船の船体を描画する。
+   * 船体を描画する。
    */
-  drawBody() {
+  _drawBody() {
     // 船体（台形）
     fill(139, 90, 43);
     stroke(100, 60, 20);
     strokeWeight(2);
     beginShape();
-    vertex(-45, -8);
-    vertex(45, -8);
-    vertex(30, 14);
-    vertex(-30, 14);
+    vertex(-52, -10);
+    vertex(52, -10);
+    vertex(36, 16);
+    vertex(-36, 16);
     endShape(CLOSE);
 
     // キャビン
-    fill(220, 220, 230);
+    fill(225, 225, 235);
     stroke(170, 170, 180);
     strokeWeight(1);
-    rect(-18, -26, 36, 18, 3);
+    rect(-21, -30, 42, 22, 3);
 
     // マスト
     stroke(80, 80, 80);
     strokeWeight(2);
-    line(8, -26, 8, -52);
+    line(6, -30, 6, -58);
 
     // 旗
-    fill(220, 50, 50);
+    fill(200, 50, 50);
     noStroke();
-    triangle(8, -52, 8, -40, 26, -46);
+    triangle(6, -58, 6, -44, 28, -51);
   }
 
   /**
-   * 速度ベクトル矢印を描画する。
+   * 3本の速度矢印を描画する。
+   * dx < 0 = 左方向、dx > 0 = 右方向（スクリーン座標）
    */
-  drawVelocityArrows() {
-    const ARROW_SCALE = 12; // 1 m/s = 12 仮想ピクセル
-    const baseY = -68; // 最下段の矢印Y（船の中心からの相対座標）
-    const rowGap = 26; // 矢印間の縦間隔
+  _drawArrows() {
+    const S = 10; // 1 m/s → 10 仮想ピクセル（矢印長さスケール）
+    const y1 = -78; // v_川 の行
+    const y2 = -106; // v_船 の行
+    const y3 = -134; // v_合 の行
 
-    // --- 船の速度矢印（緑、左向き） ---
-    const boatEndX = -this.boatSpeed * ARROW_SCALE;
-    drawArrow(0, baseY, boatEndX, baseY, color(30, 210, 30));
-    noStroke();
-    fill(30, 210, 30);
-    textSize(13);
-    if (this.boatSpeed > 0) {
-      textAlign(RIGHT, CENTER);
-      text(`v船=${this.boatSpeed.toFixed(1)}m/s`, boatEndX - 4, baseY);
-    } else {
-      textAlign(LEFT, CENTER);
-      text(`v船=0m/s`, 5, baseY);
-    }
+    // v_川（赤、常に左向き）
+    const rdx = -(this.riverSpeed * S);
+    drawArrowWithLabel(0, y1, rdx, y1, color(230, 60, 60), `v川 ${this.riverSpeed.toFixed(1)} m/s`);
 
-    // --- 川の速度矢印（赤、右向き） ---
-    const riverEndX = this.riverSpeed * ARROW_SCALE;
-    drawArrow(0, baseY - rowGap, riverEndX, baseY - rowGap, color(220, 50, 50));
-    noStroke();
-    fill(220, 50, 50);
-    textSize(13);
-    if (this.riverSpeed > 0) {
-      textAlign(LEFT, CENTER);
-      text(
-        `v川=${this.riverSpeed.toFixed(1)}m/s`,
-        riverEndX + 4,
-        baseY - rowGap
-      );
-    } else {
-      textAlign(LEFT, CENTER);
-      text(`v川=0m/s`, 5, baseY - rowGap);
-    }
+    // v_船（緑、+ = 左、− = 右）
+    const bdx = -(this.boatSpeed * S);
+    const boatLabel =
+      Math.abs(this.boatSpeed) < 0.05
+        ? "v船 0 m/s"
+        : `v船 ${Math.abs(this.boatSpeed).toFixed(1)} m/s`;
+    drawArrowWithLabel(0, y2, bdx, y2, color(30, 210, 60), boatLabel);
 
-    // --- 合成速度矢印（青） ---
-    const compEndX = this.compositeSpeed * ARROW_SCALE;
-    drawArrow(
-      0,
-      baseY - rowGap * 2,
-      compEndX,
-      baseY - rowGap * 2,
-      color(50, 130, 255)
-    );
-    noStroke();
-    fill(50, 130, 255);
-    textSize(13);
-    const absComp = Math.abs(this.compositeSpeed);
-    const compLabel = `v合=${absComp.toFixed(1)}m/s`;
-    if (Math.abs(compEndX) < 2) {
-      textAlign(LEFT, CENTER);
-      text(`v合=0m/s (静止)`, 5, baseY - rowGap * 2);
-    } else if (compEndX > 0) {
-      textAlign(LEFT, CENTER);
-      text(compLabel, compEndX + 4, baseY - rowGap * 2);
-    } else {
-      textAlign(RIGHT, CENTER);
-      text(compLabel, compEndX - 4, baseY - rowGap * 2);
-    }
+    // v_合（青、+ = 左、− = 右）
+    const cs = this.compositeSpeed;
+    const cdx = -(cs * S);
+    const compLabel =
+      Math.abs(cs) < 0.05
+        ? "v合 0 m/s（静止）"
+        : `v合 ${Math.abs(cs).toFixed(1)} m/s`;
+    drawArrowWithLabel(0, y3, cdx, y3, color(60, 130, 255), compLabel);
   }
 
   /**
@@ -282,7 +248,7 @@ class Boat {
   reset(boatSpeed, riverSpeed) {
     this.boatSpeed = boatSpeed;
     this.riverSpeed = riverSpeed;
-    this.x = V_W / 2;
+    this.x = V_W * 0.55;
     this.isMoving = false;
   }
 }
@@ -317,18 +283,18 @@ class Person {
     circle(0, -42, 28);
 
     // 胴体
-    stroke(50, 80, 180);
+    stroke(50, 80, 190);
     strokeWeight(3);
     line(0, -28, 0, 5);
 
-    // 腕（川の方向を見ている）
-    stroke(50, 80, 180);
+    // 腕（左方向＝川を見ている）
+    stroke(50, 80, 190);
     strokeWeight(2.5);
-    line(-18, -18, -36, -8);
-    line(0, -18, 18, -28);
+    line(0, -20, -22, -8);
+    line(0, -20, 16, -32);
 
     // 足
-    stroke(40, 40, 40);
+    stroke(30, 30, 70);
     strokeWeight(2.5);
     line(0, 5, -12, 28);
     line(0, 5, 12, 28);

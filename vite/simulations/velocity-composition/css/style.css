@@ -31,7 +31,7 @@ html {
   border-radius: 12px;
   padding: 30px;
   color: white;
-  width: 360px;
+  width: 380px;
   max-width: 90vw;
   z-index: 2000;
   backdrop-filter: blur(15px);
@@ -47,6 +47,13 @@ html {
 
 .settings-content .form-label {
   color: white;
+}
+
+.speed-label {
+  color: #aef;
+  font-weight: bold;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
 }
 
 /* 左下コントロール */

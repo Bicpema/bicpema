@@ -1,11 +1,27 @@
 // elementFunction.js は仮想DOMメソッド管理専用のファイルです。
 
 /**
+ * 船の速度スライダーの値に応じてラベルを更新する。
+ * @param {number} val 船の速度（左向き正）
+ */
+function updateBoatSpeedLabel(val) {
+  let text;
+  if (Math.abs(val) < 0.05) {
+    text = "0.0 m/s（停止）";
+  } else if (val > 0) {
+    text = `${val.toFixed(1)} m/s ← 下流`;
+  } else {
+    text = `${Math.abs(val).toFixed(1)} m/s → 上流`;
+  }
+  boatSpeedValue.html(text);
+}
+
+/**
  * 船の速度スライダーが変更されたときの処理。
  */
 function onBoatSpeedChange() {
   const val = parseFloat(boatSpeedInput.value());
-  boatSpeedValue.html(val.toFixed(1));
+  updateBoatSpeedLabel(val);
   boat.boatSpeed = val;
 }
 

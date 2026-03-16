@@ -28,22 +28,9 @@
         <div class="settings-content">
           <h5>設定</h5>
           <div class="mb-3">
-            <label for="boatSpeedInput" class="form-label">
-              船の速度: <span id="boatSpeedValue">5.0</span> m/s
-            </label>
-            <input
-              type="range"
-              class="form-range"
-              id="boatSpeedInput"
-              min="0"
-              max="10"
-              step="0.5"
-              value="5"
-            />
-          </div>
-          <div class="mb-3">
             <label for="riverSpeedInput" class="form-label">
-              川の速度: <span id="riverSpeedValue">3.0</span> m/s
+              川の速度（左向き固定）:
+              <span id="riverSpeedValue">3.0</span> m/s
             </label>
             <input
               type="range"
@@ -54,6 +41,26 @@
               step="0.5"
               value="3"
             />
+          </div>
+          <div class="mb-3">
+            <label for="boatSpeedInput" class="form-label"
+              >船の速度（水に対して）:</label
+            >
+            <div id="boatSpeedValue" class="speed-label">
+              5.0 m/s ← 下流
+            </div>
+            <input
+              type="range"
+              class="form-range"
+              id="boatSpeedInput"
+              min="-10"
+              max="10"
+              step="0.5"
+              value="5"
+            />
+            <small class="text-secondary"
+              >← 下流方向（+）/ → 上流方向（−）</small
+            >
           </div>
           <button id="closeModal" class="btn btn-secondary w-100 mt-2">
             閉じる

@@ -64,16 +64,15 @@ function valueInit() {
   const riverSpeed = parseFloat(riverSpeedInput.value());
 
   boat = new Boat(boatSpeed, riverSpeed);
-  person = new Person(870, RIVER_BOTTOM + 108);
+  // 観測者：右寄りの岸に配置
+  person = new Person(880, RIVER_BOTTOM + 100);
 
-  // 水の粒子を生成する
+  // 水の粒子を生成する（川全体にランダム配置）
   waterParticles = [];
-  for (let i = 0; i < 38; i++) {
+  for (let i = 0; i < 40; i++) {
     waterParticles.push(
-      new WaterParticle(
-        random(0, V_W),
-        random(FAR_BANK_BOTTOM + 10, RIVER_BOTTOM - 20)
-      )
+      new WaterParticle(random(0, V_W), random(20, RIVER_BOTTOM - 20))
     );
   }
 }
+
