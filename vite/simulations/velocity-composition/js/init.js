@@ -41,14 +41,15 @@ function elementSelectInit() {
 
 /**
  * DOM 要素にイベントハンドラを設定する。
+ * null チェックを行い、要素が存在しない場合はスキップする。
  */
 function elementPositionInit() {
-  boatSpeedInput.input(onBoatSpeedChange);
-  riverSpeedInput.input(onRiverSpeedChange);
-  resetButton.mousePressed(onReset);
-  playPauseButton.mousePressed(onPlayPause);
-  toggleModal.mousePressed(onToggleModal);
-  closeModal.mousePressed(onCloseModal);
+  if (boatSpeedInput) boatSpeedInput.input(onBoatSpeedChange);
+  if (riverSpeedInput) riverSpeedInput.input(onRiverSpeedChange);
+  if (resetButton) resetButton.mousePressed(onReset);
+  if (playPauseButton) playPauseButton.mousePressed(onPlayPause);
+  if (toggleModal) toggleModal.mousePressed(onToggleModal);
+  if (closeModal) closeModal.mousePressed(onCloseModal);
 }
 
 // シミュレーション変数
@@ -60,8 +61,8 @@ let person;
  * 初期値を設定してオブジェクトを生成する。
  */
 function valueInit() {
-  const boatSpeed = parseFloat(boatSpeedInput.value());
-  const riverSpeed = parseFloat(riverSpeedInput.value());
+  const boatSpeed = boatSpeedInput ? parseFloat(boatSpeedInput.value()) : 5;
+  const riverSpeed = riverSpeedInput ? parseFloat(riverSpeedInput.value()) : 3;
 
   boat = new Boat(boatSpeed, riverSpeed);
   // 観測者：右寄りの岸に配置

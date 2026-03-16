@@ -33,6 +33,8 @@ function draw() {
 
   drawScene();
 
+  if (!boat || !person) return;
+
   const dt = 1 / FPS;
 
   // 水の粒子を更新・描画する
@@ -126,6 +128,8 @@ function drawLegend() {
  * v_合 = v_川 + v_船 の関係を視覚的に確認できる。
  */
 function drawInfoPanel() {
+  if (!boat) return;
+
   const px = V_W - 16;
   const py = V_H - 16;
   const panelW = 260;
@@ -176,6 +180,5 @@ function drawInfoPanel() {
  */
 function windowResized() {
   canvasController.resizeScreen();
-  elementPositionInit();
 }
 
