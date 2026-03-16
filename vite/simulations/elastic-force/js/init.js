@@ -7,7 +7,6 @@ function settingInit() {
   canvasController.fullScreen();
   frameRate(FPS);
   textAlign(CENTER, CENTER);
-  textFont(font);
   textSize(16);
 }
 

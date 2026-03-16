@@ -1,8 +1,15 @@
 // preload関数
 // setup関数よりも前に一度だけ呼び出される。
-function preload() {
-  font = loadFont(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
+// フォントは非同期で読み込み、起動をブロックしない
+
+// フォントを非同期で読み込む（利用可能になったら適用する）
+function loadFontAsync() {
+  loadFont(
+    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
+    (f) => {
+      font = f;
+      textFont(font);
+    }
   );
 }
 
@@ -13,17 +20,18 @@ function setup() {
   elementSelectInit();
   elementPositionInit();
   valueInit();
+  loadFontAsync();
 }
 
 // draw関数
 // シミュレーションを実行した後、繰り返し呼び出され続ける
 function draw() {
-  background(245);
+  background(255);
   scale(width / V_W);
 
   // 仮想マウス座標（スケール変換後）
   const vmx = (mouseX / width) * V_W;
-  const vmy = (mouseY / width) * V_W * (V_H / V_W);
+  const vmy = (mouseY / width) * V_H;
 
   // ドラッグ中のバネを更新
   for (const spring of springs) {
@@ -38,23 +46,20 @@ function draw() {
   // 各バネを描画
   for (const spring of springs) {
     const hovered = !spring.isDragging && spring.isOverHandle(vmx, vmy);
-    drawNaturalLengthLabel(spring);
     spring.display(hovered);
   }
 
-  // フックの法則を表示
-  const k = parseInt(springConstantInput.value());
-  drawHookesLaw(k);
-
   // カーソル変更
-  const anyHover = springs.some((s) => s.isOverHandle(vmx, vmy));
-  cursor(anyHover || springs.some((s) => s.isDragging) ? "grab" : "default");
+  const anyInteracting =
+    springs.some((s) => s.isOverHandle(vmx, vmy)) ||
+    springs.some((s) => s.isDragging);
+  cursor(anyInteracting ? "grab" : "default");
 }
 
 // mousePressed関数
 function mousePressed() {
   const vmx = (mouseX / width) * V_W;
-  const vmy = (mouseY / width) * V_W * (V_H / V_W);
+  const vmy = (mouseY / width) * V_H;
   for (const spring of springs) {
     if (spring.isOverHandle(vmx, vmy)) {
       spring.startDrag(vmx);

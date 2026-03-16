@@ -1,8 +1,9 @@
 // 変位の表示しきい値 (m) ─ これ以下は変位・弾性力を表示しない
 const DISPLACEMENT_THRESHOLD = 0.001;
-// バネ色変化の基準変位 (m) ─ 伸び・縮みそれぞれの最大色変化量
-const MAX_STRETCH_FOR_COLOR = 0.15;
-const MAX_COMPRESSION_FOR_COLOR = 0.1;
+// バネコイルの振幅（上下の高さ px）
+const SPRING_COIL_AMPLITUDE = 20;
+// バネ両端の直線部分の長さ（px）
+const SPRING_STRAIGHT_SEGMENT = 18;
 
 /**
  * Springクラス
@@ -15,9 +16,9 @@ class Spring {
    * @param {number} attachY バネの壁側端点 Y座標（仮想座標）
    * @param {number} naturalLength バネの自然長（ピクセル）
    * @param {number} k ばね定数 (N/m)
-   * @param {number} coilCount コイルの数
+   * @param {number} coilCount コイルの数（偶数）
    */
-  constructor(attachX, attachY, naturalLength, k, coilCount = 10) {
+  constructor(attachX, attachY, naturalLength, k, coilCount = 12) {
     this.attachX = attachX;
     this.attachY = attachY;
     this.naturalLength = naturalLength;
@@ -33,8 +34,8 @@ class Spring {
     this.dragOffsetX = 0;
 
     // 先端ハンドルのサイズ（仮想座標）
-    this.handleRx = 42;
-    this.handleRy = 26;
+    this.handleRx = 40;
+    this.handleRy = 24;
   }
 
   /**
@@ -103,19 +104,26 @@ class Spring {
   }
 
   /**
-   * 自然長を示す点線を描画
+   * 自然長位置を示す縦の点線を描画
    */
   drawNaturalLengthLine() {
-    const naturalEndX = this.attachX + this.naturalLength;
-    stroke(160);
+    const nx = this.attachX + this.naturalLength;
+    const y = this.attachY;
+    stroke(180);
     strokeWeight(1.5);
-    drawingContext.setLineDash([10, 10]);
-    line(this.attachX, this.attachY, naturalEndX, this.attachY);
+    drawingContext.setLineDash([8, 8]);
+    line(nx, y - 35, nx, y + 35);
     drawingContext.setLineDash([]);
+
+    fill(150);
+    noStroke();
+    textAlign(CENTER, BOTTOM);
+    textSize(13);
+    text("自然長", nx, y - 38);
   }
 
   /**
-   * バネのコイル形状を描画
+   * バネのコイル形状（ジグザグ）を描画
    */
   drawCoil() {
     const x1 = this.attachX;
@@ -125,49 +133,31 @@ class Spring {
 
     if (len < 10) return;
 
-    const amplitude = 22;
-    const straightLen = Math.min(20, len * 0.08);
+    const amplitude = SPRING_COIL_AMPLITUDE;
+    const straightLen = SPRING_STRAIGHT_SEGMENT;
     const coilLen = len - 2 * straightLen;
-    const steps = this.coilCount * 20;
+    // coilCount個のコイル = coilCount*2 個のピーク
+    const halfCoils = this.coilCount * 2;
+    const segLen = coilLen / halfCoils;
 
-    // バネの伸縮に応じて色を変える
-    const dispM = this.displacement;
-    let r, g, b;
-    if (Math.abs(dispM) < 0.001) {
-      r = 60;
-      g = 100;
-      b = 200;
-    } else if (dispM > 0) {
-      // 伸び：赤系
-      const t = Math.min(dispM / MAX_STRETCH_FOR_COLOR, 1);
-      r = 60 + Math.round(t * 180);
-      g = Math.round(100 * (1 - t));
-      b = Math.round(200 * (1 - t));
-    } else {
-      // 縮み：緑系
-      const t = Math.min(-dispM / MAX_COMPRESSION_FOR_COLOR, 1);
-      r = Math.round(60 * (1 - t));
-      g = Math.round(100 + t * 120);
-      b = Math.round(200 * (1 - t));
-    }
-
-    stroke(r, g, b);
+    stroke(40);
     strokeWeight(2.5);
     noFill();
 
     beginShape();
-    vertex(x1, y);
-    vertex(x1 + straightLen, y);
+    curveVertex(x1, y);
+    curveVertex(x1, y);
+    curveVertex(x1 + straightLen, y);
 
-    for (let i = 0; i <= steps; i++) {
-      const t = i / steps;
-      const xPos = x1 + straightLen + t * coilLen;
-      const yPos = y + amplitude * Math.sin(2 * Math.PI * this.coilCount * t);
-      vertex(xPos, yPos);
+    for (let i = 0; i < halfCoils; i++) {
+      const cx = x1 + straightLen + (i + 0.5) * segLen;
+      const cy = y + (i % 2 === 0 ? -amplitude : amplitude);
+      curveVertex(cx, cy);
     }
 
-    vertex(x2 - straightLen, y);
-    vertex(x2, y);
+    curveVertex(x2 - straightLen, y);
+    curveVertex(x2, y);
+    curveVertex(x2, y);
     endShape();
   }
 
@@ -176,8 +166,7 @@ class Spring {
    * @param {boolean} hovered ホバー中か
    */
   drawHandle(hovered) {
-    const bg = hovered ? color(255, 240, 180) : color(255, 255, 255);
-    fill(bg);
+    fill(hovered ? color(255, 245, 180) : 255);
     stroke(0);
     strokeWeight(2);
     ellipse(this.endX, this.endY, this.handleRx * 2, this.handleRy * 2);
@@ -190,7 +179,7 @@ class Spring {
   }
 
   /**
-   * 変位と弾性力の数値を描画
+   * 変位と弾性力の数値・矢印を描画
    */
   drawForceInfo() {
     const dispM = this.displacement;
@@ -199,43 +188,40 @@ class Spring {
 
     if (Math.abs(dispM) < DISPLACEMENT_THRESHOLD) return;
 
-    const infoX = this.endX + this.handleRx + 20;
-    const infoY = this.endY;
+    // 変位ラベル（バネの上）
+    const labelX = (this.attachX + this.endX) / 2;
+    const labelY = this.attachY - 42;
+    noStroke();
+    fill(0);
+    textAlign(CENTER, CENTER);
+    textSize(16);
+    const xSign = dispCm > 0 ? "+" : "";
+    text("x = " + xSign + dispCm.toFixed(1) + " cm", labelX, labelY);
 
-    // 矢印で弾性力の向きを示す
-    const arrowLen = Math.min(Math.abs(dispCm) * 2.5, 120);
-    const arrowDir = dispM > 0 ? -1 : 1; // 縮む方向
-    const arrowColor = dispM > 0 ? color(220, 60, 60) : color(40, 160, 80);
-    stroke(arrowColor);
-    strokeWeight(3);
-    fill(arrowColor);
+    // 弾性力ラベル（バネの下）
+    textSize(16);
+    fill(200, 30, 30);
+    text("F = " + F.toFixed(2) + " N", labelX, this.attachY + 46);
 
-    const arrowStartX = this.endX;
-    const arrowEndX = this.endX + arrowDir * arrowLen;
-    line(arrowStartX, infoY, arrowEndX, infoY);
-    // 矢印の先端
-    const headSize = 10;
+    // 弾性力の矢印（ハンドルから自然長方向へ）
+    const arrowDir = dispM > 0 ? -1 : 1;
+    const arrowLen = Math.min(F * 20, 120);
+    const arrowStartX =
+      this.endX + (dispM > 0 ? this.handleRx : -this.handleRx);
+    const arrowEndX = arrowStartX + arrowDir * arrowLen;
+    stroke(200, 30, 30);
+    strokeWeight(2.5);
+    fill(200, 30, 30);
+    line(arrowStartX, this.attachY, arrowEndX, this.attachY);
+    const hs = 9;
     triangle(
       arrowEndX,
-      infoY,
-      arrowEndX - arrowDir * headSize,
-      infoY - headSize * 0.6,
-      arrowEndX - arrowDir * headSize,
-      infoY + headSize * 0.6
+      this.attachY,
+      arrowEndX - arrowDir * hs,
+      this.attachY - hs * 0.6,
+      arrowEndX - arrowDir * hs,
+      this.attachY + hs * 0.6
     );
-
-    // 数値表示
-    const labelX = this.endX + this.handleRx + 15;
-    const labelY = this.endY - 35;
-    noStroke();
-    fill(40);
-    textAlign(LEFT, CENTER);
-    textSize(17);
-    const xSign = dispCm > 0 ? "+" : "";
-    text(`x = ${xSign}${dispCm.toFixed(1)} cm`, labelX, labelY);
-    textSize(17);
-    fill(dispM > 0 ? color(200, 50, 50) : color(30, 140, 60));
-    text(`F = ${F.toFixed(2)} N`, labelX, labelY + 26);
   }
 
   /**
