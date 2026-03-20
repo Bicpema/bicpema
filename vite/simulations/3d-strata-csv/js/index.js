@@ -1,15 +1,15 @@
 import * as initState from './init.js';
 import { settingInit, elementSelectInit, valueInit, setCoordinateData,
-         setRadioButton, unitSelect, dataInputArr } from './init.js';
+         setRadioButton, unitSelect, dataInputArr, setFont, incrementRotateTime } from './init.js';
 import { calculateValue, backgroundSetting, drawDirMark, drawStrata, connectStrata } from './function.js';
 import { placeAddButtonFunction, placeRemoveButtonFunction, strataAddButtonFunction,
          strataRemoveButtonFunction, setRadioButtonFunction, unitSelectFunction,
          strataFileInputFunction } from './elementFunction.js';
 
 window.preload = function () {
-  initState.font = loadFont(
+  setFont(loadFont(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
-  );
+  ));
 };
 
 window.setup = function () {
@@ -47,7 +47,7 @@ window.draw = function () {
   backgroundSetting(coordinateData);
   drawDirMark(-600, -600);
 
-  initState.rotateTime += 3;
+  incrementRotateTime(3);
 
   for (let key in dataInputArr) {
     drawStrata(key, initState.rotateTime, coordinateData);

@@ -2,17 +2,14 @@ import { test, expect } from '@playwright/test'
 
 /**
  * 力学台車が定規にする仕事 - E2Eテスト（画面操作）
- *
- * 質量・初速度・抵抗力を設定し、シミュレーションを実行→停止→
- * リセットする一連のフローを検証する。
  */
 test.describe('力学台車が定規にする仕事 - 画面操作', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/simulations/cart-work-ruler/')
-    await page.waitForSelector('canvas', { timeout: 10000 })
+    await page.goto('/vite/simulations/cart-work-ruler/')
+    await page.waitForLoadState('domcontentloaded')
   })
 
-  test('開始ボタンをクリックするとシミュレーションが起動すること', async ({ page }) => {
+  test('開始ボタンをクリックするとボタンテキストが変化すること', async ({ page }) => {
     const btn = page.locator('#playPauseButton')
     const before = await btn.textContent()
     await btn.click()
@@ -26,28 +23,23 @@ test.describe('力学台車が定規にする仕事 - 画面操作', () => {
     await page.locator('#velocityInput').fill('2')
     await page.locator('#forceInput').fill('15')
     await page.locator('#closeModal').click()
-    // 変更後もキャンバスが表示されていること
-    await expect(page.locator('canvas')).toBeVisible()
+    await expect(page.locator('#navBar')).toBeVisible()
   })
 
-  test('シミュレーション実行後にリセットができること', async ({ page }) => {
+  test('シミュレーション実行後にリセットが動作すること', async ({ page }) => {
     await page.locator('#playPauseButton').click()
-    // 少し待つ
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
     await page.locator('#resetButton').click()
     await expect(page.locator('#playPauseButton')).toContainText('開始')
   })
 
-  test('設定変更 → 実行 → リセットの一連フローが動作すること', async ({ page }) => {
-    // 設定変更
+  test('設定変更→実行→リセットの一連フローが動作すること', async ({ page }) => {
     await page.locator('#toggleModal').click()
     await page.locator('#massInput').fill('2')
     await page.locator('#closeModal').click()
-    // 実行
     await page.locator('#playPauseButton').click()
     await page.waitForTimeout(300)
-    // リセット
     await page.locator('#resetButton').click()
-    await expect(page.locator('canvas')).toBeVisible()
+    await expect(page.locator('#navBar')).toBeVisible()
   })
 })

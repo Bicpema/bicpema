@@ -27,15 +27,12 @@ export default defineConfig({
   },
   plugins: [
     // simulationsディレクトリを静的ファイルとしてコピーする
+    // (vite-ignore スクリプトや CSS など、Vite が処理しないファイルが対象)
+    // js/common.js は Vite の HTML エントリーポイント処理で自動的にバンドルされるため対象外
     viteStaticCopy({
       targets: [
         {
           src: resolve(root, "simulations"),
-          dest: outDir,
-          overwrite: false,
-        },
-        {
-          src: resolve(root, "js"),
           dest: outDir,
           overwrite: false,
         },

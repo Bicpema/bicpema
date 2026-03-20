@@ -1,5 +1,6 @@
 import { BicpemaCanvasController, CoordinateSystem } from './class.js';
 export let font;
+export function setFont(f) { font = f; }
 export let setRadioButton;
 export let unitSelect;
 export let coordinateData = null;
@@ -88,6 +89,8 @@ export let dataInputArr = {};
 // }
 
 export let rotateTime;
+export function setRotateTime(v) { rotateTime = v; }
+export function incrementRotateTime(delta) { rotateTime += delta; }
 export function valueInit() {
   rotateTime = 0;
 }

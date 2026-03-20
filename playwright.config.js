@@ -9,8 +9,8 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'list',
   use: {
-    // Vite のbase: '/vite' に合わせたベースURL
-    baseURL: 'http://localhost:5173/vite',
+    // Vite dev server ルートはhttp://localhost:5173、baseは/vite
+    baseURL: 'http://localhost:5173',
     trace: 'on-first-retry',
   },
   projects: [
