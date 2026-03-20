@@ -4,6 +4,7 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['test/**/*.{test,spec}.{js,mjs}'],
+    exclude: ['test/e2e/**', 'node_modules/**'],
     globals: false,
   },
 })
