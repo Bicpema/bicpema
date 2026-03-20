@@ -1,8 +1,15 @@
+import { BicpemaCanvasController, CoordinateSystem } from './class.js';
+export let font;
+export let setRadioButton;
+export let unitSelect;
+export let coordinateData = null;
+export function setCoordinateData(cd) { coordinateData = cd; }
+
 // settingInit関数
 // シミュレーションそのものの設定を行う関数
-let canvasController;
-let coordinateSystem;
-function settingInit() {
+export let canvasController;
+export let coordinateSystem;
+export function settingInit() {
   canvasController = new BicpemaCanvasController(false, true);
   coordinateSystem = new CoordinateSystem(1000, 1000, 1000);
   canvasController.fullScreen();
@@ -15,15 +22,15 @@ function settingInit() {
 
 // elementSelectInit関数
 // 仮想DOMを読み込むための関数
-let buttonParent;
-let screenshotButton;
+export let buttonParent;
+export let screenshotButton;
 // 地点を追加、削除するボタン
-let placeAddButton, placeRemoveButton;
+export let placeAddButton, placeRemoveButton;
 // 平面を構成する地層の組を追加、削除するボタン
-let strataAddButton, strataRemoveButton;
-let setRadioParent;
-let strataFileInput;
-function elementSelectInit() {
+export let strataAddButton, strataRemoveButton;
+export let setRadioParent;
+export let strataFileInput;
+export function elementSelectInit(strataFileInputFn) {
   buttonParent = select("#buttonParent");
   screenshotButton = select("#screenshotButton");
   placeAddButton = select("#placeAddButton");
@@ -35,10 +42,10 @@ function elementSelectInit() {
   setRadioButton = createRadio().parent(setRadioParent);
 
   unitSelect = select("#unitSelect");
-  strataFileInput = createFileInput(strataFileInputFunction);
+  strataFileInput = createFileInput(strataFileInputFn);
 }
 
-function elementPositionInit() {
+export function elementPositionInit() {
   buttonParent.position(5, 65);
   placeAddButton.mousePressed(placeAddButtonFunction);
   placeRemoveButton.mousePressed(placeRemoveButtonFunction);
@@ -55,7 +62,7 @@ function elementPositionInit() {
 }
 
 // 地点のデータを入力するインプットの連想配列
-let dataInputArr = {};
+export let dataInputArr = {};
 // データ構造
 // dataInputArr = {
 //   地点+地点番号:{
@@ -80,7 +87,7 @@ let dataInputArr = {};
 //   }
 // }
 
-let rotateTime;
-function valueInit() {
+export let rotateTime;
+export function valueInit() {
   rotateTime = 0;
 }

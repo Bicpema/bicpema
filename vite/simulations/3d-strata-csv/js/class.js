@@ -1,5 +1,5 @@
 // DOM要素のクラス
-class DOM {
+export class DOM {
   constructor(n) {
     this.n = n;
     this.parentDiv = createDiv()
@@ -48,7 +48,7 @@ class DOM {
  *
  * Bicpemaの動的なキャンバスサイズをコントロールする。
  */
-class BicpemaCanvasController {
+export class BicpemaCanvasController {
   /**
    * @constructor
    * @param {boolean} f 回転時に比率を固定化するか
@@ -115,7 +115,7 @@ class BicpemaCanvasController {
 /**
  * 3D座標系を描画するクラス
  */
-class CoordinateSystem {
+export class CoordinateSystem {
   /**
    * @constructor
    * @param {number} x x方向の長さ

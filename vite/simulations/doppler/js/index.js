@@ -1,3 +1,5 @@
+import { BicpemaCanvasController } from './class.js';
+
 const W = 1000;
 const H = ((1000 * 9) / 16) * 0.9;
 
@@ -54,7 +56,7 @@ function valueInit() {
 
 // setup関数
 // シミュレーションを実行する際に１度だけ呼び出される。
-function setup() {
+window.setup = function () {
   settingInit();
   elementSelectInit();
   valueInit();
@@ -62,7 +64,7 @@ function setup() {
 
 // draw関数
 // シミュレーションを実行した後、繰り返し呼び出され続ける
-function draw() {
+window.draw = function () {
   scale(width / 1000);
   background(255);
   backGround();
@@ -84,7 +86,7 @@ function draw() {
 
 // windowResized関数
 // シミュレーションを利用しているデバイスの画面サイズが変わった際に呼び出される。
-function windowResized() {
+window.windowResized = function () {
   canvasController.resizeScreen();
   valueInit();
 }

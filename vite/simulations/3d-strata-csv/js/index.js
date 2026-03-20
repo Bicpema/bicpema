@@ -1,48 +1,61 @@
-function preload() {
-  font = loadFont(
+import * as initState from './init.js';
+import { settingInit, elementSelectInit, valueInit, setCoordinateData,
+         setRadioButton, unitSelect, dataInputArr } from './init.js';
+import { calculateValue, backgroundSetting, drawDirMark, drawStrata, connectStrata } from './function.js';
+import { placeAddButtonFunction, placeRemoveButtonFunction, strataAddButtonFunction,
+         strataRemoveButtonFunction, setRadioButtonFunction, unitSelectFunction,
+         strataFileInputFunction } from './elementFunction.js';
+
+window.preload = function () {
+  initState.font = loadFont(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
   );
-}
+};
 
-function setup() {
+window.setup = function () {
   settingInit();
-  elementSelectInit();
-  elementPositionInit();
+  elementSelectInit(strataFileInputFunction);
+  // elementPositionInit inline with imported callbacks
+  initState.buttonParent.position(5, 65);
+  initState.placeAddButton.mousePressed(placeAddButtonFunction);
+  initState.placeRemoveButton.mousePressed(placeRemoveButtonFunction);
+  initState.strataAddButton.mousePressed(strataAddButtonFunction);
+  initState.strataRemoveButton.mousePressed(strataRemoveButtonFunction);
+  initState.setRadioButton.option("自動", "auto");
+  initState.setRadioButton.option("手動", "manual");
+  initState.setRadioButton.value("auto");
+  initState.setRadioButton.changed(setRadioButtonFunction);
+  initState.unitSelect.option("緯度・経度", "latlng");
+  initState.unitSelect.option("メートル", "meter");
+  initState.unitSelect.changed(unitSelectFunction);
+  initState.strataFileInput.position(0, initState.buttonParent.y + initState.buttonParent.height + 5);
   valueInit();
-}
+};
 
 let coordinateData;
-function draw() {
+window.draw = function () {
   background(255);
 
-  // データ登録モーダルを開いている時にオービットコントロールを無効化
-  let dataRegisterModalIs = $("#dataRegisterModal").is(":hidden");
+  const dataRegisterModalIs = $("#dataRegisterModal").is(":hidden");
   if (dataRegisterModalIs) {
     orbitControl();
   }
 
-  // 緯度や経度、深さに応じてスケールを計算する
-  coordinateData = calculateValue(setRadioButton.value(), unitSelect.value());
+  coordinateData = calculateValue(initState.setRadioButton.value(), initState.unitSelect.value());
+  setCoordinateData(coordinateData);
 
-  // 計算したスケールを実際に適応
   backgroundSetting(coordinateData);
-  // coordinateSystem.line();
-  // coordinateSystem.scale();
-  // 方位の描画
   drawDirMark(-600, -600);
 
-  // 地点名の回転
-  rotateTime += 3;
+  initState.rotateTime += 3;
 
-  // それぞれの地点のボーリングデータの描画
   for (let key in dataInputArr) {
-    drawStrata(key, rotateTime, coordinateData);
+    drawStrata(key, initState.rotateTime, coordinateData);
   }
 
-  // それぞれの地層をつなぐ
   connectStrata();
-}
+};
 
-function windowResized() {
-  canvasController.resizeScreen();
-}
+window.windowResized = function () {
+  initState.canvasController.resizeScreen();
+};

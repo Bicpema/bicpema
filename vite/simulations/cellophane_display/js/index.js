@@ -164,7 +164,7 @@ function fullScreen() {
 }
 
 // 外部ファイルの読み込み
-function preload() {
+window.preload = function () {
   cmfTable = loadTable(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fcmf.csv?alt=media&token=df4cb716-5da8-4640-822e-5107acbdb916",
     "csv",
@@ -302,7 +302,7 @@ function initValue() {
 }
 
 // ★ setup関数
-function setup() {
+window.setup = function () {
   fullScreen();
   elCreate();
   elInit();
@@ -314,7 +314,7 @@ function setup() {
 }
 
 // ★ draw関数
-function draw() {
+window.draw = function () {
   currentValue = optRadio.value();
   radius = 111;
   prenormal();
@@ -1350,7 +1350,7 @@ function crossProduct(P, A, B) {
 }
 
 // windowがリサイズされたときの処理
-function windowResized() {
+window.windowResized = function () {
   let p5Canvas = document.getElementById("p5Canvas");
   let canvas = resizeCanvas(p5Canvas.clientWidth, p5Canvas.clientHeight, WEBGL);
   elInit();

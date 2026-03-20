@@ -1,5 +1,9 @@
+import { dataInputArr, setRadioButton, unitSelect, coordinateData } from './init.js';
+import { DOM } from './class.js';
+import { submit, loadLayers } from './function.js';
+
 // 地点データの追加ボタンを押した時に動く関数
-function placeAddButtonFunction() {
+export function placeAddButtonFunction() {
   // 地点データの数を取得
   let placeNum = Object.keys(dataInputArr).length;
   // 新しく生成する地点データの番号
@@ -30,7 +34,7 @@ function placeAddButtonFunction() {
 }
 
 // 地点データの削除ボタンを押した時に動く関数
-function placeRemoveButtonFunction() {
+export function placeRemoveButtonFunction() {
   // 地点データの個数を取得
   let placeNum = Object.keys(dataInputArr).length;
   if (placeNum > 0) {
@@ -42,7 +46,7 @@ function placeRemoveButtonFunction() {
 }
 
 // 平面を構成する地層の組を追加するボタンを押した時の処理
-function strataAddButtonFunction() {
+export function strataAddButtonFunction() {
   let NextTrNum = document.getElementById("strataSelect").childElementCount + 1;
   let tr = createElement("tr")
     .parent("strataSelect")
@@ -96,14 +100,14 @@ function strataAddButtonFunction() {
 }
 
 // 平面を構成する地層の組を削除するボタンを押した時の処理
-function strataRemoveButtonFunction() {
+export function strataRemoveButtonFunction() {
   let strataSelect = document.getElementById("strataSelect");
   if (strataSelect.childElementCount > 0)
     strataSelect.removeChild(strataSelect.lastChild);
 }
 
 // 地点データが入力された時に動く関数
-function placeNameInputFunction() {
+export function placeNameInputFunction() {
   // 地点データの数
   let placeNum = Object.keys(dataInputArr).length;
   // データを編集するボタンのhtml要素を書き換える繰り返し
@@ -132,7 +136,7 @@ function placeNameInputFunction() {
 }
 
 // 平面を構成する１つ目の地点のデータに関連する処理
-function firstPlaceSelectFunction() {
+export function firstPlaceSelectFunction() {
   let firstPlaceSelect = select("#firstPlaceSelect");
   let firstPlaceName = document.getElementById("firstPlaceName");
   firstPlaceName.innerHTML = firstPlaceSelect.value();
@@ -169,7 +173,7 @@ function firstPlaceSelectFunction() {
 }
 
 // 平面を構成する２つ目の地点のデータに関連する処理
-function secondPlaceSelectFunction() {
+export function secondPlaceSelectFunction() {
   let secondPlaceSelect = select("#secondPlaceSelect");
   let secondPlaceName = document.getElementById("secondPlaceName");
   secondPlaceName.innerHTML = secondPlaceSelect.value();
@@ -206,7 +210,7 @@ function secondPlaceSelectFunction() {
 }
 
 // 平面を構成する３つ目の地点のデータに関連する処理
-function thirdPlaceSelectFunction() {
+export function thirdPlaceSelectFunction() {
   let thirdPlaceSelect = select("#thirdPlaceSelect");
   let thirdPlaceName = document.getElementById("thirdPlaceName");
   thirdPlaceName.innerHTML = thirdPlaceSelect.value();
@@ -243,14 +247,14 @@ function thirdPlaceSelectFunction() {
 }
 
 // 平面を構成する地層の種類が変わったときの処理
-function strataSelectFunction() {
+export function strataSelectFunction() {
   firstPlaceSelectFunction();
   secondPlaceSelectFunction();
   thirdPlaceSelectFunction();
 }
 
 // 平面を構成する地点を更新する処理
-function placeRefreshFunction() {
+export function placeRefreshFunction() {
   let firstPlaceSelect = select("#firstPlaceSelect");
   let secondPlaceSelect = select("#secondPlaceSelect");
   let thirdPlaceSelect = select("#thirdPlaceSelect");
@@ -289,7 +293,7 @@ function placeRefreshFunction() {
   thirdPlaceSelectDoc.addEventListener("change", thirdPlaceSelectFunction);
 }
 
-function setRadioButtonFunction() {
+export function setRadioButtonFunction() {
   let ele1 = document.getElementById("widthDirectionInput");
   let ele2 = document.getElementById("depthDirectionMaxInput");
   let ele3 = document.getElementById("depthDirectionMinInput");
@@ -313,7 +317,7 @@ function setRadioButtonFunction() {
   }
 }
 
-function unitSelectFunction() {
+export function unitSelectFunction() {
   if (unitSelect.value() === "latlng") {
     document.getElementById("setWidthParent").hidden = true;
   } else if (unitSelect.value() === "meter") {
@@ -321,9 +325,9 @@ function unitSelectFunction() {
   }
 }
 
-function strataFileInputFunction(file) {
+export function strataFileInputFunction(file) {
   if (file.type === "text") {
-    dataInputArr = {};
+    Object.keys(dataInputArr).forEach(k => delete dataInputArr[k]);
     // FileReader を使ってバイナリデータを読み込む
     let reader = new FileReader();
     reader.readAsArrayBuffer(file.file); // ArrayBuffer で読み込む
@@ -340,7 +344,7 @@ function strataFileInputFunction(file) {
   }
 }
 
-function processCSV(csvText) {
+export function processCSV(csvText) {
   // 改行コードを統一（\r を削除）
   csvText = csvText.replace(/\r/g, "");
 

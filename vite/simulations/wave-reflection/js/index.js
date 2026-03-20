@@ -53,7 +53,7 @@ function initValue() {
 }
 
 // setup関数
-function setup() {
+window.setup = function () {
   fullScreen();
   elCreate();
   initValue();
@@ -93,7 +93,7 @@ function backgroundSetting() {
   line(60, height / 2, max_time, height / 2);
 }
 // draw関数
-function draw() {
+window.draw = function () {
   stroke(0);
   strokeWeight(1);
   backgroundSetting();
@@ -118,7 +118,7 @@ function draw() {
 }
 
 // windowがリサイズされたときの処理
-function windowResized() {
+window.windowResized = function () {
   fullScreen();
   initValue();
 }

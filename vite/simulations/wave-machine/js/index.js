@@ -5,7 +5,7 @@ let mediums;
 // 器具とボタンの画像を格納する変数
 let stopper, button;
 
-function preload() {
+window.preload = function () {
   mediums = new Array(MEDIUM_QUANTITY);
   stopper = loadImage(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fstopper.png?alt=media&token=c0470026-cb1a-42c5-b814-539ea0961917"
@@ -75,7 +75,7 @@ function initValue() {
   stopperY = height / 2 - stopper.height / 8;
 }
 
-function setup() {
+window.setup = function () {
   fullScreen();
   elCreate();
   elInit();
@@ -155,7 +155,7 @@ function imageFunction() {
   image(stopper, stopperX, stopperY);
 }
 
-function draw() {
+window.draw = function () {
   background(100);
   if (buttonClickedIs == true) {
     for (let i = 0; i < incidentWaves.length; i++) {
@@ -265,7 +265,7 @@ class Medium {
     ellipse(this.posx + 100, this.posy + height / 2, 10, 10);
   }
 }
-function windowResized() {
+window.windowResized = function () {
   fullScreen();
   elCreate();
   elInit();

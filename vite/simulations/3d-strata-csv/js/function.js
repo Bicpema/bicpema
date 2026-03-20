@@ -1,3 +1,7 @@
+import { dataInputArr, unitSelect } from './init.js';
+import $ from 'jquery';
+import html2canvas from 'html2canvas';
+
 // html要素が全て読み込まれた後に読み込む
 window.onload = () => {
   // screenshotButtonの設定
@@ -18,7 +22,7 @@ window.onload = () => {
 let xMin, xMax, yMin, yMax, zMin, zMax;
 
 // 緯度経度、深さの最小値と最大値を計算する関数
-calculateValue = (setRadioButtonValue, unitSelectValue) => {
+export const calculateValue = (setRadioButtonValue, unitSelectValue) => {
   if (setRadioButtonValue === "auto") {
     let latitudeArr = [];
     let longitudeArr = [];
@@ -104,7 +108,7 @@ calculateValue = (setRadioButtonValue, unitSelectValue) => {
 };
 
 //背景を設定する関数
-function backgroundSetting(coordinateData) {
+export function backgroundSetting(coordinateData) {
   let xMin = coordinateData.x.min;
   let xMax = coordinateData.x.max;
   let yMin = coordinateData.y.min;
@@ -193,7 +197,7 @@ function backgroundSetting(coordinateData) {
 }
 
 // 子ウィンドウからデータを取得するための関数
-function submit(arr) {
+export function submit(arr) {
   let name = arr[0];
   let dataArr = arr[1];
   for (let key in dataInputArr) {
@@ -206,7 +210,7 @@ function submit(arr) {
 }
 
 // input済みの地層データを引き継ぐ関数
-function loadLayers(placeName) {
+export function loadLayers(placeName) {
   let arrKey = placeName;
   for (let key in dataInputArr) {
     let a = dataInputArr[key].name.value();
@@ -220,7 +224,7 @@ function loadLayers(placeName) {
 }
 
 // 方角を描画する関数
-drawDirMark = (x, y) => {
+export const drawDirMark = (x, y) => {
   push();
   rotateX(PI / 2);
   strokeWeight(1);
@@ -237,7 +241,7 @@ drawDirMark = (x, y) => {
 };
 
 // 地層の平面を描画する処理
-drawStrata = (key, rotateTime, coordinateData) => {
+export const drawStrata = (key, rotateTime, coordinateData) => {
   xMin = coordinateData.x.min;
   xMax = coordinateData.x.max;
   yMin = coordinateData.y.min;
@@ -321,7 +325,7 @@ drawStrata = (key, rotateTime, coordinateData) => {
   pop();
 };
 
-function connectStrata() {
+export function connectStrata() {
   let trNum = document.getElementById("strataSelect").childElementCount;
   let p1Name = select("#firstPlaceSelect").value();
   let p2Name = select("#secondPlaceSelect").value();
