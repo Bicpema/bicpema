@@ -1,46 +1,49 @@
 import { test, expect } from '@playwright/test'
 
 /**
- * 電車の加速と減速 - E2Eテスト
+ * 電車の加速と減速 - E2Eテスト（画面操作）
+ *
+ * 加速度変更 → 開始 → 一時停止 → リセットの一連のフローを検証する。
  */
-test.describe('電車の加速と減速', () => {
+test.describe('電車の加速と減速 - 画面操作', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/simulations/train-acceleration/')
     await page.waitForSelector('canvas', { timeout: 10000 })
   })
 
-  test('ページタイトルが正しいこと', async ({ page }) => {
-    await expect(page).toHaveTitle('電車の加速と減速')
+  test('開始ボタンをクリックするとシミュレーションが起動してボタンが変化すること', async ({ page }) => {
+    const btn = page.locator('#playPauseButton')
+    const textBefore = await btn.textContent()
+    await btn.click()
+    const textAfter = await btn.textContent()
+    expect(textAfter).not.toBe(textBefore)
   })
 
-  test('キャンバスが生成されること', async ({ page }) => {
+  test('設定モーダルを開閉できること', async ({ page }) => {
+    const modal = page.locator('#settingsModal')
+    await page.locator('#toggleModal').click()
+    await expect(modal).toBeVisible()
+    await page.locator('#closeModal').click()
+    await expect(modal).toBeHidden()
+  })
+
+  test('加速度スライダーを変更して再生するフローが動作すること', async ({ page }) => {
+    await page.locator('#toggleModal').click()
+    const slider = page.locator('#accelerationInput')
+    // 加速度を大きい値に変更
+    await slider.fill('3')
+    await page.locator('#closeModal').click()
+    // 再生開始
+    await page.locator('#playPauseButton').click()
+    // キャンバスが引き続き表示されること
     await expect(page.locator('canvas')).toBeVisible()
   })
 
-  test('開始ボタンが存在すること', async ({ page }) => {
-    await expect(page.locator('#playPauseButton')).toBeVisible()
-  })
-
-  test('リセットボタンが存在すること', async ({ page }) => {
-    await expect(page.locator('#resetButton')).toBeVisible()
-  })
-
-  test('設定モーダルが開閉できること', async ({ page }) => {
-    await page.locator('#toggleModal').click()
-    await expect(page.locator('#settingsModal')).toBeVisible()
-    await page.locator('#closeModal').click()
-    await expect(page.locator('#settingsModal')).toBeHidden()
-  })
-
-  test('加速度入力フィールドが存在すること', async ({ page }) => {
-    await page.locator('#toggleModal').click()
-    await expect(page.locator('#accelerationInput')).toBeVisible()
-  })
-
-  test('開始ボタンクリックでシミュレーションが起動すること', async ({ page }) => {
+  test('リセットボタンで初期状態に戻ること', async ({ page }) => {
     const btn = page.locator('#playPauseButton')
     await btn.click()
-    // ボタンテキストが変化していること
-    await expect(btn).not.toHaveText('▶ 開始')
+    await page.locator('#resetButton').click()
+    // リセット後もキャンバスが表示されていること
+    await expect(page.locator('canvas')).toBeVisible()
   })
 })

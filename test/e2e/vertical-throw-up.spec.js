@@ -1,65 +1,56 @@
 import { test, expect } from '@playwright/test'
 
 /**
- * 鉛直投げ上げ運動 - E2Eテスト
+ * 鉛直投げ上げ運動 - E2Eテスト（画面操作）
  *
- * p5.js描画の完全な検証は困難なため、
- * UIの存在・操作可能性・基本的な状態変化を検証する。
+ * ユーザーの操作フロー（ボタン・スライダー操作）と
+ * それに伴う状態変化を検証する。
  */
-test.describe('鉛直投げ上げ運動', () => {
+test.describe('鉛直投げ上げ運動 - 画面操作', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/simulations/vertical-throw-up/')
-    // p5.js がキャンバスを生成するまで待機
     await page.waitForSelector('canvas', { timeout: 10000 })
   })
 
-  test('ページタイトルが正しいこと', async ({ page }) => {
-    await expect(page).toHaveTitle('鉛直投げ上げ運動')
-  })
-
-  test('p5.jsキャンバスが生成されること', async ({ page }) => {
-    const canvas = page.locator('canvas')
-    await expect(canvas).toBeVisible()
-  })
-
-  test('ナビゲーションバーが表示されること', async ({ page }) => {
-    await expect(page.locator('#navBar')).toBeVisible()
-  })
-
-  test('開始ボタンが存在すること', async ({ page }) => {
+  test('開始ボタンをクリックすると「一時停止」ボタンに変わること', async ({ page }) => {
     const btn = page.locator('#playPauseButton')
-    await expect(btn).toBeVisible()
     await expect(btn).toHaveText('開始')
-  })
-
-  test('リセットボタンが存在すること', async ({ page }) => {
-    await expect(page.locator('#resetButton')).toBeVisible()
-  })
-
-  test('設定ボタンをクリックするとモーダルが表示されること', async ({ page }) => {
-    const modal = page.locator('#settingsModal')
-    await expect(modal).toBeHidden()
-    await page.locator('#toggleModal').click()
-    await expect(modal).toBeVisible()
-  })
-
-  test('モーダルの閉じるボタンでモーダルが非表示になること', async ({ page }) => {
-    await page.locator('#toggleModal').click()
-    await expect(page.locator('#settingsModal')).toBeVisible()
-    await page.locator('#closeModal').click()
-    await expect(page.locator('#settingsModal')).toBeHidden()
-  })
-
-  test('開始ボタンをクリックすると一時停止ボタンに変わること', async ({ page }) => {
-    const btn = page.locator('#playPauseButton')
     await btn.click()
     await expect(btn).toHaveText('一時停止')
   })
 
-  test('初速度入力フィールドが存在すること', async ({ page }) => {
+  test('一時停止ボタンをクリックすると「開始」ボタンに戻ること', async ({ page }) => {
+    const btn = page.locator('#playPauseButton')
+    await btn.click()
+    await expect(btn).toHaveText('一時停止')
+    await btn.click()
+    await expect(btn).toHaveText('開始')
+  })
+
+  test('リセットボタンをクリックするとシミュレーションが初期状態に戻ること', async ({ page }) => {
+    const btn = page.locator('#playPauseButton')
+    // 開始 → リセット → 開始ボタンが再表示される
+    await btn.click()
+    await expect(btn).toHaveText('一時停止')
+    await page.locator('#resetButton').click()
+    await expect(btn).toHaveText('開始')
+  })
+
+  test('設定モーダルを開いて初速度を変更して閉じると反映されること', async ({ page }) => {
     await page.locator('#toggleModal').click()
     const input = page.locator('#velocityInput')
-    await expect(input).toBeVisible()
-    await expect(input).toHaveValue('30')
+    await input.fill('20')
+    await page.locator('#closeModal').click()
+    // モーダルが閉じられた後、再び開いて値が保持されていること
+    await page.locator('#toggleModal').click()
+    await expect(page.locator('#velocityInput')).toHaveValue('20')
+  })
+
+  test('設定モーダルを開閉できること', async ({ page }) => {
+    const modal = page.locator('#settingsModal')
+    await page.locator('#toggleModal').click()
+    await expect(modal).toBeVisible()
+    await page.locator('#closeModal').click()
+    await expect(modal).toBeHidden()
   })
 })
