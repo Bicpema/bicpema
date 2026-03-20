@@ -11,3 +11,5 @@ resources/_gen
 node_modules
 
 static/vite
+
+nohup.out
