@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <title>電車の加速と減速</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="module" src="/js/common.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="./css/style.css" rel="stylesheet" vite-ignore />
+  </head>
+
+  <body class="bg-dark">
+    <nav
+      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
+      data-bs-theme="dark"
+      id="navBar"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
+        <span class="text-light fw-lighter">電車の加速と減速</span>
+      </div>
+    </nav>
+
+    <div class="container-fluid" id="p5Container">
+      <!-- p5.js canvas (upper half) -->
+      <div id="p5Canvas"></div>
+
+      <!-- Chart.js graph (lower half) -->
+      <div id="graphContainer">
+        <canvas id="graphCanvas"></canvas>
+      </div>
+
+      <!-- 設定モーダル -->
+      <div id="settingsModal" class="settings-modal" style="display: none">
+        <div class="modal-content-inner">
+          <h5>設定</h5>
+          <div class="mb-3">
+            <label for="accelerationInput" class="form-label"
+              >加速度 a (m/s²)</label
+            >
+            <input
+              type="number"
+              class="form-control"
+              id="accelerationInput"
+              min="-10"
+              max="10"
+              value="2"
+              step="0.5"
+            />
+          </div>
+          <button id="resetButton" class="btn btn-warning w-100 mb-2">
+            リセット
+          </button>
+          <button id="closeModal" class="btn btn-secondary w-100">
+            閉じる
+          </button>
+        </div>
+      </div>
+
+      <!-- 左下コントロール -->
+      <div class="left-bottom-controls">
+        <button id="playPauseButton" class="btn btn-primary">▶ 開始</button>
+      </div>
+
+      <!-- 右上コントロール -->
+      <div class="right-top-controls">
+        <button id="toggleModal" class="btn btn-info">設定</button>
+      </div>
+    </div>
+
+    <script
+      type="text/javascript"
+      src="./js/class.js"
+      vite-ignore
+    ></script>
+    <script
+      type="text/javascript"
+      src="./js/elementFunction.js"
+      vite-ignore
+    ></script>
+    <script
+      type="text/javascript"
+      src="./js/function.js"
+      vite-ignore
+    ></script>
+    <script
+      type="text/javascript"
+      src="./js/init.js"
+      vite-ignore
+    ></script>
+    <script
+      type="text/javascript"
+      src="./js/graph.js"
+      vite-ignore
+    ></script>
+    <script
+      type="text/javascript"
+      src="./js/index.js"
+      vite-ignore
+    ></script>
+  </body>
+</html>
