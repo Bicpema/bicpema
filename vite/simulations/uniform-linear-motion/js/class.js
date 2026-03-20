@@ -1,7 +1,7 @@
 /**
  * 車オブジェクト
  */
-class CAR {
+export class CAR {
   /**
    * @constructor
    * @param {number} x x方向の座標
@@ -65,7 +65,7 @@ class CAR {
  *
  * Bicpemaの動的なキャンバスサイズをコントロールする。
  */
-class BicpemaCanvasController {
+export class BicpemaCanvasController {
   /**
    * @constructor
    * @param {boolean} f 回転時に比率を固定化するか

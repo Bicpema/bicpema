@@ -6,7 +6,7 @@
  * @param {number} w スケールの幅
  * @param {number} h スケールの高さ
  */
-const drawScale = (x, y, w, h) => {
+export const drawScale = (x, y, w, h) => {
   fill(255);
   rect(x, y - h, w, h);
   fill(0);

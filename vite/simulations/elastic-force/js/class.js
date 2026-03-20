@@ -1,3 +1,5 @@
+import { PX_PER_M, MIN_SPRING_LENGTH, MAX_SPRING_LENGTH } from './function.js';
+
 // 変位の表示しきい値 (m) ─ これ以下は変位・弾性力を表示しない
 const DISPLACEMENT_THRESHOLD = 0.001;
 // バネコイルの振幅（上下の高さ px）
@@ -9,7 +11,7 @@ const SPRING_STRAIGHT_SEGMENT = 18;
  * Springクラス
  * 弾性力シミュレーションにおけるバネを表現する
  */
-class Spring {
+export class Spring {
   /**
    * @constructor
    * @param {number} attachX バネの壁側端点 X座標（仮想座標）
@@ -258,7 +260,7 @@ class Spring {
  *
  * Bicpemaの動的なキャンバスサイズをコントロールする。
  */
-class BicpemaCanvasController {
+export class BicpemaCanvasController {
   /**
    * @constructor
    * @param {boolean} f 回転時に比率を固定化するか

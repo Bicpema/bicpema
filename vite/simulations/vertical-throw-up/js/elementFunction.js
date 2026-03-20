@@ -1,7 +1,7 @@
 /**
  * 初速度入力の値が変更されたときの処理
  */
-function onVelocityChange() {
+export function onVelocityChange() {
   let newVelocity = parseFloat(velocityInput.value());
   // 入力値のバリデーション
   if (isNaN(newVelocity) || newVelocity < 5) {
@@ -19,7 +19,7 @@ function onVelocityChange() {
 /**
  * リセットボタンが押されたときの処理
  */
-function onReset() {
+export function onReset() {
   const newVelocity = parseFloat(velocityInput.value());
   ball.reset(newVelocity);
   playPauseButton.html("開始");
@@ -28,7 +28,7 @@ function onReset() {
 /**
  * 開始/一時停止ボタンが押されたときの処理
  */
-function onPlayPause() {
+export function onPlayPause() {
   if (ball.isMoving) {
     ball.stop();
     playPauseButton.html("再開");
@@ -44,7 +44,7 @@ function onPlayPause() {
 /**
  * モーダルを表示/非表示
  */
-function onToggleModal() {
+export function onToggleModal() {
   const currentDisplay = settingsModal.style("display");
   if (currentDisplay === "none") {
     settingsModal.style("display", "block");
@@ -56,6 +56,6 @@ function onToggleModal() {
 /**
  * モーダルを閉じる
  */
-function onCloseModal() {
+export function onCloseModal() {
   settingsModal.style("display", "none");
 }

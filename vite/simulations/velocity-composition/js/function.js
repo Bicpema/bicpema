@@ -8,7 +8,7 @@
  * @param {number} toY 終点のY座標
  * @param {p5.Color} col 矢印の色
  */
-function drawArrow(fromX, fromY, toX, toY, col) {
+export function drawArrow(fromX, fromY, toX, toY, col) {
   const headSize = 11;
   const dx = toX - fromX;
   const dy = toY - fromY;
@@ -38,7 +38,7 @@ function drawArrow(fromX, fromY, toX, toY, col) {
  * @param {p5.Color} col 矢印とラベルの色
  * @param {string} label 表示するテキスト
  */
-function drawArrowWithLabel(fromX, fromY, toX, toY, col, label) {
+export function drawArrowWithLabel(fromX, fromY, toX, toY, col, label) {
   drawArrow(fromX, fromY, toX, toY, col);
   noStroke();
   fill(col);

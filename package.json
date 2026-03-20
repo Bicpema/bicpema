@@ -6,13 +6,18 @@
   "scripts": {
     "format": "prettier --write .",
     "dev": "vite build --watch",
-    "build": "vite build"
+    "build": "vite build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^4.1.0",
     "prettier": "3.6.2",
     "sass": "^1.92.1",
     "vite": "^7.1.5",
-    "vite-plugin-static-copy": "^3.1.2"
+    "vite-plugin-static-copy": "^3.1.2",
+    "vitest": "^4.1.0"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",

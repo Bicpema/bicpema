@@ -2,7 +2,7 @@
  * Ballクラス
  * 鉛直投げ上げ運動をする物体を表現
  */
-class Ball {
+export class Ball {
   /**
    * @constructor
    * @param {number} initialVelocity 初速度 (m/s) - 上向きを正とする
@@ -153,7 +153,7 @@ class Ball {
  *
  * Bicpemaの動的なキャンバスサイズをコントロールする。
  */
-class BicpemaCanvasController {
+export class BicpemaCanvasController {
   /**
    * @constructor
    * @param {boolean} f 回転時に比率を固定化するか

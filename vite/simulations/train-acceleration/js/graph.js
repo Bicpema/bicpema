@@ -1,12 +1,13 @@
 // graph.js はグラフ描画専用のファイルです。
 
 /** Chart.js インスタンス */
-let graphChart = null;
+export let graphChart = null;
 
 /**
  * v-t グラフを初期化する。
+ * @param {Array} vtData 初期データ配列
  */
-const initChart = () => {
+export const initChart = (vtData) => {
   if (graphChart) {
     graphChart.destroy();
   }
@@ -68,18 +69,16 @@ const initChart = () => {
 
 /**
  * v-t グラフのデータと軸範囲を更新する。
- * x軸は末尾データのみ参照、y軸は maxObservedVelocity を使って効率的に更新する。
+ * @param {Array} vtData データ配列
+ * @param {number} maxObservedVelocity 観測した最大速度
  */
-const updateChart = () => {
+export const updateChart = (vtData, maxObservedVelocity) => {
   if (!graphChart) return;
   graphChart.data.datasets[0].data = vtData;
 
-  // 末尾データのみ参照して x 上限を更新（配列全体の走査を避ける）
   const lastPoint = vtData[vtData.length - 1];
   const maxT = lastPoint ? lastPoint.x : 0;
   graphChart.options.scales.x.max = Math.max(10, Math.ceil(maxT / 10) * 10);
-
-  // y軸上限は maxObservedVelocity を使用（減速中でも過去のピークを保持）
   graphChart.options.scales.y.max = Math.max(5, Math.ceil((maxObservedVelocity + 1) / 5) * 5);
 
   graphChart.update();

@@ -1,83 +1,94 @@
-// preload関数
-// setup関数よりも前に一度だけ呼び出される。
-// フォントは非同期で読み込み、起動をブロックしない
+import { Spring, BicpemaCanvasController } from './class.js';
+import { V_W, V_H, ATTACH_X, NATURAL_LENGTH, SPRING_Y_POSITIONS, drawWall } from './function.js';
 
-// フォントを非同期で読み込む（利用可能になったら適用する）
-function loadFontAsync() {
+const FPS = 30;
+let canvasController;
+let springConstantInput, springConstantDisplay, resetButton, toggleModal, closeModal, settingsModal;
+let springs;
+let font;
+
+function settingInit() {
+  canvasController = new BicpemaCanvasController(true, false);
+  canvasController.fullScreen();
+  frameRate(FPS);
+  textAlign(CENTER, CENTER);
+  textSize(16);
+}
+
+function elementSelectInit() {
+  springConstantInput = select('#springConstantInput');
+  springConstantDisplay = select('#springConstantDisplay');
+  resetButton = select('#resetButton');
+  toggleModal = select('#toggleModal');
+  closeModal = select('#closeModal');
+  settingsModal = select('#settingsModal');
+}
+
+function elementPositionInit() {
+  springConstantInput.input(() => {
+    const k = parseInt(springConstantInput.value());
+    springConstantDisplay.html(`${k} N/m`);
+    for (const spring of springs) spring.updateK(k);
+  });
+  resetButton.mousePressed(() => {
+    for (const spring of springs) spring.reset();
+  });
+  toggleModal.mousePressed(() => {
+    settingsModal.style('display', settingsModal.style('display') === 'none' ? 'block' : 'none');
+  });
+  closeModal.mousePressed(() => settingsModal.style('display', 'none'));
+}
+
+function initFont() {
   loadFont(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
-    (f) => {
-      font = f;
-      textFont(font);
-    }
+    'https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580',
+    (f) => { font = f; textFont(font); }
   );
 }
 
-// setup関数
-// シミュレーションを実行する際に１度だけ呼び出される。
-function setup() {
+function valueInit() {
+  const k = parseInt(springConstantInput.value());
+  springs = SPRING_Y_POSITIONS.map((y) => new Spring(ATTACH_X, y, NATURAL_LENGTH, k));
+}
+
+window.setup = function() {
   settingInit();
   elementSelectInit();
   elementPositionInit();
   valueInit();
-  loadFontAsync();
+  initFont();
 }
 
-// draw関数
-// シミュレーションを実行した後、繰り返し呼び出され続ける
-function draw() {
+window.draw = function() {
   background(255);
   scale(width / V_W);
-
-  // 仮想マウス座標（スケール変換後）
   const vmx = (mouseX / width) * V_W;
   const vmy = (mouseY / width) * V_H;
-
-  // ドラッグ中のバネを更新
   for (const spring of springs) {
-    if (spring.isDragging) {
-      spring.drag(vmx);
-    }
+    if (spring.isDragging) spring.drag(vmx);
   }
-
-  // 壁を描画
   drawWall();
-
-  // 各バネを描画
   for (const spring of springs) {
     const hovered = !spring.isDragging && spring.isOverHandle(vmx, vmy);
     spring.display(hovered);
   }
-
-  // カーソル変更
-  const anyInteracting =
-    springs.some((s) => s.isOverHandle(vmx, vmy)) ||
-    springs.some((s) => s.isDragging);
-  cursor(anyInteracting ? "grab" : "default");
+  const anyInteracting = springs.some((s) => s.isOverHandle(vmx, vmy)) || springs.some((s) => s.isDragging);
+  cursor(anyInteracting ? 'grab' : 'default');
 }
 
-// mousePressed関数
-function mousePressed() {
+window.mousePressed = function() {
   const vmx = (mouseX / width) * V_W;
   const vmy = (mouseY / width) * V_H;
   for (const spring of springs) {
-    if (spring.isOverHandle(vmx, vmy)) {
-      spring.startDrag(vmx);
-      break;
-    }
+    if (spring.isOverHandle(vmx, vmy)) { spring.startDrag(vmx); break; }
   }
 }
 
-// mouseReleased関数
-function mouseReleased() {
-  for (const spring of springs) {
-    spring.stopDrag();
-  }
+window.mouseReleased = function() {
+  for (const spring of springs) spring.stopDrag();
 }
 
-// windowResized関数
-// シミュレーションを利用しているデバイスの画面サイズが変わった際に呼び出される。
-function windowResized() {
+window.windowResized = function() {
   canvasController.resizeScreen();
   elementPositionInit();
 }

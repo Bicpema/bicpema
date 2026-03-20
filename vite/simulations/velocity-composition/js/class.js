@@ -1,4 +1,5 @@
 // class.js はクラス管理専用のファイルです。
+import { drawArrowWithLabel } from './function.js';
 
 /** 仮想キャンバス幅 */
 const V_W = 1000;
@@ -14,7 +15,7 @@ const BOAT_Y = 160;
  *
  * Bicpemaの動的なキャンバスサイズをコントロールする。
  */
-class BicpemaCanvasController {
+export class BicpemaCanvasController {
   /**
    * @constructor
    * @param {boolean} f 回転時に比率を固定化するか
@@ -85,7 +86,7 @@ class BicpemaCanvasController {
  * 川の流れを視覚的に表現する水の粒子。
  * 川は左向きに流れる（イメージの矢印 ← に対応）。
  */
-class WaterParticle {
+export class WaterParticle {
   /**
    * @constructor
    * @param {number} x 初期X座標
@@ -132,7 +133,7 @@ class WaterParticle {
  *   v_船: 船の速度（水に対して。+＝下流左向き、−＝上流右向き）
  *   v_合: 岸から見た合成速度 ＝ v_川 ＋ v_船
  */
-class Boat {
+export class Boat {
   /**
    * @constructor
    * @param {number} boatSpeed 船の速度（水に対して、左向き正）
@@ -258,7 +259,7 @@ class Boat {
  *
  * 河岸に立って船を観察する人を表現する。
  */
-class Person {
+export class Person {
   /**
    * @constructor
    * @param {number} x X座標

@@ -1,10 +1,13 @@
 // class.js はクラス管理専用のファイルです。
 
+/** 電車の半幅（仮想ピクセル） */
+export const TRAIN_HALF_W = 100;
+
 /**
  * Trainクラス
  * 電車の物理状態（速度・位置）を管理する。
  */
-class Train {
+export class Train {
   /**
    * @constructor
    * @param {number} startX 初期表示x座標（仮想ピクセル）
@@ -51,7 +54,7 @@ class Train {
  * BicpemaCanvasControllerクラス
  * Bicpemaの動的なキャンバスサイズをコントロールする。
  */
-class BicpemaCanvasController {
+export class BicpemaCanvasController {
   /**
    * @constructor
    * @param {boolean} f 回転時に比率を固定化するか

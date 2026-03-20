@@ -1,78 +1,128 @@
-// index.js - メインのメソッドを呼び出すためのファイルです。
+import { SlopeCart, BicpemaCanvasController } from './class.js';
+import { V_W, SLOPE_LENGTH_M, drawSlope, drawCartOnSlope, drawRecordingTape, drawInfoPanel } from './function.js';
+import { updateGraph } from './graph.js';
 
-/** フォント */
+const FPS = 30;
+let canvasController;
 let font;
+let isPlaying = false;
+let tapeMarks = [];
+let vtData = [];
+let slopeDeg = 30;
+let recInterval = 0.1;
+let graphVisible = false;
+let cart;
+let resetButton, playPauseButton, toggleModal, closeModal, settingsModal, angleInput, intervalInput;
 
-// preload関数
-// setup関数よりも前に一度だけ呼び出される。
-function preload() {
-  font = loadFont(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
-  );
+function settingInit() {
+  canvasController = new BicpemaCanvasController(true, false);
+  canvasController.fullScreen();
+  frameRate(FPS);
+  textAlign(CENTER, CENTER);
+  if (font) textFont(font);
+  textSize(15);
 }
 
-// setup関数
-// シミュレーションを実行する際に１度だけ呼び出される。
-function setup() {
+function doReset() {
+  cart.reset();
+  tapeMarks = [];
+  vtData = [];
+  isPlaying = false;
+  playPauseButton.html('▶ 開始');
+  updateGraph(cart, vtData, graphVisible, SLOPE_LENGTH_M);
+}
+
+function elementSelectInit() {
+  resetButton = select('#resetButton');
+  playPauseButton = select('#playPauseButton');
+  toggleModal = select('#toggleModal');
+  closeModal = select('#closeModal');
+  settingsModal = select('#settingsModal');
+  angleInput = select('#angleInput');
+  intervalInput = select('#intervalInput');
+
+  resetButton.mousePressed(doReset);
+  playPauseButton.mousePressed(() => {
+    if (cart.isAtBottom) { doReset(); isPlaying = true; playPauseButton.html('⏸ 停止'); return; }
+    isPlaying = !isPlaying;
+    playPauseButton.html(isPlaying ? '⏸ 停止' : '▶ 再開');
+  });
+  toggleModal.mousePressed(() => {
+    settingsModal.style('display', settingsModal.style('display') === 'none' ? 'block' : 'none');
+  });
+  closeModal.mousePressed(() => {
+    settingsModal.style('display', 'none');
+    const newAngle = parseInt(angleInput.value());
+    const newInterval = parseFloat(intervalInput.value());
+    if (newAngle >= 10 && newAngle <= 40) { slopeDeg = newAngle; cart.setAngle(newAngle); }
+    recInterval = newInterval;
+    doReset();
+  });
+
+  const graphToggleParent = createDiv().id('graphToggleParent').parent(select('#p5Container'));
+  const graphDiv = createDiv('<canvas id="graphCanvas"></canvas>').id('graph').parent(select('#p5Container')).style('display', 'none');
+  const graphToggleBtn = createButton('v-tグラフを表示').id('graphToggleButton').class('btn btn-secondary').parent(graphToggleParent);
+  graphToggleBtn.mousePressed(() => {
+    graphVisible = !graphVisible;
+    if (graphVisible) {
+      graphDiv.style('display', 'block');
+      graphToggleBtn.html('v-tグラフを非表示');
+      updateGraph(cart, vtData, graphVisible, SLOPE_LENGTH_M);
+    } else {
+      graphDiv.style('display', 'none');
+      graphToggleBtn.html('v-tグラフを表示');
+    }
+  });
+}
+
+function elementPositionInit() {}
+
+function valueInit() {
+  cart = new SlopeCart(slopeDeg, SLOPE_LENGTH_M);
+}
+
+window.preload = function() {
+  font = loadFont('https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580');
+}
+
+window.setup = function() {
   settingInit();
   elementSelectInit();
   elementPositionInit();
   valueInit();
 }
 
-// draw関数
-// シミュレーションを実行した後、繰り返し呼び出され続ける
-function draw() {
-  // レスポンシブスケーリング
+window.draw = function() {
   scale(width / V_W);
-
   background(245);
 
-  // ── 物理更新 ────────────────────────────────────────────────
   if (isPlaying) {
     cart.update(1 / FPS);
-
-    // 記録間隔ごとにテープにマークを追加
     while ((tapeMarks.length + 1) * recInterval <= cart.time) {
       const t = (tapeMarks.length + 1) * recInterval;
       const s = 0.5 * cart.accel * t * t;
-      // 斜面の範囲を超える位置は記録しない
       if (s > cart.slopeLengthM) break;
-      const v = cart.accel * t;
       tapeMarks.push(s);
-      vtData.push({ x: t, y: v });
+      vtData.push({ x: t, y: cart.accel * t });
     }
-
-    // 台車が下端に達したらボタン更新
     if (cart.isAtBottom) {
       isPlaying = false;
-      playPauseButton.html("▶ 開始");
-      if (graphVisible) updateGraph();
+      playPauseButton.html('▶ 開始');
+      if (graphVisible) updateGraph(cart, vtData, graphVisible, SLOPE_LENGTH_M);
     }
   }
 
-  // ── 描画 ─────────────────────────────────────────────────────
-  // 斜面・支持台
   drawSlope(slopeDeg);
-
-  // 台車
   drawCartOnSlope(cart, slopeDeg);
-
-  // 記録テープ
   drawRecordingTape(tapeMarks, recInterval);
-
-  // 情報パネル
   drawInfoPanel(cart);
 
-  // v-tグラフをリアルタイム更新（再生中のみ）
   if (isPlaying && graphVisible) {
-    updateGraph();
+    updateGraph(cart, vtData, graphVisible, SLOPE_LENGTH_M);
   }
 }
 
-// windowResized関数
-// デバイスの画面サイズが変わった際に呼び出される。
-function windowResized() {
+window.windowResized = function() {
   canvasController.resizeScreen();
   elementPositionInit();
 }

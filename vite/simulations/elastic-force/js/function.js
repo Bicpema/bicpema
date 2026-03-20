@@ -1,29 +1,29 @@
 // 仮想キャンバスの寸法
-const V_W = 1000;
-const V_H = 562;
+export const V_W = 1000;
+export const V_H = 562;
 
 // スケール: 1 m = 400 px
-const PX_PER_M = 400;
+export const PX_PER_M = 400;
 
 // 壁のレイアウト
-const WALL_X = 55;
-const WALL_W = 80;
-const WALL_TOP = 60;
-const WALL_BOTTOM = 502;
-const ATTACH_X = WALL_X + WALL_W;
+export const WALL_X = 55;
+export const WALL_W = 80;
+export const WALL_TOP = 60;
+export const WALL_BOTTOM = 502;
+export const ATTACH_X = WALL_X + WALL_W;
 
 // バネの自然長・制限値（px）
-const NATURAL_LENGTH = 280;
-const MIN_SPRING_LENGTH = 50;
-const MAX_SPRING_LENGTH = 680;
+export const NATURAL_LENGTH = 280;
+export const MIN_SPRING_LENGTH = 50;
+export const MAX_SPRING_LENGTH = 680;
 
 // バネ取り付けY座標（上・中・下）
-const SPRING_Y_POSITIONS = [175, 281, 387];
+export const SPRING_Y_POSITIONS = [175, 281, 387];
 
 /**
  * 壁を描画する
  */
-function drawWall() {
+export function drawWall() {
   // 壁の本体（明るいグレー・黒枠）
   fill(235);
   stroke(0);

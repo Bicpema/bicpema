@@ -2,7 +2,7 @@
  * Cartクラス
  * 力と加速度の関係を示す台車
  */
-class Cart {
+export class Cart {
   /**
    * @constructor
    * @param {number} x 台車の中心x座標（論理ピクセル）
@@ -121,7 +121,7 @@ class Cart {
  *
  * Bicpemaの動的なキャンバスサイズをコントロールする。
  */
-class BicpemaCanvasController {
+export class BicpemaCanvasController {
   /**
    * @constructor
    * @param {boolean} f 回転時に比率を固定化するか

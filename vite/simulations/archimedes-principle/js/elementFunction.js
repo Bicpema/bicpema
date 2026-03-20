@@ -4,7 +4,7 @@
  * 開始・停止ボタンの表示を切り替える。
  * @param {boolean} running シミュレーション実行中かどうか
  */
-function updateStartButton(running) {
+export function updateStartButton(running) {
   const btn = document.getElementById("startButton");
   if (!btn) return;
   if (running) {
@@ -22,7 +22,7 @@ function updateStartButton(running) {
  * 密度スライダーの値ラベルを更新する。
  * @param {number} density 密度の値
  */
-function updateDensityLabel(density) {
+export function updateDensityLabel(density) {
   const el = document.getElementById("densityValue");
   if (el) el.textContent = density.toFixed(2);
 }

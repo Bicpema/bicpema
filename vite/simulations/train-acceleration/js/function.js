@@ -1,12 +1,15 @@
 // function.js はその他のメソッド管理専用のファイルです。
 
+/** 電車の半幅（仮想ピクセル） */
+const TRAIN_HALF_W = 100;
+
 /**
  * 線路（レールと枕木）を描画する。
  * @param {number} groundY 地面上部のy座標（仮想ピクセル）
  * @param {number} trackOffset 線路スクロールオフセット（仮想ピクセル）
  * @param {number} vw 仮想キャンバス幅
  */
-const drawTrack = (groundY, trackOffset, vw) => {
+export const drawTrack = (groundY, trackOffset, vw) => {
   const TIE_SPACING = 40;
   const TIE_W = 30;
   const TIE_H = 8;
@@ -37,7 +40,7 @@ const drawTrack = (groundY, trackOffset, vw) => {
  * @param {number} trainX 電車の中心x座標（仮想ピクセル）
  * @param {number} groundY 地面上部のy座標（仮想ピクセル）
  */
-const drawTrain = (trainX, groundY) => {
+export const drawTrain = (trainX, groundY) => {
   const BODY_W = TRAIN_HALF_W * 2;
   const BODY_H = 60;
   const WHEEL_R = 14;
@@ -103,7 +106,7 @@ const drawTrain = (trainX, groundY) => {
  * @param {number} t 経過時間 (s)
  * @param {number} a 加速度 (m/s²)
  */
-const drawInfoPanel = (v, t, a) => {
+export const drawInfoPanel = (v, t, a) => {
   // パネル背景
   fill(0, 0, 0, 180);
   stroke(255, 255, 255, 60);

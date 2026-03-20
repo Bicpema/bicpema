@@ -1,9 +1,10 @@
 // class.js - クラス管理専用のファイルです。
+import { PX_PER_M } from './function.js';
 
 /**
  * 斜面をくだる台車クラス
  */
-class SlopeCart {
+export class SlopeCart {
   /**
    * @constructor
    * @param {number} angleDeg - 斜面の傾斜角 (度)
@@ -72,7 +73,7 @@ class SlopeCart {
  *
  * Bicpemaの動的なキャンバスサイズをコントロールする。
  */
-class BicpemaCanvasController {
+export class BicpemaCanvasController {
   /**
    * @constructor
    * @param {boolean} f 回転時に比率を固定化するか

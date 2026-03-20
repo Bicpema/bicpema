@@ -5,7 +5,7 @@
  *
  * Bicpemaの動的なキャンバスサイズをコントロールする。
  */
-class BicpemaCanvasController {
+export class BicpemaCanvasController {
   /**
    * @constructor
    * @param {boolean} f 回転時に比率を固定化するか
@@ -76,7 +76,7 @@ class BicpemaCanvasController {
  * アルキメデスの原理シミュレーションで使用する円柱を表すクラス。
  * 等角投影法（isometric projection）で描画する。
  */
-class Cylinder {
+export class Cylinder {
   /**
    * @constructor
    * @param {number} cx 円柱の中心X座標（キャンバス座標）

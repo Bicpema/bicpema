@@ -1,8 +1,8 @@
 // settingInit関数
 // シミュレーションそのものの設定を行う関数
-const FPS = 30;
-let canvasController;
-function settingInit() {
+export const FPS = 30;
+export let canvasController;
+export function settingInit() {
   canvasController = new BicpemaCanvasController(true, false);
   canvasController.fullScreen();
   frameRate(FPS);
@@ -13,13 +13,13 @@ function settingInit() {
 
 // elementSelectInit関数
 // 仮想DOMを読み込むための関数
-let velocityInput,
+export let velocityInput,
   resetButton,
   playPauseButton,
   toggleModal,
   closeModal,
   settingsModal;
-function elementSelectInit() {
+export function elementSelectInit() {
   velocityInput = select("#velocityInput");
   resetButton = select("#resetButton");
   playPauseButton = select("#playPauseButton");
@@ -30,7 +30,7 @@ function elementSelectInit() {
 
 // elementPositionInit関数
 // 仮想DOMの場所や実行関数を設定するための関数
-function elementPositionInit() {
+export function elementPositionInit() {
   velocityInput.input(onVelocityChange);
   resetButton.mousePressed(onReset);
   playPauseButton.mousePressed(onPlayPause);
@@ -40,8 +40,8 @@ function elementPositionInit() {
 
 // valueInit関数
 // 初期値を設定するための関数
-let ball;
-function valueInit() {
+export let ball;
+export function valueInit() {
   const initialVelocity = parseFloat(velocityInput.value());
   ball = new Ball(initialVelocity);
 }

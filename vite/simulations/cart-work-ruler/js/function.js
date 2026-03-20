@@ -5,19 +5,19 @@
 // ============================================================
 
 /** 仮想キャンバスの幅 */
-const V_W = 1000;
+export const V_W = 1000;
 /** 仮想キャンバスの高さ */
-const V_H = 562;
+export const V_H = 562;
 /** 物理座標→ピクセル変換スケール（1m = 400px） */
-const PM = 400;
+export const PM = 400;
 
 // 地面
 /** 地面のy座標 */
-const GROUND_Y = 490;
+export const GROUND_Y = 490;
 
 // 本
 /** 本の左端x座標 */
-const BOOK_LEFT_X = 730;
+export const BOOK_LEFT_X = 730;
 /** 本の右端x座標 */
 const BOOK_RIGHT_X = 820;
 /** 本の上端y座標 */
@@ -31,7 +31,7 @@ const BOOK_H = GROUND_Y - BOOK_TOP_Y;
 /** 定規の厚さ */
 const RULER_THICK = 18;
 /** 定規の初期左端x座標（本の外側） */
-const RULER_INIT_LEFT = 510;
+export const RULER_INIT_LEFT = 510;
 /** 定規の初期長さ（本の外側部分） */
 const RULER_INIT_LENGTH = BOOK_LEFT_X - RULER_INIT_LEFT;
 /** 定規の中心y座標 */
@@ -39,7 +39,7 @@ const RULER_CENTER_Y = 413;
 
 // 台車
 /** 台車ボディの幅 */
-const CART_W = 155;
+export const CART_W = 155;
 /** 台車ボディの高さ */
 const CART_H = 70;
 /** 車輪の半径 */
@@ -49,9 +49,9 @@ const CART_BODY_BOTTOM = GROUND_Y - WHEEL_R * 2;
 /** 台車ボディの上辺y座標 */
 const CART_BODY_TOP = CART_BODY_BOTTOM - CART_H;
 /** 台車の初期左端x座標 */
-const CART_START_X = 30;
+export const CART_START_X = 30;
 /** 接触時の台車左端x座標 */
-const CART_CONTACT_X = RULER_INIT_LEFT - CART_W;
+export const CART_CONTACT_X = RULER_INIT_LEFT - CART_W;
 
 // ============================================================
 // 描画関数
@@ -60,7 +60,7 @@ const CART_CONTACT_X = RULER_INIT_LEFT - CART_W;
 /**
  * 地面を描画する
  */
-function drawGround() {
+export function drawGround() {
   stroke(90);
   strokeWeight(2);
   line(0, GROUND_Y, V_W, GROUND_Y);
@@ -74,7 +74,7 @@ function drawGround() {
  * 台車を描画する
  * @param {number} cartLeftX 台車の左端x座標（仮想座標）
  */
-function drawCart(cartLeftX) {
+export function drawCart(cartLeftX) {
   // --- 台車ボディ ---
   fill(70);
   stroke(30);
@@ -114,7 +114,7 @@ function drawCart(cartLeftX) {
  * 定規を描画する
  * @param {number} leftX 定規の左端x座標（仮想座標）
  */
-function drawRuler(leftX) {
+export function drawRuler(leftX) {
   if (leftX >= BOOK_LEFT_X) return;
 
   const topY = RULER_CENTER_Y - RULER_THICK / 2;
@@ -153,7 +153,7 @@ function drawRuler(leftX) {
 /**
  * 本を描画する
  */
-function drawBook() {
+export function drawBook() {
   if (typeof bookImage !== "undefined" && bookImage && bookImage.width > 0) {
     imageMode(CORNER);
     image(bookImage, BOOK_LEFT_X, BOOK_TOP_Y, BOOK_W, BOOK_H);
@@ -176,7 +176,7 @@ function drawBook() {
  * @param {number} cartLeftX 台車の左端x座標
  * @param {number} v 現在の速度 (m/s)
  */
-function drawVelocityArrow(cartLeftX, v) {
+export function drawVelocityArrow(cartLeftX, v) {
   if (v <= 0.005) return;
 
   const arrowCenterX = cartLeftX + CART_W / 2;
@@ -203,7 +203,7 @@ function drawVelocityArrow(cartLeftX, v) {
  * 抵抗力の矢印を描画する（接触中のみ）
  * @param {number} cartLeftX 台車の左端x座標
  */
-function drawForceArrow(cartLeftX) {
+export function drawForceArrow(cartLeftX, force_N) {
   const arrowY = CART_BODY_TOP + CART_H / 2;
   const arrowEndX = cartLeftX + 8;
   const arrowStartX = arrowEndX + 80;
@@ -233,7 +233,7 @@ function drawForceArrow(cartLeftX) {
  * めり込み距離のディメンションラインを描画する
  * @param {number} d めり込み距離 (m)
  */
-function drawPenetrationLine(d) {
+export function drawPenetrationLine(d) {
   if (d < 0.001) return;
 
   const dPx = d * PM;
@@ -257,7 +257,7 @@ function drawPenetrationLine(d) {
 /**
  * 情報パネルを描画する
  */
-function drawInfoPanel() {
+export function drawInfoPanel(force_N, penetration_m, mass_kg, velocity_ms, v0_ms, phase) {
   const work = force_N * penetration_m;
   const ke = 0.5 * mass_kg * velocity_ms * velocity_ms;
   const ke0 = 0.5 * mass_kg * v0_ms * v0_ms;

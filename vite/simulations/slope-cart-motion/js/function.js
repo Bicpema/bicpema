@@ -5,19 +5,19 @@
 // ============================================================
 
 /** 仮想キャンバスの幅 */
-const V_W = 1000;
+export const V_W = 1000;
 /** 仮想キャンバスの高さ */
-const V_H = 562;
+export const V_H = 562;
 /** 物理座標→ピクセル変換スケール（1m = 400px） */
-const PX_PER_M = 400;
+export const PX_PER_M = 400;
 /** 斜面の物理的長さ (m) */
-const SLOPE_LENGTH_M = 1.1;
+export const SLOPE_LENGTH_M = 1.1;
 
 // 斜面の下端座標（固定）
 /** 斜面下端のx座標 */
-const SLOPE_BX = 190;
+export const SLOPE_BX = 190;
 /** 斜面下端のy座標 */
-const SLOPE_BY = 340;
+export const SLOPE_BY = 340;
 
 // 記録テープ表示領域
 /** 記録テープ中心のy座標 */
@@ -40,7 +40,7 @@ const TAPE_ORIGIN_X = 90;
  * @param {number} angleDeg - 傾斜角 (度)
  * @returns {{x: number, y: number}}
  */
-function getSlopeTop(angleDeg) {
+export function getSlopeTop(angleDeg) {
   const theta = (angleDeg * Math.PI) / 180;
   const lenPx = SLOPE_LENGTH_M * PX_PER_M;
   return {
@@ -53,7 +53,7 @@ function getSlopeTop(angleDeg) {
  * 斜面を描画する。
  * @param {number} angleDeg - 傾斜角 (度)
  */
-function drawSlope(angleDeg) {
+export function drawSlope(angleDeg) {
   const top = getSlopeTop(angleDeg);
 
   // 斜面の板（太い線）
@@ -119,7 +119,7 @@ function drawStopper(tx, ty, angleDeg) {
  * @param {SlopeCart} cart - 台車オブジェクト
  * @param {number} angleDeg - 傾斜角 (度)
  */
-function drawCartOnSlope(cart, angleDeg) {
+export function drawCartOnSlope(cart, angleDeg) {
   const top = getSlopeTop(angleDeg);
   const theta = (angleDeg * Math.PI) / 180;
 
@@ -175,7 +175,7 @@ function drawCartOnSlope(cart, angleDeg) {
  * @param {number[]} marks - 各記録時刻における変位 (m) の配列
  * @param {number} recInterval - 記録間隔 (s)
  */
-function drawRecordingTape(marks, recInterval) {
+export function drawRecordingTape(marks, recInterval) {
   // テープ背景
   fill(255);
   stroke(160);
@@ -232,7 +232,7 @@ function drawRecordingTape(marks, recInterval) {
  * 情報パネルを描画する（左上）。
  * @param {SlopeCart} cart - 台車オブジェクト
  */
-function drawInfoPanel(cart) {
+export function drawInfoPanel(cart) {
   // 背景
   fill(0, 0, 0, 170);
   noStroke();
