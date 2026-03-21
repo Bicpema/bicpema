@@ -46,11 +46,8 @@ export const onReset = () => {
  */
 export const onToggleModal = () => {
   const modal = document.getElementById("settingsModal");
-  if (modal.style.display === "none") {
-    modal.style.display = "block";
-  } else {
-    modal.style.display = "none";
-  }
+  const isHidden = modal.style.display === "none" || modal.style.display === "";
+  modal.style.display = isHidden ? "block" : "none";
 };
 
 /**
