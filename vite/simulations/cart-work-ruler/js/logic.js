@@ -163,10 +163,7 @@ function drawRuler(p, leftX) {
  * @param {*} p p5インスタンス
  */
 function drawBook(p) {
-  if (
-    state.bookImage &&
-    state.bookImage.width > 0
-  ) {
+  if (state.bookImage?.width > 0) {
     p.imageMode(p.CORNER);
     p.image(state.bookImage, BOOK_LEFT_X, BOOK_TOP_Y, BOOK_W, BOOK_H);
   } else {
