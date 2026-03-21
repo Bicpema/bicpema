@@ -2,7 +2,7 @@
  * Cartクラス
  * 力と加速度の関係を示す台車
  */
-class Cart {
+export class Cart {
   /**
    * @constructor
    * @param {number} x 台車の中心x座標（論理ピクセル）
@@ -53,9 +53,10 @@ class Cart {
 
   /**
    * 台車を描画する
+   * @param {*} p p5インスタンス
    * @param {number} groundY 地面のy座標（論理ピクセル）
    */
-  display(groundY) {
+  display(p, groundY) {
     const wY = groundY - this.WHEEL_R;
     const bodyBottom = groundY - this.WHEEL_R * 2;
     const bodyTop = bodyBottom - this.BODY_H;
@@ -63,9 +64,9 @@ class Cart {
     const boxTop = boxBottom - this.BOX_H;
 
     // 車軸
-    stroke(60);
-    strokeWeight(4);
-    line(
+    p.stroke(60);
+    p.strokeWeight(4);
+    p.line(
       this.x - this.BODY_W / 2 + 30,
       wY,
       this.x + this.BODY_W / 2 - 30,
@@ -73,36 +74,36 @@ class Cart {
     );
 
     // 車体（シャーシ）
-    fill(230);
-    stroke(30);
-    strokeWeight(3);
-    rect(this.x - this.BODY_W / 2, bodyTop, this.BODY_W, this.BODY_H);
+    p.fill(230);
+    p.stroke(30);
+    p.strokeWeight(3);
+    p.rect(this.x - this.BODY_W / 2, bodyTop, this.BODY_W, this.BODY_H);
 
     // 荷台（上部ボックス）
-    fill(250);
-    stroke(30);
-    strokeWeight(3);
-    rect(this.x - this.BOX_W / 2, boxTop, this.BOX_W, this.BOX_H);
+    p.fill(250);
+    p.stroke(30);
+    p.strokeWeight(3);
+    p.rect(this.x - this.BOX_W / 2, boxTop, this.BOX_W, this.BOX_H);
 
     // 車輪（左）
-    fill(240);
-    stroke(30);
-    strokeWeight(3);
-    circle(this.x - this.BODY_W / 2 + 30, wY, this.WHEEL_R * 2);
+    p.fill(240);
+    p.stroke(30);
+    p.strokeWeight(3);
+    p.circle(this.x - this.BODY_W / 2 + 30, wY, this.WHEEL_R * 2);
     // ハブ（左）
-    fill(180);
-    noStroke();
-    circle(this.x - this.BODY_W / 2 + 30, wY, this.WHEEL_R * 0.4 * 2);
+    p.fill(180);
+    p.noStroke();
+    p.circle(this.x - this.BODY_W / 2 + 30, wY, this.WHEEL_R * 0.4 * 2);
 
     // 車輪（右）
-    fill(240);
-    stroke(30);
-    strokeWeight(3);
-    circle(this.x + this.BODY_W / 2 - 30, wY, this.WHEEL_R * 2);
+    p.fill(240);
+    p.stroke(30);
+    p.strokeWeight(3);
+    p.circle(this.x + this.BODY_W / 2 - 30, wY, this.WHEEL_R * 2);
     // ハブ（右）
-    fill(180);
-    noStroke();
-    circle(this.x + this.BODY_W / 2 - 30, wY, this.WHEEL_R * 0.4 * 2);
+    p.fill(180);
+    p.noStroke();
+    p.circle(this.x + this.BODY_W / 2 - 30, wY, this.WHEEL_R * 0.4 * 2);
   }
 
   /**
@@ -116,72 +117,3 @@ class Cart {
   }
 }
 
-/**
- * BicpemaCanvasControllerクラス
- *
- * Bicpemaの動的なキャンバスサイズをコントロールする。
- */
-class BicpemaCanvasController {
-  /**
-   * @constructor
-   * @param {boolean} f 回転時に比率を固定化するか
-   * @param {boolean} i 3Dかどうか
-   * @param {number} w_r 幅の比率（0.0~1.0）
-   * @param {number} h_r 高さの比率（0.0~1.0）
-   */
-  constructor(f = true, i = false, w_r = 1.0, h_r = 1.0) {
-    this.fixed = f;
-    this.is3D = i;
-    this.widthRatio = w_r;
-    this.heightRatio = h_r;
-  }
-
-  /**
-   * HTML要素で生成している#p5Canvasと#navBarを元にcanvasを生成する。
-   */
-  fullScreen() {
-    const P5_CANVAS = select("#p5Canvas");
-    const NAV_BAR = select("#navBar");
-    let canvas, w, h;
-    if (this.fixed) {
-      const RATIO = 9 / 16;
-      w = windowWidth;
-      h = w * RATIO;
-      if (h > windowHeight - NAV_BAR.height) {
-        h = windowHeight - NAV_BAR.height;
-        w = h / RATIO;
-      }
-    } else {
-      w = windowWidth;
-      h = windowHeight - NAV_BAR.height;
-    }
-    if (this.is3D) {
-      canvas = createCanvas(w * this.widthRatio, h * this.heightRatio, WEBGL);
-    } else {
-      canvas = createCanvas(w * this.widthRatio, h * this.heightRatio);
-    }
-    canvas.parent(P5_CANVAS).class("rounded border border-1");
-  }
-
-  /**
-   * HTML要素で生成している#p5Canvasと#navBarを元にcanvasをリサイズする。
-   */
-  resizeScreen() {
-    const NAV_BAR = select("#navBar");
-    let w = 0;
-    let h = 0;
-    if (this.fixed) {
-      const RATIO = 9 / 16;
-      w = windowWidth;
-      h = w * RATIO;
-      if (h > windowHeight - NAV_BAR.height) {
-        h = windowHeight - NAV_BAR.height;
-        w = h / RATIO;
-      }
-    } else {
-      w = windowWidth;
-      h = windowHeight - NAV_BAR.height;
-    }
-    resizeCanvas(w * this.widthRatio, h * this.heightRatio);
-  }
-}
