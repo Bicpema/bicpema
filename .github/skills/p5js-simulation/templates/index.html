@@ -4,17 +4,10 @@
     <title>{% title %}</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-    <link href="../lib/bootstrap.min.css" rel="stylesheet" />
     <link href="./css/style.css" rel="stylesheet" />
   </head>
 
-  <body class="bg-dark">
+  <body class="bg-dark" oncontextmenu="return false;">
     <nav
       class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
       data-bs-theme="dark"
@@ -32,11 +25,70 @@
       <!-- <div id="graph" class="rounded border border-1">
             <canvas id="graphCanvas"></canvas>
         </div> -->
+
+      <!-- 左下ボタンエリア（必要に応じてコメントアウトを外して利用してください）
+      <div class="position-absolute bottom-0 start-0 m-3">
+        <a class="btn btn-secondary m-1" id="stopButton">一時停止</a>
+        <a class="btn btn-secondary m-1" id="restartButton">再開</a>
+        <a class="btn btn-danger m-1" id="resetButton">リセット</a>
+      </div>
+      -->
+
+      <!-- 右上設定ボタン（必要に応じてコメントアウトを外して利用してください）
+      <div
+        class="position-absolute end-0 me-3"
+        style="top: 4.2rem; z-index: 1100"
+      >
+        <button
+          type="button"
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#simulationSettingModal"
+        >
+          シミュレーションの設定
+        </button>
+      </div>
+      -->
     </div>
 
-    <!-- スクリプトはボディ末尾に配置。index.js を ES module として読み込む -->
-    <script src="../lib/bootstrap.bundle.min.js"></script>
-    <script src="../lib/p5.min.js"></script>
+    <!-- 設定モーダル（必要に応じてコメントアウトを外して利用してください）
+    <div
+      class="modal fade"
+      id="simulationSettingModal"
+      tabindex="-1"
+      aria-labelledby="simulationSettingModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="simulationSettingModalLabel">
+              シミュレーションの設定
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              data-bs-dismiss="modal"
+            >
+              閉じる
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    -->
+
+    <!-- Bootstrap・p5.js は index.js の import で読み込まれます -->
     <script type="module" src="./js/index.js"></script>
   </body>
 </html>

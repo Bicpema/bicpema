@@ -4,7 +4,7 @@ import { state } from "./state.js";
 // import { resetSimulation } from "./state.js";
 
 // メソッドの定義方法の例
-// export function onExampleClick() {
+// export function onExampleClick(p) {
 //   state.xxx = yyy;
 // }
 
