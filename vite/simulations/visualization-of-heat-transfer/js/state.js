@@ -1,0 +1,23 @@
+export const state = {
+  moveIs: false,
+  t: 0,
+  Thot0: 373,
+  Tcold0: 50,
+  Teq: 211.5,
+  Thot: 373,
+  Tcold: 50,
+  C_hot: 2.0,
+  C_cold: 2.0,
+  k: 0.02,
+  contactMode: false,
+  // UI element references
+  contactModeInput: null,
+  tHot0Input: null,
+  tCold0Input: null,
+  kInput: null,
+  resetButton: null,
+  playPauseButton: null,
+  toggleModal: null,
+  closeModal: null,
+  settingsModal: null,
+};
