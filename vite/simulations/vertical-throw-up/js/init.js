@@ -1,47 +1,37 @@
-// settingInit関数
-// シミュレーションそのものの設定を行う関数
-const FPS = 30;
-let canvasController;
-function settingInit() {
-  canvasController = new BicpemaCanvasController(true, false);
-  canvasController.fullScreen();
-  frameRate(FPS);
-  textAlign(CENTER, CENTER);
-  textFont(font);
-  textSize(16);
+import { state } from "./state.js";
+import { onVelocityChange, onReset, onPlayPause, onToggleModal, onCloseModal } from "./element-function.js";
+import { Ball } from "./ball.js";
+
+export const FPS = 30;
+
+/**
+ * DOM要素を選択してstateに格納し、イベントリスナーを設定する
+ * @param {p5} p p5インスタンス
+ */
+export function elCreate(p) {
+  state.velocityInput = p.select("#velocityInput");
+  state.resetButton = p.select("#resetButton");
+  state.playPauseButton = p.select("#playPauseButton");
+  state.toggleModal = p.select("#toggleModal");
+  state.closeModal = p.select("#closeModal");
+  state.settingsModal = p.select("#settingsModal");
+
+  state.velocityInput.input(() => onVelocityChange(p));
+  state.resetButton.mousePressed(() => onReset(p));
+  state.playPauseButton.mousePressed(() => onPlayPause(p));
+  state.toggleModal.mousePressed(() => onToggleModal());
+  state.closeModal.mousePressed(() => onCloseModal());
 }
 
-// elementSelectInit関数
-// 仮想DOMを読み込むための関数
-let velocityInput,
-  resetButton,
-  playPauseButton,
-  toggleModal,
-  closeModal,
-  settingsModal;
-function elementSelectInit() {
-  velocityInput = select("#velocityInput");
-  resetButton = select("#resetButton");
-  playPauseButton = select("#playPauseButton");
-  toggleModal = select("#toggleModal");
-  closeModal = select("#closeModal");
-  settingsModal = select("#settingsModal");
-}
+/**
+ * キャンバス設定とシミュレーションの初期値を設定する
+ * @param {p5} p p5インスタンス
+ */
+export function initValue(p) {
+  p.frameRate(FPS);
+  p.textFont(state.font);
+  p.textSize(16);
 
-// elementPositionInit関数
-// 仮想DOMの場所や実行関数を設定するための関数
-function elementPositionInit() {
-  velocityInput.input(onVelocityChange);
-  resetButton.mousePressed(onReset);
-  playPauseButton.mousePressed(onPlayPause);
-  toggleModal.mousePressed(onToggleModal);
-  closeModal.mousePressed(onCloseModal);
-}
-
-// valueInit関数
-// 初期値を設定するための関数
-let ball;
-function valueInit() {
-  const initialVelocity = parseFloat(velocityInput.value());
-  ball = new Ball(initialVelocity);
+  const initialVelocity = parseFloat(state.velocityInput.value());
+  state.ball = new Ball(initialVelocity);
 }
