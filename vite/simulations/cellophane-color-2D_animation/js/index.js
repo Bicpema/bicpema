@@ -1,3 +1,13 @@
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import Chart from "chart.js/auto";
+import html2canvas from "html2canvas";
+import * as math from "mathjs";
+window.Chart = Chart;
+window.html2canvas = html2canvas;
+window.math = math;
+
 // <変数の宣言>
 let cmfTable, osTable;
 let img, img2;
@@ -13,6 +23,7 @@ let xLambda, yLambda, zLambda; // XYZ等色関数の配列
 let osArr, osArrOrigin; // 強度データの配列
 let dArr; //光路差のデータの配列
 let dTableOPP; //光路差のデータの配列OPP
+let dTable; // セロハンテープ用の光路差テーブル
 let xArrAfter = [],
   yArrAfter = [],
   zArrAfter = []; // 一枚目の偏光板を透過したときのxyz要素
@@ -41,8 +52,20 @@ let rAfter2 = 0,
 //分離軸判定で使用した変数の追加 2024.6.14
 let centerX, centerY; // 判定で用いる座標の中心点
 let x1, x2, x3, x4, y1, y2, y3, y4; //判定するテープの4隅の点座標
+let tape_angle;
+let tape_angle_cal;
+let tape_number_cal;
 let tape_angle_get;
+let angle_1;
+let angle_2;
+let angle_3;
+let angle_4;
+let E_1;
+let E_2;
+let E_3;
+let c;
 let radius; //セロハンのサイズ(高さ)
+let colabNum; // セロハン枚数管理変数
 let precolabNum;
 let rAftera;
 let gAftera;
@@ -130,6 +153,11 @@ let R_all = []; //補正データを受け取る配列
 let R_os = [];
 
 let K;
+let xSumBefore, ySumBefore, zSumBefore;
+let xSumAfter, ySumAfter, zSumAfter;
+let rgbBefore, rgbAfter;
+let tosRGB;
+let sRGB;
 let spey;
 let speyBox = [];
 //複数の光路差-分散特性を考慮するためのボタン
@@ -1675,3 +1703,9 @@ function drawGraph2() {
   let mainCtx = document.getElementById("mainSpectrumGraph0");
   mainChartObj = new Chart(mainCtx, mainChartsetup);
 }
+
+window.preload = preload;
+window.setup = setup;
+window.draw = draw;
+window.windowResized = windowResized;
+new p5();

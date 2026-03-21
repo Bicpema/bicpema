@@ -31,54 +31,32 @@ html {
   border-radius: 12px;
   padding: 30px;
   color: white;
-  width: 350px;
+  width: 380px;
   max-width: 90vw;
   z-index: 2000;
   backdrop-filter: blur(15px);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
-.modal-content h5 {
+.settings-modal h5 {
   margin-bottom: 20px;
   color: white;
   text-align: center;
 }
 
-.modal-content .form-label {
+.settings-modal .form-label {
+  color: white;
+  font-weight: bold;
+}
+
+.settings-modal .form-check-label {
   color: white;
 }
 
-/* 左下コントロール */
-.left-bottom-controls {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  z-index: 1000;
-}
-
-.left-bottom-controls button {
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
-  white-space: nowrap;
-}
-
-.left-bottom-controls button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
-}
-
-.left-bottom-controls button:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+.settings-modal .form-select {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 /* 右上コントロール */
@@ -111,11 +89,47 @@ html {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
+/* 左下コントロール */
+.left-bottom-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+  display: flex;
+  gap: 8px;
+}
+
+.left-bottom-controls button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+}
+
+.left-bottom-controls button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+}
+
+.left-bottom-controls button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
 /* スマホサイズ対応 */
 @media (max-width: 576px) {
-  .left-bottom-controls,
   .right-top-controls {
-    gap: 8px;
+    top: 10px;
+    right: 10px;
+  }
+
+  .right-top-controls button {
+    padding: 8px 15px;
+    font-size: 14px;
   }
 
   .left-bottom-controls {
@@ -123,13 +137,7 @@ html {
     left: 10px;
   }
 
-  .right-top-controls {
-    top: 10px;
-    right: 10px;
-  }
-
-  .left-bottom-controls button,
-  .right-top-controls button {
+  .left-bottom-controls button {
     padding: 8px 15px;
     font-size: 14px;
   }
@@ -137,14 +145,5 @@ html {
   .settings-modal {
     padding: 20px;
     width: 300px;
-  }
-}
-
-/* 小さいスマホサイズ対応 */
-@media (max-width: 400px) {
-  .left-bottom-controls button,
-  .right-top-controls button {
-    padding: 6px 12px;
-    font-size: 12px;
   }
 }

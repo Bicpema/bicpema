@@ -1,3 +1,7 @@
+// class.js はクラス管理専用のファイルです。
+
+import { PX_PER_M, MIN_SPRING_LENGTH, MAX_SPRING_LENGTH } from "./state.js";
+
 // 変位の表示しきい値 (m) ─ これ以下は変位・弾性力を表示しない
 const DISPLACEMENT_THRESHOLD = 0.001;
 // バネコイルの振幅（上下の高さ px）
@@ -9,7 +13,7 @@ const SPRING_STRAIGHT_SEGMENT = 18;
  * Springクラス
  * 弾性力シミュレーションにおけるバネを表現する
  */
-class Spring {
+export class Spring {
   /**
    * @constructor
    * @param {number} attachX バネの壁側端点 X座標（仮想座標）
@@ -87,13 +91,14 @@ class Spring {
 
   /**
    * ドラッグ中の位置更新
+   * @param {*} p p5 インスタンス
    * @param {number} mx マウスX（仮想座標）
    */
-  drag(mx) {
+  drag(p, mx) {
     if (!this.isDragging) return;
     const minEndX = this.attachX + MIN_SPRING_LENGTH;
     const maxEndX = this.attachX + MAX_SPRING_LENGTH;
-    this.endX = constrain(mx + this.dragOffsetX, minEndX, maxEndX);
+    this.endX = p.constrain(mx + this.dragOffsetX, minEndX, maxEndX);
   }
 
   /**
@@ -105,27 +110,29 @@ class Spring {
 
   /**
    * 自然長位置を示す縦の点線を描画
+   * @param {*} p p5 インスタンス
    */
-  drawNaturalLengthLine() {
+  drawNaturalLengthLine(p) {
     const nx = this.attachX + this.naturalLength;
     const y = this.attachY;
-    stroke(180);
-    strokeWeight(1.5);
-    drawingContext.setLineDash([8, 8]);
-    line(nx, y - 35, nx, y + 35);
-    drawingContext.setLineDash([]);
+    p.stroke(180);
+    p.strokeWeight(1.5);
+    p.drawingContext.setLineDash([8, 8]);
+    p.line(nx, y - 35, nx, y + 35);
+    p.drawingContext.setLineDash([]);
 
-    fill(150);
-    noStroke();
-    textAlign(CENTER, BOTTOM);
-    textSize(13);
-    text("自然長", nx, y - 38);
+    p.fill(150);
+    p.noStroke();
+    p.textAlign(p.CENTER, p.BOTTOM);
+    p.textSize(13);
+    p.text("自然長", nx, y - 38);
   }
 
   /**
    * バネのコイル形状（ジグザグ）を描画
+   * @param {*} p p5 インスタンス
    */
-  drawCoil() {
+  drawCoil(p) {
     const x1 = this.attachX;
     const y = this.attachY;
     const x2 = this.endX;
@@ -140,48 +147,50 @@ class Spring {
     const halfCoils = this.coilCount * 2;
     const segLen = coilLen / halfCoils;
 
-    stroke(40);
-    strokeWeight(2.5);
-    noFill();
+    p.stroke(40);
+    p.strokeWeight(2.5);
+    p.noFill();
 
-    beginShape();
-    curveVertex(x1, y);
-    curveVertex(x1, y);
-    curveVertex(x1 + straightLen, y);
+    p.beginShape();
+    p.curveVertex(x1, y);
+    p.curveVertex(x1, y);
+    p.curveVertex(x1 + straightLen, y);
 
     for (let i = 0; i < halfCoils; i++) {
       const cx = x1 + straightLen + (i + 0.5) * segLen;
       const cy = y + (i % 2 === 0 ? -amplitude : amplitude);
-      curveVertex(cx, cy);
+      p.curveVertex(cx, cy);
     }
 
-    curveVertex(x2 - straightLen, y);
-    curveVertex(x2, y);
-    curveVertex(x2, y);
-    endShape();
+    p.curveVertex(x2 - straightLen, y);
+    p.curveVertex(x2, y);
+    p.curveVertex(x2, y);
+    p.endShape();
   }
 
   /**
    * 先端ハンドル（手）を描画
+   * @param {*} p p5 インスタンス
    * @param {boolean} hovered ホバー中か
    */
-  drawHandle(hovered) {
-    fill(hovered ? color(255, 245, 180) : 255);
-    stroke(0);
-    strokeWeight(2);
-    ellipse(this.endX, this.endY, this.handleRx * 2, this.handleRy * 2);
+  drawHandle(p, hovered) {
+    p.fill(hovered ? p.color(255, 245, 180) : 255);
+    p.stroke(0);
+    p.strokeWeight(2);
+    p.ellipse(this.endX, this.endY, this.handleRx * 2, this.handleRy * 2);
 
-    fill(0);
-    noStroke();
-    textAlign(CENTER, CENTER);
-    textSize(20);
-    text("手", this.endX, this.endY);
+    p.fill(0);
+    p.noStroke();
+    p.textAlign(p.CENTER, p.CENTER);
+    p.textSize(20);
+    p.text("手", this.endX, this.endY);
   }
 
   /**
    * 変位と弾性力の数値・矢印を描画
+   * @param {*} p p5 インスタンス
    */
-  drawForceInfo() {
+  drawForceInfo(p) {
     const dispM = this.displacement;
     const dispCm = dispM * 100;
     const F = this.forceMagnitude;
@@ -191,17 +200,17 @@ class Spring {
     // 変位ラベル（バネの上）
     const labelX = (this.attachX + this.endX) / 2;
     const labelY = this.attachY - 42;
-    noStroke();
-    fill(0);
-    textAlign(CENTER, CENTER);
-    textSize(16);
+    p.noStroke();
+    p.fill(0);
+    p.textAlign(p.CENTER, p.CENTER);
+    p.textSize(16);
     const xSign = dispCm > 0 ? "+" : "";
-    text("x = " + xSign + dispCm.toFixed(1) + " cm", labelX, labelY);
+    p.text("x = " + xSign + dispCm.toFixed(1) + " cm", labelX, labelY);
 
     // 弾性力ラベル（バネの下）
-    textSize(16);
-    fill(200, 30, 30);
-    text("F = " + F.toFixed(2) + " N", labelX, this.attachY + 46);
+    p.textSize(16);
+    p.fill(200, 30, 30);
+    p.text("F = " + F.toFixed(2) + " N", labelX, this.attachY + 46);
 
     // 弾性力の矢印（ハンドルから自然長方向へ）
     const arrowDir = dispM > 0 ? -1 : 1;
@@ -209,12 +218,12 @@ class Spring {
     const arrowStartX =
       this.endX + (dispM > 0 ? this.handleRx : -this.handleRx);
     const arrowEndX = arrowStartX + arrowDir * arrowLen;
-    stroke(200, 30, 30);
-    strokeWeight(2.5);
-    fill(200, 30, 30);
-    line(arrowStartX, this.attachY, arrowEndX, this.attachY);
+    p.stroke(200, 30, 30);
+    p.strokeWeight(2.5);
+    p.fill(200, 30, 30);
+    p.line(arrowStartX, this.attachY, arrowEndX, this.attachY);
     const hs = 9;
-    triangle(
+    p.triangle(
       arrowEndX,
       this.attachY,
       arrowEndX - arrowDir * hs,
@@ -226,13 +235,14 @@ class Spring {
 
   /**
    * バネ全体を描画
+   * @param {*} p p5 インスタンス
    * @param {boolean} hovered ハンドルがホバー中か
    */
-  display(hovered) {
-    this.drawNaturalLengthLine();
-    this.drawCoil();
-    this.drawHandle(hovered);
-    this.drawForceInfo();
+  display(p, hovered) {
+    this.drawNaturalLengthLine(p);
+    this.drawCoil(p);
+    this.drawHandle(p, hovered);
+    this.drawForceInfo(p);
   }
 
   /**
@@ -250,75 +260,5 @@ class Spring {
    */
   updateK(newK) {
     this.k = newK;
-  }
-}
-
-/**
- * BicpemaCanvasControllerクラス
- *
- * Bicpemaの動的なキャンバスサイズをコントロールする。
- */
-class BicpemaCanvasController {
-  /**
-   * @constructor
-   * @param {boolean} f 回転時に比率を固定化するか
-   * @param {boolean} i 3Dかどうか
-   * @param {number} w_r 幅の比率（0.0~1.0）
-   * @param {number} h_r 高さの比率（0.0~1.0）
-   */
-  constructor(f = true, i = false, w_r = 1.0, h_r = 1.0) {
-    this.fixed = f;
-    this.is3D = i;
-    this.widthRatio = w_r;
-    this.heightRatio = h_r;
-  }
-
-  /**
-   * HTML要素で生成している#p5Canvasと#navBarを元にcanvasを生成する。
-   */
-  fullScreen() {
-    const P5_CANVAS = select("#p5Canvas");
-    const NAV_BAR = select("#navBar");
-    let canvas, w, h;
-    if (this.fixed) {
-      const RATIO = 9 / 16;
-      w = windowWidth;
-      h = w * RATIO;
-      if (h > windowHeight - NAV_BAR.height) {
-        h = windowHeight - NAV_BAR.height;
-        w = h / RATIO;
-      }
-    } else {
-      w = windowWidth;
-      h = windowHeight - NAV_BAR.height;
-    }
-    if (this.is3D) {
-      canvas = createCanvas(w * this.widthRatio, h * this.heightRatio, WEBGL);
-    } else {
-      canvas = createCanvas(w * this.widthRatio, h * this.heightRatio);
-    }
-    canvas.parent(P5_CANVAS).class("rounded border border-1");
-  }
-
-  /**
-   * HTML要素で生成している#p5Canvasと#navBarを元にcanvasをリサイズする。
-   */
-  resizeScreen() {
-    const NAV_BAR = select("#navBar");
-    let w = 0;
-    let h = 0;
-    if (this.fixed) {
-      const RATIO = 9 / 16;
-      w = windowWidth;
-      h = w * RATIO;
-      if (h > windowHeight - NAV_BAR.height) {
-        h = windowHeight - NAV_BAR.height;
-        w = h / RATIO;
-      }
-    } else {
-      w = windowWidth;
-      h = windowHeight - NAV_BAR.height;
-    }
-    resizeCanvas(w * this.widthRatio, h * this.heightRatio);
   }
 }

@@ -1,68 +1,30 @@
+// class.js は SOUND クラス管理専用のファイルです。
+
+import { state } from "./state.js";
+import { FPS, H } from "./init.js";
+
 /**
- * BicpemaCanvasControllerクラス
- *
- * Bicpemaの動的なキャンバスサイズをコントロールする。
+ * 音波を表すクラス。
  */
-class BicpemaCanvasController {
+export class SOUND {
   /**
-   * @constructor
-   * @param {boolean} f 回転時に比率を固定化するか
-   * @param {boolean} i 3Dかどうか
-   * @param {number} w_r 幅の比率（0.0~1.0）
-   * @param {number} h_r 高さの比率（0.0~1.0）
+   * @param {number} x 音波が生成された X 座標
+   * @param {number} r 初期半径
    */
-  constructor(f = true, i = false, w_r = 1.0, h_r = 1.0) {
-    this.fixed = f;
-    this.is3D = i;
-    this.widthRatio = w_r;
-    this.heightRatio = h_r;
-  }
-  /**
-   * HTML要素で生成している#p5Canvasと#navBarを元にcanvasを生成する。
-   */
-  fullScreen() {
-    const P5_CANVAS = select("#p5Canvas");
-    const NAV_BAR = select("#navBar");
-    let canvas, w, h;
-    if (this.fixed) {
-      const RATIO = 9 / 16;
-      w = windowWidth;
-      h = w * RATIO;
-      if (h > windowHeight - NAV_BAR.height) {
-        h = windowHeight - NAV_BAR.height;
-        w = h / RATIO;
-      }
-    } else {
-      w = windowWidth;
-      h = windowHeight - NAV_BAR.height;
-    }
-    if (this.is3D) {
-      canvas = createCanvas(w * this.widthRatio, h * this.heightRatio, WEBGL);
-    } else {
-      canvas = createCanvas(w * this.widthRatio, h * this.heightRatio);
-    }
-    canvas.parent(P5_CANVAS).class("rounded border border-1");
+  constructor(x, r) {
+    this.soundx = x;
+    this.radi = r;
   }
 
   /**
-   * HTML要素で生成している#p5Canvasと#navBarを元にcanvasをリサイズする。
+   * 音波を描画する。
+   * @param {*} p p5 インスタンス。
    */
-  resizeScreen() {
-    const NAV_BAR = select("#navBar");
-    let w = 0;
-    let h = 0;
-    if (this.fixed) {
-      const RATIO = 9 / 16;
-      w = windowWidth;
-      h = w * RATIO;
-      if (h > windowHeight - NAV_BAR.height) {
-        h = windowHeight - NAV_BAR.height;
-        w = h / RATIO;
-      }
-    } else {
-      w = windowWidth;
-      h = windowHeight - NAV_BAR.height;
+  _draw(p) {
+    if (state.clickedCount === true) {
+      this.radi += 340 / FPS;
     }
-    resizeCanvas(w * this.widthRatio, h * this.heightRatio);
+    p.noFill();
+    p.ellipse(this.soundx, H / 2, this.radi * 2, this.radi * 2);
   }
 }
