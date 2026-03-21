@@ -1,79 +1,60 @@
-// init.js は初期処理専用のファイルです。
-
-/** フレームレート */
-const FPS = 30;
-let canvasController;
+import { state } from "./state.js";
+import { FPS, V_W, RIVER_BOTTOM } from "./constants.js";
+import { Boat, WaterParticle, Person } from "./boat.js";
+import {
+  onBoatSpeedChange,
+  onRiverSpeedChange,
+  onReset,
+  onPlayPause,
+  onToggleModal,
+  onCloseModal,
+} from "./element-function.js";
 
 /**
- * シミュレーションのキャンバスを設定する。
+ * DOM要素を選択してstateに格納し、イベントリスナーを設定する。
+ * @param {p5} p p5インスタンス
  */
-function settingInit() {
-  canvasController = new BicpemaCanvasController(true, false);
-  canvasController.fullScreen();
-  frameRate(FPS);
-  textAlign(CENTER, CENTER);
-  if (font) {
-    textFont(font);
+export function elCreate(p) {
+  state.boatSpeedInput = p.select("#boatSpeedInput");
+  state.riverSpeedInput = p.select("#riverSpeedInput");
+  state.boatSpeedValue = p.select("#boatSpeedValue");
+  state.riverSpeedValue = p.select("#riverSpeedValue");
+  state.resetButton = p.select("#resetButton");
+  state.playPauseButton = p.select("#playPauseButton");
+  state.toggleModal = p.select("#toggleModal");
+  state.closeModal = p.select("#closeModal");
+  state.settingsModal = p.select("#settingsModal");
+
+  if (state.boatSpeedInput) state.boatSpeedInput.input(() => onBoatSpeedChange());
+  if (state.riverSpeedInput) state.riverSpeedInput.input(() => onRiverSpeedChange());
+  if (state.resetButton) state.resetButton.mousePressed(() => onReset());
+  if (state.playPauseButton) state.playPauseButton.mousePressed(() => onPlayPause());
+  if (state.toggleModal) state.toggleModal.mousePressed(() => onToggleModal());
+  if (state.closeModal) state.closeModal.mousePressed(() => onCloseModal());
+}
+
+/**
+ * キャンバス設定とシミュレーションの初期値を設定する。
+ * @param {p5} p p5インスタンス
+ */
+export function initValue(p) {
+  p.frameRate(FPS);
+  p.textAlign(p.CENTER, p.CENTER);
+  if (state.font) {
+    p.textFont(state.font);
   }
-  textSize(16);
-}
+  p.textSize(16);
 
-// DOM 要素の参照
-let boatSpeedInput, riverSpeedInput;
-let boatSpeedValue, riverSpeedValue;
-let resetButton, playPauseButton;
-let toggleModal, closeModal, settingsModal;
+  const boatSpeed = state.boatSpeedInput ? parseFloat(state.boatSpeedInput.value()) : 5;
+  const riverSpeed = state.riverSpeedInput ? parseFloat(state.riverSpeedInput.value()) : 3;
 
-/**
- * DOM 要素を取得する。
- */
-function elementSelectInit() {
-  boatSpeedInput = select("#boatSpeedInput");
-  riverSpeedInput = select("#riverSpeedInput");
-  boatSpeedValue = select("#boatSpeedValue");
-  riverSpeedValue = select("#riverSpeedValue");
-  resetButton = select("#resetButton");
-  playPauseButton = select("#playPauseButton");
-  toggleModal = select("#toggleModal");
-  closeModal = select("#closeModal");
-  settingsModal = select("#settingsModal");
-}
+  state.boat = new Boat(boatSpeed, riverSpeed);
+  state.person = new Person(880, RIVER_BOTTOM + 100);
 
-/**
- * DOM 要素にイベントハンドラを設定する。
- * null チェックを行い、要素が存在しない場合はスキップする。
- */
-function elementPositionInit() {
-  if (boatSpeedInput) boatSpeedInput.input(onBoatSpeedChange);
-  if (riverSpeedInput) riverSpeedInput.input(onRiverSpeedChange);
-  if (resetButton) resetButton.mousePressed(onReset);
-  if (playPauseButton) playPauseButton.mousePressed(onPlayPause);
-  if (toggleModal) toggleModal.mousePressed(onToggleModal);
-  if (closeModal) closeModal.mousePressed(onCloseModal);
-}
-
-// シミュレーション変数
-let boat;
-let waterParticles = [];
-let person;
-
-/**
- * 初期値を設定してオブジェクトを生成する。
- */
-function valueInit() {
-  const boatSpeed = boatSpeedInput ? parseFloat(boatSpeedInput.value()) : 5;
-  const riverSpeed = riverSpeedInput ? parseFloat(riverSpeedInput.value()) : 3;
-
-  boat = new Boat(boatSpeed, riverSpeed);
-  // 観測者：右寄りの岸に配置
-  person = new Person(880, RIVER_BOTTOM + 100);
-
-  // 水の粒子を生成する（川全体にランダム配置）
-  waterParticles = [];
+  state.waterParticles = [];
   for (let i = 0; i < 40; i++) {
-    waterParticles.push(
-      new WaterParticle(random(0, V_W), random(20, RIVER_BOTTOM - 20))
+    state.waterParticles.push(
+      new WaterParticle(p, p.random(0, V_W), p.random(20, RIVER_BOTTOM - 20))
     );
   }
 }
-

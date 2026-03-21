@@ -1,0 +1,15 @@
+export const state = {
+  boat: null,
+  waterParticles: [],
+  person: null,
+  font: null,
+  boatSpeedInput: null,
+  riverSpeedInput: null,
+  boatSpeedValue: null,
+  riverSpeedValue: null,
+  resetButton: null,
+  playPauseButton: null,
+  toggleModal: null,
+  closeModal: null,
+  settingsModal: null,
+};
