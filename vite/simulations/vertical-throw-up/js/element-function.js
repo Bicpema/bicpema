@@ -2,9 +2,8 @@ import { state } from "./state.js";
 
 /**
  * 初速度入力の値が変更されたときの処理
- * @param {p5} p p5インスタンス
  */
-export function onVelocityChange(p) {
+export function onVelocityChange() {
   let newVelocity = parseFloat(state.velocityInput.value());
   if (isNaN(newVelocity) || newVelocity < 5) {
     newVelocity = 5;
@@ -20,9 +19,8 @@ export function onVelocityChange(p) {
 
 /**
  * リセットボタンが押されたときの処理
- * @param {p5} p p5インスタンス
  */
-export function onReset(p) {
+export function onReset() {
   const newVelocity = parseFloat(state.velocityInput.value());
   state.ball.reset(newVelocity);
   state.playPauseButton.html("開始");
@@ -30,9 +28,8 @@ export function onReset(p) {
 
 /**
  * 開始/一時停止ボタンが押されたときの処理
- * @param {p5} p p5インスタンス
  */
-export function onPlayPause(p) {
+export function onPlayPause() {
   if (state.ball.isMoving) {
     state.ball.stop();
     state.playPauseButton.html("再開");

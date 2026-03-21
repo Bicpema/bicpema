@@ -16,9 +16,9 @@ export function elCreate(p) {
   state.closeModal = p.select("#closeModal");
   state.settingsModal = p.select("#settingsModal");
 
-  state.velocityInput.input(() => onVelocityChange(p));
-  state.resetButton.mousePressed(() => onReset(p));
-  state.playPauseButton.mousePressed(() => onPlayPause(p));
+  state.velocityInput.input(() => onVelocityChange());
+  state.resetButton.mousePressed(() => onReset());
+  state.playPauseButton.mousePressed(() => onPlayPause());
   state.toggleModal.mousePressed(() => onToggleModal());
   state.closeModal.mousePressed(() => onCloseModal());
 }
@@ -29,6 +29,7 @@ export function elCreate(p) {
  */
 export function initValue(p) {
   p.frameRate(FPS);
+  p.textAlign(p.CENTER, p.CENTER);
   p.textFont(state.font);
   p.textSize(16);
 
