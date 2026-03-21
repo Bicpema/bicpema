@@ -1,83 +1,66 @@
-const CANVAS_WIDTH = 1000;
-const CANVAS_HEIGHT = (1000 * 9) / 16;
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { state } from "./state.js";
+import { BicpemaCanvasController } from "./bicpema-canvas-controller.js";
+import { elCreate, elSetting, imgInit, initValue } from "./init.js";
+import { drawScale, graphDraw } from "./logic.js";
+import { CANVAS_WIDTH, CANVAS_HEIGHT } from "./constants.js";
 
-let YELLOW_CAR_IMG;
-let RED_CAR_IMAGE;
+const sketch = (p) => {
+  const canvasController = new BicpemaCanvasController();
 
-/**
- * 画像の読み込みを行う。
- */
-function preload() {
-  YELLOW_CAR_IMG = loadImage(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FyCar.png?alt=media&token=fa3ee043-5471-41d7-bb7f-93ac1eca46f1"
-  );
-  RED_CAR_IMAGE = loadImage(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FrCar.png?alt=media&token=7caf11af-6f62-4437-89b8-d5787c7accb8"
-  );
-}
+  p.preload = () => {
+    state.YELLOW_CAR_IMG = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FyCar.png?alt=media&token=fa3ee043-5471-41d7-bb7f-93ac1eca46f1"
+    );
+    state.RED_CAR_IMAGE = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FrCar.png?alt=media&token=7caf11af-6f62-4437-89b8-d5787c7accb8"
+    );
+  };
 
-/**
- * グラフの切り替え変数
- *
- * true:X-Tグラフ / false:V-Tグラフ
- *
- * @type {boolean}
- */
-let graphData;
+  p.setup = () => {
+    canvasController.fullScreen(p);
+    elCreate(p);
+    elSetting(p);
+    imgInit();
+    initValue(p);
+    p.textSize(14);
+    p.textAlign(p.CENTER);
+    p.frameRate(60);
+    state.graphData = true;
+  };
 
-let CANVAS_CONTROLLER;
+  p.draw = () => {
+    p.scale(p.width / 1000);
+    p.background(0);
 
-function setup() {
-  CANVAS_CONTROLLER = new BicpemaCanvasController();
-  CANVAS_CONTROLLER.fullScreen();
+    p.fill(30);
+    p.noStroke();
+    p.rect(0, CANVAS_HEIGHT / 2 - 50, 1000, 25);
+    p.rect(0, CANVAS_HEIGHT - 50, 1000, 25);
 
-  elInit();
-  elSetting();
-  imgInit();
-  initValue();
+    const SCALE_CHECK_BOX = p.select("#scaleCheckBox");
+    if (SCALE_CHECK_BOX && SCALE_CHECK_BOX.checked()) {
+      drawScale(p, 0, CANVAS_HEIGHT / 2, CANVAS_WIDTH, 50);
+      drawScale(p, 0, CANVAS_HEIGHT, CANVAS_WIDTH, 50);
+    }
 
-  textSize(14);
-  textAlign(CENTER);
-  frameRate(60);
+    state.RED_CAR.update();
+    state.YELLOW_CAR.update();
+    state.RED_CAR.drawTrajectory(p);
+    state.YELLOW_CAR.drawTrajectory(p);
+    state.RED_CAR.drawCar(p);
+    state.YELLOW_CAR.drawCar(p);
 
-  graphData = true;
-}
+    graphDraw(p);
+  };
 
-function draw() {
-  // レスポンシブ処理
-  scale(width / 1000);
+  p.windowResized = () => {
+    canvasController.resizeScreen(p);
+    elSetting(p);
+    initValue(p);
+  };
+};
 
-  background(0);
-
-  // 地面の描画
-  fill(30);
-  noStroke();
-  rect(0, CANVAS_HEIGHT / 2 - 50, 1000, 25);
-  rect(0, CANVAS_HEIGHT - 50, 1000, 25);
-
-  /**
-   * スケールを表示するかを切り返すcheckbox要素
-   * @type p5.Element
-   */
-  const SCALE_CHECK_BOX = select("#scaleCheckBox");
-
-  if (SCALE_CHECK_BOX.checked()) {
-    drawScale(0, CANVAS_HEIGHT / 2, CANVAS_WIDTH, 50);
-    drawScale(0, CANVAS_HEIGHT, CANVAS_WIDTH, 50);
-  }
-
-  RED_CAR.update();
-  YELLOW_CAR.update();
-  RED_CAR.drawTrajectory();
-  YELLOW_CAR.drawTrajectory();
-  RED_CAR.drawCar();
-  YELLOW_CAR.drawCar();
-
-  graphDraw();
-}
-
-function windowResized() {
-  CANVAS_CONTROLLER.resizeScreen();
-  elSetting();
-  initValue();
-}
+new p5(sketch);
