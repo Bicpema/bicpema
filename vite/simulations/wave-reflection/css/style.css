@@ -1,21 +1,8 @@
-@charset "utf-8";
-body {
-  padding: 0;
-  margin: 0;
-  position: fixed;
-  font-size: 16px;
-  width: 100vw;
-  height: 100vh;
+#p5Container {
+  padding: 0px;
+  margin-top: 60px;
 }
 
-.upper-bar {
-  height: 10vh;
-}
-
-.upper-bar-content {
-  height: 100%;
-}
-
-.simuation-title {
-  padding: 0;
+#p5Canvas {
+  text-align: center;
 }
