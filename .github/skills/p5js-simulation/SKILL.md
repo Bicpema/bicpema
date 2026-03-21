@@ -40,6 +40,7 @@ description: "WORKFLOW SKILL — templates/ 配下のテンプレートを使っ
    - `index.html` に正しい p5.js の読み込み（ローカル）が含まれていることを確認する。
    - テンプレートのスケッチファイルに p5.js の `setup()` / `draw()` コードを置く。
    - コードはモジュール化し、モデル（データ/状態）、ビュー（描画）、コントローラ（操作）を分ける。
+   - **ES Modules形式（`<script type="module">`）で実装することを必須とし、`import`/`export` を活用して機能を分割する。**
 
 5. **Material Design スタイルを適用する**
    - テンプレートが使っている Material Design の足場（MDC Web / Material Web Components）で UI コントロールを作る。
