@@ -1,3 +1,11 @@
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import Chart from "chart.js/auto";
+import html2canvas from "html2canvas";
+window.Chart = Chart;
+window.html2canvas = html2canvas;
+
 // <変数の宣言>
 let cmfTable, osTable;
 let img, img2;
@@ -1675,3 +1683,9 @@ function drawGraph2() {
   let mainCtx = document.getElementById("mainSpectrumGraph0");
   mainChartObj = new Chart(mainCtx, mainChartsetup);
 }
+
+window.preload = preload;
+window.setup = setup;
+window.draw = draw;
+window.windowResized = windowResized;
+new p5();

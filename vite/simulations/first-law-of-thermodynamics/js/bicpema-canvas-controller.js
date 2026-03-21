@@ -17,7 +17,7 @@ export class BicpemaCanvasController {
 
   /**
    * フルスクリーンでキャンバスを生成する。
-   * @param {object} p - p5 インスタンス
+   * @param {*} p　p5 インスタンス。
    */
   fullScreen(p) {
     const P5_CANVAS = p.select("#p5Canvas");
@@ -49,7 +49,7 @@ export class BicpemaCanvasController {
 
   /**
    * 画面サイズをリサイズする。
-   * @param {object} p - p5 インスタンス
+   * @param {*} p　p5 インスタンス。
    */
   resizeScreen(p) {
     const NAV_BAR = p.select("#navBar");
