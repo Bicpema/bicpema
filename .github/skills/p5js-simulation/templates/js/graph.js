@@ -3,7 +3,7 @@
 
 /////////////////////////// 以上の記述は不必要であれば削除してください。/////////////////////////////////
 
-// function drawGraph() {
+// export function drawGraph(p) {
 //   if (typeof graphChart !== "undefined" && graphChart) {
 //     graphChart.destroy();
 //   }
