@@ -1,9 +1,11 @@
 // class.js - クラス管理専用のファイルです。
 
+import { PX_PER_M } from "./function.js";
+
 /**
  * 斜面をくだる台車クラス
  */
-class SlopeCart {
+export class SlopeCart {
   /**
    * @constructor
    * @param {number} angleDeg - 斜面の傾斜角 (度)
@@ -67,68 +69,3 @@ class SlopeCart {
   }
 }
 
-/**
- * BicpemaCanvasControllerクラス
- *
- * Bicpemaの動的なキャンバスサイズをコントロールする。
- */
-class BicpemaCanvasController {
-  /**
-   * @constructor
-   * @param {boolean} f 回転時に比率を固定化するか
-   * @param {boolean} i 3Dかどうか
-   * @param {number} w_r 幅の比率（0.0~1.0）
-   * @param {number} h_r 高さの比率（0.0~1.0）
-   */
-  constructor(f = true, i = false, w_r = 1.0, h_r = 1.0) {
-    this.fixed = f;
-    this.is3D = i;
-    this.widthRatio = w_r;
-    this.heightRatio = h_r;
-  }
-
-  /**
-   * HTML要素で生成している#p5Canvasと#navBarを元にcanvasを生成する。
-   */
-  fullScreen() {
-    const P5_CANVAS = select("#p5Canvas");
-    const NAV_BAR = select("#navBar");
-    let canvas, w, h;
-    if (this.fixed) {
-      const RATIO = 9 / 16;
-      w = windowWidth;
-      h = w * RATIO;
-      if (h > windowHeight - NAV_BAR.height) {
-        h = windowHeight - NAV_BAR.height;
-        w = h / RATIO;
-      }
-    } else {
-      w = windowWidth;
-      h = windowHeight - NAV_BAR.height;
-    }
-    canvas = createCanvas(w * this.widthRatio, h * this.heightRatio);
-    canvas.parent(P5_CANVAS).class("rounded border border-1");
-  }
-
-  /**
-   * HTML要素で生成している#p5Canvasと#navBarを元にcanvasをリサイズする。
-   */
-  resizeScreen() {
-    const NAV_BAR = select("#navBar");
-    let w = 0,
-      h = 0;
-    if (this.fixed) {
-      const RATIO = 9 / 16;
-      w = windowWidth;
-      h = w * RATIO;
-      if (h > windowHeight - NAV_BAR.height) {
-        h = windowHeight - NAV_BAR.height;
-        w = h / RATIO;
-      }
-    } else {
-      w = windowWidth;
-      h = windowHeight - NAV_BAR.height;
-    }
-    resizeCanvas(w * this.widthRatio, h * this.heightRatio);
-  }
-}
