@@ -59,13 +59,16 @@ export class Ball {
     const ballY =
       canvasHeight - groundHeight - this.height * scale - this.radius;
 
-    // 背景にビルの画像を描画
-    if (typeof tallBuildingImage !== "undefined") {
-      const buildingWidth =
-        buildingHeight * (tallBuildingImage.width / tallBuildingImage.height);
-      const buildingX = buildingCenterX - buildingWidth / 2;
-      const buildingY = canvasHeight - groundHeight - buildingHeight;
+    // ビルの横幅は画像のアスペクト比に基づくか、既定値を使用
+    const buildingWidth =
+      typeof tallBuildingImage !== "undefined" && tallBuildingImage.height > 0
+        ? buildingHeight * (tallBuildingImage.width / tallBuildingImage.height)
+        : 150;
+    const buildingX = buildingCenterX - buildingWidth / 2;
+    const buildingY = canvasHeight - groundHeight - buildingHeight;
 
+    // 背景にビルを描画
+    if (typeof tallBuildingImage !== "undefined") {
       imageMode(CORNER);
       image(
         tallBuildingImage,
@@ -74,36 +77,38 @@ export class Ball {
         buildingWidth,
         buildingHeight
       );
-
-      // 初期位置の点線を描画（ビルの横幅と同じ長さ）
-      const initialBallY =
-        canvasHeight - groundHeight - this.initialHeight * scale;
-      stroke(0, 0, 0);
-      strokeWeight(3);
-      drawingContext.setLineDash([10, 10]);
-      line(
-        buildingX + buildingWidth,
-        initialBallY,
-        buildingX + 2 * buildingWidth,
-        initialBallY
-      );
-      drawingContext.setLineDash([]);
-
-      // 点線の右側に初期高さを描画
-      fill(0, 0, 0);
+    } else {
+      fill(180);
       noStroke();
-      textAlign(LEFT, CENTER);
-      textSize(16);
-      text(
-        `${this.initialHeight.toFixed(0)} m`,
-        buildingX + 2 * buildingWidth + 10,
-        initialBallY
-      );
+      rect(buildingX, buildingY, buildingWidth, buildingHeight);
     }
 
+    // 初期位置の点線を描画（ビルの横幅と同じ長さ）
+    const initialBallY =
+      canvasHeight - groundHeight - this.initialHeight * scale;
+    stroke(0, 0, 0);
+    strokeWeight(3);
+    drawingContext.setLineDash([10, 10]);
+    line(
+      buildingX + buildingWidth,
+      initialBallY,
+      buildingX + 2 * buildingWidth,
+      initialBallY
+    );
+    drawingContext.setLineDash([]);
+
+    // 点線の右側に初期高さを描画
+    fill(0, 0, 0);
+    noStroke();
+    textAlign(LEFT, CENTER);
+    textSize(16);
+    text(
+      `${this.initialHeight.toFixed(0)} m`,
+      buildingX + 2 * buildingWidth + 10,
+      initialBallY
+    );
+
     // ボールをビルの右側に配置
-    const buildingWidth =
-      buildingHeight * (tallBuildingImage.width / tallBuildingImage.height);
     const ballX = buildingCenterX + buildingWidth;
 
     // ボール
