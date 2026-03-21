@@ -1,54 +1,56 @@
 // init.js は初期処理専用のファイルです。
 
-/** フレームレート */
-const FPS = 60;
-/** 仮想キャンバス幅 */
-const V_W = 1000;
-/** 仮想ピクセル/メートル（1m = 50 仮想px） */
-const PX_PER_METER = 50;
-/** 電車の半幅（仮想ピクセル） */
-const TRAIN_HALF_W = 100;
+import { state } from "./state.js";
+import { Train } from "./class.js";
+import { onPlayPause, onToggleModal, onCloseModal, onReset, onAccelerationChange } from "./element-function.js";
 
-let canvasController;
-let font = null;
+/** フレームレート */
+export const FPS = 60;
+/** 仮想キャンバス幅 */
+export const V_W = 1000;
+/** 仮想ピクセル/メートル（1m = 50 仮想px） */
+export const PX_PER_METER = 50;
 
 /**
  * キャンバスとp5.jsの基本設定を行う。
+ * @param {*} p p5インスタンス。
+ * @param {*} canvasController BicpemaCanvasControllerインスタンス。
  */
-function settingInit() {
-  canvasController = new BicpemaCanvasController();
-  canvasController.fullScreen();
-  frameRate(FPS);
-  textAlign(CENTER, CENTER);
-  if (font) textFont(font);
-  textSize(16);
+export function settingInit(p, canvasController) {
+  p.loadFont(
+    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
+    (f) => { state.font = f; },
+    () => {}
+  );
+  canvasController.fullScreen(p);
+  p.frameRate(FPS);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.textSize(16);
 }
 
 /**
  * DOM要素を取得し、イベントを設定する。
+ * @param {*} p p5インスタンス。
  */
-function elementSelectInit() {
-  select("#playPauseButton").mousePressed(onPlayPause);
-  select("#toggleModal").mousePressed(onToggleModal);
-  select("#closeModal").mousePressed(onCloseModal);
-  select("#resetButton").mousePressed(onReset);
-  select("#accelerationInput").input(onAccelerationChange);
+export function elCreate(p) {
+  p.select("#playPauseButton").mousePressed(onPlayPause);
+  p.select("#toggleModal").mousePressed(onToggleModal);
+  p.select("#closeModal").mousePressed(onCloseModal);
+  p.select("#resetButton").mousePressed(onReset);
+  p.select("#accelerationInput").input(onAccelerationChange);
 }
-
-/**
- * DOM要素の位置設定（リサイズ時も呼ばれる）。
- */
-function elementPositionInit() {}
 
 /**
  * シミュレーション変数の初期化。
+ * @param {*} p p5インスタンス。
  */
-function valueInit() {
-  isPlaying = false;
-  elapsedTime = 0;
-  lastGraphUpdate = 0;
-  maxObservedVelocity = 0;
-  acceleration = parseFloat(select("#accelerationInput").value()) || 2.0;
-  train = new Train(V_W / 3);
-  vtData = [{ x: 0, y: 0 }];
+export function initValue(p) {
+  state.isPlaying = false;
+  state.elapsedTime = 0;
+  state.lastGraphUpdate = 0;
+  state.maxObservedVelocity = 0;
+  state.acceleration = parseFloat(p.select("#accelerationInput").value()) || 2.0;
+  state.train = new Train(V_W / 3);
+  state.vtData = [{ x: 0, y: 0 }];
 }
+

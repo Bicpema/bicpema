@@ -1,49 +1,52 @@
 // init.jsは初期処理専用のファイルです。
 
-const FPS = 60;
-let canvasController;
+import { state } from "./state.js";
+import { Cart } from "./class.js";
+import { onMassChange, onReset, onToggleModal, onCloseModal } from "./element-function.js";
+
+export const FPS = 60;
 
 /**
  * シミュレーションそのものの設定を行う関数
+ * @param {*} p p5インスタンス
+ * @param {*} canvasController BicpemaCanvasControllerインスタンス
  */
-function settingInit() {
-  canvasController = new BicpemaCanvasController(true, false);
-  canvasController.fullScreen();
-  frameRate(FPS);
-  textAlign(CENTER, CENTER);
-  if (font) textFont(font);
-  textSize(16);
+export function settingInit(p, canvasController) {
+  canvasController.fullScreen(p);
+  p.frameRate(FPS);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.textSize(16);
 }
-
-let massInput, resetButton, toggleModal, closeModal, settingsModal;
 
 /**
  * 仮想DOMを読み込むための関数
+ * @param {*} p p5インスタンス
  */
-function elementSelectInit() {
-  massInput = select("#massInput");
-  resetButton = select("#resetButton");
-  toggleModal = select("#toggleModal");
-  closeModal = select("#closeModal");
-  settingsModal = select("#settingsModal");
+export function elementSelectInit(p) {
+  state.massInput = p.select("#massInput");
+  state.resetButton = p.select("#resetButton");
+  state.toggleModal = p.select("#toggleModal");
+  state.closeModal = p.select("#closeModal");
+  state.settingsModal = p.select("#settingsModal");
 }
 
 /**
  * 仮想DOMの場所や実行関数を設定するための関数
+ * @param {*} p p5インスタンス
  */
-function elementPositionInit() {
-  massInput.input(onMassChange);
-  resetButton.mousePressed(onReset);
-  toggleModal.mousePressed(onToggleModal);
-  closeModal.mousePressed(onCloseModal);
+export function elementPositionInit(p) {
+  state.massInput.input(onMassChange);
+  state.resetButton.mousePressed(onReset);
+  state.toggleModal.mousePressed(onToggleModal);
+  state.closeModal.mousePressed(onCloseModal);
 }
-
-let cart;
 
 /**
  * 初期値を設定するための関数
+ * @param {*} p p5インスタンス
  */
-function valueInit() {
-  const mass = parseFloat(massInput.value());
-  cart = new Cart(250, mass);
+export function valueInit(p) {
+  const mass = parseFloat(state.massInput.value());
+  state.cart = new Cart(250, mass);
 }
+

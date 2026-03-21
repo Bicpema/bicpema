@@ -1,24 +1,24 @@
 // graph.js はグラフ描画専用のファイルです。
 
-/** Chart.js インスタンス */
-let graphChart = null;
+import Chart from "chart.js/auto";
+import { state } from "./state.js";
 
 /**
  * v-t グラフを初期化する。
  */
-const initChart = () => {
-  if (graphChart) {
-    graphChart.destroy();
+export const initChart = () => {
+  if (state.graphChart) {
+    state.graphChart.destroy();
   }
   const ctx = document.getElementById("graphCanvas").getContext("2d");
-  graphChart = new Chart(ctx, {
+  state.graphChart = new Chart(ctx, {
     type: "scatter",
     data: {
       datasets: [
         {
           label: "速さ v",
           showLine: true,
-          data: vtData,
+          data: state.vtData,
           pointRadius: 0,
           borderColor: "rgb(30, 100, 200)",
           borderWidth: 2,
@@ -70,17 +70,17 @@ const initChart = () => {
  * v-t グラフのデータと軸範囲を更新する。
  * x軸は末尾データのみ参照、y軸は maxObservedVelocity を使って効率的に更新する。
  */
-const updateChart = () => {
-  if (!graphChart) return;
-  graphChart.data.datasets[0].data = vtData;
+export const updateChart = () => {
+  if (!state.graphChart) return;
+  state.graphChart.data.datasets[0].data = state.vtData;
 
   // 末尾データのみ参照して x 上限を更新（配列全体の走査を避ける）
-  const lastPoint = vtData[vtData.length - 1];
+  const lastPoint = state.vtData[state.vtData.length - 1];
   const maxT = lastPoint ? lastPoint.x : 0;
-  graphChart.options.scales.x.max = Math.max(10, Math.ceil(maxT / 10) * 10);
+  state.graphChart.options.scales.x.max = Math.max(10, Math.ceil(maxT / 10) * 10);
 
   // y軸上限は maxObservedVelocity を使用（減速中でも過去のピークを保持）
-  graphChart.options.scales.y.max = Math.max(5, Math.ceil((maxObservedVelocity + 1) / 5) * 5);
+  state.graphChart.options.scales.y.max = Math.max(5, Math.ceil((state.maxObservedVelocity + 1) / 5) * 5);
 
-  graphChart.update();
+  state.graphChart.update();
 };

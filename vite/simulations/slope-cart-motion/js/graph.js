@@ -1,25 +1,32 @@
 // graph.js - v-tグラフ描画専用のファイルです。
 
+import Chart from "chart.js/auto";
+import { state } from "./state.js";
+import { SLOPE_LENGTH_M } from "./function.js";
+
 /**
  * v-tグラフを更新（Chart.jsを使用）
  */
-function updateGraph() {
-  if (!graphVisible) return;
+export function updateGraph() {
+  if (!state.graphVisible) return;
 
   const ctx = document.getElementById("graphCanvas");
   if (!ctx) return;
 
   // 既存グラフを破棄
-  if (typeof graphChart !== "undefined" && graphChart) {
-    graphChart.destroy();
-    graphChart = null;
+  if (state.graphChart) {
+    state.graphChart.destroy();
+    state.graphChart = null;
   }
 
   // 理論直線のデータ（v = a * t）
-  const maxT = Math.sqrt(2 * SLOPE_LENGTH_M / cart.accel) + 0.1;
+  const maxT = Math.sqrt((2 * SLOPE_LENGTH_M) / state.cart.accel) + 0.1;
   const theoreticalData = [];
   for (let t = 0; t <= maxT; t += 0.05) {
-    theoreticalData.push({ x: parseFloat(t.toFixed(3)), y: parseFloat((cart.accel * t).toFixed(4))});
+    theoreticalData.push({
+      x: parseFloat(t.toFixed(3)),
+      y: parseFloat((state.cart.accel * t).toFixed(4)),
+    });
   }
 
   const data = {
@@ -36,7 +43,7 @@ function updateGraph() {
       },
       {
         label: "記録テープのデータ",
-        data: vtData,
+        data: state.vtData,
         showLine: true,
         pointRadius: 5,
         pointBackgroundColor: "rgb(220, 60, 60)",
@@ -47,7 +54,7 @@ function updateGraph() {
     ],
   };
 
-  const vMax = cart.accel * maxT * 1.1;
+  const vMax = state.cart.accel * maxT * 1.1;
 
   const options = {
     plugins: {
@@ -87,9 +94,10 @@ function updateGraph() {
     maintainAspectRatio: false,
   };
 
-  graphChart = new Chart(ctx, {
+  state.graphChart = new Chart(ctx, {
     type: "scatter",
     data: data,
     options: options,
   });
 }
+

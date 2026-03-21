@@ -1,78 +1,74 @@
 // index.js - メインのメソッドを呼び出すためのファイルです。
 
-/** フォント */
-let font;
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { BicpemaCanvasController } from "./bicpema-canvas-controller.js";
+import { state } from "./state.js";
+import {
+  FPS,
+  settingInit,
+  elementSelectInit,
+  elementPositionInit,
+  valueInit,
+} from "./init.js";
+import { V_W, drawSlope, drawCartOnSlope, drawRecordingTape, drawInfoPanel } from "./function.js";
+import { updateGraph } from "./graph.js";
 
-// preload関数
-// setup関数よりも前に一度だけ呼び出される。
-function preload() {
-  font = loadFont(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
-  );
-}
+const sketch = (p) => {
+  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
 
-// setup関数
-// シミュレーションを実行する際に１度だけ呼び出される。
-function setup() {
-  settingInit();
-  elementSelectInit();
-  elementPositionInit();
-  valueInit();
-}
+  p.preload = () => {
+    state.font = p.loadFont(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
+    );
+  };
 
-// draw関数
-// シミュレーションを実行した後、繰り返し呼び出され続ける
-function draw() {
-  // レスポンシブスケーリング
-  scale(width / V_W);
+  p.setup = () => {
+    settingInit(p, canvasController);
+    elementSelectInit(p);
+    elementPositionInit(p);
+    valueInit();
+  };
 
-  background(245);
+  p.draw = () => {
+    p.scale(p.width / V_W);
+    p.background(245);
 
-  // ── 物理更新 ────────────────────────────────────────────────
-  if (isPlaying) {
-    cart.update(1 / FPS);
+    if (state.isPlaying) {
+      state.cart.update(1 / FPS);
 
-    // 記録間隔ごとにテープにマークを追加
-    while ((tapeMarks.length + 1) * recInterval <= cart.time) {
-      const t = (tapeMarks.length + 1) * recInterval;
-      const s = 0.5 * cart.accel * t * t;
-      // 斜面の範囲を超える位置は記録しない
-      if (s > cart.slopeLengthM) break;
-      const v = cart.accel * t;
-      tapeMarks.push(s);
-      vtData.push({ x: t, y: v });
+      while ((state.tapeMarks.length + 1) * state.recInterval <= state.cart.time) {
+        const t = (state.tapeMarks.length + 1) * state.recInterval;
+        const s = 0.5 * state.cart.accel * t * t;
+        if (s > state.cart.slopeLengthM) break;
+        const v = state.cart.accel * t;
+        state.tapeMarks.push(s);
+        state.vtData.push({ x: t, y: v });
+      }
+
+      if (state.cart.isAtBottom) {
+        state.isPlaying = false;
+        state.playPauseButton.html("▶ 開始");
+        if (state.graphVisible) updateGraph();
+      }
     }
 
-    // 台車が下端に達したらボタン更新
-    if (cart.isAtBottom) {
-      isPlaying = false;
-      playPauseButton.html("▶ 開始");
-      if (graphVisible) updateGraph();
+    drawSlope(p, state.slopeDeg);
+    drawCartOnSlope(p, state.cart, state.slopeDeg);
+    drawRecordingTape(p, state.tapeMarks, state.recInterval);
+    drawInfoPanel(p, state.cart);
+
+    if (state.isPlaying && state.graphVisible) {
+      updateGraph();
     }
-  }
+  };
 
-  // ── 描画 ─────────────────────────────────────────────────────
-  // 斜面・支持台
-  drawSlope(slopeDeg);
+  p.windowResized = () => {
+    canvasController.resizeScreen(p);
+    elementPositionInit(p);
+  };
+};
 
-  // 台車
-  drawCartOnSlope(cart, slopeDeg);
+new p5(sketch);
 
-  // 記録テープ
-  drawRecordingTape(tapeMarks, recInterval);
-
-  // 情報パネル
-  drawInfoPanel(cart);
-
-  // v-tグラフをリアルタイム更新（再生中のみ）
-  if (isPlaying && graphVisible) {
-    updateGraph();
-  }
-}
-
-// windowResized関数
-// デバイスの画面サイズが変わった際に呼び出される。
-function windowResized() {
-  canvasController.resizeScreen();
-  elementPositionInit();
-}

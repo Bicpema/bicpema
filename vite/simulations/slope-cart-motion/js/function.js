@@ -5,13 +5,13 @@
 // ============================================================
 
 /** 仮想キャンバスの幅 */
-const V_W = 1000;
+export const V_W = 1000;
 /** 仮想キャンバスの高さ */
-const V_H = 562;
+export const V_H = 562;
 /** 物理座標→ピクセル変換スケール（1m = 400px） */
-const PX_PER_M = 400;
+export const PX_PER_M = 400;
 /** 斜面の物理的長さ (m) */
-const SLOPE_LENGTH_M = 1.1;
+export const SLOPE_LENGTH_M = 1.1;
 
 // 斜面の下端座標（固定）
 /** 斜面下端のx座標 */
@@ -51,75 +51,79 @@ function getSlopeTop(angleDeg) {
 
 /**
  * 斜面を描画する。
+ * @param {*} p - p5インスタンス
  * @param {number} angleDeg - 傾斜角 (度)
  */
-function drawSlope(angleDeg) {
+export function drawSlope(p, angleDeg) {
   const top = getSlopeTop(angleDeg);
 
   // 斜面の板（太い線）
-  stroke(60);
-  strokeWeight(8);
-  line(SLOPE_BX, SLOPE_BY, top.x, top.y);
+  p.stroke(60);
+  p.strokeWeight(8);
+  p.line(SLOPE_BX, SLOPE_BY, top.x, top.y);
 
   // 板の上面ハイライト
-  stroke(140);
-  strokeWeight(2);
-  line(SLOPE_BX, SLOPE_BY, top.x, top.y);
+  p.stroke(140);
+  p.strokeWeight(2);
+  p.line(SLOPE_BX, SLOPE_BY, top.x, top.y);
 
   // 支柱（下端の支え構造）
-  drawSupportStructure(SLOPE_BX, SLOPE_BY);
+  drawSupportStructure(p, SLOPE_BX, SLOPE_BY);
 
   // 上端のストッパー
-  drawStopper(top.x, top.y, angleDeg);
+  drawStopper(p, top.x, top.y, angleDeg);
 }
 
 /**
  * 下端の支持台を描画する。
+ * @param {*} p - p5インスタンス
  * @param {number} px - 支持台の中心x座標
  * @param {number} py - 支持台の中心y座標
  */
-function drawSupportStructure(px, py) {
+function drawSupportStructure(p, px, py) {
   const groundY = py + 68;
 
-  stroke(70);
-  strokeWeight(4);
+  p.stroke(70);
+  p.strokeWeight(4);
 
   // 左脚
-  line(px, py, px - 55, groundY);
+  p.line(px, py, px - 55, groundY);
   // 右脚
-  line(px, py, px + 18, groundY);
+  p.line(px, py, px + 18, groundY);
   // 横架（クロスバー）
-  line(px - 40, py + 42, px + 12, py + 42);
+  p.line(px - 40, py + 42, px + 12, py + 42);
 
   // 地面ライン
-  stroke(110);
-  strokeWeight(2);
-  line(px - 70, groundY + 4, px + 30, groundY + 4);
+  p.stroke(110);
+  p.strokeWeight(2);
+  p.line(px - 70, groundY + 4, px + 30, groundY + 4);
 }
 
 /**
  * 斜面上端のストッパーを描画する。
+ * @param {*} p - p5インスタンス
  * @param {number} tx - 上端x座標
  * @param {number} ty - 上端y座標
  * @param {number} angleDeg - 傾斜角 (度)
  */
-function drawStopper(tx, ty, angleDeg) {
+function drawStopper(p, tx, ty, angleDeg) {
   const theta = (angleDeg * Math.PI) / 180;
   // 斜面法線方向（上側）
   const nx = -Math.sin(theta);
   const ny = -Math.cos(theta);
 
-  stroke(70);
-  strokeWeight(5);
-  line(tx, ty, tx + nx * 28, ty + ny * 28);
+  p.stroke(70);
+  p.strokeWeight(5);
+  p.line(tx, ty, tx + nx * 28, ty + ny * 28);
 }
 
 /**
  * 斜面上の台車を描画する。
+ * @param {*} p - p5インスタンス
  * @param {SlopeCart} cart - 台車オブジェクト
  * @param {number} angleDeg - 傾斜角 (度)
  */
-function drawCartOnSlope(cart, angleDeg) {
+export function drawCartOnSlope(p, cart, angleDeg) {
   const top = getSlopeTop(angleDeg);
   const theta = (angleDeg * Math.PI) / 180;
 
@@ -130,81 +134,76 @@ function drawCartOnSlope(cart, angleDeg) {
   const cx = top.x - centerS * Math.cos(theta);
   const cy = top.y + centerS * Math.sin(theta);
 
-  push();
-  translate(cx, cy);
-  rotate(-theta); // 斜面に合わせて回転（p5.jsはCW正）
+  p.push();
+  p.translate(cx, cy);
+  p.rotate(-theta); // 斜面に合わせて回転（p5.jsはCW正）
 
   // 車輪（斜面面に接するy=0基準、車輪中心はy=-WHEEL_R）
   const wy = -cart.WHEEL_R;
-  fill(55);
-  stroke(30);
-  strokeWeight(1);
-  circle(-cart.CART_W / 2 + 18, wy, cart.WHEEL_R * 2);
-  circle(cart.CART_W / 2 - 18, wy, cart.WHEEL_R * 2);
+  p.fill(55);
+  p.stroke(30);
+  p.strokeWeight(1);
+  p.circle(-cart.CART_W / 2 + 18, wy, cart.WHEEL_R * 2);
+  p.circle(cart.CART_W / 2 - 18, wy, cart.WHEEL_R * 2);
   // ハブ
-  fill(180);
-  noStroke();
-  circle(-cart.CART_W / 2 + 18, wy, cart.WHEEL_R * 0.5);
-  circle(cart.CART_W / 2 - 18, wy, cart.WHEEL_R * 0.5);
+  p.fill(180);
+  p.noStroke();
+  p.circle(-cart.CART_W / 2 + 18, wy, cart.WHEEL_R * 0.5);
+  p.circle(cart.CART_W / 2 - 18, wy, cart.WHEEL_R * 0.5);
 
   // 台車ボディ（車輪の上）
   const bodyBottom = -cart.WHEEL_R * 2;
   const bodyTop = bodyBottom - cart.CART_H;
-  fill(210, 215, 240);
-  stroke(50);
-  strokeWeight(2);
-  rect(-cart.CART_W / 2, bodyTop, cart.CART_W, cart.CART_H, 5);
+  p.fill(210, 215, 240);
+  p.stroke(50);
+  p.strokeWeight(2);
+  p.rect(-cart.CART_W / 2, bodyTop, cart.CART_W, cart.CART_H, 5);
 
   // ハイライト（上面）
-  fill(240, 242, 255);
-  noStroke();
-  rect(-cart.CART_W / 2 + 4, bodyTop + 4, cart.CART_W - 8, 7, 2);
+  p.fill(240, 242, 255);
+  p.noStroke();
+  p.rect(-cart.CART_W / 2 + 4, bodyTop + 4, cart.CART_W - 8, 7, 2);
 
   // 台車ラベル
-  fill(30);
-  noStroke();
-  textAlign(CENTER, CENTER);
-  textSize(13);
-  text("台車", 0, bodyTop + cart.CART_H / 2);
+  p.fill(30);
+  p.noStroke();
+  p.textAlign(p.CENTER, p.CENTER);
+  p.textSize(13);
+  p.text("台車", 0, bodyTop + cart.CART_H / 2);
 
-  pop();
+  p.pop();
 }
 
 /**
  * 記録テープとマーク（点）を描画する。
+ * @param {*} p - p5インスタンス
  * @param {number[]} marks - 各記録時刻における変位 (m) の配列
  * @param {number} recInterval - 記録間隔 (s)
  */
-function drawRecordingTape(marks, recInterval) {
+export function drawRecordingTape(p, marks, recInterval) {
   // テープ背景
-  fill(255);
-  stroke(160);
-  strokeWeight(2);
-  rect(
-    TAPE_LX,
-    TAPE_CY - TAPE_H / 2,
-    TAPE_RX - TAPE_LX,
-    TAPE_H,
-    6
-  );
+  p.fill(255);
+  p.stroke(160);
+  p.strokeWeight(2);
+  p.rect(TAPE_LX, TAPE_CY - TAPE_H / 2, TAPE_RX - TAPE_LX, TAPE_H, 6);
 
   // ラベル
-  fill(100);
-  noStroke();
-  textAlign(LEFT, CENTER);
-  textSize(13);
-  text("記録テープ", TAPE_LX + 10, TAPE_CY - TAPE_H / 2 + 12);
+  p.fill(100);
+  p.noStroke();
+  p.textAlign(p.LEFT, p.CENTER);
+  p.textSize(13);
+  p.text("記録テープ", TAPE_LX + 10, TAPE_CY - TAPE_H / 2 + 12);
 
   // 記録間隔の表示
-  textAlign(RIGHT, CENTER);
-  textSize(11);
-  fill(130);
-  text("記録間隔 " + recInterval + " s", TAPE_RX - 10, TAPE_CY - TAPE_H / 2 + 12);
+  p.textAlign(p.RIGHT, p.CENTER);
+  p.textSize(11);
+  p.fill(130);
+  p.text("記録間隔 " + recInterval + " s", TAPE_RX - 10, TAPE_CY - TAPE_H / 2 + 12);
 
   // 始点ライン
-  stroke(80);
-  strokeWeight(2);
-  line(
+  p.stroke(80);
+  p.strokeWeight(2);
+  p.line(
     TAPE_ORIGIN_X,
     TAPE_CY - TAPE_H / 2 + 5,
     TAPE_ORIGIN_X,
@@ -217,41 +216,43 @@ function drawRecordingTape(marks, recInterval) {
     if (xPos > TAPE_RX - 8) break;
 
     // 縦線（目盛り）
-    stroke(100);
-    strokeWeight(1);
-    line(xPos, TAPE_CY - TAPE_H / 2 + 5, xPos, TAPE_CY - TAPE_H / 2 + 22);
+    p.stroke(100);
+    p.strokeWeight(1);
+    p.line(xPos, TAPE_CY - TAPE_H / 2 + 5, xPos, TAPE_CY - TAPE_H / 2 + 22);
 
     // 点
-    fill(20);
-    noStroke();
-    circle(xPos, TAPE_CY + 6, 7);
+    p.fill(20);
+    p.noStroke();
+    p.circle(xPos, TAPE_CY + 6, 7);
   }
 }
 
 /**
  * 情報パネルを描画する（左上）。
+ * @param {*} p - p5インスタンス
  * @param {SlopeCart} cart - 台車オブジェクト
  */
-function drawInfoPanel(cart) {
+export function drawInfoPanel(p, cart) {
   // 背景
-  fill(0, 0, 0, 170);
-  noStroke();
-  rect(14, 14, 295, 130, 9);
+  p.fill(0, 0, 0, 170);
+  p.noStroke();
+  p.rect(14, 14, 295, 130, 9);
 
   // テキスト
-  fill(190, 215, 255);
-  noStroke();
-  textAlign(LEFT, TOP);
-  textSize(15);
+  p.fill(190, 215, 255);
+  p.noStroke();
+  p.textAlign(p.LEFT, p.TOP);
+  p.textSize(15);
 
   const t = cart.time.toFixed(2);
   const s = cart.s.toFixed(3);
   const v = cart.v.toFixed(2);
   const a = cart.accel.toFixed(2);
 
-  text("時刻  t  = " + t + " s", 26, 22);
-  text("変位  s  = " + s + " m", 26, 48);
-  text("速度  v  = " + v + " m/s", 26, 74);
-  text("加速度 a = " + a + " m/s²", 26, 100);
-  text("傾斜角 θ = " + cart.angleDeg + " °", 26, 126);
+  p.text("時刻  t  = " + t + " s", 26, 22);
+  p.text("変位  s  = " + s + " m", 26, 48);
+  p.text("速度  v  = " + v + " m/s", 26, 74);
+  p.text("加速度 a = " + a + " m/s²", 26, 100);
+  p.text("傾斜角 θ = " + cart.angleDeg + " °", 26, 126);
 }
+
