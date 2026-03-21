@@ -1,0 +1,76 @@
+body,
+html {
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#p5Container {
+  padding: 0px;
+  margin-top: 60px;
+  height: calc(100vh - 60px);
+  overflow: hidden;
+  position: relative;
+}
+
+#p5Canvas {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* 左下コントロール */
+.left-bottom-controls {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  z-index: 1000;
+}
+
+.left-bottom-controls button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  white-space: nowrap;
+}
+
+.left-bottom-controls button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+}
+
+.left-bottom-controls button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* スマホサイズ対応 */
+@media (max-width: 576px) {
+  .left-bottom-controls {
+    bottom: 10px;
+    left: 10px;
+    gap: 8px;
+  }
+
+  .left-bottom-controls button {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}
+
+/* 小さいスマホサイズ対応 */
+@media (max-width: 400px) {
+  .left-bottom-controls button {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
