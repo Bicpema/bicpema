@@ -1,90 +1,73 @@
-// index.js はメインのメソッドを呼び出すためのファイルです。
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { BicpemaCanvasController } from "./bicpema-canvas-controller.js";
+import { state } from "./state.js";
+import { FPS, V_W, PX_PER_METER, settingInit, elCreate, initValue } from "./init.js";
+import { drawTrack, drawTrain, drawInfoPanel } from "./function.js";
+import { initChart, updateChart } from "./graph.js";
 
-/** 再生中かどうか */
-let isPlaying;
-/** 経過時間 (s) */
-let elapsedTime;
-/** 加速度 (m/s²) */
-let acceleration;
-/** 電車オブジェクト */
-let train;
-/** v-t グラフ用データ配列 */
-let vtData;
-/** グラフ更新カウンタ */
-let lastGraphUpdate;
-/** グラフ更新間隔 (s) */
 const GRAPH_UPDATE_INTERVAL = 0.1;
-/** v-t グラフで記録した速さの最大値（y軸上限計算用） */
-let maxObservedVelocity = 0;
 
-/**
- * セットアップ関数 — 1度だけ呼ばれる。
- */
-function setup() {
-  // フォントを非同期で読み込む（失敗してもシミュレーションは動作する）
-  loadFont(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
-    (f) => { font = f; },
-    () => {}
-  );
-  settingInit();
-  elementSelectInit();
-  elementPositionInit();
-  valueInit();
-  initChart();
-}
+const sketch = (p) => {
+  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
 
-/**
- * ドロー関数 — 毎フレーム呼ばれる。
- */
-function draw() {
-  scale(width / V_W);
+  p.setup = () => {
+    settingInit(p, canvasController);
+    elCreate(p);
+    initValue(p);
+    initChart();
+  };
 
-  /** 仮想キャンバス高さ */
-  const VH = V_W * (height / width);
-  /** 地面y座標（仮想ピクセル） */
-  const GROUND_Y = VH * 0.72;
+  p.draw = () => {
+    p.scale(p.width / V_W);
 
-  if (isPlaying) {
-    const dt = 1 / FPS;
-    elapsedTime += dt;
-    train.update(dt, acceleration, PX_PER_METER, V_W);
+    /** 仮想キャンバス高さ */
+    const VH = V_W * (p.height / p.width);
+    /** 地面y座標（仮想ピクセル） */
+    const GROUND_Y = VH * 0.72;
 
-    // グラフデータを一定間隔で追記
-    lastGraphUpdate += dt;
-    if (lastGraphUpdate >= GRAPH_UPDATE_INTERVAL) {
-      lastGraphUpdate = 0;
-      const v = parseFloat(train.velocity.toFixed(3));
-      if (v > maxObservedVelocity) maxObservedVelocity = v;
-      vtData.push({
-        x: parseFloat(elapsedTime.toFixed(2)),
-        y: v,
-      });
-      updateChart();
+    if (state.isPlaying) {
+      const dt = 1 / FPS;
+      state.elapsedTime += dt;
+      state.train.update(dt, state.acceleration, PX_PER_METER, V_W);
+
+      // グラフデータを一定間隔で追記
+      state.lastGraphUpdate += dt;
+      if (state.lastGraphUpdate >= GRAPH_UPDATE_INTERVAL) {
+        state.lastGraphUpdate = 0;
+        const v = parseFloat(state.train.velocity.toFixed(3));
+        if (v > state.maxObservedVelocity) state.maxObservedVelocity = v;
+        state.vtData.push({
+          x: parseFloat(state.elapsedTime.toFixed(2)),
+          y: v,
+        });
+        updateChart();
+      }
     }
-  }
 
-  // 空背景
-  background(135, 206, 235);
+    // 空背景
+    p.background(135, 206, 235);
 
-  // 地面
-  fill(80, 130, 60);
-  noStroke();
-  rect(0, GROUND_Y + 28, V_W, VH - GROUND_Y - 28);
+    // 地面
+    p.fill(80, 130, 60);
+    p.noStroke();
+    p.rect(0, GROUND_Y + 28, V_W, VH - GROUND_Y - 28);
 
-  // 線路
-  drawTrack(GROUND_Y, train.trackOffset, V_W);
+    // 線路
+    drawTrack(p, GROUND_Y, state.train.trackOffset, V_W);
 
-  // 電車
-  drawTrain(train.x, GROUND_Y);
+    // 電車
+    drawTrain(p, state.train.x, GROUND_Y);
 
-  // 情報パネル
-  drawInfoPanel(train.velocity, elapsedTime, acceleration);
-}
+    // 情報パネル
+    drawInfoPanel(p, state.train.velocity, state.elapsedTime, state.acceleration);
+  };
 
-/**
- * ウィンドウリサイズ時の処理。
- */
-function windowResized() {
-  canvasController.resizeScreen();
-}
+  p.windowResized = () => {
+    canvasController.resizeScreen(p);
+  };
+};
+
+new p5(sketch);
+
