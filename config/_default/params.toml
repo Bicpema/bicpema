@@ -16,6 +16,7 @@ showAuthor = true
 
 [header]
   logo = "logo.svg"
+  title = "Bicpema"
 
 [footer]
   since = 2022
