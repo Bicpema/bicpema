@@ -6,11 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="./css/style.css" rel="stylesheet" />
   </head>
-  <body class="bg-light" oncontextmenu="return false;">
-    <nav class="navbar navbar-expand-md bg-light border-bottom fixed-top" id="navBar">
+  <body class="bg-dark" oncontextmenu="return false;">
+    <nav
+      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
+      data-bs-theme="dark"
+      id="navBar"
+    >
       <div class="container-fluid">
         <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
-        <span class="fw-lighter">直線電流の磁場</span>
+        <span class="text-light fw-lighter">直線電流の磁場</span>
         <div class="d-flex align-items-center gap-2 ms-auto">
           <label class="form-label mb-0">電流の強さ: <span id="currentLabel">1.0 A</span></label>
           <input type="range" class="form-range" id="currentSlider" min="-4" max="4" value="1" step="1" style="width:150px">
