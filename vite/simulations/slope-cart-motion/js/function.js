@@ -98,7 +98,7 @@ function drawSupportStructure(p, px, py) {
   // 地面ライン
   p.stroke(110);
   p.strokeWeight(2);
-  p.line(px - 70, groundY + 4, px + 30, groundY + 4);
+  p.line(px - 70, groundY + 4, px + 700, groundY + 4);
 }
 
 /**
@@ -140,14 +140,13 @@ export function drawCartOnSlope(p, cart, angleDeg) {
   p.translate(cx, cy);
   p.rotate(-theta); // 斜面に合わせて回転（p5.jsはCW正）
 
-  // 本画像が利用可能ならそれを描画、なければ従来の図形で代替
   const bodyBottom = -cart.WHEEL_R * 2;
   const bodyTop = bodyBottom - cart.CART_H;
   const bodyCenterY = bodyTop + cart.CART_H / 2;
 
   p.imageMode(p.CENTER);
   p.noStroke();
-  p.image(state.cartImage, 0, bodyCenterY, cart.CART_W, cart.CART_H);
+  p.image(state.cartImage, 0, bodyCenterY + 18, cart.CART_W, cart.CART_H);
 
   p.pop();
 }
