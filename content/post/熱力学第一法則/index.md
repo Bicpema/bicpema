@@ -4,9 +4,9 @@ description: "本教材は熱力学第一法則に関するシミュレーショ
 author: "kenji"
 date: "2026-02-16"
 image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthumbnail%2Ffirst-law-of-thermodynamics.png?alt=media&token=0ec248e8-0126-4cb8-955a-b4a54559d862"
-tags: ["物理", "熱", "大学"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "熱", "大学", "熱力学第一法則", "エネルギー保存"]
+categories: ["熱"]
+series: ["熱力学基礎"]
 aliases: []
 ---
 

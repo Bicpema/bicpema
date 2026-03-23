@@ -3,9 +3,9 @@ title: "3D地層観察"
 description: "地層の3次元構造を可視化し、層序や傾斜を理解する教材。"
 author: "kenji"
 date: "2026-03-23"
-tags: ["物理", "力学", "高校"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "高校", "地層"]
+categories: ["地学"]
+series: ["地学シミュレーション"]
 aliases: []
 ---
 

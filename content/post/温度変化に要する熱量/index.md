@@ -4,9 +4,9 @@ description: "本教材は物体の温度変化に要する熱量を観察し、
 author: "kenji"
 date: "2026-02-16"
 image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthumbnail%2Fspecific-heat-and-heat-capacity.png?alt=media&token=f69315b5-5d3b-4c25-afc1-3fe9b6b82105"
-tags: ["物理", "熱"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "熱", "比熱", "熱量"]
+categories: ["熱"]
+series: ["熱力学基礎"]
 aliases: []
 ---
 

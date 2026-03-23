@@ -3,9 +3,9 @@ title: "3D地層観察（CSV）"
 description: "CSVデータから地層モデルを構築し、観測データの再現性を確認。"
 author: "kenji"
 date: "2026-03-23"
-tags: ["物理", "力学", "高校"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "高校", "地層", "CSV"]
+categories: ["地学"]
+series: ["地学シミュレーション"]
 aliases: []
 ---
 

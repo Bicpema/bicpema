@@ -1,5 +1,5 @@
 baseURL = "https://gohugo.io"
-title = "Hugo Theme Tailwind Example Site"
+title = "Bicpema"
 copyright = "BICPEMA"
 languageCode = "ja-JP"
 defaultContentLanguage = "jp"
@@ -11,7 +11,7 @@ theme = "hugo-theme-tailwind"
 enableGitInfo = true
 
 [pagination]
-  pagerSize = 5
+  pagerSize = 10
 
 [markup]
   _merge = "deep"

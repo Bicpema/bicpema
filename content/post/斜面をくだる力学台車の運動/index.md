@@ -3,9 +3,9 @@ title: "斜面をくだる力学台車の運動"
 description: "本教材は斜面をくだる力学台車の等加速度運動を観察し、記録テープとv-tグラフで速度と時間の関係を可視化するシミュレーション教材です。"
 author: "kenji"
 date: "2025-03-16"
-tags: ["物理", "力学", "高校"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "高校", "斜面運動", "等加速度運動"]
+categories: ["力学"]
+series: ["力学入門"]
 aliases: []
 ---
 

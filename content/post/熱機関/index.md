@@ -4,9 +4,9 @@ description: "本教材は熱機関の基本原理に関するシミュレーシ
 author: "kenji"
 date: "2026-02-16"
 image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthumbnail%2Fheat-engine.png?alt=media&token=0600d06c-5496-4fed-9587-791526a06827"
-tags: ["物理", "熱", "大学"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "熱", "大学", "熱機関"]
+categories: ["熱"]
+series: ["熱力学基礎"]
 aliases: []
 ---
 

@@ -3,9 +3,9 @@ title: "偏光色を再現するシミュレーション（2025 DGI）"
 description: "偏光板とセロハンテープで光の偏光状態を操作し、見える色の変化を体験する光学シミュレーション。"
 author: "kenji"
 date: "2026-03-23"
-tags: ["物理", "力学", "高校"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "高校", "偏光"]
+categories: ["波動"]
+series: ["波動と音"]
 aliases: []
 ---
 

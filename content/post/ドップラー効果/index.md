@@ -4,9 +4,9 @@ description: "本教材は音源や観測者が運動するときに観測され
 author: "kenji"
 date: "2025-12-02"
 image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthumbnail%2Fdoppler.png?alt=media&token=6d82a62e-f987-4fcd-9bce-345ef694d8c4"
-tags: ["物理", "波動", "大学"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "波動", "大学", "ドップラー効果"]
+categories: ["波動"]
+series: ["波動と音"]
 aliases: []
 ---
 
