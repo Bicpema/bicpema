@@ -170,12 +170,15 @@ function drawLabels(p, left, right) {
   p.text(right, state.startX + state.pipeL, state.pipeY + 70);
 }
 
+/** 管中心から数式表示領域までの Y オフセット (px) */
+const FORMULA_Y_OFFSET = 200;
+
 /**
  * 波長・固有振動数の式をキャンバス下部に描画する。
  * @param {*} p - p5 インスタンス。
  */
 function drawFormula(p) {
-  const formulaY = state.pipeY + 200;
+  const formulaY = Math.min(state.pipeY + FORMULA_Y_OFFSET, p.height - 80);
   const x = 100;
 
   p.fill(0);
