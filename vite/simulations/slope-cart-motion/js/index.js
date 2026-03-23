@@ -12,7 +12,13 @@ import {
   elementPositionInit,
   valueInit,
 } from "./init.js";
-import { V_W, drawSlope, drawCartOnSlope, drawRecordingTape, drawInfoPanel } from "./function.js";
+import {
+  V_W,
+  drawSlope,
+  drawCartOnSlope,
+  drawRecordingTape,
+  drawInfoPanel,
+} from "./function.js";
 import { updateGraph } from "./graph.js";
 
 const sketch = (p) => {
@@ -21,6 +27,15 @@ const sketch = (p) => {
   p.preload = () => {
     state.font = p.loadFont(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
+    );
+    state.cartImage = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/realTrolley.png?alt=media&token=dd68620c-22aa-43e7-9963-dc953989662e",
+      () => {
+        // 読み込み成功
+      },
+      (err) => {
+        console.warn("cart image load failed", err);
+      }
     );
   };
 
@@ -38,7 +53,10 @@ const sketch = (p) => {
     if (state.isPlaying) {
       state.cart.update(1 / FPS);
 
-      while ((state.tapeMarks.length + 1) * state.recInterval <= state.cart.time) {
+      while (
+        (state.tapeMarks.length + 1) * state.recInterval <=
+        state.cart.time
+      ) {
         const t = (state.tapeMarks.length + 1) * state.recInterval;
         const s = 0.5 * state.cart.accel * t * t;
         if (s > state.cart.slopeLengthM) break;
@@ -71,4 +89,3 @@ const sketch = (p) => {
 };
 
 new p5(sketch);
-

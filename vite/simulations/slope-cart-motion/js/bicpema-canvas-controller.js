@@ -37,7 +37,11 @@ export class BicpemaCanvasController {
       h = p.windowHeight - NAV_BAR.height;
     }
     if (this.is3D) {
-      canvas = p.createCanvas(w * this.widthRatio, h * this.heightRatio, p.WEBGL);
+      canvas = p.createCanvas(
+        w * this.widthRatio,
+        h * this.heightRatio,
+        p.WEBGL
+      );
     } else {
       canvas = p.createCanvas(w * this.widthRatio, h * this.heightRatio);
     }

@@ -14,6 +14,8 @@ export const state = {
   graphVisible: false,
   /** グラフ Chart.js インスタンス */
   graphChart: null,
+  /** 台車画像 */
+  cartImage: null,
   /** 台車オブジェクト */
   cart: null,
   /** リセットボタン */

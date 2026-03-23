@@ -102,4 +102,3 @@ export function valueInit() {
   state.tapeMarks = [];
   state.vtData = [];
 }
-
