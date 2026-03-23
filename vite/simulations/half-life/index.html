@@ -1,18 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ja">
   <head>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
-    
-    
-    
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>半減期</title>
     <meta charset="utf-8" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./css/style.css" rel="stylesheet" />
   </head>
-  <body>
-    <main>
-    </main>
-    <script src="sketch.js"></script>
+  <body class="bg-light" oncontextmenu="return false;">
+    <nav class="navbar navbar-expand-md bg-light border-bottom fixed-top" id="navBar">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
+        <span class="fw-lighter">半減期シミュレーション</span>
+        <div class="d-flex align-items-center gap-2 ms-auto">
+          <div class="d-flex flex-column">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="substance" id="carbonRadio" value="5730" checked>
+              <label class="form-check-label" for="carbonRadio">炭素 C-14</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="substance" id="iodineRadio" value="8">
+              <label class="form-check-label" for="iodineRadio">ヨウ素 I-131</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="substance" id="cesiumRadio" value="30">
+              <label class="form-check-label" for="cesiumRadio">セシウム Cs-137</label>
+            </div>
+          </div>
+          <label>原子数(一辺):</label>
+          <button class="btn btn-sm btn-danger" id="minusBtn">ー</button>
+          <span id="nDisplay">8</span>
+          <button class="btn btn-sm btn-warning" id="plusBtn">＋</button>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid" id="p5Container">
+      <div id="p5Canvas"></div>
+      <div class="position-absolute bottom-0 start-0 m-3">
+        <button type="button" class="btn btn-primary m-1" id="toggleButton">スタート</button>
+      </div>
+    </div>
+    <script type="module" src="./js/index.js"></script>
   </body>
 </html>
