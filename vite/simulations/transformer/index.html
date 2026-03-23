@@ -1,18 +1,57 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ja">
   <head>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
-    
-    
-    
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>変圧器</title>
     <meta charset="utf-8" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./css/style.css" rel="stylesheet" />
   </head>
-  <body>
-    <main>
-    </main>
-    <script src="sketch.js"></script>
+  <body class="bg-light" oncontextmenu="return false;">
+    <nav class="navbar navbar-expand-md bg-light border-bottom fixed-top" id="navBar">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
+        <span class="fw-lighter">変圧器</span>
+        <div class="d-flex align-items-center gap-3 ms-auto flex-wrap">
+          <div class="d-flex gap-2">
+            <span>位相:</span>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="phase" id="phaseSame" value="phasetrue" checked>
+              <label class="form-check-label" for="phaseSame">同位相</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="phase" id="phaseOpposite" value="phasefalse">
+              <label class="form-check-label" for="phaseOpposite">逆位相</label>
+            </div>
+          </div>
+          <div class="d-flex gap-2">
+            <span>速度:</span>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="speed" id="speedSlow" value="1" checked>
+              <label class="form-check-label" for="speedSlow">ゆっくり</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="speed" id="speedFast" value="5">
+              <label class="form-check-label" for="speedFast">はやい</label>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-1">
+            <span>一次コイル:</span>
+            <button class="btn btn-sm btn-danger" id="coil1MinusBtn">ー</button>
+            <span id="count1Display">20</span>
+            <button class="btn btn-sm btn-warning" id="coil1PlusBtn">＋</button>
+          </div>
+          <div class="d-flex align-items-center gap-1">
+            <span>二次コイル:</span>
+            <button class="btn btn-sm btn-danger" id="coil2MinusBtn">ー</button>
+            <span id="count2Display">5</span>
+            <button class="btn btn-sm btn-warning" id="coil2PlusBtn">＋</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid" id="p5Container">
+      <div id="p5Canvas"></div>
+    </div>
+    <script type="module" src="./js/index.js"></script>
   </body>
 </html>
