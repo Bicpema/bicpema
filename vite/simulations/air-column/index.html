@@ -1,18 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ja">
   <head>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
-    
-    
-    
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>気柱共鳴</title>
     <meta charset="utf-8" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./css/style.css" rel="stylesheet" />
   </head>
-  <body>
-    <main>
-    </main>
-    <script src="sketch.js"></script>
+  <body class="bg-light" oncontextmenu="return false;">
+    <nav class="navbar navbar-expand-md bg-light border-bottom fixed-top" id="navBar">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
+        <span class="fw-lighter">気柱共鳴</span>
+        <div class="d-flex align-items-center gap-2 ms-auto">
+          <label>管の種類:</label>
+          <select class="form-select form-select-sm" id="typeSelect" style="width:auto">
+            <option value="closed">閉管</option>
+            <option value="open">開管</option>
+          </select>
+          <label>倍振動数:</label>
+          <button class="btn btn-sm btn-danger" id="minusBtn">ー</button>
+          <span id="mnDisplay">1</span>
+          <button class="btn btn-sm btn-warning" id="plusBtn">＋</button>
+          <label class="ms-2">管の長さ:</label>
+          <button class="btn btn-sm btn-danger" id="L_minusBtn">ー</button>
+          <span id="pipeLDisplay">400</span>
+          <button class="btn btn-sm btn-warning" id="L_plusBtn">＋</button>
+        </div>
+      </div>
+    </nav>
+    <div class="container-fluid" id="p5Container">
+      <div id="p5Canvas"></div>
+    </div>
+    <script type="module" src="./js/index.js"></script>
   </body>
 </html>
