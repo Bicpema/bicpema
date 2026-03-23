@@ -1,7 +1,7 @@
 // init.js - 初期処理専用のファイルです。
 
 import { state } from "./state.js";
-import { SlopeCart } from "./class.js";
+import { SlopeCart } from "./slope-cart.js";
 import { SLOPE_LENGTH_M } from "./function.js";
 import {
   onReset,

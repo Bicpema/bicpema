@@ -145,42 +145,9 @@ export function drawCartOnSlope(p, cart, angleDeg) {
   const bodyTop = bodyBottom - cart.CART_H;
   const bodyCenterY = bodyTop + cart.CART_H / 2;
 
-  if (state.cartImage) {
-    p.imageMode(p.CENTER);
-    p.noStroke();
-    p.image(state.cartImage, 0, bodyCenterY, cart.CART_W, cart.CART_H);
-  } else {
-    // 車輪（斜面面に接するy=0基準、車輪中心はy=-WHEEL_R）
-    const wy = -cart.WHEEL_R;
-    p.fill(55);
-    p.stroke(30);
-    p.strokeWeight(1);
-    p.circle(-cart.CART_W / 2 + 18, wy, cart.WHEEL_R * 2);
-    p.circle(cart.CART_W / 2 - 18, wy, cart.WHEEL_R * 2);
-    // ハブ
-    p.fill(180);
-    p.noStroke();
-    p.circle(-cart.CART_W / 2 + 18, wy, cart.WHEEL_R * 0.5);
-    p.circle(cart.CART_W / 2 - 18, wy, cart.WHEEL_R * 0.5);
-
-    // 台車ボディ（車輪の上）
-    p.fill(210, 215, 240);
-    p.stroke(50);
-    p.strokeWeight(2);
-    p.rect(-cart.CART_W / 2, bodyTop, cart.CART_W, cart.CART_H, 5);
-
-    // ハイライト（上面）
-    p.fill(240, 242, 255);
-    p.noStroke();
-    p.rect(-cart.CART_W / 2 + 4, bodyTop + 4, cart.CART_W - 8, 7, 2);
-
-    // 台車ラベル
-    p.fill(30);
-    p.noStroke();
-    p.textAlign(p.CENTER, p.CENTER);
-    p.textSize(13);
-    p.text("台車", 0, bodyCenterY);
-  }
+  p.imageMode(p.CENTER);
+  p.noStroke();
+  p.image(state.cartImage, 0, bodyCenterY, cart.CART_W, cart.CART_H);
 
   p.pop();
 }

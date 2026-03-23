@@ -48,7 +48,7 @@ const sketch = (p) => {
 
   p.draw = () => {
     p.scale(p.width / V_W);
-    p.background(245);
+    p.background(255);
 
     if (state.isPlaying) {
       state.cart.update(1 / FPS);
