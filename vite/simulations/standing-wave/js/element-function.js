@@ -11,12 +11,12 @@ export function onStartStopClick(p) {
   state.running = !state.running;
   if (state.running) {
     state.startStopButton.html("ストップ");
-    state.startStopButton.removeClass("btn-primary");
-    state.startStopButton.addClass("btn-danger");
+    state.startStopButton.elt.classList.remove("btn-primary");
+    state.startStopButton.elt.classList.add("btn-danger");
   } else {
     state.startStopButton.html("スタート");
-    state.startStopButton.removeClass("btn-danger");
-    state.startStopButton.addClass("btn-primary");
+    state.startStopButton.elt.classList.remove("btn-danger");
+    state.startStopButton.elt.classList.add("btn-primary");
   }
 }
 
@@ -27,6 +27,6 @@ export function onStartStopClick(p) {
 export function onResetClick(p) {
   initValue(p);
   state.startStopButton.html("スタート");
-  state.startStopButton.removeClass("btn-danger");
-  state.startStopButton.addClass("btn-primary");
+  state.startStopButton.elt.classList.remove("btn-danger");
+  state.startStopButton.elt.classList.add("btn-primary");
 }
