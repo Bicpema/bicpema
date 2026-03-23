@@ -4,6 +4,7 @@ description: "放射性崩壊と半減期をグラフで理解する教材。"
 author: "kenji"
 date: "2026-03-23"
 tags: ["物理", "力学", "高校", "放射性崩壊", "半減期"]
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fhalf-life%2Fthumbnail.png?alt=media&token=c7be6a98-325e-483f-bea3-0d78149ae09f"
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []
@@ -19,8 +20,8 @@ aliases: []
 
 ### 主要な物理法則・公式
 
-N(t)=N_0 e^{-λt}
-T_{1/2}=ln2/λ
+N(t)=N*0 e^{-λt}
+T*{1/2}=ln2/λ
 
 ## 対象
 

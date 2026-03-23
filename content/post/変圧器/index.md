@@ -4,6 +4,7 @@ description: "電磁誘導で電圧を変換する原理を学ぶ教材。"
 author: "kenji"
 date: "2026-03-23"
 tags: ["物理", "力学", "高校", "変圧器", "電磁誘導"]
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Ftransformer%2Fthumbnail.png?alt=media&token=8b12ad99-4189-4991-8118-ca3749ffe697"
 categories: ["電磁気"]
 series: ["電磁気学基礎"]
 aliases: []

@@ -4,6 +4,7 @@ description: "偏光板とセロハンテープで光の偏光状態を操作し
 author: "kenji"
 date: "2026-03-23"
 tags: ["物理", "力学", "高校", "偏光"]
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2Fthumbnail.png?alt=media&token=ad32ce8a-1ee1-4c37-9510-45599aa11ac1"
 categories: ["波動"]
 series: ["波動と音"]
 aliases: []

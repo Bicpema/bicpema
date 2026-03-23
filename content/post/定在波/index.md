@@ -4,6 +4,7 @@ description: "定在波の節と腹を観察しモードを比較。"
 author: "kenji"
 date: "2026-03-23"
 tags: ["物理", "力学", "高校", "定在波"]
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fstanding-wave%2Fthumbnail.png?alt=media&token=9dfe6ac5-446b-40ad-89af-e69e61203873"
 categories: ["波動"]
 series: ["波動と音"]
 aliases: []

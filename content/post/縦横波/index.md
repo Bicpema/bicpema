@@ -4,6 +4,7 @@ description: "縦波と横波を比較し媒質振動方向を理解。"
 author: "kenji"
 date: "2026-03-23"
 tags: ["物理", "力学", "高校", "縦波", "横波"]
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Ftate-yoko-wave%2Fthumbnail.png?alt=media&token=f4c5539b-b364-4ec9-a296-69492978dc91"
 categories: ["波動"]
 series: ["波動と音"]
 aliases: []

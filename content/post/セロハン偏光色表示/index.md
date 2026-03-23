@@ -4,6 +4,7 @@ description: "偏光板とセロハンを用いた色の変化を観察。"
 author: "kenji"
 date: "2026-03-23"
 tags: ["物理", "力学", "高校", "偏光"]
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcellophane_display%2Fthumbnail.png?alt=media&token=1fb21016-2ab0-47f5-a965-aaa6af8ad575"
 categories: ["波動"]
 series: ["波動と音"]
 aliases: []
