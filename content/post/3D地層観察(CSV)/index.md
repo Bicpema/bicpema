@@ -4,6 +4,7 @@ description: "CSVデータから地層モデルを構築し、観測データの
 author: "kenji"
 date: "2026-03-23"
 tags: ["物理", "力学", "高校", "地層", "CSV"]
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F3d-strata-csv%2Fthumbnail.png?alt=media&token=a7887421-bc88-46ba-9fd4-3a3e828ad9b4"
 categories: ["地学"]
 series: ["地学シミュレーション"]
 aliases: []
