@@ -3,9 +3,9 @@ title: "直線電流の磁場"
 description: "直線電流の磁場を右ねじの法則で理解。"
 author: "kenji"
 date: "2026-03-23"
-tags: ["物理", "力学", "高校"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "高校", "磁場", "右ねじの法則"]
+categories: ["電磁気"]
+series: ["電磁気学基礎"]
 aliases: []
 ---
 

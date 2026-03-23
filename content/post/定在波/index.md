@@ -3,9 +3,9 @@ title: "定在波"
 description: "定在波の節と腹を観察しモードを比較。"
 author: "kenji"
 date: "2026-03-23"
-tags: ["物理", "力学", "高校"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "高校", "定在波"]
+categories: ["波動"]
+series: ["波動と音"]
 aliases: []
 ---
 

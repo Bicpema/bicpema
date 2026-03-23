@@ -3,9 +3,9 @@ title: "変圧器"
 description: "電磁誘導で電圧を変換する原理を学ぶ教材。"
 author: "kenji"
 date: "2026-03-23"
-tags: ["物理", "力学", "高校"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "高校", "変圧器", "電磁誘導"]
+categories: ["電磁気"]
+series: ["電磁気学基礎"]
 aliases: []
 ---
 

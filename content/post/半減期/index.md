@@ -3,9 +3,9 @@ title: "半減期"
 description: "放射性崩壊と半減期をグラフで理解する教材。"
 author: "kenji"
 date: "2026-03-23"
-tags: ["物理", "力学", "高校"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "高校", "放射性崩壊", "半減期"]
+categories: ["力学"]
+series: ["力学入門"]
 aliases: []
 ---
 

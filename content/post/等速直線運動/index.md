@@ -4,9 +4,9 @@ description: "本教材は等速直線運動する模型自動車の運動を観
 author: "kenji"
 date: "2025-12-02"
 image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthumbnail%2Funiform-linear-motion.png?alt=media&token=2aae7ef2-504d-4a65-92d8-1039108f6992"
-tags: ["物理", "力学", "大学"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "大学", "等速直線運動", "速度"]
+categories: ["力学"]
+series: ["力学入門"]
 aliases: []
 ---
 

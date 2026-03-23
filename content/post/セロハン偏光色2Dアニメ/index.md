@@ -3,9 +3,9 @@ title: "セロハン偏光色2Dアニメ"
 description: "偏光干渉による色変化を2Dアニメーションで可視化。"
 author: "kenji"
 date: "2026-03-23"
-tags: ["物理", "力学", "高校"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "高校", "偏光"]
+categories: ["波動"]
+series: ["波動と音"]
 aliases: []
 ---
 

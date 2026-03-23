@@ -3,9 +3,9 @@ title: "縦横波"
 description: "縦波と横波を比較し媒質振動方向を理解。"
 author: "kenji"
 date: "2026-03-23"
-tags: ["物理", "力学", "高校"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "高校", "縦波", "横波"]
+categories: ["波動"]
+series: ["波動と音"]
 aliases: []
 ---
 

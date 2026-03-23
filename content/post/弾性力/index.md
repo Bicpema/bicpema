@@ -3,9 +3,9 @@ title: "弾性力"
 description: "本教材はバネの伸びと縮みによる弾性力（フックの法則）を視覚的に理解するためのシミュレーション教材です。"
 author: "kenji"
 date: "2026-03-10"
-tags: ["物理", "力学", "高校"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "高校", "弾性力", "フックの法則"]
+categories: ["力学"]
+series: ["力学入門"]
 aliases: []
 ---
 

@@ -3,9 +3,9 @@ title: "空気柱の共鳴"
 description: "空気柱の長さと共鳴周波数の関係を学ぶ教材。"
 author: "kenji"
 date: "2026-03-23"
-tags: ["物理", "力学", "高校"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "高校", "共鳴", "空気柱"]
+categories: ["波動"]
+series: ["波動と音"]
 aliases: []
 ---
 

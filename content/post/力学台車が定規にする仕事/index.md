@@ -4,9 +4,9 @@ description: "本教材は力学台車が定規を本に押し込んで静止す
 author: "kenji"
 date: "2026-03-09"
 image: ""
-tags: ["物理", "力学", "高校"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "高校", "仕事", "エネルギー保存"]
+categories: ["力学"]
+series: ["力学入門"]
 aliases: []
 ---
 

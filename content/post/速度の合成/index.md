@@ -4,9 +4,9 @@ description: "本教材は川を流れる船の運動を通して速度の合成
 author: "kenji"
 date: "2025-12-03"
 image: "thumbnail.png"
-tags: ["物理", "力学", "大学"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "大学", "速度の合成", "相対速度"]
+categories: ["力学"]
+series: ["力学入門"]
 aliases: []
 ---
 
