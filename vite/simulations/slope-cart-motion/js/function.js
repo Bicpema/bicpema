@@ -89,11 +89,11 @@ function drawSupportStructure(p, px, py) {
   p.strokeWeight(4);
 
   // 左脚
-  p.line(px, py, px - 55, groundY);
+  p.line(px, py, px - 40, groundY);
   // 右脚
-  p.line(px, py, px + 18, groundY);
+  p.line(px, py, px + 40, groundY);
   // 横架（クロスバー）
-  p.line(px - 40, py + 42, px + 12, py + 42);
+  p.line(px - 25, py + 42, px + 25, py + 42);
 
   // 地面ライン
   p.stroke(110);
