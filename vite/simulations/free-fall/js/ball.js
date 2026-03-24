@@ -1,3 +1,5 @@
+import { state } from "./state.js";
+
 /**
  * Ballクラス
  * 自由落下運動をする物体を表現
@@ -16,6 +18,8 @@ export class Ball {
     this.g = 9.8;
     this.radius = 15;
     this.isMoving = false;
+    this.graphDataInterval = 0.05; // グラフデータ記録間隔 (秒)
+    this.lastGraphUpdate = 0;
   }
 
   /**
@@ -34,6 +38,22 @@ export class Ball {
     if (this.height <= 1) {
       this.height = 1;
       this.isMoving = false;
+    }
+
+    // グラフデータ記録
+    if (
+      this.isMoving &&
+      this.time - this.lastGraphUpdate >= this.graphDataInterval
+    ) {
+      state.vtData.push({
+        x: parseFloat(this.time.toFixed(3)),
+        y: parseFloat(this.velocity.toFixed(2)),
+      });
+      state.ytData.push({
+        x: parseFloat(this.time.toFixed(3)),
+        y: parseFloat((this.initialHeight - this.height).toFixed(2)),
+      });
+      this.lastGraphUpdate = this.time;
     }
   }
 
@@ -128,6 +148,9 @@ export class Ball {
     this.velocity = 0;
     this.time = 0;
     this.isMoving = false;
+    state.vtData = [];
+    state.ytData = [];
+    this.lastGraphUpdate = 0;
   }
 
   /**

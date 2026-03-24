@@ -19,4 +19,15 @@ export const state = {
   closeModal: null,
   /** 設定モーダル */
   settingsModal: null,
+
+  /** グラフオブジェクト */
+  graph: null,
+  /** グラフ表示トグルボタン */
+  graphToggleButton: null,
+  /** v-t グラフ用データ */
+  vtData: [],
+  /** y-t グラフ用データ */
+  ytData: [],
+  /** グラフ表示状態 */
+  graphVisible: false,
 };

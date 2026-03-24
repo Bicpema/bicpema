@@ -60,3 +60,20 @@ export function onToggleModal() {
 export function onCloseModal() {
   state.settingsModal.style("display", "none");
 }
+
+/**
+ * グラフの表示/非表示を切り替える
+ */
+export function onToggleGraph() {
+  state.graphVisible = !state.graphVisible;
+  const graphDiv = document.getElementById("graph");
+  if (graphDiv) {
+    graphDiv.style.display = state.graphVisible ? "block" : "none";
+  }
+  if (state.graphVisible) {
+    state.graph.updateGraph();
+  }
+  state.graphToggleButton.html(
+    state.graphVisible ? "📊 グラフを非表示" : "📊 グラフを表示"
+  );
+}

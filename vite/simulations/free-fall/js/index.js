@@ -34,6 +34,10 @@ const sketch = (p) => {
       ballImage: state.ballImage,
       groundImage: state.groundImage,
     });
+
+    if (state.ball.isMoving && state.graphVisible) {
+      state.graph.updateGraph();
+    }
   };
 
   p.windowResized = () => {
