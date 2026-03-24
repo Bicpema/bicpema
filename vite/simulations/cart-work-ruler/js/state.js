@@ -5,6 +5,10 @@ export const state = {
   font: null,
   /** 本の画像 */
   bookImage: null,
+  /** 台車の画像 */
+  cartImage: null,
+  /** 地面の画像 */
+  groundImage: null,
 
   // --- DOM 要素 ---
   massInput: null,

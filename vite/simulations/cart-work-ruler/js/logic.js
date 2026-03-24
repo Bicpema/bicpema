@@ -67,13 +67,8 @@ const CART_CONTACT_X = RULER_INIT_LEFT - CART_W;
  * @param {*} p p5インスタンス
  */
 function drawGround(p) {
-  p.stroke(90);
-  p.strokeWeight(2);
-  p.line(0, GROUND_Y, V_W, GROUND_Y);
-
-  p.fill(115);
-  p.noStroke();
-  p.rect(0, GROUND_Y, V_W, V_H - GROUND_Y);
+  p.imageMode(p.CORNER);
+  p.image(state.groundImage, 0, GROUND_Y, V_W, V_H - GROUND_Y);
 }
 
 /**
@@ -82,39 +77,8 @@ function drawGround(p) {
  * @param {number} cartLeftX 台車の左端x座標（仮想座標）
  */
 function drawCart(p, cartLeftX) {
-  // --- 台車ボディ ---
-  p.fill(70);
-  p.stroke(30);
-  p.strokeWeight(2);
-  p.rect(cartLeftX, CART_BODY_TOP, CART_W, CART_H, 5);
-
-  // ハイライト（上辺）
-  p.fill(95);
-  p.noStroke();
-  p.rect(cartLeftX + 4, CART_BODY_TOP + 4, CART_W - 8, 9, 2);
-
-  // --- 車輪 ---
-  const wheelY = GROUND_Y - WHEEL_R;
-  const wheelX1 = cartLeftX + 28;
-  const wheelX2 = cartLeftX + CART_W - 28;
-
-  // 外枠
-  p.fill(35);
-  p.stroke(15);
-  p.strokeWeight(2);
-  p.circle(wheelX1, wheelY, WHEEL_R * 2);
-  p.circle(wheelX2, wheelY, WHEEL_R * 2);
-
-  // 内側リム
-  p.fill(75);
-  p.noStroke();
-  p.circle(wheelX1, wheelY, WHEEL_R);
-  p.circle(wheelX2, wheelY, WHEEL_R);
-
-  // ハブ
-  p.fill(25);
-  p.circle(wheelX1, wheelY, WHEEL_R * 0.4);
-  p.circle(wheelX2, wheelY, WHEEL_R * 0.4);
+  p.imageMode(p.CORNER);
+  p.image(state.cartImage, cartLeftX, GROUND_Y - CART_H + 3, CART_W, CART_H);
 }
 
 /**
@@ -125,7 +89,7 @@ function drawCart(p, cartLeftX) {
 function drawRuler(p, leftX) {
   if (leftX >= BOOK_LEFT_X) return;
 
-  const topY = RULER_CENTER_Y - RULER_THICK / 2;
+  const topY = RULER_CENTER_Y - RULER_THICK / 2 + 30;
   const visibleLen = BOOK_LEFT_X - leftX;
 
   // 定規ボディ
@@ -237,11 +201,7 @@ function drawForceArrow(p, cartLeftX) {
   p.textAlign(p.LEFT, p.BOTTOM);
   p.textSize(14);
   p.fill(220, 55, 55);
-  p.text(
-    "F = " + state.force_N.toFixed(0) + " N",
-    arrowStartX + 6,
-    arrowY - 4
-  );
+  p.text("F = " + state.force_N.toFixed(0) + " N", arrowStartX + 6, arrowY - 4);
 }
 
 /**
@@ -267,11 +227,7 @@ function drawPenetrationLine(p, d) {
   p.noStroke();
   p.textAlign(p.CENTER, p.BOTTOM);
   p.textSize(13);
-  p.text(
-    "d = " + d.toFixed(3) + " m",
-    (x1 + x2) / 2,
-    lineY - 5
-  );
+  p.text("d = " + d.toFixed(3) + " m", (x1 + x2) / 2, lineY - 5);
 }
 
 /**
@@ -289,8 +245,9 @@ function drawInfoPanel(p) {
   const panelW = 390;
   const panelH = stopped ? 270 : 220;
 
-  p.fill(0, 0, 0, 185);
-  p.noStroke();
+  p.fill(255);
+  p.stroke(0);
+  p.strokeWeight(2);
   p.rect(panelX, panelY, panelW, panelH, 9);
 
   const x = panelX + 16;
@@ -298,8 +255,8 @@ function drawInfoPanel(p) {
   const lh = 30;
 
   // パラメータ
-  p.fill(185, 210, 255);
-  p.noStroke();
+  p.fill(34);
+  p.stroke(0, 0);
   p.textAlign(p.LEFT, p.TOP);
   p.textSize(14);
   p.text("質量 m = " + state.mass_kg.toFixed(1) + " kg", x, y);
@@ -310,14 +267,11 @@ function drawInfoPanel(p) {
   y += 8;
 
   // 区切り線
-  p.stroke(140, 140, 175);
-  p.strokeWeight(1);
-  p.line(x, y, panelX + panelW - 16, y);
   p.noStroke();
   y += 10;
 
   // 物理量
-  p.fill(255);
+  p.fill(34);
   p.textSize(15);
   p.text("初期 KE = ½mv₀² = " + ke0.toFixed(3) + " J", x, y);
   y += lh;
@@ -327,17 +281,17 @@ function drawInfoPanel(p) {
   y += lh;
 
   if (stopped) {
-    p.fill(105, 255, 125);
+    p.fill(0, 110, 30);
     p.textSize(15);
     p.text("✓  W = ½mv₀² = " + ke0.toFixed(3) + " J", x, y);
     y += lh;
-    p.fill(195, 255, 200);
+    p.fill(30, 120, 75);
     p.textSize(13);
     p.text("台車が静止 → 仕事 = 初期運動エネルギー", x, y);
     y += 22;
     p.text("（仕事と運動エネルギーの定理）", x, y);
   } else {
-    p.fill(195, 195, 255);
+    p.fill(40, 40, 120);
     p.textSize(15);
     p.text("現在 KE = ½mv² = " + ke.toFixed(3) + " J", x, y);
   }
