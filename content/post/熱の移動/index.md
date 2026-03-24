@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[熱の移動シミュレーションを開く](/vite/simulations/heat-transfer/)
+[熱の移動シミュレーションを開く](/vite/simulations/visualization-of-heat-transfer/)
 
 ## 扱っている現象および本教材の説明
 
