@@ -1,5 +1,3 @@
-import { state } from "./state.js";
-
 /**
  * Ballクラス
  * 自由落下運動をする物体を表現
@@ -43,87 +41,59 @@ export class Ball {
    * ボールを描画
    * @param {p5} p p5インスタンス
    * @param {number} canvasHeight キャンバスの高さ
+   * @param {Object} options 描画オプション
+   * @param {p5.Image} [options.ballImage] ボール画像
+   * @param {p5.Image} [options.groundImage] 地面画像
    */
-  display(p, canvasHeight) {
-    const buildingHeight = 400;
+  display(p, canvasHeight, options = {}) {
+    const { ballImage, groundImage } = options;
+
     const groundHeight = 50;
-    const buildingCenterX = 400;
+    const buildingHeight = 400;
     const scale = buildingHeight / 100;
+
+    const ballX = 500;
     const ballY =
       canvasHeight - groundHeight - this.height * scale - this.radius;
+    const initialBallY =
+      canvasHeight - groundHeight - this.initialHeight * scale;
 
-    if (state.tallBuildingImage) {
-      const buildingWidth =
-        buildingHeight *
-        (state.tallBuildingImage.width / state.tallBuildingImage.height);
-      const buildingX = buildingCenterX - buildingWidth / 2;
-      const buildingY = canvasHeight - groundHeight - buildingHeight;
+    // 目盛り線（初期高さ）
+    p.stroke(0, 0, 0);
+    p.strokeWeight(2);
+    p.drawingContext.setLineDash([10, 6]);
+    p.line(100, initialBallY, 900, initialBallY);
+    p.drawingContext.setLineDash([]);
 
-      p.imageMode(p.CORNER);
-      p.image(
-        state.tallBuildingImage,
-        buildingX,
-        buildingY,
-        buildingWidth,
-        buildingHeight
-      );
+    p.fill(0);
+    p.noStroke();
+    p.textAlign(p.LEFT, p.CENTER);
+    p.textSize(16);
+    p.text(`${this.initialHeight.toFixed(0)} m`, 910, initialBallY);
 
-      const initialBallY =
-        canvasHeight - groundHeight - this.initialHeight * scale;
-      p.stroke(0, 0, 0);
-      p.strokeWeight(3);
-      p.drawingContext.setLineDash([10, 10]);
-      p.line(
-        buildingX + buildingWidth,
-        initialBallY,
-        buildingX + 2 * buildingWidth,
-        initialBallY
-      );
-      p.drawingContext.setLineDash([]);
-
-      p.fill(0, 0, 0);
-      p.noStroke();
-      p.textAlign(p.LEFT, p.CENTER);
-      p.textSize(16);
-      p.text(
-        `${this.initialHeight.toFixed(0)} m`,
-        buildingX + 2 * buildingWidth + 10,
-        initialBallY
-      );
-
-      const ballX = buildingCenterX + buildingWidth;
-
-      if (state.ballImage) {
-        p.imageMode(p.CENTER);
-        p.image(
-          state.ballImage,
-          ballX,
-          ballY,
-          this.radius * 2,
-          this.radius * 2
-        );
-      } else {
-        p.fill(255, 100, 100);
-        p.noStroke();
-        p.circle(ballX, ballY, this.radius * 2);
-      }
-
+    // ボール
+    if (ballImage) {
+      p.imageMode(p.CENTER);
+      p.image(ballImage, ballX, ballY, this.radius * 2, this.radius * 2);
+    } else {
       p.fill(255, 100, 100);
       p.noStroke();
-      p.textAlign(p.LEFT, p.CENTER);
-      p.textSize(16);
-      p.text(
-        `${this.velocity.toFixed(1)} m/s`,
-        ballX + this.radius + 10,
-        ballY
-      );
+      p.circle(ballX, ballY, this.radius * 2);
     }
 
-    if (state.groundImage) {
+    // 速度表示
+    p.fill(255, 100, 100);
+    p.noStroke();
+    p.textAlign(p.LEFT, p.CENTER);
+    p.textSize(16);
+    p.text(`${this.velocity.toFixed(1)} m/s`, ballX + this.radius + 10, ballY);
+
+    // 地面
+    if (groundImage) {
       const groundWidth = 1000;
       p.imageMode(p.CORNER);
       p.image(
-        state.groundImage,
+        groundImage,
         0,
         canvasHeight - groundHeight - 10,
         groundWidth,
@@ -135,6 +105,7 @@ export class Ball {
       p.line(0, canvasHeight - groundHeight, 1000, canvasHeight - groundHeight);
     }
 
+    // 状態表示
     p.fill(255);
     p.noStroke();
     p.textAlign(p.RIGHT, p.TOP);
