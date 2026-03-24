@@ -3,7 +3,7 @@ title: "自由落下"
 description: "本教材は初速度0で鉛直方向に落下する物体の運動を観察するためのシミュレーション教材です。"
 author: "kenji"
 date: "2026-03-24"
-image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthumbnail%2Ffree-fall.png?alt=media"
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Ffree-fall%2Fthumbnail.png?alt=media&token=95183f04-1bce-4e15-86e8-0b227792c896"
 tags: ["物理", "力学", "高校", "自由落下"]
 categories: ["力学"]
 series: ["力学入門"]
