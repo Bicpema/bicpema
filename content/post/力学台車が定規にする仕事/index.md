@@ -3,7 +3,7 @@ title: "力学台車が定規にする仕事"
 description: "本教材は力学台車が定規を本に押し込んで静止するまでに行う仕事を観察するためのシミュレーション教材です。仕事と運動エネルギーの定理を視覚的に理解できます。"
 author: "kenji"
 date: "2026-03-09"
-image: ""
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcart-work-ruler%2Fthumbnail.png?alt=media&token=31e98336-3cc3-4673-835e-c0ba6d1105b2"
 tags: ["物理", "力学", "高校", "仕事", "エネルギー保存"]
 categories: ["力学"]
 series: ["力学入門"]
