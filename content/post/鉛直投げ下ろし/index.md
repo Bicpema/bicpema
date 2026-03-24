@@ -4,9 +4,9 @@ description: "本教材は初速度を持って鉛直下向きに投げられた
 author: "kenji"
 date: "2025-12-02"
 image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthumbnail%2Fvertical-throw-down.png?alt=media&token=0db824e1-d123-4722-a8b3-3db46b0d00f1"
-tags: ["物理", "力学", "大学"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "大学", "自由落下", "鉛直投げ下ろし"]
+categories: ["力学"]
+series: ["力学入門"]
 aliases: []
 ---
 

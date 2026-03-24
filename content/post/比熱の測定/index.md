@@ -4,9 +4,9 @@ description: "本教材は物体の比熱を測定するシミュレーション
 author: "kenji"
 date: "2026-02-16"
 image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthumbnail%2Fconservation-of-heat-and-specific-heat.png?alt=media&token=a3cf2c62-d413-4a8e-9cac-b15800361314"
-tags: ["物理", "熱", "大学"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "熱", "大学", "比熱", "熱容量"]
+categories: ["熱"]
+series: ["熱力学基礎"]
 aliases: []
 ---
 

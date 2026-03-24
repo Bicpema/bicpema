@@ -3,9 +3,9 @@ title: "電車の加速と減速"
 description: "本教材は電車の加速・減速運動を横移動で表現し、速さと時間の関係をv-tグラフで可視化するシミュレーション教材です。"
 author: "kenji"
 date: "2026-03-16"
-tags: ["物理", "力学", "高校"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "力学", "高校", "加速", "減速"]
+categories: ["力学"]
+series: ["力学入門"]
 aliases: []
 ---
 

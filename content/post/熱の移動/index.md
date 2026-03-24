@@ -4,9 +4,9 @@ description: "本教材は熱の移動に関する現象を観察するシミュ
 author: "kenji"
 date: "2026-02-16"
 image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthumbnail%2Fvisualization-of-heat-transfer.png?alt=media&token=66e871aa-325a-4e73-baae-d5737efb8a5f"
-tags: ["物理", "熱", "大学"]
-categories: ["Sample"]
-series: ["Sample Series"]
+tags: ["物理", "熱", "大学", "熱伝導", "対流", "放射"]
+categories: ["熱"]
+series: ["熱力学基礎"]
 aliases: []
 ---
 
