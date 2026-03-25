@@ -31,19 +31,16 @@ export function drawSimulation(p) {
     state.cylinder.draw(p);
   }
 
-  drawInfoText(state.cylinder, state.waterSurfaceY);
+  drawInfoText(state.cylinder, 175);
 
-  state.cylinder.update(state.waterSurfaceY, TANK_BOTTOM_Y);
+  state.cylinder.update(175, TANK_BOTTOM_Y);
 
   if (state.cylinder.dragging) {
     state.cylinder.cy =
       p.mouseY / (p.height / BASE_H) + state.cylinder.dragOffsetY;
-    state.cylinder.cy = p.constrain(
-      state.cylinder.cy,
-      state.waterSurfaceY,
-      TANK_BOTTOM_Y - 50
-    );
+    state.cylinder.cy = p.constrain(state.cylinder.cy, 175, TANK_BOTTOM_Y - 50);
   }
+  p.text(p.mouseX + ", " + p.mouseY, p.mouseX, p.mouseY);
 }
 
 /**
