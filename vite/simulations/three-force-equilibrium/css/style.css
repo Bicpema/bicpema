@@ -1,0 +1,98 @@
+body,
+html {
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#p5Container {
+  padding: 0px;
+  margin-top: 60px;
+  height: calc(100vh - 60px);
+  overflow: hidden;
+  position: relative;
+}
+
+#p5Canvas {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* 設定モーダルパネル */
+.settings-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  padding: 30px;
+  color: white;
+  width: 340px;
+  max-width: 90vw;
+  z-index: 2000;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.settings-content h5 {
+  margin-bottom: 20px;
+  color: white;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.settings-content .form-label {
+  color: #ddd;
+}
+
+/* 右上コントロール */
+.right-top-controls {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.right-top-controls button {
+  padding: 10px 20px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  white-space: nowrap;
+}
+
+.right-top-controls button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+}
+
+.right-top-controls button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* スマホ対応 */
+@media (max-width: 576px) {
+  .right-top-controls {
+    top: 10px;
+    right: 10px;
+  }
+
+  .right-top-controls button {
+    padding: 7px 14px;
+    font-size: 13px;
+  }
+
+  .settings-modal {
+    padding: 20px;
+    width: 290px;
+  }
+}
