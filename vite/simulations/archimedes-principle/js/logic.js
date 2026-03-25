@@ -18,9 +18,8 @@ import {
  * @param {number} cy 水槽の底面Y座標
  * @param {number} tankW 水槽の幅
  * @param {number} tankH 水槽の高さ
- * @param {number} tankD 水槽の奥行き（楕円比）
  */
-function drawTank(p, cx, cy, tankW, tankH, tankD) {
+function drawTank(p, cx, cy, tankW, tankH) {
   const halfW = tankW / 2;
   const wallEdgeColor = p.color(150, 165, 180);
 
@@ -31,13 +30,6 @@ function drawTank(p, cx, cy, tankW, tankH, tankD) {
   p.imageMode(p.CORNER);
   p.image(state.tankImage, imgX, imgY, tankW, tankH);
   p.pop();
-
-  // 前面枠線
-  p.noFill();
-  p.stroke(wallEdgeColor);
-  p.strokeWeight(2);
-  p.rect(imgX, imgY, tankW, tankH);
-  p.noStroke();
 }
 
 /**
