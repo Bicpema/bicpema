@@ -40,7 +40,6 @@ export function drawSimulation(p) {
       p.mouseY / (p.height / BASE_H) + state.cylinder.dragOffsetY;
     state.cylinder.cy = p.constrain(state.cylinder.cy, 175, TANK_BOTTOM_Y - 50);
   }
-  p.text(p.mouseX + ", " + p.mouseY, p.mouseX, p.mouseY);
 }
 
 /**
