@@ -44,18 +44,36 @@ export function drawArrow(p, fromX, fromY, toX, toY, col) {
 export function drawArrowWithLabel(p, fromX, fromY, toX, toY, col, label) {
   drawArrow(p, fromX, fromY, toX, toY, col);
   p.noStroke();
-  p.fill(col);
-  p.textSize(12);
+  p.textSize(15);
+  let tx, ty, hAlign;
   if (Math.abs(toX - fromX) < 2) {
-    p.textAlign(p.LEFT, p.CENTER);
-    p.text(label, fromX + 5, fromY);
+    hAlign = p.LEFT;
+    tx = fromX + 5;
+    ty = fromY;
   } else if (toX < fromX) {
-    p.textAlign(p.RIGHT, p.CENTER);
-    p.text(label, toX - 5, fromY);
+    hAlign = p.RIGHT;
+    tx = toX - 5;
+    ty = fromY;
   } else {
-    p.textAlign(p.LEFT, p.CENTER);
-    p.text(label, toX + 5, fromY);
+    hAlign = p.LEFT;
+    tx = toX + 5;
+    ty = fromY;
   }
+  p.textAlign(hAlign, p.CENTER);
+
+  // テキスト背景（半透明の黒い角丸矩形）
+  const tw = p.textWidth(label);
+  const th = 18;
+  const pad = 4;
+  const bgX = hAlign === p.RIGHT ? tx - tw - pad : tx - pad;
+  p.fill(0, 0, 0, 175);
+  p.rect(bgX, ty - th / 2 - pad / 2, tw + pad * 2, th + pad, 3);
+
+  // 本体テキスト（白で縁取り風に描画してから色付きで上書き）
+  p.fill(255, 255, 255, 220);
+  p.text(label, tx + 1, ty + 1);
+  p.fill(col);
+  p.text(label, tx, ty);
 }
 
 /**
@@ -104,20 +122,20 @@ export function drawLegend(p) {
   const ly = RIVER_BOTTOM - 108;
   const lineH = 24;
 
-  p.fill(0, 0, 0, 150);
+  p.fill(0, 0, 0, 190);
   p.noStroke();
-  p.rect(lx - 8, ly - 10, 250, 80, 6);
+  p.rect(lx - 8, ly - 10, 268, 84, 6);
 
-  p.textSize(13);
+  p.textSize(14);
   p.textAlign(p.LEFT, p.CENTER);
 
-  p.fill(230, 60, 60);
+  p.fill(255, 100, 100);
   p.text("━━ v川: 川の速度（常に左向き）", lx, ly + lineH * 0);
 
-  p.fill(30, 210, 60);
+  p.fill(80, 240, 100);
   p.text("━━ v船: 船の速度（水に対して）", lx, ly + lineH * 1);
 
-  p.fill(60, 130, 255);
+  p.fill(110, 170, 255);
   p.text("━━ v合: 岸から観測した合成速度", lx, ly + lineH * 2);
 }
 
@@ -135,11 +153,11 @@ export function drawInfoPanel(p) {
   const panelH = 100;
   const lineH = 24;
 
-  p.fill(0, 0, 0, 160);
+  p.fill(0, 0, 0, 200);
   p.noStroke();
   p.rect(px - panelW, py - panelH, panelW, panelH, 6);
 
-  p.textSize(13);
+  p.textSize(14);
   p.textAlign(p.LEFT, p.CENTER);
 
   const dirChar = (v) => {
@@ -149,14 +167,14 @@ export function drawInfoPanel(p) {
 
   const cs = state.boat.compositeSpeed;
 
-  p.fill(230, 60, 60);
+  p.fill(255, 100, 100);
   p.text(
     `v川: ${state.boat.riverSpeed.toFixed(1)} m/s ←`,
     px - panelW + 10,
     py - panelH + lineH * 0.6
   );
 
-  p.fill(30, 210, 60);
+  p.fill(80, 240, 100);
   const boatDir = dirChar(state.boat.boatSpeed);
   const boatAbs = Math.abs(state.boat.boatSpeed).toFixed(1);
   p.text(
@@ -165,7 +183,7 @@ export function drawInfoPanel(p) {
     py - panelH + lineH * 1.7
   );
 
-  p.fill(60, 130, 255);
+  p.fill(110, 170, 255);
   p.text(
     `v合: ${Math.abs(cs).toFixed(1)} m/s ${dirChar(cs)}`,
     px - panelW + 10,
