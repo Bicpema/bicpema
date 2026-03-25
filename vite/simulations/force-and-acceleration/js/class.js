@@ -32,6 +32,14 @@ export class Cart {
   }
 
   /**
+   * 台車の表示上の右端x座標を返す（画像描画後に更新される）
+   * @returns {number}
+   */
+  get displayRightEdge() {
+    return this.x + (this._displayW || this.BODY_W) / 2;
+  }
+
+  /**
    * 台車の左端x座標を返す
    * @returns {number}
    */
@@ -55,55 +63,15 @@ export class Cart {
    * 台車を描画する
    * @param {*} p p5インスタンス
    * @param {number} groundY 地面のy座標（論理ピクセル）
+   * @param {*} cartImg 台車画像
    */
-  display(p, groundY) {
-    const wY = groundY - this.WHEEL_R;
-    const bodyBottom = groundY - this.WHEEL_R * 2;
-    const bodyTop = bodyBottom - this.BODY_H;
-    const boxBottom = bodyTop;
-    const boxTop = boxBottom - this.BOX_H;
-
-    // 車軸
-    p.stroke(60);
-    p.strokeWeight(4);
-    p.line(
-      this.x - this.BODY_W / 2 + 30,
-      wY,
-      this.x + this.BODY_W / 2 - 30,
-      wY
-    );
-
-    // 車体（シャーシ）
-    p.fill(230);
-    p.stroke(30);
-    p.strokeWeight(3);
-    p.rect(this.x - this.BODY_W / 2, bodyTop, this.BODY_W, this.BODY_H);
-
-    // 荷台（上部ボックス）
-    p.fill(250);
-    p.stroke(30);
-    p.strokeWeight(3);
-    p.rect(this.x - this.BOX_W / 2, boxTop, this.BOX_W, this.BOX_H);
-
-    // 車輪（左）
-    p.fill(240);
-    p.stroke(30);
-    p.strokeWeight(3);
-    p.circle(this.x - this.BODY_W / 2 + 30, wY, this.WHEEL_R * 2);
-    // ハブ（左）
-    p.fill(180);
-    p.noStroke();
-    p.circle(this.x - this.BODY_W / 2 + 30, wY, this.WHEEL_R * 0.4 * 2);
-
-    // 車輪（右）
-    p.fill(240);
-    p.stroke(30);
-    p.strokeWeight(3);
-    p.circle(this.x + this.BODY_W / 2 - 30, wY, this.WHEEL_R * 2);
-    // ハブ（右）
-    p.fill(180);
-    p.noStroke();
-    p.circle(this.x + this.BODY_W / 2 - 30, wY, this.WHEEL_R * 0.4 * 2);
+  display(p, groundY, cartImg) {
+    const imgH = this.WHEEL_R * 2 + this.BODY_H + this.BOX_H;
+    const imgW = imgH * (cartImg.width / cartImg.height);
+    this._displayW = imgW;
+    const imgX = this.x - imgW / 2;
+    const imgY = groundY - imgH;
+    p.image(cartImg, imgX, imgY, imgW, imgH);
   }
 
   /**
@@ -116,4 +84,3 @@ export class Cart {
     this.acceleration = 0;
   }
 }
-
