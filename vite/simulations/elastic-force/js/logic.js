@@ -67,11 +67,11 @@ function drawGraph(p) {
   // 固定レンジ: x軸 ±50cm, y軸 ±50N
   const X_RANGE = 50; // cm
   const Y_RANGE = 50; // N
-  const X_STEP = 10;  // cm刻み
-  const Y_STEP = 10;  // N刻み
+  const X_STEP = 10; // cm刻み
+  const Y_STEP = 10; // N刻み
 
-  const pxPerCm = (gw / 2) / X_RANGE;
-  const pxPerN  = (gh / 2) / Y_RANGE;
+  const pxPerCm = gw / 2 / X_RANGE;
+  const pxPerN = gh / 2 / Y_RANGE;
 
   // --- 背景 ---
   p.fill(250);
@@ -96,9 +96,9 @@ function drawGraph(p) {
 
   // --- F = kx のライン（y軸範囲でクリップ）---
   // y = ±Y_RANGE になる x 座標: x = ±Y_RANGE/k * 100 cm
-  const maxXforY = (k > 0) ? (Y_RANGE / k) * 100 : X_RANGE;
+  const maxXforY = k > 0 ? (Y_RANGE / k) * 100 : X_RANGE;
   const clipX1cm = Math.max(-X_RANGE, -maxXforY);
-  const clipX2cm = Math.min( X_RANGE,  maxXforY);
+  const clipX2cm = Math.min(X_RANGE, maxXforY);
   p.stroke(70, 130, 200);
   p.strokeWeight(2.5);
   p.line(
