@@ -4,7 +4,9 @@
  */
 export function updateStartButton(running) {
   const btn = document.getElementById("startButton");
-  if (!btn) return;
+  if (!btn) {
+    return;
+  }
   if (running) {
     btn.textContent = "⏸ 停止";
     btn.classList.remove("btn-primary");
@@ -22,5 +24,7 @@ export function updateStartButton(running) {
  */
 export function updateDensityLabel(density) {
   const el = document.getElementById("densityValue");
-  if (el) el.textContent = density.toFixed(2);
+  if (el) {
+    el.textContent = density.toFixed(2);
+  }
 }

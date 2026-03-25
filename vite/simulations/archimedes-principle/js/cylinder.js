@@ -31,7 +31,9 @@ export class Cylinder {
    * @param {number} tankBottomY 水槽底面のY座標（キャンバス座標）
    */
   update(waterSurfaceY, tankBottomY) {
-    if (this.dragging) return;
+    if (this.dragging) {
+      return;
+    }
 
     const WATER_DENSITY = 1.0;
     const G = 0.5;
@@ -75,8 +77,12 @@ export class Cylinder {
   getSubmergedFraction(waterSurfaceY) {
     const topY = this.cy - this.h;
     const bottomY = this.cy;
-    if (bottomY <= waterSurfaceY) return 0;
-    if (topY >= waterSurfaceY) return 1;
+    if (bottomY <= waterSurfaceY) {
+      return 0;
+    }
+    if (topY >= waterSurfaceY) {
+      return 1;
+    }
     return (bottomY - waterSurfaceY) / this.h;
   }
 
