@@ -61,14 +61,14 @@ function drawUI(p) {
   p.fill(255, 0, 0);
   p.noStroke();
   p.textSize(32);
-  p.text("加えた熱量 Q", 220, (VIRTUAL_H * 3.5) / 4);
+  p.text("加えた熱量 Q", 220, (VIRTUAL_H * 3) / 4 + 75);
 
   p.fill(0);
   p.textSize(29);
-  p.text("<結果>", 677, (VIRTUAL_H * 3) / 4 + 40);
-  p.text(`Q = ${state.Q}Q`, 805, (VIRTUAL_H * 3) / 4 + 10);
-  p.text(`Win = -${state.W}Wout`, 805, (VIRTUAL_H * 3) / 4 + 40);
-  p.text(`ΔU = ${state.dU}ΔT`, 805, (VIRTUAL_H * 3) / 4 + 70);
+  p.text("<結果>", 500, (VIRTUAL_H * 3) / 4 + 75);
+  p.text(`Q = ${state.Q}Q`, 600, (VIRTUAL_H * 3) / 4 + 40);
+  p.text(`Win = -${state.W}Wout`, 600, (VIRTUAL_H * 3) / 4 + 75);
+  p.text(`ΔU = ${state.dU}ΔT`, 600, (VIRTUAL_H * 3) / 4 + 110);
 }
 
 /**
@@ -94,13 +94,7 @@ function drawCylinder(p) {
  * @param {object} p - p5 インスタンス
  */
 function drawGas(p) {
-  const col = p.map(
-    state.T,
-    state.T0,
-    state.T0 + 5 * DT_UNIT,
-    180,
-    255
-  );
+  const col = p.map(state.T, state.T0, state.T0 + 5 * DT_UNIT, 180, 255);
   p.noStroke();
   p.fill(col, 160, 120, 180);
   p.rect(CYL_LEFT, CYL_TOP, state.gasWidth, CYL_HEIGHT);
@@ -137,12 +131,7 @@ function drawArrows(p) {
   // 仕事の矢印（ピストン右向き）
   if (state.step > 0) {
     p.stroke(0);
-    p.line(
-      state.pistonX + 37,
-      CYL_CENTER_Y,
-      state.pistonX + 110,
-      CYL_CENTER_Y
-    );
+    p.line(state.pistonX + 37, CYL_CENTER_Y, state.pistonX + 110, CYL_CENTER_Y);
     p.triangle(
       state.pistonX + 110,
       CYL_CENTER_Y,
