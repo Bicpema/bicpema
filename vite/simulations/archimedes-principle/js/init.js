@@ -23,9 +23,8 @@ export const CYL_H = 100;
 
 /**
  * シミュレーションの初期値を設定する関数。
- * @param {*} p p5インスタンス。
  */
-export function initValue(p) {
+export function initValue() {
   state.waterSurfaceY = TANK_BOTTOM_Y - TANK_H * WATER_FILL_RATIO;
 
   state.tank = new Tank(TANK_CX, TANK_BOTTOM_Y, TANK_W, TANK_H, TANK_D);
