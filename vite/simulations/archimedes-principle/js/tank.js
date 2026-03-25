@@ -31,7 +31,7 @@ export class Tank {
 
     p.push();
     p.imageMode(p.CORNER);
-    p.image(state.tankImage, imgX, imgY, this.w, this.h);
+    p.image(state.tankImage, imgX, imgY - 50, this.w, this.h + 100);
     p.pop();
   }
 }
