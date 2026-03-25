@@ -10,9 +10,15 @@ import { drawSimulation } from "./logic.js";
 
 const FONT_URL =
   "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580";
+const GROUND_IMG_URL =
+  "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810";
 
 const sketch = (p) => {
   const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+
+  p.preload = () => {
+    state.wallImg = p.loadImage(GROUND_IMG_URL);
+  };
 
   p.setup = () => {
     canvasController.fullScreen(p);
@@ -29,7 +35,7 @@ const sketch = (p) => {
 
   p.mousePressed = () => {
     const vmx = (p.mouseX / p.width) * V_W;
-    const vmy = (p.mouseY / p.width) * V_H;
+    const vmy = (p.mouseY / p.width) * V_W;
     for (const spring of state.springs) {
       if (spring.isOverHandle(vmx, vmy)) {
         spring.startDrag(vmx);

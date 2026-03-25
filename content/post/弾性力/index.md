@@ -4,6 +4,7 @@ description: "本教材はバネの伸びと縮みによる弾性力（フック
 author: "kenji"
 date: "2026-03-10"
 tags: ["物理", "力学", "高校", "弾性力", "フックの法則"]
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Felastic-force%2Fthumbnail.png?alt=media&token=6018bfc7-f657-4504-bebc-c65a43cbf4c6"
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []

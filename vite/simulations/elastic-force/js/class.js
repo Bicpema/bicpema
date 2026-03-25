@@ -37,9 +37,8 @@ export class Spring {
     this.isDragging = false;
     this.dragOffsetX = 0;
 
-    // 先端ハンドルのサイズ（仮想座標）
-    this.handleRx = 40;
-    this.handleRy = 24;
+    // 先端ヒット判定の半径（仮想座標）
+    this.hitR = 30;
   }
 
   /**
@@ -69,15 +68,15 @@ export class Spring {
   }
 
   /**
-   * マウスがハンドル（手）の上にあるか判定
+   * マウスがバネ先端の上にあるか判定
    * @param {number} mx マウスX（仮想座標）
    * @param {number} my マウスY（仮想座標）
    * @returns {boolean}
    */
   isOverHandle(mx, my) {
-    const dx = (mx - this.endX) / this.handleRx;
-    const dy = (my - this.endY) / this.handleRy;
-    return dx * dx + dy * dy <= 1;
+    const dx = mx - this.endX;
+    const dy = my - this.endY;
+    return dx * dx + dy * dy <= this.hitR * this.hitR;
   }
 
   /**
@@ -169,24 +168,6 @@ export class Spring {
   }
 
   /**
-   * 先端ハンドル（手）を描画
-   * @param {*} p p5 インスタンス
-   * @param {boolean} hovered ホバー中か
-   */
-  drawHandle(p, hovered) {
-    p.fill(hovered ? p.color(255, 245, 180) : 255);
-    p.stroke(0);
-    p.strokeWeight(2);
-    p.ellipse(this.endX, this.endY, this.handleRx * 2, this.handleRy * 2);
-
-    p.fill(0);
-    p.noStroke();
-    p.textAlign(p.CENTER, p.CENTER);
-    p.textSize(20);
-    p.text("手", this.endX, this.endY);
-  }
-
-  /**
    * 変位と弾性力の数値・矢印を描画
    * @param {*} p p5 インスタンス
    */
@@ -212,11 +193,10 @@ export class Spring {
     p.fill(200, 30, 30);
     p.text("F = " + F.toFixed(2) + " N", labelX, this.attachY + 46);
 
-    // 弾性力の矢印（ハンドルから自然長方向へ）
+    // 弾性力の矢印（バネ先端から弾性力の向きへ）
     const arrowDir = dispM > 0 ? -1 : 1;
-    const arrowLen = Math.min(F * 20, 120);
-    const arrowStartX =
-      this.endX + (dispM > 0 ? this.handleRx : -this.handleRx);
+    const arrowLen = F * 20;
+    const arrowStartX = this.endX;
     const arrowEndX = arrowStartX + arrowDir * arrowLen;
     p.stroke(200, 30, 30);
     p.strokeWeight(2.5);
@@ -236,12 +216,10 @@ export class Spring {
   /**
    * バネ全体を描画
    * @param {*} p p5 インスタンス
-   * @param {boolean} hovered ハンドルがホバー中か
    */
-  display(p, hovered) {
+  display(p) {
     this.drawNaturalLengthLine(p);
     this.drawCoil(p);
-    this.drawHandle(p, hovered);
     this.drawForceInfo(p);
   }
 

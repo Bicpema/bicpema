@@ -1,6 +1,6 @@
 // init.js は初期処理専用のファイルです。
 
-import { state, SPRING_Y_POSITIONS, ATTACH_X, NATURAL_LENGTH } from "./state.js";
+import { state, SPRING_Y, ATTACH_X, NATURAL_LENGTH } from "./state.js";
 import { Spring } from "./class.js";
 import {
   onSpringConstantChange,
@@ -34,7 +34,5 @@ export function elCreate(p) {
  */
 export function initValue(p) {
   const k = parseInt(state.springConstantInput.value());
-  state.springs = SPRING_Y_POSITIONS.map(
-    (y) => new Spring(ATTACH_X, y, NATURAL_LENGTH, k)
-  );
+  state.springs = [new Spring(ATTACH_X, SPRING_Y, NATURAL_LENGTH, k)];
 }
