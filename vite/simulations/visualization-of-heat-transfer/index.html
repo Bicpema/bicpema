@@ -1,97 +1,14 @@
 <!doctype html>
-<html lang="ja">
+<html lang="en">
   <head>
-    <title>熱移動の可視化</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="style.css" />
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./css/style.css" rel="stylesheet" vite-ignore />
   </head>
-
-  <body class="bg-dark" oncontextmenu="return false;">
-    <nav
-      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
-      data-bs-theme="dark"
-      id="navBar"
-    >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
-        <span class="text-light fw-lighter">熱移動の可視化</span>
-      </div>
-    </nav>
-
-    <div class="container-fluid" id="p5Container">
-      <div id="p5Canvas"></div>
-
-      <!-- 設定モーダルパネル -->
-      <div id="settingsModal" class="settings-modal" style="display: none">
-        <div class="modal-content">
-          <h5>設定</h5>
-
-          <div class="mb-3">
-            <label class="form-label">接触モード</label>
-            <select class="form-select" id="contactModeInput">
-              <option value="0" selected>接触前に戻す</option>
-              <option value="1">接触させる</option>
-            </select>
-          </div>
-
-          <div class="mb-3">
-            <label for="tHot0Input" class="form-label">高温側温度 (K)</label>
-            <input
-              type="number"
-              class="form-control"
-              id="tHot0Input"
-              min="100"
-              max="600"
-              value="373"
-              step="1"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label for="tCold0Input" class="form-label">低温側温度 (K)</label>
-            <input
-              type="number"
-              class="form-control"
-              id="tCold0Input"
-              min="0"
-              max="200"
-              value="50"
-              step="1"
-            />
-          </div>
-
-          <div class="mb-3">
-            <label for="kInput" class="form-label">冷却定数 k</label>
-            <input
-              type="number"
-              class="form-control"
-              id="kInput"
-              min="0.001"
-              max="0.1"
-              value="0.02"
-              step="0.001"
-            />
-          </div>
-
-          <button id="closeModal" class="btn btn-secondary w-100">
-            閉じる
-          </button>
-        </div>
-      </div>
-
-      <!-- 左下コントロール -->
-      <div class="left-bottom-controls">
-        <button id="resetButton" class="btn btn-primary">リセット</button>
-        <button id="playPauseButton" class="btn btn-success">開始</button>
-      </div>
-
-      <!-- 右上コントロール -->
-      <div class="right-top-controls">
-        <button id="toggleModal" class="btn btn-info">設定</button>
-      </div>
-    </div>
-
-    <script type="module" src="./js/index.js"></script>
+  <body>
+    <main></main>
+    <script src="sketch.js"></script>
   </body>
 </html>
