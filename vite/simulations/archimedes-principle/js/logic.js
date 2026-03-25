@@ -1,56 +1,5 @@
 import { state } from "./state.js";
-import {
-  BASE_W,
-  BASE_H,
-  TANK_CX,
-  TANK_BOTTOM_Y,
-  TANK_W,
-  TANK_H,
-  TANK_D,
-  CYL_H,
-} from "./init.js";
-
-/**
- * 水槽を等角投影法で描画する。
- * @param {*} p p5インスタンス。
- * @param {number} cx 水槽の中心X座標
- * @param {number} cy 水槽の底面Y座標
- * @param {number} tankW 水槽の幅
- * @param {number} tankH 水槽の高さ
- */
-function drawTank(p, cx, cy, tankW, tankH) {
-  const halfW = tankW / 2;
-  const imgX = cx - halfW;
-  const imgY = cy - tankH;
-  p.push();
-  p.imageMode(p.CORNER);
-  p.image(state.tankImage, imgX, imgY, tankW, tankH);
-  p.pop();
-}
-
-/**
- * 等角投影法で円柱を描画する。
- * @param {*} p p5インスタンス。
- * @param {import("./cylinder.js").Cylinder} cylinder 円柱オブジェクト
- * @param {number} waterSurfaceY 水面のY座標
- * @param {number} tankW 水槽の幅
- * @param {number} tankD 水槽の奥行き
- * @param {number} cx 水槽の中心X座標
- */
-function drawCylinder(p, cylinder) {
-  const r = cylinder.r;
-  const h = cylinder.h;
-  const cylCx = cylinder.cx;
-  const cylBottomY = cylinder.cy;
-  const cylTopY = cylBottomY - h;
-  const ew = r * 2;
-
-  // 沈む物体の画像を描画
-  p.push();
-  p.imageMode(p.CORNER);
-  p.image(state.cylinderImage, cylCx - r, cylTopY, ew, h);
-  p.pop();
-}
+import { BASE_W, BASE_H, TANK_BOTTOM_Y, CYL_H } from "./init.js";
 
 /**
  * 情報テキストをDOM要素に反映する。
@@ -75,8 +24,12 @@ export function drawSimulation(p) {
 
   p.background(255);
 
-  drawTank(p, TANK_CX, TANK_BOTTOM_Y, TANK_W, TANK_H);
-  drawCylinder(p, state.cylinder);
+  if (state.tank) {
+    state.tank.draw(p);
+  }
+  if (state.cylinder) {
+    state.cylinder.draw(p);
+  }
 
   drawInfoText(state.cylinder, state.waterSurfaceY);
 

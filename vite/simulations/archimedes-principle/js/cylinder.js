@@ -1,3 +1,5 @@
+import { state } from "./state.js";
+
 /**
  * Cylinderクラス
  *
@@ -67,6 +69,24 @@ export class Cylinder {
       this.cy = waterSurfaceY - this.h * 2 + this.h;
       this.vy = -this.vy * 0.3;
     }
+  }
+
+  /**
+   * 円柱を描画する。
+   * @param {*} p p5インスタンス
+   */
+  draw(p) {
+    const r = this.r;
+    const h = this.h;
+    const cylCx = this.cx;
+    const cylBottomY = this.cy;
+    const cylTopY = cylBottomY - h;
+    const ew = r * 2;
+
+    p.push();
+    p.imageMode(p.CORNER);
+    p.image(state.cylinderImage, cylCx - r, cylTopY, ew, h);
+    p.pop();
   }
 
   /**

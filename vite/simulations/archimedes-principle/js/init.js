@@ -1,3 +1,4 @@
+import { Tank } from "./tank.js";
 import { Cylinder } from "./cylinder.js";
 import { state } from "./state.js";
 import { updateDensityLabel } from "./element-function.js";
@@ -26,6 +27,8 @@ export const CYL_H = 100;
  */
 export function initValue(p) {
   state.waterSurfaceY = TANK_BOTTOM_Y - TANK_H * WATER_FILL_RATIO;
+
+  state.tank = new Tank(TANK_CX, TANK_BOTTOM_Y, TANK_W, TANK_H, TANK_D);
 
   const densitySlider = document.getElementById("densitySlider");
   const density = densitySlider ? parseFloat(densitySlider.value) : 1.0;
