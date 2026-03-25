@@ -15,11 +15,6 @@ html {
   text-align: center;
 }
 
-/* グラフ */
-#graph {
-  background-color: white;
-}
-
 /* モーダルパネル */
 .settings-modal {
   position: absolute;

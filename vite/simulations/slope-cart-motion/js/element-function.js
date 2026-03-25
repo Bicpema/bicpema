@@ -1,7 +1,6 @@
 // element-function.js - イベントハンドラー専用のファイルです。
 
 import { state } from "./state.js";
-import { updateGraph } from "./graph.js";
 
 /**
  * リセットボタンが押されたときの処理
@@ -9,10 +8,8 @@ import { updateGraph } from "./graph.js";
 export function onReset() {
   state.cart.reset();
   state.tapeMarks = [];
-  state.vtData = [];
   state.isPlaying = false;
   state.playPauseButton.html("▶ 開始");
-  updateGraph();
 }
 
 /**
@@ -57,7 +54,7 @@ export function applySettings() {
   const newAngle = parseInt(state.angleInput.value());
   const newInterval = parseFloat(state.intervalInput.value());
 
-  if (newAngle >= 10 && newAngle <= 40) {
+  if (newAngle >= 0 && newAngle <= 30) {
     state.slopeDeg = newAngle;
     state.cart.setAngle(newAngle);
   }

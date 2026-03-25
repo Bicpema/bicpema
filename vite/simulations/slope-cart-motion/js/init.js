@@ -8,7 +8,6 @@ import {
   onPlayPause,
   onToggleModal,
   onCloseModal,
-  onToggleGraph,
 } from "./element-function.js";
 
 /** フレームレート */
@@ -48,49 +47,14 @@ export function elementSelectInit(p) {
   state.playPauseButton.mousePressed(onPlayPause);
   state.toggleModal.mousePressed(onToggleModal);
   state.closeModal.mousePressed(onCloseModal);
-
-  // グラフトグルボタン
-  const graphToggleParent = p
-    .createDiv()
-    .id("graphToggleParent")
-    .parent(p.select("#p5Container"));
-
-  p.createButton("v-tグラフを表示")
-    .id("graphToggleButton")
-    .parent(graphToggleParent)
-    .class("btn btn-secondary mt-2")
-    .mousePressed(onToggleGraph);
-
-  // グラフ用 div
-  p.createDiv('<canvas id="graphCanvas"></canvas>')
-    .id("graph")
-    .parent(p.select("#p5Container"))
-    .class("rounded border border-1")
-    .style("display", "none")
-    .style("background-color", "white");
 }
 
 /**
  * DOM要素の位置・サイズを設定する（リサイズ時も呼ばれる）
  * @param {*} p - p5インスタンス
  */
-export function elementPositionInit(p) {
-  const graphToggleParent = p.select("#graphToggleParent");
-  const graphDiv = p.select("#graph");
-
-  // グラフをキャンバス幅に合わせて配置
-  const gx = (p.windowWidth - p.width) / 2;
-  const gy = p.height + 10;
-
-  if (p.width <= 992) {
-    graphToggleParent.position(gx, gy);
-    graphDiv.position(gx, gy + 46).size(p.width, p.width * 0.6);
-  } else {
-    graphToggleParent.position(p.windowWidth / 2 - p.width / 4, gy);
-    graphDiv
-      .position(p.windowWidth / 2 - p.width / 4, gy + 46)
-      .size(p.width / 2, p.width * 0.3);
-  }
+export function elementPositionInit(_p) {
+  // グラフは CSS position:absolute で配置するため JS 側の設定不要
 }
 
 /**
@@ -100,5 +64,4 @@ export function elementPositionInit(p) {
 export function valueInit() {
   state.cart = new SlopeCart(state.slopeDeg, SLOPE_LENGTH_M);
   state.tapeMarks = [];
-  state.vtData = [];
 }

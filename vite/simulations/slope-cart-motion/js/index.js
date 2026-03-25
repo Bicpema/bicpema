@@ -19,7 +19,6 @@ import {
   drawRecordingTape,
   drawInfoPanel,
 } from "./function.js";
-import { updateGraph } from "./graph.js";
 
 const sketch = (p) => {
   const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
@@ -29,12 +28,17 @@ const sketch = (p) => {
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
     );
     state.cartImage = p.loadImage(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/realTrolley.png?alt=media&token=dd68620c-22aa-43e7-9963-dc953989662e",
-      () => {
-        // 読み込み成功
-      },
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/simpleTrolley.png?alt=media&token=f614f2c8-188e-4d34-807c-d48ffd21d95c",
+      () => {},
       (err) => {
         console.warn("cart image load failed", err);
+      }
+    );
+    state.groundImage = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810",
+      () => {},
+      (err) => {
+        console.warn("ground image load failed", err);
       }
     );
   };
@@ -60,15 +64,12 @@ const sketch = (p) => {
         const t = (state.tapeMarks.length + 1) * state.recInterval;
         const s = 0.5 * state.cart.accel * t * t;
         if (s > state.cart.slopeLengthM) break;
-        const v = state.cart.accel * t;
         state.tapeMarks.push(s);
-        state.vtData.push({ x: t, y: v });
       }
 
       if (state.cart.isAtBottom) {
         state.isPlaying = false;
         state.playPauseButton.html("▶ 開始");
-        if (state.graphVisible) updateGraph();
       }
     }
 
@@ -76,10 +77,6 @@ const sketch = (p) => {
     drawCartOnSlope(p, state.cart, state.slopeDeg);
     drawRecordingTape(p, state.tapeMarks, state.recInterval);
     drawInfoPanel(p, state.cart);
-
-    if (state.isPlaying && state.graphVisible) {
-      updateGraph();
-    }
   };
 
   p.windowResized = () => {
