@@ -28,8 +28,7 @@ const sketch = (p) => {
     initValue(p);
     p.frameRate(FPS);
     p.textAlign(p.CENTER, p.CENTER);
-    p.noLoop();
-    p.redraw();
+    p.loop();
   };
 
   p.draw = () => {

@@ -1,6 +1,6 @@
 import { Cylinder } from "./cylinder.js";
 import { state } from "./state.js";
-import { updateStartButton, updateDensityLabel } from "./element-function.js";
+import { updateDensityLabel } from "./element-function.js";
 
 export const FPS = 60;
 
@@ -46,24 +46,10 @@ export function initValue(p) {
  * @param {*} p p5インスタンス。
  */
 export function elCreate(p) {
-  const startBtn = document.getElementById("startButton");
-  if (startBtn) {
-    startBtn.addEventListener("click", () => {
-      state.running = !state.running;
-      updateStartButton(state.running);
-      if (state.running) p.loop();
-      else p.noLoop();
-    });
-  }
-
   const resetBtn = document.getElementById("resetButton");
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {
-      state.running = false;
-      updateStartButton(state.running);
-      p.noLoop();
       initValue(p);
-      p.redraw();
     });
   }
 
@@ -75,15 +61,12 @@ export function elCreate(p) {
       if (state.cylinder) {
         state.cylinder.density = density;
         state.cylinder.vy = 0;
-        if (!state.running) {
-          if (density <= 1.0) {
-            state.cylinder.cy = state.waterSurfaceY + CYL_H * density;
-          } else {
-            state.cylinder.cy = TANK_BOTTOM_Y;
-          }
+        if (density <= 1.0) {
+          state.cylinder.cy = state.waterSurfaceY + CYL_H * density;
+        } else {
+          state.cylinder.cy = TANK_BOTTOM_Y;
         }
       }
-      if (!state.running) p.redraw();
     });
   }
 }

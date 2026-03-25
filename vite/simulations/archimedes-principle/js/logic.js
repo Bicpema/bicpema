@@ -1,5 +1,4 @@
 import { state } from "./state.js";
-import { updateStartButton } from "./element-function.js";
 import {
   BASE_W,
   BASE_H,
@@ -74,14 +73,14 @@ function drawInfoText(cylinder, waterSurfaceY) {
 export function drawSimulation(p) {
   p.scale(p.width / BASE_W);
 
-  p.background(30);
+  p.background(255);
 
   drawTank(p, TANK_CX, TANK_BOTTOM_Y, TANK_W, TANK_H);
   drawCylinder(p, state.cylinder);
 
   drawInfoText(state.cylinder, state.waterSurfaceY);
 
-  state.cylinder.update(state.waterSurfaceY, TANK_BOTTOM_Y, state.running);
+  state.cylinder.update(state.waterSurfaceY, TANK_BOTTOM_Y);
 
   if (state.cylinder.dragging) {
     state.cylinder.cy =
@@ -108,9 +107,6 @@ export function handleMousePressed(p) {
     state.cylinder.dragging = true;
     state.cylinder.dragOffsetY = state.cylinder.cy - my;
     state.cylinder.vy = 0;
-    if (!state.running) {
-      p.loop();
-    }
   }
 }
 
@@ -122,10 +118,6 @@ export function handleMouseReleased(p) {
   if (state.cylinder && state.cylinder.dragging) {
     state.cylinder.dragging = false;
     state.cylinder.vy = 0;
-    if (!state.running) {
-      state.running = true;
-      updateStartButton(state.running);
-      p.loop();
-    }
+    p.loop();
   }
 }

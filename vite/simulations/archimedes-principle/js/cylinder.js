@@ -2,7 +2,6 @@
  * Cylinderクラス
  *
  * アルキメデスの原理シミュレーションで使用する円柱を表すクラス。
- * 等角投影法（isometric projection）で描画する。
  */
 export class Cylinder {
   /**
@@ -30,10 +29,9 @@ export class Cylinder {
    * アルキメデスの原理に基づいて円柱の位置を更新する。
    * @param {number} waterSurfaceY 水面のY座標（キャンバス座標）
    * @param {number} tankBottomY 水槽底面のY座標（キャンバス座標）
-   * @param {boolean} running シミュレーション実行中かどうか
    */
-  update(waterSurfaceY, tankBottomY, running) {
-    if (this.dragging || !running) return;
+  update(waterSurfaceY, tankBottomY) {
+    if (this.dragging) return;
 
     const WATER_DENSITY = 1.0;
     const G = 0.5;
