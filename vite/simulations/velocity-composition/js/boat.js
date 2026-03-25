@@ -134,7 +134,15 @@ export class Boat {
     const y3 = -134;
 
     const rdx = -(this.riverSpeed * S);
-    drawArrowWithLabel(p, 0, y1, rdx, y1, p.color(230, 60, 60), `v川 ${this.riverSpeed.toFixed(1)} m/s`);
+    drawArrowWithLabel(
+      p,
+      0,
+      y1,
+      rdx,
+      y1,
+      p.color(230, 60, 60),
+      `v川 ${this.riverSpeed.toFixed(1)} m/s`
+    );
 
     const bdx = -(this.boatSpeed * S);
     const boatLabel =
