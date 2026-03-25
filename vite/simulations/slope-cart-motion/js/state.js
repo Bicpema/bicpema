@@ -4,16 +4,16 @@ export const state = {
   isPlaying: false,
   /** 記録テープのマーク（各記録時刻の変位 m） */
   tapeMarks: [],
-  /** v-tグラフのデータ */
-  vtData: [],
   /** 斜面角度 (度) */
-  slopeDeg: 30,
+  slopeDeg: 20,
   /** 記録間隔 (s) */
   recInterval: 0.1,
-  /** グラフの表示状態 */
-  graphVisible: false,
   /** グラフ Chart.js インスタンス */
   graphChart: null,
+  /** 台車画像 */
+  cartImage: null,
+  /** 地面画像 */
+  groundImage: null,
   /** 台車オブジェクト */
   cart: null,
   /** リセットボタン */

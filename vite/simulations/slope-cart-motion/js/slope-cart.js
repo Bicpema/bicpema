@@ -39,7 +39,7 @@ export class SlopeCart {
     this.v = this.accel * this.time;
 
     // 斜面の端に到達したら停止
-    const maxDisp = this.slopeLengthM - this.CART_W / (2 * PX_PER_M);
+    const maxDisp = this.slopeLengthM - this.CART_W / PX_PER_M;
     if (this.s >= maxDisp) {
       this.s = maxDisp;
       this.v = Math.sqrt(2 * this.accel * maxDisp);
@@ -68,4 +68,3 @@ export class SlopeCart {
     this.reset();
   }
 }
-
