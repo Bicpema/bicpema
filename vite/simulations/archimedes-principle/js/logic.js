@@ -22,60 +22,21 @@ import {
  */
 function drawTank(p, cx, cy, tankW, tankH, tankD) {
   const halfW = tankW / 2;
-  const wallColor = p.color(200, 210, 220, 180);
   const wallEdgeColor = p.color(150, 165, 180);
-  const floorColor = p.color(180, 195, 210, 200);
 
-  p.stroke(wallEdgeColor);
-  p.strokeWeight(1.5);
+  const imgX = cx - halfW;
+  const imgY = cy - tankH;
 
-  // 底面
-  p.fill(floorColor);
-  p.beginShape();
-  p.vertex(cx - halfW, cy);
-  p.vertex(cx + halfW, cy);
-  p.vertex(cx + halfW + tankD, cy - tankD);
-  p.vertex(cx - halfW + tankD, cy - tankD);
-  p.endShape(p.CLOSE);
+  p.push();
+  p.imageMode(p.CORNER);
+  p.image(state.tankImage, imgX, imgY, tankW, tankH);
+  p.pop();
 
-  // 右側面
-  p.fill(wallColor);
-  p.beginShape();
-  p.vertex(cx + halfW, cy);
-  p.vertex(cx + halfW, cy - tankH);
-  p.vertex(cx + halfW + tankD, cy - tankD - tankH);
-  p.vertex(cx + halfW + tankD, cy - tankD);
-  p.endShape(p.CLOSE);
-
-  // 左側面（やや暗く）
-  p.fill(p.color(160, 175, 190, 180));
-  p.beginShape();
-  p.vertex(cx - halfW, cy);
-  p.vertex(cx - halfW, cy - tankH);
-  p.vertex(cx - halfW + tankD, cy - tankD - tankH);
-  p.vertex(cx - halfW + tankD, cy - tankD);
-  p.endShape(p.CLOSE);
-
-  // 奥面
-  p.fill(p.color(190, 205, 215, 160));
-  p.beginShape();
-  p.vertex(cx - halfW + tankD, cy - tankD);
-  p.vertex(cx - halfW + tankD, cy - tankD - tankH);
-  p.vertex(cx + halfW + tankD, cy - tankD - tankH);
-  p.vertex(cx + halfW + tankD, cy - tankD);
-  p.endShape(p.CLOSE);
-
-  // 手前面（透明）
+  // 前面枠線
   p.noFill();
   p.stroke(wallEdgeColor);
   p.strokeWeight(2);
-  p.beginShape();
-  p.vertex(cx - halfW, cy);
-  p.vertex(cx - halfW, cy - tankH);
-  p.vertex(cx + halfW, cy - tankH);
-  p.vertex(cx + halfW, cy);
-  p.endShape(p.CLOSE);
-
+  p.rect(imgX, imgY, tankW, tankH);
   p.noStroke();
 }
 
@@ -147,47 +108,11 @@ function drawCylinder(p, cylinder, waterSurfaceY, tankW, tankD, cx) {
   const ew = r * 2;
   const eh = ew * ellipseRatio;
 
-  const brownSide = p.color(139, 90, 43);
-  const brownTop = p.color(165, 115, 60);
-  const brownDark = p.color(100, 62, 18);
-  const brownEdge = p.color(80, 50, 15);
-
-  p.stroke(brownEdge);
-  p.strokeWeight(1);
-
-  // 水中部分（やや暗め）
-  const subY = p.max(cylTopY, waterSurfaceY);
-  if (subY < cylBottomY) {
-    p.fill(p.color(110, 72, 26, 220));
-    p.noStroke();
-    p.rect(cylCx - r, subY, ew, cylBottomY - subY);
-    p.stroke(brownEdge);
-    p.strokeWeight(1);
-  }
-  // 水上部分
-  if (cylTopY < waterSurfaceY) {
-    p.fill(brownSide);
-    p.noStroke();
-    p.rect(cylCx - r, cylTopY, ew, p.min(waterSurfaceY, cylBottomY) - cylTopY);
-    p.stroke(brownEdge);
-    p.strokeWeight(1);
-  }
-
-  // 底面楕円（常に描画）
-  p.fill(brownDark);
-  p.stroke(brownEdge);
-  p.strokeWeight(1);
-  p.ellipse(cylCx, cylBottomY, ew, eh);
-
-  // 上面楕円（水中にある場合は描画しない）
-  if (cylTopY <= waterSurfaceY) {
-    p.fill(brownTop);
-    p.stroke(brownEdge);
-    p.strokeWeight(1);
-    p.ellipse(cylCx, cylTopY, ew, eh);
-  }
-
-  p.noStroke();
+  // 沈む物体の画像を描画
+  p.push();
+  p.imageMode(p.CORNER);
+  p.image(state.cylinderImage, cylCx - r, cylTopY, ew, h);
+  p.pop();
 }
 
 /**
@@ -213,9 +138,9 @@ export function drawSimulation(p) {
 
   p.background(30);
 
+  drawTank(p, TANK_CX, TANK_BOTTOM_Y, TANK_W, TANK_H, TANK_D);
   drawWater(p, TANK_CX, state.waterSurfaceY, TANK_BOTTOM_Y, TANK_W, TANK_D);
   drawCylinder(p, state.cylinder, state.waterSurfaceY, TANK_W, TANK_D, TANK_CX);
-  drawTank(p, TANK_CX, TANK_BOTTOM_Y, TANK_W, TANK_H, TANK_D);
 
   drawInfoText(state.cylinder, state.waterSurfaceY);
 
