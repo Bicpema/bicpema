@@ -14,27 +14,46 @@ export class BicpemaCanvasController {
   }
 
   /**
+   * #simPanel が存在する場合はそのサイズ、なければウィンドウサイズを返す
+   * @param {p5} p
+   * @returns {{ panelW: number, panelH: number }}
+   */
+  _getPanelSize(p) {
+    const simPanel = document.getElementById("simPanel");
+    if (simPanel) {
+      return { panelW: simPanel.clientWidth, panelH: simPanel.clientHeight };
+    }
+    const NAV_BAR = p.select("#navBar");
+    return { panelW: p.windowWidth, panelH: p.windowHeight - NAV_BAR.height };
+  }
+
+  /**
    * HTML要素で生成している#p5Canvasと#navBarを元にcanvasを生成する。
    * @param {p5} p p5インスタンス
    */
   fullScreen(p) {
     const P5_CANVAS = p.select("#p5Canvas");
-    const NAV_BAR = p.select("#navBar");
-    let canvas, w, h;
+    const { panelW, panelH } = this._getPanelSize(p);
+    let w, h;
     if (this.fixed) {
       const RATIO = 9 / 16;
-      w = p.windowWidth;
+      w = panelW;
       h = w * RATIO;
-      if (h > p.windowHeight - NAV_BAR.height) {
-        h = p.windowHeight - NAV_BAR.height;
+      if (h > panelH) {
+        h = panelH;
         w = h / RATIO;
       }
     } else {
-      w = p.windowWidth;
-      h = p.windowHeight - NAV_BAR.height;
+      w = panelW;
+      h = panelH;
     }
+    let canvas;
     if (this.is3D) {
-      canvas = p.createCanvas(w * this.widthRatio, h * this.heightRatio, p.WEBGL);
+      canvas = p.createCanvas(
+        w * this.widthRatio,
+        h * this.heightRatio,
+        p.WEBGL
+      );
     } else {
       canvas = p.createCanvas(w * this.widthRatio, h * this.heightRatio);
     }
@@ -46,20 +65,20 @@ export class BicpemaCanvasController {
    * @param {p5} p p5インスタンス
    */
   resizeScreen(p) {
-    const NAV_BAR = p.select("#navBar");
+    const { panelW, panelH } = this._getPanelSize(p);
     let w = 0;
     let h = 0;
     if (this.fixed) {
       const RATIO = 9 / 16;
-      w = p.windowWidth;
+      w = panelW;
       h = w * RATIO;
-      if (h > p.windowHeight - NAV_BAR.height) {
-        h = p.windowHeight - NAV_BAR.height;
+      if (h > panelH) {
+        h = panelH;
         w = h / RATIO;
       }
     } else {
-      w = p.windowWidth;
-      h = p.windowHeight - NAV_BAR.height;
+      w = panelW;
+      h = panelH;
     }
     p.resizeCanvas(w * this.widthRatio, h * this.heightRatio);
   }

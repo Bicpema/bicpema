@@ -3,7 +3,7 @@ title: "鉛直投げ上げ"
 description: "本教材は初速度を持って鉛直上向きに投げられた物体の運動を観察するためのシミュレーション教材です。"
 author: "kenji"
 date: "2025-12-02"
-image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthumbnail%2Fvertical-throw-up.png?alt=media&token=ba4673c4-8d78-4305-ae36-9106134ffe4f"
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fvertical-throw-up%2Fthumbnail.png?alt=media&token=9c3d7818-6ee0-452b-b31e-dd46783d5aef"
 tags: ["物理", "力学", "大学", "自由落下", "鉛直投げ上げ"]
 categories: ["力学"]
 series: ["力学入門"]

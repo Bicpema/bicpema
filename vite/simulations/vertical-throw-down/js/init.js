@@ -1,6 +1,14 @@
 import { state } from "./state.js";
-import { onHeightChange, onReset, onPlayPause, onToggleModal, onCloseModal } from "./element-function.js";
+import {
+  onHeightChange,
+  onInitialVelocityChange,
+  onReset,
+  onPlayPause,
+  onToggleModal,
+  onCloseModal,
+} from "./element-function.js";
 import { Ball } from "./ball.js";
+import { BallGraph } from "./graph.js";
 
 export const FPS = 30;
 
@@ -10,6 +18,7 @@ export const FPS = 30;
  */
 export function elCreate(p) {
   state.heightInput = p.select("#heightInput");
+  state.initialVelocityInput = p.select("#initialVelocityInput");
   state.resetButton = p.select("#resetButton");
   state.playPauseButton = p.select("#playPauseButton");
   state.toggleModal = p.select("#toggleModal");
@@ -17,6 +26,7 @@ export function elCreate(p) {
   state.settingsModal = p.select("#settingsModal");
 
   state.heightInput.input(() => onHeightChange());
+  state.initialVelocityInput.input(() => onInitialVelocityChange());
   state.resetButton.mousePressed(() => onReset());
   state.playPauseButton.mousePressed(() => onPlayPause());
   state.toggleModal.mousePressed(() => onToggleModal());
@@ -34,5 +44,8 @@ export function initValue(p) {
   p.textSize(16);
 
   const initialHeight = parseFloat(state.heightInput.value());
-  state.ball = new Ball(initialHeight, 0);
+  const initialVelocity = parseFloat(state.initialVelocityInput.value());
+  state.ball = new Ball(initialHeight, initialVelocity);
+  state.graph = new BallGraph();
+  state.graph.updateGraph();
 }

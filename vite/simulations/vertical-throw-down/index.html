@@ -20,39 +20,68 @@
     </nav>
 
     <div class="container-fluid" id="p5Container">
-      <div id="p5Canvas"></div>
+      <!-- 左：シミュレーション -->
+      <div id="simPanel">
+        <div id="p5Canvas"></div>
 
-      <!-- モーダルパネル -->
-      <div id="settingsModal" class="settings-modal" style="display: none">
-        <div class="modal-content">
-          <h5>設定</h5>
-          <div class="mb-3">
-            <label for="heightInput" class="form-label">ボールの高さ (m)</label>
-            <input
-              type="number"
-              class="form-control"
-              id="heightInput"
-              min="10"
-              max="100"
-              value="50"
-              step="1"
-            />
+        <!-- モーダルパネル -->
+        <div id="settingsModal" class="settings-modal" style="display: none">
+          <div class="modal-content">
+            <h5>設定</h5>
+            <div class="mb-3">
+              <label for="heightInput" class="form-label"
+                >ボールの高さ (m)</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="heightInput"
+                min="10"
+                max="100"
+                value="50"
+                step="1"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="initialVelocityInput" class="form-label"
+                >初速度 (m/s)</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="initialVelocityInput"
+                min="1"
+                max="30"
+                value="10"
+                step="1"
+              />
+            </div>
+            <button id="closeModal" class="btn btn-secondary w-100">
+              閉じる
+            </button>
           </div>
-          <button id="closeModal" class="btn btn-secondary w-100">
-            閉じる
-          </button>
+        </div>
+
+        <!-- 左下コントロール -->
+        <div class="left-bottom-controls">
+          <button id="resetButton" class="btn btn-primary">🔄 リセット</button>
+          <button id="playPauseButton" class="btn btn-success">▶ 開始</button>
+        </div>
+
+        <!-- 右上コントロール -->
+        <div class="right-top-controls">
+          <button id="toggleModal" class="btn btn-info">⚙ 設定</button>
         </div>
       </div>
 
-      <!-- 左下コントロール -->
-      <div class="left-bottom-controls">
-        <button id="resetButton" class="btn btn-primary">🔄 リセット</button>
-        <button id="playPauseButton" class="btn btn-success">▶ 開始</button>
-      </div>
-
-      <!-- 右上コントロール -->
-      <div class="right-top-controls">
-        <button id="toggleModal" class="btn btn-info">⚙ 設定</button>
+      <!-- 右：グラフパネル -->
+      <div id="graphPanel">
+        <div class="graph-container">
+          <canvas id="vtCanvas"></canvas>
+        </div>
+        <div class="graph-container">
+          <canvas id="ytCanvas"></canvas>
+        </div>
       </div>
     </div>
     <script type="module" src="./js/index.js"></script>
