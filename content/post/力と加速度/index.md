@@ -5,6 +5,7 @@ author: "kenji"
 date: "2026-03-09"
 image: ""
 tags: ["物理", "力学", "高校", "力と加速度", "ニュートンの第2法則"]
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fforce-and-acceleration%2Fthumbnail.png?alt=media&token=e6b382cc-efda-4a89-a278-e4d65ddae4e3"
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []
