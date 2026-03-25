@@ -37,7 +37,8 @@ export function initValue(p) {
   if (density <= 1.0) {
     initBottomY = state.waterSurfaceY + CYL_H * density;
   } else {
-    initBottomY = TANK_BOTTOM_Y;
+    // 質量が大きいときは最初から底に移動させず、水中に浮かべてから沈下させる
+    initBottomY = state.waterSurfaceY + CYL_H;
   }
 
   state.cylinder = new Cylinder(TANK_CX, initBottomY, CYL_R, CYL_H, density);
@@ -64,10 +65,15 @@ export function elCreate(p) {
       if (state.cylinder) {
         state.cylinder.density = density;
         state.cylinder.vy = 0;
-        if (density <= 1.0) {
-          state.cylinder.cy = state.waterSurfaceY + CYL_H * density;
-        } else {
+
+        // 位置はそのまま維持し、物理挙動で滑らかに沈むようにする
+        // 過剰にはみ出している場合は最低限の制限をかける
+        if (state.cylinder.cy > TANK_BOTTOM_Y) {
           state.cylinder.cy = TANK_BOTTOM_Y;
+        }
+        const minY = state.waterSurfaceY - CYL_H;
+        if (state.cylinder.cy < minY) {
+          state.cylinder.cy = minY;
         }
       }
     });
