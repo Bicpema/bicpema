@@ -1,194 +1,8 @@
 import { state } from "./state.js";
-import { updateStartButton } from "./element-function.js";
-import {
-  BASE_W,
-  BASE_H,
-  TANK_CX,
-  TANK_BOTTOM_Y,
-  TANK_W,
-  TANK_H,
-  TANK_D,
-  CYL_H,
-} from "./init.js";
+import { BASE_W, BASE_H, TANK_BOTTOM_Y, CYL_H } from "./init.js";
 
-/**
- * 水槽を等角投影法で描画する。
- * @param {*} p p5インスタンス。
- * @param {number} cx 水槽の中心X座標
- * @param {number} cy 水槽の底面Y座標
- * @param {number} tankW 水槽の幅
- * @param {number} tankH 水槽の高さ
- * @param {number} tankD 水槽の奥行き（楕円比）
- */
-function drawTank(p, cx, cy, tankW, tankH, tankD) {
-  const halfW = tankW / 2;
-  const wallColor = p.color(200, 210, 220, 180);
-  const wallEdgeColor = p.color(150, 165, 180);
-  const floorColor = p.color(180, 195, 210, 200);
-
-  p.stroke(wallEdgeColor);
-  p.strokeWeight(1.5);
-
-  // 底面
-  p.fill(floorColor);
-  p.beginShape();
-  p.vertex(cx - halfW, cy);
-  p.vertex(cx + halfW, cy);
-  p.vertex(cx + halfW + tankD, cy - tankD);
-  p.vertex(cx - halfW + tankD, cy - tankD);
-  p.endShape(p.CLOSE);
-
-  // 右側面
-  p.fill(wallColor);
-  p.beginShape();
-  p.vertex(cx + halfW, cy);
-  p.vertex(cx + halfW, cy - tankH);
-  p.vertex(cx + halfW + tankD, cy - tankD - tankH);
-  p.vertex(cx + halfW + tankD, cy - tankD);
-  p.endShape(p.CLOSE);
-
-  // 左側面（やや暗く）
-  p.fill(p.color(160, 175, 190, 180));
-  p.beginShape();
-  p.vertex(cx - halfW, cy);
-  p.vertex(cx - halfW, cy - tankH);
-  p.vertex(cx - halfW + tankD, cy - tankD - tankH);
-  p.vertex(cx - halfW + tankD, cy - tankD);
-  p.endShape(p.CLOSE);
-
-  // 奥面
-  p.fill(p.color(190, 205, 215, 160));
-  p.beginShape();
-  p.vertex(cx - halfW + tankD, cy - tankD);
-  p.vertex(cx - halfW + tankD, cy - tankD - tankH);
-  p.vertex(cx + halfW + tankD, cy - tankD - tankH);
-  p.vertex(cx + halfW + tankD, cy - tankD);
-  p.endShape(p.CLOSE);
-
-  // 手前面（透明）
-  p.noFill();
-  p.stroke(wallEdgeColor);
-  p.strokeWeight(2);
-  p.beginShape();
-  p.vertex(cx - halfW, cy);
-  p.vertex(cx - halfW, cy - tankH);
-  p.vertex(cx + halfW, cy - tankH);
-  p.vertex(cx + halfW, cy);
-  p.endShape(p.CLOSE);
-
-  p.noStroke();
-}
-
-/**
- * 水を描画する。
- * @param {*} p p5インスタンス。
- * @param {number} cx 水槽の中心X座標
- * @param {number} waterSurfaceY 水面のY座標
- * @param {number} tankBottomY 水槽の底面Y座標
- * @param {number} tankW 水槽の幅
- * @param {number} tankD 水槽の奥行き
- */
-function drawWater(p, cx, waterSurfaceY, tankBottomY, tankW, tankD) {
-  const halfW = tankW / 2;
-  const waterColor = p.color(70, 130, 200, 140);
-  const waterSurfaceColor = p.color(100, 160, 230, 180);
-
-  p.noStroke();
-
-  // 水の本体（手前面）
-  p.fill(waterColor);
-  p.rect(cx - halfW, waterSurfaceY, tankW, tankBottomY - waterSurfaceY);
-
-  // 水の奥面
-  p.fill(p.color(50, 110, 180, 120));
-  p.beginShape();
-  p.vertex(cx - halfW + tankD, waterSurfaceY - tankD);
-  p.vertex(cx - halfW + tankD, tankBottomY - tankD);
-  p.vertex(cx + halfW + tankD, tankBottomY - tankD);
-  p.vertex(cx + halfW + tankD, waterSurfaceY - tankD);
-  p.endShape(p.CLOSE);
-
-  // 水の右側面
-  p.fill(p.color(60, 120, 190, 130));
-  p.beginShape();
-  p.vertex(cx + halfW, waterSurfaceY);
-  p.vertex(cx + halfW, tankBottomY);
-  p.vertex(cx + halfW + tankD, tankBottomY - tankD);
-  p.vertex(cx + halfW + tankD, waterSurfaceY - tankD);
-  p.endShape(p.CLOSE);
-
-  // 水面（上面）
-  p.fill(waterSurfaceColor);
-  p.beginShape();
-  p.vertex(cx - halfW, waterSurfaceY);
-  p.vertex(cx + halfW, waterSurfaceY);
-  p.vertex(cx + halfW + tankD, waterSurfaceY - tankD);
-  p.vertex(cx - halfW + tankD, waterSurfaceY - tankD);
-  p.endShape(p.CLOSE);
-}
-
-/**
- * 等角投影法で円柱を描画する。
- * @param {*} p p5インスタンス。
- * @param {import("./cylinder.js").Cylinder} cylinder 円柱オブジェクト
- * @param {number} waterSurfaceY 水面のY座標
- * @param {number} tankW 水槽の幅
- * @param {number} tankD 水槽の奥行き
- * @param {number} cx 水槽の中心X座標
- */
-function drawCylinder(p, cylinder, waterSurfaceY, tankW, tankD, cx) {
-  const r = cylinder.r;
-  const h = cylinder.h;
-  const cylCx = cylinder.cx;
-  const cylBottomY = cylinder.cy;
-  const cylTopY = cylBottomY - h;
-
-  const ellipseRatio = 0.35;
-  const ew = r * 2;
-  const eh = ew * ellipseRatio;
-
-  const brownSide = p.color(139, 90, 43);
-  const brownTop = p.color(165, 115, 60);
-  const brownDark = p.color(100, 62, 18);
-  const brownEdge = p.color(80, 50, 15);
-
-  p.stroke(brownEdge);
-  p.strokeWeight(1);
-
-  // 水中部分（やや暗め）
-  const subY = p.max(cylTopY, waterSurfaceY);
-  if (subY < cylBottomY) {
-    p.fill(p.color(110, 72, 26, 220));
-    p.noStroke();
-    p.rect(cylCx - r, subY, ew, cylBottomY - subY);
-    p.stroke(brownEdge);
-    p.strokeWeight(1);
-  }
-  // 水上部分
-  if (cylTopY < waterSurfaceY) {
-    p.fill(brownSide);
-    p.noStroke();
-    p.rect(cylCx - r, cylTopY, ew, p.min(waterSurfaceY, cylBottomY) - cylTopY);
-    p.stroke(brownEdge);
-    p.strokeWeight(1);
-  }
-
-  // 底面楕円（常に描画）
-  p.fill(brownDark);
-  p.stroke(brownEdge);
-  p.strokeWeight(1);
-  p.ellipse(cylCx, cylBottomY, ew, eh);
-
-  // 上面楕円（水中にある場合は描画しない）
-  if (cylTopY <= waterSurfaceY) {
-    p.fill(brownTop);
-    p.stroke(brownEdge);
-    p.strokeWeight(1);
-    p.ellipse(cylCx, cylTopY, ew, eh);
-  }
-
-  p.noStroke();
-}
+/** シミュレーション内で使用する水面Y座標（基準座標系） */
+const WATER_SURFACE_Y = 175;
 
 /**
  * 情報テキストをDOM要素に反映する。
@@ -205,29 +19,132 @@ function drawInfoText(cylinder, waterSurfaceY) {
 }
 
 /**
+ * 矢印を描画するヘルパー関数。
+ * @param {*} p p5インスタンス
+ * @param {number} x1 始点X
+ * @param {number} y1 始点Y
+ * @param {number} x2 終点X（矢印の先端）
+ * @param {number} y2 終点Y（矢印の先端）
+ * @param {number[]} col RGB色配列 [r, g, b]
+ * @param {string} label ラベルテキスト
+ * @param {number} lx ラベルX座標
+ * @param {number} ly ラベルY座標
+ * @param {string} lAlignH 水平アライメント（p.LEFT / p.CENTER / p.RIGHT）
+ */
+function drawArrow(p, x1, y1, x2, y2, col, label, lx, ly, lAlignH) {
+  const arrowSize = 14;
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const angle = Math.atan2(dy, dx);
+
+  p.push();
+  p.stroke(col[0], col[1], col[2]);
+  p.fill(col[0], col[1], col[2]);
+  p.strokeWeight(3);
+  p.line(x1, y1, x2, y2);
+
+  // 矢頭
+  p.push();
+  p.translate(x2, y2);
+  p.rotate(angle);
+  p.noStroke();
+  p.triangle(0, 0, -arrowSize, -arrowSize * 0.4, -arrowSize, arrowSize * 0.4);
+  p.pop();
+
+  // ラベル
+  if (label) {
+    p.noStroke();
+    p.textFont("sans-serif");
+    p.textSize(18);
+    p.textAlign(lAlignH ?? p.CENTER, p.CENTER);
+    p.text(label, lx ?? (x1 + x2) / 2, ly ?? (y1 + y2) / 2);
+  }
+  p.pop();
+}
+
+/**
+ * 円柱にかかる力の矢印を描画する。
+ *  1. 重力（↓, 赤）: 密度に比例
+ *  2. 浮力（↑, 緑）: 水中体積比に比例
+ * @param {*} p p5インスタンス
+ */
+function drawForceArrows(p) {
+  const cylinder = state.cylinder;
+  if (!cylinder) return;
+
+  const subFrac = cylinder.getSubmergedFraction(WATER_SURFACE_Y);
+
+  const { cx, cy, h } = cylinder;
+  const centerY = cy - h / 2;
+
+  const colGravity = [229, 57, 53]; // 重力: 赤  (#E53935)
+  const colBuoyancy = [56, 142, 60]; // 浮力: 緑  (#388E3C)
+
+  // 矢印長スケール: 密度 1.0・完全水没のとき長さ 80px
+  const FORCE_SCALE = 80;
+
+  // ----- 1. 重力（↓, 円柱中心から下向き） -----
+  const gravityLen = cylinder.density * FORCE_SCALE;
+  drawArrow(
+    p,
+    cx - 15,
+    centerY,
+    cx - 15,
+    centerY + gravityLen,
+    colGravity,
+    "重力",
+    cx - 15 - 6,
+    centerY + gravityLen + 2,
+    p.RIGHT
+  );
+
+  // ----- 2. 浮力（↑, 円柱中心から上向き） -----
+  if (subFrac > 0) {
+    const buoyancyLen = subFrac * FORCE_SCALE;
+    drawArrow(
+      p,
+      cx + 15,
+      centerY,
+      cx + 15,
+      centerY - buoyancyLen,
+      colBuoyancy,
+      "浮力",
+      cx + 15 + 6,
+      centerY - buoyancyLen - 2,
+      p.LEFT
+    );
+  }
+}
+
+/**
  * シミュレーション全体の描画と物理更新を行う関数。
  * @param {*} p p5インスタンス。
  */
 export function drawSimulation(p) {
   p.scale(p.width / BASE_W);
 
-  p.background(30);
+  p.background(255);
 
-  drawWater(p, TANK_CX, state.waterSurfaceY, TANK_BOTTOM_Y, TANK_W, TANK_D);
-  drawCylinder(p, state.cylinder, state.waterSurfaceY, TANK_W, TANK_D, TANK_CX);
-  drawTank(p, TANK_CX, TANK_BOTTOM_Y, TANK_W, TANK_H, TANK_D);
+  if (state.tank) {
+    state.tank.draw(p);
+  }
+  if (state.cylinder) {
+    state.cylinder.draw(p);
+  }
 
-  drawInfoText(state.cylinder, state.waterSurfaceY);
+  drawForceArrows(p);
 
-  state.cylinder.update(state.waterSurfaceY, TANK_BOTTOM_Y, state.running);
+  drawInfoText(state.cylinder, WATER_SURFACE_Y);
+
+  state.cylinder.update(WATER_SURFACE_Y, TANK_BOTTOM_Y);
 
   if (state.cylinder.dragging) {
     state.cylinder.cy =
       p.mouseY / (p.height / BASE_H) + state.cylinder.dragOffsetY;
     state.cylinder.cy = p.constrain(
       state.cylinder.cy,
-      state.waterSurfaceY - CYL_H,
-      TANK_BOTTOM_Y
+      WATER_SURFACE_Y,
+      TANK_BOTTOM_Y - 50
     );
   }
 }
@@ -246,9 +163,6 @@ export function handleMousePressed(p) {
     state.cylinder.dragging = true;
     state.cylinder.dragOffsetY = state.cylinder.cy - my;
     state.cylinder.vy = 0;
-    if (!state.running) {
-      p.loop();
-    }
   }
 }
 
@@ -260,10 +174,6 @@ export function handleMouseReleased(p) {
   if (state.cylinder && state.cylinder.dragging) {
     state.cylinder.dragging = false;
     state.cylinder.vy = 0;
-    if (!state.running) {
-      state.running = true;
-      updateStartButton(state.running);
-      p.loop();
-    }
+    p.loop();
   }
 }

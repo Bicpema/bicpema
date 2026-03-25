@@ -4,6 +4,7 @@ description: "本教材はアルキメデスの原理を視覚的に理解する
 author: "kenji"
 date: "2026-03-09"
 tags: ["物理", "力学", "浮力", "高校", "アルキメデスの原理"]
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Farchimedes-principle%2Fthumbnail.png?alt=media&token=864fb76d-c902-416e-93bb-66d895d14525"
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []

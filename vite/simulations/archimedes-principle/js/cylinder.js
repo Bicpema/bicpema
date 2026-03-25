@@ -1,8 +1,9 @@
+import { state } from "./state.js";
+
 /**
  * Cylinderクラス
  *
  * アルキメデスの原理シミュレーションで使用する円柱を表すクラス。
- * 等角投影法（isometric projection）で描画する。
  */
 export class Cylinder {
   /**
@@ -30,10 +31,11 @@ export class Cylinder {
    * アルキメデスの原理に基づいて円柱の位置を更新する。
    * @param {number} waterSurfaceY 水面のY座標（キャンバス座標）
    * @param {number} tankBottomY 水槽底面のY座標（キャンバス座標）
-   * @param {boolean} running シミュレーション実行中かどうか
    */
-  update(waterSurfaceY, tankBottomY, running) {
-    if (this.dragging || !running) return;
+  update(waterSurfaceY, tankBottomY) {
+    if (this.dragging) {
+      return;
+    }
 
     const WATER_DENSITY = 1.0;
     const G = 0.5;
@@ -55,6 +57,11 @@ export class Cylinder {
     const buoyancy = G * WATER_DENSITY * submergedFraction;
     this.ay = gravity - buoyancy;
     this.vy += this.ay;
+
+    // 速度制限で座標飛びを防ぐ
+    const MAX_VY = 8;
+    this.vy = Math.max(Math.min(this.vy, MAX_VY), -MAX_VY);
+
     this.vy *= DAMPING;
     this.cy += this.vy;
 
@@ -63,10 +70,29 @@ export class Cylinder {
       this.vy = -this.vy * 0.3;
     }
 
-    if (this.cy - this.h < waterSurfaceY - this.h * 2) {
-      this.cy = waterSurfaceY - this.h * 2 + this.h;
+    const topLimitY = waterSurfaceY - this.h;
+    if (this.cy - this.h < topLimitY) {
+      this.cy = topLimitY + this.h;
       this.vy = -this.vy * 0.3;
     }
+  }
+
+  /**
+   * 円柱を描画する。
+   * @param {*} p p5インスタンス
+   */
+  draw(p) {
+    const r = this.r;
+    const h = this.h;
+    const cylCx = this.cx;
+    const cylBottomY = this.cy;
+    const cylTopY = cylBottomY - h;
+    const ew = r * 2;
+
+    p.push();
+    p.imageMode(p.CORNER);
+    p.image(state.cylinderImage, cylCx - r, cylTopY, ew, h);
+    p.pop();
   }
 
   /**
@@ -77,8 +103,12 @@ export class Cylinder {
   getSubmergedFraction(waterSurfaceY) {
     const topY = this.cy - this.h;
     const bottomY = this.cy;
-    if (bottomY <= waterSurfaceY) return 0;
-    if (topY >= waterSurfaceY) return 1;
+    if (bottomY <= waterSurfaceY) {
+      return 0;
+    }
+    if (topY >= waterSurfaceY) {
+      return 1;
+    }
     return (bottomY - waterSurfaceY) / this.h;
   }
 

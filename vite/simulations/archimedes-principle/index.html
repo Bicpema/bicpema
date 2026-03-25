@@ -24,8 +24,9 @@
 
       <!-- 設定パネル -->
       <div
-        class="position-absolute top-0 end-0 m-3 card collapse col-sm-5 col-lg-3"
+        class="position-absolute end-0 m-3 card collapse col-sm-5 col-lg-3"
         id="settingsPanel"
+        style="top: 60px"
       >
         <div class="card-body">
           <h6 class="card-title">設定</h6>
@@ -46,7 +47,11 @@
           <div class="mb-1 text-secondary" style="font-size: 0.85em">
             水の密度: 1.0 g/cm³
           </div>
-          <div class="mb-1 text-secondary" id="submergedRatioLabel" style="font-size: 0.85em">
+          <div
+            class="mb-1 text-secondary"
+            id="submergedRatioLabel"
+            style="font-size: 0.85em"
+          >
             水中体積比: 100%
           </div>
         </div>
@@ -55,27 +60,19 @@
 
     <!-- 下部ボタン -->
     <div class="position-absolute bottom-0 start-0 m-2 d-flex gap-2">
-      <button
-        type="button"
-        class="btn btn-primary"
-        id="startButton"
-      >
-        ▶ 開始
-      </button>
-      <button
-        type="button"
-        class="btn btn-secondary"
-        id="resetButton"
-      >
+      <button type="button" class="btn btn-secondary" id="resetButton">
         🔄 リセット
       </button>
     </div>
 
     <!-- 右上の設定ボタン -->
-    <div class="position-absolute top-0 end-0 m-2" style="margin-top: 60px !important;">
+    <div
+      class="position-absolute top-0 end-0 m-2"
+      style="margin-top: 60px !important"
+    >
       <button
         type="button"
-        class="btn btn-outline-light"
+        class="btn btn-primary"
         id="settingsButton"
         data-bs-toggle="collapse"
         data-bs-target="#settingsPanel"
