@@ -13,7 +13,26 @@ export function onHeightChange() {
     state.heightInput.value(100);
   }
   if (!state.ball.isMoving) {
-    state.ball.reset(newHeight);
+    state.ball.reset(newHeight, parseFloat(state.initialVelocityInput.value()));
+    state.graph.reset();
+  }
+}
+
+/**
+ * 初速度入力の値が変更されたときの処理
+ */
+export function onInitialVelocityChange() {
+  let newVelocity = parseFloat(state.initialVelocityInput.value());
+  if (isNaN(newVelocity) || newVelocity < 1) {
+    newVelocity = 1;
+    state.initialVelocityInput.value(1);
+  } else if (newVelocity > 30) {
+    newVelocity = 30;
+    state.initialVelocityInput.value(30);
+  }
+  if (!state.ball.isMoving) {
+    state.ball.reset(parseFloat(state.heightInput.value()), newVelocity);
+    state.graph.reset();
   }
 }
 
@@ -22,8 +41,10 @@ export function onHeightChange() {
  */
 export function onReset() {
   const newHeight = parseFloat(state.heightInput.value());
-  state.ball.reset(newHeight);
+  const newInitialVelocity = parseFloat(state.initialVelocityInput.value());
+  state.ball.reset(newHeight, newInitialVelocity);
   state.playPauseButton.html("▶ 開始");
+  state.graph.reset();
 }
 
 /**
@@ -34,8 +55,11 @@ export function onPlayPause() {
     state.ball.stop();
     state.playPauseButton.html("再開");
   } else {
-    if (state.ball.height <= 0) {
-      state.ball.reset(parseFloat(state.heightInput.value()));
+    if (state.ball.height <= 1) {
+      state.ball.reset(
+        parseFloat(state.heightInput.value()),
+        parseFloat(state.initialVelocityInput.value())
+      );
     }
     state.ball.start();
     state.playPauseButton.html("一時停止");
