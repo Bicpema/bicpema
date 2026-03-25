@@ -1,5 +1,6 @@
 import { RIVER_BOTTOM, BOAT_Y, V_W } from "./constants.js";
 import { drawArrowWithLabel } from "./logic.js";
+import { state } from "./state.js";
 
 /**
  * 川の流れを視覚的に表現する水の粒子。
@@ -17,15 +18,19 @@ export class WaterParticle {
     this.y = y;
     this.waveWidth = p.random(14, 34);
     this.alpha = p.random(70, 155);
-    this.speed = p.random(48, 90);
+    this.speedFactor = p.random(0.8, 1.3);
   }
 
   /**
    * 座標を更新する（左方向へ移動）。
+   * 川の速度（state.boat.riverSpeed）に連動してパーティクルの速さが変わる。
    * @param {number} dt 時間刻み（秒）
    */
   update(dt) {
-    this.x -= this.speed * dt;
+    const PX_PER_MPS = 20;
+    const riverSpeed = state.boat ? state.boat.riverSpeed : 3;
+    const speed = riverSpeed * PX_PER_MPS * this.speedFactor;
+    this.x -= speed * dt;
     if (this.x < -60) {
       this.x = 1060;
       this.y = this.p.random(20, RIVER_BOTTOM - 20);
@@ -134,7 +139,15 @@ export class Boat {
     const y3 = -134;
 
     const rdx = -(this.riverSpeed * S);
-    drawArrowWithLabel(p, 0, y1, rdx, y1, p.color(230, 60, 60), `v川 ${this.riverSpeed.toFixed(1)} m/s`);
+    drawArrowWithLabel(
+      p,
+      0,
+      y1,
+      rdx,
+      y1,
+      p.color(230, 60, 60),
+      `v川 ${this.riverSpeed.toFixed(1)} m/s`
+    );
 
     const bdx = -(this.boatSpeed * S);
     const boatLabel =

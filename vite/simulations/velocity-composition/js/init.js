@@ -25,10 +25,13 @@ export function elCreate(p) {
   state.closeModal = p.select("#closeModal");
   state.settingsModal = p.select("#settingsModal");
 
-  if (state.boatSpeedInput) state.boatSpeedInput.input(() => onBoatSpeedChange());
-  if (state.riverSpeedInput) state.riverSpeedInput.input(() => onRiverSpeedChange());
+  if (state.boatSpeedInput)
+    state.boatSpeedInput.input(() => onBoatSpeedChange());
+  if (state.riverSpeedInput)
+    state.riverSpeedInput.input(() => onRiverSpeedChange());
   if (state.resetButton) state.resetButton.mousePressed(() => onReset());
-  if (state.playPauseButton) state.playPauseButton.mousePressed(() => onPlayPause());
+  if (state.playPauseButton)
+    state.playPauseButton.mousePressed(() => onPlayPause());
   if (state.toggleModal) state.toggleModal.mousePressed(() => onToggleModal());
   if (state.closeModal) state.closeModal.mousePressed(() => onCloseModal());
 }
@@ -45,8 +48,12 @@ export function initValue(p) {
   }
   p.textSize(16);
 
-  const boatSpeed = state.boatSpeedInput ? parseFloat(state.boatSpeedInput.value()) : 5;
-  const riverSpeed = state.riverSpeedInput ? parseFloat(state.riverSpeedInput.value()) : 3;
+  const boatSpeed = state.boatSpeedInput
+    ? parseFloat(state.boatSpeedInput.value())
+    : 5;
+  const riverSpeed = state.riverSpeedInput
+    ? parseFloat(state.riverSpeedInput.value())
+    : 3;
 
   state.boat = new Boat(boatSpeed, riverSpeed);
   state.person = new Person(880, RIVER_BOTTOM + 100);

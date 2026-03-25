@@ -5,6 +5,7 @@ author: "kenji"
 date: "2025-12-03"
 image: "thumbnail.png"
 tags: ["物理", "力学", "大学", "速度の合成", "相対速度"]
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fvelocity-composition%2Fthumbnail.png?alt=media&token=9ee5afca-6baf-47fe-8d6f-3cb2a5d8ce1b"
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []
