@@ -6,4 +6,8 @@ export const state = {
   waterSurfaceY: 0,
   /** シミュレーション実行中フラグ */
   running: false,
+  /** 水槽画像 */
+  tankImage: null,
+  /** 沈む物体画像 */
+  cylinderImage: null,
 };
