@@ -44,6 +44,8 @@ export const INIT_WEIGHT = 20;
 // 共有状態
 // ────────────────────────────────────────────
 export const state = {
+  /** 日本語フォント */
+  font: null,
   /** アンカーA（左側の天井固定点） */
   anchorA: { ...INIT_ANCHOR_A },
   /** アンカーB（右側の天井固定点） */
