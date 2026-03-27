@@ -21,68 +21,6 @@
 
     <div class="container-fluid" id="p5Container">
       <div id="p5Canvas"></div>
-
-      <!-- 設定パネル -->
-      <div id="settingsModal" class="settings-modal" style="display: none">
-        <div class="settings-content">
-          <h5>シミュレーションの設定</h5>
-
-          <!-- 斜面分解モード用コントロール -->
-          <div id="slopeControls">
-            <div class="mb-3">
-              <label class="form-label">
-                質量: <span id="massValue">10 kg</span>
-              </label>
-              <input
-                type="range"
-                class="form-range"
-                id="massInput"
-                min="1"
-                max="30"
-                step="1"
-                value="10"
-              />
-            </div>
-            <div class="mb-3">
-              <label class="form-label">
-                斜面の角度: <span id="slopeAngleValue">30°</span>
-              </label>
-              <input
-                type="range"
-                class="form-range"
-                id="slopeAngleInput"
-                min="0"
-                max="80"
-                step="1"
-                value="30"
-              />
-            </div>
-          </div>
-
-          <button id="closeModal" class="btn btn-secondary w-100 mt-2">
-            閉じる
-          </button>
-        </div>
-      </div>
-
-      <!-- 左下コントロール（モード切り替え） -->
-      <div class="left-bottom-controls">
-        <button id="modeXYButton" class="btn btn-primary">
-          水平・垂直分解
-        </button>
-        <button id="modeSlopeButton" class="btn btn-outline-secondary">
-          斜面分解
-        </button>
-      </div>
-
-      <!-- 右上コントロール -->
-      <div
-        class="right-top-controls"
-        id="rightTopControls"
-        style="display: none"
-      >
-        <button id="toggleModal" class="btn btn-info">⚙ 設定</button>
-      </div>
     </div>
 
     <script type="module" src="./js/index.js"></script>

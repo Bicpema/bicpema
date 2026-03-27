@@ -6,7 +6,6 @@ import { BicpemaCanvasController } from "./bicpema-canvas-controller.js";
 import { elCreate, initValue } from "./init.js";
 import {
   drawXYScene,
-  drawSlopeScene,
   handlePress,
   handleDrag,
   handleRelease,
@@ -24,13 +23,6 @@ const sketch = (p) => {
         state.font = null;
       }
     );
-    state.groundImg = p.loadImage(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810",
-      () => {},
-      () => {
-        state.groundImg = null;
-      }
-    );
   };
 
   p.setup = () => {
@@ -41,11 +33,7 @@ const sketch = (p) => {
 
   p.draw = () => {
     p.scale(p.width / V_W);
-    if (state.mode === "xy") {
-      drawXYScene(p);
-    } else {
-      drawSlopeScene(p);
-    }
+    drawXYScene(p);
   };
 
   p.mousePressed = () => {

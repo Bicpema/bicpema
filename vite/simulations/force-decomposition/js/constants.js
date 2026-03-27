@@ -16,7 +16,3 @@ export const ORIGIN_Y = 281;
 export const DRAG_RADIUS = 28;
 /** 最大力の大きさ（N） */
 export const MAX_FORCE = 10;
-/** 斜面モードのスケール (px/N) */
-export const SLOPE_SCALE = 2.0;
-/** 斜面モードの重力加速度 */
-export const GRAVITY = 9.8;

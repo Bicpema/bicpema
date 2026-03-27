@@ -13,7 +13,7 @@ export function onCloseModal() {
   state.settingsModal.elt.style.display = "none";
 }
 
-/** 斜面角度スライダーの変更ハンドラ */
+/** 斜面角度スライダーの変更ハンドラー */
 export function onSlopeAngleChange() {
   if (!state.slopeAngleInput) return;
   state.slopeAngle = parseFloat(state.slopeAngleInput.value());
@@ -21,7 +21,7 @@ export function onSlopeAngleChange() {
     state.slopeAngleValue.html(`${state.slopeAngle.toFixed(0)}°`);
 }
 
-/** 質量スライダーの変更ハンドラ */
+/** 質量スライダーの変更ハンドラー */
 export function onMassChange() {
   if (!state.massInput) return;
   state.mass = parseFloat(state.massInput.value());
