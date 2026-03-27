@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <title>3力の釣り合い</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./css/style.css" rel="stylesheet" vite-ignore />
+  </head>
+
+  <body class="bg-dark" oncontextmenu="return false;">
+    <nav
+      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
+      data-bs-theme="dark"
+      id="navBar"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
+        <span class="text-light fw-lighter">3力の釣り合い</span>
+      </div>
+    </nav>
+
+    <div class="container-fluid" id="p5Container">
+      <div id="p5Canvas"></div>
+
+      <!-- 設定パネル -->
+      <div id="settingsModal" class="settings-modal" style="display: none">
+        <div class="settings-content">
+          <h5>設定</h5>
+          <div class="mb-3">
+            <label for="weightInput" class="form-label">
+              おもりの重さ W:
+              <span id="weightDisplay">20</span> N
+            </label>
+            <input
+              type="range"
+              class="form-range"
+              id="weightInput"
+              min="5"
+              max="50"
+              step="1"
+              value="20"
+            />
+            <div class="d-flex justify-content-between">
+              <small class="text-white-50">5 N</small>
+              <small class="text-white-50">50 N</small>
+            </div>
+          </div>
+          <button id="resetButton" class="btn btn-secondary w-100 mb-2">
+            リセット
+          </button>
+          <button id="closeModal" class="btn btn-secondary w-100">
+            閉じる
+          </button>
+        </div>
+      </div>
+
+      <!-- 右上コントロール -->
+      <div class="right-top-controls">
+        <button id="toggleModal" class="btn btn-info">⚙ 設定</button>
+      </div>
+    </div>
+
+    <script type="module" src="./js/index.js"></script>
+  </body>
+</html>
