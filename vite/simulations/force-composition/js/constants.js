@@ -10,3 +10,5 @@ export const FORCE_SCALE = 3;
 export const ORIGIN_X = 500;
 /** 原点のY座標（仮想座標） */
 export const ORIGIN_Y = 281;
+/** グリッド間隔 (px) */
+export const GRID_STEP = 50;

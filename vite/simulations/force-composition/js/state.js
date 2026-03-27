@@ -2,23 +2,12 @@ export const state = {
   // --- ロードアセット ---
   font: null,
 
-  // --- DOM 要素 ---
-  f1MagInput: null,
-  f1AngleInput: null,
-  f2MagInput: null,
-  f2AngleInput: null,
-  f1MagValue: null,
-  f1AngleValue: null,
-  f2MagValue: null,
-  f2AngleValue: null,
-  resetButton: null,
-  toggleModal: null,
-  closeModal: null,
-  settingsModal: null,
+  // --- F1/F2 矢印先端座標（原点からの相対位置、グリッドスナップ済み） ---
+  f1TipX: 150, // 3 格子右
+  f1TipY: -100, // 2 格子上
+  f2TipX: -50, // 1 格子左
+  f2TipY: -100, // 2 格子上
 
-  // --- シミュレーションパラメータ ---
-  f1Mag: 60,
-  f1Angle: 30,
-  f2Mag: 40,
-  f2Angle: 120,
+  // --- ドラッグ状態 ---
+  dragging: null, // null | 'f1' | 'f2'
 };
