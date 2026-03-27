@@ -53,7 +53,11 @@ export function onMassChange() {
 export function onModeXY(p) {
   state.mode = "xy";
   updateModeButtons();
-  showXYControls();
+  // 設定ボタンを非表示（XYモードに設定なし）
+  const rightTop = document.getElementById("rightTopControls");
+  if (rightTop) rightTop.style.display = "none";
+  // モーダルを閉じる
+  if (state.settingsModal) state.settingsModal.elt.style.display = "none";
 }
 
 /**
@@ -63,7 +67,9 @@ export function onModeXY(p) {
 export function onModeSlope(p) {
   state.mode = "slope";
   updateModeButtons();
-  showSlopeControls();
+  // 設定ボタンを表示
+  const rightTop = document.getElementById("rightTopControls");
+  if (rightTop) rightTop.style.display = "";
 }
 
 /** モードボタンのスタイルを更新する。 */
@@ -87,18 +93,8 @@ function updateModeButtons() {
   }
 }
 
-/** XY分解モードの設定項目を表示する。 */
-function showXYControls() {
-  const xyGroup = document.getElementById("xyControls");
-  const slopeGroup = document.getElementById("slopeControls");
-  if (xyGroup) xyGroup.style.display = "block";
-  if (slopeGroup) slopeGroup.style.display = "none";
-}
-
 /** 斜面分解モードの設定項目を表示する。 */
 function showSlopeControls() {
-  const xyGroup = document.getElementById("xyControls");
   const slopeGroup = document.getElementById("slopeControls");
-  if (xyGroup) xyGroup.style.display = "none";
   if (slopeGroup) slopeGroup.style.display = "block";
 }

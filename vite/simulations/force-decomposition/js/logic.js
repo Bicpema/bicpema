@@ -1,5 +1,14 @@
 import { state } from "./state.js";
-import { V_W, V_H, SCALE, ORIGIN_X, ORIGIN_Y, GRAVITY } from "./constants.js";
+import {
+  V_W,
+  V_H,
+  FORCE_SCALE,
+  GRID_STEP,
+  SLOPE_SCALE,
+  ORIGIN_X,
+  ORIGIN_Y,
+  GRAVITY,
+} from "./constants.js";
 
 // ── 共通ユーティリティ ──────────────────────────────────────────────
 
@@ -82,12 +91,7 @@ function drawDashed(p, x1, y1, x2, y2, col) {
  */
 function drawLabel(p, text, x, y, col, sz = 16) {
   p.textSize(sz);
-  const tw = p.textWidth(text);
-  const th = sz;
-  const pad = 5;
   p.noStroke();
-  p.fill(0, 0, 0, 180);
-  p.rect(x - tw / 2 - pad, y - th / 2 - pad / 2, tw + pad * 2, th + pad, 4);
   p.fill(col);
   p.textAlign(p.CENTER, p.CENTER);
   p.text(text, x, y);
@@ -100,12 +104,12 @@ function drawLabel(p, text, x, y, col, sz = 16) {
  * @param {p5} p
  */
 export function drawXYScene(p) {
-  p.background(25, 30, 40);
+  p.background(255, 255, 255);
   drawGrid(p);
   drawAxes(p, ORIGIN_X, ORIGIN_Y);
 
   const θ = (state.forceAngle * Math.PI) / 180;
-  const F = state.forceMag * SCALE;
+  const F = state.forceMag * FORCE_SCALE;
   const Fx = F * Math.cos(θ);
   const Fy = -F * Math.sin(θ); // y軸反転（下が正）
 
@@ -113,15 +117,43 @@ export function drawXYScene(p) {
   const tipY = ORIGIN_Y + Fy;
 
   // 補助破線（平行四辺形の辺）
-  drawDashed(p, ORIGIN_X, ORIGIN_Y + Fy, tipX, tipY, p.color(180, 180, 180));
-  drawDashed(p, ORIGIN_X + Fx, ORIGIN_Y, tipX, tipY, p.color(180, 180, 180));
+  drawDashed(
+    p,
+    ORIGIN_X,
+    ORIGIN_Y + Fy,
+    tipX,
+    tipY,
+    p.color(100, 100, 100, 120)
+  );
+  drawDashed(
+    p,
+    ORIGIN_X + Fx,
+    ORIGIN_Y,
+    tipX,
+    tipY,
+    p.color(100, 100, 100, 120)
+  );
 
   // 水平成分 Fx（赤）
-  drawArrow(p, ORIGIN_X, ORIGIN_Y, ORIGIN_X + Fx, ORIGIN_Y, p.color(255, 80, 80));
+  drawArrow(
+    p,
+    ORIGIN_X,
+    ORIGIN_Y,
+    ORIGIN_X + Fx,
+    ORIGIN_Y,
+    p.color(220, 50, 50)
+  );
   // 垂直成分 Fy（青）
-  drawArrow(p, ORIGIN_X, ORIGIN_Y, ORIGIN_X, ORIGIN_Y + Fy, p.color(80, 150, 255));
-  // 合力 F（黄色）
-  drawArrow(p, ORIGIN_X, ORIGIN_Y, tipX, tipY, p.color(255, 215, 0), 4);
+  drawArrow(
+    p,
+    ORIGIN_X,
+    ORIGIN_Y,
+    ORIGIN_X,
+    ORIGIN_Y + Fy,
+    p.color(50, 100, 220)
+  );
+  // 力 F（黒）
+  drawArrow(p, ORIGIN_X, ORIGIN_Y, tipX, tipY, p.color(0), 4);
 
   // 角度弧
   drawAngleArc(p, ORIGIN_X, ORIGIN_Y, θ, 50);
@@ -129,7 +161,6 @@ export function drawXYScene(p) {
   // ラベル
   drawXYLabels(p, Fx, Fy, tipX, tipY, θ);
   drawXYInfoPanel(p, Fx, Fy);
-  drawXYLegend(p);
   drawInteractionHint(p, tipX, tipY);
 }
 
@@ -138,11 +169,14 @@ export function drawXYScene(p) {
  * @param {p5} p
  */
 function drawGrid(p) {
-  p.stroke(50, 55, 65);
   p.strokeWeight(1);
-  const step = 50;
-  for (let x = 0; x <= V_W; x += step) p.line(x, 0, x, V_H);
-  for (let y = 0; y <= V_H; y += step) p.line(0, y, V_W, y);
+  p.stroke(168, 206, 221);
+  for (let x = ORIGIN_X; x <= V_W; x += GRID_STEP) p.line(x, 0, x, V_H);
+  for (let x = ORIGIN_X - GRID_STEP; x >= 0; x -= GRID_STEP)
+    p.line(x, 0, x, V_H);
+  for (let y = ORIGIN_Y; y <= V_H; y += GRID_STEP) p.line(0, y, V_W, y);
+  for (let y = ORIGIN_Y - GRID_STEP; y >= 0; y -= GRID_STEP)
+    p.line(0, y, V_W, y);
 }
 
 /**
@@ -152,25 +186,25 @@ function drawGrid(p) {
  * @param {number} oy 原点Y
  */
 function drawAxes(p, ox, oy) {
-  const axisColor = p.color(120, 140, 160);
-  p.stroke(axisColor);
-  p.strokeWeight(1.5);
-  p.line(ox - 300, oy, ox + 350, oy); // X軸
-  p.line(ox, oy - 240, ox, oy + 240); // Y軸
+  const axisColor = p.color(0);
+  const axisWeight = 2;
+  const axisHeadSize = 10;
+  drawArrow(p, ox, oy, V_W - 10, oy, axisColor, axisWeight);
+  drawArrow(p, ox, oy, 10, oy, axisColor, axisWeight);
+  drawArrow(p, ox, oy, ox, 10, axisColor, axisWeight);
+  drawArrow(p, ox, oy, ox, V_H - 10, axisColor, axisWeight);
 
   // 軸ラベル
   p.noStroke();
-  p.fill(axisColor);
+  p.fill(0);
   p.textSize(18);
-  p.textAlign(p.LEFT, p.CENTER);
-  p.text("x", ox + 345, oy - 12);
-  p.textAlign(p.CENTER, p.BOTTOM);
-  p.text("y", ox + 12, oy - 240);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.text("x", V_W - 8, oy + 20);
+  p.text("y", ox - 20, 10);
 
-  // 原点マーカー
-  p.fill(200, 200, 200);
-  p.noStroke();
-  p.circle(ox, oy, 8);
+  // 原点ラベル『O』
+  p.textSize(16);
+  p.text("O", ox - 14, oy + 14);
 }
 
 /**
@@ -184,7 +218,7 @@ function drawAxes(p, ox, oy) {
 function drawAngleArc(p, ox, oy, θ, r) {
   if (Math.abs(θ) < 0.02) return;
   p.noFill();
-  p.stroke(255, 200, 100, 200);
+  p.stroke(80, 80, 80, 200);
   p.strokeWeight(1.5);
   // p5の arc は時計回り正。物理角（反時計回り正）→ p5では -θ
   p.arc(ox, oy, r * 2, r * 2, -θ, 0);
@@ -193,7 +227,7 @@ function drawAngleArc(p, ox, oy, θ, r) {
   const midAngle = -θ / 2;
   const lx = ox + (r + 14) * Math.cos(midAngle);
   const ly = oy + (r + 14) * Math.sin(midAngle);
-  drawLabel(p, "θ", lx, ly, p.color(255, 200, 100), 14);
+  drawLabel(p, "θ", lx, ly, p.color(60, 60, 60), 14);
 }
 
 /**
@@ -206,10 +240,10 @@ function drawAngleArc(p, ox, oy, θ, r) {
  * @param {number} θ ラジアン
  */
 function drawXYLabels(p, Fx, Fy, tipX, tipY, θ) {
-  // F ラベル（合力の中点より少し外側）
+  // F ラベル（力の中点より少し外側）
   const midX = ORIGIN_X + Fx / 2 + 16 * Math.sin(θ);
   const midY = ORIGIN_Y + Fy / 2 - 16 * Math.cos(θ);
-  drawLabel(p, "F", midX, midY, p.color(255, 215, 0), 18);
+  drawLabel(p, "F", midX, midY, p.color(0), 18);
 
   // Fx ラベル
   if (Math.abs(Fx) > 8) {
@@ -218,7 +252,7 @@ function drawXYLabels(p, Fx, Fy, tipX, tipY, θ) {
       "Fx",
       ORIGIN_X + Fx / 2,
       ORIGIN_Y + (Fy >= 0 ? 18 : -18),
-      p.color(255, 120, 120),
+      p.color(220, 50, 50),
       15
     );
   }
@@ -230,7 +264,7 @@ function drawXYLabels(p, Fx, Fy, tipX, tipY, θ) {
       "Fy",
       ORIGIN_X + (Fx >= 0 ? -22 : 22),
       ORIGIN_Y + Fy / 2,
-      p.color(120, 180, 255),
+      p.color(50, 100, 220),
       15
     );
   }
@@ -243,69 +277,66 @@ function drawXYLabels(p, Fx, Fy, tipX, tipY, θ) {
  * @param {number} Fy 仮想px（下正）
  */
 function drawXYInfoPanel(p, Fx, Fy) {
-  const panelW = 270;
-  const panelH = 116;
-  const px = V_W - 16;
-  const py = V_H - 16;
-  const lineH = 26;
-
-  p.noStroke();
-  p.fill(0, 0, 0, 200);
-  p.rect(px - panelW, py - panelH, panelW, panelH, 8);
-
-  const fxN = (Fx / SCALE).toFixed(1);
-  const fyN = ((-Fy) / SCALE).toFixed(1); // 物理のy（上正）
+  const fxN = Fx / FORCE_SCALE;
+  const fyN = -Fy / FORCE_SCALE; // 物理のy（上正）
+  const fN = state.forceMag;
   const θStr = `${state.forceAngle.toFixed(1)}°`;
-  const fN = state.forceMag.toFixed(1);
+
+  const panelW = 248;
+  const panelH = 118;
+  const panelX = V_W - panelW - 10;
+  const panelY = V_H - panelH - 10;
+
+  p.fill(255);
+  p.stroke(0);
+  p.strokeWeight(1.5);
+  p.rect(panelX, panelY, panelW, panelH, 8);
+
+  const colLabel = panelX + 16;
+  const colMag = panelX + panelW - 86;
+  const colAngle = panelX + panelW - 14;
+  const cy1 = panelY + 24; // F
+  const divY = panelY + 44; // 区切り線（F と Fx の間）
+  const cy2 = panelY + 68; // Fx
+  const cy3 = panelY + 96; // Fy
+
+  // 区切り線（F と Fx の間）— テキストより先に描いて文字が前面に
+  p.stroke(0, 60);
+  p.strokeWeight(1);
+  p.line(colLabel, divY, panelX + panelW - 16, divY);
+  p.noStroke();
 
   p.textSize(14);
-  p.textAlign(p.LEFT, p.CENTER);
 
-  p.fill(255, 215, 0);
-  p.text(`F  = ${fN} N`, px - panelW + 12, py - panelH + lineH * 0.6);
-  p.fill(255, 120, 120);
-  p.text(`Fx = ${fxN} N`, px - panelW + 12, py - panelH + lineH * 1.7);
-  p.fill(120, 180, 255);
-  p.text(`Fy = ${fyN} N`, px - panelW + 12, py - panelH + lineH * 2.8);
-  p.fill(255, 200, 100);
-  p.text(`θ  = ${θStr}`, px - panelW + 12, py - panelH + lineH * 3.9);
+  // F
+  p.fill(0);
+  p.textAlign(p.LEFT, p.CENTER);
+  p.text("F", colLabel, cy1);
+  p.textAlign(p.RIGHT, p.CENTER);
+  p.text(`${fN.toFixed(1)} N`, colMag, cy1);
+  p.text(θStr, colAngle, cy1);
+
+  // Fx
+  p.fill(220, 50, 50);
+  p.textAlign(p.LEFT, p.CENTER);
+  p.text("Fx", colLabel, cy2);
+  p.textAlign(p.RIGHT, p.CENTER);
+  p.text(`${fxN.toFixed(1)} N`, colMag, cy2);
+
+  // Fy
+  p.fill(50, 100, 220);
+  p.textAlign(p.LEFT, p.CENTER);
+  p.text("Fy", colLabel, cy3);
+  p.textAlign(p.RIGHT, p.CENTER);
+  p.text(`${fyN.toFixed(1)} N`, colMag, cy3);
+
+  p.textAlign(p.CENTER, p.CENTER);
 }
 
-/**
- * 左上に凡例を描画する。
- * @param {p5} p
- */
-function drawXYLegend(p) {
-  const lx = 16;
-  const ly = 16;
-  const panelW = 220;
-  const panelH = 80;
-  const lineH = 22;
-
-  p.noStroke();
-  p.fill(0, 0, 0, 190);
-  p.rect(lx, ly, panelW, panelH, 6);
-
-  p.textSize(13);
-  p.textAlign(p.LEFT, p.CENTER);
-  p.fill(255, 215, 0);
-  p.text("━━ F: 合力", lx + 10, ly + lineH * 0.6);
-  p.fill(255, 120, 120);
-  p.text("━━ Fx: 水平成分（x方向）", lx + 10, ly + lineH * 1.7);
-  p.fill(120, 180, 255);
-  p.text("━━ Fy: 垂直成分（y方向）", lx + 10, ly + lineH * 2.8);
-}
-
-/**
- * ドラッグ可能を示すヒントを描画する。
- * @param {p5} p
- * @param {number} tipX
- * @param {number} tipY
- */
 function drawInteractionHint(p, tipX, tipY) {
   // 先端の円
   p.noFill();
-  p.stroke(255, 215, 0, state.isDragging ? 200 : 100);
+  p.stroke(0, 0, 0, state.isDragging ? 180 : 80);
   p.strokeWeight(2);
   p.circle(tipX, tipY, 20);
 }
@@ -319,13 +350,13 @@ function drawInteractionHint(p, tipX, tipY) {
 export function drawSlopeScene(p) {
   const θ = (state.slopeAngle * Math.PI) / 180;
   const mg = state.mass * GRAVITY;
-  const sc = SCALE * 0.9; // 斜面モードのスケール係数
+  const sc = SLOPE_SCALE * 0.9; // 斜面モードのスケール係数
 
   // 斜面の基準点（オブジェクト位置）
   const ox = 440;
   const oy = 300;
 
-  p.background(20, 30, 25);
+  p.background(255, 255, 255);
   drawSlopeSurface(p, ox, oy, θ);
   drawSlopeVectors(p, ox, oy, θ, mg, sc);
   drawSlopeInfoPanel(p, θ, mg);
@@ -350,31 +381,43 @@ function drawSlopeSurface(p, ox, oy, θ) {
   const sx2 = ox + len * cosT;
   const sy2 = oy - len * sinT;
 
-  // 地面（斜面の下）
-  p.noStroke();
-  p.fill(50, 80, 50);
-  p.beginShape();
-  p.vertex(sx1, sy1);
-  p.vertex(sx2, sy2);
-  p.vertex(sx2 + 20, sy2 + 20);
-  p.vertex(sx1 + 20, sy1 + 20);
-  p.endShape(p.CLOSE);
+  // 地面（斜面の下）― 画像を斜面座標系で中央に1枚か叫画画画
+  p.push();
+  p.translate(ox, oy);
+  p.rotate(-θ);
+  const bandH = 40;
+  if (state.groundImg && state.groundImg.width > 0) {
+    // 幅が len*2 になるようストレッチ・中央で一枚描画
+    p.image(state.groundImg, -len, 0, len * 2, bandH);
+  } else {
+    p.noStroke();
+    p.fill(200, 185, 155);
+    p.rect(-len, 0, len * 2, bandH);
+  }
+  p.pop();
 
-  // 斜面線
-  p.stroke(160, 200, 140);
-  p.strokeWeight(3);
-  p.line(sx1, sy1, sx2, sy2);
-
-  // 斜面角度弧と角度ラベル
-  const arcR = 60;
-  p.noFill();
-  p.stroke(220, 200, 100, 200);
+  // 角度弧―左下領域に配置（水平方向と斜面のなす角θ）
+  const arcR = 55;
+  const arcDist = 320;
+  const arcCX = ox - arcDist * cosT;
+  const arcCY = oy + arcDist * sinT;
+  // 水平基準線
+  p.stroke(80, 80, 80, 160);
   p.strokeWeight(1.5);
-  // 斜面の下端（右下側）での角度表示
-  const bx = ox + 280 * cosT;
-  const by = oy - 280 * sinT;
-  p.arc(bx, by, arcR * 2, arcR * 2, -Math.PI, -θ);
-  drawLabel(p, `θ=${state.slopeAngle}°`, bx - arcR - 24, by + 14, p.color(220, 200, 100), 14);
+  p.line(arcCX, arcCY, arcCX + arcR + 24, arcCY);
+  // 弧（斜面方向 = -θ から 水平 = 0 へ）
+  p.noFill();
+  p.stroke(60, 60, 60, 210);
+  p.strokeWeight(1.5);
+  p.arc(arcCX, arcCY, arcR * 2, arcR * 2, -θ, 0);
+  drawLabel(
+    p,
+    `θ=${state.slopeAngle}°`,
+    arcCX + arcR + 30,
+    arcCY - 10,
+    p.color(60, 60, 60),
+    14
+  );
 
   // オブジェクト（ブロック）
   drawBlock(p, ox, oy, θ);
@@ -388,16 +431,14 @@ function drawSlopeSurface(p, ox, oy, θ) {
  * @param {number} θ
  */
 function drawBlock(p, ox, oy, θ) {
-  const cosT = Math.cos(θ);
-  const sinT = Math.sin(θ);
   const bw = 52;
   const bh = 36;
   p.push();
   p.translate(ox, oy);
   p.rotate(-θ);
-  p.fill(100, 160, 220);
-  p.stroke(150, 200, 255);
-  p.strokeWeight(1.5);
+  p.fill(222, 196, 165); // 薄い茶色
+  p.stroke(139, 90, 43); // 濃い茶色枚
+  p.strokeWeight(2);
   p.rect(-bw / 2, -bh, bw, bh, 3);
   p.pop();
 }
@@ -415,10 +456,11 @@ function drawSlopeVectors(p, ox, oy, θ, mg, sc) {
   const cosT = Math.cos(θ);
   const sinT = Math.sin(θ);
   const bh = 36; // ブロック高さ
+  const bw = 52;
 
-  // ベクトルの基点をブロック上面中央に
-  const baseX = ox - bh * sinT;
-  const baseY = oy - bh * cosT;
+  // ベクトルの基点をブロック中央に
+  const baseX = ox - (bh / 2) * sinT;
+  const baseY = oy - (bh / 2) * cosT;
 
   // 重力ベクトル（直下）
   const gravLen = mg * sc;
@@ -436,27 +478,27 @@ function drawSlopeVectors(p, ox, oy, θ, mg, sc) {
   const tipPerpY = baseY + fnLen * cosT;
 
   // 補助破線（平行四辺形：各成分先端から重力先端へ）
-  drawDashed(p, tipPerpX, tipPerpY, tipGravX, tipGravY, p.color(180, 180, 180));
-  drawDashed(p, tipParX, tipParY, tipGravX, tipGravY, p.color(180, 180, 180));
+  drawDashed(p, tipPerpX, tipPerpY, tipGravX, tipGravY, p.color(150, 150, 150));
+  drawDashed(p, tipParX, tipParY, tipGravX, tipGravY, p.color(150, 150, 150));
 
-  // F_perp（緑）
-  drawArrow(p, baseX, baseY, tipPerpX, tipPerpY, p.color(60, 220, 130), 3);
-  // F_parallel（オレンジ）
-  drawArrow(p, baseX, baseY, tipParX, tipParY, p.color(255, 140, 40), 3);
-  // 重力 mg（黄）
-  drawArrow(p, baseX, baseY, tipGravX, tipGravY, p.color(255, 215, 0), 4);
+  // F_perp（青）
+  drawArrow(p, baseX, baseY, tipPerpX, tipPerpY, p.color(50, 100, 220), 3);
+  // F_parallel（赤）
+  drawArrow(p, baseX, baseY, tipParX, tipParY, p.color(220, 50, 50), 3);
+  // 重力 mg（緑）
+  drawArrow(p, baseX, baseY, tipGravX, tipGravY, p.color(40, 170, 70), 4);
 
   // ラベル
-  drawLabel(p, "mg", baseX + 16, baseY + gravLen / 2, p.color(255, 215, 0), 16);
+  drawLabel(p, "mg", baseX + 16, baseY + gravLen / 2, p.color(40, 170, 70), 16);
   if (fpLen > 8) {
-    const lx = baseX + fpLen * cosT / 2 + 18 * sinT;
-    const ly = baseY + fpLen * sinT / 2 - 18 * cosT;
-    drawLabel(p, "mg sinθ", lx, ly, p.color(255, 160, 60), 14);
+    const lx = baseX + (fpLen * cosT) / 2 + 18 * sinT;
+    const ly = baseY + (fpLen * sinT) / 2 - 18 * cosT;
+    drawLabel(p, "mg sinθ", lx, ly, p.color(220, 50, 50), 14);
   }
   if (fnLen > 8) {
-    const lx = baseX - fnLen * sinT / 2 - 22 * cosT;
-    const ly = baseY + fnLen * cosT / 2 - 22 * sinT;
-    drawLabel(p, "mg cosθ", lx, ly, p.color(60, 230, 140), 14);
+    const lx = baseX - (fnLen * sinT) / 2 - 22 * cosT;
+    const ly = baseY + (fnLen * cosT) / 2 - 22 * sinT;
+    drawLabel(p, "mg cosθ", lx, ly, p.color(50, 100, 220), 14);
   }
 
   // 直角マーク
@@ -481,7 +523,7 @@ function drawRightAngleMark(p, ox, oy, θ, sz) {
   const cx3 = ox - sz * sinT;
   const cy3 = oy + sz * cosT;
   p.noFill();
-  p.stroke(200, 200, 200, 150);
+  p.stroke(100, 100, 100, 180);
   p.strokeWeight(1.2);
   p.beginShape();
   p.vertex(cx, cy);
@@ -499,13 +541,15 @@ function drawRightAngleMark(p, ox, oy, θ, sz) {
 function drawSlopeInfoPanel(p, θ, mg) {
   const panelW = 290;
   const panelH = 130;
-  const px = V_W - 16;
-  const py = V_H - 16;
+  const panelX = V_W - panelW - 10;
+  const panelY = V_H - panelH - 10;
   const lineH = 26;
 
+  p.fill(255);
+  p.stroke(0);
+  p.strokeWeight(1.5);
+  p.rect(panelX, panelY, panelW, panelH, 8);
   p.noStroke();
-  p.fill(0, 0, 0, 200);
-  p.rect(px - panelW, py - panelH, panelW, panelH, 8);
 
   const mgStr = mg.toFixed(1);
   const fpStr = (mg * Math.sin(θ)).toFixed(1);
@@ -515,26 +559,20 @@ function drawSlopeInfoPanel(p, θ, mg) {
   p.textSize(14);
   p.textAlign(p.LEFT, p.CENTER);
 
-  p.fill(255, 215, 0);
-  p.text(`mg        = ${mgStr} N`, px - panelW + 12, py - panelH + lineH * 0.6);
-  p.fill(255, 160, 60);
+  p.fill(40, 170, 70);
+  p.text(`mg        = ${mgStr} N`, panelX + 16, panelY + lineH * 0.6);
+  p.fill(220, 50, 50);
   p.text(
     `mg sinθ  = ${fpStr} N（斜面方向）`,
-    px - panelW + 12,
-    py - panelH + lineH * 1.7
+    panelX + 16,
+    panelY + lineH * 1.7
   );
-  p.fill(60, 230, 140);
-  p.text(
-    `mg cosθ = ${fnStr} N（垂直方向）`,
-    px - panelW + 12,
-    py - panelH + lineH * 2.8
-  );
-  p.fill(220, 200, 100);
-  p.text(
-    `θ（斜面角）= ${θStr}`,
-    px - panelW + 12,
-    py - panelH + lineH * 3.9
-  );
+  p.fill(50, 100, 220);
+  p.text(`mg cosθ = ${fnStr} N（垂直方向）`, panelX + 16, panelY + lineH * 2.8);
+  p.fill(0);
+  p.text(`θ（斜面角）= ${θStr}`, panelX + 16, panelY + lineH * 3.9);
+
+  p.textAlign(p.CENTER, p.CENTER);
 }
 
 /**
@@ -544,22 +582,26 @@ function drawSlopeInfoPanel(p, θ, mg) {
 function drawSlopeLegend(p) {
   const lx = 16;
   const ly = 16;
-  const panelW = 230;
+  const panelW = 260;
   const panelH = 80;
   const lineH = 22;
 
-  p.noStroke();
-  p.fill(0, 0, 0, 190);
+  p.fill(255);
+  p.stroke(0);
+  p.strokeWeight(1.5);
   p.rect(lx, ly, panelW, panelH, 6);
+  p.noStroke();
 
   p.textSize(13);
   p.textAlign(p.LEFT, p.CENTER);
-  p.fill(255, 215, 0);
+  p.fill(40, 170, 70);
   p.text("━━ mg: 重力", lx + 10, ly + lineH * 0.6);
-  p.fill(255, 160, 60);
+  p.fill(220, 50, 50);
   p.text("━━ mg sinθ: 斜面方向成分", lx + 10, ly + lineH * 1.7);
-  p.fill(60, 230, 140);
+  p.fill(50, 100, 220);
   p.text("━━ mg cosθ: 斜面垂直方向成分", lx + 10, ly + lineH * 2.8);
+
+  p.textAlign(p.CENTER, p.CENTER);
 }
 
 // ── ドラッグ操作（XYモード） ────────────────────────────────────────
@@ -570,10 +612,10 @@ function drawSlopeLegend(p) {
  */
 export function handlePress(p) {
   if (state.mode !== "xy") return;
-  const vx = p.mouseX * V_W / p.width;
-  const vy = p.mouseY * V_W / p.width;
+  const vx = (p.mouseX * V_W) / p.width;
+  const vy = (p.mouseY * V_W) / p.width;
   const θ = (state.forceAngle * Math.PI) / 180;
-  const F = state.forceMag * SCALE;
+  const F = state.forceMag * FORCE_SCALE;
   const tipX = ORIGIN_X + F * Math.cos(θ);
   const tipY = ORIGIN_Y - F * Math.sin(θ);
   const dist = Math.hypot(vx - tipX, vy - tipY);
@@ -589,23 +631,26 @@ export function handlePress(p) {
  */
 export function handleDrag(p, MAX_FORCE) {
   if (state.mode !== "xy" || !state.isDragging) return;
-  const vx = p.mouseX * V_W / p.width;
-  const vy = p.mouseY * V_W / p.width;
+  const vx = (p.mouseX * V_W) / p.width;
+  const vy = (p.mouseY * V_W) / p.width;
   const dx = vx - ORIGIN_X;
   const dy = vy - ORIGIN_Y;
-  const len = Math.hypot(dx, dy);
-  if (len < 2) return;
+  // グリッドスナップ
+  const sdx = Math.round(dx / GRID_STEP) * GRID_STEP;
+  const sdy = Math.round(dy / GRID_STEP) * GRID_STEP;
+  const len = Math.hypot(sdx, sdy);
+  if (len < 1) return;
   // 物理角度（x右向き正、y上向き正）
-  const angleRad = Math.atan2(-dy, dx);
+  const angleRad = Math.atan2(-sdy, sdx);
   let angleDeg = (angleRad * 180) / Math.PI;
   if (angleDeg < 0) angleDeg += 360;
   state.forceAngle = angleDeg;
-  state.forceMag = Math.min(len / SCALE, MAX_FORCE);
+  state.forceMag = len / FORCE_SCALE;
 
   // UIスライダー更新
   if (state.magnitudeInput) state.magnitudeInput.value(state.forceMag);
   if (state.magnitudeValue)
-    state.magnitudeValue.html(`${state.forceMag.toFixed(0)} N`);
+    state.magnitudeValue.html(`${state.forceMag.toFixed(1)} N`);
   if (state.angleInput) state.angleInput.value(state.forceAngle);
   if (state.angleValue)
     state.angleValue.html(`${state.forceAngle.toFixed(0)}°`);

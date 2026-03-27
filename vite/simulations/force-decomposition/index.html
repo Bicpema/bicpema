@@ -27,41 +27,8 @@
         <div class="settings-content">
           <h5>シミュレーションの設定</h5>
 
-          <!-- XY分解モード用コントロール -->
-          <div id="xyControls">
-            <div class="mb-3">
-              <label class="form-label">
-                力の大きさ: <span id="magnitudeValue">100 N</span>
-              </label>
-              <input
-                type="range"
-                class="form-range"
-                id="magnitudeInput"
-                min="0"
-                max="160"
-                step="1"
-                value="100"
-              />
-            </div>
-            <div class="mb-3">
-              <label class="form-label">
-                力の角度（x軸正方向から反時計回り）: <span id="angleValue">45°</span>
-              </label>
-              <input
-                type="range"
-                class="form-range"
-                id="angleInput"
-                min="0"
-                max="360"
-                step="1"
-                value="45"
-              />
-              <small class="text-secondary">※ キャンバス上でベクトルの先端をドラッグして変えることもできます。</small>
-            </div>
-          </div>
-
           <!-- 斜面分解モード用コントロール -->
-          <div id="slopeControls" style="display: none">
+          <div id="slopeControls">
             <div class="mb-3">
               <label class="form-label">
                 質量: <span id="massValue">10 kg</span>
@@ -100,12 +67,20 @@
 
       <!-- 左下コントロール（モード切り替え） -->
       <div class="left-bottom-controls">
-        <button id="modeXYButton" class="btn btn-primary">水平・垂直分解</button>
-        <button id="modeSlopeButton" class="btn btn-outline-secondary">斜面分解</button>
+        <button id="modeXYButton" class="btn btn-primary">
+          水平・垂直分解
+        </button>
+        <button id="modeSlopeButton" class="btn btn-outline-secondary">
+          斜面分解
+        </button>
       </div>
 
       <!-- 右上コントロール -->
-      <div class="right-top-controls">
+      <div
+        class="right-top-controls"
+        id="rightTopControls"
+        style="display: none"
+      >
         <button id="toggleModal" class="btn btn-info">⚙ 設定</button>
       </div>
     </div>

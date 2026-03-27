@@ -24,6 +24,13 @@ const sketch = (p) => {
         state.font = null;
       }
     );
+    state.groundImg = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810",
+      () => {},
+      () => {
+        state.groundImg = null;
+      }
+    );
   };
 
   p.setup = () => {
