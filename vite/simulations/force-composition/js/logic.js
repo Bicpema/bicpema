@@ -12,7 +12,16 @@ import { V_W, V_H, FORCE_SCALE, ORIGIN_X, ORIGIN_Y } from "./constants.js";
  * @param {number} weight 線の太さ
  * @param {number} headSize 矢印の頭の大きさ
  */
-export function drawArrow(p, fromX, fromY, toX, toY, col, weight = 3, headSize = 12) {
+export function drawArrow(
+  p,
+  fromX,
+  fromY,
+  toX,
+  toY,
+  col,
+  weight = 3,
+  headSize = 12
+) {
   const dx = toX - fromX;
   const dy = toY - fromY;
   const len = p.sqrt(dx * dx + dy * dy);
@@ -101,12 +110,7 @@ export function drawDashedLine(p, x1, y1, x2, y2, col) {
     const segLen = drawing ? dashLen : gapLen;
     const end = p.min(dist + segLen, total);
     if (drawing) {
-      p.line(
-        x1 + ux * dist,
-        y1 + uy * dist,
-        x1 + ux * end,
-        y1 + uy * end
-      );
+      p.line(x1 + ux * dist, y1 + uy * dist, x1 + ux * end, y1 + uy * end);
     }
     dist = end;
     drawing = !drawing;
@@ -170,7 +174,7 @@ export function drawInfoPanel(p, f1x, f1y, f2x, f2y) {
   p.fill(255, 80, 80);
   const f1Angle = p.degrees(p.atan2(-f1y, f1x));
   p.text(
-    `F\u2081: ${state.f1Mag.toFixed(0)} N  ${f1Angle.toFixed(1)}\u00B0`,
+    `F1: ${state.f1Mag.toFixed(0)} N  ${f1Angle.toFixed(1)}\u00B0`,
     tx,
     ty
   );
@@ -180,7 +184,7 @@ export function drawInfoPanel(p, f1x, f1y, f2x, f2y) {
   p.fill(80, 150, 255);
   const f2Angle = p.degrees(p.atan2(-f2y, f2x));
   p.text(
-    `F\u2082: ${state.f2Mag.toFixed(0)} N  ${f2Angle.toFixed(1)}\u00B0`,
+    `F2: ${state.f2Mag.toFixed(0)} N  ${f2Angle.toFixed(1)}\u00B0`,
     tx,
     ty
   );
@@ -196,10 +200,10 @@ export function drawInfoPanel(p, f1x, f1y, f2x, f2y) {
   // 合力
   p.fill(80, 220, 120);
   p.textSize(14);
-  p.text(`\u5408\u529B: ${frMag.toFixed(1)} N`, tx, ty);
+  p.text(`合力: ${frMag.toFixed(1)} N`, tx, ty);
   ty += lineH;
   p.textSize(13);
-  p.text(`\u5411\u304D: ${frAngle.toFixed(1)}\u00B0`, tx, ty);
+  p.text(`向き: ${frAngle.toFixed(1)}\u00B0`, tx, ty);
 
   p.textAlign(p.CENTER, p.CENTER);
 }
@@ -251,7 +255,7 @@ export function drawScene(p) {
     ORIGIN_X + frx,
     ORIGIN_Y + fry,
     p.color(80, 220, 120),
-    "\u5408\u529B F\u1D38"
+    "合力 F"
   );
 
   // F₁
@@ -262,7 +266,7 @@ export function drawScene(p) {
     ORIGIN_X + f1x,
     ORIGIN_Y + f1y,
     p.color(255, 80, 80),
-    "F\u2081"
+    "F1"
   );
 
   // F₂
@@ -273,7 +277,7 @@ export function drawScene(p) {
     ORIGIN_X + f2x,
     ORIGIN_Y + f2y,
     p.color(80, 150, 255),
-    "F\u2082"
+    "F2"
   );
 
   // 原点の丸
