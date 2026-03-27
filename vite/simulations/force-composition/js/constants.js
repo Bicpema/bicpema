@@ -4,8 +4,8 @@ export const V_W = 1000;
 export const V_H = 562;
 /** フレームレート */
 export const FPS = 30;
-/** 力ベクトルのスケール (px/N) */
-export const FORCE_SCALE = 3;
+/** 力ベクトルのスケール (px/N) — GRID_STEP と一致させることで 1 マス = 1 N */
+export const FORCE_SCALE = 50;
 /** 原点のX座標（仮想座標） */
 export const ORIGIN_X = 500;
 /** 原点のY座標（仮想座標） */

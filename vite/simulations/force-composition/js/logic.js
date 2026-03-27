@@ -243,7 +243,7 @@ export function drawInfoPanel(p, f1x, f1y, f2x, f2y) {
   p.textAlign(p.LEFT, p.CENTER);
   p.text("F1", colLabel, cy1);
   p.textAlign(p.RIGHT, p.CENTER);
-  p.text(`${f1Mag.toFixed(0)} N`, colMag, cy1);
+  p.text(`${f1Mag.toFixed(1)} N`, colMag, cy1);
   p.text(`${f1Angle.toFixed(1)}°`, colAngle, cy1);
 
   // F2
@@ -251,7 +251,7 @@ export function drawInfoPanel(p, f1x, f1y, f2x, f2y) {
   p.textAlign(p.LEFT, p.CENTER);
   p.text("F2", colLabel, cy2);
   p.textAlign(p.RIGHT, p.CENTER);
-  p.text(`${f2Mag.toFixed(0)} N`, colMag, cy2);
+  p.text(`${f2Mag.toFixed(1)} N`, colMag, cy2);
   p.text(`${f2Angle.toFixed(1)}°`, colAngle, cy2);
 
   // 区切り線
