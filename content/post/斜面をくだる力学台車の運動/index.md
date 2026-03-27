@@ -4,7 +4,7 @@ description: "本教材は斜面をくだる力学台車の等加速度運動を
 author: "kenji"
 date: "2025-03-16"
 tags: ["物理", "力学", "高校", "斜面運動", "等加速度運動"]
-image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fslope-cart-motion%2Fthumbnail.png?alt=media&token=545a33b2-2720-4e86-a250-3dd68b069b35"
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fslope-force-decomposition%2Fthumbnail.png?alt=media&token=ded7e98a-484f-48a9-bea7-e50b9aeb6391"
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []

@@ -3,7 +3,7 @@ title: "等加速度直線運動"
 description: "本教材は等加速度直線運動する模型自動車の運動を観察し、位置・速度と時間の関係をグラフで可視化するシミュレーション教材です。"
 author: "kenji"
 date: "2025-12-10"
-image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthumbnail%2Funiformly-accelerated-linear-motion.png?alt=media"
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Funiformly-accelerated-linear-motion%2Fthumbnail.png?alt=media&token=c9968ab9-e217-41aa-9715-af2dacc41dc6"
 tags: ["物理", "力学", "高校", "大学", "等加速度直線運動", "速度", "加速度"]
 categories: ["力学"]
 series: ["力学入門"]

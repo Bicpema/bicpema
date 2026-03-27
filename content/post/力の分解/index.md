@@ -4,7 +4,7 @@ description: "本教材は力ベクトルを水平・垂直成分に分解する
 author: "kenji"
 date: "2026-03-25"
 tags: ["物理", "力学", "高校", "力の分解", "ベクトル"]
-image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fforce-decomposition%2Fthumbnail.png?alt=media&token=force-decomposition-thumbnail"
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fforce-decomposition%2Fthumbnail.png?alt=media&token=280645f4-ae15-4560-a194-e9099df90cf3"
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []
