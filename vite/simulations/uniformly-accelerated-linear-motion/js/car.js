@@ -1,5 +1,10 @@
 import { state } from "./state.js";
-import { GRAPH_INTERVAL, MARKER_INTERVAL, PIXELS_PER_METER, MAX_TIME } from "./constants.js";
+import {
+  GRAPH_INTERVAL,
+  MARKER_INTERVAL,
+  PIXELS_PER_METER,
+  MAX_TIME,
+} from "./constants.js";
 
 /**
  * 等加速度直線運動をする車オブジェクト
@@ -81,7 +86,6 @@ export class Car {
   display(p, vH, options = {}) {
     const { carImage, groundImage, showMarkers = true } = options;
 
-    const trackY = vH * 0.72;
     const groundY = vH * 0.82;
     const carWidth = 80;
     const carHeight = 40;
@@ -97,47 +101,48 @@ export class Car {
       p.rect(0, groundY, 1000, vH - groundY);
     }
 
-    // トラック（路面線）
-    p.stroke(200);
-    p.strokeWeight(2);
-    p.line(0, trackY, 1000, trackY);
-
     // 等時間マーカー
     if (showMarkers) {
       for (const marker of this.markers) {
-        p.fill(255, 200, 50, 180);
+        p.fill(180, 120, 0, 180);
         p.noStroke();
-        p.ellipse(marker.px, trackY - carHeight / 2, 8, 8);
-        p.fill(255, 200, 50);
+        p.ellipse(marker.px, groundY - carHeight * 0.8, 8, 8);
+        p.fill(180, 120, 0);
         p.noStroke();
         p.textAlign(p.CENTER, p.BOTTOM);
         p.textSize(12);
-        p.text(`${marker.t}s`, marker.px, trackY - carHeight / 2 - 4);
+        p.text(`${marker.t}s`, marker.px, groundY - carHeight - 4);
       }
     }
 
     // 車
     if (carImage) {
       p.imageMode(p.CENTER);
-      p.image(carImage, carPixelX, trackY - carHeight / 2, carWidth, carHeight);
+      p.image(
+        carImage,
+        carPixelX,
+        groundY - carHeight * 0.3,
+        carWidth,
+        carHeight
+      );
     } else {
       p.fill(220, 200, 50);
       p.noStroke();
       p.rect(
         carPixelX - carWidth / 2,
-        trackY - carHeight,
+        groundY - carHeight,
         carWidth,
         carHeight,
         6
       );
       // タイヤ
       p.fill(40);
-      p.ellipse(carPixelX - 22, trackY - 4, 18, 18);
-      p.ellipse(carPixelX + 22, trackY - 4, 18, 18);
+      p.ellipse(carPixelX - 22, groundY - 4, 18, 18);
+      p.ellipse(carPixelX + 22, groundY - 4, 18, 18);
     }
 
     // 情報テキスト
-    p.fill(255);
+    p.fill(30);
     p.noStroke();
     p.textAlign(p.RIGHT, p.TOP);
     p.textSize(18);

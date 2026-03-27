@@ -4,6 +4,7 @@ description: "本教材は水平方向に初速度を与えて投げられた物
 author: "kenji"
 date: "2025-12-03"
 tags: ["物理", "力学", "大学", "水平投射", "放物運動"]
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fhorizontal-throw%2Fthumbnail.png?alt=media&token=b72d8d63-f032-41f6-82d2-ddd5035b6a53"
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []

@@ -3,7 +3,7 @@ title: "力の合成"
 description: "本教材は2つの力のベクトル合成（合力）を視覚的に理解するためのシミュレーション教材です。"
 author: "kenji"
 date: "2025-03-25"
-image: ""
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fforce-composition%2Fthumbnail.png?alt=media&token=28599ce8-58aa-4f6c-b6a9-eaf25b24413e"
 tags: ["物理", "力学", "高校", "力の合成", "合力", "ベクトル"]
 categories: ["力学"]
 series: ["力学入門"]

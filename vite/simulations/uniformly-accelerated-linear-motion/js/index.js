@@ -14,7 +14,7 @@ const sketch = (p) => {
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
     );
     state.carImage = p.loadImage(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FyCar.png?alt=media&token=fa3ee043-5471-41d7-bb7f-93ac1eca46f1"
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FyellowCar.png?alt=media&token=1fb005bb-7540-4b23-8c1c-330973d4d243"
     );
     state.groundImage = p.loadImage(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810"
@@ -28,7 +28,7 @@ const sketch = (p) => {
   };
 
   p.draw = () => {
-    p.background(30);
+    p.background(255);
     state.car.update(1 / FPS);
     p.scale(p.width / V_W);
 
@@ -42,7 +42,7 @@ const sketch = (p) => {
       showMarkers: showMarkers,
     });
 
-    if (state.car.isMoving && state.graphVisible) {
+    if (state.graphVisible) {
       state.graph.updateGraph();
     }
   };
