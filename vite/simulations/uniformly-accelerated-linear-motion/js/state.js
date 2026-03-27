@@ -10,7 +10,7 @@ export const state = {
   /** グラフオブジェクト */
   graph: null,
   /** グラフ表示状態 */
-  graphVisible: false,
+  graphVisible: true,
   /** v-t グラフ用データ */
   vtData: [],
   /** x-t グラフ用データ */

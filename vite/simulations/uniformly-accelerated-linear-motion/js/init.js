@@ -7,7 +7,6 @@ import {
   onPlayPause,
   onToggleModal,
   onCloseModal,
-  onToggleGraph,
 } from "./element-function.js";
 
 /**
@@ -29,26 +28,12 @@ export function elCreate(p) {
   state.toggleModal.mousePressed(() => onToggleModal());
   state.closeModal.mousePressed(() => onCloseModal());
 
-  // グラフトグルボタン
-  const graphToggleParent = p
-    .createDiv()
-    .id("graphToggleParent")
-    .parent(p.select("#p5Container"));
-
-  state.graphToggleButton = p
-    .createButton("📊 グラフを表示")
-    .id("graphToggleButton")
-    .parent(graphToggleParent)
-    .class("btn btn-secondary mt-2");
-
-  state.graphToggleButton.mousePressed(() => onToggleGraph());
-
   // グラフ用 canvas DIV
   p.createDiv('<canvas id="graphCanvas"></canvas>')
     .id("graph")
     .parent(p.select("#p5Container"))
     .class("rounded border border-1")
-    .style("display", "none")
+    .style("display", "block")
     .style("background-color", "rgba(255, 255, 255, 0.90)");
 }
 
