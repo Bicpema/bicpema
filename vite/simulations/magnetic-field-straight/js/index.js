@@ -1,8 +1,17 @@
+// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
+
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+const NAV_H = 60;
+
 let currentSlider;
 let label;
 
-function setup() {
-  createCanvas(900, 600, WEBGL);
+window.setup = function() {
+  let cnv = createCanvas(windowWidth, windowHeight - NAV_H, WEBGL);
+  cnv.parent('p5Canvas');
   // 視点の設定
   camera(
       0, -300, 600,  // カメラ位置
@@ -12,18 +21,31 @@ function setup() {
   
   // UIの構築
   label = createP('電流の強さ: 1.0 A');
-  label.style('color', 'black');
+  label.style('color', 'white');
+  label.parent('p5Container');
   label.position(20, 0);
 
   // スライダー：-3から3まで、初期値1
   currentSlider = createSlider(-4, 4, 1, 1);
+  currentSlider.parent('p5Container');
   currentSlider.position(20, 40);
   currentSlider.input(() => {
     label.html(`電流の強さ: ${currentSlider.value().toFixed(1)} A`);
   });
+  positionElements();
 }
 
-function draw() {
+function positionElements() {
+  label.position(20, 0);
+  currentSlider.position(20, 40);
+}
+
+window.windowResized = function() {
+  resizeCanvas(windowWidth, windowHeight - NAV_H);
+  positionElements();
+}
+
+window.draw = function() {
   background(240);
   orbitControl(); // マウスで視点を動かせます
 
@@ -117,3 +139,4 @@ function drawFlowArrow(r, y, currentVal) {
   cone(4, 10); // 磁力線の向きを示す矢印
   pop();
 }
+new p5();

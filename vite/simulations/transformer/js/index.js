@@ -1,5 +1,19 @@
+// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
+
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+const NAV_H = 60;
+const BASE_W = 1100;
+const BASE_H = 660;
+
+let sf = 1;
+let tx_off = 0, ty_off = 0;
+
 let img1, img2, img3;
 let radio1,radio2;
+let btn1plus, btn1minus, btn2plus, btn2minus;
 let count1 = 19;
 let count2 = 4;
 let k=5;
@@ -15,33 +29,60 @@ const amp = 30;
 
 let topY1,topY2;
 
-function preload() {
+window.preload = function() {
   img1 = loadImage("https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Ftrans%2FTransformer.png?alt=media&token=70310a44-504b-4e40-8180-c0806ca6a925"); // assetsフォルダ内の画像
   img2 = loadImage("https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Ftrans%2Fcoil1.png?alt=media&token=c72113f3-d995-496a-bc88-5b80653b68bd");
   img3 = loadImage("https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Ftrans%2Fcoil2.png?alt=media&token=23ef07d6-1a31-4a06-9b3b-aae6f433866a");
 }
 
-function setup() {
-  createCanvas(1100, 1100*0.6);
+function computeScale() {
+  sf = min(width / BASE_W, height / BASE_H);
+  tx_off = (width - BASE_W * sf) / 2;
+  ty_off = (height - BASE_H * sf) / 2;
+}
+
+window.setup = function() {
+  let cnv = createCanvas(windowWidth, windowHeight - NAV_H);
+  cnv.parent('p5Canvas');
+  computeScale();
   angleMode(DEGREES);
+
   radio1=createRadio();
+  radio1.parent('p5Container');
   radio1.option("phasetrue","同位相");
   radio1.option("phasefalse","逆位相");
   radio1.selected("phasetrue");
+  radio1.style('color', 'white');
   
-  radio1.position(width/2,height-60);
   radio2=createRadio();
+  radio2.parent('p5Container');
   radio2.option("1","ゆっくり");
   radio2.option("5","はやい");
   radio2.selected("1");
-  radio2.position(width/2-200,height-60);
+  radio2.style('color', 'white');
 
- 
   button1();
   button2();
+  positionElements();
 }
 
-function draw() {
+function positionElements() {
+  radio1.position(BASE_W/2 * sf + tx_off, (BASE_H - 60) * sf + ty_off);
+  radio2.position((BASE_W/2 - 200) * sf + tx_off, (BASE_H - 60) * sf + ty_off);
+  // Button positions correspond to coil locations in the transformer diagram
+  btn1plus.position(BASE_W * 0.318 * sf + tx_off, BASE_H * 0.758 * sf + ty_off);
+  btn1minus.position(BASE_W * 0.364 * sf + tx_off, BASE_H * 0.758 * sf + ty_off);
+  btn2plus.position(BASE_W * 0.545 * sf + tx_off, BASE_H * 0.758 * sf + ty_off);
+  btn2minus.position(BASE_W * 0.591 * sf + tx_off, BASE_H * 0.758 * sf + ty_off);
+}
+
+window.windowResized = function() {
+  resizeCanvas(windowWidth, windowHeight - NAV_H);
+  computeScale();
+  positionElements();
+}
+
+window.draw = function() {
   if(radio1.value()=="phasetrue"){
     phase=true;
   }if(radio1.value()=="phasefalse"){
@@ -50,7 +91,11 @@ function draw() {
   omega=radio2.value();
   
   background(255);
- 
+  
+  push();
+  translate(tx_off, ty_off);
+  scale(sf);
+
   textSize(16);
   textAlign(CENTER,TOP);
   text("一次コイル", 395, 450);
@@ -77,62 +122,64 @@ function draw() {
     oscillo2();
   pop()
   
+  pop();
+
   t++;
   
 }
 
 function button1(){
-  const plusBtn = createButton("＋");
-  plusBtn.position(350, 500);
-  plusBtn.size(40,40);
-  plusBtn.style("background-color", "#e06941");
-  plusBtn.style("border-radius", "20px");
-  plusBtn.style("font-weight", "bold");
-  plusBtn.style("font-size", "16px");
-  plusBtn.style("border", "none");
-  plusBtn.style("color", "white");  
-  plusBtn.mousePressed(() => {
+  btn1plus = createButton("＋");
+  btn1plus.parent('p5Container');
+  btn1plus.size(40,40);
+  btn1plus.style("background-color", "#e06941");
+  btn1plus.style("border-radius", "20px");
+  btn1plus.style("font-weight", "bold");
+  btn1plus.style("font-size", "16px");
+  btn1plus.style("border", "none");
+  btn1plus.style("color", "white");  
+  btn1plus.mousePressed(() => {
     count1 = constrain(count1+5, minCount, maxCount);
   });
 
-  const minusBtn = createButton("ー");
-  minusBtn.position(400, 500);
-  minusBtn.size(40,40);
-  minusBtn.style("background-color", "#4169e1");
-  minusBtn.style("border-radius", "20px");
-  minusBtn.style("font-weight", "bold");
-  minusBtn.style("font-size", "16px");
-  minusBtn.style("border", "none");
-  minusBtn.style("color", "white");  
-  minusBtn.mousePressed(() => {
+  btn1minus = createButton("ー");
+  btn1minus.parent('p5Container');
+  btn1minus.size(40,40);
+  btn1minus.style("background-color", "#4169e1");
+  btn1minus.style("border-radius", "20px");
+  btn1minus.style("font-weight", "bold");
+  btn1minus.style("font-size", "16px");
+  btn1minus.style("border", "none");
+  btn1minus.style("color", "white");  
+  btn1minus.mousePressed(() => {
     count1 = constrain(count1-5, minCount, maxCount);
   });
 }
 
 function button2(){
-  const plusBtn = createButton("＋");
-  plusBtn.position(600, 500);
-  plusBtn.size(40,40);
-  plusBtn.style("background-color", "#e06941");
-  plusBtn.style("border-radius", "20px");
-  plusBtn.style("font-weight", "bold");
-  plusBtn.style("font-size", "16px");
-  plusBtn.style("border", "none");
-  plusBtn.style("color", "white");
-  plusBtn.mousePressed(() => {
+  btn2plus = createButton("＋");
+  btn2plus.parent('p5Container');
+  btn2plus.size(40,40);
+  btn2plus.style("background-color", "#e06941");
+  btn2plus.style("border-radius", "20px");
+  btn2plus.style("font-weight", "bold");
+  btn2plus.style("font-size", "16px");
+  btn2plus.style("border", "none");
+  btn2plus.style("color", "white");
+  btn2plus.mousePressed(() => {
     count2 = constrain(count2+5, minCount, maxCount);
   });
 
-  const minusBtn = createButton("ー");
-  minusBtn.position(650, 500);
-  minusBtn.size(40,40);
-  minusBtn.style("background-color", "#4169e1");
-  minusBtn.style("border-radius", "20px");
-  minusBtn.style("font-weight", "bold");
-  minusBtn.style("font-size", "16px");
-  minusBtn.style("border", "none");
-  minusBtn.style("color", "white");  
-  minusBtn.mousePressed(() => {
+  btn2minus = createButton("ー");
+  btn2minus.parent('p5Container');
+  btn2minus.size(40,40);
+  btn2minus.style("background-color", "#4169e1");
+  btn2minus.style("border-radius", "20px");
+  btn2minus.style("font-weight", "bold");
+  btn2minus.style("font-size", "16px");
+  btn2minus.style("border", "none");
+  btn2minus.style("color", "white");  
+  btn2minus.mousePressed(() => {
     count2 = constrain(count2-5, minCount, maxCount);
   });
 }
@@ -359,3 +406,5 @@ function current2(){
   pop();
 }
 
+
+new p5();

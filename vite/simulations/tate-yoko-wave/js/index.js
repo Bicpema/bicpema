@@ -1,3 +1,11 @@
+// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
+
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+const NAV_H = 60;
+
 let particles = [];
 let N = 80;
 let A = 40;
@@ -12,20 +20,16 @@ let times;
 let focusIndex;
 let xStart = 60;   // 波の出発点（左端）
 
-function setup() {
-  createCanvas(windowWidth, 600);
+window.setup = function() {
+  let cnv = createCanvas(windowWidth, windowHeight - NAV_H);
+  cnv.parent('p5Canvas');
   k = TWO_PI / lambda;
 
-  particles = [];
-  for (let i = 0; i < N; i++) {
-    let x0 = map(i, 0, N - 1, xStart, width - 60);
-    particles.push({ x0 });
-  }
-
+  initParticles();
   focusIndex = floor(N / 2);
 
   moveBtn = createButton("スタート");
-  moveBtn.position(width/2-100, height -60);
+  moveBtn.parent('p5Container');
   moveBtn.size(96,48);
   moveBtn.style("background-color", "#03A9F4");
   moveBtn.style("font", "20px");  
@@ -36,7 +40,7 @@ function setup() {
   moveBtn.mousePressed(toggleMove);
   
   resetBtn = createButton("リセット");
-  resetBtn.position(width/2+4, height - 60);
+  resetBtn.parent('p5Container');
   resetBtn.size(96,48);
   resetBtn.style("background-color", "#9E9E9E");
   resetBtn.style("font-weight", "bold");  
@@ -46,11 +50,35 @@ function setup() {
   resetBtn.mousePressed(() => {
     t = 0;
     running = false;
+    moveBtn.html("スタート");
+    moveBtn.style("background-color", "#03A9F4");
   });
 
   times = createSlider(10, 60, 30, 1);
-  times.position(width/2-250, height-45);
+  times.parent('p5Container');
   times.size(120);
+
+  positionElements();
+}
+
+function initParticles() {
+  particles = [];
+  for (let i = 0; i < N; i++) {
+    let x0 = map(i, 0, N - 1, xStart, width - 60);
+    particles.push({ x0 });
+  }
+}
+
+function positionElements() {
+  moveBtn.position(width/2-100, height - 60);
+  resetBtn.position(width/2+4, height - 60);
+  times.position(width/2-250, height - 45);
+}
+
+window.windowResized = function() {
+  resizeCanvas(windowWidth, windowHeight - NAV_H);
+  initParticles();
+  positionElements();
 }
 
 function toggleMove() {
@@ -64,7 +92,7 @@ function toggleMove() {
   }
 }
 
-function draw() {
+window.draw = function() {
   frameRate(times.value());
   background(255);
   if (running) t += 1;
@@ -209,3 +237,4 @@ function drawAxis(title) {
   textAlign(LEFT, BOTTOM);
   text(title, 60, -60);
 }
+new p5();

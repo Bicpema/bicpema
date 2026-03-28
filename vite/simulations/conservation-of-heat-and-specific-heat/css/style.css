@@ -1,0 +1,14 @@
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+#p5Container {
+  padding: 0;
+  margin-top: 60px;
+  position: relative;
+}
+
+#p5Canvas {
+  text-align: center;
+}

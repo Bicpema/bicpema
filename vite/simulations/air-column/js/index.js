@@ -1,3 +1,11 @@
+// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
+
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+const NAV_H = 60;
+
 let typeSelect;
 let plusBtn, minusBtn, L_plusBtn, L_minusBtn;
 let time = 0;
@@ -9,11 +17,12 @@ let pipeY = 200;
 let Amp = 40;
 let waveLayer; // 静止画（残像）用のレイヤー
 
-function setup() {
-  createCanvas(800, 600);
+window.setup = function() {
+  let cnv = createCanvas(windowWidth, windowHeight - NAV_H);
+  cnv.parent('p5Canvas');
   
   typeSelect = createSelect();
-  typeSelect.position(210, 17);
+  typeSelect.parent('p5Container');
   typeSelect.size(72,24)
   typeSelect.option('閉管', 'closed');
   typeSelect.option('開管', 'open');
@@ -26,7 +35,7 @@ function setup() {
   });
   
   plusBtn = createButton("＋");
-  plusBtn.position(210, 50);
+  plusBtn.parent('p5Container');
   plusBtn.size(28,28);
   plusBtn.style("background-color", "#e06941");
   plusBtn.style("border-radius", "20px");
@@ -45,7 +54,7 @@ function setup() {
   });
 
   minusBtn = createButton("ー");
-  minusBtn.position(290, 50);
+  minusBtn.parent('p5Container');
   minusBtn.size(28,28);
   minusBtn.style("background-color", "#4169e1");
   minusBtn.style("border-radius", "15px");
@@ -63,7 +72,7 @@ function setup() {
   });
   
   L_plusBtn = createButton("＋");
-  L_plusBtn.position(210, 85);
+  L_plusBtn.parent('p5Container');
   L_plusBtn.size(28,28);
   L_plusBtn.style("background-color", "#e06941");
   L_plusBtn.style("border-radius", "20px");
@@ -77,7 +86,7 @@ function setup() {
   });
 
   L_minusBtn = createButton("ー");
-  L_minusBtn.position(290, 85);
+  L_minusBtn.parent('p5Container');
   L_minusBtn.size(28,28);
   L_minusBtn.style("background-color", "#4169e1");
   L_minusBtn.style("border-radius", "15px");
@@ -90,9 +99,28 @@ function setup() {
     updateWaveLayer();
   });
   
+  positionElements();
+
   // 残像を保持するレイヤーを作成
   waveLayer = createGraphics(width, height);
   updateWaveLayer();
+}
+
+function positionElements() {
+  const ctrlX = width * 0.26;
+  const ctrlX2 = width * 0.36;
+  typeSelect.position(ctrlX, 17);
+  plusBtn.position(ctrlX, 50);
+  minusBtn.position(ctrlX2, 50);
+  L_plusBtn.position(ctrlX, 85);
+  L_minusBtn.position(ctrlX2, 85);
+}
+
+window.windowResized = function() {
+  resizeCanvas(windowWidth, windowHeight - NAV_H);
+  waveLayer.resizeCanvas(width, height);
+  updateWaveLayer();
+  positionElements();
 }
 
 // 静止した5本の線を一度だけ描画する関数
@@ -121,7 +149,7 @@ function updateWaveLayer() {
   }
 }
 
-function draw() {
+window.draw = function() {
   background(255);
   
   // 1. 保存しておいた静止波（残像）を表示
@@ -232,3 +260,4 @@ function drawFormula(type, num) {
     text("(n = 1, 2, 3, ...)", startX + 250, startY);
   }
 }
+new p5();
