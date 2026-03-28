@@ -3,4 +3,15 @@
   languageDirection = 'ltr'
   languageName = '日本語'
   weight = 1
- 
+  [jp.menu]
+  [[jp.menu.main]]
+    identifier = "post"
+    name = "シミュレーション一覧"
+    pageRef = "post"
+    weight = 10
+
+  [[jp.menu.main]]
+    identifier = "about"
+    name = "Bicpemaについて"
+    pageRef = "about"
+    weight = 20
