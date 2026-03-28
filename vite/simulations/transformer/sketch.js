@@ -63,10 +63,11 @@ function setup() {
 function positionElements() {
   radio1.position(BASE_W/2 * sf + tx_off, (BASE_H - 60) * sf + ty_off);
   radio2.position((BASE_W/2 - 200) * sf + tx_off, (BASE_H - 60) * sf + ty_off);
-  btn1plus.position(350 * sf + tx_off, 500 * sf + ty_off);
-  btn1minus.position(400 * sf + tx_off, 500 * sf + ty_off);
-  btn2plus.position(600 * sf + tx_off, 500 * sf + ty_off);
-  btn2minus.position(650 * sf + tx_off, 500 * sf + ty_off);
+  // Button positions correspond to coil locations in the transformer diagram
+  btn1plus.position(BASE_W * 0.318 * sf + tx_off, BASE_H * 0.758 * sf + ty_off);
+  btn1minus.position(BASE_W * 0.364 * sf + tx_off, BASE_H * 0.758 * sf + ty_off);
+  btn2plus.position(BASE_W * 0.545 * sf + tx_off, BASE_H * 0.758 * sf + ty_off);
+  btn2minus.position(BASE_W * 0.591 * sf + tx_off, BASE_H * 0.758 * sf + ty_off);
 }
 
 function windowResized() {

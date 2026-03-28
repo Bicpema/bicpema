@@ -61,7 +61,9 @@ function setup() {
 }
 
 function positionElements() {
-  afterRadio.position((1200 / 2) * 1.4 * sf + tx_off, BASE_H / 20 * sf + ty_off);
+  // afterRadio positioned at x=(1200/2)*1.4 which corresponds to the original layout reference
+  const LAYOUT_REF_W = 1200;
+  afterRadio.position(LAYOUT_REF_W / 2 * 1.4 * sf + tx_off, BASE_H / 20 * sf + ty_off);
 }
 
 function windowResized() {

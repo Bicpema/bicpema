@@ -26,10 +26,17 @@ function setup() {
   currentSlider.input(() => {
     label.html(`電流の強さ: ${currentSlider.value().toFixed(1)} A`);
   });
+  positionElements();
+}
+
+function positionElements() {
+  label.position(20, 0);
+  currentSlider.position(20, 40);
 }
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight - NAV_H);
+  positionElements();
 }
 
 function draw() {

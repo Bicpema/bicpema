@@ -93,7 +93,7 @@ function setup() {
 }
 
 function positionElements() {
-  radioBtns.position(250, 50);
+  radioBtns.position(width * 0.31, 50);
   btnToggle.position(width-120, height/2);
   plusBtn.position(width - 160, 290);
   minusBtn.position(width-70, 290);

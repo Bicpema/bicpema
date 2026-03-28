@@ -88,7 +88,9 @@ function setup() {
 }
 
 function positionElements() {
-  afterRadio.position(1200 / 2 * 1.6 * sf + tx_off, BASE_H / 13 * sf + ty_off);
+  // afterRadio positioned at x=(1200/2)*1.6 which corresponds to the original layout reference
+  const LAYOUT_REF_W = 1200;
+  afterRadio.position(LAYOUT_REF_W / 2 * 1.6 * sf + tx_off, BASE_H / 13 * sf + ty_off);
   let side = BASE_W / 15;
   radioA.position(side * 2.5 * sf + tx_off, BASE_H * 7.78 / 10 * 1.1 * sf + ty_off);
   radioMassA.position(side * 6.9 * sf + tx_off, BASE_H * 7.78 / 10 * 1.1 * sf + ty_off);

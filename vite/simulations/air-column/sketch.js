@@ -101,11 +101,13 @@ function setup() {
 }
 
 function positionElements() {
-  typeSelect.position(210, 17);
-  plusBtn.position(210, 50);
-  minusBtn.position(290, 50);
-  L_plusBtn.position(210, 85);
-  L_minusBtn.position(290, 85);
+  const ctrlX = width * 0.26;
+  const ctrlX2 = width * 0.36;
+  typeSelect.position(ctrlX, 17);
+  plusBtn.position(ctrlX, 50);
+  minusBtn.position(ctrlX2, 50);
+  L_plusBtn.position(ctrlX, 85);
+  L_minusBtn.position(ctrlX2, 85);
 }
 
 function windowResized() {
