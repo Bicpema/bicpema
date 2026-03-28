@@ -1,3 +1,9 @@
+// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
+
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 // ===== 図(a)：進行波の発射 → 重なり → 定常波 =====
 // 赤：右向き進行波　青：左向き進行波　緑：合成波（定常波）
 
@@ -20,7 +26,7 @@ let moveBtn, resetBtn;
 let rightFront = 0;
 let leftFront;
 
-function setup() {
+window.setup = function() {
   let cnv = createCanvas(windowWidth, windowHeight - NAV_H);
   cnv.parent('p5Canvas');
   
@@ -74,7 +80,7 @@ function positionButtons() {
   resetBtn.position(width/2+4, height - 60);
 }
 
-function windowResized() {
+window.windowResized = function() {
   resizeCanvas(windowWidth, windowHeight - NAV_H);
   initParams();
   positionButtons();
@@ -91,7 +97,7 @@ function toggleMove() {
   }
 }
 
-function draw() {
+window.draw = function() {
   background(211,237,244);
   
   push();
@@ -220,3 +226,4 @@ function drawStandingWave(){
   }
   endShape();
 }
+new p5();

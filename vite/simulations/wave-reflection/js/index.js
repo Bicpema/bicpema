@@ -1,3 +1,9 @@
+// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
+
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 // ===== 自由端反射・固定端反射 切り替えシミュレーション =====
 // 青：入射波　赤：反射波　緑：合成波
 
@@ -19,7 +25,7 @@ let front = 0;
 // モード
 let mode = "free"; // "free" or "fixed"
 
-function setup() {
+window.setup = function() {
   let cnv = createCanvas(windowWidth, windowHeight - NAV_H);
   cnv.parent('p5Canvas');
   
@@ -98,13 +104,13 @@ function resetSim() {
   running = false;
 }
 
-function windowResized() {
+window.windowResized = function() {
   resizeCanvas(windowWidth, windowHeight - NAV_H);
   reflectX = width / 2;
   positionButtons();
 }
 
-function draw() {
+window.draw = function() {
   background(255);
   
   drawGrid();
@@ -231,3 +237,5 @@ function drawReflectWall() {
   strokeWeight(3);
   line(reflectX, 0, reflectX, height);
 }
+
+new p5();

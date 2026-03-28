@@ -1,3 +1,9 @@
+// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
+
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 let bitx = 100;
 let bity = 60;
 
@@ -49,7 +55,7 @@ let Tmin = 250;
 let Tmax = 400;
 
 
-function preload(){
+window.preload = function(){
  boxImg = loadImage("https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/stirringVessel.png?alt=media&token=665a56ef-4ff2-487c-bc9d-3089b1609699"); 
 }
 
@@ -67,7 +73,7 @@ function computeScale() {
   ty_off = (height - BASE_H * sf) / 2;
 }
 
-function setup() {
+window.setup = function() {
   let cnv = createCanvas(windowWidth, windowHeight - NAV_H);
   cnv.parent('p5Canvas');
   computeScale();
@@ -96,7 +102,7 @@ function positionElements() {
   radioMassA.position(side * 6.9 * sf + tx_off, BASE_H * 7.78 / 10 * 1.1 * sf + ty_off);
 }
 
-function windowResized() {
+window.windowResized = function() {
   resizeCanvas(windowWidth, windowHeight - NAV_H);
   computeScale();
   positionElements();
@@ -108,7 +114,7 @@ function resetState() {
   Tcold = Tcold0;
 }
 
-function draw() {
+window.draw = function() {
   frameRate(20);
   background(255);
 
@@ -526,3 +532,5 @@ function tx(t) {
 function ty(T) {
   return map(T, Tmin, Tmax, gy + gh, gy);
 }
+
+new p5();

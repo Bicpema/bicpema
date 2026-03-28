@@ -1,9 +1,15 @@
+// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
+
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 const NAV_H = 60;
 
 let currentSlider;
 let label;
 
-function setup() {
+window.setup = function() {
   let cnv = createCanvas(windowWidth, windowHeight - NAV_H, WEBGL);
   cnv.parent('p5Canvas');
   // 視点の設定
@@ -34,12 +40,12 @@ function positionElements() {
   currentSlider.position(20, 40);
 }
 
-function windowResized() {
+window.windowResized = function() {
   resizeCanvas(windowWidth, windowHeight - NAV_H);
   positionElements();
 }
 
-function draw() {
+window.draw = function() {
   background(240);
   orbitControl(); // マウスで視点を動かせます
 
@@ -133,3 +139,4 @@ function drawFlowArrow(r, y, currentVal) {
   cone(4, 10); // 磁力線の向きを示す矢印
   pop();
 }
+new p5();

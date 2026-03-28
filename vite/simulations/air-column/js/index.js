@@ -1,3 +1,9 @@
+// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
+
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 const NAV_H = 60;
 
 let typeSelect;
@@ -11,7 +17,7 @@ let pipeY = 200;
 let Amp = 40;
 let waveLayer; // 静止画（残像）用のレイヤー
 
-function setup() {
+window.setup = function() {
   let cnv = createCanvas(windowWidth, windowHeight - NAV_H);
   cnv.parent('p5Canvas');
   
@@ -110,7 +116,7 @@ function positionElements() {
   L_minusBtn.position(ctrlX2, 85);
 }
 
-function windowResized() {
+window.windowResized = function() {
   resizeCanvas(windowWidth, windowHeight - NAV_H);
   waveLayer.resizeCanvas(width, height);
   updateWaveLayer();
@@ -143,7 +149,7 @@ function updateWaveLayer() {
   }
 }
 
-function draw() {
+window.draw = function() {
   background(255);
   
   // 1. 保存しておいた静止波（残像）を表示
@@ -254,3 +260,4 @@ function drawFormula(type, num) {
     text("(n = 1, 2, 3, ...)", startX + 250, startY);
   }
 }
+new p5();

@@ -1,3 +1,9 @@
+// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
+
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 const NAV_H = 60;
 const BASE_W = 1600;
 const BASE_H = 800;
@@ -43,7 +49,7 @@ function computeScale() {
   ty_off = (height - BASE_H * sf) / 2;
 }
 
-function setup() {
+window.setup = function() {
   let cnv = createCanvas(windowWidth, windowHeight - NAV_H);
   cnv.parent('p5Canvas');
   computeScale();
@@ -66,7 +72,7 @@ function positionElements() {
   afterRadio.position(LAYOUT_REF_W / 2 * 1.4 * sf + tx_off, BASE_H / 20 * sf + ty_off);
 }
 
-function windowResized() {
+window.windowResized = function() {
   resizeCanvas(windowWidth, windowHeight - NAV_H);
   computeScale();
   positionElements();
@@ -79,7 +85,7 @@ function resetState() {
   Teq = (C_hot * Thot0 + C_cold * Tcold0) / (C_hot + C_cold);
 }
 
-function draw() {
+window.draw = function() {
   frameRate(20);
   background(255);
 
@@ -401,3 +407,5 @@ function tx(t) {
 function ty(T) {
   return map(T, Tmin, Tmax, gy + gh, gy);
 }
+
+new p5();

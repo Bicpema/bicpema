@@ -1,3 +1,9 @@
+// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
+
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 const NAV_H = 60;
 
 let img;
@@ -16,11 +22,11 @@ let btnToggle;
 let plusBtn, minusBtn;
 let count=0;
 
-function preload(){
+window.preload = function(){
   img=loadImage("https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fhalf-life%2FatomImage.png?alt=media&token=9583f019-b011-419b-a27e-8e769e435788");
 }
 
-function setup() {
+window.setup = function() {
   let cnv = createCanvas(windowWidth, windowHeight - NAV_H); 
   cnv.parent('p5Canvas');
   frameRate(30);
@@ -99,7 +105,7 @@ function positionElements() {
   minusBtn.position(width-70, 290);
 }
 
-function windowResized() {
+window.windowResized = function() {
   resizeCanvas(windowWidth, windowHeight - NAV_H);
   positionElements();
 }
@@ -123,7 +129,7 @@ function initAtoms() {
   
 }
 
-function draw() {
+window.draw = function() {
   background(255);
   
   if (isRunning) {
@@ -291,3 +297,4 @@ function drawAtomImage(){
     text(count+"個", 476, 250);
   pop();
 }
+new p5();

@@ -1,3 +1,9 @@
+// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
+
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 const NAV_H = 60;
 
 let particles = [];
@@ -14,7 +20,7 @@ let times;
 let focusIndex;
 let xStart = 60;   // 波の出発点（左端）
 
-function setup() {
+window.setup = function() {
   let cnv = createCanvas(windowWidth, windowHeight - NAV_H);
   cnv.parent('p5Canvas');
   k = TWO_PI / lambda;
@@ -69,7 +75,7 @@ function positionElements() {
   times.position(width/2-250, height - 45);
 }
 
-function windowResized() {
+window.windowResized = function() {
   resizeCanvas(windowWidth, windowHeight - NAV_H);
   initParticles();
   positionElements();
@@ -86,7 +92,7 @@ function toggleMove() {
   }
 }
 
-function draw() {
+window.draw = function() {
   frameRate(times.value());
   background(255);
   if (running) t += 1;
@@ -231,3 +237,4 @@ function drawAxis(title) {
   textAlign(LEFT, BOTTOM);
   text(title, 60, -60);
 }
+new p5();

@@ -1,3 +1,9 @@
+// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
+
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 const NAV_H = 60;
 const BASE_W = 1100;
 const BASE_H = 660;
@@ -23,7 +29,7 @@ const amp = 30;
 
 let topY1,topY2;
 
-function preload() {
+window.preload = function() {
   img1 = loadImage("https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Ftrans%2FTransformer.png?alt=media&token=70310a44-504b-4e40-8180-c0806ca6a925"); // assetsフォルダ内の画像
   img2 = loadImage("https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Ftrans%2Fcoil1.png?alt=media&token=c72113f3-d995-496a-bc88-5b80653b68bd");
   img3 = loadImage("https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Ftrans%2Fcoil2.png?alt=media&token=23ef07d6-1a31-4a06-9b3b-aae6f433866a");
@@ -35,7 +41,7 @@ function computeScale() {
   ty_off = (height - BASE_H * sf) / 2;
 }
 
-function setup() {
+window.setup = function() {
   let cnv = createCanvas(windowWidth, windowHeight - NAV_H);
   cnv.parent('p5Canvas');
   computeScale();
@@ -70,13 +76,13 @@ function positionElements() {
   btn2minus.position(BASE_W * 0.591 * sf + tx_off, BASE_H * 0.758 * sf + ty_off);
 }
 
-function windowResized() {
+window.windowResized = function() {
   resizeCanvas(windowWidth, windowHeight - NAV_H);
   computeScale();
   positionElements();
 }
 
-function draw() {
+window.draw = function() {
   if(radio1.value()=="phasetrue"){
     phase=true;
   }if(radio1.value()=="phasefalse"){
@@ -400,3 +406,5 @@ function current2(){
   pop();
 }
 
+
+new p5();
