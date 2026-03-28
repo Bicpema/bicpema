@@ -35,12 +35,6 @@ Bicpema のシミュレーションはブラウザで動作するため、イン
 - 生徒が自分でパラメータを変えて「なぜそうなるか」を探究する活動に活用する
 - テスト前の復習として、自分のペースで現象を確認する
 
-## 連絡先
-
-バグの報告や機能のご要望は GitHub リポジトリの Issue からお寄せください。
-
-- **GitHub**: [https://github.com/Bicpema/bicpema](https://github.com/Bicpema/bicpema)
-
 ## 運営
 
 **Bicpema Developer Team**
