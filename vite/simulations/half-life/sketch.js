@@ -1,3 +1,5 @@
+const NAV_H = 60;
+
 let img;
 let currentTime = 0;
 let halfLife = 5730;
@@ -19,12 +21,13 @@ function preload(){
 }
 
 function setup() {
-  createCanvas(800, 700); 
+  let cnv = createCanvas(windowWidth, windowHeight - NAV_H); 
+  cnv.parent('p5Canvas');
   frameRate(30);
 
   //  物質の選択ラジオボタン
   radioBtns = createRadio();
-  radioBtns.position(250, 50);
+  radioBtns.parent('p5Container');
   radioBtns.option('5730', '炭素 C-14');
   radioBtns.option('8', 'ヨウ素 I-131');
   radioBtns.option('30', 'セシウム Cs-137');
@@ -32,6 +35,7 @@ function setup() {
   radioBtns.selected('5730');
   radioBtns.style('display', 'flex');       // flexボックスにする
   radioBtns.style('flex-direction', 'column'); // 縦方向に並べる
+  radioBtns.style('color', 'white');
   radioBtns.changed(() => {
     halfLife = (radioBtns.value());
     maxYears = halfLife * 5;
@@ -42,7 +46,7 @@ function setup() {
 
   // トグルボタン
   btnToggle = createButton('スタート');
-  btnToggle.position(width-120, height/2);
+  btnToggle.parent('p5Container');
   btnToggle.size(96,48);
   btnToggle.style("font-size","16px");
   btnToggle.style("font-weight","bold");
@@ -53,7 +57,7 @@ function setup() {
   btnToggle.mousePressed(toggleSimulation);
 
   plusBtn = createButton("＋");
-  plusBtn.position(width - 160, 290);
+  plusBtn.parent('p5Container');
   plusBtn.size(30,30);
   plusBtn.style("background-color", "#e06941");
   plusBtn.style("border-radius", "15px");
@@ -69,7 +73,7 @@ function setup() {
   });
 
   minusBtn = createButton("ー");
-  minusBtn.position(width-70, 290);
+  minusBtn.parent('p5Container');
   minusBtn.size(30,30);
   minusBtn.style("background-color", "#4169e1");
   minusBtn.style("border-radius", "15px");
@@ -84,8 +88,20 @@ function setup() {
     initAtoms();
   });
   
+  positionElements();
   initAtoms();
-  
+}
+
+function positionElements() {
+  radioBtns.position(250, 50);
+  btnToggle.position(width-120, height/2);
+  plusBtn.position(width - 160, 290);
+  minusBtn.position(width-70, 290);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight - NAV_H);
+  positionElements();
 }
 
 function toggleSimulation() {

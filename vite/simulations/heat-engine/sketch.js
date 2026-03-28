@@ -1,3 +1,5 @@
+const NAV_H = 60;
+
 let stage = 0;       // 0~3の4過程
 let weightOn = true;
 let t = 0;
@@ -15,13 +17,14 @@ function preload(){
 }
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  let cnv = createCanvas(windowWidth, windowHeight - NAV_H);
+  cnv.parent('p5Canvas');
   pistonY = 160;
   textFont('sans-serif');
 }
 
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  resizeCanvas(windowWidth, windowHeight - NAV_H);
 }
 
 function draw() {
@@ -152,9 +155,4 @@ function animateCycle() {
   }
 
   pistonY = constrain(pistonY, 60, height - 300);
-}
-
-// クリックで完全フルスクリーン切替（任意）
-function mousePressed() {
-  fullscreen(!fullscreen());
 }

@@ -54,20 +54,50 @@ function preload(){
 }
 
 
+const NAV_H = 60;
+const BASE_W = 1600;
+const BASE_H = 800;
+
+let sf = 1;
+let tx_off = 0, ty_off = 0;
+
+function computeScale() {
+  sf = min(width / BASE_W, height / BASE_H);
+  tx_off = (width - BASE_W * sf) / 2;
+  ty_off = (height - BASE_H * sf) / 2;
+}
+
 function setup() {
-  createCanvas(1600, 800);
+  let cnv = createCanvas(windowWidth, windowHeight - NAV_H);
+  cnv.parent('p5Canvas');
+  computeScale();
 
   afterRadio = createRadio();
+  afterRadio.parent('p5Container');
   afterRadio.option(0, "接触させる(※ただし鉄球の比熱が未知)");
   afterRadio.option(1, "接触前に戻す");
   afterRadio.selected("1");
   afterRadio.style('transform', 'scale(2)');
-  afterRadio.position(1200 / 2 * 1.6, height/13);
+  afterRadio.style('color', 'white');
 
   //物質選択等のラジオボタンの生成
   createradio()
   
+  positionElements();
   resetState();
+}
+
+function positionElements() {
+  afterRadio.position(1200 / 2 * 1.6 * sf + tx_off, BASE_H / 13 * sf + ty_off);
+  let side = BASE_W / 15;
+  radioA.position(side * 2.5 * sf + tx_off, BASE_H * 7.78 / 10 * 1.1 * sf + ty_off);
+  radioMassA.position(side * 6.9 * sf + tx_off, BASE_H * 7.78 / 10 * 1.1 * sf + ty_off);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight - NAV_H);
+  computeScale();
+  positionElements();
 }
 
 function resetState() {
@@ -80,6 +110,10 @@ function draw() {
   frameRate(20);
   background(255);
 
+  push();
+  translate(tx_off, ty_off);
+  scale(sf);
+
   //容器の描画
   Draw()
   updateTemperature();
@@ -89,29 +123,31 @@ function draw() {
   button()
   //物質(初期条件等)
   showPara();
+
+  pop();
 }
 
 function showPara(){
   push()
   textSize(32);
   stroke(0)
-  text("◎金属球の比熱は？ 熱量の保存の関係から測定しよう",width/50,height/15);
+  text("◎金属球の比熱は？ 熱量の保存の関係から測定しよう",BASE_W/50,BASE_H/15);
   pop()
   if(afterRadio.value()=="1"){
   //鉄球
   push()
   stroke(0)
   textSize(32);
-  text("物質A(95℃)",width/16,height/2*1.1);
+  text("物質A(95℃)",BASE_W/16,BASE_H/2*1.1);
   stroke(255,0,0);
-  text("比熱 ?(J/(g・K))",width/16,height/2*1.2);
+  text("比熱 ?(J/(g・K))",BASE_W/16,BASE_H/2*1.2);
   
   //水
   stroke(0)
   textSize(32);
-  text("水(15℃), 150 g",width/3*0.9,height/3.2*0.85)
+  text("水(15℃), 150 g",BASE_W/3*0.9,BASE_H/3.2*0.85)
   stroke(0,0,255);
-  text("比熱 4.2(J/(g・K))",width/3*0.9,height/3.2);
+  text("比熱 4.2(J/(g・K))",BASE_W/3*0.9,BASE_H/3.2);
   pop()
   }
 
@@ -126,17 +162,17 @@ function button(){
   push()
   noStroke();
   fill(185,220,255);
-  let side=width/15;
-  let inSide = width/10;
+  let side=BASE_W/15;
+  let inSide = BASE_W/10;
   stroke(0)
-  rect(side,height*3.05/4*1.1,width/1.5,height/5/2)
+  rect(side,BASE_H*3.05/4*1.1,BASE_W/1.5,BASE_H/5/2)
   stroke(0);
-  line(side+inSide,height*3.05/4*1.1,side+inSide,height*3.05/4*1.1+height/5/2)
-  line(side+inSide*3.9,height*3.05/4*1.1,side+inSide*3.9,height*3.05/4*1.1+height/5/2)
+  line(side+inSide,BASE_H*3.05/4*1.1,side+inSide,BASE_H*3.05/4*1.1+BASE_H/5/2)
+  line(side+inSide*3.9,BASE_H*3.05/4*1.1,side+inSide*3.9,BASE_H*3.05/4*1.1+BASE_H/5/2)
   //軸ラベル
   fill(255)
   textSize(32);
-  text("物質A",side*1.35,height*8.25/10*1.1);
+  text("物質A",side*1.35,BASE_H*8.25/10*1.1);
   pop()
 }
 
@@ -146,11 +182,11 @@ function Draw(){
   scale(1.7);
   if(afterRadio.value()=="1"){
   //熱浴の描画
-  image(boxImg,width/4.1,height/15);
+  image(boxImg,BASE_W/4.1,BASE_H/15);
      ballDraw()
     //ボールの描画
     }else{
-       image(boxImg,width/4.3/2,height/15);
+       image(boxImg,BASE_W/4.3/2,BASE_H/15);
         ballDraw()
       }
   pop()
@@ -207,25 +243,27 @@ function rightArea() {
 
 
 function createradio(){
-  let side=width/15;
+  let side=BASE_W/15;
   //A
   radioA = createRadio();
+  radioA.parent('p5Container');
   radioA.option(0, "アルミニウム");
   radioA.option(1, "鉄");
   radioA.option(2, "銅");
   radioA.option(3, "銀");
   radioA.selected("0");
-  radioA.position(side*2.5, height*7.78/10*1.1);
   radioA.style('transform', 'scale(2)');
   radioA.style('transform-origin', 'left top');
+  radioA.style('color', 'white');
   //MassA
   radioMassA = createRadio();
+  radioMassA.parent('p5Container');
   radioMassA.option(0, "質量(100 g)");
   radioMassA.option(1, "質量(50 g)");
   radioMassA.selected("1");
-  radioMassA.position(side*6.9, height*7.78/10*1.1);
   radioMassA.style('transform', 'scale(2)');
   radioMassA.style('transform-origin', 'left top');
+  radioMassA.style('color', 'white');
 }
 
 function ballDraw(){
@@ -236,7 +274,7 @@ function ballDraw(){
   fill(181,166,66);
   
   rect(50,70,165,20);
-  line(215,70,215,height/3.15*1.2-30)
+  line(215,70,215,BASE_H/3.15*1.2-30)
   pop();
     
   /* ===== 物質A ===== */
@@ -244,21 +282,21 @@ function ballDraw(){
   checkMassA  = int(radioMassA.value());
 
   let rA = (checkMassA==0) ? 50 : 30;
-  let yA = (checkMassA==0) ? height/3.4*1.8 : height/3.15*1.8;
+  let yA = (checkMassA==0) ? BASE_H/3.4*1.8 : BASE_H/3.15*1.8;
 
-  let gradA = getMaterialGradient(width/5*1.14, yA, rA, checkcolorA);
+  let gradA = getMaterialGradient(BASE_W/5*1.14, yA, rA, checkcolorA);
 
   push();
   noStroke();
   drawingContext.fillStyle = gradA;
-  ellipse(width/5*1.14, yA, rA*2, rA*2);
+  ellipse(BASE_W/5*1.14, yA, rA*2, rA*2);
   pop();}
   else{
      strokeWeight(1);
   fill(181,166,66);
   
   rect(50+50,70,165,20);
-  line(215+50,70,215+50,height/3.15*1.2-30)
+  line(215+50,70,215+50,BASE_H/3.15*1.2-30)
   pop();
     
   /* ===== 物質A ===== */
@@ -266,14 +304,14 @@ function ballDraw(){
   checkMassA  = int(radioMassA.value());
 
   let rA = (checkMassA==0) ? 50 : 30;
-  let yA = (checkMassA==0) ? height/3.4*1.8 : height/3.15*1.8;
+  let yA = (checkMassA==0) ? BASE_H/3.4*1.8 : BASE_H/3.15*1.8;
 
-  let gradA = getMaterialGradient(width/5*1.4, yA, rA, checkcolorA);
+  let gradA = getMaterialGradient(BASE_W/5*1.4, yA, rA, checkcolorA);
 
   push();
   noStroke();
   drawingContext.fillStyle = gradA;
-  ellipse(width/5*1.4, yA, rA*2, rA*2);
+  ellipse(BASE_W/5*1.4, yA, rA*2, rA*2);
   pop();
   }
 }
@@ -324,39 +362,39 @@ function drawGraph() {
   translate(900, 200);
 
   // ---- グラフ領域 ----
-  gx = width / 2 * 1.05;
-  gy = height / 9.5;
-  gw = width / 2.35;
-  gh = width / 2.75;
+  gx = BASE_W / 2 * 1.05;
+  gy = BASE_H / 9.5;
+  gw = BASE_W / 2.35;
+  gh = BASE_W / 2.75;
 
   noStroke();
   fill(185,220,255);
-  rect(width/2*0.98,height/12,width/2.1,width/2.4)
+  rect(BASE_W/2*0.98,BASE_H/12,BASE_W/2.1,BASE_W/2.4)
   fill(255);
   rect(gx, gy, gw, gh);
   textSize(26);
   //---- 凡例 ----
-  let ysize = width/3
-  let xsize = width/2.35
+  let ysize = BASE_W/3
+  let xsize = BASE_W/2.35
   fill(0);
   stroke(255,0,0);
-  line(width/2*1.7,height/9.5+(ysize*0.5/7),width/2*1.82,height/9.5+(ysize*0.5/7))
+  line(BASE_W/2*1.7,BASE_H/9.5+(ysize*0.5/7),BASE_W/2*1.82,BASE_H/9.5+(ysize*0.5/7))
   textSize(30);
-  text("物質(高温)", width/2*1.51,height/9.5+(ysize*0.6/7));
+  text("物質(高温)", BASE_W/2*1.51,BASE_H/9.5+(ysize*0.6/7));
   stroke(0,0,255);
-  line(width/2*1.7,height/9.5+(ysize*1.2/7),width/2*1.82,height/9.5+(ysize*1.2/7))
+  line(BASE_W/2*1.7,BASE_H/9.5+(ysize*1.2/7),BASE_W/2*1.82,BASE_H/9.5+(ysize*1.2/7))
   textSize(30);
-  text("物質(低温)", width/2*1.51,height/9.5+(ysize*1.35/7));
+  text("物質(低温)", BASE_W/2*1.51,BASE_H/9.5+(ysize*1.35/7));
   
   // ---- 軸ラベル ----
   stroke(0);
   fill(0);
   textSize(30);
-  text("接触してからの経過時間(Q))", width/2*1.45,width/2.55+height/9.5);
+  text("接触してからの経過時間(Q))", BASE_W/2*1.45,BASE_W/2.55+BASE_H/9.5);
   textSize(30);
-  text("温", width/2*0.99,height/9.5*1.3);
-  text("度", width/2*0.99,height/9.5*1.7);
-  text("(K)", width/2*0.985,height/9.5*2.1);
+  text("温", BASE_W/2*0.99,BASE_H/9.5*1.3);
+  text("度", BASE_W/2*0.99,BASE_H/9.5*1.7);
+  text("(K)", BASE_W/2*0.985,BASE_H/9.5*2.1);
   
   // ---- 軸 ----
   stroke(0);
@@ -364,8 +402,8 @@ function drawGraph() {
   line(gx, gy, gx, gy + gh);
   line(gx, gy + gh, gx + gw, gy + gh);
   fill(0)
-  triangle(width/2*1.04,height/8,width/2*1.05,height/9.5,width/2*1.06,height/8)
-   triangle(width/2*1.05+width/2.35,width/2.75+height/9.5,(width/2*1.05+width/2.35)*0.986,(width/2.75+height/9.5)*0.99,(width/2*1.05+width/2.35)*0.986,(width/2.75+height/9.5)*1.01)
+  triangle(BASE_W/2*1.04,BASE_H/8,BASE_W/2*1.05,BASE_H/9.5,BASE_W/2*1.06,BASE_H/8)
+   triangle(BASE_W/2*1.05+BASE_W/2.35,BASE_W/2.75+BASE_H/9.5,(BASE_W/2*1.05+BASE_W/2.35)*0.986,(BASE_W/2.75+BASE_H/9.5)*0.99,(BASE_W/2*1.05+BASE_W/2.35)*0.986,(BASE_W/2.75+BASE_H/9.5)*1.01)
   if( afterRadio.value()=="1"){
   // ---- 初期温度（切片）----
   push();

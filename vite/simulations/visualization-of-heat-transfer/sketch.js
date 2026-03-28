@@ -1,3 +1,10 @@
+const NAV_H = 60;
+const BASE_W = 1600;
+const BASE_H = 800;
+
+let sf = 1;
+let tx_off = 0, ty_off = 0;
+
 let bitx = 100;
 let bity = 60;
 
@@ -30,17 +37,37 @@ let tMax = 300;
 let Tmin = 0;
 let Tmax = 400;
 
+function computeScale() {
+  sf = min(width / BASE_W, height / BASE_H);
+  tx_off = (width - BASE_W * sf) / 2;
+  ty_off = (height - BASE_H * sf) / 2;
+}
+
 function setup() {
-  createCanvas(1600, 800);
+  let cnv = createCanvas(windowWidth, windowHeight - NAV_H);
+  cnv.parent('p5Canvas');
+  computeScale();
 
   afterRadio = createRadio();
+  afterRadio.parent('p5Container');
   afterRadio.option(0, "接触させる(※ただし同質量, 同物質)");
   afterRadio.option(1, "接触前に戻す");
   afterRadio.selected("1");
   afterRadio.style("transform", "scale(2)");
-  afterRadio.position((1200 / 2) * 1.4, 800 / 20);
+  afterRadio.style('color', 'white');
+  positionElements();
 
   resetState();
+}
+
+function positionElements() {
+  afterRadio.position((1200 / 2) * 1.4 * sf + tx_off, BASE_H / 20 * sf + ty_off);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight - NAV_H);
+  computeScale();
+  positionElements();
 }
 
 function resetState() {
@@ -54,11 +81,17 @@ function draw() {
   frameRate(20);
   background(255);
 
+  push();
+  translate(tx_off, ty_off);
+  scale(sf);
+
   updateTemperature();
   leftArea();
   rightArea();
   middleArrow();
   drawGraph();
+
+  pop();
 }
 
 /* ======================
@@ -181,39 +214,39 @@ function drawGraph() {
   translate(900, 200);
 
   // ---- グラフ領域 ----
-  gx = (width / 2) * 1.05;
-  gy = height / 9.5;
-  gw = width / 2.35;
-  gh = width / 2.75;
+  gx = (BASE_W / 2) * 1.05;
+  gy = BASE_H / 9.5;
+  gw = BASE_W / 2.35;
+  gh = BASE_W / 2.75;
 
   noStroke();
   fill(185, 220, 255);
-  rect((width / 2) * 0.98, height / 12, width / 2.1, width / 2.4);
+  rect((BASE_W / 2) * 0.98, BASE_H / 12, BASE_W / 2.1, BASE_W / 2.4);
   fill(255);
   rect(gx, gy, gw, gh);
   textSize(26);
   //---- 凡例 ----
-  let ysize = width / 3;
-  let xsize = width / 2.35;
+  let ysize = BASE_W / 3;
+  let xsize = BASE_W / 2.35;
   fill(0);
   stroke(255, 0, 0);
   line(
-    (width / 2) * 1.7,
-    height / 9.5 + (ysize * 0.5) / 7,
-    (width / 2) * 1.82,
-    height / 9.5 + (ysize * 0.5) / 7
+    (BASE_W / 2) * 1.7,
+    BASE_H / 9.5 + (ysize * 0.5) / 7,
+    (BASE_W / 2) * 1.82,
+    BASE_H / 9.5 + (ysize * 0.5) / 7
   );
   textSize(30);
-  text("物質(高温)", (width / 2) * 1.51, height / 9.5 + (ysize * 0.6) / 7);
+  text("物質(高温)", (BASE_W / 2) * 1.51, BASE_H / 9.5 + (ysize * 0.6) / 7);
   stroke(0, 0, 255);
   line(
-    (width / 2) * 1.7,
-    height / 9.5 + (ysize * 1.2) / 7,
-    (width / 2) * 1.82,
-    height / 9.5 + (ysize * 1.2) / 7
+    (BASE_W / 2) * 1.7,
+    BASE_H / 9.5 + (ysize * 1.2) / 7,
+    (BASE_W / 2) * 1.82,
+    BASE_H / 9.5 + (ysize * 1.2) / 7
   );
   textSize(30);
-  text("物質(低温)", (width / 2) * 1.51, height / 9.5 + (ysize * 1.35) / 7);
+  text("物質(低温)", (BASE_W / 2) * 1.51, BASE_H / 9.5 + (ysize * 1.35) / 7);
 
   // ---- 軸ラベル ----
   stroke(0);
@@ -221,13 +254,13 @@ function drawGraph() {
   textSize(30);
   text(
     "接触してからの経過時間(s))",
-    (width / 2) * 1.45,
-    width / 2.55 + height / 9.5
+    (BASE_W / 2) * 1.45,
+    BASE_W / 2.55 + BASE_H / 9.5
   );
   textSize(30);
-  text("温", (width / 2) * 0.99, (height / 9.5) * 1.3);
-  text("度", (width / 2) * 0.99, (height / 9.5) * 1.7);
-  text("(K)", (width / 2) * 0.985, (height / 9.5) * 2.1);
+  text("温", (BASE_W / 2) * 0.99, (BASE_H / 9.5) * 1.3);
+  text("度", (BASE_W / 2) * 0.99, (BASE_H / 9.5) * 1.7);
+  text("(K)", (BASE_W / 2) * 0.985, (BASE_H / 9.5) * 2.1);
 
   // ---- 軸 ----
   stroke(0);
@@ -236,20 +269,20 @@ function drawGraph() {
   line(gx, gy + gh, gx + gw, gy + gh);
   fill(0);
   triangle(
-    (width / 2) * 1.04,
-    height / 8,
-    (width / 2) * 1.05,
-    height / 9.5,
-    (width / 2) * 1.06,
-    height / 8
+    (BASE_W / 2) * 1.04,
+    BASE_H / 8,
+    (BASE_W / 2) * 1.05,
+    BASE_H / 9.5,
+    (BASE_W / 2) * 1.06,
+    BASE_H / 8
   );
   triangle(
-    (width / 2) * 1.05 + width / 2.35,
-    width / 2.75 + height / 9.5,
-    ((width / 2) * 1.05 + width / 2.35) * 0.986,
-    (width / 2.75 + height / 9.5) * 0.99,
-    ((width / 2) * 1.05 + width / 2.35) * 0.986,
-    (width / 2.75 + height / 9.5) * 1.01
+    (BASE_W / 2) * 1.05 + BASE_W / 2.35,
+    BASE_W / 2.75 + BASE_H / 9.5,
+    ((BASE_W / 2) * 1.05 + BASE_W / 2.35) * 0.986,
+    (BASE_W / 2.75 + BASE_H / 9.5) * 0.99,
+    ((BASE_W / 2) * 1.05 + BASE_W / 2.35) * 0.986,
+    (BASE_W / 2.75 + BASE_H / 9.5) * 1.01
   );
   if (afterRadio.value() == "1") {
     // ---- 初期温度（切片）----

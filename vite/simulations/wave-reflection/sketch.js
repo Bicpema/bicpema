@@ -1,6 +1,8 @@
 // ===== 自由端反射・固定端反射 切り替えシミュレーション =====
 // 青：入射波　赤：反射波　緑：合成波
 
+const NAV_H = 60;
+
 let t = 0;
 let k, omega,v;
 let A;
@@ -18,7 +20,8 @@ let front = 0;
 let mode = "free"; // "free" or "fixed"
 
 function setup() {
-  createCanvas(1200, 400);
+  let cnv = createCanvas(windowWidth, windowHeight - NAV_H);
+  cnv.parent('p5Canvas');
   
   let wavelength = 200;
   A = wavelength/4;
@@ -28,7 +31,7 @@ function setup() {
   reflectX = width / 2;
 
   moveBtn = createButton("スタート");
-  moveBtn.position(width/2-192, height + 10);
+  moveBtn.parent('p5Container');
   moveBtn.size(96,48);
   moveBtn.style("background-color", "#03A9F4");
   moveBtn.style("font", "20px");  
@@ -38,9 +41,8 @@ function setup() {
   moveBtn.style("color", "#fff");  
   moveBtn.mousePressed(toggleMove);
   
-
   resetBtn = createButton("リセット");
-  resetBtn.position(width/2+96, height + 10);
+  resetBtn.parent('p5Container');
   resetBtn.size(96,48);
   resetBtn.style("background-color", "#9E9E9E");
   resetBtn.style("font-weight", "bold");  
@@ -50,15 +52,22 @@ function setup() {
   resetBtn.mousePressed(resetSim);
   
   modeBtn = createButton("自由端");
-  modeBtn.position(width/2-48, height + 10);
+  modeBtn.parent('p5Container');
   modeBtn.size(96,48);
   modeBtn.style("background-color", "#FF9800");
   modeBtn.style("font-weight", "bold");  
   modeBtn.style("color", "#fff");  
   modeBtn.style("border-radius", "5px");
   modeBtn.style("border", "none");
+  modeBtn.mousePressed(toggleMode);
 
-    modeBtn.mousePressed(toggleMode);
+  positionButtons();
+}
+
+function positionButtons() {
+  moveBtn.position(width/2-192, height - 60);
+  resetBtn.position(width/2+96, height - 60);
+  modeBtn.position(width/2-48, height - 60);
 }
 
 function toggleMove() {
@@ -87,6 +96,12 @@ function resetSim() {
   t = 0;
   front = 0;
   running = false;
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight - NAV_H);
+  reflectX = width / 2;
+  positionButtons();
 }
 
 function draw() {

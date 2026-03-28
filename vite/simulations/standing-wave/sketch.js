@@ -1,6 +1,8 @@
 // ===== 図(a)：進行波の発射 → 重なり → 定常波 =====
 // 赤：右向き進行波　青：左向き進行波　緑：合成波（定常波）
 
+const NAV_H = 60;
+
 let margin;
 let innerW;
 let innerH; 
@@ -19,22 +21,13 @@ let rightFront = 0;
 let leftFront;
 
 function setup() {
-  createCanvas(1000,500);
+  let cnv = createCanvas(windowWidth, windowHeight - NAV_H);
+  cnv.parent('p5Canvas');
   
-  margin = 50;
-  
-  innerW = width - margin * 2;
-  innerH = height - margin * 2;
-  cols = innerW / 4;
-
-  dx = innerW / (cols);
-  k = TWO_PI / wavelength;
-  omega = TWO_PI / 120;
-  v = omega / k;
-  leftFront = innerW;
+  initParams();
 
   moveBtn = createButton("スタート");
-  moveBtn.position(width/2-100, height + 10);
+  moveBtn.parent('p5Container');
   moveBtn.size(96,48);
   moveBtn.style("background-color", "#03A9F4");
   moveBtn.style("font", "20px");  
@@ -45,7 +38,7 @@ function setup() {
   moveBtn.mousePressed(toggleMove);
   
   resetBtn = createButton("リセット");
-  resetBtn.position(width/2+4, height + 10);
+  resetBtn.parent('p5Container');
   resetBtn.size(96,48);
   resetBtn.style("background-color", "#9E9E9E");
   resetBtn.style("font-weight", "bold");  
@@ -57,8 +50,34 @@ function setup() {
     rightFront = 0;
     leftFront = innerW;
     running = false;
+    moveBtn.html("スタート");
+    moveBtn.style("background-color", "#03A9F4");
   });
-  
+
+  positionButtons();
+}
+
+function initParams() {
+  margin = 50;
+  innerW = width - margin * 2;
+  innerH = height - margin * 2;
+  cols = innerW / 4;
+  dx = innerW / (cols);
+  k = TWO_PI / wavelength;
+  omega = TWO_PI / 120;
+  v = omega / k;
+  leftFront = innerW;
+}
+
+function positionButtons() {
+  moveBtn.position(width/2-100, height - 60);
+  resetBtn.position(width/2+4, height - 60);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight - NAV_H);
+  initParams();
+  positionButtons();
 }
   
 function toggleMove() {

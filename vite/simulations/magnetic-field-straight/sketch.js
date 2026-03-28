@@ -1,8 +1,11 @@
+const NAV_H = 60;
+
 let currentSlider;
 let label;
 
 function setup() {
-  createCanvas(900, 600, WEBGL);
+  let cnv = createCanvas(windowWidth, windowHeight - NAV_H, WEBGL);
+  cnv.parent('p5Canvas');
   // 視点の設定
   camera(
       0, -300, 600,  // カメラ位置
@@ -12,15 +15,21 @@ function setup() {
   
   // UIの構築
   label = createP('電流の強さ: 1.0 A');
-  label.style('color', 'black');
+  label.style('color', 'white');
+  label.parent('p5Container');
   label.position(20, 0);
 
   // スライダー：-3から3まで、初期値1
   currentSlider = createSlider(-4, 4, 1, 1);
+  currentSlider.parent('p5Container');
   currentSlider.position(20, 40);
   currentSlider.input(() => {
     label.html(`電流の強さ: ${currentSlider.value().toFixed(1)} A`);
   });
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight - NAV_H);
 }
 
 function draw() {
