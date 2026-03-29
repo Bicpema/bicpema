@@ -3,11 +3,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { BicpemaCanvasController } from "./bicpema-canvas-controller.js";
 import { state } from "./state.js";
-import { settingInit, elementSelectInit, elementPositionInit, valueInit } from "./init.js";
+import {
+  settingInit,
+  elementSelectInit,
+  elementPositionInit,
+  valueInit,
+} from "./init.js";
 import { drawSimulation } from "./logic.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(false, false, 1.0, 1.0);
+  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
 
   p.preload = () => {
     state.boxImg = p.loadImage(
@@ -24,7 +29,15 @@ const sketch = (p) => {
   };
 
   p.draw = () => {
+    p.background(255);
+    const s = Math.min(p.width / 1600, p.height / 800);
+    const offsetX = (p.width - 1600 * s) / 2;
+    const offsetY = (p.height - 800 * s) / 2;
+    p.push();
+    p.translate(offsetX, offsetY);
+    p.scale(s);
     drawSimulation(p);
+    p.pop();
   };
 
   p.windowResized = () => {

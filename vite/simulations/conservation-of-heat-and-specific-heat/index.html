@@ -19,54 +19,114 @@
     </nav>
 
     <div class="container-fluid" id="p5Container">
-      <div id="p5Canvas"></div>
+      <div id="p5Canvas" style="position: relative;">
 
       <!-- 設定パネル -->
       <div
-        class="position-absolute end-0 m-3 p-3 rounded"
-        style="top: 4.5rem; background: rgba(255,255,255,0.9); z-index: 1000; min-width: 200px; max-height: 80vh; overflow-y: auto;"
+        class="position-absolute bottom-0 start-0 end-0 m-2 p-2 rounded d-flex flex-row gap-4"
+        style="background: rgba(135, 206, 235, 0.9); z-index: 1000"
       >
-        <div class="mb-3">
+        <div>
           <div class="fw-bold mb-1">操作</div>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="contact" id="contactYes" value="0" />
-            <label class="form-check-label" for="contactYes">接触させる<br /><small>(※ただし鉄球の比熱が未知)</small></label>
+            <input
+              class="form-check-input"
+              type="radio"
+              name="contact"
+              id="contactYes"
+              value="0"
+            />
+            <label class="form-check-label" for="contactYes"
+              >接触させる<br /><small>(※ただし鉄球の比熱が未知)</small></label
+            >
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="radio" name="contact" id="contactNo" value="1" checked />
+            <input
+              class="form-check-input"
+              type="radio"
+              name="contact"
+              id="contactNo"
+              value="1"
+              checked
+            />
             <label class="form-check-label" for="contactNo">接触前に戻す</label>
           </div>
         </div>
-        <div class="mb-3">
+        <div>
           <div class="fw-bold mb-1">物質A</div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="materialA" id="matAl" value="0" checked />
-            <label class="form-check-label" for="matAl">アルミニウム</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="materialA" id="matFe" value="1" />
-            <label class="form-check-label" for="matFe">鉄</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="materialA" id="matCu" value="2" />
-            <label class="form-check-label" for="matCu">銅</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="materialA" id="matAg" value="3" />
-            <label class="form-check-label" for="matAg">銀</label>
+          <div class="d-flex flex-row gap-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="materialA"
+                id="matAl"
+                value="0"
+                checked
+              />
+              <label class="form-check-label" for="matAl">アルミニウム</label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="materialA"
+                id="matFe"
+                value="1"
+              />
+              <label class="form-check-label" for="matFe">鉄</label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="materialA"
+                id="matCu"
+                value="2"
+              />
+              <label class="form-check-label" for="matCu">銅</label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="materialA"
+                id="matAg"
+                value="3"
+              />
+              <label class="form-check-label" for="matAg">銀</label>
+            </div>
           </div>
         </div>
-        <div class="mb-3">
+        <div>
           <div class="fw-bold mb-1">物質Aの質量</div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="massA" id="massLight" value="1" checked />
-            <label class="form-check-label" for="massLight">質量(50 g)</label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="massA" id="massHeavy" value="0" />
-            <label class="form-check-label" for="massHeavy">質量(100 g)</label>
+          <div class="d-flex flex-row gap-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="massA"
+                id="massLight"
+                value="1"
+                checked
+              />
+              <label class="form-check-label" for="massLight">質量(50 g)</label>
+            </div>
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="massA"
+                id="massHeavy"
+                value="0"
+              />
+              <label class="form-check-label" for="massHeavy"
+                >質量(100 g)</label
+              >
+            </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
 
