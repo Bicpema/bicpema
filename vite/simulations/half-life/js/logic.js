@@ -1,0 +1,221 @@
+import { state } from "./state.js";
+
+/**
+ * 原子配列を初期化する（各原子に 0〜1 のランダムしきい値を設定）。
+ */
+export function initAtoms() {
+  state.atoms = [];
+  for (let i = 0; i < state.N0; i++) {
+    state.atoms.push(Math.random());
+  }
+}
+
+/**
+ * シミュレーション全体を描画する。
+ * @param {*} p p5インスタンス。
+ */
+export function drawSimulation(p) {
+  p.background(255);
+
+  if (state.isRunning) {
+    state.currentTime += state.T;
+  }
+  if (state.currentTime > state.maxYears) {
+    state.currentTime = 0;
+    initAtoms();
+  }
+
+  const padding = 80;
+  const graphW = p.width - padding * 2;
+  const bottomY = p.height - 150;
+  const topY = 100;
+
+  drawHalfLifeGuides(p, padding, graphW, bottomY, topY);
+  drawAxes(p, padding, graphW, bottomY, topY);
+  drawDecayCurve(p, padding, graphW, bottomY, topY);
+
+  const currentDecayRate = Math.pow(0.5, state.currentTime / state.halfLife);
+  const markerX = p.map(state.currentTime, 0, state.maxYears, padding, padding + graphW);
+  const markerY = p.map(currentDecayRate * state.N0, 0, state.N0, bottomY, topY);
+  p.fill("#F32121");
+  p.noStroke();
+  p.ellipse(markerX, markerY, 10, 10);
+
+  drawAtomGrid(p, p.width - 250, 80, 200, currentDecayRate);
+  drawAtomImage(p);
+}
+
+/**
+ * X・Y 軸を描画する。
+ * @param {*} p p5インスタンス。
+ * @param {number} pad 左右のパディング。
+ * @param {number} w グラフの幅。
+ * @param {number} bY グラフ下端のY座標。
+ * @param {number} tY グラフ上端のY座標。
+ */
+function drawAxes(p, pad, w, bY, tY) {
+  p.stroke(0);
+  p.strokeWeight(2);
+  p.line(pad, bY, p.width - pad, bY);
+  p.noStroke();
+  p.fill(0);
+  p.triangle(p.width - pad, bY - 5, p.width - pad, bY + 5, p.width - pad + 10, bY);
+  p.stroke(0);
+  p.strokeWeight(2);
+  p.line(pad, bY, pad, tY - 30);
+  p.fill(0);
+  p.noStroke();
+  p.triangle(pad - 5, tY - 25, pad + 5, tY - 25, pad, tY - 35);
+
+  p.textAlign(p.CENTER);
+  p.textSize(13);
+  if (state.halfLife == 8) {
+    p.text("経過日数 (日)", pad + w / 2, bY + 50);
+  } else {
+    p.text("経過年数 (年)", pad + w / 2, bY + 50);
+  }
+
+  p.push();
+  p.translate(pad - 50, (bY + tY) / 2);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.textLeading(13);
+  if (state.halfLife == 8) {
+    p.text("ヨ\nウ\n素\nの\n量", 0, 0);
+  } else if (state.halfLife == 5730) {
+    p.text("炭\n素\nの\n量", 0, 0);
+  }
+  p.pop();
+}
+
+/**
+ * 半減期ガイド線（点線グリッド）を描画する。
+ * @param {*} p p5インスタンス。
+ * @param {number} pad 左右のパディング。
+ * @param {number} w グラフの幅。
+ * @param {number} bY グラフ下端のY座標。
+ * @param {number} tY グラフ上端のY座標。
+ */
+function drawHalfLifeGuides(p, pad, w, bY, tY) {
+  for (let i = 0; i <= 4; i++) {
+    const t_half = state.halfLife * i;
+    const amount = state.N0 / Math.pow(2, i);
+    const x = p.map(t_half, 0, state.maxYears, pad, pad + w);
+    const y = p.map(amount, 0, state.N0, bY, tY);
+
+    p.stroke(72, 192, 225);
+    p.strokeWeight(1);
+    p.line(x, bY, x, y);
+    p.line(pad, y, x, y);
+
+    p.fill(0);
+    p.noStroke();
+    p.textSize(12);
+    p.textAlign(p.CENTER, p.TOP);
+    p.text(i * state.halfLife, x, bY + 5);
+    p.textAlign(p.RIGHT, p.CENTER);
+    if (i == 0) {
+      p.text("1", pad - 5, y);
+    } else {
+      p.text("1/" + Math.pow(2, i), pad - 5, y);
+    }
+  }
+}
+
+/**
+ * 放射性崩壊曲線を描画する。
+ * @param {*} p p5インスタンス。
+ * @param {number} pad 左右のパディング。
+ * @param {number} w グラフの幅。
+ * @param {number} bY グラフ下端のY座標。
+ * @param {number} tY グラフ上端のY座標。
+ */
+function drawDecayCurve(p, pad, w, bY, tY) {
+  p.noFill();
+  p.stroke(0);
+  p.strokeWeight(3);
+  p.beginShape();
+  for (let t = 0; t <= state.maxYears; t += state.T) {
+    const n_t = state.N0 * Math.pow(0.5, t / state.halfLife);
+    const x = p.map(t, 0, state.maxYears, pad, pad + w);
+    const y = p.map(n_t, 0, state.N0, bY, tY);
+    p.vertex(x, y);
+  }
+  p.endShape();
+}
+
+/**
+ * 原子グリッドパネルを描画する。
+ * @param {*} p p5インスタンス。
+ * @param {number} xStart グリッド左上のX座標。
+ * @param {number} yStart グリッド左上のY座標。
+ * @param {number} size グリッドの一辺のサイズ。
+ * @param {number} decayRate 現在の崩壊率（0〜1）。
+ */
+function drawAtomGrid(p, xStart, yStart, size, decayRate) {
+  const cols = state.n;
+  const spacing = size / cols;
+  const atomSize = spacing;
+  state.count = 0;
+
+  p.push();
+  p.translate(xStart, yStart);
+  p.rectMode(p.CENTER);
+  p.noStroke();
+  p.fill("#A6DAF1");
+  p.rect(-50, size / 2, size * 2.75, size * 1.5, 20, 20);
+  p.fill(255, 252, 230);
+  p.rect(size / 2, size / 2, size * 1.05, size * 1.05, 10, 10);
+
+  for (let i = 0; i < state.N0; i++) {
+    const row = Math.floor(i / cols);
+    const col = i % cols;
+    if (decayRate < state.atoms[i]) {
+      p.fill(30, 127, 180);
+      state.count++;
+    } else {
+      p.fill(225, 84, 54);
+    }
+    p.ellipse(atomSize / 2 + col * spacing, atomSize / 2 + row * spacing, atomSize, atomSize);
+  }
+
+  p.fill(0);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.textSize(20);
+  p.noStroke();
+  p.text("半減期シミュレーター", size / 2, -20);
+  p.text(state.N0 + "個", 150, size * 1.125);
+  p.textAlign(p.LEFT, p.CENTER);
+  p.text("原子の数", 0, size * 1.125);
+  p.pop();
+}
+
+/**
+ * 崩壊前後の原子画像と個数テキストを描画する。
+ * @param {*} p p5インスタンス。
+ */
+function drawAtomImage(p) {
+  if (!state.img) return;
+  p.push();
+  p.translate(20, 40);
+  p.textLeading(20);
+  p.textSize(16);
+  p.fill(0);
+  p.textAlign(p.LEFT, p.CENTER);
+  p.text("放射線", 400, 145);
+  p.image(state.img, 200, 100, state.img.width * 0.3, state.img.height * 0.3);
+  p.textAlign(p.CENTER, p.TOP);
+  if (state.halfLife == 8) {
+    p.text("ヨウ素131", 245, 210);
+    p.text("キセノン131", 476, 210);
+  } else if (state.halfLife == 5730) {
+    p.text("炭素14", 245, 210);
+    p.text("窒素14", 476, 210);
+  } else if (state.halfLife == 30) {
+    p.text("セシウム137", 255, 210);
+    p.text("バリウム137", 466, 210);
+  }
+  p.textSize(20);
+  p.text(state.N0 - state.count + "個", 245, 250);
+  p.text(state.count + "個", 476, 250);
+  p.pop();
+}
