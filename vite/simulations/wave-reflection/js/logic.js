@@ -103,11 +103,20 @@ function drawGrid(p) {
   p.strokeWeight(1);
   const wavelength = p.TWO_PI / state.k;
   const gridX = wavelength / 8;
-  for (let x = 0; x <= p.width; x += gridX) {
+  // 壁位置（state.reflectX）を起点に左右へグリッド線を引く
+  for (let x = state.reflectX; x <= p.width; x += gridX) {
     p.line(x, 0, x, p.height);
   }
+  for (let x = state.reflectX - gridX; x >= 0; x -= gridX) {
+    p.line(x, 0, x, p.height);
+  }
+  // 中央（p.height/2）を起点に上下へグリッド線を引く
   const y0 = p.height / 2;
-  for (let y = y0 - 4 * state.A; y <= y0 + 4 * state.A; y += state.A / 2) {
+  const gridY = state.A / 2;
+  for (let y = y0; y <= p.height; y += gridY) {
+    p.line(0, y, p.width, y);
+  }
+  for (let y = y0 - gridY; y >= 0; y -= gridY) {
     p.line(0, y, p.width, y);
   }
   p.stroke(0);
