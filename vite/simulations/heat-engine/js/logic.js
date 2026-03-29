@@ -1,15 +1,15 @@
-import { state } from './state.js';
+import { state } from "./state.js";
 
 export function drawChamber(p) {
   const gw = 250;
   const gh = 400;
-  const gx = p.width / 2 - gw / 2;
-  const gy = p.height / 2 - gh / 2 + 60;
+  const gx = 375;
+  const gy = 81;
 
   if (state.stage === 0 || state.stage === 1) {
-    p.image(state.img_flame, p.width / 2 - 80, gy + gh + 20);
+    p.image(state.img_flame, 420, gy + gh + 10, 120, 55);
   } else {
-    p.image(state.img_ice, p.width / 2 - 80, gy + gh + 20);
+    p.image(state.img_ice, 420, gy + gh + 10, 120, 55);
   }
 
   p.stroke(0);
@@ -18,7 +18,7 @@ export function drawChamber(p) {
   const ph = 30;
   const gapH = 150;
   const cx = gx + pw * 0.45;
-  const cw = pw * 0.10;
+  const cw = pw * 0.1;
 
   p.beginShape();
   p.vertex(gx, state.pistonY - 24);
@@ -71,7 +71,7 @@ export function drawChamber(p) {
     p.image(state.img_weight, gx + pw * 0.37, state.pistonY - 97);
   }
 
-  const gasTop = state.pistonY + ph * 4.8;
+  const gasTop = state.pistonY - 38 + gapH + ph;
   const gasBottom = gy + gh * 0.96;
   p.noStroke();
   if (state.stage === 1) p.fill(255, 200, 180, 220);
@@ -82,10 +82,11 @@ export function drawChamber(p) {
   p.fill(0);
   p.textSize(24);
   p.textAlign(p.LEFT, p.TOP);
-  if (state.stage === 0) p.text('① 加熱しておもりを持ち上げる仕事をする', 20, 20);
-  if (state.stage === 1) p.text('② おもりを取り除く', 20, 20);
-  if (state.stage === 2) p.text('③ 残った熱を放出させて元の状態に戻す', 20, 20);
-  if (state.stage === 3) p.text('④ ①に戻る（繰り返し）', 20, 20);
+  if (state.stage === 0)
+    p.text("① 加熱しておもりを持ち上げる仕事をする", 20, 20);
+  if (state.stage === 1) p.text("② おもりを取り除く", 20, 20);
+  if (state.stage === 2) p.text("③ 残った熱を放出させて元の状態に戻す", 20, 20);
+  if (state.stage === 3) p.text("④ ①に戻る（繰り返し）", 20, 20);
 }
 
 export function animateCycle(p) {
@@ -105,5 +106,5 @@ export function animateCycle(p) {
     state.stage = (state.stage + 1) % 4;
     state.t = 0;
   }
-  state.pistonY = p.constrain(state.pistonY, 60, p.height - 300);
+  state.pistonY = p.constrain(state.pistonY, 60, 200);
 }
