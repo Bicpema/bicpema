@@ -69,7 +69,7 @@ function drawAxes(p, pad, w, bY, tY) {
 
   p.textAlign(p.CENTER);
   p.textSize(13);
-  if (state.halfLife == 8) {
+  if (state.halfLife === 8) {
     p.text("経過日数 (日)", pad + w / 2, bY + 50);
   } else {
     p.text("経過年数 (年)", pad + w / 2, bY + 50);
@@ -79,9 +79,9 @@ function drawAxes(p, pad, w, bY, tY) {
   p.translate(pad - 50, (bY + tY) / 2);
   p.textAlign(p.CENTER, p.CENTER);
   p.textLeading(13);
-  if (state.halfLife == 8) {
+  if (state.halfLife === 8) {
     p.text("ヨ\nウ\n素\nの\n量", 0, 0);
-  } else if (state.halfLife == 5730) {
+  } else if (state.halfLife === 5730) {
     p.text("炭\n素\nの\n量", 0, 0);
   }
   p.pop();
@@ -113,7 +113,7 @@ function drawHalfLifeGuides(p, pad, w, bY, tY) {
     p.textAlign(p.CENTER, p.TOP);
     p.text(i * state.halfLife, x, bY + 5);
     p.textAlign(p.RIGHT, p.CENTER);
-    if (i == 0) {
+    if (i === 0) {
       p.text("1", pad - 5, y);
     } else {
       p.text("1/" + Math.pow(2, i), pad - 5, y);
@@ -204,13 +204,13 @@ function drawAtomImage(p) {
   p.text("放射線", 400, 145);
   p.image(state.img, 200, 100, state.img.width * 0.3, state.img.height * 0.3);
   p.textAlign(p.CENTER, p.TOP);
-  if (state.halfLife == 8) {
+  if (state.halfLife === 8) {
     p.text("ヨウ素131", 245, 210);
     p.text("キセノン131", 476, 210);
-  } else if (state.halfLife == 5730) {
+  } else if (state.halfLife === 5730) {
     p.text("炭素14", 245, 210);
     p.text("窒素14", 476, 210);
-  } else if (state.halfLife == 30) {
+  } else if (state.halfLife === 30) {
     p.text("セシウム137", 255, 210);
     p.text("バリウム137", 466, 210);
   }
