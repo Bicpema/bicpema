@@ -1,102 +1,101 @@
-let dataArray;
-let weight;
-let stop_watch;
-let stop_button;
-let start_button;
-let hm = 100;
-let balls;
-let gravity = 0;
-let count = 0;
-let clicked_count;
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-function preload() {
-    balls = new Array(hm);
-    weight = loadImage("/assets/img/metalBallImg.png");
-    // stop_watch = loadImage("https://live.staticflickr.com/65535/51690867829_8f5dbb4793_o.png");
-    // stop_button = loadImage("https://live.staticflickr.com/65535/51690183358_0389d79046_o.png");
-    // start_button = loadImage("https://live.staticflickr.com/65535/51690597879_33e64e02d9_o.png");
-    dataArray = loadTable("https://dl.dropboxusercontent.com/s/a4mwnazwmgqmn87/pendulumData.csv", "header");
+const BALL_COLOR = [80, 80, 120];
+const GRAVITY = 9.8;
+const SCALE_FACTOR = 0.25 / 300;
+const T_WAVE = 60;
+const HM = 100;
+const N_START = 50;
+const INIT_ANGLE = Math.PI / 8;
+
+let balls;
+let count = 0;
+let clickedCount = false;
+let ballRadius;
+
+function initBalls() {
+    balls = new Array(HM);
+    for (let i = 0; i < HM; i++) {
+        const n = N_START + i;
+        const omega = (2 * Math.PI * n) / T_WAVE;
+        const L = GRAVITY / (omega * omega * SCALE_FACTOR);
+        balls[i] = new Ball(L, INIT_ANGLE);
+    }
+}
+
+function fullScreen() {
+    createCanvas(windowWidth, windowHeight);
 }
 
 function setup() {
     fullScreen();
-    weight.resize(width / 50, 0);
-    // stop_watch.resize(4 * width / 18, 0);
-    // stop_button.resize(3 * stop_watch.width / 10, 0);
-    // start_button.resize(3 * stop_watch.width / 10, 0);
-    for (let i = 0; i < hm; i++) {
-        balls[i] = new Ball(dataArray.getNum(i, 3), asin(100 / dataArray.getNum(i, 3)));
-    }
-    gravity = 9.8;
-    count = 0;
-    clicked_count = false;
+    ballRadius = width / 80;
     textSize(width / 25);
+    textAlign(LEFT, TOP);
+    initBalls();
+    count = 0;
+    clickedCount = false;
+
+    const startBtn = document.getElementById("startButton");
+    const stopBtn = document.getElementById("stopButton");
+    const resetBtn = document.getElementById("resetButton");
+    if (startBtn) startBtn.addEventListener("click", () => { clickedCount = true; });
+    if (stopBtn) stopBtn.addEventListener("click", () => { clickedCount = false; });
+    if (resetBtn) resetBtn.addEventListener("click", () => {
+        count = 0;
+        clickedCount = false;
+        initBalls();
+    });
 }
 
 function draw() {
     background(255);
-    for (let i = 0; i < hm; i++) {
+    stroke(0, 100);
+    strokeWeight(1);
+    for (let i = 0; i < HM; i++) {
         balls[i].move();
         balls[i].display();
     }
-    timer();
-}
-
-function mousePressed() {
-    if (width - 4 * stop_watch.width / 5 < mouseX && mouseX < width - 4 * stop_watch.width / 5 + start_button.width && height - stop_watch.height + 11 * stop_watch.height / 20 < mouseY && mouseY < height - stop_watch.height + 11 * stop_watch.height / 20 + start_button.height) {
-        if (clicked_count == false) {
-            clicked_count = true;
-        } else {
-            clicked_count = false;
-        }
-    }
-    if (width - 4 * stop_watch.width / 5 + start_button.width < mouseX && mouseX < width - 4 * stop_watch.width / 5 + 2 * start_button.width && height - stop_watch.height + 11 * stop_watch.height / 20 < mouseY && mouseY < height - stop_watch.height + 11 * stop_watch.height / 20 + start_button.height) {
-        for (let i = 0; i < hm; i++) {
-            balls[i] = new Ball(dataArray.getNum(i, 3), asin(100 / dataArray.getNum(i, 3)));
-        }
-        clicked_count = false;
-        count = 0;
-    }
-}
-
-function timer() {
-    // image(stop_watch, width - stop_watch.width, height - stop_watch.height);
-    if (clicked_count == false) {
-        // image(start_button, width - 4 * stop_watch.width / 5, height - stop_watch.height + 11 * stop_watch.height / 20);
-    }
-    if (clicked_count == true) {
-        // image(stop_button, width - 4 * stop_watch.width / 5, height - stop_watch.height + 11 * stop_watch.height / 20);
+    fill(0);
+    noStroke();
+    text(nf(count / 60, 1, 2) + "s", 20, 20);
+    if (clickedCount) {
         count++;
     }
-    count++;
-    text(nf(count / 60, 1, 2) + "s", 100, 100);
 }
 
 class Ball {
     constructor(L, t0) {
-        this.posx = 0;
-        this.posy = 0;
-        this.speed = 0;
-        this.theta = 0;
         this.Long = L;
         this.theta0 = t0;
+        this.posx = 0;
+        this.posy = 0;
     }
 
     move() {
-        this.theta = this.theta0 * sin(sqrt(gravity / (this.Long * (0.25 / 300))) * count / 60);
-        this.posx = width / 2 + this.Long * sin(this.theta);
-        this.posy = 100 + this.Long * cos(this.theta);
+        const omega = sqrt(GRAVITY / (this.Long * SCALE_FACTOR));
+        const angle = this.theta0 * sin(omega * count / 60);
+        this.posx = width / 2 + this.Long * sin(angle);
+        this.posy = 100 + this.Long * cos(angle);
     }
 
     display() {
         line(width / 2, 100, this.posx, this.posy);
-        image(weight, this.posx - weight.width / 2, this.posy - weight.height / 2);
+        fill(BALL_COLOR[0], BALL_COLOR[1], BALL_COLOR[2]);
+        noStroke();
+        ellipse(this.posx, this.posy, ballRadius * 2, ballRadius * 2);
     }
-
 }
+
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
+    ballRadius = width / 80;
+    textSize(width / 25);
 }
-function fullScreen() {
-    createCanvas(windowWidth, windowHeight);
-}
+
+window.setup = setup;
+window.draw = draw;
+window.windowResized = windowResized;
+new p5();

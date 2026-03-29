@@ -1,3 +1,8 @@
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+
 let lightRotateTheta = 0;
 let pg;
 let n1 = 0;
@@ -899,3 +904,9 @@ function fullScreen() {
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
+window.preload = preload;
+window.setup = setup;
+window.draw = draw;
+window.mousePressed = mousePressed;
+window.windowResized = windowResized;
+new p5();

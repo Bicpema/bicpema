@@ -1,8 +1,14 @@
-let springImg,
-    ballImg;
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import Chart from "chart.js/auto";
+window.Chart = Chart;
+
+
+let ballImg;
+let ballSize;
 function preload() {
-    springImg = loadImage("/assets/img/springImg.png");
-    ballImg = loadImage("/assets/img/metalBallImg.png");
+    ballImg = loadImage("https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FbrownBall.png?alt=media&token=573180c7-0aff-40cd-b31c-51b5e83dda2e");
 }
 
 let startButton,
@@ -57,8 +63,7 @@ let countData,
     spring1,
     spring2;
 function initSettings() {
-    springImg.resize(width / 20, height / 4);
-    ballImg.resize(height / 15, 0);
+    ballSize = height / 15;
     countData = new Array();
     countData.push(0)
     data1 = new Array();
@@ -161,6 +166,23 @@ function graphDraw() {
     });
 }
 
+function drawSpringShape(cx, yTop, yBottom, w) {
+    const coils = 12;
+    const segH = (yBottom - yTop) / (coils + 2);
+    stroke(120, 120, 140);
+    strokeWeight(2);
+    noFill();
+    line(cx, yTop, cx, yTop + segH);
+    beginShape();
+    for (let i = 0; i <= coils; i++) {
+        const y = yTop + segH + segH * i;
+        vertex(cx + (i % 2 === 0 ? w / 2 : -w / 2), y);
+    }
+    endShape();
+    line(cx, yBottom - segH, cx, yBottom);
+    strokeWeight(1);
+}
+
 //ばねのクラス
 class Spring {
     constructor(k, w, c, a, n) {
@@ -195,33 +217,29 @@ class Spring {
         }
         if (this.combination == 1) {
             line(((width / 4)) / 2, d, ((width / 4)) / 2, 10 + d);
-            image(springImg, ((width / 4)) / 2 - springImg.width / 2, 10 + d, springImg.width, this.posy - 20 - ballImg.height / 2);
-            line(((width / 4)) / 2, this.posy - 10 - ballImg.height / 2 + d, ((width / 4)) / 2, this.posy - ballImg.height / 2 + d);
+            drawSpringShape(((width / 4)) / 2, 10 + d, this.posy - 10 - ballSize / 2 + d, width / 20);
         }
         if (this.combination == 2) {
             line(((width / 4)) / 2, d, ((width / 4)) / 2, 10 + d);
             line(((width / 4)) / 4, 10 + d, 3 * ((width / 4)) / 4, 10 + d);
             line(((width / 4)) / 4, 10 + d, ((width / 4)) / 4, 15 + d);
             line(3 * ((width / 4)) / 4, 10 + d, 3 * ((width / 4)) / 4, 15 + d);
-            image(springImg, ((width / 4)) / 4 - springImg.width / 2, 15 + d, springImg.width, this.posy - 30 - ballImg.height / 2);
-            image(springImg, 3 * ((width / 4)) / 4 - springImg.width / 2, 15 + d, springImg.width, this.posy - 30 - ballImg.height / 2);
-            line(((width / 4)) / 4, this.posy - 15 - ballImg.height / 2 + d, ((width / 4)) / 4, this.posy - 10 - ballImg.height / 2 + d);
-            line(3 * ((width / 4)) / 4, this.posy - 15 - ballImg.height / 2 + d, 3 * ((width / 4)) / 4, this.posy - 10 - ballImg.height / 2 + d);
-            line(((width / 4)) / 4, this.posy - 10 - ballImg.height / 2 + d, 3 * ((width / 4)) / 4, this.posy - 10 - ballImg.height / 2 + d);
-            line(((width / 4)) / 2, this.posy - 10 - ballImg.height / 2 + d, ((width / 4)) / 2, this.posy - ballImg.height / 2 + d);
+            drawSpringShape(((width / 4)) / 4, 15 + d, this.posy - 15 - ballSize / 2 + d, width / 20);
+            drawSpringShape(3 * ((width / 4)) / 4, 15 + d, this.posy - 15 - ballSize / 2 + d, width / 20);
+            line(((width / 4)) / 4, this.posy - 10 - ballSize / 2 + d, 3 * ((width / 4)) / 4, this.posy - 10 - ballSize / 2 + d);
+            line(((width / 4)) / 2, this.posy - 10 - ballSize / 2 + d, ((width / 4)) / 2, this.posy - ballSize / 2 + d);
         }
         if (this.combination == 3) {
             line(((width / 4)) / 2, d, ((width / 4)) / 2, 10 + d);
-            image(springImg, ((width / 4)) / 2 - springImg.width / 2, 10 + d, springImg.width, (this.posy - 30 - ballImg.height / 2) / 2);
-            line(((width / 4)) / 2, (this.posy - 30 - ballImg.height / 2) / 2 + 10 + d, ((width / 4)) / 2, (this.posy - 30 - ballImg.height / 2) / 2 + 20 + d);
-            image(springImg, ((width / 4)) / 2 - springImg.width / 2, (this.posy - 30 - ballImg.height / 2) / 2 + 20 + d, springImg.width, (this.posy - 30 - ballImg.height / 2) / 2);
-            line(((width / 4)) / 2, this.posy - 10 - ballImg.height / 2 + d, ((width / 4)) / 2, this.posy - ballImg.height / 2 + d);
+            drawSpringShape(((width / 4)) / 2, 10 + d, (this.posy - 30 - ballSize / 2) / 2 + 10 + d, width / 20);
+            line(((width / 4)) / 2, (this.posy - 30 - ballSize / 2) / 2 + 10 + d, ((width / 4)) / 2, (this.posy - 30 - ballSize / 2) / 2 + 20 + d);
+            drawSpringShape(((width / 4)) / 2, (this.posy - 30 - ballSize / 2) / 2 + 20 + d, this.posy - 10 - ballSize / 2 + d, width / 20);
         }
-        image(ballImg, ((width / 4)) / 2 - ballImg.width / 2, this.posy - ballImg.height / 2 + d);
+        image(ballImg, ((width / 4)) / 2 - ballSize / 2, this.posy - ballSize / 2 + d, ballSize, ballSize);
         noFill();
         ellipse((width / 4) + ((width / 4)) / 2, height / 4 + d, this.amplitude * 2, this.amplitude * 2);
         line((width / 4) + ((width / 4)) / 2, height / 4 + d, (width / 4) + ((width / 4)) / 2 + this.posx, this.posy + d);
-        image(ballImg, (width / 4) + ((width / 4)) / 2 - ballImg.width / 2 + this.posx, this.posy - ballImg.height / 2 + d);
+        image(ballImg, (width / 4) + ((width / 4)) / 2 - ballSize / 2 + this.posx, this.posy - ballSize / 2 + d, ballSize, ballSize);
         stroke(0, 100);
     }
 }
@@ -240,3 +258,8 @@ function fullScreen() {
     let canvas = createCanvas(windowWidth, 9 * windowHeight / 10)
     canvas.parent(p5Canvas)
 }
+window.preload = preload;
+window.setup = setup;
+window.draw = draw;
+window.windowResized = windowResized;
+new p5();

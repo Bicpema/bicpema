@@ -1,3 +1,9 @@
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "p5/lib/addons/p5.sound";
+
+
 ///全画面表示
 function fullScreen() {
     createCanvas(windowWidth, 8 * windowHeight / 10)
@@ -101,3 +107,8 @@ function windowResized() {
     elInit()
     initValue()
 }
+
+window.setup = setup;
+window.draw = draw;
+window.windowResized = windowResized;
+new p5();

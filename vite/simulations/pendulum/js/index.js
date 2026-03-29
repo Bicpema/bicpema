@@ -1,3 +1,8 @@
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+
 let radi = 0;
 let clickedCount;
 let gridIs;
@@ -13,7 +18,7 @@ function fullScreen() {
 
 let ball;
 function preload() {
-    ball = loadImage("/assets/img/metalBallImg.png");
+    ball = loadImage("https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FbrownBall.png?alt=media&token=573180c7-0aff-40cd-b31c-51b5e83dda2e");
 }
 
 
@@ -168,3 +173,9 @@ class Ball {
 function windowResized() {
     resizeCanvas(windowWidth, 9 * windowHeight / 10);
 }
+
+window.preload = preload;
+window.setup = setup;
+window.draw = draw;
+window.windowResized = windowResized;
+new p5();

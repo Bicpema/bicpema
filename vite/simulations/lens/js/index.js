@@ -1,3 +1,8 @@
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+
 //画像のオブジェクト
 let headImg,
     convexLensImg,
@@ -514,3 +519,9 @@ function windowResized() {
     initSettings()
     buttonSettings()
 }
+
+window.preload = preload;
+window.setup = setup;
+window.draw = draw;
+window.windowResized = windowResized;
+new p5();

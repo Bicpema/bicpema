@@ -1,3 +1,8 @@
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+
 let backgroundDiv,
     startButton,
     stopButton,
@@ -218,3 +223,7 @@ function windowResized() {
 function fullScreen() {
     createCanvas(windowWidth, 8 * windowHeight / 10);
 }
+window.setup = setup;
+window.draw = draw;
+window.windowResized = windowResized;
+new p5();

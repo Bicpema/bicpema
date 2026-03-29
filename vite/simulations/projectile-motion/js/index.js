@@ -1,3 +1,8 @@
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
+
 //ボタンのインスタンス
 let startButton;
 let stopButton;
@@ -235,3 +240,8 @@ class Ball {
 }
 
 
+
+window.setup = setup;
+window.draw = draw;
+window.windowResized = windowResized;
+new p5();
