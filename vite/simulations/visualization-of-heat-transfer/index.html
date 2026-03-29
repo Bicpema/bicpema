@@ -1,14 +1,58 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>熱の移動</title>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./css/style.css" rel="stylesheet" />
   </head>
-  <body>
-    <main></main>
-    <script src="sketch.js"></script>
+
+  <body class="bg-dark">
+    <nav
+      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
+      data-bs-theme="dark"
+      id="navBar"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
+        <span class="text-light fw-lighter">熱の移動</span>
+      </div>
+    </nav>
+
+    <div class="container-fluid" id="p5Container">
+      <div id="p5Canvas"></div>
+    </div>
+
+    <!-- 上部設定パネル -->
+    <div
+      class="position-absolute start-0 m-3 p-3 rounded"
+      style="top: 4.5rem; background: rgba(255, 255, 255, 0.9); z-index: 1000"
+    >
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="contact"
+          id="contactYes"
+          value="0"
+        />
+        <label class="form-check-label" for="contactYes"
+          >接触させる<br /><small>(※ただし同質量, 同物質)</small></label
+        >
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="contact"
+          id="contactNo"
+          value="1"
+          checked
+        />
+        <label class="form-check-label" for="contactNo">接触前に戻す</label>
+      </div>
+    </div>
+
+    <script type="module" src="./js/index.js"></script>
   </body>
 </html>

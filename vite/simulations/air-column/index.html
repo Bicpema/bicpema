@@ -1,18 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ja">
   <head>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
-    
-    
-    
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>空気柱の共鳴</title>
     <meta charset="utf-8" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./css/style.css" rel="stylesheet" vite-ignore />
   </head>
-  <body>
-    <main>
-    </main>
-    <script src="sketch.js"></script>
+  <body class="bg-dark" oncontextmenu="return false;">
+    <nav
+      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
+      data-bs-theme="dark"
+      id="navBar"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
+        <span class="text-light fw-lighter">空気柱の共鳴</span>
+      </div>
+    </nav>
+    <div class="container-fluid" id="p5Container">
+      <div id="p5Canvas" style="position: relative">
+        <div
+          class="position-absolute end-0 m-2"
+          style="top: 0.5rem; z-index: 1000"
+        >
+          <table
+            class="table table-sm table-bordered mb-0 rounded overflow-hidden"
+            style="background: rgba(255, 255, 255, 0.9); min-width: 240px"
+          >
+            <thead class="table-dark">
+              <tr>
+                <th colspan="2" class="text-center">設定</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="align-middle fw-semibold">管の種類</td>
+                <td>
+                  <select class="form-select form-select-sm" id="typeSelect">
+                    <option value="closed">閉管</option>
+                    <option value="open">開管</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <td class="align-middle fw-semibold">倍振動数</td>
+                <td>
+                  <div class="d-flex align-items-center gap-1">
+                    <button class="btn btn-sm btn-primary" id="mnMinusBtn">
+                      －
+                    </button>
+                    <strong id="mnDisplay" class="mx-1">1</strong>
+                    <button class="btn btn-sm btn-warning" id="mnPlusBtn">
+                      ＋
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="align-middle fw-semibold">管の長さ</td>
+                <td>
+                  <div class="d-flex align-items-center gap-1">
+                    <button class="btn btn-sm btn-primary" id="lminusBtn">
+                      －
+                    </button>
+                    <strong id="lDisplay" class="mx-1">400</strong>
+                    <button class="btn btn-sm btn-warning" id="lplusBtn">
+                      ＋
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="./js/index.js"></script>
   </body>
 </html>
