@@ -6,8 +6,10 @@ import { state } from "./state.js";
 import { elCreate, initValue, FPS } from "./init.js";
 import { drawSimulation } from "./logic.js";
 
+const V_W = 1000;
+
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(true, false);
+  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
 
   p.preload = () => {
     state.img1 = p.loadImage(
@@ -31,6 +33,7 @@ const sketch = (p) => {
   };
 
   p.draw = () => {
+    p.scale(p.width / V_W);
     drawSimulation(p);
   };
 
