@@ -40,7 +40,8 @@ export function drawSimulation(p) {
     p.beginShape();
     for (let x = 0; x < p.width; x++) {
       if (x >= reflectedFront && x <= state.reflectX) {
-        let y = state.A * p.sin(state.k * (mirrorOrigin - x) - state.omega * state.t);
+        let y =
+          state.A * p.sin(state.k * (mirrorOrigin - x) - state.omega * state.t);
         if (state.mode === "fixed") y *= -1;
         p.vertex(x, p.height / 2 + y);
       }
@@ -54,7 +55,9 @@ export function drawSimulation(p) {
       p.beginShape();
       for (let x = 0; x < p.width; x++) {
         if (x >= state.reflectX && x <= state.front) {
-          const y = -state.A * p.sin(state.k * (mirrorOrigin - x) - state.omega * state.t);
+          const y =
+            -state.A *
+            p.sin(state.k * (mirrorOrigin - x) - state.omega * state.t);
           p.vertex(x, p.height / 2 + y);
         }
       }
@@ -73,7 +76,8 @@ export function drawSimulation(p) {
     for (let x = 0; x < p.width; x++) {
       if (x >= reflectedFront && x <= state.reflectX) {
         const yIncident = state.A * p.sin(state.k * x - state.omega * state.t);
-        let yReflected = state.A * p.sin(state.k * (mirrorOrigin - x) - state.omega * state.t);
+        let yReflected =
+          state.A * p.sin(state.k * (mirrorOrigin - x) - state.omega * state.t);
         if (state.mode === "fixed") yReflected *= -1;
         p.vertex(x, p.height / 2 + (yIncident + yReflected));
       }
@@ -85,7 +89,8 @@ export function drawSimulation(p) {
     if (state.mode === "free") {
       p.point(
         state.reflectX,
-        p.height / 2 + 2 * state.A * p.sin(state.k * state.reflectX - state.omega * state.t)
+        p.height / 2 +
+          2 * state.A * p.sin(state.k * state.reflectX - state.omega * state.t)
       );
     } else {
       p.point(state.reflectX, p.height / 2);
