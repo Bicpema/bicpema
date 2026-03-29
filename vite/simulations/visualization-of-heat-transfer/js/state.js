@@ -1,6 +1,6 @@
 export const state = {
-  bitx: 100,
-  bity: 60,
+  bitx: 63,
+  bity: 42,
   Thot0: 373,
   Tcold0: 50,
   C_hot: 2.0,
@@ -8,7 +8,7 @@ export const state = {
   heatK: 0.02,
   cols: 7,
   rows: 6,
-  ballR: 8,
+  ballR: 5,
   t: 0,
   Thot: 373,
   Tcold: 50,
