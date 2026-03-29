@@ -70,14 +70,7 @@ function drawAxes(p, pad, w, bY, tY) {
   p.line(pad, bY, pad + w, bY);
   p.noStroke();
   p.fill(0);
-  p.triangle(
-    pad + w,
-    bY - 5,
-    pad + w,
-    bY + 5,
-    pad + w + 10,
-    bY
-  );
+  p.triangle(pad + w, bY - 5, pad + w, bY + 5, pad + w + 10, bY);
   p.stroke(0);
   p.strokeWeight(2);
   p.line(pad, bY, pad, tY - 30);
@@ -206,7 +199,13 @@ function drawAtomGrid(p, xStart, yStart, size, decayRate) {
     const imgX = -310;
     const imgY = 45;
     p.noStroke();
-    p.image(state.img, imgX, imgY, state.img.width * 0.3, state.img.height * 0.3);
+    p.image(
+      state.img,
+      imgX,
+      imgY,
+      state.img.width * 0.3,
+      state.img.height * 0.3
+    );
     p.fill(0);
     p.textLeading(20);
     p.textSize(16);
@@ -238,4 +237,3 @@ function drawAtomGrid(p, xStart, yStart, size, decayRate) {
   p.text("原子の数", 0, size * 1.125);
   p.pop();
 }
-
