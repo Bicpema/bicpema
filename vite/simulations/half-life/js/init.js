@@ -15,17 +15,57 @@ export function settingInit(p) {
  */
 export function elementSelectInit(p) {
   state.toggleBtn = document.getElementById("toggleBtn");
+  state.resetBtn = document.getElementById("resetBtn");
   state.atomPlusBtn = document.getElementById("atomPlusBtn");
   state.atomMinusBtn = document.getElementById("atomMinusBtn");
   state.materialRadios = document.querySelectorAll('input[name="material"]');
 }
 
 /**
- * HTML要素の位置調整（CSSで管理するため実装なし）。
+ * HTML要素の位置と大きさをキャンバス座標に合わせて動的に調整する。
  * @param {*} p p5インスタンス。
  */
 export function elementPositionInit(p) {
-  // CSS の position-absolute で配置するため不要
+  const canvasEl = document.querySelector("#p5Canvas canvas");
+  if (!canvasEl) return;
+
+  const rect = canvasEl.getBoundingClientRect();
+  const margin = 12;
+
+  // 左下: スタート/ストップ + リセット ボタン
+  const toggleWrapper = document.getElementById("toggleBtnWrapper");
+  if (toggleWrapper) {
+    toggleWrapper.style.position = "fixed";
+    toggleWrapper.style.left = `${rect.left + margin}px`;
+    toggleWrapper.style.bottom = `${window.innerHeight - rect.bottom + margin}px`;
+    toggleWrapper.style.top = "auto";
+    toggleWrapper.style.right = "auto";
+    toggleWrapper.style.zIndex = "100";
+  }
+
+  // 右上: 設定ボタン
+  const settingsBtnWrapper = document.getElementById("settingsBtnWrapper");
+  if (settingsBtnWrapper) {
+    settingsBtnWrapper.style.position = "fixed";
+    settingsBtnWrapper.style.right = `${window.innerWidth - rect.right + margin}px`;
+    settingsBtnWrapper.style.top = `${rect.top + margin}px`;
+    settingsBtnWrapper.style.left = "auto";
+    settingsBtnWrapper.style.bottom = "auto";
+    settingsBtnWrapper.style.zIndex = "100";
+  }
+
+  // 設定パネル: 設定ボタンの下
+  const settingsPanel = document.getElementById("settingsPanel");
+  if (settingsPanel) {
+    const panelWidth = Math.min(280, rect.width * 0.35);
+    settingsPanel.style.position = "fixed";
+    settingsPanel.style.right = `${window.innerWidth - rect.right + margin}px`;
+    settingsPanel.style.top = `${rect.top + 50 + margin}px`;
+    settingsPanel.style.left = "auto";
+    settingsPanel.style.bottom = "auto";
+    settingsPanel.style.width = `${panelWidth}px`;
+    settingsPanel.style.zIndex = "99";
+  }
 }
 
 /**
@@ -39,6 +79,17 @@ export function valueInit(p) {
     state.toggleBtn.addEventListener("click", () => {
       state.isRunning = !state.isRunning;
       state.toggleBtn.textContent = state.isRunning ? "ストップ" : "スタート";
+    });
+  }
+
+  if (state.resetBtn) {
+    state.resetBtn.addEventListener("click", () => {
+      state.isRunning = false;
+      state.currentTime = 0;
+      initAtoms();
+      if (state.toggleBtn) {
+        state.toggleBtn.textContent = "スタート";
+      }
     });
   }
 

@@ -26,8 +26,8 @@ export function drawSimulation(p) {
   }
 
   const padding = 80;
-  const graphW = p.width - padding * 2;
-  const bottomY = p.height - 150;
+  const graphW = 840;
+  const bottomY = 420;
   const topY = 100;
 
   drawHalfLifeGuides(p, padding, graphW, bottomY, topY);
@@ -53,8 +53,7 @@ export function drawSimulation(p) {
   p.noStroke();
   p.ellipse(markerX, markerY, 10, 10);
 
-  drawAtomGrid(p, p.width - 250, 80, 200, currentDecayRate);
-  drawAtomImage(p);
+  drawAtomGrid(p, 750, 80, 200, currentDecayRate);
 }
 
 /**
@@ -68,15 +67,15 @@ export function drawSimulation(p) {
 function drawAxes(p, pad, w, bY, tY) {
   p.stroke(0);
   p.strokeWeight(2);
-  p.line(pad, bY, p.width - pad, bY);
+  p.line(pad, bY, pad + w, bY);
   p.noStroke();
   p.fill(0);
   p.triangle(
-    p.width - pad,
+    pad + w,
     bY - 5,
-    p.width - pad,
+    pad + w,
     bY + 5,
-    p.width - pad + 10,
+    pad + w + 10,
     bY
   );
   p.stroke(0);
@@ -202,6 +201,33 @@ function drawAtomGrid(p, xStart, yStart, size, decayRate) {
     );
   }
 
+  // 崩壊前後の原子画像と個数テキストを左側に描画（ループ後に count が確定）
+  if (state.img) {
+    const imgX = -310;
+    const imgY = 45;
+    p.noStroke();
+    p.image(state.img, imgX, imgY, state.img.width * 0.3, state.img.height * 0.3);
+    p.fill(0);
+    p.textLeading(20);
+    p.textSize(16);
+    p.textAlign(p.LEFT, p.CENTER);
+    p.text("放射線", imgX + 200, imgY + 45);
+    p.textAlign(p.CENTER, p.TOP);
+    if (state.halfLife === 8) {
+      p.text("ヨウ素131", imgX + 45, imgY + 110);
+      p.text("キセノン131", imgX + 276, imgY + 110);
+    } else if (state.halfLife === 5730) {
+      p.text("炭素14", imgX + 45, imgY + 110);
+      p.text("窒素14", imgX + 276, imgY + 110);
+    } else if (state.halfLife === 30) {
+      p.text("セシウム137", imgX + 55, imgY + 110);
+      p.text("バリウム137", imgX + 266, imgY + 110);
+    }
+    p.textSize(20);
+    p.text(state.N0 - state.count + "個", imgX + 45, imgY + 150);
+    p.text(state.count + "個", imgX + 276, imgY + 150);
+  }
+
   p.fill(0);
   p.textAlign(p.CENTER, p.CENTER);
   p.textSize(20);
@@ -213,33 +239,3 @@ function drawAtomGrid(p, xStart, yStart, size, decayRate) {
   p.pop();
 }
 
-/**
- * 崩壊前後の原子画像と個数テキストを描画する。
- * @param {*} p p5インスタンス。
- */
-function drawAtomImage(p) {
-  if (!state.img) return;
-  p.push();
-  p.translate(20, 40);
-  p.textLeading(20);
-  p.textSize(16);
-  p.fill(0);
-  p.textAlign(p.LEFT, p.CENTER);
-  p.text("放射線", 400, 145);
-  p.image(state.img, 200, 100, state.img.width * 0.3, state.img.height * 0.3);
-  p.textAlign(p.CENTER, p.TOP);
-  if (state.halfLife === 8) {
-    p.text("ヨウ素131", 245, 210);
-    p.text("キセノン131", 476, 210);
-  } else if (state.halfLife === 5730) {
-    p.text("炭素14", 245, 210);
-    p.text("窒素14", 476, 210);
-  } else if (state.halfLife === 30) {
-    p.text("セシウム137", 255, 210);
-    p.text("バリウム137", 466, 210);
-  }
-  p.textSize(20);
-  p.text(state.N0 - state.count + "個", 245, 250);
-  p.text(state.count + "個", 476, 250);
-  p.pop();
-}

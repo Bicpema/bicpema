@@ -12,7 +12,7 @@ import {
 import { drawSimulation } from "./logic.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(false, false, 1.0, 1.0);
+  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
 
   p.preload = () => {
     state.img = p.loadImage(
@@ -29,6 +29,7 @@ const sketch = (p) => {
   };
 
   p.draw = () => {
+    p.scale(p.width / 1000);
     drawSimulation(p);
   };
 

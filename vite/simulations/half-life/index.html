@@ -21,68 +21,20 @@
 
     <div class="container-fluid" id="p5Container">
       <div id="p5Canvas"></div>
-
-      <!-- 右上設定パネル -->
-      <div
-        class="position-absolute end-0 m-3 card collapse col-sm-5 col-lg-3"
-        id="settingsPanel"
-        style="top: 4.5rem"
-      >
-        <div class="card-body">
-          <h6 class="card-title">設定</h6>
-          <div class="mb-2 fw-bold">物質の選択</div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="material"
-              id="mat5730"
-              value="5730"
-              checked
-            />
-            <label class="form-check-label" for="mat5730">炭素 C-14</label>
-          </div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="material"
-              id="mat8"
-              value="8"
-            />
-            <label class="form-check-label" for="mat8">ヨウ素 I-131</label>
-          </div>
-          <div class="form-check mb-3">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="material"
-              id="mat30"
-              value="30"
-            />
-            <label class="form-check-label" for="mat30">セシウム Cs-137</label>
-          </div>
-          <div class="d-flex align-items-center gap-2">
-            <span>原子数:</span>
-            <button class="btn btn-sm btn-warning" id="atomPlusBtn">＋</button>
-            <button class="btn btn-sm btn-info" id="atomMinusBtn">ー</button>
-          </div>
-        </div>
-      </div>
     </div>
 
-    <!-- 左下 スタート/ストップ ボタン -->
-    <div class="position-absolute bottom-0 start-0 m-3">
+    <!-- 左下: スタート/ストップ + リセット ボタン -->
+    <div id="toggleBtnWrapper" class="d-flex gap-2">
       <button type="button" class="btn btn-primary" id="toggleBtn">
         スタート
       </button>
+      <button type="button" class="btn btn-secondary" id="resetBtn">
+        リセット
+      </button>
     </div>
 
-    <!-- 右上 設定ボタン -->
-    <div
-      class="position-absolute top-0 end-0 m-2"
-      style="margin-top: 60px !important"
-    >
+    <!-- 右上: 設定ボタン -->
+    <div id="settingsBtnWrapper">
       <button
         type="button"
         class="btn btn-secondary"
@@ -93,6 +45,50 @@
       >
         ⚙ 設定
       </button>
+    </div>
+
+    <!-- 設定パネル -->
+    <div class="card collapse" id="settingsPanel">
+      <div class="card-body">
+        <h6 class="card-title">設定</h6>
+        <div class="mb-2 fw-bold">物質の選択</div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="material"
+            id="mat5730"
+            value="5730"
+            checked
+          />
+          <label class="form-check-label" for="mat5730">炭素 C-14</label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="material"
+            id="mat8"
+            value="8"
+          />
+          <label class="form-check-label" for="mat8">ヨウ素 I-131</label>
+        </div>
+        <div class="form-check mb-3">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="material"
+            id="mat30"
+            value="30"
+          />
+          <label class="form-check-label" for="mat30">セシウム Cs-137</label>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <span>原子数:</span>
+          <button class="btn btn-sm btn-warning" id="atomPlusBtn">＋</button>
+          <button class="btn btn-sm btn-info" id="atomMinusBtn">ー</button>
+        </div>
+      </div>
     </div>
 
     <script type="module" src="./js/index.js"></script>
