@@ -35,8 +35,20 @@ export function drawSimulation(p) {
   drawDecayCurve(p, padding, graphW, bottomY, topY);
 
   const currentDecayRate = Math.pow(0.5, state.currentTime / state.halfLife);
-  const markerX = p.map(state.currentTime, 0, state.maxYears, padding, padding + graphW);
-  const markerY = p.map(currentDecayRate * state.N0, 0, state.N0, bottomY, topY);
+  const markerX = p.map(
+    state.currentTime,
+    0,
+    state.maxYears,
+    padding,
+    padding + graphW
+  );
+  const markerY = p.map(
+    currentDecayRate * state.N0,
+    0,
+    state.N0,
+    bottomY,
+    topY
+  );
   p.fill("#F32121");
   p.noStroke();
   p.ellipse(markerX, markerY, 10, 10);
@@ -59,7 +71,14 @@ function drawAxes(p, pad, w, bY, tY) {
   p.line(pad, bY, p.width - pad, bY);
   p.noStroke();
   p.fill(0);
-  p.triangle(p.width - pad, bY - 5, p.width - pad, bY + 5, p.width - pad + 10, bY);
+  p.triangle(
+    p.width - pad,
+    bY - 5,
+    p.width - pad,
+    bY + 5,
+    p.width - pad + 10,
+    bY
+  );
   p.stroke(0);
   p.strokeWeight(2);
   p.line(pad, bY, pad, tY - 30);
@@ -175,7 +194,12 @@ function drawAtomGrid(p, xStart, yStart, size, decayRate) {
     } else {
       p.fill(225, 84, 54);
     }
-    p.ellipse(atomSize / 2 + col * spacing, atomSize / 2 + row * spacing, atomSize, atomSize);
+    p.ellipse(
+      atomSize / 2 + col * spacing,
+      atomSize / 2 + row * spacing,
+      atomSize,
+      atomSize
+    );
   }
 
   p.fill(0);
