@@ -11,18 +11,18 @@
 # The site_name is shown in the page header and the browser window title
 #
 # Read more: https://zensical.org/docs/setup/basics/#site_name
-site_name = "Documentation"
+site_name = "Bicpema 開発者ドキュメント"
 
 # The site_description is included in the HTML head and should contain a
 # meaningful description of the site content for use by search engines.
 #
 # Read more: https://zensical.org/docs/setup/basics/#site_description
-site_description = "A new project generated from the default template project."
+site_description = "Bicpema の開発者向けドキュメント。シミュレーション実装方法、開発フロー、テスト方針などを掲載しています。"
 
 # The site_author attribute. This is used in the HTML head element.
 #
 # Read more: https://zensical.org/docs/setup/basics/#site_author
-site_author = "<your name here>"
+site_author = "Bicpema"
 
 # The site_url is the canonical URL for your site. When building online
 # documentation you should set this.
@@ -34,20 +34,34 @@ site_author = "<your name here>"
 #
 # Read more: https://zensical.org/docs/setup/basics/#copyright
 copyright = """
-Copyright &copy; 2026 The authors
+Copyright &copy; 2026 Bicpema
 """
 
-# Zensical supports both implicit navigation and explicitly defined navigation.
-# If you decide not to define a navigation here then Zensical will simply
-# derive the navigation structure from the directory structure of your
-# "docs_dir". The definition below demonstrates how a navigation structure
-# can be defined using TOML syntax.
+# Navigation structure
 #
 # Read more: https://zensical.org/docs/setup/navigation/
-# nav = [
-#   { "Get started" = "index.md" },
-#   { "Markdown in 5min" = "markdown.md" },
-# ]
+nav = [
+  { "ホーム" = "index.md" },
+  { "環境構築" = [
+    { "概要" = "setup/index.md" },
+    { "シミュレーション開発" = "setup/simulation.md" },
+    { "ドキュメント閲覧" = "setup/documentation.md" },
+  ]},
+  { "開発フロー" = "development-flow.md" },
+  { "シミュレーション実装" = [
+    { "実装方法" = "simulation/index.md" },
+    { "ファイル構成（リポジトリ全体）" = "simulation/repository-files.md" },
+    { "ファイル構成（シミュレーション）" = "simulation/simulation-files.md" },
+  ]},
+  { "リリースフロー" = "release-flow.md" },
+  { "テスト方針" = [
+    { "概要" = "testing/index.md" },
+    { "ユニットテスト" = "testing/unit-test.md" },
+    { "UIテスト" = "testing/ui-test.md" },
+  ]},
+  { "バージョニング規約" = "versioning.md" },
+  { "Dependabot" = "dependabot.md" },
+]
 
 # With the "extra_css" option you can add your own CSS styling to customize
 # your Zensical project according to your needs. You can add any number of
@@ -108,7 +122,7 @@ Copyright &copy; 2026 The authors
 # Read more:
 # - https://zensical.org/docs/setup/language/
 #
-language = "en"
+language = "ja"
 
 # Zensical provides a number of feature toggles that change the behavior
 # of the documentation site.

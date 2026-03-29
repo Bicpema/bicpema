@@ -1,13 +1,17 @@
 name: Documentation
+
 on:
   push:
     branches:
-      - master
       - main
+    paths:
+      - "docs/**"
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 jobs:
   deploy:
     environment:
@@ -22,8 +26,9 @@ jobs:
           python-version: 3.x
       - run: pip install zensical
       - run: zensical build --clean
+        working-directory: docs
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: site
+          path: docs/site
       - uses: actions/deploy-pages@v4
         id: deployment
