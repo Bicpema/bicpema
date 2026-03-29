@@ -6,12 +6,21 @@ import { state } from "./state.js";
 import { elCreate, initValue, FPS } from "./init.js";
 import { drawSimulation } from "./logic.js";
 
+/** 仮想キャンバス幅。p.scale() でこの幅に合わせてスケーリングする。 */
 const V_W = 1000;
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+  // 16:9 固定比率、下部設定パネルの高さを考慮してキャンバスサイズを計算
+  const canvasController = new BicpemaCanvasController(
+    true,
+    false,
+    1.0,
+    1.0,
+    "#settingsPanel"
+  );
 
   p.preload = () => {
+    // 変圧器コア・コイル画像を事前ロード
     state.img1 = p.loadImage(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Ftrans%2FTransformer.png?alt=media&token=70310a44-504b-4e40-8180-c0806ca6a925"
     );
@@ -25,19 +34,21 @@ const sketch = (p) => {
 
   p.setup = () => {
     canvasController.fullScreen(p);
-    p.angleMode(p.DEGREES);
-    elCreate(p);
-    initValue();
-    p.frameRate(FPS);
+    p.angleMode(p.DEGREES); // 角度を度数法で扱う
+    elCreate(p); // UIボタンのイベントリスナー登録
+    initValue(); // stateの初期値設定
+    p.frameRate(FPS); // フレームレート設定
     p.loop();
   };
 
   p.draw = () => {
+    // 仮想座標系 (V_W × V_W*9/16) に合わせてスケーリング
     p.scale(p.width / V_W);
     drawSimulation(p);
   };
 
   p.windowResized = () => {
+    // ウィンドウリサイズ時にキャンバスを再計算
     canvasController.resizeScreen(p);
   };
 };

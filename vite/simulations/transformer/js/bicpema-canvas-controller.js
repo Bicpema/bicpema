@@ -11,11 +11,12 @@ export class BicpemaCanvasController {
    * @param {number} w_r 幅の比率（0.0~1.0）
    * @param {number} h_r 高さの比率（0.0~1.0）
    */
-  constructor(f = true, i = false, w_r = 1.0, h_r = 1.0) {
+  constructor(f = true, i = false, w_r = 1.0, h_r = 1.0, bottomBarId = null) {
     this.fixed = f;
     this.is3D = i;
     this.widthRatio = w_r;
     this.heightRatio = h_r;
+    this.bottomBarId = bottomBarId;
   }
   /**
    * HTML要素で生成している#p5Canvasと#navBarを元にcanvasを生成する。
@@ -24,18 +25,22 @@ export class BicpemaCanvasController {
   fullScreen(p) {
     const P5_CANVAS = p.select("#p5Canvas");
     const NAV_BAR = p.select("#navBar");
+    const bottomEl = this.bottomBarId
+      ? document.querySelector(this.bottomBarId)
+      : null;
+    const bottomH = (bottomEl ? bottomEl.offsetHeight : 0) + 4;
     let canvas, w, h;
     if (this.fixed) {
       const RATIO = 9 / 16;
       w = p.windowWidth;
       h = w * RATIO;
-      if (h > p.windowHeight - NAV_BAR.height) {
-        h = p.windowHeight - NAV_BAR.height;
+      if (h > p.windowHeight - NAV_BAR.height - bottomH) {
+        h = p.windowHeight - NAV_BAR.height - bottomH;
         w = h / RATIO;
       }
     } else {
       w = p.windowWidth;
-      h = p.windowHeight - NAV_BAR.height;
+      h = p.windowHeight - NAV_BAR.height - bottomH;
     }
     if (this.is3D) {
       canvas = p.createCanvas(
@@ -55,19 +60,23 @@ export class BicpemaCanvasController {
    */
   resizeScreen(p) {
     const NAV_BAR = p.select("#navBar");
+    const bottomEl = this.bottomBarId
+      ? document.querySelector(this.bottomBarId)
+      : null;
+    const bottomH = (bottomEl ? bottomEl.offsetHeight : 0) + 4;
     let w = 0;
     let h = 0;
     if (this.fixed) {
       const RATIO = 9 / 16;
       w = p.windowWidth;
       h = w * RATIO;
-      if (h > p.windowHeight - NAV_BAR.height) {
-        h = p.windowHeight - NAV_BAR.height;
+      if (h > p.windowHeight - NAV_BAR.height - bottomH) {
+        h = p.windowHeight - NAV_BAR.height - bottomH;
         w = h / RATIO;
       }
     } else {
       w = p.windowWidth;
-      h = p.windowHeight - NAV_BAR.height;
+      h = p.windowHeight - NAV_BAR.height - bottomH;
     }
     p.resizeCanvas(w * this.widthRatio, h * this.heightRatio);
   }

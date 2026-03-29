@@ -7,7 +7,7 @@
     <link href="./css/style.css" rel="stylesheet" />
   </head>
 
-  <body class="bg-dark">
+  <body class="bg-dark" oncontextmenu="return false;">
     <nav
       class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
       data-bs-theme="dark"
@@ -21,83 +21,80 @@
 
     <div class="container-fluid" id="p5Container">
       <div id="p5Canvas"></div>
+    </div>
 
-      <!-- 右上設定パネル -->
-      <div
-        class="position-absolute end-0 m-3 p-3 rounded"
-        style="
-          top: 4.5rem;
-          background: rgba(255, 255, 255, 0.9);
-          z-index: 1000;
-          min-width: 220px;
-        "
-      >
-        <div class="mb-3">
-          <div class="fw-bold mb-1">位相</div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="phase"
-              id="phaseSame"
-              value="true"
-              checked
-            />
-            <label class="form-check-label" for="phaseSame">同位相</label>
-          </div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="phase"
-              id="phaseOpposite"
-              value="false"
-            />
-            <label class="form-check-label" for="phaseOpposite">逆位相</label>
-          </div>
+    <!-- 下部設定パネル -->
+    <div
+      id="settingsPanel"
+      class="position-fixed bottom-0 start-0 end-0 d-flex align-items-center gap-4 py-2 px-4"
+      style="background: rgba(30, 30, 30, 0.95); z-index: 1000; flex-wrap: wrap"
+      data-bs-theme="dark"
+    >
+      <div class="d-flex align-items-center gap-2">
+        <span class="text-light fw-bold small">位相</span>
+        <div class="form-check mb-0">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="phase"
+            id="phaseSame"
+            value="true"
+            checked
+          />
+          <label class="form-check-label text-light small" for="phaseSame"
+            >同位相</label
+          >
         </div>
-        <div class="mb-3">
-          <div class="fw-bold mb-1">速度</div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="speed"
-              id="speedSlow"
-              value="1"
-              checked
-            />
-            <label class="form-check-label" for="speedSlow">ゆっくり</label>
-          </div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="speed"
-              id="speedFast"
-              value="5"
-            />
-            <label class="form-check-label" for="speedFast">はやい</label>
-          </div>
+        <div class="form-check mb-0">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="phase"
+            id="phaseOpposite"
+            value="false"
+          />
+          <label class="form-check-label text-light small" for="phaseOpposite"
+            >逆位相</label
+          >
         </div>
-        <div class="mb-3">
-          <div class="fw-bold mb-2">一次コイル 巻数</div>
-          <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-warning" id="coil1PlusBtn">＋</button>
-            <button class="btn btn-sm btn-primary" id="coil1MinusBtn">
-              ー
-            </button>
-          </div>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <span class="text-light fw-bold small">速度</span>
+        <div class="form-check mb-0">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="speed"
+            id="speedSlow"
+            value="1"
+            checked
+          />
+          <label class="form-check-label text-light small" for="speedSlow"
+            >ゆっくり</label
+          >
         </div>
-        <div>
-          <div class="fw-bold mb-2">二次コイル 巻数</div>
-          <div class="d-flex gap-2">
-            <button class="btn btn-sm btn-warning" id="coil2PlusBtn">＋</button>
-            <button class="btn btn-sm btn-primary" id="coil2MinusBtn">
-              ー
-            </button>
-          </div>
+        <div class="form-check mb-0">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="speed"
+            id="speedFast"
+            value="5"
+          />
+          <label class="form-check-label text-light small" for="speedFast"
+            >はやい</label
+          >
         </div>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <span class="text-light fw-bold small">一次コイル 巻数</span>
+        <button class="btn btn-sm btn-warning" id="coil1PlusBtn">＋</button>
+        <button class="btn btn-sm btn-primary" id="coil1MinusBtn">ー</button>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <span class="text-light fw-bold small">二次コイル 巻数</span>
+        <button class="btn btn-sm btn-warning" id="coil2PlusBtn">＋</button>
+        <button class="btn btn-sm btn-primary" id="coil2MinusBtn">ー</button>
       </div>
     </div>
 
