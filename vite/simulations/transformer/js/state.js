@@ -1,0 +1,16 @@
+export const state = {
+  img1: null,
+  img2: null,
+  img3: null,
+  count1: 19,
+  count2: 4,
+  waveK: 5,
+  omega: 1,
+  t: 0,
+  phase: true,
+  topY1: 0,
+  topY2: 0,
+  minCount: 4,
+  maxCount: 19,
+  angle: -20,
+};
