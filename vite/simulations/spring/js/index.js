@@ -166,15 +166,18 @@ function graphDraw() {
     });
 }
 
+const SPRING_COILS = 12;
+const SPRING_COLOR = [120, 120, 140];
+const SPRING_STROKE_WEIGHT = 2;
+
 function drawSpringShape(cx, yTop, yBottom, w) {
-    const coils = 12;
-    const segH = (yBottom - yTop) / (coils + 2);
-    stroke(120, 120, 140);
-    strokeWeight(2);
+    const segH = (yBottom - yTop) / (SPRING_COILS + 2);
+    stroke(SPRING_COLOR[0], SPRING_COLOR[1], SPRING_COLOR[2]);
+    strokeWeight(SPRING_STROKE_WEIGHT);
     noFill();
     line(cx, yTop, cx, yTop + segH);
     beginShape();
-    for (let i = 0; i <= coils; i++) {
+    for (let i = 0; i <= SPRING_COILS; i++) {
         const y = yTop + segH + segH * i;
         vertex(cx + (i % 2 === 0 ? w / 2 : -w / 2), y);
     }
