@@ -20,8 +20,8 @@ aliases: []
 
 ### 主要な物理法則・公式
 
-N(t)=N*0 e^{-λt}
-T*{1/2}=ln2/λ
+<p style="text-align:center;">N(t) = N<sub>0</sub> e<sup>-λt</sup></p>
+<p style="text-align:center;">T<sub>1/2</sub> = ln2/λ</p>
 
 ## 対象
 
@@ -37,7 +37,7 @@ T*{1/2}=ln2/λ
 
 ## 観察のポイント
 
-- N0の影響
+- N<sub>0</sub>の影響
 - λの大小での減衰速度
 - 半減期の視覚化
 
