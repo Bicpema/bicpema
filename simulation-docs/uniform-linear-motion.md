@@ -5,88 +5,88 @@
 - 対象: 等速直線運動をする模型自動車の様子を可視化する p5.js シミュレーション。黄色い車と赤い車が異なる速度で走り、X-T グラフ / V-T グラフをリアルタイムで表示する。
 - 想定利用者: 物理基礎の学習者（中学〜高校程度）。
 - 確定事項:
-  - 右上の設定モーダルで黄色い車・赤い車の速度 (cm/s) を変更できる。
-  - 左下の操作ボタン（グラフ切り替え）でグラフの種類を変更できる。
-  - キャンバス下にグラフ（Chart.js）と操作ボタン、設定モーダルボタンが配置される。
-  - スケール（距離の目盛り）の表示/非表示を設定で切り替えできる。
+    - 右上の設定モーダルで黄色い車・赤い車の速度 (cm/s) を変更できる。
+    - 左下の操作ボタン（グラフ切り替え）でグラフの種類を変更できる。
+    - キャンバス下にグラフ（Chart.js）と操作ボタン、設定モーダルボタンが配置される。
+    - スケール（距離の目盛り）の表示/非表示を設定で切り替えできる。
 - 推定事項:
-  - Chart.js は現行 CDN で読み込んでいるが、ES Modules 移行後は npm パッケージを使用する。
+    - Chart.js は現行 CDN で読み込んでいるが、ES Modules 移行後は npm パッケージを使用する。
 
 ## 2. 画面設計
 
 - 画面構成:
-  - 上部バー（タイトル「等速直線運動をする模型自動車のようす」、ホームリンク）。
-  - 中央にp5キャンバス（16:9比率）。
-  - キャンバス下部にグラフエリア（Chart.js 描画）。
-  - キャンバス下部に「グラフの切り替え」ボタン。
-  - キャンバス下部に「シミュレーション設定」モーダル起動ボタン。
+    - 上部バー（タイトル「等速直線運動をする模型自動車のようす」、ホームリンク）。
+    - 中央にp5キャンバス（16:9比率）。
+    - キャンバス下部にグラフエリア（Chart.js 描画）。
+    - キャンバス下部に「グラフの切り替え」ボタン。
+    - キャンバス下部に「シミュレーション設定」モーダル起動ボタン。
 - UI要素:
-  - チェックボックス: スケールの表示/非表示。
-  - 数値入力: 黄色い車の速度 (cm/s)、赤い車の速度 (cm/s)。
-  - 操作: グラフ切り替え（X-Tグラフ/V-Tグラフ）。
+    - チェックボックス: スケールの表示/非表示。
+    - 数値入力: 黄色い車の速度 (cm/s)、赤い車の速度 (cm/s)。
+    - 操作: グラフ切り替え（X-Tグラフ/V-Tグラフ）。
 - 確定事項:
-  - body は固定レイアウトでスクロール不可（推定。現行 CSS 要確認）。
-  - グラフ（Chart.js）はキャンバス外の DOM 要素に描画される。
+    - body は固定レイアウトでスクロール不可（推定。現行 CSS 要確認）。
+    - グラフ（Chart.js）はキャンバス外の DOM 要素に描画される。
 
 ## 3. 機能仕様
 
 - 等速直線運動:
-  - 各フレームで `car.posx += (50 * car.speed) / 60` をリアルタイム更新（停止機能なし）。
+    - 各フレームで `car.posx += (50 * car.speed) / 60` をリアルタイム更新（停止機能なし）。
 - グラフ切り替え:
-  - 「グラフの切り替え」ボタンで `graphData` (boolean) を反転し、X-T グラフ / V-T グラフを切り替え。
+    - 「グラフの切り替え」ボタンで `graphData` (boolean) を反転し、X-T グラフ / V-T グラフを切り替え。
 - 設定変更:
-  - 車の速度入力変更時に `initValue()` を再実行してグラフデータを再計算。
+    - 車の速度入力変更時に `initValue()` を再実行してグラフデータを再計算。
 - スケール表示:
-  - チェックボックスの状態に応じて `drawScale()` を呼び出す。
+    - チェックボックスの状態に応じて `drawScale()` を呼び出す。
 - 境界条件:
-  - 車の速度は `min=1` (cm/s)。
+    - 車の速度は `min=1` (cm/s)。
 
 ## 4. ロジック仕様
 
 - 実行モデル:
-  - p5.js インスタンスモード（`const sketch = (p) => {...}; new p5(sketch);`）を利用。
-  - ESModule（`import`）ベースで実装し、`window` グローバル公開は行わない。
-  - Chart.js は `import Chart from "chart.js/auto"` で利用。
+    - p5.js インスタンスモード（`const sketch = (p) => {...}; new p5(sketch);`）を利用。
+    - ESModule（`import`）ベースで実装し、`window` グローバル公開は行わない。
+    - Chart.js は `import Chart from "chart.js/auto"` で利用。
 - 状態管理:
-  - `state.YELLOW_CAR`: CAR インスタンス（黄色い車）。
-  - `state.RED_CAR`: CAR インスタンス（赤い車）。
-  - `state.graphData`: グラフ切り替えフラグ（true: X-T / false: V-T）。
-  - `state.graphChart`: Chart.js インスタンス（毎フレーム destroy & 再生成）。
-  - `state.YELLOW_CAR_IMG`, `state.RED_CAR_IMAGE`: 車画像。
-  - UI 要素参照（入力・ボタン・チェックボックス）。
+    - `state.YELLOW_CAR`: CAR インスタンス（黄色い車）。
+    - `state.RED_CAR`: CAR インスタンス（赤い車）。
+    - `state.graphData`: グラフ切り替えフラグ（true: X-T / false: V-T）。
+    - `state.graphChart`: Chart.js インスタンス（毎フレーム destroy & 再生成）。
+    - `state.YELLOW_CAR_IMG`, `state.RED_CAR_IMAGE`: 車画像。
+    - UI 要素参照（入力・ボタン・チェックボックス）。
 - 描画処理:
-  - `draw()` 内で `p.scale(p.width / CANVAS_WIDTH)` を適用。
-  - 背景（黒）・地面（ダーク矩形）を描画。
-  - スケールチェックボックスが ON の場合 `drawScale()` を呼ぶ。
-  - `RED_CAR.update()`, `YELLOW_CAR.update()` で位置を更新。
-  - 軌跡・車を描画する。
-  - `graphDraw()` でグラフを Chart.js で毎フレーム再描画。
+    - `draw()` 内で `p.scale(p.width / CANVAS_WIDTH)` を適用。
+    - 背景（黒）・地面（ダーク矩形）を描画。
+    - スケールチェックボックスが ON の場合 `drawScale()` を呼ぶ。
+    - `RED_CAR.update()`, `YELLOW_CAR.update()` で位置を更新。
+    - 軌跡・車を描画する。
+    - `graphDraw()` でグラフを Chart.js で毎フレーム再描画。
 - 計算モデル:
-  - 等速直線運動: `x = v * t`
-  - グラフデータ: 各時刻 `t=0..carNum` における `{x: t, y: v*t}` または `{x: t, y: v}`。
+    - 等速直線運動: `x = v * t`
+    - グラフデータ: 各時刻 `t=0..carNum` における `{x: t, y: v*t}` または `{x: t, y: v}`。
 - 推定事項:
-  - `CANVAS_WIDTH=1000`、`CANVAS_HEIGHT=562.5`、`frameRate=60`。
+    - `CANVAS_WIDTH=1000`、`CANVAS_HEIGHT=562.5`、`frameRate=60`。
 
 ## 5. ファイル構成と責務
 
 - `vite/simulations/uniform-linear-motion/index.html`
-  - 画面の DOM（ナビバー、p5Canvas）と `js/index.js` / `css/style.css` の参照を保持。
+    - 画面の DOM（ナビバー、p5Canvas）と `js/index.js` / `css/style.css` の参照を保持。
 - `vite/simulations/uniform-linear-motion/css/style.css`
-  - 全体レイアウト、キャンバス配置、スクロール無効化をスタイリング。
+    - 全体レイアウト、キャンバス配置、スクロール無効化をスタイリング。
 - `vite/simulations/uniform-linear-motion/js/index.js`
-  - p5 インスタンス起動と各ライフサイクル（preload/setup/draw/windowResized）を紐付け。
+    - p5 インスタンス起動と各ライフサイクル（preload/setup/draw/windowResized）を紐付け。
 - `vite/simulations/uniform-linear-motion/js/state.js`
-  - `state` オブジェクト（CAR インスタンス、グラフ変数、UI 要素参照、画像参照）。
+    - `state` オブジェクト（CAR インスタンス、グラフ変数、UI 要素参照、画像参照）。
 - `vite/simulations/uniform-linear-motion/js/car.js`
-  - `CAR` クラス定義（位置更新・軌跡描画・車描画）。
+    - `CAR` クラス定義（位置更新・軌跡描画・車描画）。
 - `vite/simulations/uniform-linear-motion/js/init.js`
-  - `imgInit(p)`, `elCreate(p)`, `elSetting(p)`, `initValue(p)` の初期化関数群。
+    - `imgInit(p)`, `elCreate(p)`, `elSetting(p)`, `initValue(p)` の初期化関数群。
 - `vite/simulations/uniform-linear-motion/js/logic.js`
-  - `drawScale(p, ...)`, `graphDraw(p)` などの描画ロジック。
+    - `drawScale(p, ...)`, `graphDraw(p)` などの描画ロジック。
 - `vite/simulations/uniform-linear-motion/js/element-function.js`
-  - `graphButtonFunction()` などのイベントハンドラ。
+    - `graphButtonFunction()` などのイベントハンドラ。
 - `vite/simulations/uniform-linear-motion/js/bicpema-canvas-controller.js`
-  - 16:9 固定比率のキャンバスサイズ設定とリサイズ処理。
+    - 16:9 固定比率のキャンバスサイズ設定とリサイズ処理。
 
 ```mermaid
 flowchart TD

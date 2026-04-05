@@ -21,10 +21,16 @@ export class BicpemaCanvasController {
   _getPanelSize(p) {
     const simPanel = document.getElementById("simPanel");
     if (simPanel) {
-      return { panelW: simPanel.clientWidth, panelH: simPanel.clientHeight };
+      return {
+        panelW: simPanel.clientWidth,
+        panelH: simPanel.clientHeight,
+      };
     }
     const NAV_BAR = p.select("#navBar");
-    return { panelW: p.windowWidth, panelH: p.windowHeight - NAV_BAR.height };
+    return {
+      panelW: p.windowWidth,
+      panelH: p.windowHeight - NAV_BAR.height,
+    };
   }
 
   /**

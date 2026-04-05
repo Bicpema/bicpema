@@ -49,9 +49,12 @@ function drawXAxis(p) {
   p.strokeWeight(1);
   p.fill(0);
   p.triangle(
-    state.innerW - 10, yAxis - 5,
-    state.innerW - 10, yAxis + 5,
-    state.innerW, yAxis
+    state.innerW - 10,
+    yAxis - 5,
+    state.innerW - 10,
+    yAxis + 5,
+    state.innerW,
+    yAxis
   );
   p.noStroke();
   p.fill(0);
@@ -96,7 +99,8 @@ function drawStandingWave(p) {
   for (let x = 0; x < state.innerW; x++) {
     if (x <= state.rightFront && x >= state.leftFront) {
       const y1 = state.A * p.sin(state.k * x - state.omega * state.t);
-      const y2 = state.A * p.sin(state.k * (state.innerW - x) - state.omega * state.t);
+      const y2 =
+        state.A * p.sin(state.k * (state.innerW - x) - state.omega * state.t);
       p.vertex(x, state.innerH / 2 + (y1 + y2));
     }
   }

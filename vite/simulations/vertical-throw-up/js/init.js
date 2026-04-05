@@ -1,5 +1,11 @@
 import { state } from "./state.js";
-import { onVelocityChange, onReset, onPlayPause, onToggleModal, onCloseModal } from "./element-function.js";
+import {
+  onVelocityChange,
+  onReset,
+  onPlayPause,
+  onToggleModal,
+  onCloseModal,
+} from "./element-function.js";
 import { Ball } from "./ball.js";
 
 export const FPS = 30;

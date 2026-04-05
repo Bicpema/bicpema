@@ -2,7 +2,13 @@
 
 import { state } from "./state.js";
 import { Train } from "./class.js";
-import { onPlayPause, onToggleModal, onCloseModal, onReset, onAccelerationChange } from "./element-function.js";
+import {
+  onPlayPause,
+  onToggleModal,
+  onCloseModal,
+  onReset,
+  onAccelerationChange,
+} from "./element-function.js";
 
 /** フレームレート */
 export const FPS = 60;
@@ -19,7 +25,9 @@ export const PX_PER_METER = 50;
 export function settingInit(p, canvasController) {
   p.loadFont(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
-    (f) => { state.font = f; },
+    (f) => {
+      state.font = f;
+    },
     () => {}
   );
   canvasController.fullScreen(p);
@@ -49,8 +57,8 @@ export function initValue(p) {
   state.elapsedTime = 0;
   state.lastGraphUpdate = 0;
   state.maxObservedVelocity = 0;
-  state.acceleration = parseFloat(p.select("#accelerationInput").value()) || 2.0;
+  state.acceleration =
+    parseFloat(p.select("#accelerationInput").value()) || 2.0;
   state.train = new Train(V_W / 3);
   state.vtData = [{ x: 0, y: 0 }];
 }
-

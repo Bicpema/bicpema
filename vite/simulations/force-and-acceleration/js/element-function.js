@@ -30,7 +30,10 @@ export function onReset() {
  */
 export function onToggleModal() {
   const currentDisplay = state.settingsModal.style("display");
-  state.settingsModal.style("display", currentDisplay === "none" ? "block" : "none");
+  state.settingsModal.style(
+    "display",
+    currentDisplay === "none" ? "block" : "none"
+  );
 }
 
 /**

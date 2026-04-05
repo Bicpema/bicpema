@@ -4,7 +4,9 @@ function displacement(p, x0) {
   let v = state.omega / state.k;
   let arrivalTime = (x0 - state.xStart) / v;
   if (state.t <= arrivalTime) return 0;
-  return -state.A * p.sin(state.k * (x0 - state.xStart) - state.omega * state.t);
+  return (
+    -state.A * p.sin(state.k * (x0 - state.xStart) - state.omega * state.t)
+  );
 }
 
 function drawArrow(p, x1, y1, x2, y2) {

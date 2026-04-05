@@ -110,10 +110,10 @@ function drawHooksAndBalls(p, VH) {
 function drawMaterialBall(p, x, y, r, type) {
   const gradColors = [
     ["rgb(245,245,245)", "rgb(180,180,180)"], // アルミ
-    ["rgb(200,200,200)", "rgb(80,80,80)"],     // 鉄
-    ["rgb(255,180,120)", "rgb(140,70,30)"],    // 銅
-    ["rgb(255,255,255)", "rgb(160,160,160)"],  // 銀
-    ["rgb(230,230,240)", "rgb(120,120,150)"],  // 水銀
+    ["rgb(200,200,200)", "rgb(80,80,80)"], // 鉄
+    ["rgb(255,180,120)", "rgb(140,70,30)"], // 銅
+    ["rgb(255,255,255)", "rgb(160,160,160)"], // 銀
+    ["rgb(230,230,240)", "rgb(120,120,150)"], // 水銀
   ];
   const [c0, c1] = gradColors[type] ?? gradColors[0];
   const g = p.drawingContext.createRadialGradient(
@@ -140,12 +140,12 @@ function drawMaterialBall(p, x, y, r, type) {
  * @param {number} VH
  */
 function drawGraphLines(p, VH) {
-  const ysize = VW / 2.75;   // グラフ内側高さ（px）
-  const xsize = VW / 2.35;   // グラフ内側幅（px）
+  const ysize = VW / 2.75; // グラフ内側高さ（px）
+  const xsize = VW / 2.35; // グラフ内側幅（px）
   const gx0 = (VW / 2) * 1.05; // グラフ内側左端x
-  const gy0 = VH / 9.5;        // グラフ内側上端y
+  const gy0 = VH / 9.5; // グラフ内側上端y
   const axBottom = gy0 + ysize; // グラフ下端y（X軸位置）
-  const axRight = gx0 + xsize;  // グラフ右端x
+  const axRight = gx0 + xsize; // グラフ右端x
 
   // --- Y軸 ---
   p.push();

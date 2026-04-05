@@ -3,7 +3,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { BicpemaCanvasController } from "./bicpema-canvas-controller.js";
 import { state } from "./state.js";
-import { FPS, V_W, PX_PER_METER, settingInit, elCreate, initValue } from "./init.js";
+import {
+  FPS,
+  V_W,
+  PX_PER_METER,
+  settingInit,
+  elCreate,
+  initValue,
+} from "./init.js";
 import { drawTrack, drawTrain, drawInfoPanel } from "./function.js";
 import { initChart, updateChart } from "./graph.js";
 
@@ -61,7 +68,12 @@ const sketch = (p) => {
     drawTrain(p, state.train.x, GROUND_Y);
 
     // 情報パネル
-    drawInfoPanel(p, state.train.velocity, state.elapsedTime, state.acceleration);
+    drawInfoPanel(
+      p,
+      state.train.velocity,
+      state.elapsedTime,
+      state.acceleration
+    );
   };
 
   p.windowResized = () => {
@@ -70,4 +82,3 @@ const sketch = (p) => {
 };
 
 new p5(sketch);
-
