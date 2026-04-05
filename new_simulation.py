@@ -20,7 +20,7 @@ def get_input(prompt, error_message, validation_func):
 def main():
     """新しいシミュレーションを作成します。"""
     replace_list = {"title": "", "path": ""}
-    template_path = "template"
+    template_path = "templates"
     base_path = "vite/simulations/"
     p = re.compile("^[a-zA-Z0-9_-]+$")
 
