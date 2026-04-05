@@ -3,10 +3,10 @@
 import { state, SPRING_Y, ATTACH_X, NATURAL_LENGTH } from "./state.js";
 import { Spring } from "./class.js";
 import {
-    onSpringConstantChange,
-    onReset,
-    onToggleModal,
-    onCloseModal,
+  onSpringConstantChange,
+  onReset,
+  onToggleModal,
+  onCloseModal,
 } from "./element-function.js";
 
 const FPS = 30;
@@ -16,16 +16,16 @@ const FPS = 30;
  * @param {*} p - p5 インスタンス。
  */
 export function elCreate(p) {
-    state.springConstantInput = p.select("#springConstantInput");
-    state.springConstantDisplay = p.select("#springConstantDisplay");
-    state.settingsModal = p.select("#settingsModal");
+  state.springConstantInput = p.select("#springConstantInput");
+  state.springConstantDisplay = p.select("#springConstantDisplay");
+  state.settingsModal = p.select("#settingsModal");
 
-    state.springConstantInput.input(() => onSpringConstantChange());
-    p.select("#resetButton").mousePressed(() => onReset());
-    p.select("#toggleModal").mousePressed(() => onToggleModal());
-    p.select("#closeModal").mousePressed(() => onCloseModal());
+  state.springConstantInput.input(() => onSpringConstantChange());
+  p.select("#resetButton").mousePressed(() => onReset());
+  p.select("#toggleModal").mousePressed(() => onToggleModal());
+  p.select("#closeModal").mousePressed(() => onCloseModal());
 
-    p.frameRate(FPS);
+  p.frameRate(FPS);
 }
 
 /**
@@ -33,6 +33,6 @@ export function elCreate(p) {
  * @param {*} p - p5 インスタンス。
  */
 export function initValue(p) {
-    const k = parseInt(state.springConstantInput.value());
-    state.springs = [new Spring(ATTACH_X, SPRING_Y, NATURAL_LENGTH, k)];
+  const k = parseInt(state.springConstantInput.value());
+  state.springs = [new Spring(ATTACH_X, SPRING_Y, NATURAL_LENGTH, k)];
 }

@@ -3,10 +3,10 @@
 import { state } from "./state.js";
 import { Cart } from "./class.js";
 import {
-    onMassChange,
-    onReset,
-    onToggleModal,
-    onCloseModal,
+  onMassChange,
+  onReset,
+  onToggleModal,
+  onCloseModal,
 } from "./element-function.js";
 
 export const FPS = 60;
@@ -17,10 +17,10 @@ export const FPS = 60;
  * @param {*} canvasController BicpemaCanvasControllerインスタンス
  */
 export function settingInit(p, canvasController) {
-    canvasController.fullScreen(p);
-    p.frameRate(FPS);
-    p.textAlign(p.CENTER, p.CENTER);
-    p.textSize(16);
+  canvasController.fullScreen(p);
+  p.frameRate(FPS);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.textSize(16);
 }
 
 /**
@@ -28,11 +28,11 @@ export function settingInit(p, canvasController) {
  * @param {*} p p5インスタンス
  */
 export function elementSelectInit(p) {
-    state.massInput = p.select("#massInput");
-    state.resetButton = p.select("#resetButton");
-    state.toggleModal = p.select("#toggleModal");
-    state.closeModal = p.select("#closeModal");
-    state.settingsModal = p.select("#settingsModal");
+  state.massInput = p.select("#massInput");
+  state.resetButton = p.select("#resetButton");
+  state.toggleModal = p.select("#toggleModal");
+  state.closeModal = p.select("#closeModal");
+  state.settingsModal = p.select("#settingsModal");
 }
 
 /**
@@ -40,10 +40,10 @@ export function elementSelectInit(p) {
  * @param {*} p p5インスタンス
  */
 export function elementPositionInit(p) {
-    state.massInput.input(onMassChange);
-    state.resetButton.mousePressed(onReset);
-    state.toggleModal.mousePressed(onToggleModal);
-    state.closeModal.mousePressed(onCloseModal);
+  state.massInput.input(onMassChange);
+  state.resetButton.mousePressed(onReset);
+  state.toggleModal.mousePressed(onToggleModal);
+  state.closeModal.mousePressed(onCloseModal);
 }
 
 /**
@@ -51,6 +51,6 @@ export function elementPositionInit(p) {
  * @param {*} p p5インスタンス
  */
 export function valueInit(p) {
-    const mass = parseFloat(state.massInput.value());
-    state.cart = new Cart(250, mass);
+  const mass = parseFloat(state.massInput.value());
+  state.cart = new Cart(250, mass);
 }

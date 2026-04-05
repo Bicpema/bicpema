@@ -1,34 +1,34 @@
 ---
 changelog:
-    exclude:
-        labels:
-            - "not triaged"
-            - "リリース"
-    categories:
-        - title: "🆕 シミュレーションの新規作成"
-          labels:
-              - "シミュレーションの新規作成"
-        - title: "🔧 シミュレーションのメンテナンス"
-          labels:
-              - "シミュレーションのメンテナンス"
-        - title: "📝 記事の新規作成"
-          labels:
-              - "記事の新規作成"
-        - title: "✏️ 記事のメンテナンス"
-          labels:
-              - "記事のメンテナンス"
-        - title: "📦 依存関係の更新"
-          labels:
-              - "依存関係"
-              - "npm"
-        - title: "🛠️ 開発環境改善"
-          labels:
-              - "開発環境改善"
-              - "github actions"
-              - "Agent Skills"
-        - title: "🎨 Hugo テンプレート"
-          labels:
-              - "Hugo"
-        - title: "📌 その他"
-          labels:
-              - "*"
+  exclude:
+    labels:
+      - "not triaged"
+      - "リリース"
+  categories:
+    - title: "🆕 シミュレーションの新規作成"
+      labels:
+        - "シミュレーションの新規作成"
+    - title: "🔧 シミュレーションのメンテナンス"
+      labels:
+        - "シミュレーションのメンテナンス"
+    - title: "📝 記事の新規作成"
+      labels:
+        - "記事の新規作成"
+    - title: "✏️ 記事のメンテナンス"
+      labels:
+        - "記事のメンテナンス"
+    - title: "📦 依存関係の更新"
+      labels:
+        - "依存関係"
+        - "npm"
+    - title: "🛠️ 開発環境改善"
+      labels:
+        - "開発環境改善"
+        - "github actions"
+        - "Agent Skills"
+    - title: "🎨 Hugo テンプレート"
+      labels:
+        - "Hugo"
+    - title: "📌 その他"
+      labels:
+        - "*"

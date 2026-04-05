@@ -2,12 +2,12 @@
 
 import { state } from "./state.js";
 import {
-    startButtonFunction,
-    stopButtonFunction,
-    resetButtonAction,
-    onToggleModalClick,
-    onCloseModalClick,
-    onSpeedInputChange,
+  startButtonFunction,
+  stopButtonFunction,
+  resetButtonAction,
+  onToggleModalClick,
+  onCloseModalClick,
+  onSpeedInputChange,
 } from "./element-function.js";
 
 /**
@@ -33,9 +33,9 @@ export const H = ((1000 * 9) / 16) * 0.9;
  * @param {*} p - p5 インスタンス。
  */
 export function settingInit(p) {
-    p.frameRate(FPS);
-    p.textAlign(p.CENTER, p.CENTER);
-    p.textSize(16);
+  p.frameRate(FPS);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.textSize(16);
 }
 
 /**
@@ -43,12 +43,12 @@ export function settingInit(p) {
  * @param {*} p - p5 インスタンス。
  */
 export function elCreate(p) {
-    p.select("#startButton").mousePressed(startButtonFunction);
-    p.select("#stopButton").mousePressed(stopButtonFunction);
-    p.select("#resetButton").mousePressed(resetButtonAction);
-    p.select("#settingsButton").mousePressed(onToggleModalClick);
-    p.select("#closeModal").mousePressed(onCloseModalClick);
-    p.select("#speedInput").input(onSpeedInputChange);
+  p.select("#startButton").mousePressed(startButtonFunction);
+  p.select("#stopButton").mousePressed(stopButtonFunction);
+  p.select("#resetButton").mousePressed(resetButtonAction);
+  p.select("#settingsButton").mousePressed(onToggleModalClick);
+  p.select("#closeModal").mousePressed(onCloseModalClick);
+  p.select("#speedInput").input(onSpeedInputChange);
 }
 
 /**
@@ -56,9 +56,9 @@ export function elCreate(p) {
  * @param {*} p - p5 インスタンス。
  */
 export function initValue(p) {
-    state.posx = 50;
-    state.posy = H / 2;
-    state.count = 0;
-    state.sounds = [];
-    state.clickedCount = false;
+  state.posx = 50;
+  state.posy = H / 2;
+  state.count = 0;
+  state.sounds = [];
+  state.clickedCount = false;
 }

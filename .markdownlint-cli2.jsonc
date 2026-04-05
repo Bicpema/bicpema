@@ -1,3 +1,5 @@
 {
-    "ignores": ["**/themes/**"],
+  "ignores": [
+    "**/themes/**"
+  ]
 }

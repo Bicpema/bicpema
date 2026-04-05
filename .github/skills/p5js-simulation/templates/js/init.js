@@ -8,9 +8,9 @@ import { state } from "./state.js";
 // シミュレーションそのものの設定を行う関数
 export const FPS = 30;
 export function settingInit(p) {
-    p.frameRate(FPS);
-    p.textAlign(p.CENTER, p.CENTER);
-    p.textSize(16);
+  p.frameRate(FPS);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.textSize(16);
 }
 
 // elementSelectInit関数

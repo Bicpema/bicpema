@@ -7,12 +7,12 @@
 const FPS = 30;
 let canvasController;
 function settingInit() {
-    canvasController = new BicpemaCanvasController(true, false);
-    canvasController.fullScreen();
-    frameRate(FPS);
-    textAlign(CENTER, CENTER);
-    textFont(font);
-    textSize(16);
+  canvasController = new BicpemaCanvasController(true, false);
+  canvasController.fullScreen();
+  frameRate(FPS);
+  textAlign(CENTER, CENTER);
+  textFont(font);
+  textSize(16);
 }
 
 // elementSelectInit関数
@@ -20,8 +20,8 @@ function settingInit() {
 // グラフを利用する際には、graph,graphCanvasのコメントアウトをはずしてください。
 //   let graph, graphCanvas;
 function elementSelectInit() {
-    //   graph = select("#graph");
-    //   graphCanvas = select("#graphCanvas");
+  //   graph = select("#graph");
+  //   graphCanvas = select("#graphCanvas");
 }
 
 // elementPositionInit関数

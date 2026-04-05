@@ -3,8 +3,8 @@
 import { state, MEDIUM_QUANTITY } from "./state.js";
 import { Medium } from "./medium.js";
 import {
-    onDecelerationButtonClick,
-    onAccelerationButtonClick,
+  onDecelerationButtonClick,
+  onAccelerationButtonClick,
 } from "./element-function.js";
 
 /**
@@ -18,7 +18,7 @@ export const FPS = 60;
  * @param {*} p - p5 インスタンス。
  */
 export function settingInit(p) {
-    p.frameRate(FPS);
+  p.frameRate(FPS);
 }
 
 /**
@@ -26,11 +26,11 @@ export function settingInit(p) {
  * @param {*} p - p5 インスタンス。
  */
 export function elementSelectInit(p) {
-    state.decelerationButton = p.select("#decelerationButton");
-    state.accelerationButton = p.select("#accelerationButton");
+  state.decelerationButton = p.select("#decelerationButton");
+  state.accelerationButton = p.select("#accelerationButton");
 
-    state.decelerationButton.mousePressed(() => onDecelerationButtonClick(p));
-    state.accelerationButton.mousePressed(() => onAccelerationButtonClick(p));
+  state.decelerationButton.mousePressed(() => onDecelerationButtonClick(p));
+  state.accelerationButton.mousePressed(() => onAccelerationButtonClick(p));
 }
 
 /**
@@ -38,25 +38,25 @@ export function elementSelectInit(p) {
  * @param {*} p - p5 インスタンス。
  */
 export function valueInit(p) {
-    state.stopper.resize(100, 0);
-    state.button.resize(50, 50);
-    state.buttonClickedIs = true;
-    state.fixedIs = true;
-    state.speed = 1;
-    state.incidentWaves = [];
-    state.reflectedWaves = [];
+  state.stopper.resize(100, 0);
+  state.button.resize(50, 50);
+  state.buttonClickedIs = true;
+  state.fixedIs = true;
+  state.speed = 1;
+  state.incidentWaves = [];
+  state.reflectedWaves = [];
 
-    state.mediums = new Array(MEDIUM_QUANTITY);
-    for (let i = 0; i < MEDIUM_QUANTITY; i++) {
-        state.mediums[i] = new Medium(
-            p,
-            (i * (p.width - 200)) / MEDIUM_QUANTITY,
-            0,
-            i
-        );
-    }
+  state.mediums = new Array(MEDIUM_QUANTITY);
+  for (let i = 0; i < MEDIUM_QUANTITY; i++) {
+    state.mediums[i] = new Medium(
+      p,
+      (i * (p.width - 200)) / MEDIUM_QUANTITY,
+      0,
+      i
+    );
+  }
 
-    state.stopperX =
-        p.width - state.stopper.width - 5 - (p.width - 200) / MEDIUM_QUANTITY;
-    state.stopperY = p.height / 2 - state.stopper.height / 8;
+  state.stopperX =
+    p.width - state.stopper.width - 5 - (p.width - 200) / MEDIUM_QUANTITY;
+  state.stopperY = p.height / 2 - state.stopper.height / 8;
 }

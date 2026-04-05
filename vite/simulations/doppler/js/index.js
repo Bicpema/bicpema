@@ -8,23 +8,23 @@ import { settingInit, elCreate, initValue } from "./init.js";
 import { drawSimulation } from "./logic.js";
 
 const sketch = (p) => {
-    const canvasController = new BicpemaCanvasController(true, false, 1.0, 0.9);
+  const canvasController = new BicpemaCanvasController(true, false, 1.0, 0.9);
 
-    p.setup = () => {
-        canvasController.fullScreen(p);
-        settingInit(p);
-        elCreate(p);
-        initValue(p);
-    };
+  p.setup = () => {
+    canvasController.fullScreen(p);
+    settingInit(p);
+    elCreate(p);
+    initValue(p);
+  };
 
-    p.draw = () => {
-        drawSimulation(p);
-    };
+  p.draw = () => {
+    drawSimulation(p);
+  };
 
-    p.windowResized = () => {
-        canvasController.resizeScreen(p);
-        initValue(p);
-    };
+  p.windowResized = () => {
+    canvasController.resizeScreen(p);
+    initValue(p);
+  };
 };
 
 new p5(sketch);
