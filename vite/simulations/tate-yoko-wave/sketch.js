@@ -5,12 +5,12 @@ let lambda = 200;
 let k;
 let omega = 0.1;
 let t = 0;
-let moveBtn,resetBtn;
+let moveBtn, resetBtn;
 let running = false;
 let times;
 
 let focusIndex;
-let xStart = 60;   // 波の出発点（左端）
+let xStart = 60; // 波の出発点（左端）
 
 function setup() {
   createCanvas(windowWidth, 600);
@@ -25,22 +25,22 @@ function setup() {
   focusIndex = floor(N / 2);
 
   moveBtn = createButton("スタート");
-  moveBtn.position(width/2-100, height -60);
-  moveBtn.size(96,48);
+  moveBtn.position(width / 2 - 100, height - 60);
+  moveBtn.size(96, 48);
   moveBtn.style("background-color", "#03A9F4");
-  moveBtn.style("font", "20px");  
-  moveBtn.style("font-weight", "bold");  
+  moveBtn.style("font", "20px");
+  moveBtn.style("font-weight", "bold");
   moveBtn.style("border-radius", "5px");
   moveBtn.style("border", "none");
-  moveBtn.style("color", "#fff");  
+  moveBtn.style("color", "#fff");
   moveBtn.mousePressed(toggleMove);
-  
+
   resetBtn = createButton("リセット");
-  resetBtn.position(width/2+4, height - 60);
-  resetBtn.size(96,48);
+  resetBtn.position(width / 2 + 4, height - 60);
+  resetBtn.size(96, 48);
   resetBtn.style("background-color", "#9E9E9E");
-  resetBtn.style("font-weight", "bold");  
-  resetBtn.style("color", "#fff");  
+  resetBtn.style("font-weight", "bold");
+  resetBtn.style("color", "#fff");
   resetBtn.style("border-radius", "5px");
   resetBtn.style("border", "none");
   resetBtn.mousePressed(() => {
@@ -49,16 +49,17 @@ function setup() {
   });
 
   times = createSlider(10, 60, 30, 1);
-  times.position(width/2-250, height-45);
+  times.position(width / 2 - 250, height - 45);
   times.size(120);
 }
 
 function toggleMove() {
   running = !running;
-  if(running == false){
-    moveBtn.html("スタート"); 
-    moveBtn.style("background-color",  "#03A9F4");
-  }if(running == true){
+  if (running == false) {
+    moveBtn.html("スタート");
+    moveBtn.style("background-color", "#03A9F4");
+  }
+  if (running == true) {
     moveBtn.html("ストップ");
     moveBtn.style("background-color", "#F44336");
   }
@@ -75,7 +76,7 @@ function draw() {
 
 // 変位
 function displacement(x0) {
-  let v = omega / k;                    // 波の速さ
+  let v = omega / k; // 波の速さ
   let arrivalTime = (x0 - xStart) / v;
 
   if (t <= arrivalTime) {
@@ -131,16 +132,16 @@ function drawLongitudinal() {
 // 横波
 function drawConvertedTransverse() {
   push();
-  translate(0, height * 2 / 3);
+  translate(0, (height * 2) / 3);
 
   drawAxis("横波");
 
   // 波の線自体を細かく描写
   noFill();
-  stroke(255,0,0);
+  stroke(255, 0, 0);
   strokeWeight(1);
   beginShape();
-  for (let x = xStart; x < width - 60; x ++) {
+  for (let x = xStart; x < width - 60; x++) {
     let dy = displacement(x);
     // 縦波の変位 dx を横波の変位 dy として上方向（マイナスY方向）にプロット
     vertex(x, -dy);
@@ -153,8 +154,8 @@ function drawConvertedTransverse() {
     fill(255, 0, 0);
     noStroke();
     circle(p.x0, -dy, 5);
-    stroke(255,0,0,100);
-    line(p.x0, 0, p.x0, -dy)
+    stroke(255, 0, 0, 100);
+    line(p.x0, 0, p.x0, -dy);
   }
 
   // 注目粒子
@@ -166,7 +167,6 @@ function drawConvertedTransverse() {
   circle(p.x0, 0, 8); // 平衡点（青）
   fill(255, 0, 0);
   circle(p.x0, -dy, 8); // 現在位置（赤）
-  
 
   // --- 修正箇所：波が到達したら矢印を描画 ---
   let v = omega / k;

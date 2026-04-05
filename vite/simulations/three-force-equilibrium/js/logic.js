@@ -269,16 +269,8 @@ function drawAngleLabels(p) {
   p.noStroke();
   p.textSize(13);
   p.textAlign(p.LEFT, p.BOTTOM);
-  p.text(
-    `\u03B8\u2081 = ${theta1.toFixed(1)}\u00B0`,
-    16,
-    V_H - 38
-  );
-  p.text(
-    `\u03B8\u2082 = ${theta2.toFixed(1)}\u00B0`,
-    16,
-    V_H - 20
-  );
+  p.text(`\u03B8\u2081 = ${theta1.toFixed(1)}\u00B0`, 16, V_H - 38);
+  p.text(`\u03B8\u2082 = ${theta2.toFixed(1)}\u00B0`, 16, V_H - 20);
 }
 
 /**
@@ -342,11 +334,7 @@ function drawPhysicsPanel(p) {
   p.noStroke();
   p.textSize(12);
   p.textAlign(p.CENTER, p.BOTTOM);
-  p.text(
-    "● をドラッグして動かせます",
-    PANEL_DIVIDER_X / 2,
-    V_H - 3
-  );
+  p.text("● をドラッグして動かせます", PANEL_DIVIDER_X / 2, V_H - 3);
 }
 
 // ────────────────────────────────────────────
@@ -389,7 +377,11 @@ function drawForceTrianglePanel(p) {
   drawArrow(p, lgX, lgY + 22, lgX + 32, lgY + 22, T2_COLOR, 2, 8);
   p.fill(T2_COLOR[0], T2_COLOR[1], T2_COLOR[2]);
   p.noStroke();
-  p.text("T\u2082\uFF08\u7CF8\u0032\u306E\u5F35\u529B\uFF09", lgX + 42, lgY + 22);
+  p.text(
+    "T\u2082\uFF08\u7CF8\u0032\u306E\u5F35\u529B\uFF09",
+    lgX + 42,
+    lgY + 22
+  );
 
   drawArrow(p, lgX, lgY + 44, lgX + 32, lgY + 44, W_COLOR, 2, 8);
   p.fill(W_COLOR[0], W_COLOR[1], W_COLOR[2]);
@@ -464,11 +456,7 @@ function drawForceTrianglePanel(p) {
   p.noStroke();
   p.textSize(14);
   p.textAlign(p.RIGHT, p.CENTER);
-  p.text(
-    `W = ${W} N`,
-    (P0.x + P1.x) / 2 - 12,
-    (P0.y + P1.y) / 2
-  );
+  p.text(`W = ${W} N`, (P0.x + P1.x) / 2 - 12, (P0.y + P1.y) / 2);
 
   // T1 ラベル（P1→P2 の法線方向）
   const t1dx = P2.x - P1.x;
@@ -539,8 +527,7 @@ function updateCursor(p, vmx, vmy) {
     Math.hypot(vmx - anchorA.x, vmy - anchorA.y) <= ANCHOR_RADIUS + 6;
   const isOverAnchorB =
     Math.hypot(vmx - anchorB.x, vmy - anchorB.y) <= ANCHOR_RADIUS + 6;
-  const isOverRing =
-    Math.hypot(vmx - ring.x, vmy - ring.y) <= RING_RADIUS + 6;
+  const isOverRing = Math.hypot(vmx - ring.x, vmy - ring.y) <= RING_RADIUS + 6;
 
   if (state.dragging || isOverAnchorA || isOverAnchorB || isOverRing) {
     p.cursor("grab");

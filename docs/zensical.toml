@@ -33,9 +33,7 @@ site_author = "Bicpema"
 # fragment.
 #
 # Read more: https://zensical.org/docs/setup/basics/#copyright
-copyright = """
-Copyright &copy; 2026 Bicpema
-"""
+copyright = "Copyright &copy; 2026 Bicpema"
 
 # Navigation structure
 #

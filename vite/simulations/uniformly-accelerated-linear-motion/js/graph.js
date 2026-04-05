@@ -25,12 +25,18 @@ export class MotionGraph {
     }
 
     const maxTime = state.car.time > 0 ? state.car.time : 1;
-    const maxX = state.xtData.length > 0
-      ? Math.max(...state.xtData.map((d) => d.y), 1)
-      : 1;
-    const maxV = state.vtData.length > 0
-      ? Math.max(...state.vtData.map((d) => d.y), state.car.initialVelocity, 1)
-      : Math.max(state.car.initialVelocity, 1);
+    const maxX =
+      state.xtData.length > 0
+        ? Math.max(...state.xtData.map((d) => d.y), 1)
+        : 1;
+    const maxV =
+      state.vtData.length > 0
+        ? Math.max(
+            ...state.vtData.map((d) => d.y),
+            state.car.initialVelocity,
+            1
+          )
+        : Math.max(state.car.initialVelocity, 1);
 
     const data = {
       datasets: [
@@ -74,7 +80,7 @@ export class MotionGraph {
         x: {
           type: "linear",
           min: 0,
-          max: parseFloat((Math.min(maxTime * 1.1, MAX_TIME)).toFixed(2)),
+          max: parseFloat(Math.min(maxTime * 1.1, MAX_TIME).toFixed(2)),
           title: {
             display: true,
             text: "時間 t [s]",

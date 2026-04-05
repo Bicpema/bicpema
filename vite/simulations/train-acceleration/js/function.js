@@ -25,7 +25,11 @@ export const drawTrack = (p, groundY, trackOffset, vw) => {
   p.noStroke();
   // trackOffset が負になった場合も正の剰余に正規化し、枕木が途切れないようにする
   const offset = ((trackOffset % TIE_SPACING) + TIE_SPACING) % TIE_SPACING;
-  for (let x = -TIE_SPACING + (TIE_SPACING - offset); x < vw + TIE_SPACING; x += TIE_SPACING) {
+  for (
+    let x = -TIE_SPACING + (TIE_SPACING - offset);
+    x < vw + TIE_SPACING;
+    x += TIE_SPACING
+  ) {
     p.rect(x - TIE_W / 2, groundY, TIE_W, TIE_H);
   }
 
@@ -72,7 +76,13 @@ export const drawTrain = (p, trainX, groundY) => {
   const numWindows = 4;
   const winSpacing = BODY_W / (numWindows + 1);
   for (let i = 1; i <= numWindows; i++) {
-    p.rect(trainX - BODY_W / 2 + winSpacing * i - WIN_W / 2, winY, WIN_W, WIN_H, 3);
+    p.rect(
+      trainX - BODY_W / 2 + winSpacing * i - WIN_W / 2,
+      winY,
+      WIN_W,
+      WIN_H,
+      3
+    );
   }
 
   // 前面ライト（右側）
@@ -92,7 +102,11 @@ export const drawTrain = (p, trainX, groundY) => {
   p.circle(trainX - BODY_W / 2 + WHEEL_OFFSET, groundY + WHEEL_R, WHEEL_R * 2);
   p.fill(100);
   p.noStroke();
-  p.circle(trainX - BODY_W / 2 + WHEEL_OFFSET, groundY + WHEEL_R, WHEEL_R * 0.5);
+  p.circle(
+    trainX - BODY_W / 2 + WHEEL_OFFSET,
+    groundY + WHEEL_R,
+    WHEEL_R * 0.5
+  );
 
   // 車輪（右）
   p.fill(60);
@@ -101,7 +115,11 @@ export const drawTrain = (p, trainX, groundY) => {
   p.circle(trainX + BODY_W / 2 - WHEEL_OFFSET, groundY + WHEEL_R, WHEEL_R * 2);
   p.fill(100);
   p.noStroke();
-  p.circle(trainX + BODY_W / 2 - WHEEL_OFFSET, groundY + WHEEL_R, WHEEL_R * 0.5);
+  p.circle(
+    trainX + BODY_W / 2 - WHEEL_OFFSET,
+    groundY + WHEEL_R,
+    WHEEL_R * 0.5
+  );
 };
 
 /**

@@ -49,4 +49,4 @@ zensical build --clean
 `zensical serve` を起動した状態でファイルを編集すると、ブラウザが自動でリロードされます。
 
 !!! note
-    `docs/site/` はビルド生成物のため、`.gitignore` に追加することを推奨します。
+`docs/site/` はビルド生成物のため、`.gitignore` に追加することを推奨します。

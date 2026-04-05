@@ -3,7 +3,7 @@
 
 let margin;
 let innerW;
-let innerH; 
+let innerH;
 let cols;
 let dx;
 
@@ -19,37 +19,37 @@ let rightFront = 0;
 let leftFront;
 
 function setup() {
-  createCanvas(1000,500);
-  
+  createCanvas(1000, 500);
+
   margin = 50;
-  
+
   innerW = width - margin * 2;
   innerH = height - margin * 2;
   cols = innerW / 4;
 
-  dx = innerW / (cols);
+  dx = innerW / cols;
   k = TWO_PI / wavelength;
   omega = TWO_PI / 120;
   v = omega / k;
   leftFront = innerW;
 
   moveBtn = createButton("スタート");
-  moveBtn.position(width/2-100, height + 10);
-  moveBtn.size(96,48);
+  moveBtn.position(width / 2 - 100, height + 10);
+  moveBtn.size(96, 48);
   moveBtn.style("background-color", "#03A9F4");
-  moveBtn.style("font", "20px");  
-  moveBtn.style("font-weight", "bold");  
+  moveBtn.style("font", "20px");
+  moveBtn.style("font-weight", "bold");
   moveBtn.style("border-radius", "5px");
   moveBtn.style("border", "none");
-  moveBtn.style("color", "#fff");  
+  moveBtn.style("color", "#fff");
   moveBtn.mousePressed(toggleMove);
-  
+
   resetBtn = createButton("リセット");
-  resetBtn.position(width/2+4, height + 10);
-  resetBtn.size(96,48);
+  resetBtn.position(width / 2 + 4, height + 10);
+  resetBtn.size(96, 48);
   resetBtn.style("background-color", "#9E9E9E");
-  resetBtn.style("font-weight", "bold");  
-  resetBtn.style("color", "#fff");  
+  resetBtn.style("font-weight", "bold");
+  resetBtn.style("color", "#fff");
   resetBtn.style("border-radius", "5px");
   resetBtn.style("border", "none");
   resetBtn.mousePressed(() => {
@@ -58,27 +58,27 @@ function setup() {
     leftFront = innerW;
     running = false;
   });
-  
 }
-  
+
 function toggleMove() {
   running = !running;
-  if(running == false){
-    moveBtn.html("スタート"); 
-    moveBtn.style("background-color",  "#03A9F4");
-  }if(running == true){
+  if (running == false) {
+    moveBtn.html("スタート");
+    moveBtn.style("background-color", "#03A9F4");
+  }
+  if (running == true) {
     moveBtn.html("ストップ");
     moveBtn.style("background-color", "#F44336");
   }
 }
 
 function draw() {
-  background(211,237,244);
-  
+  background(211, 237, 244);
+
   push();
   translate(margin, margin);
   noStroke();
-  rect(0,0,innerW,innerH);
+  rect(0, 0, innerW, innerH);
 
   // コンテンツの描画
   drawGrid();
@@ -87,11 +87,11 @@ function draw() {
   drawLeftWave();
   drawStandingWave();
   pop();
-  
+
   if (running) {
     t += v;
-    rightFront = min(v*t, innerW);
-    leftFront = max(innerW-v*t, 0);
+    rightFront = min(v * t, innerW);
+    leftFront = max(innerW - v * t, 0);
   }
 }
 
@@ -99,34 +99,26 @@ function draw() {
 function drawGrid() {
   stroke(200);
   strokeWeight(1);
-  
+
   // --- 横グリッド ---
   let yCenter = innerH / 2;
   let gridUnitY = wavelength / 8;
 
-  for (let y = yCenter;
-       y <= innerH;
-       y += gridUnitY) {
+  for (let y = yCenter; y <= innerH; y += gridUnitY) {
     line(0, y, innerW, y);
   }
-   for (let y = yCenter;
-       y >= 0;
-       y -= gridUnitY) {
+  for (let y = yCenter; y >= 0; y -= gridUnitY) {
     line(0, y, innerW, y);
   }
-  
+
   // --- 縦グリッド ---
   let xCenter = innerW / 2;
-  let gridUnitX = wavelength/ 8;
+  let gridUnitX = wavelength / 8;
 
-  for (let x = xCenter;
-       x <= innerW;
-       x += gridUnitX) {
+  for (let x = xCenter; x <= innerW; x += gridUnitX) {
     line(x, 0, x, innerH);
   }
-   for (let x = xCenter;
-       x >= 0;
-       x -= gridUnitX) {
+  for (let x = xCenter; x >= 0; x -= gridUnitX) {
     line(x, 0, x, innerH);
   }
 }
@@ -134,11 +126,11 @@ function drawGrid() {
 // ===== 横軸（x軸）＋矢印 =====
 function drawXAxis() {
   let yAxis = innerH / 2;
-  
+
   // 横軸
   stroke(0);
   strokeWeight(2);
-  line(0, yAxis, innerW-1, yAxis);
+  line(0, yAxis, innerW - 1, yAxis);
 
   // 矢印
   strokeWeight(1);
@@ -154,49 +146,49 @@ function drawXAxis() {
 }
 
 // 右向き進行波
-function drawRightWave(){
-  stroke(255,0,0); 
+function drawRightWave() {
+  stroke(255, 0, 0);
   strokeWeight(2);
   noFill();
   beginShape();
-  for(let x=0;x<innerW;x++){
-    if(x<rightFront){
-      let y = A*sin(k*x - omega*t);
-      vertex(x,innerH/2+y);
-  } 
+  for (let x = 0; x < innerW; x++) {
+    if (x < rightFront) {
+      let y = A * sin(k * x - omega * t);
+      vertex(x, innerH / 2 + y);
+    }
   }
   endShape();
 }
 
 // 左向き進行波
-function drawLeftWave(){
-  stroke(0,0,255);
-  strokeWeight(2);  
+function drawLeftWave() {
+  stroke(0, 0, 255);
+  strokeWeight(2);
   noFill();
   beginShape();
-  for(let x=0;x<innerW;x++){
-    if(x>leftFront){
-      let y = A*sin(k*x + omega*t);
-      vertex(x,innerH/2+y);
-    }  
+  for (let x = 0; x < innerW; x++) {
+    if (x > leftFront) {
+      let y = A * sin(k * x + omega * t);
+      vertex(x, innerH / 2 + y);
+    }
   }
-  
+
   endShape();
 }
 
 // 合成波（定常波）
-function drawStandingWave(){
-  stroke(0,180,0);
+function drawStandingWave() {
+  stroke(0, 180, 0);
   strokeWeight(2);
   noFill();
 
   beginShape();
-  for(let x=0;x<innerW;x++){
+  for (let x = 0; x < innerW; x++) {
     if (x <= rightFront && x >= leftFront) {
-      let y1 = A*sin(k*x - omega*t);
-      let y2 = A*sin(k*(innerW-x) - omega*t);
+      let y1 = A * sin(k * x - omega * t);
+      let y2 = A * sin(k * (innerW - x) - omega * t);
       let y = y1 + y2;
-      vertex(x,innerH/2+y);
+      vertex(x, innerH / 2 + y);
     }
   }
   endShape();

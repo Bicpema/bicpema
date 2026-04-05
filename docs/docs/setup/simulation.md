@@ -31,9 +31,9 @@ hugo server -D
 npm run dev
 ```
 
-| URL | 内容 |
-|-----|------|
-| <http://localhost:1313/> | トップページ |
+| URL                                                            | 内容               |
+| -------------------------------------------------------------- | ------------------ |
+| <http://localhost:1313/>                                       | トップページ       |
 | <http://localhost:1313/vite/simulations/{シミュレーション名}/> | 各シミュレーション |
 
 ## 新規シミュレーションの追加
@@ -67,4 +67,4 @@ npm run format
 ```
 
 !!! note
-    `.prettierignore` により、`themes/` や `static/` など一部ディレクトリは除外されます。
+`.prettierignore` により、`themes/` や `static/` など一部ディレクトリは除外されます。

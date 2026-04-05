@@ -57,7 +57,10 @@ test("再生・停止ボタンが動作する", async ({ page }) => {
   // 停止ボタンをクリック
   await page.locator("#playPauseButton").click();
   // ボタンの状態が変わること
-  await expect(page.locator("#playPauseButton")).toHaveAttribute("aria-label", "再生");
+  await expect(page.locator("#playPauseButton")).toHaveAttribute(
+    "aria-label",
+    "再生"
+  );
 });
 ```
 
@@ -67,4 +70,4 @@ test("再生・停止ボタンが動作する", async ({ page }) => {
 将来的にはデプロイ前のステップとして組み込むことを検討してください。
 
 !!! note
-    ローカルでテストを実行する際は、Hugo サーバーと Vite ビルドが起動していることを確認してください。
+ローカルでテストを実行する際は、Hugo サーバーと Vite ビルドが起動していることを確認してください。
