@@ -287,6 +287,7 @@ function settingInit() {
   frameRate(60);
   textAlign(CENTER);
   textSize(20);
+  // カメラの位置(eyeX, eyeY, eyeZ)、注視点(centerX, centerY, centerZ)、上方向(upX, upY, upZ)
   camera(800, -500, 800, 0, 0, 0, 0, 1, 0);
 }
 
@@ -579,7 +580,7 @@ function connectStrata() {
   let p1Name = select("#firstPlaceSelect").value();
   let p2Name = select("#secondPlaceSelect").value();
   let p3Name = select("#thirdPlaceSelect").value();
-  if (p1Name != "-" && p2Name != "-" && p3Name != "-") {
+  if (p1Name !== "-" && p2Name !== "-" && p3Name !== "-") {
     let p1 = [0, 0];
     let p2 = [0, 0];
     let p3 = [0, 0];
@@ -742,8 +743,9 @@ function placeNameInputFunction() {
 function placeSelectFunction(placeSelectId, placeNameId, selectId) {
   let placeSelect = select("#" + placeSelectId);
   let placeNameEl = document.getElementById(placeNameId);
-  placeNameEl.innerHTML = placeSelect.value();
-  let placeName = placeNameEl.innerHTML;
+  let selectedValue = placeSelect.value();
+  placeNameEl.textContent = selectedValue;
+  let placeName = selectedValue;
   for (let key in dataInputArr) {
     if (dataInputArr[key].name.value() === placeName) {
       placeName = key;

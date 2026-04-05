@@ -27,7 +27,7 @@ window.onload = function () {
     window.alert("親ウィンドウがありません。");
     return false;
   }
-  document.getElementById("placeName").innerHTML = placeName + "のデータを編集";
+  document.getElementById("placeName").textContent = placeName + "のデータを編集";
   document.title = placeName + "のデータを編集";
 
   // 入力済み地層データがあれば引き継ぎinputに入力
@@ -79,7 +79,7 @@ function draw() {
       trArr[i].td3Select.value(),
     ]);
   }
-  let name = document.getElementById("placeName").innerHTML;
+  let name = document.getElementById("placeName").textContent;
   name = name.split("のデータを編集")[0];
   let arr = [name, strataData];
   window.opener.submit(arr);
