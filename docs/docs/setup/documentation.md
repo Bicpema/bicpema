@@ -32,17 +32,6 @@ zensical serve
 
 ブラウザで <http://localhost:8000/> を開くとドキュメントが表示されます。
 
-## ドキュメントのビルド
-
-静的ファイルを生成する場合:
-
-```bash
-cd docs
-zensical build --clean
-```
-
-`docs/site/` ディレクトリに HTML ファイルが生成されます。
-
 ## ドキュメントの編集
 
 ドキュメントファイルは `docs/docs/` ディレクトリ以下の Markdown ファイルです。  
