@@ -22,4 +22,3 @@ Math.sum = math.sum;
 Math.multiply = math.multiply;
 // mathをグローバルに公開
 window.math = math;
-import "matter-js";
