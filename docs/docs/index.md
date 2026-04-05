@@ -15,7 +15,7 @@ Bicpema は、物理や熱力学などの教育用インタラクティブシミ
 | シミュレーション | [p5.js](https://p5js.org/)                                       |
 | UIフレームワーク | [Bootstrap 5](https://getbootstrap.com/)                         |
 | デプロイ先       | [Firebase Hosting](https://firebase.google.com/products/hosting) |
-| デプロイ URL     | <https://bicpema.web.app/>                                       |
+| デプロイ URL     | <https://bicpema.com/>                                           |
 
 ## ドキュメント構成
 
