@@ -16,12 +16,21 @@ aliases: []
 
 ## 扱っている現象および本教材の説明
 
-巻線比に応じて二次側電圧が変化します。理想変圧器ではV2/V1=N2/N1、I2/I1=N1/N2。
+巻線比に応じて二次側電圧が変化します。理想変圧器では次の関係が成り立ちます。
+
+<p align="center">
+    V<sub>2</sub>/V<sub>1</sub> = N<sub>2</sub>/N<sub>1</sub>
+</p>
+
+<p align="center">
+    I<sub>2</sub>/I<sub>1</sub> = N<sub>1</sub>/N<sub>2</sub>
+</p>
 
 ### 主要な物理法則・公式
 
-V2/V1=N2/N1
-I2/I1=N1/N2
+<p align="center">V<sub>2</sub>/V<sub>1</sub> = N<sub>2</sub>/N<sub>1</sub></p>
+
+<p align="center">I<sub>2</sub>/I<sub>1</sub> = N<sub>1</sub>/N<sub>2</sub></p>
 
 ## 対象
 
