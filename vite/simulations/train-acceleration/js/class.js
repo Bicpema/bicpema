@@ -48,4 +48,3 @@ export class Train {
     this.trackOffset = 0;
   }
 }
-

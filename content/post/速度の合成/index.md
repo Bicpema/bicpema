@@ -34,9 +34,9 @@ aliases: []
 - v<sub>船</sub> > 0（下流方向）のとき: v<sub>合</sub> = v<sub>川</sub> + v<sub>船</sub>（合成速度は川よりも速い左向き）
 - v<sub>船</sub> = 0 のとき: v<sub>合</sub> = v<sub>川</sub>（船は川に流されるのみ）
 - v<sub>船</sub> < 0（上流方向）のとき:
-  - |v<sub>船</sub>| < v<sub>川</sub> なら船は左向きに進む（遅くなる）
-  - |v<sub>船</sub>| = v<sub>川</sub> なら船は静止して見える（v<sub>合</sub> = 0）
-  - |v<sub>船</sub>| > v<sub>川</sub> なら船は右向きに進む（上流へ）
+    - |v<sub>船</sub>| < v<sub>川</sub> なら船は左向きに進む（遅くなる）
+    - |v<sub>船</sub>| = v<sub>川</sub> なら船は静止して見える（v<sub>合</sub> = 0）
+    - |v<sub>船</sub>| > v<sub>川</sub> なら船は右向きに進む（上流へ）
 
 ## 対象
 

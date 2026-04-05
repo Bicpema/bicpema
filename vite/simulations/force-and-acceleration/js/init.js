@@ -2,7 +2,12 @@
 
 import { state } from "./state.js";
 import { Cart } from "./class.js";
-import { onMassChange, onReset, onToggleModal, onCloseModal } from "./element-function.js";
+import {
+  onMassChange,
+  onReset,
+  onToggleModal,
+  onCloseModal,
+} from "./element-function.js";
 
 export const FPS = 60;
 
@@ -49,4 +54,3 @@ export function valueInit(p) {
   const mass = parseFloat(state.massInput.value());
   state.cart = new Cart(250, mass);
 }
-

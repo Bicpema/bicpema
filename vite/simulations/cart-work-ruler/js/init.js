@@ -17,9 +17,7 @@ export function elCreate(p) {
   state.massInput = p.select("#massInput");
   state.velocityInput = p.select("#velocityInput");
   state.forceInput = p.select("#forceInput");
-  state.resetButton = p
-    .select("#resetButton")
-    .mousePressed(() => onReset(p));
+  state.resetButton = p.select("#resetButton").mousePressed(() => onReset(p));
   state.playPauseButton = p
     .select("#playPauseButton")
     .mousePressed(onPlayPause);
