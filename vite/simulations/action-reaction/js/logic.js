@@ -461,9 +461,7 @@ function drawGravityPair(p, cx, topY, W) {
   // 地球アイコン
   drawEarthIcon(p, cx, earthY, 22);
 
-  // 重力矢印（地球→本, 赤, 下向き = 本に向かって下から） 
-  // 矢印は本の下から地球に向かう方向 = 下向き
-  // 作用: 地球が本に及ぼす重力 → 本の下端から下向き
+  // 重力矢印（地球→本）: 作用力 — 本の下端から地球方向（下向き）へ赤矢印で描画
   const axLeft = cx - 35;
   drawArrow(p, axLeft, bookY + 12, axLeft, bookY + 12 + arrowSpace, GRAVITY_COLOR, 3, 10);
 
