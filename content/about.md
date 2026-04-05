@@ -35,6 +35,13 @@ Bicpema のシミュレーションはブラウザで動作するため、イン
 - 生徒が自分でパラメータを変えて「なぜそうなるか」を探究する活動に活用する
 - テスト前の復習として、自分のペースで現象を確認する
 
+## 変更履歴
+
+- 2026-03-30: v1.0.3 公開（軽微なバグ修正：[詳細](https://github.com/Bicpema/bicpema/releases/tag/v1.0.3)）
+- 2026-03-30: v1.0.2 公開（軽微なバグ修正：[詳細](https://github.com/Bicpema/bicpema/releases/tag/v1.0.2)）
+- 2026-03-30: v1.0.1 公開（軽微なバグ修正：[詳細](https://github.com/Bicpema/bicpema/releases/tag/v1.0.1)）
+- 2026-03-29: v1.0.0 公開（初版公開：[詳細](https://github.com/Bicpema/bicpema/releases/tag/v1.0.0)）
+
 ## 運営
 
-**Bicpema Developer Team**
+Bicpema Developer Team
