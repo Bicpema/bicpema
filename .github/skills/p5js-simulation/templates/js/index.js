@@ -37,6 +37,7 @@ const sketch = (p) => {
   // draw関数
   // シミュレーションを実行した後、繰り返し呼び出され続ける
   p.draw = () => {
+    p.scale(p.width / 1000);
     p.background(0);
     // drawGraph(p);
   };

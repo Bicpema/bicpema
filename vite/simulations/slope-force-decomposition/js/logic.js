@@ -88,7 +88,7 @@ export function drawSlopeScene(p) {
   const sc = SLOPE_SCALE * 0.9;
 
   // 斜面の基準点（オブジェクト位置）
-  const ox = 440;
+  const ox = 500;
   const oy = 300;
 
   p.background(255, 255, 255);
@@ -132,12 +132,12 @@ function drawSlopeSurface(p, ox, oy, θ) {
   // 水平基準線
   p.stroke(80, 80, 80, 160);
   p.strokeWeight(1.5);
-  p.line(arcCX, arcCY, arcCX + arcR + 24, arcCY);
+  p.line(arcCX, arcCY + 5, arcCX + arcR + 24, arcCY + 5);
   // 弧（斜面方向 = -θ から 水平 = 0 へ）
   p.noFill();
   p.stroke(60, 60, 60, 210);
   p.strokeWeight(1.5);
-  p.arc(arcCX, arcCY, arcR * 2, arcR * 2, -θ, 0);
+  p.arc(arcCX, arcCY + 5, arcR * 2, arcR * 2, -θ, 0);
   drawLabel(
     p,
     `θ=${state.slopeAngle}°`,
@@ -194,14 +194,14 @@ function drawSlopeVectors(p, ox, oy, θ, mg, sc) {
   const tipGravX = baseX;
   const tipGravY = baseY + gravLen;
 
-  // F_parallel（斜面下向き）
+  // F_parallel（斜面下向き: (-cosT, sinT) 方向）
   const fpLen = mg * sinT * sc;
-  const tipParX = baseX + fpLen * cosT;
+  const tipParX = baseX - fpLen * cosT;
   const tipParY = baseY + fpLen * sinT;
 
-  // F_perp（斜面への法線方向、斜面に押し込む）
+  // F_perp（斜面への法線方向、斜面に押し込む: (sinT, cosT) 方向）
   const fnLen = mg * cosT * sc;
-  const tipPerpX = baseX - fnLen * sinT;
+  const tipPerpX = baseX + fnLen * sinT;
   const tipPerpY = baseY + fnLen * cosT;
 
   // 補助破線（平行四辺形：各成分先端から重力先端へ）
@@ -218,12 +218,12 @@ function drawSlopeVectors(p, ox, oy, θ, mg, sc) {
   // ラベル
   drawLabel(p, "mg", baseX + 16, baseY + gravLen / 2, p.color(40, 170, 70), 16);
   if (fpLen > 8) {
-    const lx = baseX + (fpLen * cosT) / 2 + 18 * sinT;
+    const lx = baseX - (fpLen * cosT) / 2 - 18 * sinT;
     const ly = baseY + (fpLen * sinT) / 2 - 18 * cosT;
     drawLabel(p, "mg sinθ", lx, ly, p.color(220, 50, 50), 14);
   }
   if (fnLen > 8) {
-    const lx = baseX - (fnLen * sinT) / 2 - 22 * cosT;
+    const lx = baseX + (fnLen * sinT) / 2 - 22 * cosT;
     const ly = baseY + (fnLen * cosT) / 2 - 22 * sinT;
     drawLabel(p, "mg cosθ", lx, ly, p.color(50, 100, 220), 14);
   }
@@ -243,11 +243,14 @@ function drawSlopeVectors(p, ox, oy, θ, mg, sc) {
 function drawRightAngleMark(p, ox, oy, θ, sz) {
   const cosT = Math.cos(θ);
   const sinT = Math.sin(θ);
-  const cx = ox + sz * cosT;
+  // F_parallel 方向 (-cosT, sinT) に sz 進んだ点
+  const cx = ox - sz * cosT;
   const cy = oy + sz * sinT;
-  const cx2 = cx - sz * sinT;
+  // さらに F_perp 方向 (sinT, cosT) に sz 進んだ角の点
+  const cx2 = cx + sz * sinT;
   const cy2 = cy + sz * cosT;
-  const cx3 = ox - sz * sinT;
+  // F_perp 方向 (sinT, cosT) に sz 進んだ点
+  const cx3 = ox + sz * sinT;
   const cy3 = oy + sz * cosT;
   p.noFill();
   p.stroke(100, 100, 100, 180);

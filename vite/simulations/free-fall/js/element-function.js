@@ -34,8 +34,8 @@ export function onPlayPause() {
     state.ball.stop();
     state.playPauseButton.html("再開");
   } else {
-    if (state.ball.height <= 0) {
-      state.ball.reset(parseFloat(state.heightInput.value()));
+    if (state.ball.height <= 1) {
+      return;
     }
     state.ball.start();
     state.playPauseButton.html("一時停止");

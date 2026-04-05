@@ -1,14 +1,96 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
-
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <title>半減期</title>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="./css/style.css" rel="stylesheet" />
   </head>
-  <body>
-    <main></main>
-    <script src="sketch.js"></script>
+
+  <body class="bg-dark">
+    <nav
+      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
+      data-bs-theme="dark"
+      id="navBar"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
+        <span class="text-light fw-lighter">半減期</span>
+      </div>
+    </nav>
+
+    <div class="container-fluid" id="p5Container">
+      <div id="p5Canvas"></div>
+    </div>
+
+    <!-- 左下: スタート/ストップ + リセット ボタン -->
+    <div id="toggleBtnWrapper" class="d-flex gap-2">
+      <button type="button" class="btn btn-primary" id="toggleBtn">
+        スタート
+      </button>
+      <button type="button" class="btn btn-secondary" id="resetBtn">
+        リセット
+      </button>
+    </div>
+
+    <!-- 右上: 設定ボタン -->
+    <div id="settingsBtnWrapper">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        id="settingsButton"
+        data-bs-toggle="collapse"
+        data-bs-target="#settingsPanel"
+        aria-expanded="false"
+      >
+        ⚙ 設定
+      </button>
+    </div>
+
+    <!-- 設定パネル -->
+    <div class="card collapse" id="settingsPanel">
+      <div class="card-body">
+        <h6 class="card-title">設定</h6>
+        <div class="mb-2 fw-bold">物質の選択</div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="material"
+            id="mat5730"
+            value="5730"
+            checked
+          />
+          <label class="form-check-label" for="mat5730">炭素 C-14</label>
+        </div>
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="material"
+            id="mat8"
+            value="8"
+          />
+          <label class="form-check-label" for="mat8">ヨウ素 I-131</label>
+        </div>
+        <div class="form-check mb-3">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="material"
+            id="mat30"
+            value="30"
+          />
+          <label class="form-check-label" for="mat30">セシウム Cs-137</label>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          <span>原子数:</span>
+          <button class="btn btn-sm btn-warning" id="atomPlusBtn">＋</button>
+          <button class="btn btn-sm btn-info" id="atomMinusBtn">ー</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="./js/index.js"></script>
   </body>
 </html>

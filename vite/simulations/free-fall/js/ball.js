@@ -126,15 +126,13 @@ export class Ball {
     }
 
     // 状態表示
-    p.fill(255);
+    p.fill(0);
     p.noStroke();
     p.textAlign(p.RIGHT, p.TOP);
     p.textSize(18);
     const rightX = canvasHeight * (16 / 9) - 20;
     p.text(`時間: ${this.time.toFixed(2)} s`, rightX, 20);
-    p.text(`高さ: ${this.height.toFixed(2)} m`, rightX, 50);
-    p.text(`速度: ${this.velocity.toFixed(2)} m/s`, rightX, 80);
-    p.text(`初速: ${this.initialVelocity.toFixed(1)} m/s`, rightX, 110);
+    p.text(`速度: ${this.velocity.toFixed(2)} m/s`, rightX, 50);
   }
 
   /**
