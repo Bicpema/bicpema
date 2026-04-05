@@ -88,7 +88,7 @@ export function drawSlopeScene(p) {
   const sc = SLOPE_SCALE * 0.9;
 
   // 斜面の基準点（オブジェクト位置）
-  const ox = 440;
+  const ox = 500;
   const oy = 300;
 
   p.background(255, 255, 255);
@@ -132,12 +132,12 @@ function drawSlopeSurface(p, ox, oy, θ) {
   // 水平基準線
   p.stroke(80, 80, 80, 160);
   p.strokeWeight(1.5);
-  p.line(arcCX, arcCY, arcCX + arcR + 24, arcCY);
+  p.line(arcCX, arcCY + 5, arcCX + arcR + 24, arcCY + 5);
   // 弧（斜面方向 = -θ から 水平 = 0 へ）
   p.noFill();
   p.stroke(60, 60, 60, 210);
   p.strokeWeight(1.5);
-  p.arc(arcCX, arcCY, arcR * 2, arcR * 2, -θ, 0);
+  p.arc(arcCX, arcCY + 5, arcR * 2, arcR * 2, -θ, 0);
   drawLabel(
     p,
     `θ=${state.slopeAngle}°`,
