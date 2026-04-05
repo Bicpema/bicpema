@@ -4,7 +4,7 @@ Bicpema リポジトリのトップレベルのディレクトリ構成と、各
 
 ## ディレクトリ構成
 
-```
+```txt
 bicpema/
 ├── .github/                  # GitHub 関連設定
 │   ├── ISSUE_TEMPLATE/       # Issue テンプレート

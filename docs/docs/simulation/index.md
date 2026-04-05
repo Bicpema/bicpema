@@ -37,7 +37,7 @@ python new_simulation.py
 
 モダンなシミュレーションで採用している構成です。
 
-```
+```txt
 vite/simulations/{name}/
 ├── index.html
 ├── css/
@@ -77,7 +77,7 @@ new p5(sketch);
 
 古いシミュレーションで採用している構成です。
 
-```
+```txt
 vite/simulations/{name}/
 ├── index.html
 ├── style.css
