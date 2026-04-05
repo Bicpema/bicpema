@@ -1,7 +1,26 @@
+// p5.jsがcommon.jsから読み込まれるのを待機
+function waitForP5() {
+  return new Promise((resolve) => {
+    if (typeof window.createCanvas !== "undefined") {
+      resolve();
+    } else {
+      const checkInterval = setInterval(() => {
+        if (typeof window.createCanvas !== "undefined") {
+          clearInterval(checkInterval);
+          resolve();
+        }
+      }, 50);
+    }
+  });
+}
+
+// p5が利用可能になるまで待機
+await waitForP5();
+
 // html要素が全て読み込まれた後に読み込まれる
-window.onload = () => {
+window.onload = function () {
   // 受け取った地点名入りURLから地点名を抽出
-  placeName = decodeURI(location.search);
+  let placeName = decodeURI(location.search);
   placeName = placeName.substring(1, placeName.length);
   // 親ウィンドウがない場合の処理
   if (!window.opener || window.opener.closed) {
@@ -27,9 +46,9 @@ window.onload = () => {
 
 // 現在のtr要素の数
 let trNum = 0;
-// tr要素の要素の累計生成数
+// tr要素の累計生成数
 let trSum = 0;
-// 現在のtr要素のidが格納されている
+// 現在のtr要素のidが格納されている配列
 let idArr = [];
 // 現在のtr要素が格納されている配列
 let trArr = [];
@@ -43,30 +62,16 @@ function trAddButtonFunction() {
   return trSum;
 }
 
-// DOM要素の生成
-let trAddButton;
-function elCreate() {
-  trAddButton = select("#trAddButton");
-}
-
-// DOM要素の設定
-function elInit() {
-  trAddButton.mousePressed(trAddButtonFunction);
-}
-
 // setup関数
 function setup() {
   createCanvas(0, 0);
-  elCreate();
-  elInit();
+  let trAddButton = select("#trAddButton");
+  trAddButton.mousePressed(trAddButtonFunction);
 }
 
 // draw関数
 function draw() {
-  // 取得した地層データの配列
   let strataData = [];
-
-  // input要素からvalueを取得
   for (let i = 0; i < trArr.length; i++) {
     strataData.push([
       trArr[i].td1Input.value(),
@@ -74,18 +79,10 @@ function draw() {
       trArr[i].td3Select.value(),
     ]);
   }
-
-  // ヘッダー部分のhtml要素から地点名を取得
   let name = document.getElementById("placeName").innerHTML;
   name = name.split("のデータを編集")[0];
-
-  // 地点名と地層データが格納された配列を生成
   let arr = [name, strataData];
-
-  // 親ウィンドウに送信
   window.opener.submit(arr);
-
-  // 平面データの設定を常に更新
   window.opener.placeRefreshFunction();
   window.opener.firstPlaceSelectFunction();
   window.opener.secondPlaceSelectFunction();
@@ -95,44 +92,27 @@ function draw() {
 // 新しく生成するtable要素内のtrクラス
 class TR {
   constructor(n) {
-    // 新しく生成するtr要素の番号
     let num = n;
-
-    // tr要素に関連するinput要素などの生成
-    this.tr = createElement("tr")
-      .id("tr" + num)
-      .parent("tablebody");
-    this.th = createElement("th")
-      .id("th" + num)
-      .html(trNum + "層目")
-      .parent("tr" + num);
-    this.td1 = createElement("td")
-      .id("td1" + num)
-      .parent("tr" + num);
+    this.tr = createElement("tr").id("tr" + num).parent("tablebody");
+    this.th = createElement("th").id("th" + num).html(trNum + "層目").parent("tr" + num);
+    this.td1 = createElement("td").id("td1" + num).parent("tr" + num);
     this.td1Input = createInput(0, "number")
       .id("td1Input" + num)
       .parent("td1" + num)
       .class("form-control");
-    this.td2 = createElement("td")
-      .id("td2" + num)
-      .parent("tr" + num);
+    this.td2 = createElement("td").id("td2" + num).parent("tr" + num);
     this.td2Input = createInput(0, "number")
       .id("td2Input" + num)
       .parent("td2" + num)
       .class("form-control");
-    this.td3 = createElement("td")
-      .id("td3" + num)
-      .parent("tr" + num);
+    this.td3 = createElement("td").id("td3" + num).parent("tr" + num);
     this.td3Select = createSelect()
       .id("td3Select" + num)
       .parent("td3" + num)
       .class("form-select");
-    this.td4 = createElement("td")
-      .id("td4" + num)
-      .parent("tr" + num);
+    this.td4 = createElement("td").id("td4" + num).parent("tr" + num);
 
-    // select要素（td3）にoption（選択肢）の追加
-    this.td3SelectOptionArr = [
+    const strataOptions = [
       "砂岩層",
       "泥岩層",
       "れき岩層",
@@ -141,17 +121,16 @@ class TR {
       "ローム層",
       "その他の層",
     ];
-    for (let i = 0; i < this.td3SelectOptionArr.length; i++) {
-      this.td3Select.option(this.td3SelectOptionArr[i]);
+    for (let i = 0; i < strataOptions.length; i++) {
+      this.td3Select.option(strataOptions[i]);
     }
 
-    // 削除ボタンを押した時の処理
     function _removeButtonFunction() {
       select("#tr" + str(num)).remove();
       trArr.pop(num);
       trNum -= 1;
       idArr.splice(
-        idArr.findIndex((idIndex) => idIndex == str(num)),
+        idArr.findIndex((idIndex) => idIndex === str(num)),
         1
       );
       for (let i = 0; i < idArr.length; i++) {
@@ -166,3 +145,8 @@ class TR {
     idArr.push(str(num));
   }
 }
+
+// p5.jsのグローバルモードのためにwindowオブジェクトに公開
+window.setup = setup;
+window.draw = draw;
+
