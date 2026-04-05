@@ -34,14 +34,14 @@ export const GRAPH_BOTTOM = 480;
 export const GRAPH_X_RANGE = 50;
 
 export const state = {
-  /** バネの配列 */
-  springs: [],
-  /** ばね定数スライダーの参照 */
-  springConstantInput: null,
-  /** ばね定数表示ラベルの参照 */
-  springConstantDisplay: null,
-  /** 設定モーダルの参照 */
-  settingsModal: null,
-  /** 壁（地面）画像 */
-  wallImg: null,
+    /** バネの配列 */
+    springs: [],
+    /** ばね定数スライダーの参照 */
+    springConstantInput: null,
+    /** ばね定数表示ラベルの参照 */
+    springConstantDisplay: null,
+    /** 設定モーダルの参照 */
+    settingsModal: null,
+    /** 壁（地面）画像 */
+    wallImg: null,
 };

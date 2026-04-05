@@ -10,17 +10,17 @@ Bicpema では `.github/dependabot.yml` で設定を管理しています。
 ```yaml title=".github/dependabot.yml"
 version: 2
 updates:
-  # npm (JavaScript) の依存関係
-  - package-ecosystem: "npm"
-    directory: "/"
-    schedule:
-      interval: "weekly"
+    # npm (JavaScript) の依存関係
+    - package-ecosystem: "npm"
+      directory: "/"
+      schedule:
+          interval: "weekly"
 
-  # GitHub Actions の依存関係
-  - package-ecosystem: "github-actions"
-    directory: "/.github/workflows"
-    schedule:
-      interval: "weekly"
+    # GitHub Actions の依存関係
+    - package-ecosystem: "github-actions"
+      directory: "/.github/workflows"
+      schedule:
+          interval: "weekly"
 ```
 
 | 項目                      | 設定値 |

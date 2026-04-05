@@ -3,11 +3,11 @@
 import { state } from "./state.js";
 import { Train } from "./class.js";
 import {
-  onPlayPause,
-  onToggleModal,
-  onCloseModal,
-  onReset,
-  onAccelerationChange,
+    onPlayPause,
+    onToggleModal,
+    onCloseModal,
+    onReset,
+    onAccelerationChange,
 } from "./element-function.js";
 
 /** フレームレート */
@@ -23,17 +23,17 @@ export const PX_PER_METER = 50;
  * @param {*} canvasController BicpemaCanvasControllerインスタンス。
  */
 export function settingInit(p, canvasController) {
-  p.loadFont(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
-    (f) => {
-      state.font = f;
-    },
-    () => {}
-  );
-  canvasController.fullScreen(p);
-  p.frameRate(FPS);
-  p.textAlign(p.CENTER, p.CENTER);
-  p.textSize(16);
+    p.loadFont(
+        "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
+        (f) => {
+            state.font = f;
+        },
+        () => {}
+    );
+    canvasController.fullScreen(p);
+    p.frameRate(FPS);
+    p.textAlign(p.CENTER, p.CENTER);
+    p.textSize(16);
 }
 
 /**
@@ -41,11 +41,11 @@ export function settingInit(p, canvasController) {
  * @param {*} p p5インスタンス。
  */
 export function elCreate(p) {
-  p.select("#playPauseButton").mousePressed(onPlayPause);
-  p.select("#toggleModal").mousePressed(onToggleModal);
-  p.select("#closeModal").mousePressed(onCloseModal);
-  p.select("#resetButton").mousePressed(onReset);
-  p.select("#accelerationInput").input(onAccelerationChange);
+    p.select("#playPauseButton").mousePressed(onPlayPause);
+    p.select("#toggleModal").mousePressed(onToggleModal);
+    p.select("#closeModal").mousePressed(onCloseModal);
+    p.select("#resetButton").mousePressed(onReset);
+    p.select("#accelerationInput").input(onAccelerationChange);
 }
 
 /**
@@ -53,12 +53,12 @@ export function elCreate(p) {
  * @param {*} p p5インスタンス。
  */
 export function initValue(p) {
-  state.isPlaying = false;
-  state.elapsedTime = 0;
-  state.lastGraphUpdate = 0;
-  state.maxObservedVelocity = 0;
-  state.acceleration =
-    parseFloat(p.select("#accelerationInput").value()) || 2.0;
-  state.train = new Train(V_W / 3);
-  state.vtData = [{ x: 0, y: 0 }];
+    state.isPlaying = false;
+    state.elapsedTime = 0;
+    state.lastGraphUpdate = 0;
+    state.maxObservedVelocity = 0;
+    state.acceleration =
+        parseFloat(p.select("#accelerationInput").value()) || 2.0;
+    state.train = new Train(V_W / 3);
+    state.vtData = [{ x: 0, y: 0 }];
 }

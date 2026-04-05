@@ -2,10 +2,10 @@
 
 import { state } from "./state.js";
 import {
-  onWeightChange,
-  onReset,
-  onToggleModal,
-  onCloseModal,
+    onWeightChange,
+    onReset,
+    onToggleModal,
+    onCloseModal,
 } from "./element-function.js";
 
 const FPS = 30;
@@ -15,16 +15,16 @@ const FPS = 30;
  * @param {*} p p5 インスタンス
  */
 export function elCreate(p) {
-  state.settingsModal = p.select("#settingsModal");
-  state.weightInput = p.select("#weightInput");
-  state.weightDisplay = p.select("#weightDisplay");
+    state.settingsModal = p.select("#settingsModal");
+    state.weightInput = p.select("#weightInput");
+    state.weightDisplay = p.select("#weightDisplay");
 
-  state.weightInput.input(() => onWeightChange());
-  p.select("#resetButton").mousePressed(() => onReset());
-  p.select("#toggleModal").mousePressed(() => onToggleModal());
-  p.select("#closeModal").mousePressed(() => onCloseModal());
+    state.weightInput.input(() => onWeightChange());
+    p.select("#resetButton").mousePressed(() => onReset());
+    p.select("#toggleModal").mousePressed(() => onToggleModal());
+    p.select("#closeModal").mousePressed(() => onCloseModal());
 
-  p.frameRate(FPS);
+    p.frameRate(FPS);
 }
 
 /**
@@ -32,5 +32,5 @@ export function elCreate(p) {
  * @param {*} p p5 インスタンス
  */
 export function initValue(p) {
-  p.textFont("sans-serif");
+    p.textFont("sans-serif");
 }

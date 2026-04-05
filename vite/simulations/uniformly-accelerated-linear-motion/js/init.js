@@ -3,10 +3,10 @@ import { Car } from "./car.js";
 import { MotionGraph } from "./graph.js";
 import { FPS } from "./constants.js";
 import {
-  onReset,
-  onPlayPause,
-  onToggleModal,
-  onCloseModal,
+    onReset,
+    onPlayPause,
+    onToggleModal,
+    onCloseModal,
 } from "./element-function.js";
 
 /**
@@ -14,27 +14,27 @@ import {
  * @param {p5} p p5インスタンス
  */
 export function elCreate(p) {
-  state.initialVelocityInput = p.select("#initialVelocityInput");
-  state.accelerationInput = p.select("#accelerationInput");
-  state.showMarkersCheckBox = p.select("#showMarkersCheckBox");
-  state.resetButton = p.select("#resetButton");
-  state.playPauseButton = p.select("#playPauseButton");
-  state.toggleModal = p.select("#toggleModal");
-  state.closeModal = p.select("#closeModal");
-  state.settingsModal = p.select("#settingsModal");
+    state.initialVelocityInput = p.select("#initialVelocityInput");
+    state.accelerationInput = p.select("#accelerationInput");
+    state.showMarkersCheckBox = p.select("#showMarkersCheckBox");
+    state.resetButton = p.select("#resetButton");
+    state.playPauseButton = p.select("#playPauseButton");
+    state.toggleModal = p.select("#toggleModal");
+    state.closeModal = p.select("#closeModal");
+    state.settingsModal = p.select("#settingsModal");
 
-  state.resetButton.mousePressed(() => onReset());
-  state.playPauseButton.mousePressed(() => onPlayPause());
-  state.toggleModal.mousePressed(() => onToggleModal());
-  state.closeModal.mousePressed(() => onCloseModal());
+    state.resetButton.mousePressed(() => onReset());
+    state.playPauseButton.mousePressed(() => onPlayPause());
+    state.toggleModal.mousePressed(() => onToggleModal());
+    state.closeModal.mousePressed(() => onCloseModal());
 
-  // グラフ用 canvas DIV
-  p.createDiv('<canvas id="graphCanvas"></canvas>')
-    .id("graph")
-    .parent(p.select("#p5Container"))
-    .class("rounded border border-1")
-    .style("display", "block")
-    .style("background-color", "rgba(255, 255, 255, 0.90)");
+    // グラフ用 canvas DIV
+    p.createDiv('<canvas id="graphCanvas"></canvas>')
+        .id("graph")
+        .parent(p.select("#p5Container"))
+        .class("rounded border border-1")
+        .style("display", "block")
+        .style("background-color", "rgba(255, 255, 255, 0.90)");
 }
 
 /**
@@ -42,13 +42,13 @@ export function elCreate(p) {
  * @param {p5} p p5インスタンス
  */
 export function initValue(p) {
-  p.frameRate(FPS);
-  p.textAlign(p.CENTER, p.CENTER);
-  if (state.font) p.textFont(state.font);
-  p.textSize(16);
+    p.frameRate(FPS);
+    p.textAlign(p.CENTER, p.CENTER);
+    if (state.font) p.textFont(state.font);
+    p.textSize(16);
 
-  const v0 = parseFloat(state.initialVelocityInput.value());
-  const a = parseFloat(state.accelerationInput.value());
-  state.car = new Car(v0, a);
-  state.graph = new MotionGraph();
+    const v0 = parseFloat(state.initialVelocityInput.value());
+    const a = parseFloat(state.accelerationInput.value());
+    state.car = new Car(v0, a);
+    state.graph = new MotionGraph();
 }

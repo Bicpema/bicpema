@@ -3,8 +3,8 @@
  * @param {number} density 密度の値
  */
 export function updateDensityLabel(density) {
-  const el = document.getElementById("densityValue");
-  if (el) {
-    el.textContent = density.toFixed(2);
-  }
+    const el = document.getElementById("densityValue");
+    if (el) {
+        el.textContent = density.toFixed(2);
+    }
 }

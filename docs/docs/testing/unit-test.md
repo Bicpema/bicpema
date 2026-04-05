@@ -39,9 +39,9 @@ import { describe, it, expect } from "vitest";
 import { getHtmlInputsRecursively } from "../../vite/_build/getHtmlInputsRecursively.js";
 
 describe("getHtmlInputsRecursively", () => {
-  it("指定ディレクトリ以下の index.html を収集する", () => {
-    // テストコード
-  });
+    it("指定ディレクトリ以下の index.html を収集する", () => {
+        // テストコード
+    });
 });
 ```
 

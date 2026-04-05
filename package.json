@@ -1,26 +1,26 @@
 {
-  "name": "simulations",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "format": "prettier --write .",
-    "dev": "vite build --watch",
-    "build": "vite build"
-  },
-  "devDependencies": {
-    "prettier": "3.6.2",
-    "sass": "^1.92.1",
-    "vite": "^7.1.5",
-    "vite-plugin-static-copy": "^4.0.0"
-  },
-  "dependencies": {
-    "@popperjs/core": "^2.11.8",
-    "bootstrap": "^5.3.8",
-    "chart.js": "^4.5.0",
-    "html2canvas": "^1.4.1",
-    "jquery": "^3.7.1",
-    "mathjs": "^15.1.1",
-    "p5": "^1.11.10"
-  }
+    "name": "simulations",
+    "private": true,
+    "version": "0.0.0",
+    "type": "module",
+    "scripts": {
+        "format": "prettier --write .",
+        "dev": "vite build --watch",
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "prettier": "3.6.2",
+        "sass": "^1.92.1",
+        "vite": "^7.1.5",
+        "vite-plugin-static-copy": "^4.0.0"
+    },
+    "dependencies": {
+        "@popperjs/core": "^2.11.8",
+        "bootstrap": "^5.3.8",
+        "chart.js": "^4.5.0",
+        "html2canvas": "^1.4.1",
+        "jquery": "^3.7.1",
+        "mathjs": "^15.1.1",
+        "p5": "^1.11.10"
+    }
 }

@@ -3,14 +3,14 @@
 let canvasController;
 let coordinateSystem;
 function settingInit() {
-  canvasController = new BicpemaCanvasController(false, true);
-  coordinateSystem = new CoordinateSystem(1000, 1000, 1000);
-  canvasController.fullScreen();
-  frameRate(60);
-  textAlign(CENTER);
-  textSize(20);
-  textFont(font);
-  camera(800, -500, 800, 0, 0, 0, 0, 1, 0);
+    canvasController = new BicpemaCanvasController(false, true);
+    coordinateSystem = new CoordinateSystem(1000, 1000, 1000);
+    canvasController.fullScreen();
+    frameRate(60);
+    textAlign(CENTER);
+    textSize(20);
+    textFont(font);
+    camera(800, -500, 800, 0, 0, 0, 0, 1, 0);
 }
 
 // elementSelectInit関数
@@ -24,34 +24,34 @@ let strataAddButton, strataRemoveButton;
 let setRadioParent;
 let strataFileInput;
 function elementSelectInit() {
-  buttonParent = select("#buttonParent");
-  screenshotButton = select("#screenshotButton");
-  placeAddButton = select("#placeAddButton");
-  placeRemoveButton = select("#placeRemoveButton");
-  strataAddButton = select("#strataAddButton");
-  strataRemoveButton = select("#strataRemoveButton");
+    buttonParent = select("#buttonParent");
+    screenshotButton = select("#screenshotButton");
+    placeAddButton = select("#placeAddButton");
+    placeRemoveButton = select("#placeRemoveButton");
+    strataAddButton = select("#strataAddButton");
+    strataRemoveButton = select("#strataRemoveButton");
 
-  setRadioParent = select("#setRadioParent");
-  setRadioButton = createRadio().parent(setRadioParent);
+    setRadioParent = select("#setRadioParent");
+    setRadioButton = createRadio().parent(setRadioParent);
 
-  unitSelect = select("#unitSelect");
-  strataFileInput = createFileInput(strataFileInputFunction);
+    unitSelect = select("#unitSelect");
+    strataFileInput = createFileInput(strataFileInputFunction);
 }
 
 function elementPositionInit() {
-  buttonParent.position(5, 65);
-  placeAddButton.mousePressed(placeAddButtonFunction);
-  placeRemoveButton.mousePressed(placeRemoveButtonFunction);
-  strataAddButton.mousePressed(strataAddButtonFunction);
-  strataRemoveButton.mousePressed(strataRemoveButtonFunction);
-  setRadioButton.option("自動", "auto");
-  setRadioButton.option("手動", "manual");
-  setRadioButton.value("auto");
-  setRadioButton.changed(setRadioButtonFunction);
-  unitSelect.option("緯度・経度", "latlng");
-  unitSelect.option("メートル", "meter");
-  unitSelect.changed(unitSelectFunction);
-  strataFileInput.position(0, buttonParent.y + buttonParent.height + 5);
+    buttonParent.position(5, 65);
+    placeAddButton.mousePressed(placeAddButtonFunction);
+    placeRemoveButton.mousePressed(placeRemoveButtonFunction);
+    strataAddButton.mousePressed(strataAddButtonFunction);
+    strataRemoveButton.mousePressed(strataRemoveButtonFunction);
+    setRadioButton.option("自動", "auto");
+    setRadioButton.option("手動", "manual");
+    setRadioButton.value("auto");
+    setRadioButton.changed(setRadioButtonFunction);
+    unitSelect.option("緯度・経度", "latlng");
+    unitSelect.option("メートル", "meter");
+    unitSelect.changed(unitSelectFunction);
+    strataFileInput.position(0, buttonParent.y + buttonParent.height + 5);
 }
 
 // 地点のデータを入力するインプットの連想配列
@@ -82,5 +82,5 @@ let dataInputArr = {};
 
 let rotateTime;
 function valueInit() {
-  rotateTime = 0;
+    rotateTime = 0;
 }

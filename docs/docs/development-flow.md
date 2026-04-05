@@ -14,8 +14,8 @@
 
 1. [Issues](https://github.com/Bicpema/bicpema/issues) から「New issue」をクリックする
 2. 目的に応じたテンプレートを選択する
-   - **general template** — 汎用テンプレート
-   - **simulation template** — シミュレーションの追加・メンテナンス
+    - **general template** — 汎用テンプレート
+    - **simulation template** — シミュレーションの追加・メンテナンス
 3. タイトルと内容を記入し、適切なラベルを付ける
 
 ## プルリクエストの作成
@@ -23,9 +23,9 @@
 1. `main` から作業ブランチを切る
 2. 変更を加えてコミットする
 3. Pull Request を作成し、テンプレートに沿って記述する
-   - 実施したこと
-   - 実施していないこと
-   - 関連 Issue・参考ページ
+    - 実施したこと
+    - 実施していないこと
+    - 関連 Issue・参考ページ
 4. レビューを受けて修正する
 5. `main` にマージすると自動デプロイが開始される
 

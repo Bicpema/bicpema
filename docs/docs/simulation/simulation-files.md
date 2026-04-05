@@ -71,17 +71,17 @@ import { initElements } from "./element-function.js";
 import { state } from "./state.js";
 
 const sketch = (p) => {
-  p.setup = () => {
-    // キャンバス作成・初期化
-  };
+    p.setup = () => {
+        // キャンバス作成・初期化
+    };
 
-  p.draw = () => {
-    // 毎フレームの描画
-  };
+    p.draw = () => {
+        // 毎フレームの描画
+    };
 
-  p.windowResized = () => {
-    // ウィンドウリサイズ対応
-  };
+    p.windowResized = () => {
+        // ウィンドウリサイズ対応
+    };
 };
 
 new p5(sketch);
@@ -93,8 +93,8 @@ new p5(sketch);
 
 ```js title="js/state.js の基本構造"
 export const state = {
-  isPlaying: true,
-  // その他のシミュレーション固有の状態
+    isPlaying: true,
+    // その他のシミュレーション固有の状態
 };
 ```
 

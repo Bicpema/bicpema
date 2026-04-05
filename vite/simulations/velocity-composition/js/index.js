@@ -8,48 +8,48 @@ import { drawScene, drawInfoPanel } from "./logic.js";
 import { FPS, V_W } from "./constants.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+    const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
 
-  p.preload = () => {
-    state.font = p.loadFont(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
-      () => {},
-      () => {
-        state.font = null;
-      }
-    );
-  };
+    p.preload = () => {
+        state.font = p.loadFont(
+            "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
+            () => {},
+            () => {
+                state.font = null;
+            }
+        );
+    };
 
-  p.setup = () => {
-    canvasController.fullScreen(p);
-    elCreate(p);
-    initValue(p);
-  };
+    p.setup = () => {
+        canvasController.fullScreen(p);
+        elCreate(p);
+        initValue(p);
+    };
 
-  p.draw = () => {
-    p.scale(p.width / V_W);
-    drawScene(p);
+    p.draw = () => {
+        p.scale(p.width / V_W);
+        drawScene(p);
 
-    if (!state.boat || !state.person) return;
+        if (!state.boat || !state.person) return;
 
-    const dt = 1 / FPS;
+        const dt = 1 / FPS;
 
-    for (const particle of state.waterParticles) {
-      particle.update(dt);
-      particle.draw(p);
-    }
+        for (const particle of state.waterParticles) {
+            particle.update(dt);
+            particle.draw(p);
+        }
 
-    state.boat.update(dt);
-    state.boat.draw(p);
+        state.boat.update(dt);
+        state.boat.draw(p);
 
-    state.person.draw(p);
+        state.person.draw(p);
 
-    drawInfoPanel(p);
-  };
+        drawInfoPanel(p);
+    };
 
-  p.windowResized = () => {
-    canvasController.resizeScreen(p);
-  };
+    p.windowResized = () => {
+        canvasController.resizeScreen(p);
+    };
 };
 
 new p5(sketch);

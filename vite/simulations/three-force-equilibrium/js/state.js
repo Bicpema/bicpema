@@ -44,31 +44,31 @@ export const INIT_WEIGHT = 20;
 // 共有状態
 // ────────────────────────────────────────────
 export const state = {
-  /** 日本語フォント */
-  font: null,
-  /** アンカーA（左側の天井固定点） */
-  anchorA: { ...INIT_ANCHOR_A },
-  /** アンカーB（右側の天井固定点） */
-  anchorB: { ...INIT_ANCHOR_B },
-  /** 中心リングの位置 */
-  ring: { ...INIT_RING },
-  /** おもりの重さ（N） */
-  weight: INIT_WEIGHT,
+    /** 日本語フォント */
+    font: null,
+    /** アンカーA（左側の天井固定点） */
+    anchorA: { ...INIT_ANCHOR_A },
+    /** アンカーB（右側の天井固定点） */
+    anchorB: { ...INIT_ANCHOR_B },
+    /** 中心リングの位置 */
+    ring: { ...INIT_RING },
+    /** おもりの重さ（N） */
+    weight: INIT_WEIGHT,
 
-  /** 計算された糸1の張力（N） */
-  T1: 0,
-  /** 計算された糸2の張力（N） */
-  T2: 0,
-  /** 釣り合いが成立しているか */
-  isEquilibrium: false,
+    /** 計算された糸1の張力（N） */
+    T1: 0,
+    /** 計算された糸2の張力（N） */
+    T2: 0,
+    /** 釣り合いが成立しているか */
+    isEquilibrium: false,
 
-  /** ドラッグ中の要素（'anchorA' | 'anchorB' | 'ring' | null） */
-  dragging: null,
-  dragOffsetX: 0,
-  dragOffsetY: 0,
+    /** ドラッグ中の要素（'anchorA' | 'anchorB' | 'ring' | null） */
+    dragging: null,
+    dragOffsetX: 0,
+    dragOffsetY: 0,
 
-  /** DOM要素参照 */
-  settingsModal: null,
-  weightInput: null,
-  weightDisplay: null,
+    /** DOM要素参照 */
+    settingsModal: null,
+    weightInput: null,
+    weightDisplay: null,
 };

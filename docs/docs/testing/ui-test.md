@@ -44,23 +44,23 @@ npx playwright test --grep "doppler"
 import { test, expect } from "@playwright/test";
 
 test("ドップラー効果シミュレーションが表示される", async ({ page }) => {
-  await page.goto("http://localhost:1313/vite/simulations/doppler/");
+    await page.goto("http://localhost:1313/vite/simulations/doppler/");
 
-  // キャンバスが表示されていること
-  const canvas = page.locator("canvas");
-  await expect(canvas).toBeVisible();
+    // キャンバスが表示されていること
+    const canvas = page.locator("canvas");
+    await expect(canvas).toBeVisible();
 });
 
 test("再生・停止ボタンが動作する", async ({ page }) => {
-  await page.goto("http://localhost:1313/vite/simulations/doppler/");
+    await page.goto("http://localhost:1313/vite/simulations/doppler/");
 
-  // 停止ボタンをクリック
-  await page.locator("#playPauseButton").click();
-  // ボタンの状態が変わること
-  await expect(page.locator("#playPauseButton")).toHaveAttribute(
-    "aria-label",
-    "再生"
-  );
+    // 停止ボタンをクリック
+    await page.locator("#playPauseButton").click();
+    // ボタンの状態が変わること
+    await expect(page.locator("#playPauseButton")).toHaveAttribute(
+        "aria-label",
+        "再生"
+    );
 });
 ```
 

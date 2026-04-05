@@ -6,7 +6,7 @@ import { FPS } from "./constants.js";
  * @param {p5} p p5インスタンス
  */
 export function elCreate(_p) {
-  // 設定UIなし
+    // 設定UIなし
 }
 
 /**
@@ -14,10 +14,10 @@ export function elCreate(_p) {
  * @param {p5} p p5インスタンス
  */
 export function initValue(p) {
-  p.frameRate(FPS);
-  p.textAlign(p.CENTER, p.CENTER);
-  if (state.font) {
-    p.textFont(state.font);
-  }
-  p.textSize(16);
+    p.frameRate(FPS);
+    p.textAlign(p.CENTER, p.CENTER);
+    if (state.font) {
+        p.textFont(state.font);
+    }
+    p.textSize(16);
 }

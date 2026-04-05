@@ -1,10 +1,10 @@
 import { state } from "./state.js";
 import { FPS } from "./constants.js";
 import {
-  onToggleModal,
-  onCloseModal,
-  onSlopeAngleChange,
-  onMassChange,
+    onToggleModal,
+    onCloseModal,
+    onSlopeAngleChange,
+    onMassChange,
 } from "./element-function.js";
 
 /**
@@ -12,19 +12,20 @@ import {
  * @param {p5} p p5インスタンス
  */
 export function elCreate(p) {
-  state.settingsModal = p.select("#settingsModal");
-  state.toggleModal = p.select("#toggleModal");
-  state.closeModal = p.select("#closeModal");
-  state.slopeAngleInput = p.select("#slopeAngleInput");
-  state.slopeAngleValue = p.select("#slopeAngleValue");
-  state.massInput = p.select("#massInput");
-  state.massValue = p.select("#massValue");
+    state.settingsModal = p.select("#settingsModal");
+    state.toggleModal = p.select("#toggleModal");
+    state.closeModal = p.select("#closeModal");
+    state.slopeAngleInput = p.select("#slopeAngleInput");
+    state.slopeAngleValue = p.select("#slopeAngleValue");
+    state.massInput = p.select("#massInput");
+    state.massValue = p.select("#massValue");
 
-  if (state.toggleModal) state.toggleModal.mousePressed(() => onToggleModal());
-  if (state.closeModal) state.closeModal.mousePressed(() => onCloseModal());
-  if (state.slopeAngleInput)
-    state.slopeAngleInput.input(() => onSlopeAngleChange());
-  if (state.massInput) state.massInput.input(() => onMassChange());
+    if (state.toggleModal)
+        state.toggleModal.mousePressed(() => onToggleModal());
+    if (state.closeModal) state.closeModal.mousePressed(() => onCloseModal());
+    if (state.slopeAngleInput)
+        state.slopeAngleInput.input(() => onSlopeAngleChange());
+    if (state.massInput) state.massInput.input(() => onMassChange());
 }
 
 /**
@@ -32,22 +33,22 @@ export function elCreate(p) {
  * @param {p5} p p5インスタンス
  */
 export function initValue(p) {
-  p.frameRate(FPS);
-  p.textAlign(p.CENTER, p.CENTER);
-  if (state.font) {
-    p.textFont(state.font);
-  }
-  p.textSize(16);
-  syncUIFromState();
+    p.frameRate(FPS);
+    p.textAlign(p.CENTER, p.CENTER);
+    if (state.font) {
+        p.textFont(state.font);
+    }
+    p.textSize(16);
+    syncUIFromState();
 }
 
 /**
  * state の値を UI スライダーに反映する。
  */
 export function syncUIFromState() {
-  if (state.slopeAngleInput) state.slopeAngleInput.value(state.slopeAngle);
-  if (state.slopeAngleValue)
-    state.slopeAngleValue.html(`${state.slopeAngle.toFixed(0)}°`);
-  if (state.massInput) state.massInput.value(state.mass);
-  if (state.massValue) state.massValue.html(`${state.mass.toFixed(0)} kg`);
+    if (state.slopeAngleInput) state.slopeAngleInput.value(state.slopeAngle);
+    if (state.slopeAngleValue)
+        state.slopeAngleValue.html(`${state.slopeAngle.toFixed(0)}°`);
+    if (state.massInput) state.massInput.value(state.mass);
+    if (state.massValue) state.massValue.html(`${state.mass.toFixed(0)} kg`);
 }

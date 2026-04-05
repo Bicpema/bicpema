@@ -7,49 +7,49 @@ import { elCreate, initValue } from "./init.js";
 import { V_W, FPS } from "./constants.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+    const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
 
-  p.preload = () => {
-    state.font = p.loadFont(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
-    );
-    state.carImage = p.loadImage(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FyellowCar.png?alt=media&token=1fb005bb-7540-4b23-8c1c-330973d4d243"
-    );
-    state.groundImage = p.loadImage(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810"
-    );
-  };
+    p.preload = () => {
+        state.font = p.loadFont(
+            "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
+        );
+        state.carImage = p.loadImage(
+            "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FyellowCar.png?alt=media&token=1fb005bb-7540-4b23-8c1c-330973d4d243"
+        );
+        state.groundImage = p.loadImage(
+            "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810"
+        );
+    };
 
-  p.setup = () => {
-    canvasController.fullScreen(p);
-    elCreate(p);
-    initValue(p);
-  };
+    p.setup = () => {
+        canvasController.fullScreen(p);
+        elCreate(p);
+        initValue(p);
+    };
 
-  p.draw = () => {
-    p.background(255);
-    state.car.update(1 / FPS);
-    p.scale(p.width / V_W);
+    p.draw = () => {
+        p.background(255);
+        state.car.update(1 / FPS);
+        p.scale(p.width / V_W);
 
-    const vH = (V_W * p.height) / p.width;
-    const showMarkers =
-      state.showMarkersCheckBox && state.showMarkersCheckBox.checked();
+        const vH = (V_W * p.height) / p.width;
+        const showMarkers =
+            state.showMarkersCheckBox && state.showMarkersCheckBox.checked();
 
-    state.car.display(p, vH, {
-      carImage: state.carImage,
-      groundImage: state.groundImage,
-      showMarkers: showMarkers,
-    });
+        state.car.display(p, vH, {
+            carImage: state.carImage,
+            groundImage: state.groundImage,
+            showMarkers: showMarkers,
+        });
 
-    if (state.graphVisible) {
-      state.graph.updateGraph();
-    }
-  };
+        if (state.graphVisible) {
+            state.graph.updateGraph();
+        }
+    };
 
-  p.windowResized = () => {
-    canvasController.resizeScreen(p);
-  };
+    p.windowResized = () => {
+        canvasController.resizeScreen(p);
+    };
 };
 
 new p5(sketch);

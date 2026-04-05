@@ -2,60 +2,60 @@
 name: リリースノートの作成
 
 on:
-  # vX.X.X または vX.X.X-BetaX のタグがpushされたときに実行
-  push:
-    tags:
-      - "v*.*.*"
-      - "v*.*.*-Beta*"
+    # vX.X.X または vX.X.X-BetaX のタグがpushされたときに実行
+    push:
+        tags:
+            - "v*.*.*"
+            - "v*.*.*-Beta*"
 
 jobs:
-  release:
-    runs-on: ubuntu-latest
+    release:
+        runs-on: ubuntu-latest
 
-    permissions:
-      # GitHub Release 作成のため
-      contents: write
-      # 別Workflowを起動するため
-      actions: write
+        permissions:
+            # GitHub Release 作成のため
+            contents: write
+            # 別Workflowを起動するため
+            actions: write
 
-    steps:
-      # リポジトリをcheckout
-      - uses: actions/checkout@v6
+        steps:
+            # リポジトリをcheckout
+            - uses: actions/checkout@v6
 
-      - name: Check prerelease
-        id: prerelease
-        run: |
-          # タグ名に "Beta" が含まれている場合は prerelease と判定
-          if [[ "${GITHUB_REF_NAME}" == *Beta* ]]; then
-            echo "value=true" >> $GITHUB_OUTPUT
-          else
-            echo "value=false" >> $GITHUB_OUTPUT
-          fi
+            - name: Check prerelease
+              id: prerelease
+              run: |
+                  # タグ名に "Beta" が含まれている場合は prerelease と判定
+                  if [[ "${GITHUB_REF_NAME}" == *Beta* ]]; then
+                    echo "value=true" >> $GITHUB_OUTPUT
+                  else
+                    echo "value=false" >> $GITHUB_OUTPUT
+                  fi
 
-      - name: Create Release
-        # GitHub Release を自動作成
-        uses: softprops/action-gh-release@v2
-        with:
-          # PRやコミットからリリースノートを自動生成
-          generate_release_notes: true
-          # Betaの場合は prerelease にする
-          prerelease: ${{ steps.prerelease.outputs.value }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Create Release
+              # GitHub Release を自動作成
+              uses: softprops/action-gh-release@v2
+              with:
+                  # PRやコミットからリリースノートを自動生成
+                  generate_release_notes: true
+                  # Betaの場合は prerelease にする
+                  prerelease: ${{ steps.prerelease.outputs.value }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Trigger Deploy Workflow
-        # 正式リリースの場合のみデプロイWorkflowを起動
-        if: steps.prerelease.outputs.value == 'false'
-        uses: actions/github-script@v8
-        with:
-          script: |
-            // デプロイ用Workflowを起動
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'deploy.yml',
-              // デプロイ対象のタグを指定
-              ref: context.ref.replace('refs/tags/', ''),
-            });
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Trigger Deploy Workflow
+              # 正式リリースの場合のみデプロイWorkflowを起動
+              if: steps.prerelease.outputs.value == 'false'
+              uses: actions/github-script@v8
+              with:
+                  script: |
+                      // デプロイ用Workflowを起動
+                      await github.rest.actions.createWorkflowDispatch({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        workflow_id: 'deploy.yml',
+                        // デプロイ対象のタグを指定
+                        ref: context.ref.replace('refs/tags/', ''),
+                      });
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

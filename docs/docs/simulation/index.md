@@ -57,17 +57,17 @@ import p5 from "p5";
 import "bootstrap";
 
 const sketch = (p) => {
-  p.setup = () => {
-    // セットアップ処理
-  };
+    p.setup = () => {
+        // セットアップ処理
+    };
 
-  p.draw = () => {
-    // 毎フレームの描画処理
-  };
+    p.draw = () => {
+        // 毎フレームの描画処理
+    };
 
-  p.windowResized = () => {
-    // ウィンドウリサイズ時の処理
-  };
+    p.windowResized = () => {
+        // ウィンドウリサイズ時の処理
+    };
 };
 
 new p5(sketch);
@@ -110,8 +110,8 @@ title: "ドップラー効果"
 description: "音源や観測者が動くときに音の高さが変わる現象を体験できます。"
 image: "https://storage.googleapis.com/..."
 categories:
-  - 波動
+    - 波動
 tags:
-  - 音波
+    - 音波
 ---
 ```

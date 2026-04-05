@@ -1,18 +1,16 @@
 {
-  "words": [
-    "Bicpema",
-    "getjson",
-    "kenji",
-    "Lastmod",
-    "peaceiris",
-    "popperjs",
-    "pycache",
-    "venv",
-    "vite",
-    "withdeploy",
-    "zensical"
-  ],
-  "ignorePaths": [
-    "**/themes/**"
-  ]
+    "words": [
+        "Bicpema",
+        "getjson",
+        "kenji",
+        "Lastmod",
+        "peaceiris",
+        "popperjs",
+        "pycache",
+        "venv",
+        "vite",
+        "withdeploy",
+        "zensical"
+    ],
+    "ignorePaths": ["**/themes/**"]
 }
