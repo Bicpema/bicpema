@@ -39,7 +39,6 @@ updates:
 | `p5`        | シミュレーション描画エンジン |
 | `bootstrap` | UI フレームワーク            |
 | `chart.js`  | グラフ描画                   |
-| `matter-js` | 物理エンジン                 |
 | `mathjs`    | 数学演算ライブラリ           |
 | `vite`      | ビルドツール                 |
 | `sass`      | CSS プリプロセッサ           |
