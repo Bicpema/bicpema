@@ -46,7 +46,7 @@ jobs:
       - name: Trigger Deploy Workflow
         # 正式リリースの場合のみデプロイWorkflowを起動
         if: steps.prerelease.outputs.value == 'false'
-        uses: actions/github-script@v8
+        uses: actions/github-script@v9
         with:
           script: |
             // デプロイ用Workflowを起動
