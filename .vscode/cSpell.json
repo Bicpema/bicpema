@@ -12,5 +12,7 @@
     "withdeploy",
     "zensical"
   ],
-  "ignorePaths": ["**/themes/**"]
+  "ignorePaths": [
+    "**/themes/**"
+  ]
 }
