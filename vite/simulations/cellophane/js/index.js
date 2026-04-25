@@ -35,6 +35,9 @@ const sketch = (p) => {
     elInit(p);
     initValue(p);
     csvDataLoad();
+
+    initGraph();
+    initCmfGraph();
     incidentColor.style("background", "rgb(144,181,130)");
     transmittedColor.style(
       "background",
@@ -58,11 +61,10 @@ const sketch = (p) => {
       b_rays[i]._draw(p);
     }
     main(p);
-    graphDraw();
   };
 
   p.windowResized = () => {
-    fullScreen(p);
+    p.resizeCanvas((2 * p.windowWidth) / 3, (8 * p.windowHeight) / 10);
     elInit(p);
     initValue(p);
     incidentColor.style("background", "rgb(144,181,130)");
@@ -222,7 +224,10 @@ function elInit(p) {
     .size(p.windowWidth / 4, (2 * p.windowHeight) / 30)
     .position(p.windowWidth / 4, p.windowHeight / 30)
     .parent(backgroundDiv)
-    .input(() => cellophaneCountSliderFunction(p));
+    .input(() => {
+      cellophaneCountSliderFunction(p);
+      updateGraph();
+    });
   cellophaneCountSliderValue
     .size(p.windowWidth / 4, p.windowHeight / 20)
     .position(p.windowWidth / 4, 0)
@@ -416,137 +421,95 @@ function main(p) {
 }
 
 //グラフを描画する手続き
-function graphDraw() {
-  if (typeof graphChart !== "undefined" && graphChart) {
-    graphChart.destroy();
-  }
-  let ctx1 = document.getElementById("graphChart").getContext("2d");
-  let data1 = {
-    labels: waveLength,
-    datasets: [
-      {
-        label: "入射光",
-        data: lightSourceIntensity,
-        borderColor: "rgba(0, 0, 0 ,1)",
-        lineTension: 0.3,
-      },
-      {
-        label:
-          "出射光（セロハンテープが" +
-          cellophaneCountSlider.value() +
-          "枚の時）",
-        data: intensity[cellophaneCountSlider.value() - 1],
-        fill: true,
-        backgroundColor:
-          "rgba(" +
-          rgb[cellophaneCountSlider.value() - 1][0] +
-          "," +
-          rgb[cellophaneCountSlider.value() - 1][1] +
-          "," +
-          rgb[cellophaneCountSlider.value() - 1][2] +
-          ",0.5)",
-        borderColor:
-          "rgba(" +
-          rgb[cellophaneCountSlider.value() - 1][0] +
-          "," +
-          rgb[cellophaneCountSlider.value() - 1][1] +
-          "," +
-          rgb[cellophaneCountSlider.value() - 1][2] +
-          ",1)",
-        lineTension: 0.3,
-      },
-    ],
-  };
-  let options1 = {
-    scales: {
-      x: {
-        display: true,
-        title: {
-          display: true,
-          text: "波長(nm)",
-        },
-      },
-      y: {
-        display: true,
-        title: {
-          display: true,
-          text: "強度(a.u.)",
-        },
-        min: 0,
-      },
-    },
-    plugins: {
-      title: {
-        display: true,
-        text: "スペクトル",
-      },
-    },
-    animation: false,
-  };
+function initGraph() {
+  const ctx1 = document.getElementById("graphChart").getContext("2d");
+
   graphChart = new Chart(ctx1, {
     type: "line",
-    data: data1,
-    options: options1,
+    data: {
+      labels: waveLength,
+      datasets: [
+        {
+          label: "入射光",
+          data: lightSourceIntensity,
+          borderColor: "rgba(0, 0, 0 ,1)",
+          lineTension: 0.3,
+        },
+        {
+          label: "出射光",
+          data: intensity[0],
+          fill: true,
+          backgroundColor: "rgba(0,0,0,0.5)",
+          borderColor: "rgba(0,0,0,1)",
+          lineTension: 0.3,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        x: {
+          display: true,
+          title: { display: true, text: "波長(nm)" },
+        },
+        y: {
+          display: true,
+          title: { display: true, text: "強度(a.u.)" },
+          min: 0,
+        },
+      },
+      plugins: {
+        title: { display: true, text: "スペクトル" },
+      },
+      animation: false,
+    },
   });
+}
 
-  if (typeof cmfGraphChart !== "undefined" && cmfGraphChart) {
-    cmfGraphChart.destroy();
-  }
+function updateGraph() {
+  const index = cellophaneCountSlider.value() - 1;
 
-  let ctx2 = document.getElementById("cmfGraphChart").getContext("2d");
-  let data2 = {
-    labels: waveLength,
-    datasets: [
-      {
-        label: "x(λ)",
-        data: cmfr,
-        borderColor: "rgba(255, 0, 0, 1)",
-        lineTension: 0.3,
-      },
-      {
-        label: "y(λ)",
-        data: cmfg,
-        borderColor: "rgba(0, 255, 0, 1)",
-        lineTension: 0.3,
-      },
-      {
-        label: "z(λ)",
-        data: cmfb,
-        borderColor: "rgba(0, 0, 255, 1)",
-        lineTension: 0.3,
-      },
-    ],
-  };
-  let options2 = {
-    scales: {
-      x: {
-        display: true,
-        title: {
-          display: true,
-          text: "波長(nm)",
-        },
-      },
-      y: {
-        display: true,
-        title: {
-          display: true,
-          text: "強度(a.u.)",
-        },
-        min: 0,
-      },
-    },
-    plugins: {
-      title: {
-        display: true,
-        text: "測色標準観測者の等色関数",
-      },
-    },
-    animation: false,
-  };
+  graphChart.data.datasets[1].label =
+    "出射光（セロハンテープが" + (index + 1) + "枚の時）";
+
+  graphChart.data.datasets[1].data = intensity[index];
+
+  graphChart.data.datasets[1].backgroundColor = `rgba(${rgb[index][0]},${rgb[index][1]},${rgb[index][2]},0.5)`;
+
+  graphChart.data.datasets[1].borderColor = `rgba(${rgb[index][0]},${rgb[index][1]},${rgb[index][2]},1)`;
+
+  graphChart.update();
+}
+
+function initCmfGraph() {
+  const ctx2 = document.getElementById("cmfGraphChart").getContext("2d");
+
   cmfGraphChart = new Chart(ctx2, {
     type: "line",
-    data: data2,
-    options: options2,
+    data: {
+      labels: waveLength,
+      datasets: [
+        { label: "x(λ)", data: cmfr, borderColor: "rgba(255,0,0,1)" },
+        { label: "y(λ)", data: cmfg, borderColor: "rgba(0,255,0,1)" },
+        { label: "z(λ)", data: cmfb, borderColor: "rgba(0,0,255,1)" },
+      ],
+    },
+    options: {
+      scales: {
+        x: {
+          display: true,
+          title: { display: true, text: "波長(nm)" },
+        },
+        y: {
+          display: true,
+          title: { display: true, text: "強度(a.u.)" },
+          min: 0,
+        },
+      },
+      plugins: {
+        title: { display: true, text: "測色標準観測者の等色関数" },
+      },
+      animation: false,
+    },
   });
 }
 
