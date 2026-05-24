@@ -110,6 +110,76 @@ function drawArrow(p, x1, y1, x2, y2, col, sw = 3, hs = 11) {
   );
 }
 
+/**
+ * ラベル同士の重なりを避けつつ、各ラベルの向き（法線側）を維持する。
+ * @param {{anchorX:number,anchorY:number,dirX:number,dirY:number,baseOffset:number,maxOffset?:number}[]} labels
+ * @param {number} minDistance
+ * @param {{minX:number,maxX:number,minY:number,maxY:number}} bounds
+ * @returns {{x:number,y:number}[]}
+ */
+function placeLabelsAlongNormals(labels, minDistance, bounds) {
+  const iterations = 8;
+  const offsets = labels.map((label) => label.baseOffset);
+  const normalized = labels.map((label) => {
+    const len = Math.hypot(label.dirX, label.dirY) || 1;
+    return {
+      ...label,
+      dirX: label.dirX / len,
+      dirY: label.dirY / len,
+      maxOffset: label.maxOffset ?? label.baseOffset + 90,
+    };
+  });
+
+  for (let i = 0; i < iterations; i += 1) {
+    const points = normalized.map((label, idx) => ({
+      x: label.anchorX + label.dirX * offsets[idx],
+      y: label.anchorY + label.dirY * offsets[idx],
+    }));
+
+    for (let a = 0; a < points.length; a += 1) {
+      for (let b = a + 1; b < points.length; b += 1) {
+        const dx = points[b].x - points[a].x;
+        const dy = points[b].y - points[a].y;
+        const dist = Math.hypot(dx, dy) || 0.001;
+        if (dist >= minDistance) continue;
+
+        const push = (minDistance - dist) * 0.55;
+        offsets[a] = Math.min(normalized[a].maxOffset, offsets[a] + push);
+        offsets[b] = Math.min(normalized[b].maxOffset, offsets[b] + push);
+      }
+    }
+  }
+
+  return normalized.map((label, idx) => ({
+    x: Math.max(
+      bounds.minX,
+      Math.min(bounds.maxX, label.anchorX + label.dirX * offsets[idx])
+    ),
+    y: Math.max(
+      bounds.minY,
+      Math.min(bounds.maxY, label.anchorY + label.dirY * offsets[idx])
+    ),
+  }));
+}
+
+/**
+ * 線分の2つの法線候補から、基準点（cx, cy）から遠ざかる向きを選ぶ。
+ */
+function outwardNormalForSegment(x1, y1, x2, y2, cx, cy) {
+  const dx = x2 - x1;
+  const dy = y2 - y1;
+  const len = Math.hypot(dx, dy) || 1;
+  const nx1 = -dy / len;
+  const ny1 = dx / len;
+  const nx2 = -nx1;
+  const ny2 = -ny1;
+  const mx = (x1 + x2) / 2;
+  const my = (y1 + y2) / 2;
+  const d1 = (mx + nx1 - cx) ** 2 + (my + ny1 - cy) ** 2;
+  const d2 = (mx + nx2 - cx) ** 2 + (my + ny2 - cy) ** 2;
+  return d1 >= d2 ? { x: nx1, y: ny1 } : { x: nx2, y: ny2 };
+}
+
 // ────────────────────────────────────────────
 // 左パネル描画
 // ────────────────────────────────────────────
@@ -230,29 +300,60 @@ function drawForceArrows(p) {
   drawArrow(p, ring.x, ring.y, t2EndX, t2EndY, T2_COLOR, 3, 11);
   drawArrow(p, ring.x, ring.y, wEndX, wEndY, W_COLOR, 3, 11);
 
-  // T1 ラベル（矢印の中点から法線方向にオフセット）
+  // T1/T2 ラベル（矢印の中点から法線方向にオフセット）
   const t1MX = (ring.x + t1EndX) / 2;
   const t1MY = (ring.y + t1EndY) / 2;
-  p.fill(T1_COLOR[0], T1_COLOR[1], T1_COLOR[2]);
+  // T1は常に線分の左側へ
+  const t1nA = { x: -u1y, y: u1x };
+  const t1nB = { x: u1y, y: -u1x };
+  const t1Dir = t1nA.x <= t1nB.x ? t1nA : t1nB;
+
+  const t2MX = (ring.x + t2EndX) / 2;
+  const t2MY = (ring.y + t2EndY) / 2;
+  // T2は常に線分の右側へ
+  const t2nA = { x: -u2y, y: u2x };
+  const t2nB = { x: u2y, y: -u2x };
+  const t2Dir = t2nA.x >= t2nB.x ? t2nA : t2nB;
+  const [t1Label, t2Label] = placeLabelsAlongNormals(
+    [
+      {
+        anchorX: t1MX,
+        anchorY: t1MY,
+        dirX: t1Dir.x,
+        dirY: t1Dir.y,
+        baseOffset: 22,
+        maxOffset: 88,
+      },
+      {
+        anchorX: t2MX,
+        anchorY: t2MY,
+        dirX: t2Dir.x,
+        dirY: t2Dir.y,
+        baseOffset: 22,
+        maxOffset: 88,
+      },
+    ],
+    56,
+    {
+      minX: 70,
+      maxX: PANEL_DIVIDER_X - 70,
+      minY: CEILING_Y + 20,
+      maxY: V_H - 16,
+    }
+  );
+
   p.noStroke();
   p.textSize(14);
   p.textAlign(p.CENTER, p.CENTER);
-  // 法線（左手系）方向へオフセット
-  const offX1 = -u1y * 22;
-  const offY1 = u1x * 22;
-  p.text(`T\u2081 = ${T1.toFixed(1)} N`, t1MX + offX1, t1MY + offY1);
 
-  // T2 ラベル
-  const t2MX = (ring.x + t2EndX) / 2;
-  const t2MY = (ring.y + t2EndY) / 2;
+  p.fill(T1_COLOR[0], T1_COLOR[1], T1_COLOR[2]);
+  p.text(`T1 = ${T1.toFixed(1)} N`, t1Label.x, t1Label.y);
   p.fill(T2_COLOR[0], T2_COLOR[1], T2_COLOR[2]);
-  const offX2 = u2y * 22;
-  const offY2 = -u2x * 22;
-  p.text(`T\u2082 = ${T2.toFixed(1)} N`, t2MX + offX2, t2MY + offY2);
+  p.text(`T2 = ${T2.toFixed(1)} N`, t2Label.x, t2Label.y);
 }
 
 /**
- * 角度情報ラベルを左パネル下部に表示する。
+ * 角度情報を図中（リング付近）と左下に表示する。
  */
 function drawAngleLabels(p) {
   const { ring, anchorA, anchorB } = state;
@@ -265,12 +366,57 @@ function drawAngleLabels(p) {
     (Math.atan2(Math.abs(anchorB.x - ring.x), ring.y - anchorB.y) * 180) /
     Math.PI;
 
+  const upAngle = -Math.PI / 2;
+  const a1 = Math.atan2(anchorA.y - ring.y, anchorA.x - ring.x);
+  const a2 = Math.atan2(anchorB.y - ring.y, anchorB.x - ring.x);
+
+  /**
+   * 2角度間の短い側の弧をポリラインで描画する。
+   */
+  const drawAngleArc = (radius, from, to, col) => {
+    let delta = to - from;
+    while (delta > Math.PI) delta -= Math.PI * 2;
+    while (delta < -Math.PI) delta += Math.PI * 2;
+
+    const steps = 20;
+    p.noFill();
+    p.stroke(col[0], col[1], col[2], 200);
+    p.strokeWeight(2);
+    p.beginShape();
+    for (let i = 0; i <= steps; i += 1) {
+      const t = i / steps;
+      const ang = from + delta * t;
+      p.vertex(ring.x + Math.cos(ang) * radius, ring.y + Math.sin(ang) * radius);
+    }
+    p.endShape();
+
+    return from + delta * 0.5;
+  };
+
+  // 鉛直基準線（リングから上向き）
+  p.stroke(120, 120, 120, 170);
+  p.strokeWeight(1.5);
+  p.drawingContext.setLineDash([4, 4]);
+  p.line(ring.x, ring.y, ring.x, Math.max(CEILING_Y + 8, ring.y - 105));
+  p.drawingContext.setLineDash([]);
+
+  const mid1 = drawAngleArc(38, upAngle, a1, T1_COLOR);
+  const mid2 = drawAngleArc(53, upAngle, a2, T2_COLOR);
+
+  p.noStroke();
+  p.textSize(13);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.fill(T1_COLOR[0], T1_COLOR[1], T1_COLOR[2]);
+  p.text("θ1", ring.x + Math.cos(mid1) * 49, ring.y + Math.sin(mid1) * 49);
+  p.fill(T2_COLOR[0], T2_COLOR[1], T2_COLOR[2]);
+  p.text("θ2", ring.x + Math.cos(mid2) * 64, ring.y + Math.sin(mid2) * 64);
+
   p.fill(60);
   p.noStroke();
   p.textSize(13);
   p.textAlign(p.LEFT, p.BOTTOM);
-  p.text(`\u03B8\u2081 = ${theta1.toFixed(1)}\u00B0`, 16, V_H - 38);
-  p.text(`\u03B8\u2082 = ${theta2.toFixed(1)}\u00B0`, 16, V_H - 20);
+  p.text(`θ1 = ${theta1.toFixed(1)}\u00B0`, 16, V_H - 38);
+  p.text(`θ2 = ${theta2.toFixed(1)}\u00B0`, 16, V_H - 20);
 }
 
 /**
@@ -314,16 +460,16 @@ function drawPhysicsPanel(p) {
   // リング（最前面）
   drawRing(p);
 
-  if (isEquilibrium) {
-    drawAngleLabels(p);
-  } else {
+  drawAngleLabels(p);
+
+  if (!isEquilibrium) {
     // 釣り合い不成立の警告
     p.fill(200, 0, 0, 210);
     p.noStroke();
     p.textAlign(p.CENTER, p.CENTER);
     p.textSize(15);
     p.text(
-      "\u26A0 この配置では釣り合いが成立しません",
+      "この配置では釣り合いが成立しません",
       PANEL_DIVIDER_X / 2,
       V_H / 2 + 60
     );
@@ -358,7 +504,7 @@ function drawForceTrianglePanel(p) {
   p.textSize(18);
   p.textAlign(p.CENTER, p.TOP);
   p.text(
-    "\u529B\u306E\u30D9\u30AF\u30C8\u30EB\u56F3", // 力のベクトル図
+    "力のベクトル図", // 力のベクトル図
     (PANEL_DIVIDER_X + V_W) / 2,
     14
   );
@@ -372,28 +518,24 @@ function drawForceTrianglePanel(p) {
   drawArrow(p, lgX, lgY, lgX + 32, lgY, T1_COLOR, 2, 8);
   p.fill(T1_COLOR[0], T1_COLOR[1], T1_COLOR[2]);
   p.noStroke();
-  p.text("T\u2081\uFF08\u7CF8\u0031\u306E\u5F35\u529B\uFF09", lgX + 42, lgY);
+  p.text("T1（糸1の張力）", lgX + 42, lgY);
 
   drawArrow(p, lgX, lgY + 22, lgX + 32, lgY + 22, T2_COLOR, 2, 8);
   p.fill(T2_COLOR[0], T2_COLOR[1], T2_COLOR[2]);
   p.noStroke();
-  p.text(
-    "T\u2082\uFF08\u7CF8\u0032\u306E\u5F35\u529B\uFF09",
-    lgX + 42,
-    lgY + 22
-  );
+  p.text("T2（糸2の張力）", lgX + 42, lgY + 22);
 
   drawArrow(p, lgX, lgY + 44, lgX + 32, lgY + 44, W_COLOR, 2, 8);
   p.fill(W_COLOR[0], W_COLOR[1], W_COLOR[2]);
   p.noStroke();
-  p.text("W\uFF08\u91CD\u529B\uFF09", lgX + 42, lgY + 44); // W（重力）
+  p.text("W（重力）", lgX + 42, lgY + 44);
 
   if (!isEquilibrium) {
     p.fill(200, 0, 0);
     p.textSize(14);
     p.textAlign(p.CENTER, p.CENTER);
     p.text(
-      "\u91E3\u308A\u5408\u3044\u306E\u72B6\u614B\u3067\u306F\u3042\u308A\u307E\u305B\u3093",
+      "釣り合いの状態ではありません",
       (PANEL_DIVIDER_X + V_W) / 2,
       V_H / 2
     );
@@ -451,46 +593,79 @@ function drawForceTrianglePanel(p) {
 
   // ────────────── ラベル ──────────────
 
-  // W ラベル（P0→P1 の左側）
-  p.fill(W_COLOR[0], W_COLOR[1], W_COLOR[2]);
+  // W/T1/T2 ラベル
+  const triCx = (P0.x + P1.x + P2.x) / 3;
+  const triCy = (P0.y + P1.y + P2.y) / 3;
+  const wNormal = outwardNormalForSegment(P0.x, P0.y, P1.x, P1.y, triCx, triCy);
+  const t1Normal = outwardNormalForSegment(
+    P1.x,
+    P1.y,
+    P2.x,
+    P2.y,
+    triCx,
+    triCy
+  );
+  const t2Normal = outwardNormalForSegment(
+    P2.x,
+    P2.y,
+    P0.x,
+    P0.y,
+    triCx,
+    triCy
+  );
+  const [wLabel, t1Label, t2Label] = placeLabelsAlongNormals(
+    [
+      {
+        anchorX: (P0.x + P1.x) / 2,
+        anchorY: (P0.y + P1.y) / 2,
+        dirX: wNormal.x,
+        dirY: wNormal.y,
+        baseOffset: 14,
+        maxOffset: 88,
+      },
+      {
+        anchorX: (P1.x + P2.x) / 2,
+        anchorY: (P1.y + P2.y) / 2,
+        dirX: t1Normal.x,
+        dirY: t1Normal.y,
+        baseOffset: 22,
+        maxOffset: 92,
+      },
+      {
+        anchorX: (P2.x + P0.x) / 2,
+        anchorY: (P2.y + P0.y) / 2,
+        dirX: t2Normal.x,
+        dirY: t2Normal.y,
+        baseOffset: 22,
+        maxOffset: 92,
+      },
+    ],
+    64,
+    {
+      minX: PANEL_DIVIDER_X + 90,
+      maxX: V_W - 90,
+      minY: 120,
+      maxY: V_H - 28,
+    }
+  );
+
   p.noStroke();
   p.textSize(14);
-  p.textAlign(p.RIGHT, p.CENTER);
-  p.text(`W = ${W} N`, (P0.x + P1.x) / 2 - 12, (P0.y + P1.y) / 2);
-
-  // T1 ラベル（P1→P2 の法線方向）
-  const t1dx = P2.x - P1.x;
-  const t1dy = P2.y - P1.y;
-  const t1len = Math.hypot(t1dx, t1dy);
-  const t1nx = -t1dy / t1len; // 左手法線
-  const t1ny = t1dx / t1len;
-  p.fill(T1_COLOR[0], T1_COLOR[1], T1_COLOR[2]);
   p.textAlign(p.CENTER, p.CENTER);
-  p.text(
-    `T\u2081 = ${T1.toFixed(1)} N`,
-    (P1.x + P2.x) / 2 + t1nx * 22,
-    (P1.y + P2.y) / 2 + t1ny * 22
-  );
 
-  // T2 ラベル（P2→P0 の法線方向）
-  const t2dx = P0.x - P2.x;
-  const t2dy = P0.y - P2.y;
-  const t2len = Math.hypot(t2dx, t2dy);
-  const t2nx = t2dy / t2len; // 右手法線
-  const t2ny = -t2dx / t2len;
+  p.fill(W_COLOR[0], W_COLOR[1], W_COLOR[2]);
+  p.text(`W = ${W} N`, wLabel.x, wLabel.y);
+  p.fill(T1_COLOR[0], T1_COLOR[1], T1_COLOR[2]);
+  p.text(`T1 = ${T1.toFixed(1)} N`, t1Label.x, t1Label.y);
   p.fill(T2_COLOR[0], T2_COLOR[1], T2_COLOR[2]);
-  p.text(
-    `T\u2082 = ${T2.toFixed(1)} N`,
-    (P2.x + P0.x) / 2 + t2nx * 22,
-    (P2.y + P0.y) / 2 + t2ny * 22
-  );
+  p.text(`T2 = ${T2.toFixed(1)} N`, t2Label.x, t2Label.y);
 
   // ΣF = 0 ラベル
   p.fill(60);
   p.textSize(15);
   p.textAlign(p.CENTER, p.BOTTOM);
   p.text(
-    "\u03A3F = 0 \uFF08\u529B\u306E\u91E3\u308A\u5408\u3044\uFF09", // ΣF = 0（力の釣り合い）
+    "ΣF = 0（力の釣り合い）",
     (PANEL_DIVIDER_X + V_W) / 2,
     V_H - 8
   );

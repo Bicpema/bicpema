@@ -4,7 +4,7 @@ description: "本教材は3つの力が釣り合う条件を視覚的に理解�
 author: "kenji"
 date: "2026-03-25"
 tags: ["物理", "力学", "高校", "3力の釣り合い", "力のつり合い", "ベクトル"]
-image: ""
+image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fthree-force-equilibrium%2Fthumbnail.png?alt=media&token=14e3be9c-bd2f-4ffe-92cb-10b95d2336ff"
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []
