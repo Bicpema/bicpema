@@ -240,7 +240,7 @@ function drawForceArrows(p) {
   // 法線（左手系）方向へオフセット
   const offX1 = -u1y * 22;
   const offY1 = u1x * 22;
-  p.text(`T\u2081 = ${T1.toFixed(1)} N`, t1MX + offX1, t1MY + offY1);
+  p.text(`T1 = ${T1.toFixed(1)} N`, t1MX + offX1, t1MY + offY1);
 
   // T2 ラベル
   const t2MX = (ring.x + t2EndX) / 2;
@@ -248,7 +248,7 @@ function drawForceArrows(p) {
   p.fill(T2_COLOR[0], T2_COLOR[1], T2_COLOR[2]);
   const offX2 = u2y * 22;
   const offY2 = -u2x * 22;
-  p.text(`T\u2082 = ${T2.toFixed(1)} N`, t2MX + offX2, t2MY + offY2);
+  p.text(`T2 = ${T2.toFixed(1)} N`, t2MX + offX2, t2MY + offY2);
 }
 
 /**
@@ -269,8 +269,8 @@ function drawAngleLabels(p) {
   p.noStroke();
   p.textSize(13);
   p.textAlign(p.LEFT, p.BOTTOM);
-  p.text(`\u03B8\u2081 = ${theta1.toFixed(1)}\u00B0`, 16, V_H - 38);
-  p.text(`\u03B8\u2082 = ${theta2.toFixed(1)}\u00B0`, 16, V_H - 20);
+  p.text(`θ1 = ${theta1.toFixed(1)}\u00B0`, 16, V_H - 38);
+  p.text(`θ2 = ${theta2.toFixed(1)}\u00B0`, 16, V_H - 20);
 }
 
 /**
@@ -323,7 +323,7 @@ function drawPhysicsPanel(p) {
     p.textAlign(p.CENTER, p.CENTER);
     p.textSize(15);
     p.text(
-      "\u26A0 この配置では釣り合いが成立しません",
+      "この配置では釣り合いが成立しません",
       PANEL_DIVIDER_X / 2,
       V_H / 2 + 60
     );
@@ -358,7 +358,7 @@ function drawForceTrianglePanel(p) {
   p.textSize(18);
   p.textAlign(p.CENTER, p.TOP);
   p.text(
-    "\u529B\u306E\u30D9\u30AF\u30C8\u30EB\u56F3", // 力のベクトル図
+    "力のベクトル図", // 力のベクトル図
     (PANEL_DIVIDER_X + V_W) / 2,
     14
   );
@@ -372,28 +372,24 @@ function drawForceTrianglePanel(p) {
   drawArrow(p, lgX, lgY, lgX + 32, lgY, T1_COLOR, 2, 8);
   p.fill(T1_COLOR[0], T1_COLOR[1], T1_COLOR[2]);
   p.noStroke();
-  p.text("T\u2081\uFF08\u7CF8\u0031\u306E\u5F35\u529B\uFF09", lgX + 42, lgY);
+  p.text("T1（糸1の張力）", lgX + 42, lgY);
 
   drawArrow(p, lgX, lgY + 22, lgX + 32, lgY + 22, T2_COLOR, 2, 8);
   p.fill(T2_COLOR[0], T2_COLOR[1], T2_COLOR[2]);
   p.noStroke();
-  p.text(
-    "T\u2082\uFF08\u7CF8\u0032\u306E\u5F35\u529B\uFF09",
-    lgX + 42,
-    lgY + 22
-  );
+  p.text("T2（糸2の張力）", lgX + 42, lgY + 22);
 
   drawArrow(p, lgX, lgY + 44, lgX + 32, lgY + 44, W_COLOR, 2, 8);
   p.fill(W_COLOR[0], W_COLOR[1], W_COLOR[2]);
   p.noStroke();
-  p.text("W\uFF08\u91CD\u529B\uFF09", lgX + 42, lgY + 44); // W（重力）
+  p.text("W（重力）", lgX + 42, lgY + 44);
 
   if (!isEquilibrium) {
     p.fill(200, 0, 0);
     p.textSize(14);
     p.textAlign(p.CENTER, p.CENTER);
     p.text(
-      "\u91E3\u308A\u5408\u3044\u306E\u72B6\u614B\u3067\u306F\u3042\u308A\u307E\u305B\u3093",
+      "釣り合いの状態ではありません",
       (PANEL_DIVIDER_X + V_W) / 2,
       V_H / 2
     );
@@ -467,7 +463,7 @@ function drawForceTrianglePanel(p) {
   p.fill(T1_COLOR[0], T1_COLOR[1], T1_COLOR[2]);
   p.textAlign(p.CENTER, p.CENTER);
   p.text(
-    `T\u2081 = ${T1.toFixed(1)} N`,
+    `T1 = ${T1.toFixed(1)} N`,
     (P1.x + P2.x) / 2 + t1nx * 22,
     (P1.y + P2.y) / 2 + t1ny * 22
   );
@@ -480,7 +476,7 @@ function drawForceTrianglePanel(p) {
   const t2ny = -t2dx / t2len;
   p.fill(T2_COLOR[0], T2_COLOR[1], T2_COLOR[2]);
   p.text(
-    `T\u2082 = ${T2.toFixed(1)} N`,
+    `T2 = ${T2.toFixed(1)} N`,
     (P2.x + P0.x) / 2 + t2nx * 22,
     (P2.y + P0.y) / 2 + t2ny * 22
   );
@@ -490,7 +486,7 @@ function drawForceTrianglePanel(p) {
   p.textSize(15);
   p.textAlign(p.CENTER, p.BOTTOM);
   p.text(
-    "\u03A3F = 0 \uFF08\u529B\u306E\u91E3\u308A\u5408\u3044\uFF09", // ΣF = 0（力の釣り合い）
+    "ΣF = 0（力の釣り合い）",
     (PANEL_DIVIDER_X + V_W) / 2,
     V_H - 8
   );
