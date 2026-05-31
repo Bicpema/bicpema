@@ -68,6 +68,30 @@ export class Spring {
   }
 
   /**
+   * バネの変形状態に応じた色を返す
+   * 青: 自然長、赤系: 伸び、緑系: 縮み
+   * @param {*} p p5 インスタンス
+   * @returns {number[]} [r, g, b]
+   */
+  getSpringColor(p) {
+    const dispM = this.displacement;
+    const maxStretchM = (MAX_SPRING_LENGTH - this.naturalLength) / PX_PER_M;
+    const maxCompressM = (this.naturalLength - MIN_SPRING_LENGTH) / PX_PER_M;
+
+    if (Math.abs(dispM) < DISPLACEMENT_THRESHOLD) {
+      return [50, 120, 230];
+    }
+
+    if (dispM > 0) {
+      const t = p.constrain(dispM / maxStretchM, 0, 1);
+      return [220, p.lerp(90, 30, t), p.lerp(90, 30, t)];
+    }
+
+    const t = p.constrain(Math.abs(dispM) / maxCompressM, 0, 1);
+    return [p.lerp(90, 30, t), 190, p.lerp(90, 30, t)];
+  }
+
+  /**
    * マウスがバネ先端の上にあるか判定
    * @param {number} mx マウスX（仮想座標）
    * @param {number} my マウスY（仮想座標）
@@ -146,7 +170,8 @@ export class Spring {
     const halfCoils = this.coilCount * 2;
     const segLen = coilLen / halfCoils;
 
-    p.stroke(40);
+    const [r, g, b] = this.getSpringColor(p);
+    p.stroke(r, g, b);
     p.strokeWeight(2.5);
     p.noFill();
 
