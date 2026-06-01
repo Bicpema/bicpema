@@ -14,6 +14,8 @@ export const state = {
   massInput: null,
   /** リセットボタン要素 */
   resetButton: null,
+  /** 最大値クリアボタン要素 */
+  clearMaxButton: null,
   /** 設定モーダル開閉ボタン要素 */
   toggleModal: null,
   /** 設定モーダル閉じるボタン要素 */

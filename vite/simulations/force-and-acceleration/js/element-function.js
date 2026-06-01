@@ -26,6 +26,18 @@ export function onReset() {
 }
 
 /**
+ * 最大値をクリアする処理
+ */
+export function onClearMax() {
+  if (!state.cart) return;
+  state.cart.maxForce = 0;
+  state.cart.maxAcceleration = 0;
+  // 最大値発生時の質量は現在の質量にリセット
+  state.cart.massAtMaxForce = state.cart.mass;
+  state.cart.massAtMaxAcceleration = state.cart.mass;
+}
+
+/**
  * 設定モーダルを開閉するときの処理
  */
 export function onToggleModal() {

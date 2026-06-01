@@ -16,11 +16,20 @@ export class Cart {
     this.force = 0;
     this.acceleration = 0;
 
+    // 履歴としての最大値を保持する
+    this.maxForce = 0;
+    this.maxAcceleration = 0;
+    this.massAtMaxForce = mass;
+    this.massAtMaxAcceleration = mass;
+
     this.WHEEL_R = 28;
     this.BODY_W = 160;
     this.BODY_H = 55;
     this.BOX_W = 90;
     this.BOX_H = 70;
+
+    // 見た目の調整: 台車を地面にもう少し近づけるためのオフセット
+    this.groundOffset = 6;
   }
 
   /**
@@ -57,6 +66,16 @@ export class Cart {
     this.velocity += this.acceleration * dt;
     if (this.velocity < 0) this.velocity = 0;
     this.x += this.velocity * pxPerMeter * dt;
+
+    // 履歴としての最大値を更新（保持する）
+    if (this.force > this.maxForce) {
+      this.maxForce = this.force;
+      this.massAtMaxForce = this.mass;
+    }
+    if (this.acceleration > this.maxAcceleration) {
+      this.maxAcceleration = this.acceleration;
+      this.massAtMaxAcceleration = this.mass;
+    }
   }
 
   /**
@@ -70,7 +89,8 @@ export class Cart {
     const imgW = imgH * (cartImg.width / cartImg.height);
     this._displayW = imgW;
     const imgX = this.x - imgW / 2;
-    const imgY = groundY - imgH;
+    // 地面から少し下に描画して "浮いている" 印象を軽減する
+    const imgY = groundY - imgH + this.groundOffset;
     p.image(cartImg, imgX, imgY, imgW, imgH);
   }
 

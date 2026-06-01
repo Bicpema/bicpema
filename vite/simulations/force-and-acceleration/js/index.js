@@ -101,7 +101,10 @@ const sketch = (p) => {
       state.cart.force,
       state.cart.acceleration,
       state.cart.mass,
-      state.cart.velocity
+      state.cart.velocity,
+      state.cart.maxForce,
+      state.cart.maxAcceleration,
+      state.cart.massAtMaxAcceleration
     );
   };
 
@@ -211,25 +214,46 @@ function drawDragHint(p, x, y) {
  * @param {number} m  質量 (kg)
  * @param {number} v  現在の速度 (m/s)
  */
-function drawInfoPanel(p, F, a, m, v) {
+function drawInfoPanel(p, F, a, m, v, maxF, maxA, massAtMaxA) {
   p.fill(0, 0, 0, 180);
   p.stroke(255, 255, 255, 60);
   p.strokeWeight(1);
-  p.rect(20, 20, 290, 150, 10);
+  const panelX = 20;
+  const panelY = 20;
+  const panelW = 330;
+  const panelH = 150;
+  p.rect(panelX, panelY, panelW, panelH, 10);
 
   p.fill(255);
   p.noStroke();
   if (state.font) p.textFont(state.font);
-  p.textAlign(p.LEFT, p.TOP);
 
+  const leftX = panelX + 18;
+  const maxX = panelX + panelW - 18;
+
+  p.textAlign(p.LEFT, p.TOP);
   p.textSize(26);
-  p.text(`F = ${F.toFixed(2)} N`, 38, 34);
-  p.text(`a = ${a.toFixed(2)} m/s²`, 38, 74);
+  p.text(`F = ${F.toFixed(2)} N`, leftX, panelY + 14);
+  p.text(`a = ${a.toFixed(2)} m/s²`, leftX, panelY + 54);
+
+  // 最大値を右側に表示
+  p.textSize(18);
+  p.fill(230);
+  p.textAlign(p.RIGHT, p.TOP);
+  p.text(`${maxF.toFixed(2)} N (max)`, maxX, panelY + 14);
+  p.text(`${maxA.toFixed(2)} m/s² (max)`, maxX, panelY + 54);
+
+  // F = m * a を示す補助表示（最大加速度に対する力）
+  p.textAlign(p.LEFT, p.TOP);
+  p.textSize(14);
+  p.fill(200);
+  const fFromAMax = massAtMaxA && maxA ? massAtMaxA * maxA : 0;
+  p.text(`m × a_max = ${fFromAMax.toFixed(2)} N`, leftX, panelY + 94);
 
   p.textSize(20);
   p.fill(200);
-  p.text(`m = ${m.toFixed(1)} kg`, 38, 116);
-  p.text(`v = ${v.toFixed(2)} m/s`, 175, 116);
+  p.text(`m = ${m.toFixed(1)} kg`, leftX, panelY + 116);
+  p.text(`v = ${v.toFixed(2)} m/s`, leftX + 137, panelY + 116);
 }
 
 new p5(sketch);
