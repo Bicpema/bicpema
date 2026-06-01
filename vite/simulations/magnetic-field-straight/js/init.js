@@ -2,14 +2,21 @@ export function settingInit(p) {}
 
 export function elementSelectInit(p) {}
 
-export function elementPositionInit(p) {
-  const slider = document.getElementById("currentSlider");
-  const label = document.getElementById("currentLabel");
-  if (slider && label) {
-    slider.oninput = () => {
-      label.textContent = `電流の強さ: ${parseFloat(slider.value).toFixed(1)} A`;
-    };
+function updateControlLabels() {
+  const currentSlider = document.getElementById("currentSlider");
+  const currentLabel = document.getElementById("currentLabel");
+  if (currentSlider && currentLabel) {
+    currentLabel.textContent = `電流の強さ: ${parseFloat(currentSlider.value).toFixed(1)} A`;
   }
+}
+
+export function elementPositionInit(p) {
+  const currentSlider = document.getElementById("currentSlider");
+  if (currentSlider) {
+    currentSlider.oninput = updateControlLabels;
+  }
+
+  updateControlLabels();
 }
 
 export function valueInit(p) {}
