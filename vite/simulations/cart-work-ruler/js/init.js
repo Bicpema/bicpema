@@ -18,7 +18,9 @@ export function elCreate(p) {
   state.velocityInput = p.select("#velocityInput");
   state.forceInput = p.select("#forceInput");
   state.resetButton = p.select("#resetButton").mousePressed(() => onReset(p));
-  state.playPauseButton = p.select("#playPauseButton").mousePressed(onPlayPause);
+  state.playPauseButton = p
+    .select("#playPauseButton")
+    .mousePressed(onPlayPause);
   state.toggleModal = p.select("#toggleModal").mousePressed(onToggleModal);
   state.closeModal = p.select("#closeModal").mousePressed(onCloseModal);
   state.settingsModal = p.select("#settingsModal");
@@ -64,8 +66,14 @@ export function initValue(p) {
   const ke0 = 0.5 * state.mass_kg * state.v0_ms * state.v0_ms;
   if (state.infoKe0El) state.infoKe0El.html(ke0.toFixed(3) + " J");
   if (state.infoDEl) state.infoDEl.html(state.penetration_m.toFixed(3) + " m");
-  if (state.infoWEl) state.infoWEl.html((state.force_N * state.penetration_m).toFixed(3) + " J");
-  if (state.infoStatusEl) state.infoStatusEl.html(
-    "現在の運動エネルギー = " + (0.5 * state.mass_kg * state.velocity_ms * state.velocity_ms).toFixed(3) + " J"
-  );
+  if (state.infoWEl)
+    state.infoWEl.html((state.force_N * state.penetration_m).toFixed(3) + " J");
+  if (state.infoStatusEl)
+    state.infoStatusEl.html(
+      "現在の運動エネルギー = " +
+        (0.5 * state.mass_kg * state.velocity_ms * state.velocity_ms).toFixed(
+          3
+        ) +
+        " J"
+    );
 }

@@ -386,7 +386,10 @@ function drawAngleLabels(p) {
     for (let i = 0; i <= steps; i += 1) {
       const t = i / steps;
       const ang = from + delta * t;
-      p.vertex(ring.x + Math.cos(ang) * radius, ring.y + Math.sin(ang) * radius);
+      p.vertex(
+        ring.x + Math.cos(ang) * radius,
+        ring.y + Math.sin(ang) * radius
+      );
     }
     p.endShape();
 
@@ -664,11 +667,7 @@ function drawForceTrianglePanel(p) {
   p.fill(60);
   p.textSize(15);
   p.textAlign(p.CENTER, p.BOTTOM);
-  p.text(
-    "ΣF = 0（力の釣り合い）",
-    (PANEL_DIVIDER_X + V_W) / 2,
-    V_H - 8
-  );
+  p.text("ΣF = 0（力の釣り合い）", (PANEL_DIVIDER_X + V_W) / 2, V_H - 8);
 }
 
 // ────────────────────────────────────────────
