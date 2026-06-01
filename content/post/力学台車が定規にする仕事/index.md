@@ -45,7 +45,7 @@ aliases: []
 
 台車の減速度: a = F/m
 
-台車が静止するまでの時間: t<sub>stop</sub> = v<sub>0</sub>/a = mv<sub>0</sub>/F
+台車が静止するまでの時間: t<sub>stop</sub> = v<sub>0</sub>/a = m v<sub>0</sub> / F
 
 台車の速度の時間変化: v(t) = v<sub>0</sub> − (F/m)t
 
