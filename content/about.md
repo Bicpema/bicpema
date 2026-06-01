@@ -37,6 +37,9 @@ Bicpema のシミュレーションはブラウザで動作するため、イン
 
 ## 変更履歴
 
+- 2026-06-01: v1.0.6 公開（軽微なバグ修正：[詳細](https://github.com/Bicpema/bicpema/releases/tag/v1.0.6)）
+- 2026-04-25: v1.0.5 公開（軽微なバグ修正：[詳細](https://github.com/Bicpema/bicpema/releases/tag/v1.0.5)）
+- 2026-04-25: v1.0.4 公開（軽微なバグ修正：[詳細](https://github.com/Bicpema/bicpema/releases/tag/v1.0.4)）
 - 2026-03-30: v1.0.3 公開（軽微なバグ修正：[詳細](https://github.com/Bicpema/bicpema/releases/tag/v1.0.3)）
 - 2026-03-30: v1.0.2 公開（軽微なバグ修正：[詳細](https://github.com/Bicpema/bicpema/releases/tag/v1.0.2)）
 - 2026-03-30: v1.0.1 公開（軽微なバグ修正：[詳細](https://github.com/Bicpema/bicpema/releases/tag/v1.0.1)）
