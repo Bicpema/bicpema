@@ -25,27 +25,27 @@ aliases: []
 台車（質量 m、初速度 v<sub>0</sub>）が定規から一定の抵抗力 F を受けながら距離 d だけ押し込んで静止するとき:
 
 - 台車に対して定規がする仕事（負の仕事）: W<sub>def</sub> = −F × d
-- 台車の運動エネルギー変化: ΔKE = 0 − (1/2)mv<sub>0</sub><sup>2</sup> = −(1/2)mv<sub>0</sub><sup>2</sup>
+- 台車の運動エネルギー変化: ΔKE = 0 − (1/2) m v<sub>0</sub><sup>2</sup> = −(1/2) m v<sub>0</sub><sup>2</sup>
 
 仕事と運動エネルギーの定理より:
 
 <p style="text-align:center;">W<sub>def</sub> = ΔKE</p>
 
-<p style="text-align:center;">−F × d = −(1/2)mv<sub>0</sub><sup>2</sup></p>
+<p style="text-align:center;">−F × d = −(1/2) m v<sub>0</sub><sup>2</sup></p>
 
 したがって、台車が定規に行う仕事 W は:
 
-<p style="text-align:center;">W = F × d = (1/2)mv<sub>0</sub><sup>2</sup></p>
+<p style="text-align:center;">W = F × d = (1/2) m v<sub>0</sub><sup>2</sup>（＝初期運動エネルギー KE<sub>0</sub>）</p>
 
 また、定規のめり込み距離 d は:
 
-<p style="text-align:center;">d = mv<sub>0</sub><sup>2</sup> / (2F)</p>
+<p style="text-align:center;">d = m v<sub>0</sub><sup>2</sup> / (2 F)</p>
 
 ### 運動方程式
 
 台車の減速度: a = F/m
 
-台車が静止するまでの時間: t<sub>stop</sub> = v<sub>0</sub>/a = mv<sub>0</sub>/F
+台車が静止するまでの時間: t<sub>stop</sub> = v<sub>0</sub>/a = m v<sub>0</sub> / F
 
 台車の速度の時間変化: v(t) = v<sub>0</sub> − (F/m)t
 
@@ -73,7 +73,7 @@ aliases: []
 ## 観察のポイント
 
 - 初速度を大きくすると、めり込み距離 d がどのように変化するか観察しましょう
-- 台車が静止した時点で、仕事 W = F × d が初期運動エネルギー (1/2)mv₀² に一致することを確認しましょう
+- 台車が静止した時点で、仕事 W = F × d が初期運動エネルギー (1/2) m v₀² に一致することを確認しましょう
 - 抵抗力 F を変えると、めり込み距離 d がどう変わるか（同じ初速度でも仕事 W は変わらないことに注目しましょう）
 
 ## 参考文献

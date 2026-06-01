@@ -227,74 +227,37 @@ function drawPenetrationLine(p, d) {
   p.noStroke();
   p.textAlign(p.CENTER, p.BOTTOM);
   p.textSize(13);
-  p.text("d = " + d.toFixed(3) + " m", (x1 + x2) / 2, lineY - 5);
+  p.text("めり込み距離 d = " + d.toFixed(3) + " m", (x1 + x2) / 2, lineY - 5);
 }
 
 /**
- * 情報パネルを描画する
- * @param {*} p p5インスタンス
+ * 情報パネル（HTML）を更新する
  */
-function drawInfoPanel(p) {
+function updateInfoPanelDOM() {
   const work = state.force_N * state.penetration_m;
   const ke = 0.5 * state.mass_kg * state.velocity_ms * state.velocity_ms;
   const ke0 = 0.5 * state.mass_kg * state.v0_ms * state.v0_ms;
-  const stopped = state.phase === "stopped";
 
-  const panelX = 10;
-  const panelY = 10;
-  const panelW = 390;
-  const panelH = stopped ? 270 : 220;
+  if (state.infoMassEl) state.infoMassEl.html(state.mass_kg.toFixed(1) + " kg");
+  if (state.infoV0El) state.infoV0El.html(state.v0_ms.toFixed(1) + " m/s");
+  if (state.infoFEl) state.infoFEl.html(state.force_N.toFixed(0) + " N");
 
-  p.fill(255);
-  p.stroke(0);
-  p.strokeWeight(2);
-  p.rect(panelX, panelY, panelW, panelH, 9);
+  if (state.infoKe0El) state.infoKe0El.html(ke0.toFixed(3) + " J");
+  if (state.infoDEl) state.infoDEl.html(state.penetration_m.toFixed(3) + " m");
+  if (state.infoWEl) state.infoWEl.html(work.toFixed(3) + " J");
 
-  const x = panelX + 16;
-  let y = panelY + 14;
-  const lh = 30;
-
-  // パラメータ
-  p.fill(34);
-  p.stroke(0, 0);
-  p.textAlign(p.LEFT, p.TOP);
-  p.textSize(14);
-  p.text("質量 m = " + state.mass_kg.toFixed(1) + " kg", x, y);
-  y += lh;
-  p.text("初速度 v₀ = " + state.v0_ms.toFixed(1) + " m/s", x, y);
-  y += lh;
-  p.text("抵抗力 F = " + state.force_N.toFixed(0) + " N", x, y);
-  y += 8;
-
-  // 区切り線
-  p.noStroke();
-  y += 10;
-
-  // 物理量
-  p.fill(34);
-  p.textSize(15);
-  p.text("初期 KE = ½mv₀² = " + ke0.toFixed(3) + " J", x, y);
-  y += lh;
-  p.text("めり込み d = " + state.penetration_m.toFixed(3) + " m", x, y);
-  y += lh;
-  p.text("仕事 W = F×d = " + work.toFixed(3) + " J", x, y);
-  y += lh;
-
-  if (stopped) {
-    p.fill(0, 110, 30);
-    p.textSize(15);
-    p.text("✓  W = ½mv₀² = " + ke0.toFixed(3) + " J", x, y);
-    y += lh;
-    p.fill(30, 120, 75);
-    p.textSize(13);
-    p.text("台車が静止 → 仕事 = 初期運動エネルギー", x, y);
-    y += 22;
-    p.text("（仕事と運動エネルギーの定理）", x, y);
+  let statusHtml = "";
+  if (state.phase === "stopped") {
+    if (state.criticalExceeded) {
+      statusHtml = '<span class="status-warning">⚠ 臨界値以上（ものさしは完全に本の中）</span><br><small>めり込みが最大に達しました。物差しは本の中に完全に入っています。</small>';
+    } else {
+      statusHtml = '<span class="status-ok">✓ W = ½ m v₀² = ' + ke0.toFixed(3) + ' J</span><br><small>台車が静止 → 仕事 = 初期運動エネルギー</small>';
+    }
   } else {
-    p.fill(40, 40, 120);
-    p.textSize(15);
-    p.text("現在 KE = ½mv² = " + ke.toFixed(3) + " J", x, y);
+    statusHtml = '<span class="status-info">現在の運動エネルギー = ½ m v² = ' + ke.toFixed(3) + ' J</span>';
   }
+
+  if (state.infoStatusEl) state.infoStatusEl.html(statusHtml);
 }
 
 /**
@@ -321,6 +284,7 @@ function update(p, dt) {
       state.isRunning = false;
       state.playPauseButton.html("終了");
       state.playPauseButton.attribute("disabled", "");
+      state.criticalExceeded = false;
     } else {
       const vNew = state.velocity_ms - dv;
       state.penetration_m += 0.5 * (state.velocity_ms + vNew) * dt;
@@ -335,6 +299,7 @@ function update(p, dt) {
       state.isRunning = false;
       state.playPauseButton.html("終了");
       state.playPauseButton.attribute("disabled", "");
+      state.criticalExceeded = true;
     }
   }
 }
@@ -372,7 +337,7 @@ function drawScene(p) {
     drawPenetrationLine(p, state.penetration_m);
   }
 
-  drawInfoPanel(p);
+  updateInfoPanelDOM();
 }
 
 /**
