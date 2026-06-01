@@ -52,7 +52,7 @@ function drawFlowArrow(p, r, currentVal, arrowSize = 6, color = null) {
   if (color) {
     p.fill(color);
   } else {
-    p.fill('#0073FF');
+    p.fill("#0073FF");
   }
   p.rotateZ(p.PI / 2);
   p.cone(arrowSize, arrowSize * 2);
@@ -70,7 +70,12 @@ function drawFieldLines(p, currentVal) {
 
   // determine maximum current from slider to normalize color/weight scale
   const slider = document.getElementById("currentSlider");
-  const maxCurrent = slider ? Math.max(Math.abs(parseFloat(slider.min)), Math.abs(parseFloat(slider.max))) : 4;
+  const maxCurrent = slider
+    ? Math.max(
+        Math.abs(parseFloat(slider.min)),
+        Math.abs(parseFloat(slider.max))
+      )
+    : 4;
   const maxB = maxCurrent / rMin; // maximum B we'll map to the strongest color
 
   // Color scale from light cyan (weak) to deep blue (strong)
