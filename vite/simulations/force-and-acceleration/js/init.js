@@ -7,6 +7,7 @@ import {
   onReset,
   onToggleModal,
   onCloseModal,
+  onClearMax,
 } from "./element-function.js";
 
 export const FPS = 60;
@@ -30,6 +31,7 @@ export function settingInit(p, canvasController) {
 export function elementSelectInit(p) {
   state.massInput = p.select("#massInput");
   state.resetButton = p.select("#resetButton");
+  state.clearMaxButton = p.select("#clearMaxButton");
   state.toggleModal = p.select("#toggleModal");
   state.closeModal = p.select("#closeModal");
   state.settingsModal = p.select("#settingsModal");
@@ -42,6 +44,7 @@ export function elementSelectInit(p) {
 export function elementPositionInit(p) {
   state.massInput.input(onMassChange);
   state.resetButton.mousePressed(onReset);
+  if (state.clearMaxButton) state.clearMaxButton.mousePressed(onClearMax);
   state.toggleModal.mousePressed(onToggleModal);
   state.closeModal.mousePressed(onCloseModal);
 }
