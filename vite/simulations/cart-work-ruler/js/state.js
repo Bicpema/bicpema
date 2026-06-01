@@ -35,6 +35,8 @@ export const state = {
   velocity_ms: 2.0,
   /** めり込み距離 (m) */
   penetration_m: 0,
+  /** 最大めり込み超過フラグ（true のとき臨界超過） */
+  criticalExceeded: false,
   /** フェーズ: 'idle' | 'approach' | 'contact' | 'stopped' */
   phase: "idle",
   /** シミュレーション実行中フラグ */

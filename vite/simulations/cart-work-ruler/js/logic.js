@@ -227,7 +227,7 @@ function drawPenetrationLine(p, d) {
   p.noStroke();
   p.textAlign(p.CENTER, p.BOTTOM);
   p.textSize(13);
-  p.text("d = " + d.toFixed(3) + " m", (x1 + x2) / 2, lineY - 5);
+  p.text("めり込み距離 d = " + d.toFixed(3) + " m", (x1 + x2) / 2, lineY - 5);
 }
 
 /**
@@ -273,27 +273,38 @@ function drawInfoPanel(p) {
   // 物理量
   p.fill(34);
   p.textSize(15);
-  p.text("初期 KE = ½mv₀² = " + ke0.toFixed(3) + " J", x, y);
+  p.text("初期運動エネルギー KE₀ = ½ m v₀² = " + ke0.toFixed(3) + " J", x, y);
   y += lh;
-  p.text("めり込み d = " + state.penetration_m.toFixed(3) + " m", x, y);
+  p.text("めり込み距離 d = " + state.penetration_m.toFixed(3) + " m", x, y);
   y += lh;
-  p.text("仕事 W = F×d = " + work.toFixed(3) + " J", x, y);
+  p.text("仕事 W = F × d = " + work.toFixed(3) + " J", x, y);
   y += lh;
 
   if (stopped) {
-    p.fill(0, 110, 30);
-    p.textSize(15);
-    p.text("✓  W = ½mv₀² = " + ke0.toFixed(3) + " J", x, y);
-    y += lh;
-    p.fill(30, 120, 75);
-    p.textSize(13);
-    p.text("台車が静止 → 仕事 = 初期運動エネルギー", x, y);
-    y += 22;
-    p.text("（仕事と運動エネルギーの定理）", x, y);
+    if (state.criticalExceeded) {
+      p.fill(220, 50, 50);
+      p.textSize(15);
+      p.text("⚠ 臨界値以上（ものさしは完全に本の中）", x, y);
+      y += lh;
+      p.fill(220, 50, 50);
+      p.textSize(13);
+      p.text("めり込みが最大に達しました。物差しは本の中に完全に入っています。", x, y);
+      y += 22;
+    } else {
+      p.fill(0, 110, 30);
+      p.textSize(15);
+      p.text("✓  W = ½ m v₀² = " + ke0.toFixed(3) + " J", x, y);
+      y += lh;
+      p.fill(30, 120, 75);
+      p.textSize(13);
+      p.text("台車が静止 → 仕事 = 初期運動エネルギー", x, y);
+      y += 22;
+      p.text("（仕事と運動エネルギーの定理）", x, y);
+    }
   } else {
     p.fill(40, 40, 120);
     p.textSize(15);
-    p.text("現在 KE = ½mv² = " + ke.toFixed(3) + " J", x, y);
+    p.text("現在の運動エネルギー = ½ m v² = " + ke.toFixed(3) + " J", x, y);
   }
 }
 
@@ -321,6 +332,7 @@ function update(p, dt) {
       state.isRunning = false;
       state.playPauseButton.html("終了");
       state.playPauseButton.attribute("disabled", "");
+      state.criticalExceeded = false;
     } else {
       const vNew = state.velocity_ms - dv;
       state.penetration_m += 0.5 * (state.velocity_ms + vNew) * dt;
@@ -335,6 +347,7 @@ function update(p, dt) {
       state.isRunning = false;
       state.playPauseButton.html("終了");
       state.playPauseButton.attribute("disabled", "");
+      state.criticalExceeded = true;
     }
   }
 }

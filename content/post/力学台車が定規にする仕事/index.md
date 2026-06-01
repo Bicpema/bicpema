@@ -35,7 +35,7 @@ aliases: []
 
 したがって、台車が定規に行う仕事 W は:
 
-<p style="text-align:center;">W = F × d = (1/2)mv<sub>0</sub><sup>2</sup></p>
+<p style="text-align:center;">W = F × d = (1/2) m v<sub>0</sub><sup>2</sup>（＝初期運動エネルギー KE<sub>0</sub>）</p>
 
 また、定規のめり込み距離 d は:
 

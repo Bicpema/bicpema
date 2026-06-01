@@ -45,6 +45,7 @@ export function initValue(p) {
   state.penetration_m = 0;
   state.phase = "idle";
   state.isRunning = false;
+  state.criticalExceeded = false;
 
   state.playPauseButton.html("▶ 開始");
   state.playPauseButton.removeAttribute("disabled");
