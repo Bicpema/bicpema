@@ -90,8 +90,9 @@ export function drawChamber(p) {
 }
 
 export function animateCycle(p) {
+  if (!state.isPlaying) return;
   state.t++;
-  const D = 80;
+  const D = 160;
   if (state.stage === 0 && state.t <= D) {
     state.pistonY = p.lerp(160, 130, state.t / D);
   } else if (state.stage === 1 && state.t <= D) {
@@ -106,5 +107,5 @@ export function animateCycle(p) {
     state.stage = (state.stage + 1) % 4;
     state.t = 0;
   }
-  state.pistonY = p.constrain(state.pistonY, 60, 200);
+  state.pistonY = p.constrain(state.pistonY, 100, 160);
 }

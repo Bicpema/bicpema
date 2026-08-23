@@ -46,8 +46,10 @@ const sketch = (p) => {
       drawScale(p, 0, CANVAS_HEIGHT, CANVAS_WIDTH, 50);
     }
 
-    state.RED_CAR.update();
-    state.YELLOW_CAR.update();
+    if (state.isPlaying) {
+      state.RED_CAR.update();
+      state.YELLOW_CAR.update();
+    }
     state.RED_CAR.drawTrajectory(p);
     state.YELLOW_CAR.drawTrajectory(p);
     state.RED_CAR.drawCar(p);

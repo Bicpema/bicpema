@@ -46,6 +46,7 @@ export function onCloseModalClick() {
 export function onSpeedInputChange() {
   const value = parseFloat(document.getElementById("speedInput").value);
   if (!isNaN(value)) {
-    state.speedValue = value;
+    state.speedValue = Math.max(0, Math.min(1000, value));
+    document.getElementById("speedInput").value = state.speedValue;
   }
 }

@@ -5,4 +5,5 @@ export const state = {
   RED_CAR_IMAGE: null,
   graphData: true,
   graphChart: null,
+  isPlaying: true,
 };

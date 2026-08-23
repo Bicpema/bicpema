@@ -35,7 +35,6 @@ export class Ball {
 
     if (this.height <= 0) {
       this.height = 0;
-      this.velocity = 0;
       this.isMoving = false;
       return;
     }
