@@ -1,0 +1,14 @@
+#p5Container {
+  padding: 0;
+  margin-top: 56px;
+}
+
+#p5Canvas {
+  text-align: center;
+}
+
+#p5Canvas canvas {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+}
