@@ -27,6 +27,12 @@ export function elCreate(p) {
     .id("graphButtonParent")
     .parent(p.select("#p5Container"));
 
+  p.createDiv(
+    '<button type="button" class="btn btn-success m-1" id="playButton">一時停止</button><button type="button" class="btn btn-secondary m-1" id="resetButton">リセット</button>'
+  )
+    .id("motionControls")
+    .parent(p.select("#p5Container"));
+
   p.createButton("シミュレーション設定")
     .class("btn btn-primary")
     .id("modalButton")
@@ -48,12 +54,12 @@ export function elCreate(p) {
           </div>
           <div class="input-group mb-3 mt-3">
             <span class="input-group-text" id="yellowCarSpeedLabel">黄色い車の速度</span>
-            <input type="number" min="1" class="form-control" placeholder="cm/s" aria-describedby="yellowCarSpeedLabel" id="yellowCarSpeedInput" value="3"/>
+            <input type="number" min="1" max="20" class="form-control" placeholder="cm/s" aria-describedby="yellowCarSpeedLabel" id="yellowCarSpeedInput" value="3"/>
             <span class="input-group-text">cm/s</span>
           </div>
           <div class="input-group mb-3 mt-3">
             <span class="input-group-text" id="redCarSpeedLabel">赤い車の速度</span>
-            <input type="number" min="1" class="form-control" placeholder="cm/s" aria-describedby="redCarSpeedLabel" id="redCarSpeedInput" value="2"/>
+            <input type="number" min="1" max="20" class="form-control" placeholder="cm/s" aria-describedby="redCarSpeedLabel" id="redCarSpeedInput" value="2"/>
             <span class="input-group-text">cm/s</span>
           </div>
         </div>
@@ -71,6 +77,15 @@ export function elCreate(p) {
     .attribute("aria-hidden", "true");
 
   p.select("#graphButton").mousePressed(() => graphButtonFunction());
+  p.select("#playButton").mousePressed(() => {
+    state.isPlaying = !state.isPlaying;
+    p.select("#playButton").html(state.isPlaying ? "一時停止" : "再開");
+  });
+  p.select("#resetButton").mousePressed(() => {
+    state.isPlaying = true;
+    p.select("#playButton").html("一時停止");
+    initValue(p);
+  });
   p.select("#yellowCarSpeedInput").changed(() => initValue(p));
   p.select("#redCarSpeedInput").changed(() => initValue(p));
 }
@@ -103,10 +118,6 @@ export function elSetting(p) {
     );
   }
 
-  p.select("#modalButton").position(
-    p.windowWidth / 2 - p.width / 2,
-    60 + p.height + 10
-  );
 }
 
 /**

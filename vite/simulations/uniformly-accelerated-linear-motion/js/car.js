@@ -64,13 +64,17 @@ export class Car {
       this.lastGraphUpdate = this.time;
     }
 
-    // 等時間マーカー
-    if (this.time - this.lastMarkerTime >= MARKER_INTERVAL) {
+    // 等時間マーカーはフレーム時刻ではなく理想時刻で記録する
+    while (this.lastMarkerTime + MARKER_INTERVAL <= this.time + 1e-9) {
+      const markerTime = this.lastMarkerTime + MARKER_INTERVAL;
       this.markers.push({
-        t: parseFloat(this.time.toFixed(2)),
-        px: this.position * PIXELS_PER_METER,
+        t: parseFloat(markerTime.toFixed(2)),
+        px:
+          (this.initialVelocity * markerTime +
+            0.5 * this.acceleration * markerTime * markerTime) *
+          PIXELS_PER_METER,
       });
-      this.lastMarkerTime = this.time;
+      this.lastMarkerTime = markerTime;
     }
   }
 

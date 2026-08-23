@@ -85,8 +85,8 @@ html {
 /* 右上コントロール */
 .right-top-controls {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 16px;
+  right: 16px;
   z-index: 1000;
 }
 

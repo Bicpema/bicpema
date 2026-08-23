@@ -6,4 +6,5 @@ export const state = {
   img_flame: null,
   img_weight: null,
   img_ice: null,
+  isPlaying: true,
 };

@@ -15,7 +15,7 @@ export class CAR {
     this.posx = x;
     this.posy = y;
     this.img = i;
-    this.speed = v;
+    this.speed = Math.max(1, Math.min(20, Number(v) || 1));
     this.xarr = xa;
     this.varr = va;
   }
