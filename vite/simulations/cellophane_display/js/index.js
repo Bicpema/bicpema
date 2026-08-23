@@ -1,3 +1,10 @@
+import "../../../scss/common.scss";
+import "bootstrap";
+import Chart from "chart.js/auto";
+import html2canvas from "html2canvas";
+import * as math from "mathjs";
+import p5 from "p5";
+
 // <変数の宣言>
 let cmfTable, osTable;
 let img, img2;
@@ -1495,6 +1502,10 @@ function drawGraph() {
   mainChartObj = new Chart(mainCtx, mainChartsetup);
 }
 
+window.setup = setup;
+window.draw = draw;
+new p5();
+
 function drawGraph2_1(x1, y1) {
   if (typeof mainChartObj !== "undefined" && mainChartObj) {
     mainChartObj.destroy();
@@ -1506,7 +1517,7 @@ function drawGraph2_1(x1, y1) {
 
   // 円のデータを作成（360分割）
   let circleArr = [];
-  for (let theta = 0; theta < 2 * math.PI; theta += math.PI / 180) {
+  for (let theta = 0; theta < 2 * math.pi; theta += math.pi / 180) {
     // 1度刻み
     circleArr.push({ x: math.cos(theta), y: math.sin(theta) });
   }
@@ -1591,7 +1602,7 @@ function drawGraph2() {
 
   // 円のデータを作成（360分割）
   let circleArr = [];
-  for (let theta = 0; theta < 2 * math.PI; theta += math.PI / 180) {
+  for (let theta = 0; theta < 2 * math.pi; theta += math.pi / 180) {
     // 1度刻み
     circleArr.push({ x: math.cos(theta), y: math.sin(theta) });
   }

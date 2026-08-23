@@ -9,7 +9,6 @@ vite/
 ├── _build/
 │   └── getHtmlInputsRecursively.js  # ビルド用ユーティリティ
 ├── js/
-│   └── common.js                    # 全シミュレーション共通の JS
 ├── scss/
 │   └── (共通 SCSS ファイル)
 └── simulations/
@@ -27,14 +26,6 @@ vite/
 ```
 
 ## 共通ファイルの説明
-
-### `vite/js/common.js`
-
-全シミュレーションで共通して使用する JavaScript ファイルです。
-
-- `Chart.js` をインポートして `window.Chart` に公開
-- `p5` をグローバルモードで初期化（`new p5()`）
-- 旧実装のシミュレーション（パターン B）から参照される
 
 ### `vite/_build/getHtmlInputsRecursively.js`
 
