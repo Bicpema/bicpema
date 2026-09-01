@@ -1206,6 +1206,9 @@ function draw() {
 }
 
 function windowResized() {
+  // p5.jsはsetup()完了前でもwindow.onresizeを発火し得るため、
+  // canvasController生成前(setup()未完了)のresizeは無視する
+  if (!canvasController) return;
   canvasController.resizeScreen();
 }
 
