@@ -264,9 +264,9 @@ function elementPositionInit() {
   placeRemoveButton.mousePressed(placeRemoveButtonFunction);
   strataAddButton.mousePressed(strataAddButtonFunction);
   strataRemoveButton.mousePressed(strataRemoveButtonFunction);
-  setRadioButton.option("自動", "auto");
-  setRadioButton.option("手動", "manual");
-  setRadioButton.value("auto");
+  setRadioButton.option("auto", "自動");
+  setRadioButton.option("manual", "手動");
+  setRadioButton.selected("auto");
   setRadioButton.changed(setRadioButtonFunction);
   unitSelect.option("緯度・経度", "latlng");
   unitSelect.option("メートル", "meter");
@@ -636,8 +636,8 @@ function strataFileInputFunction(file) {
     reader.readAsArrayBuffer(file.file); // ArrayBuffer で読み込む
 
     reader.onload = function () {
-      // `Shift_JIS` でデコード
-      let decoder = new TextDecoder("shift-jis");
+      // UTF-8でデコード
+      let decoder = new TextDecoder("utf-8");
       let csvText = decoder.decode(reader.result);
 
       processCSV(csvText);
