@@ -1,7 +1,13 @@
+import "../../../scss/common.scss";
+import "bootstrap";
+import p5 from "p5";
+
+new p5();
+
 // html要素が全て読み込まれた後に読み込まれる
 window.onload = () => {
   // 受け取った地点名入りURLから地点名を抽出
-  placeName = decodeURI(location.search);
+  let placeName = decodeURI(location.search);
   placeName = placeName.substring(1, placeName.length);
   // 親ウィンドウがない場合の処理
   if (!window.opener || window.opener.closed) {
@@ -166,3 +172,7 @@ class TR {
     idArr.push(str(num));
   }
 }
+
+// p5.jsのグローバルモードのためにsetup/draw関数をwindowオブジェクトに公開
+window.setup = setup;
+window.draw = draw;
