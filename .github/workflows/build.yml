@@ -1,7 +1,6 @@
 name: ビルド確認
 
 on:
-  pull_request:
   push:
     branches:
       - main
