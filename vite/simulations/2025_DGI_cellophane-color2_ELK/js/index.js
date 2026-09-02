@@ -1,3 +1,11 @@
+import Chart from "chart.js/auto";
+import html2canvas from "html2canvas";
+import * as math from "mathjs";
+import p5 from "p5";
+window.Chart = Chart;
+window.html2canvas = html2canvas;
+window.math = math;
+
 // <変数の宣言>
 let cmfTable, osTable;
 let img, img2;
