@@ -1,4 +1,5 @@
 import { state } from "./state.js";
+import { computeDecayFraction, computeRemainingCount } from "./physics.js";
 
 /**
  * 原子配列を初期化する（各原子に 0〜1 のランダムしきい値を設定）。
@@ -34,7 +35,10 @@ export function drawSimulation(p) {
   drawAxes(p, padding, graphW, bottomY, topY);
   drawDecayCurve(p, padding, graphW, bottomY, topY);
 
-  const currentDecayRate = Math.pow(0.5, state.currentTime / state.halfLife);
+  const currentDecayRate = computeDecayFraction(
+    state.halfLife,
+    state.currentTime
+  );
   const markerX = p.map(
     state.currentTime,
     0,
@@ -109,7 +113,7 @@ function drawAxes(p, pad, w, bY, tY) {
 function drawHalfLifeGuides(p, pad, w, bY, tY) {
   for (let i = 0; i <= 4; i++) {
     const t_half = state.halfLife * i;
-    const amount = state.N0 / Math.pow(2, i);
+    const amount = computeRemainingCount(state.N0, state.halfLife, t_half);
     const x = p.map(t_half, 0, state.maxYears, pad, pad + w);
     const y = p.map(amount, 0, state.N0, bY, tY);
 
@@ -146,7 +150,7 @@ function drawDecayCurve(p, pad, w, bY, tY) {
   p.strokeWeight(3);
   p.beginShape();
   for (let t = 0; t <= state.maxYears; t += state.T) {
-    const n_t = state.N0 * Math.pow(0.5, t / state.halfLife);
+    const n_t = computeRemainingCount(state.N0, state.halfLife, t);
     const x = p.map(t, 0, state.maxYears, pad, pad + w);
     const y = p.map(n_t, 0, state.N0, bY, tY);
     p.vertex(x, y);

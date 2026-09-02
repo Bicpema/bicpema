@@ -1,4 +1,8 @@
 import { state } from "./state.js";
+import {
+  computeEquilibriumTemperature,
+  computeTemperatureAtTime,
+} from "./physics.js";
 
 function getContactState() {
   const el = document.querySelector('input[name="contact"]:checked');
@@ -136,15 +140,26 @@ function updateTemperature(p) {
     state.C_hot = state.c_now * state.m_now;
     state.C_cold = state.c_w * state.m_Water;
     state.t++;
-    state.Teq =
-      (state.C_hot * state.Thot0 + state.C_cold * state.Tcold0) /
-      (state.C_hot + state.C_cold);
+    state.Teq = computeEquilibriumTemperature(
+      state.C_hot,
+      state.C_cold,
+      state.Thot0,
+      state.Tcold0
+    );
     const G = 1.8;
     const k_eff = G / state.C_hot;
-    state.Thot =
-      state.Teq + (state.Thot0 - state.Teq) * Math.exp(-k_eff * state.t);
-    state.Tcold =
-      state.Teq + (state.Tcold0 - state.Teq) * Math.exp(-k_eff * state.t);
+    state.Thot = computeTemperatureAtTime(
+      state.Teq,
+      state.Thot0,
+      k_eff,
+      state.t
+    );
+    state.Tcold = computeTemperatureAtTime(
+      state.Teq,
+      state.Tcold0,
+      k_eff,
+      state.t
+    );
   } else {
     state.t = 0;
     state.Thot = state.Thot0;
@@ -230,7 +245,7 @@ function drawGraph(p) {
     for (let tt = 0; tt <= state.tMax; tt++) {
       const G = 1.8;
       const k_eff = G / state.C_hot;
-      const T = state.Teq + (state.Thot0 - state.Teq) * Math.exp(-k_eff * tt);
+      const T = computeTemperatureAtTime(state.Teq, state.Thot0, k_eff, tt);
       p.vertex(tx(p, tt), ty(p, T));
     }
     p.endShape();
@@ -241,7 +256,7 @@ function drawGraph(p) {
     for (let tt = 0; tt <= state.tMax; tt++) {
       const G = 1.8;
       const k_eff = G / state.C_hot;
-      const T = state.Teq + (state.Tcold0 - state.Teq) * Math.exp(-k_eff * tt);
+      const T = computeTemperatureAtTime(state.Teq, state.Tcold0, k_eff, tt);
       p.vertex(tx(p, tt), ty(p, T));
     }
     p.endShape();
