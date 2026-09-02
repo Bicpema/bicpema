@@ -27,6 +27,19 @@ const simulationsDir = join(rootDir, "vite", "simulations");
 const outDir = join(rootDir, "static", "vite");
 
 /**
+ * min以上の整数として妥当な値であれば返し、そうでなければ既定値を返す。
+ * @param {string | undefined} value
+ * @param {number} fallback
+ * @param {number} [min=1]
+ * @returns {number}
+ */
+function parseIntWithMin(value, fallback, min = 1) {
+  if (value === undefined) return fallback;
+  const parsed = Number(value);
+  return Number.isInteger(parsed) && parsed >= min ? parsed : fallback;
+}
+
+/**
  * コマンドライン引数を解析する。
  * @param {string[]} argv
  */
@@ -39,11 +52,22 @@ function parseArgs(argv) {
     baseUrl: null,
   };
   for (const arg of argv) {
-    const [key, value] = arg.split("=");
+    // 値側に "=" を含む場合（例: --base-url=http://host/?a=b）があるため、
+    // 最初の "=" のみでキーと値に分割する。
+    const separatorIndex = arg.indexOf("=");
+    if (separatorIndex === -1) continue;
+    const key = arg.slice(0, separatorIndex);
+    const value = arg.slice(separatorIndex + 1);
     if (key === "--filter") options.filter = value;
-    if (key === "--concurrency") options.concurrency = Number(value);
-    if (key === "--timeout") options.timeout = Number(value);
-    if (key === "--settle") options.settle = Number(value);
+    if (key === "--concurrency") {
+      options.concurrency = parseIntWithMin(value, options.concurrency, 1);
+    }
+    if (key === "--timeout") {
+      options.timeout = parseIntWithMin(value, options.timeout, 1);
+    }
+    if (key === "--settle") {
+      options.settle = parseIntWithMin(value, options.settle, 0);
+    }
     if (key === "--base-url") options.baseUrl = value;
   }
   return options;
@@ -155,10 +179,10 @@ async function runWithConcurrency(items, concurrency, worker) {
     await runNext();
   }
 
-  const workers = Array.from(
-    { length: Math.min(concurrency, items.length) },
-    () => runNext()
-  );
+  // concurrencyが不正な値でも最低1ワーカーは確保し、
+  // resultsが空のまま返る（呼び出し側でのクラッシュにつながる）ことを防ぐ。
+  const workerCount = Math.max(1, Math.min(concurrency, items.length));
+  const workers = Array.from({ length: workerCount }, () => runNext());
   await Promise.all(workers);
   return results;
 }
