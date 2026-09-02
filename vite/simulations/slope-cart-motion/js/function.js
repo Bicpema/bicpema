@@ -193,7 +193,7 @@ function drawDirectionArrow(p, rx, ry, angleDeg) {
 /**
  * 斜面上の台車を描画する。
  * @param {*} p - p5インスタンス
- * @param {SlopeCart} cart - 台車オブジェクト
+ * @param {import("./slope-cart.js").SlopeCart} cart - 台車オブジェクト
  * @param {number} angleDeg - 傾斜角 (度)
  */
 export function drawCartOnSlope(p, cart, angleDeg) {
@@ -281,7 +281,7 @@ export function drawRecordingTape(p, marks, recInterval) {
 /**
  * 情報パネルを描画する（左上）。
  * @param {*} p - p5インスタンス
- * @param {SlopeCart} cart - 台車オブジェクト
+ * @param {import("./slope-cart.js").SlopeCart} cart - 台車オブジェクト
  */
 export function drawInfoPanel(p, cart) {
   const PANEL_W = 310;
