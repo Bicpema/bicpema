@@ -8,5 +8,11 @@ export function computeCoordinateBounds(values) {
   if (values.length === 0) {
     return { min: 0, max: 0 };
   }
-  return { min: Math.min(...values), max: Math.max(...values) };
+  let min = values[0];
+  let max = values[0];
+  for (const value of values) {
+    if (value < min) min = value;
+    if (value > max) max = value;
+  }
+  return { min, max };
 }

@@ -336,14 +336,15 @@ function current2(p) {
   p.push();
   p.noStroke();
   p.fill(255, 0, 0);
-  // 一次電流の振幅（current1と同じ式）に変圧比を適用し、逆位相なら符号を反転する
-  const primaryCurrentAmplitude = 15 * p.sin(state.omega * state.t);
-  const I = computeSecondaryCurrentAmplitude(
-    primaryCurrentAmplitude,
+  // 一次電流の最大振幅（current1と同じ値）に変圧比を適用し、逆位相なら符号を反転したうえで
+  // 時間変化 sin(ωt) を掛けて瞬時値を求める
+  const secondaryAmplitude = computeSecondaryCurrentAmplitude(
+    15,
     state.count1 + 1,
     state.count2 + 1,
     state.phase
   );
+  const I = secondaryAmplitude * p.sin(state.omega * state.t);
   const x = state.phase
     ? 10 * p.sin(state.omega * state.t)
     : -10 * p.sin(state.omega * state.t);
