@@ -4,17 +4,4 @@ applyTo: "vite/**"
 
 # シミュレーションの実装に関するカスタムインストラクション
 
-このファイルの実体は `.github/instructions/simulations.instructions.md` です。GitHub Copilot Coding Agentがこのパスを、Claude Codeが `vite/CLAUDE.md`（このファイルへのsymlink）を通じて、同じ内容を参照します。
-
-## 概要
-
-このドキュメントは、Bicpema プロジェクトのシミュレーション実装に関するカスタムインストラクションを提供します。
-
-## フォルダー構成
-
-```text
-.
-├── js              ## 共通のJavaScriptコード
-├── scss            ## 共通のSCSSコード
-└── simulations     ## 各シミュレーションのコード
-```
+`vite/` 配下の実装規約は [vite/AGENTS.md](../../vite/AGENTS.md) に集約しています。GitHub Copilot Coding AgentはAGENTS.md対応のため、本ファイルは `applyTo` によるパス限定適用のための入口として残しています。詳細は vite/AGENTS.md を参照してください。
