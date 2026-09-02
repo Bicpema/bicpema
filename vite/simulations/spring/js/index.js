@@ -5,8 +5,12 @@ import Chart from "chart.js/auto";
 
 let springImg, ballImg;
 function preload() {
-  springImg = loadImage("/assets/img/springImg.png");
-  ballImg = loadImage("/assets/img/metalBallImg.png");
+  springImg = loadImage(
+    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FspringImg.png?alt=media&token=39da612a-739a-4bc2-bde0-2429d1f4ef7d"
+  );
+  ballImg = loadImage(
+    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FmetalBallImg.png?alt=media&token=97e75efc-9412-406f-af82-8c6c753a3d2a"
+  );
 }
 
 let startButton,

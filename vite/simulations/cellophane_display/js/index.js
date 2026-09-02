@@ -20,6 +20,7 @@ let waveLengthArr; // 波長の配列
 let xLambda, yLambda, zLambda; // XYZ等色関数の配列
 let osArr, osArrOrigin; // 強度データの配列
 let dArr; //光路差のデータの配列
+let dTable; // セロハンテープ用の光路差テーブル
 let dTableOPP; //光路差のデータの配列OPP
 let xArrAfter = [],
   yArrAfter = [],
@@ -45,10 +46,21 @@ let rAfter1 = 0,
 let rAfter2 = 0,
   gAfter2 = 0,
   bAfter2 = 0; // 二枚目の偏光板を透過したときのrgb要素(※ セロハン2枚以上)
+let angle_1;
+let angle_2;
+let angle_3;
+let angle_4;
+let E_1;
+let E_2;
+let E_3;
+let colabNum; // セロハン枚数管理変数
 
 //分離軸判定で使用した変数の追加 2024.6.14
 let centerX, centerY; // 判定で用いる座標の中心点
 let x1, x2, x3, x4, y1, y2, y3, y4; //判定するテープの4隅の点座標
+let tape_angle;
+let tape_angle_cal;
+let tape_number_cal;
 let tape_angle_get;
 let radius; //セロハンのサイズ(高さ)
 let precolabNum;
@@ -138,6 +150,11 @@ let R_all = []; //補正データを受け取る配列
 let R_os = [];
 
 let K;
+let xSumBefore, ySumBefore, zSumBefore;
+let xSumAfter, ySumAfter, zSumAfter;
+let rgbBefore;
+let tosRGB;
+let sRGB;
 let spey;
 let speyBox = [];
 //複数の光路差-分散特性を考慮するためのボタン
@@ -918,6 +935,7 @@ function afterColorCalculate1() {
         [0, math.exp(math.complex(0, -delta))],
       ];
       E_2 = math.multiply(cello, E_1);
+      let c;
       if (polarizerSelect.value() == "平行ニコル配置") {
         c = radians(-referenceAngle.value());
       } else if (polarizerSelect.value() == "直交ニコル配置") {
@@ -1491,6 +1509,7 @@ function drawGraph() {
   mainChartObj = new Chart(mainCtx, mainChartsetup);
 }
 
+window.preload = preload;
 window.setup = setup;
 window.draw = draw;
 new p5();
