@@ -44,9 +44,8 @@ export function onCloseModalClick() {
  * 速度入力値が変更されたときの処理。
  */
 export function onSpeedInputChange() {
-  const speedInput = /** @type {HTMLInputElement} */ (
-    document.getElementById("speedInput")
-  );
+  const speedInput = document.getElementById("speedInput");
+  if (!(speedInput instanceof HTMLInputElement)) return;
   const value = parseFloat(speedInput.value);
   if (!isNaN(value)) {
     state.speedValue = Math.max(0, Math.min(1000, value));
