@@ -137,3 +137,4 @@ bicpema
 - `main`ブランチにマージすると、GitHub Actionsで自動的にデプロイされる。
 - デプロイの状況は[こちら](https://github.com/Bicpema/bicpema/actions)で確認できる。
 - デプロイ先 URL → <https://bicpema.com/>
+- GitHub Copilot Coding Agent向けのAgent Skills / Subagent（`.github/skills/`, `.github/agents/`）は、`.claude/skills/`, `.claude/agents/`にも同期しておりClaude Codeからも利用できる。同期の仕組みは[CLAUDE.md](./CLAUDE.md)を参照。
