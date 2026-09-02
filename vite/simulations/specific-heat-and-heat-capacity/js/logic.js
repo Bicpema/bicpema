@@ -1,5 +1,6 @@
 import { state } from "./state.js";
 import { SPECIFIC_HEAT, SPECIFIC_HEAT_LABELS, MASS_VALUES } from "./init.js";
+import { computeTemperatureChange } from "./physics.js";
 
 /**
  * 仮想キャンバス幅（オリジナルcanvas幅と同一）
@@ -192,7 +193,7 @@ function drawGraphLines(p, VH) {
   // --- 物質A グラフ線（赤）---
   const massA = MASS_VALUES[state.massA];
   const cA = SPECIFIC_HEAT[state.materialA];
-  const deltaYA = 5000 / (massA * cA);
+  const deltaYA = computeTemperatureChange(5000, massA, cA);
 
   p.push();
   p.stroke(255, 0, 0);
@@ -211,7 +212,7 @@ function drawGraphLines(p, VH) {
   // --- 物質B グラフ線（青）---
   const massB = MASS_VALUES[state.massB];
   const cB = SPECIFIC_HEAT[state.materialB];
-  const deltaYB = 5000 / (massB * cB);
+  const deltaYB = computeTemperatureChange(5000, massB, cB);
 
   p.push();
   p.stroke(0, 0, 255, 150);

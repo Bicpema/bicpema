@@ -1,4 +1,5 @@
 import { state } from "./state.js";
+import { computePistonY, advanceStage } from "./physics.js";
 
 export function drawChamber(p) {
   const gw = 250;
@@ -93,18 +94,12 @@ export function animateCycle(p) {
   if (!state.isPlaying) return;
   state.t++;
   const D = 160;
-  if (state.stage === 0 && state.t <= D) {
-    state.pistonY = p.lerp(160, 130, state.t / D);
-  } else if (state.stage === 1 && state.t <= D) {
-    state.pistonY = p.lerp(130, 80, state.t / D);
-  } else if (state.stage === 2 && state.t <= D) {
-    state.pistonY = p.lerp(80, 130, state.t / D);
-  } else if (state.stage === 3 && state.t <= D) {
-    state.pistonY = p.lerp(130, 160, state.t / D);
+  if (state.t <= D) {
+    state.pistonY = computePistonY(state.stage, state.t, D);
   } else {
     if (state.stage === 1) state.weightOn = false;
     if (state.stage === 3) state.weightOn = true;
-    state.stage = (state.stage + 1) % 4;
+    state.stage = advanceStage(state.stage);
     state.t = 0;
   }
   state.pistonY = p.constrain(state.pistonY, 100, 160);

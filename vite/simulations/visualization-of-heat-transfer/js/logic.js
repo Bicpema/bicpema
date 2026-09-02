@@ -1,5 +1,6 @@
 import { state } from "./state.js";
 import { resetState } from "./init.js";
+import { computeTemperatureAtTime } from "./physics.js";
 
 // 仮想キャンバス寸法: p.scale(p.width / 1000) 適用後の 1000×562 論理ピクセル空間
 // 左側ブロック (接触前)
@@ -43,10 +44,18 @@ function updateTemperature() {
   );
   if (contactState === 0) {
     state.t++;
-    state.Thot =
-      state.Teq + (state.Thot0 - state.Teq) * Math.exp(-state.heatK * state.t);
-    state.Tcold =
-      state.Teq + (state.Tcold0 - state.Teq) * Math.exp(-state.heatK * state.t);
+    state.Thot = computeTemperatureAtTime(
+      state.Teq,
+      state.Thot0,
+      state.heatK,
+      state.t
+    );
+    state.Tcold = computeTemperatureAtTime(
+      state.Teq,
+      state.Tcold0,
+      state.heatK,
+      state.t
+    );
   } else {
     resetState();
   }
@@ -174,8 +183,7 @@ function drawGraph(p) {
     p.stroke(255, 0, 0);
     p.beginShape();
     for (let tt = 0; tt <= state.tMax; tt++) {
-      let T =
-        state.Teq + (state.Thot0 - state.Teq) * Math.exp(-state.heatK * tt);
+      let T = computeTemperatureAtTime(state.Teq, state.Thot0, state.heatK, tt);
       p.vertex(tx(tt), ty(T));
     }
     p.endShape();
@@ -184,8 +192,12 @@ function drawGraph(p) {
     p.stroke(0, 0, 255);
     p.beginShape();
     for (let tt = 0; tt <= state.tMax; tt++) {
-      let T =
-        state.Teq + (state.Tcold0 - state.Teq) * Math.exp(-state.heatK * tt);
+      let T = computeTemperatureAtTime(
+        state.Teq,
+        state.Tcold0,
+        state.heatK,
+        tt
+      );
       p.vertex(tx(tt), ty(T));
     }
     p.endShape();
