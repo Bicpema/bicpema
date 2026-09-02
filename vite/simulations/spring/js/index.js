@@ -1,3 +1,8 @@
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import Chart from "chart.js/auto";
+
 let springImg, ballImg;
 function preload() {
   springImg = loadImage("/assets/img/springImg.png");
@@ -113,11 +118,11 @@ function graphCreation() {
 
 function graphSettings() {
   graph1.size(width / 2, height / 2).position(width / 2, windowHeight / 10);
-  graphCanvas1.size(0, 0).id("chart1");
+  graphCanvas1.id("chart1");
   graph2
     .size(width / 2, height / 2)
     .position(width / 2, windowHeight / 10 + height / 2);
-  graphCanvas2.size(0, 0).id("chart2");
+  graphCanvas2.id("chart2");
 }
 
 function graphDraw() {
@@ -329,3 +334,9 @@ function fullScreen() {
   let canvas = createCanvas(windowWidth, (9 * windowHeight) / 10);
   canvas.parent(p5Canvas);
 }
+
+window.preload = preload;
+window.setup = setup;
+window.draw = draw;
+window.windowResized = windowResized;
+new p5();
