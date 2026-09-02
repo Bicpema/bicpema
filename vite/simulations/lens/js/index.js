@@ -1,6 +1,11 @@
 import p5 from "p5";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import {
+  computeConvexLensImageDistance,
+  computeConcaveLensImageDistance,
+  computeMagnification,
+} from "./physics.js";
 
 const state = {
   headImg: null,
@@ -778,10 +783,11 @@ function objectAndVirtualImageDisplay(p, img) {
   //凸レンズの場合
   if (lensSelect.value() == "凸レンズ") {
     if (a <= (4 * p.width) / 10 - focusLengthSlider.value()) {
-      b =
-        (a * ((4 * p.width) / 10 - focusLengthSlider.value())) /
-        ((4 * p.width) / 10 - focusLengthSlider.value() - a);
-      m = b / a;
+      b = computeConvexLensImageDistance(
+        a,
+        (4 * p.width) / 10 - focusLengthSlider.value()
+      );
+      m = computeMagnification(b, a);
       p.image(
         img,
         p.width / 2 - b - (img.width * m) / 2,
@@ -811,10 +817,11 @@ function objectAndVirtualImageDisplay(p, img) {
 
   //凹レンズの場合
   if (lensSelect.value() == "凹レンズ") {
-    b =
-      (a * ((4 * p.width) / 10 - focusLengthSlider.value())) /
-      (a + ((4 * p.width) / 10 - focusLengthSlider.value()));
-    m = b / a;
+    b = computeConcaveLensImageDistance(
+      a,
+      (4 * p.width) / 10 - focusLengthSlider.value()
+    );
+    m = computeMagnification(b, a);
     p.image(
       img,
       p.width / 2 - b - (img.width * m) / 2,

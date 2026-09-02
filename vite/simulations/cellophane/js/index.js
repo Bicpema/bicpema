@@ -2,6 +2,10 @@ import p5 from "p5";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import Chart from "chart.js/auto";
+import {
+  computeOpticalPathDifference,
+  computeTransmittance,
+} from "./physics.js";
 
 const state = {
   spectrumSheet: null,
@@ -534,24 +538,30 @@ class Ray {
     //単位は (°)
     if (this.clr == "r") {
       this.w = (2 * 180) / 25;
-      this.opd = cellophaneCountSlider.value() * opdr;
+      this.opd = computeOpticalPathDifference(
+        cellophaneCountSlider.value(),
+        opdr
+      );
       this.wl = 600;
-      this.magnification =
-        (1.0 / 2.0) * (1 - p.cos((this.opd / this.wl) * 2 * p.PI));
+      this.magnification = computeTransmittance(this.opd, this.wl);
     }
     if (this.clr == "g") {
       this.w = ((2 * 180) / 25) * 0.78;
-      this.opd = cellophaneCountSlider.value() * opdg;
+      this.opd = computeOpticalPathDifference(
+        cellophaneCountSlider.value(),
+        opdg
+      );
       this.wl = 550;
-      this.magnification =
-        (1.0 / 2.0) * (1 - p.cos((this.opd / this.wl) * 2 * p.PI));
+      this.magnification = computeTransmittance(this.opd, this.wl);
     }
     if (this.clr == "b") {
       this.w = ((2 * 180) / 25) * 0.62214285714;
-      this.opd = cellophaneCountSlider.value() * opdb;
+      this.opd = computeOpticalPathDifference(
+        cellophaneCountSlider.value(),
+        opdb
+      );
       this.wl = 450;
-      this.magnification =
-        (1.0 / 2.0) * (1 - p.cos((this.opd / this.wl) * 2 * p.PI));
+      this.magnification = computeTransmittance(this.opd, this.wl);
     }
     if (switchIs == true) {
       if (this.posz <= 150) {
