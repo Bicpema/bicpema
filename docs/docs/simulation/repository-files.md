@@ -6,11 +6,12 @@ Bicpema リポジトリのトップレベルのディレクトリ構成と、各
 
 ```txt
 bicpema/
+├── .claude/                  # Claude Code / GitHub Copilot Coding Agent 共通のスキル・サブエージェント定義
+│   ├── agents/                # サブエージェント定義
+│   └── skills/                # ワークフロースキル定義
 ├── .github/                  # GitHub 関連設定
 │   ├── ISSUE_TEMPLATE/       # Issue テンプレート
-│   ├── skills/               # GitHub Copilot エージェントのスキル定義
 │   ├── workflows/            # GitHub Actions ワークフロー
-│   ├── copilot-instructions.md  # Copilot へのプロジェクト指示
 │   ├── dependabot.yml        # Dependabot 設定
 │   ├── pull_request_template.md  # PR テンプレート
 │   └── release.yml           # リリースノートのカテゴリ設定
@@ -36,6 +37,8 @@ bicpema/
 ├── .gitmodules               # Git サブモジュール設定（themes/）
 ├── .prettierignore
 ├── .prettierrc               # Prettier 設定
+├── AGENTS.md                 # 開発者向けインストラクション（Claude Code / Copilot 共通の実体）
+├── CLAUDE.md                  # Claude Code用のAGENTS.md参照
 ├── cors.json                 # Firebase Storage CORS 設定
 ├── firebase.json             # Firebase Hosting 設定
 ├── new_simulation.py         # 新規シミュレーション雛形生成スクリプト

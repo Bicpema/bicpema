@@ -1,4 +1,6 @@
-# Copilot Instructions
+# AGENTS.md
+
+このファイルはリポジトリ全体の開発者向けインストラクションです。GitHub Copilot Coding Agent（AGENTS.md対応）と Claude Code（`CLAUDE.md` からの `@AGENTS.md` 読み込み）の両方から参照される、内容の実体（唯一のソース）です。
 
 ## フォルダー構成
 
@@ -33,7 +35,7 @@
 
 `README.md` を参照してください。
 
-##　サーバーの起動方法
+## サーバーの起動方法
 
 `README.md` を参照してください。
 
@@ -60,3 +62,11 @@
 - 基本的には左下に再生・停止ボタンを配置してください。
 - 基本的には、右上に設定表示ボタンを配置してください。
 - シミュレーションの設定パネルは、ユーザーが簡単にアクセスできるように設計してください。
+
+## コミットメッセージ
+
+`.vscode/commit-style.md` の接頭辞ルール（`feat:` / `fix:` / `docs:` など）に従って、日本語でコミットメッセージを書いてください。
+
+## Agent Skills / Subagents
+
+ワークフロースキルは `.claude/skills/`、サブエージェントは `.claude/agents/` に配置されています。Claude Code・GitHub Copilot Coding Agent共通の置き場所です。

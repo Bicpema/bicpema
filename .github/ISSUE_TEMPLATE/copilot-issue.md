@@ -22,5 +22,4 @@ Issueをクローズさせる際の条件をこちらに箇条書きで書いて
 
 ## カスタムインストラクション
 
-- `.github/copilot-instructions.md`を参照してください。
-- `.github/instructions/simulations.instructions.md`を参照してください。
+- `AGENTS.md`を参照してください。
