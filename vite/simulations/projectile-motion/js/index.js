@@ -322,30 +322,19 @@ class Ball {
       if (this.posy >= (9 * height) / 10 - radi && this.posx != 50) {
         this.posy = (9 * height) / 10 - radi;
       } else {
-        if (this.konstant >= 0.1) {
-          this.posx =
-            (this.weight / this.konstant) *
-              this.speed *
-              cos(radians(this.theta)) *
-              (-exp((-this.konstant / this.weight) * (count / this.fps)) + 1) +
-            this.posx0;
-          this.posy =
-            (this.weight / this.konstant) *
-              (-this.speed * sin(radians(this.theta)) -
-                (this.weight * this.gravity) / this.konstant) *
-              (-exp((-this.konstant / this.weight) * (count / this.fps)) + 1) +
-            (((this.weight * this.gravity) / this.konstant) * count) /
-              this.fps +
-            this.posy0;
-        } else {
-          this.posx =
-            (this.speed * cos(radians(this.theta)) * count) / this.fps +
-            this.posx0;
-          this.posy =
-            -this.speed * sin(radians(this.theta)) * (count / this.fps) +
-            0.5 * this.gravity * sq(count / this.fps) +
-            this.posy0;
-        }
+        const { x, y } =
+          window.projectileMotionPhysics.computeDragProjectilePosition({
+            t: count / this.fps,
+            speed: this.speed,
+            angleDeg: this.theta,
+            mass: this.weight,
+            k: this.konstant,
+            gravity: this.gravity,
+            posx0: this.posx0,
+            posy0: this.posy0,
+          });
+        this.posx = x;
+        this.posy = y;
       }
     } else if (resetCount == true) {
       this.posx = this.posx0;
