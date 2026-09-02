@@ -1,4 +1,4 @@
-name: ドキュメントリント
+name: 記事とシミュレーションのリンク整合性チェック
 
 on:
   pull_request:
@@ -7,9 +7,7 @@ on:
       - main
 
 jobs:
-  lint-md:
-    permissions:
-      contents: read
+  check-article-links:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -24,5 +22,5 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Markdownリント
-        run: npm run lint:md
+      - name: 記事とシミュレーションのリンク整合性チェック
+        run: npm run check:article-links

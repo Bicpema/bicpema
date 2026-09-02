@@ -102,6 +102,14 @@ hugo new series/sample-series/_index.md
 ソースコード  
 <https://github.com/tomowang/hugo-theme-tailwind/blob/main/exampleSite/content/post/markdown-syntax/index.md?plain=1>
 
+記事とシミュレーションのリンク整合性（記事内のリンク切れ、対応する記事のないシミュレーション）をチェックする
+
+```bash
+npm run check:article-links
+```
+
+意図的に記事なしとするシミュレーションは`scripts/articleless-simulation-allowlist.js`に追加する。
+
 ## Simulation
 
 [`vite`](./vite/)ディレクトリにシミュレーションのHTMLを配置する。  
