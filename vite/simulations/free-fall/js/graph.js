@@ -16,7 +16,9 @@ export class BallGraph {
   updateGraph() {
     if (!state.graphVisible) return;
 
-    const ctx = document.getElementById("graphCanvas");
+    const ctx = /** @type {HTMLCanvasElement | null} */ (
+      document.getElementById("graphCanvas")
+    );
     if (!ctx) return;
 
     // 既存グラフを破棄
@@ -56,6 +58,7 @@ export class BallGraph {
       ],
     };
 
+    /** @type {import("chart.js").ChartOptions<"scatter">} */
     const options = {
       plugins: {
         title: {

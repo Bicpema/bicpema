@@ -64,6 +64,6 @@ export function initValue(p) {
   p.textSize(16);
 
   const initialHeight = parseFloat(state.heightInput.value());
-  state.ball = new Ball(initialHeight, 0);
+  state.ball = new Ball(initialHeight);
   state.graph = new BallGraph();
 }
