@@ -15,8 +15,14 @@ export function initModal({ openSelectors, modalSelector, closeSelectors }) {
   const modal = document.querySelector(modalSelector);
   if (!modal) return;
 
-  const open = () => modal.classList.remove("hidden");
-  const close = () => modal.classList.add("hidden");
+  const setModalVisibility = (isHidden) => {
+    modal.classList.toggle("hidden", isHidden);
+    modal.setAttribute("aria-hidden", String(isHidden));
+  };
+  const open = () => setModalVisibility(false);
+  const close = () => setModalVisibility(true);
+
+  setModalVisibility(modal.classList.contains("hidden"));
 
   document.querySelectorAll(openSelectors).forEach((el) => {
     el.addEventListener("click", open);
@@ -27,5 +33,8 @@ export function initModal({ openSelectors, modalSelector, closeSelectors }) {
   // モーダル背景（オーバーレイ部分）のクリックでも閉じる
   modal.addEventListener("click", (event) => {
     if (event.target === modal) close();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !modal.classList.contains("hidden")) close();
   });
 }
