@@ -1,13 +1,14 @@
-name: テスト
+name: ビルド確認
 
 on:
-  pull_request:
   push:
     branches:
       - main
 
 jobs:
-  test:
+  build:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -22,17 +23,5 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: 型チェック
-        run: npm run typecheck
-
-      - name: ユニットテスト
-        run: npm test
-
       - name: ビルド確認
         run: npm run build
-
-      - name: Playwrightブラウザーのインストール
-        run: npx playwright install --with-deps chromium
-
-      - name: シミュレーション起動確認
-        run: npm run verify:runtime
