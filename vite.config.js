@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { globSync } from "tinyglobby";
 import { defineConfig } from "vite";
 import { viteStaticCopy } from "vite-plugin-static-copy";
+import tailwindcss from "@tailwindcss/vite";
 import { getHtmlInputsRecursively } from "./vite/_build/getHtmlInputsRecursively";
 
 const root = resolve(__dirname, "vite");
@@ -26,6 +27,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    tailwindcss(),
     // simulationsディレクトリを静的ファイルとしてコピーする
     viteStaticCopy({
       targets: [
