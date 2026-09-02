@@ -16,10 +16,16 @@
       type="text/javascript"
       src="/assets/js/p5.dom.min.js"
     ></script>
+    <!-- 物理計算ロジック（単体テストで検証するため別モジュールに分離） -->
+    <script
+      type="module"
+      src="/simulations/normal-force/js/physics.js"
+    ></script>
     <!-- {simulation name}.js -->
     <script
       language="javascript"
       type="text/javascript"
+      defer
       src="/simulations/normal-force/js/index.js"
     ></script>
     <!-- chart.js -->

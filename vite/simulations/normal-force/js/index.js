@@ -730,15 +730,13 @@ class Material {
   }
   _draw() {
     if (clickedCount == true) {
-      this.materialX +=
-        gravityButton.value() *
-        sin(radians(slopeAngleButton.value())) *
-        cos(radians(slopeAngleButton.value())) *
-        (count / 60);
-      this.materialY +=
-        gravityButton.value() *
-        sq(sin(radians(slopeAngleButton.value()))) *
-        (count / 60);
+      const { dx, dy } = window.normalForcePhysics.computeSlideDisplacement(
+        gravityButton.value(),
+        slopeAngleButton.value(),
+        count
+      );
+      this.materialX += dx;
+      this.materialY += dy;
     }
     if (
       this.materialX >=
