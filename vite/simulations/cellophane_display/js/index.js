@@ -4,6 +4,7 @@ import Chart from "chart.js/auto";
 import html2canvas from "html2canvas";
 import * as math from "mathjs";
 import p5 from "p5";
+import { computePhaseRetardation } from "./physics.js";
 
 // <変数の宣言>
 let cmfTable, osTable;
@@ -776,14 +777,12 @@ function afterColorCalculate() {
     // それぞれの波長毎に計算
     for (let i = 380; i <= 750; i++) {
       let l = i;
-      let delta =
-        (dArr[i - 380] *
-          firstCellophaneNum.value() *
-          2 *
-          firstopdInput.value() *
-          PI) /
-        l /
-        100;
+      let delta = computePhaseRetardation(
+        dArr[i - 380],
+        firstCellophaneNum.value(),
+        firstopdInput.value(),
+        l
+      );
       let cello = [
         [1, 0],
         [0, math.exp(math.complex(0, -delta))],
@@ -795,14 +794,12 @@ function afterColorCalculate() {
         for (let n = 2; n <= colabNum; n++) {
           let otherCellophaneNum = select("#numInput-" + n);
           let otheropdInput = select("#opdInput");
-          let delta =
-            (dArr[i - 380] *
-              otherCellophaneNum.value() *
-              2 *
-              otheropdInput.value() *
-              PI) /
-            l /
-            100;
+          let delta = computePhaseRetardation(
+            dArr[i - 380],
+            otherCellophaneNum.value(),
+            otheropdInput.value(),
+            l
+          );
           let cello = [
             [1, 0],
             [0, math.exp(math.complex(0, -delta))],
@@ -910,14 +907,12 @@ function afterColorCalculate1() {
     // それぞれの波長毎に計算
     for (let i = 380; i <= 750; i++) {
       let l = i;
-      let delta =
-        (dArr[i - 380] *
-          firstCellophaneNum.value() *
-          2 *
-          firstopdInput.value() *
-          PI) /
-        l /
-        100;
+      let delta = computePhaseRetardation(
+        dArr[i - 380],
+        firstCellophaneNum.value(),
+        firstopdInput.value(),
+        l
+      );
       let cello = [
         [1, 0],
         [0, math.exp(math.complex(0, -delta))],
@@ -1056,14 +1051,12 @@ function afterColorCalculates(binaryString) {
     for (let i = 380; i <= 750; i++) {
       let l = i;
       let firstopdInput = select("#opdInput"); // セロハン1組目の光路差
-      let delta =
-        (dArr[i - 380] *
-          firstCellophaneNum.value() *
-          2 *
-          firstopdInput.value() *
-          PI) /
-        l /
-        100; //2024.6.22 firstCellophaneの値をvalueで数値化しないとだめだった!
+      let delta = computePhaseRetardation(
+        dArr[i - 380],
+        firstCellophaneNum.value(),
+        firstopdInput.value(),
+        l
+      ); //2024.6.22 firstCellophaneの値をvalueで数値化しないとだめだった!
       let cello = [
         [1, 0],
         [0, math.exp(math.complex(0, -delta))],
@@ -1076,14 +1069,12 @@ function afterColorCalculates(binaryString) {
           let n = j + 1;
           let otherCellophaneNum = select("#numInput-" + n);
           let otheropdInput = select("#opdInput");
-          let delta =
-            (dArr[i - 380] *
-              otherCellophaneNum.value() *
-              2 *
-              otheropdInput.value() *
-              PI) /
-            l /
-            100;
+          let delta = computePhaseRetardation(
+            dArr[i - 380],
+            otherCellophaneNum.value(),
+            otheropdInput.value(),
+            l
+          );
           let cello = [
             [1, 0],
             [0, math.exp(math.complex(0, -delta))],
@@ -1105,14 +1096,12 @@ function afterColorCalculates(binaryString) {
           let num = k + 1;
           let otherCellophaneNum = select("#numInput-" + num);
           let otheropdInput = select("#opdInput");
-          let delta =
-            (dArr[i - 380] *
-              otherCellophaneNum.value() *
-              2 *
-              otheropdInput.value() *
-              PI) /
-            l /
-            100;
+          let delta = computePhaseRetardation(
+            dArr[i - 380],
+            otherCellophaneNum.value(),
+            otheropdInput.value(),
+            l
+          );
           let cello = [
             [1, 0],
             [0, math.exp(math.complex(0, -delta))],
