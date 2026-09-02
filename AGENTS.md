@@ -67,10 +67,6 @@
 
 `.vscode/commit-style.md` の接頭辞ルール（`feat:` / `fix:` / `docs:` など）に従って、日本語でコミットメッセージを書いてください。
 
-## vite/ 配下の実装規約
-
-`vite/` 配下（シミュレーション実装）にはさらに詳細なフォルダー構成規約があります。[vite/AGENTS.md](./vite/AGENTS.md) を参照してください。
-
 ## Agent Skills / Subagents
 
 ワークフロースキルは `.claude/skills/`、サブエージェントは `.claude/agents/` に配置されています。Claude Code・GitHub Copilot Coding Agent共通の置き場所です。
