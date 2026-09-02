@@ -1,6 +1,4 @@
 ---
-# ⚠️ 自動生成ファイル: .github/skills/p5js-design-doc-implementation/SKILL.md を元に scripts/sync-claude-skills.mjs が生成しています。
-# 直接編集せず、.github/skills/p5js-design-doc-implementation/SKILL.md を編集した後 `npm run sync:agent-config` を実行してください。
 name: p5js-design-doc-implementation
 description: "WORKFLOW SKILL — p5.jsシミュレーションの設計ドキュメントを実装・修正する。USE FOR: 画面設計、機能仕様、ロジック、ファイル分割の定義と差分反映。TRIGGERS: 設計書, UI設計, 仕様変更, リファクタリング, 構成整理, simulation implementation."
 ---

@@ -1,6 +1,4 @@
 ---
-# ⚠️ 自動生成ファイル: .github/skills/p5js-simulation-testing/SKILL.md を元に scripts/sync-claude-skills.mjs が生成しています。
-# 直接編集せず、.github/skills/p5js-simulation-testing/SKILL.md を編集した後 `npm run sync:agent-config` を実行してください。
 name: p5js-simulation-testing
 description: "WORKFLOW SKILL — p5.js シミュレーションのための単体テスト、UI テスト、E2E テストのコードを生成・整備する。"
 ---

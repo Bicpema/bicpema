@@ -1,6 +1,4 @@
 ---
-# ⚠️ 自動生成ファイル: .github/skills/p5js-simulation/SKILL.md を元に scripts/sync-claude-skills.mjs が生成しています。
-# 直接編集せず、.github/skills/p5js-simulation/SKILL.md を編集した後 `npm run sync:agent-config` を実行してください。
 name: p5js-simulation
 description: "WORKFLOW SKILL — templates/ 配下のテンプレートを使って p5.js + Material Design でインタラクティブなシミュレーション教材を作成します。"
 ---

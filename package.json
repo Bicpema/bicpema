@@ -6,9 +6,7 @@
   "scripts": {
     "format": "prettier --write .",
     "dev": "vite build --watch",
-    "build": "vite build",
-    "sync:agent-config": "node scripts/sync-claude-skills.mjs",
-    "sync:agent-config:check": "node scripts/sync-claude-skills.mjs --check"
+    "build": "vite build"
   },
   "devDependencies": {
     "prettier": "3.8.1",

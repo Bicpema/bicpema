@@ -4,27 +4,9 @@
 
 ## Agent Skills / Subagents について
 
-このリポジトリには GitHub Copilot Coding Agent 向けのワークフロースキル（`.github/skills/`）とサブエージェント（`.github/agents/`）が定義されています。
+p5.js シミュレーション開発のワークフロースキル（`.claude/skills/`）とサブエージェント（`.claude/agents/`）は、Claude Code と GitHub Copilot Coding Agent の両方から読み込まれる共通の置き場所です。
 
-Claude Code はこれらを直接読み込めない（`.claude/skills/`, `.claude/agents/` を参照する規約のため）ため、`.claude/skills/` と `.claude/agents/` は **`scripts/sync-claude-skills.mjs` によって `.github/skills/` と `.github/agents/` から自動生成しています**。
-
-- **正（ソース・オブ・トゥルース）は常に `.github/skills/` と `.github/agents/`。**
-- `.claude/skills/` の `SKILL.md` と `.claude/agents/*.md` は生成物です。**直接編集しないでください**（編集しても次回同期時に上書きされます）。
-- `.claude/skills/<name>/examples/` 等の付随ファイルは symlink で `.github/skills/<name>/examples/` を共有しているため、二重管理にはなりません。
-
-### スキル/エージェントを追加・変更したとき
-
-1. `.github/skills/<name>/SKILL.md` または `.github/agents/*.agent.md` を編集する。
-2. 以下を実行して `.claude/` 側を再生成する。
-
-    ```bash
-    npm run sync:agent-config
-    ```
-
-3. `.claude/skills/`, `.claude/agents/` の差分もあわせてコミットする。
-
-CI（[.github/workflows/check-agent-skills-sync.yml](./.github/workflows/check-agent-skills-sync.yml)）が `npm run sync:agent-config:check` を実行し、`.claude/` 側の再生成結果に差分があれば失敗します。同期し忘れに気付ける仕組みなので、失敗した場合は手順1〜3をやり直してください。
-
-### なぜ symlink 一本化にしていないか
-
-`.claude/skills/*/SKILL.md` の frontmatter は Claude Code が認識できるキー（`name`, `description` 等）のみ許可されており、Copilot 側の `argument-hint` があると読み込みエラーになります。同様に `.github/agents/*.agent.md` の `tools` は Copilot 独自のツール名（`shell`, `read` など）で書かれており、Claude Code のツール名（`Bash`, `Read` など）とは互換性がありません。そのため `SKILL.md` 本体と agent 定義ファイルのみ、フロントマターを変換した生成物としています（本文・説明文はソースと同一です）。
+- 置き場所は `.claude/skills/` と `.claude/agents/` の**一箇所のみ**（旧 `.github/skills/`, `.github/agents/` は廃止済み）。
+- 両ツールがこのディレクトリを直接参照するため、変更はここを編集するだけで両方に反映される。複製や同期スクリプトは不要。
+- SKILL.md の frontmatter は Claude Code が認識できるキー（`name`, `description` など）のみを使うこと。未知のキー（例: `argument-hint`）があると Claude Code 側で読み込みエラーになる。
+- サブエージェント（`.claude/agents/*.md`）の `tools` は Claude Code のツール名（`Bash`, `Read`, `Grep` など）で記述する。
