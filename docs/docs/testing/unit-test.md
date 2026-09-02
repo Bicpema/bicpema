@@ -7,11 +7,12 @@
 ## テスト対象
 
 - `vite/_build/` 配下のビルドユーティリティ関数（例: `getHtmlInputsRecursively`）
-- シミュレーションのロジック関数のうち、p5インスタンス（`p`）や `state` の直接書き換えに依存しない純粋な関数（例: `calculateVelocity(initial, angle)` のように入力から出力を計算するだけの関数）
+- シミュレーションのロジック関数のうち、p5インスタンス（`p`）や実DOM要素に依存しない純粋な関数（例: `calculateVelocity(initial, angle)` のように入力から出力を計算するだけの関数）
+- `state` オブジェクトの読み書きのみで完結する状態遷移関数（例: 入力値の上限・下限クランプ、リセット、開始/停止の切り替え）
 - その他、シミュレーションから独立したロジック関数
 
 !!! note
-p5.js の `setup`/`draw` 内で直接実行される処理、キャンバス描画、DOM操作、`state` オブジェクトの直接書き換えを伴う処理はユニットテストの対象外です。これらは [UIテスト](./ui-test.md)（Playwright）で検証してください。
+p5.js の `setup`/`draw` 内で直接実行される処理、キャンバス描画、実DOM操作（`document.getElementById` の結果を直接操作する等）を伴う処理はユニットテストの対象外です。これらは [UIテスト](./ui-test.md)（Playwright）で検証してください。
 
 ## シミュレーションロジックをテスト可能にする
 
@@ -29,7 +30,7 @@ export function updateVelocity(p, state) {
 }
 ```
 
-設計の考え方の詳細は [p5js-simulation-testing スキル](../../../.github/skills/p5js-simulation-testing/SKILL.md) を参照してください。
+設計の考え方の詳細は [p5js-simulation-testing スキル](../../../.claude/skills/p5js-simulation-testing/SKILL.md) を参照してください。
 
 ## テストの実行
 
@@ -41,12 +42,16 @@ npm test
 
 ## テストファイルの配置
 
-テストファイルは `test/` ディレクトリ以下に配置します。
+テストファイルは `test/` ディレクトリ以下に配置します。シミュレーションのロジックをテストする場合は `test/simulations/<slug>/` 以下に置きます。
 
 ```
 test/
-└── _build/
-    └── getHtmlInputsRecursively.test.js
+├── _build/
+│   └── getHtmlInputsRecursively.test.js
+└── simulations/
+    └── free-fall/
+        ├── ball.test.js
+        └── element-function.test.js
 ```
 
 ## テストの書き方
@@ -64,7 +69,16 @@ describe("getHtmlInputsRecursively", () => {
 });
 ```
 
+## 型チェック
+
+`vite/_build/` などのJSDocコメントに対してTypeScriptによる型チェックを実行できます。
+
+```bash
+npm run typecheck
+```
+
+対象は `tsconfig.json` の `include` に列挙されたファイルです。シミュレーションのロジックに型チェックを追加する場合は、対象ディレクトリを `include` に追加してください。
+
 ## CI での実行
 
-現在、ユニットテストは CI（GitHub Actions）での自動実行は設定されていません。  
-将来的にはデプロイワークフローにテストステップを追加することを検討してください。
+`.github/workflows/test.yml` により、プルリクエスト作成時と `main` ブランチへのpush時に型チェック（`npm run typecheck`）・ユニットテスト（`npm test`）・ビルド確認（`npm run build`）が自動実行されます。
