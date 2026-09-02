@@ -1,4 +1,6 @@
-# Copilot Instructions
+# 開発者向けインストラクション
+
+このファイルの実体は `.github/copilot-instructions.md` です。GitHub Copilot Coding Agentがこのパスを、Claude Codeがリポジトリルートの `CLAUDE.md`（このファイルへのsymlink）を通じて、同じ内容を参照します。複製ではなく実体を共有しているため、更新はここを編集するだけで両方に反映されます。
 
 ## フォルダー構成
 
@@ -60,3 +62,15 @@
 - 基本的には左下に再生・停止ボタンを配置してください。
 - 基本的には、右上に設定表示ボタンを配置してください。
 - シミュレーションの設定パネルは、ユーザーが簡単にアクセスできるように設計してください。
+
+## コミットメッセージ
+
+`.vscode/commit-style.md` の接頭辞ルール（`feat:` / `fix:` / `docs:` など）に従って、日本語でコミットメッセージを書いてください。
+
+## vite/ 配下の実装規約
+
+`vite/` 配下（シミュレーション実装）にはさらに詳細なフォルダー構成規約があります。`.github/instructions/simulations.instructions.md`（Claude Codeからは `vite/CLAUDE.md` としても参照可能）を参照してください。
+
+## Agent Skills / Subagents
+
+ワークフロースキルは `.claude/skills/`、サブエージェントは `.claude/agents/` に配置されています。Claude Code・GitHub Copilot Coding Agent共通の置き場所です。
