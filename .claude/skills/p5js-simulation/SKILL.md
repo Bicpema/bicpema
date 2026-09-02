@@ -17,7 +17,7 @@ description: "WORKFLOW SKILL — templates/ 配下のテンプレートを使っ
 
 - **p5.js** を使って描画・アニメーションを行う。
 - **Material Design** の見た目（MDC Web / Material Web Components / Material Design の配色・タイポグラフィ）を使う。
-- `/templates/` 配下のテンプレートから開始し、実行可能なシミュレーションを新しいフォルダ（例：`simulations/<name>/`）に出力する。
+- `/templates/` 配下のテンプレートから開始し、実行可能なシミュレーションを新しいフォルダ（例：`vite/simulations/<name>/`）に出力する。
 
 ---
 
@@ -33,7 +33,7 @@ description: "WORKFLOW SKILL — templates/ 配下のテンプレートを使っ
     - 適切なものがなければ、既存パターンに従って新しいテンプレートを `/templates/` に追加する。
 
 3. **新しいシミュレーション用フォルダを作る**
-    - 選んだテンプレートをコピーし、新しいディレクトリ（例：`simulations/<slug>/`）を作る。
+    - 選んだテンプレートをコピーし、新しいディレクトリ（例：`vite/simulations/<slug>/`）を作る。
     - 必要に応じてファイル名を変更する（例：`index.html`、`styles.css`、`sketch.js` など）。
 
 4. **p5.js を組み込み**
@@ -65,7 +65,7 @@ description: "WORKFLOW SKILL — templates/ 配下のテンプレートを使っ
     - 目的のレイアウトに合うテンプレートが無ければ、`/templates/` に新しいテンプレートを追加し、フォルダ命名規則に従う。
 
 - **シミュレーションのバリエーションを複数作るか？**
-    - `simulations/` 以下に別々のフォルダを作成し、共有 JS/CSS をインポートして再利用する。
+    - `vite/simulations/` 以下に別々のフォルダを作成し、共有 JS/CSS をインポートして再利用する。
 
 - **コンポーネントライブラリを変更したいか？**
     - テンプレートの Material 設定（例：MDC → Material Web Components への切り替え）を更新するか、テンプレートはそのままにして `templates/` に補助ユーティリティを追加するかを判断する。
