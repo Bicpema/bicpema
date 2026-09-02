@@ -114,9 +114,12 @@ class Ball {
   }
 
   move() {
-    this.theta =
-      this.theta0 *
-      sin((sqrt(gravity / (this.Long * (0.25 / 300))) * count) / 60);
+    this.theta = window.pendulumWavePhysics.computePendulumWaveAngle(
+      this.theta0,
+      this.Long,
+      gravity,
+      count
+    );
     this.posx = width / 2 + this.Long * sin(this.theta);
     this.posy = 100 + this.Long * cos(this.theta);
   }

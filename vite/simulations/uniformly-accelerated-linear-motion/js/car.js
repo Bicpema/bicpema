@@ -24,7 +24,7 @@ export class Car {
     this.isMoving = false;
     this.lastGraphUpdate = 0;
     this.lastMarkerTime = 0;
-    /** @type {{x: number, px: number}[]} 等時間マーカーの仮想x座標リスト */
+    /** @type {{t: number, px: number}[]} 等時間マーカーの経過時刻と仮想x座標リスト */
     this.markers = [];
   }
 

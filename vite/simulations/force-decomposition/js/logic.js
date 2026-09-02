@@ -7,6 +7,7 @@ import {
   ORIGIN_X,
   ORIGIN_Y,
 } from "./constants.js";
+import { decomposeForce } from "./physics.js";
 
 // ── 共通ユーティリティ ──────────────────────────────────────────────
 
@@ -106,10 +107,8 @@ export function drawXYScene(p) {
   drawGrid(p);
   drawAxes(p, ORIGIN_X, ORIGIN_Y);
 
-  const θ = (state.forceAngle * Math.PI) / 180;
   const F = state.forceMag * FORCE_SCALE;
-  const Fx = F * Math.cos(θ);
-  const Fy = -F * Math.sin(θ); // y軸反転（下が正）
+  const { x: Fx, y: Fy } = decomposeForce(F, state.forceAngle); // y軸反転（下が正）
 
   const tipX = ORIGIN_X + Fx;
   const tipY = ORIGIN_Y + Fy;
@@ -154,10 +153,10 @@ export function drawXYScene(p) {
   drawArrow(p, ORIGIN_X, ORIGIN_Y, tipX, tipY, p.color(0), 4);
 
   // 角度弧
-  drawAngleArc(p, ORIGIN_X, ORIGIN_Y, θ, 50);
+  drawAngleArc(p, ORIGIN_X, ORIGIN_Y, (state.forceAngle * Math.PI) / 180, 50);
 
   // ラベル
-  drawXYLabels(p, Fx, Fy, tipX, tipY, θ);
+  drawXYLabels(p, Fx, Fy, tipX, tipY, (state.forceAngle * Math.PI) / 180);
   drawXYInfoPanel(p, Fx, Fy);
   drawInteractionHint(p, tipX, tipY);
 }
@@ -348,10 +347,10 @@ function drawInteractionHint(p, tipX, tipY) {
 export function handlePress(p) {
   const vx = (p.mouseX * V_W) / p.width;
   const vy = (p.mouseY * V_W) / p.width;
-  const θ = (state.forceAngle * Math.PI) / 180;
   const F = state.forceMag * FORCE_SCALE;
-  const tipX = ORIGIN_X + F * Math.cos(θ);
-  const tipY = ORIGIN_Y - F * Math.sin(θ);
+  const { x: fx, y: fy } = decomposeForce(F, state.forceAngle);
+  const tipX = ORIGIN_X + fx;
+  const tipY = ORIGIN_Y + fy;
   const dist = Math.hypot(vx - tipX, vy - tipY);
   if (dist < 28) {
     state.isDragging = true;

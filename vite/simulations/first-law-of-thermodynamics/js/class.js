@@ -1,6 +1,7 @@
 // class.js は分子クラスを定義するファイルです。
 
 import { state } from "./state.js";
+import { computeMoleculeSpeed } from "./physics.js";
 
 const DT_UNIT = 0.3;
 const X_MIN = 201;
@@ -25,7 +26,7 @@ export class Molecule {
 
   move() {
     const T = state.T;
-    const speed = Math.sqrt(T * T * T) * (0.6 + this.z);
+    const speed = computeMoleculeSpeed(T, this.z);
     this.x += this.vx * speed;
     this.y += this.vy * speed;
 

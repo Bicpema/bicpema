@@ -182,22 +182,18 @@ class Spring {
     this.number = n;
   }
   _draw() {
-    let s_konstant;
-    if (this.combination == 1) {
-      s_konstant = this.konstant;
-    } else if (this.combination == 2) {
-      s_konstant = 2 * this.konstant;
-    } else {
-      s_konstant = sq(this.konstant) / (2 * this.konstant);
-    }
-    this.posx =
-      this.amplitude *
-      -cos(sqrt(s_konstant / this.weight) * (count / fps) + PI / 2);
-    this.posy =
-      this.amplitude *
-        sin(sqrt(s_konstant / this.weight) * (count / fps) + PI / 2) +
-      height / 4;
-    console.log(this.posx);
+    const s_konstant = window.springPhysics.computeEffectiveSpringConstant(
+      this.konstant,
+      this.combination
+    );
+    const { x, y } = window.springPhysics.computeSpringPosition(
+      s_konstant,
+      this.weight,
+      this.amplitude,
+      count / fps
+    );
+    this.posx = x;
+    this.posy = y + height / 4;
     let d;
     if (this.number == 1) {
       d = 0;
