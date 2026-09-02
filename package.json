@@ -9,11 +9,13 @@
     "build": "vite build",
     "test": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "verify:runtime": "node scripts/verify-simulation-runtime.js"
   },
   "devDependencies": {
     "@types/node": "^26.4.1",
     "@types/p5": "^1.7.7",
+    "playwright": "^1.62.1",
     "prettier": "3.8.1",
     "sass": "^1.92.1",
     "typescript": "^7.0.2",

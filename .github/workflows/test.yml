@@ -30,3 +30,9 @@ jobs:
 
       - name: ビルド確認
         run: npm run build
+
+      - name: Playwrightブラウザーのインストール
+        run: npx playwright install --with-deps chromium
+
+      - name: シミュレーション起動確認
+        run: npm run verify:runtime
