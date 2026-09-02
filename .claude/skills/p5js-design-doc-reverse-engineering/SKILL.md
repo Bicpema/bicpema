@@ -1,7 +1,6 @@
 ---
 name: p5js-design-doc-reverse-engineering
 description: "WORKFLOW SKILL — 既存の p5.js シミュレーション実装を解析し、設計書を逆生成して simulation-docs に保存する。USE FOR: 仕様不明の既存実装の可視化、保守前の仕様固定、引き継ぎ用ドキュメント作成、実装と設計の差分整理。TRIGGERS: reverse engineering, リバース設計, 設計書化, 仕様抽出, simulation-docs."
-argument-hint: "対象シミュレーションのスラッグ、出力ドキュメント名、必要な詳細度（簡易/標準/詳細）を指定"
 ---
 
 # p5.js シミュレーション設計書リバース

@@ -1,18 +1,7 @@
 ---
-description: "Use this agent when the user asks to create, implement, or build an interactive p5.js simulation.\n\nTrigger phrases include:\n- 'create a p5.js simulation'\n- 'implement a physics simulation'\n- 'build an interactive visualization'\n- 'code a p5.js sketch'\n- 'create a simulation that demonstrates...'\n- 'implement a visual simulation of...'\n\nExamples:\n- User says 'I need a p5.js simulation of planetary motion' → invoke this agent to design and code the complete simulation\n- User asks 'create an interactive particle system simulation' → invoke this agent to implement the system with controls\n- User provides simulation requirements like 'build a fluid dynamics visualization' → invoke this agent to implement the full simulation with interactivity"
 name: p5js-simulation-dev
-tools:
-    [
-        "shell",
-        "read",
-        "search",
-        "edit",
-        "task",
-        "skill",
-        "web_search",
-        "web_fetch",
-        "ask_user",
-    ]
+description: "Use this agent when the user asks to create, implement, or build an interactive p5.js simulation.\n\nTrigger phrases include:\n- 'create a p5.js simulation'\n- 'implement a physics simulation'\n- 'build an interactive visualization'\n- 'code a p5.js sketch'\n- 'create a simulation that demonstrates...'\n- 'implement a visual simulation of...'\n\nExamples:\n- User says 'I need a p5.js simulation of planetary motion' → invoke this agent to design and code the complete simulation\n- User asks 'create an interactive particle system simulation' → invoke this agent to implement the system with controls\n- User provides simulation requirements like 'build a fluid dynamics visualization' → invoke this agent to implement the full simulation with interactivity"
+tools: Bash, Read, Grep, Glob, Edit, Write, Task, Skill, WebSearch, WebFetch, AskUserQuestion
 ---
 
 # p5js-simulation-dev instructions

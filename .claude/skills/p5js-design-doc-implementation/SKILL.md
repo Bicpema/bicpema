@@ -1,7 +1,6 @@
 ---
 name: p5js-design-doc-implementation
 description: "WORKFLOW SKILL — p5.jsシミュレーションの設計ドキュメントを実装・修正する。USE FOR: 画面設計、機能仕様、ロジック、ファイル分割の定義と差分反映。TRIGGERS: 設計書, UI設計, 仕様変更, リファクタリング, 構成整理, simulation implementation."
-argument-hint: "対象シミュレーション名、設計ドキュメントの要点、変更範囲を指定"
 ---
 
 # p5.js 設計ドキュメント実装・修正
