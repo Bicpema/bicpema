@@ -1,3 +1,7 @@
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 let radi = 0;
 let clickedCount;
 let gridIs;
@@ -171,3 +175,9 @@ class Ball {
 function windowResized() {
   resizeCanvas(windowWidth, (9 * windowHeight) / 10);
 }
+
+window.preload = preload;
+window.setup = setup;
+window.draw = draw;
+window.windowResized = windowResized;
+new p5();

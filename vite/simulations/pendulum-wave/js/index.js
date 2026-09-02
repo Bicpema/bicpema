@@ -1,3 +1,7 @@
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 let dataArray;
 let weight;
 let stop_watch;
@@ -131,3 +135,10 @@ function windowResized() {
 function fullScreen() {
   createCanvas(windowWidth, windowHeight);
 }
+
+window.preload = preload;
+window.setup = setup;
+window.draw = draw;
+window.mousePressed = mousePressed;
+window.windowResized = windowResized;
+new p5();

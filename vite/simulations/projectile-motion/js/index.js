@@ -1,3 +1,7 @@
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 //ボタンのインスタンス
 let startButton;
 let stopButton;
@@ -25,6 +29,8 @@ let weightButton1, weightButton2;
 let heightButton1, heightButton2;
 let konstantButton1, konstantButton2;
 let backgroundDiv;
+let ballExpla1, ballExpla2;
+let speedExpla, angleExpla, weightExpla, heightExpla, konstantExpla;
 
 //ボタンの生成
 function buttonCreation() {
@@ -359,3 +365,8 @@ class Ball {
     }
   }
 }
+
+window.windowResized = windowResized;
+window.setup = setup;
+window.draw = draw;
+new p5();
