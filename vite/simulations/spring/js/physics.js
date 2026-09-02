@@ -9,7 +9,7 @@ export function computeEffectiveSpringConstant(k, combination) {
   const combinationType = Number(combination);
   if (combinationType === 1) return springConstant;
   if (combinationType === 2) return 2 * springConstant;
-  return (springConstant * springConstant) / (2 * springConstant);
+  return springConstant / 2;
 }
 
 /**

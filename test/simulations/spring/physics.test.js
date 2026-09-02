@@ -29,6 +29,11 @@ describe("computeEffectiveSpringConstant", () => {
     expect(computeEffectiveSpringConstant(10, 3)).toBeCloseTo(5, 10);
   });
 
+  it("直列で k=0 のときも NaN ではなく 0 を返す", () => {
+    expect(computeEffectiveSpringConstant(0, 3)).toBe(0);
+    expect(computeEffectiveSpringConstant("0", "3")).toBe(0);
+  });
+
   it("並列は直列よりも合成ばね定数が大きくなる（同じkの場合）", () => {
     const parallel = computeEffectiveSpringConstant(8, 2);
     const series = computeEffectiveSpringConstant(8, 3);
