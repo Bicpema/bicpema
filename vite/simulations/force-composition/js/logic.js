@@ -7,6 +7,11 @@ import {
   ORIGIN_Y,
   GRID_STEP,
 } from "./constants.js";
+import {
+  composeForces,
+  computeForceMagnitude,
+  computeForceAngleDeg,
+} from "./physics.js";
 
 /**
  * 矢印を描画する。
@@ -205,14 +210,13 @@ export function drawGrid(p) {
  * @param {number} f2y F₂のY成分
  */
 export function drawInfoPanel(p, f1x, f1y, f2x, f2y) {
-  const frx = f1x + f2x;
-  const fry = f1y + f2y;
-  const f1Mag = p.sqrt(f1x * f1x + f1y * f1y) / FORCE_SCALE;
-  const f2Mag = p.sqrt(f2x * f2x + f2y * f2y) / FORCE_SCALE;
-  const frMag = p.sqrt(frx * frx + fry * fry) / FORCE_SCALE;
-  const f1Angle = p.degrees(p.atan2(-f1y, f1x));
-  const f2Angle = p.degrees(p.atan2(-f2y, f2x));
-  const frAngle = p.degrees(p.atan2(-fry, frx));
+  const { x: frx, y: fry } = composeForces(f1x, f1y, f2x, f2y);
+  const f1Mag = computeForceMagnitude(f1x, f1y, FORCE_SCALE);
+  const f2Mag = computeForceMagnitude(f2x, f2y, FORCE_SCALE);
+  const frMag = computeForceMagnitude(frx, fry, FORCE_SCALE);
+  const f1Angle = computeForceAngleDeg(f1x, f1y);
+  const f2Angle = computeForceAngleDeg(f2x, f2y);
+  const frAngle = computeForceAngleDeg(frx, fry);
 
   const panelW = 248;
   const panelH = 118;
@@ -283,8 +287,7 @@ export function drawScene(p) {
   const f1y = state.f1TipY;
   const f2x = state.f2TipX;
   const f2y = state.f2TipY;
-  const frx = f1x + f2x;
-  const fry = f1y + f2y;
+  const { x: frx, y: fry } = composeForces(f1x, f1y, f2x, f2y);
 
   // 平行四辺形の補助線（破線）
   const dashCol = p.color(100, 100, 100, 120);
