@@ -200,11 +200,8 @@ function drawSlopeVectors(p, ox, oy, θ, mg, sc) {
   const tipGravY = baseY + gravLen;
 
   // F_parallel（斜面下向き: (-cosT, sinT) 方向）
-  const { parallel, perpendicular } = decomposeGravityOnSlope(
-    state.mass,
-    GRAVITY,
-    state.slopeAngle
-  );
+  const parallel = mg * sinT;
+  const perpendicular = mg * cosT;
   const fpLen = parallel * sc;
   const tipParX = baseX - fpLen * cosT;
   const tipParY = baseY + fpLen * sinT;
