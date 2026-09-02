@@ -1,3 +1,8 @@
+import {
+  computeMagneticFieldStrength,
+  computeFieldDirection,
+} from "./physics.js";
+
 let lastCurrentVal = null;
 
 function getCurrentVal() {
@@ -84,7 +89,7 @@ function drawFieldLines(p, currentVal) {
 
   for (let i = 0; i < radii.length; i++) {
     const r = radii[i];
-    const b = absI / r; // actual (relative) field magnitude
+    const b = computeMagneticFieldStrength(currentVal, r); // actual (relative) field magnitude
     const t = p.constrain(b / maxB, 0, 1);
     const strokeCol = p.lerpColor(colLow, colHigh, t);
     const weight = p.lerp(0.8, 5, t);
@@ -103,9 +108,10 @@ function drawFieldLines(p, currentVal) {
 function updateInfoPanel(currentVal) {
   const fieldDirectionLabel = document.getElementById("fieldDirectionLabel");
   if (fieldDirectionLabel) {
-    if (currentVal > 0.1) {
+    const direction = computeFieldDirection(currentVal);
+    if (direction === "counterclockwise") {
       fieldDirectionLabel.textContent = "現在の磁場の向き: 反時計回り";
-    } else if (currentVal < -0.1) {
+    } else if (direction === "clockwise") {
       fieldDirectionLabel.textContent = "現在の磁場の向き: 時計回り";
     } else {
       fieldDirectionLabel.textContent = "現在の磁場の向き: なし（I=0）";
@@ -116,7 +122,7 @@ function updateInfoPanel(currentVal) {
   const bValueEl = document.getElementById("bValueDisplay");
   if (bValueEl) {
     const rObs = 50;
-    const bVal = Math.abs(currentVal) / rObs;
+    const bVal = computeMagneticFieldStrength(currentVal, rObs);
     bValueEl.textContent = `相対磁場強度 (r=${rObs}): B ∝ |I|/r = ${bVal.toFixed(4)}`;
   }
 }

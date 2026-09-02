@@ -1,4 +1,8 @@
 import { state } from "./state.js";
+import {
+  computeSecondaryVoltage,
+  computeSecondaryCurrentAmplitude,
+} from "./physics.js";
 
 /**
  * シミュレーション全体を描画する関数。
@@ -271,7 +275,7 @@ function oscillo2(p) {
   const h = 200; // 描画領域の高さ
   const V1 = h / 10; // グリッド幅 = 一次電圧の最大振幅
   // 変圧比による二次電圧の振幅 V2 = V1 × (N2 / N1)
-  let V2 = (V1 * (state.count2 + 1)) / (state.count1 + 1);
+  let V2 = computeSecondaryVoltage(V1, state.count1 + 1, state.count2 + 1);
   p.textSize(16);
   p.textAlign(p.CENTER, p.BOTTOM);
   p.text("二次電圧", 100, -10);
@@ -332,20 +336,17 @@ function current2(p) {
   p.push();
   p.noStroke();
   p.fill(255, 0, 0);
-  let I, x;
-  // 同位相：二次電流は一次と同向き（変圧比で振幅を拡大）
-  if (state.phase) {
-    I =
-      ((15 * (state.count1 + 1)) / (state.count2 + 1)) *
-      p.sin(state.omega * state.t);
-    x = 10 * p.sin(state.omega * state.t);
-  } else {
-    // 逆位相：二次電流は一次と逆向き
-    I =
-      ((-15 * (state.count1 + 1)) / (state.count2 + 1)) *
-      p.sin(state.omega * state.t);
-    x = -10 * p.sin(state.omega * state.t);
-  }
+  // 一次電流の振幅（current1と同じ式）に変圧比を適用し、逆位相なら符号を反転する
+  const primaryCurrentAmplitude = 15 * p.sin(state.omega * state.t);
+  const I = computeSecondaryCurrentAmplitude(
+    primaryCurrentAmplitude,
+    state.count1 + 1,
+    state.count2 + 1,
+    state.phase
+  );
+  const x = state.phase
+    ? 10 * p.sin(state.omega * state.t)
+    : -10 * p.sin(state.omega * state.t);
   // 電流の胴体（細い四角形）
   p.quad(0, 0, 0 + I, 0, 0 + I, 0 + 5, 0, 0 + 5);
   // 電流の矢じり（三角形）

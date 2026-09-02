@@ -3,6 +3,7 @@ import "bootstrap";
 import $ from "jquery";
 import p5 from "p5";
 import html2canvas from "html2canvas";
+import { computeCoordinateBounds, computeSquareBounds } from "./physics.js";
 
 new p5();
 
@@ -718,18 +719,9 @@ function calculateValue(setRadioButtonValue, unitSelectValue) {
         depthArr.push(layer[i][0], layer[i][1]);
       }
     }
-    xMin = min(longitudeArr);
-    xMax = max(longitudeArr);
-    if (xMin === Infinity) xMin = 0;
-    if (xMax === -Infinity) xMax = 0;
-    yMin = min(latitudeArr);
-    yMax = max(latitudeArr);
-    if (yMin === Infinity) yMin = 0;
-    if (yMax === -Infinity) yMax = 0;
-    zMin = min(depthArr);
-    zMax = max(depthArr);
-    if (zMin == Infinity) zMin = 0;
-    if (zMax == -Infinity) zMax = 0;
+    ({ min: xMin, max: xMax } = computeCoordinateBounds(longitudeArr));
+    ({ min: yMin, max: yMax } = computeCoordinateBounds(latitudeArr));
+    ({ min: zMin, max: zMax } = computeCoordinateBounds(depthArr));
     if (unitSelectValue === "meter") {
       let m = max(xMax, yMax);
       xMin = 0;
@@ -737,18 +729,7 @@ function calculateValue(setRadioButtonValue, unitSelectValue) {
       yMin = 0;
       yMax = m;
     }
-    let xLen = xMax - xMin;
-    let yLen = yMax - yMin;
-    let unitLen = max([xLen, yLen]);
-    if (xLen <= yLen) {
-      let addLenValue = (unitLen - xLen) / 2;
-      xMin -= addLenValue;
-      xMax += addLenValue;
-    } else {
-      let addLenValue = (unitLen - yLen) / 2;
-      yMin -= addLenValue;
-      yMax += addLenValue;
-    }
+    ({ xMin, xMax, yMin, yMax } = computeSquareBounds(xMin, xMax, yMin, yMax));
   } else if (setRadioButtonValue === "manual") {
     let ele1 = select("#widthDirectionInput");
     let ele2 = select("#depthDirectionMaxInput");

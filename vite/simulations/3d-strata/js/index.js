@@ -3,6 +3,7 @@ import "bootstrap";
 import $ from "jquery";
 import p5 from "p5";
 import html2canvas from "html2canvas";
+import { computeCoordinateBounds } from "./physics.js";
 
 new p5();
 
@@ -657,18 +658,9 @@ function calculateValue() {
     }
   }
   return {
-    x: {
-      min: min(longitudeArr),
-      max: max(longitudeArr),
-    },
-    y: {
-      min: min(latitudeArr),
-      max: max(latitudeArr),
-    },
-    z: {
-      min: min(depthArr),
-      max: max(depthArr),
-    },
+    x: computeCoordinateBounds(longitudeArr),
+    y: computeCoordinateBounds(latitudeArr),
+    z: computeCoordinateBounds(depthArr),
   };
 }
 
