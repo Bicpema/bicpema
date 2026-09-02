@@ -1,5 +1,6 @@
 // vite/simulations/ 配下の各シミュレーションをヘッドレスブラウザーで起動し、
-// ページロード時および起動直後の実行中に発生した未処理例外（pageerror）を検知する。
+// ページロード時および起動直後の実行中に発生した未処理例外（pageerror）や
+// console.error・リソースの読み込み失敗（requestfailed）を検知する。
 // 1件でも検知した場合は非0終了し、CIでのビルド失敗に反映できるようにする。
 //
 // 使い方:
@@ -102,8 +103,6 @@ async function verifySimulation(browser, baseUrl, name, options) {
     }
   });
   page.on("requestfailed", (request) => {
-    // about:blank や preload の中断などノイズが多いため、
-    // 実行時エラーとしては扱わずログにのみ残す。
     const failure = request.failure();
     if (failure) {
       consoleErrors.push(
@@ -128,7 +127,12 @@ async function verifySimulation(browser, baseUrl, name, options) {
     await context.close();
   }
 
-  return { name, ok: errors.length === 0, errors, consoleErrors };
+  return {
+    name,
+    ok: errors.length === 0 && consoleErrors.length === 0,
+    errors,
+    consoleErrors,
+  };
 }
 
 /**

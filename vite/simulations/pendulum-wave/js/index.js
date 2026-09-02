@@ -15,7 +15,9 @@ let clicked_count;
 
 function preload() {
   balls = new Array(hm);
-  weight = loadImage("/assets/img/metalBallImg.png");
+  weight = loadImage(
+    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FmetalBallImg.png?alt=media&token=97e75efc-9412-406f-af82-8c6c753a3d2a"
+  );
   // stop_watch = loadImage("https://live.staticflickr.com/65535/51690867829_8f5dbb4793_o.png");
   // stop_button = loadImage("https://live.staticflickr.com/65535/51690183358_0389d79046_o.png");
   // start_button = loadImage("https://live.staticflickr.com/65535/51690597879_33e64e02d9_o.png");
