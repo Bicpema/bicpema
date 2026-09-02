@@ -9,6 +9,18 @@ describe("computeEffectiveSpringConstant", () => {
     expect(computeEffectiveSpringConstant(10, 1)).toBe(10);
   });
 
+  it("combination が文字列でも数値として判定される", () => {
+    expect(computeEffectiveSpringConstant(10, "1")).toBe(10);
+    expect(computeEffectiveSpringConstant(10, "2")).toBe(20);
+    expect(computeEffectiveSpringConstant(10, "3")).toBeCloseTo(5, 10);
+  });
+
+  it("k が文字列でも戻り値は数値になる", () => {
+    const result = computeEffectiveSpringConstant("10", "1");
+    expect(result).toBe(10);
+    expect(typeof result).toBe("number");
+  });
+
   it("combination=2（並列）では2倍のばね定数になる", () => {
     expect(computeEffectiveSpringConstant(10, 2)).toBe(20);
   });

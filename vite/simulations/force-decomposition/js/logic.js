@@ -107,7 +107,6 @@ export function drawXYScene(p) {
   drawGrid(p);
   drawAxes(p, ORIGIN_X, ORIGIN_Y);
 
-  const θ = (state.forceAngle * Math.PI) / 180;
   const F = state.forceMag * FORCE_SCALE;
   const { x: Fx, y: Fy } = decomposeForce(F, state.forceAngle); // y軸反転（下が正）
 
@@ -154,10 +153,10 @@ export function drawXYScene(p) {
   drawArrow(p, ORIGIN_X, ORIGIN_Y, tipX, tipY, p.color(0), 4);
 
   // 角度弧
-  drawAngleArc(p, ORIGIN_X, ORIGIN_Y, θ, 50);
+  drawAngleArc(p, ORIGIN_X, ORIGIN_Y, (state.forceAngle * Math.PI) / 180, 50);
 
   // ラベル
-  drawXYLabels(p, Fx, Fy, tipX, tipY, θ);
+  drawXYLabels(p, Fx, Fy, tipX, tipY, (state.forceAngle * Math.PI) / 180);
   drawXYInfoPanel(p, Fx, Fy);
   drawInteractionHint(p, tipX, tipY);
 }
