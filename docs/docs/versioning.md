@@ -4,7 +4,7 @@
 
 Bicpema は [セマンティックバージョニング](https://semver.org/lang/ja/) に準拠したバージョン番号を採用しています。
 
-```
+```text
 v{MAJOR}.{MINOR}.{PATCH}
 v{MAJOR}.{MINOR}.{PATCH}-Beta{N}
 ```
