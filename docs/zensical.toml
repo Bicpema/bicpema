@@ -52,6 +52,7 @@ nav = [
     { "ファイル構成（シミュレーション）" = "simulation/simulation-files.md" },
   ]},
   { "リリースフロー" = "release-flow.md" },
+  { "TailwindCSS移行方針" = "tailwind-migration.md" },
   { "テスト方針" = [
     { "概要" = "testing/index.md" },
     { "ユニットテスト" = "testing/unit-test.md" },
