@@ -1,21 +1,22 @@
 import { state } from "./state.js";
+import {
+  computeFreqConst,
+  computeStandingWaveDisplacement,
+} from "./physics.js";
 
 export function updateWaveLayer(p) {
   const startX = (1000 - state.pipeL) / 2;
   state.waveLayer.clear();
   state.waveLayer.stroke(0, 100, 255, 100);
   state.waveLayer.noFill();
-  const freqConst =
-    state.type === "closed"
-      ? (state.m_n * p.PI) / (2 * state.pipeL)
-      : (state.m_n * p.PI) / state.pipeL;
+  const freqConst = computeFreqConst(state.type, state.m_n, state.pipeL);
   const steps = 10;
   for (let i = 0; i < steps; i++) {
     const phase = p.map(i, 0, steps - 1, -p.HALF_PI, p.HALF_PI);
     const currentAmp = state.Amp * p.sin(phase);
     state.waveLayer.beginShape();
     for (let x = 0; x <= state.pipeL; x++) {
-      const yVal = currentAmp * p.cos(x * freqConst);
+      const yVal = computeStandingWaveDisplacement(currentAmp, freqConst, x, 1);
       state.waveLayer.vertex(startX + x, state.pipeY + yVal);
     }
     state.waveLayer.endShape();
@@ -24,17 +25,19 @@ export function updateWaveLayer(p) {
 
 export function drawWave(p) {
   const startX = (1000 - state.pipeL) / 2;
-  const freqConst =
-    state.type === "closed"
-      ? (state.m_n * p.PI) / (2 * state.pipeL)
-      : (state.m_n * p.PI) / state.pipeL;
+  const freqConst = computeFreqConst(state.type, state.m_n, state.pipeL);
   p.noFill();
   p.stroke(0, 100, 255);
   p.strokeWeight(2);
   p.beginShape();
   const currentSin = p.sin(state.time);
   for (let x = 0; x <= state.pipeL; x++) {
-    const yVal = state.Amp * p.cos(x * freqConst) * currentSin;
+    const yVal = computeStandingWaveDisplacement(
+      state.Amp,
+      freqConst,
+      x,
+      currentSin
+    );
     p.vertex(startX + x, state.pipeY + yVal);
   }
   p.endShape();

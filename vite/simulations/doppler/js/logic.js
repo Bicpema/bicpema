@@ -3,6 +3,7 @@
 import { state } from "./state.js";
 import { FPS, W, H } from "./init.js";
 import { SOUND } from "./class.js";
+import { computeSourcePosition } from "./physics.js";
 
 /**
  * シミュレーションを描画する。
@@ -26,7 +27,7 @@ export function drawSimulation(p) {
   }
 
   const speedValue = state.speedValue;
-  state.posx = (speedValue * state.count) / FPS + 50;
+  state.posx = computeSourcePosition(speedValue, state.count, FPS);
 
   p.fill(0);
   p.stroke(0);
