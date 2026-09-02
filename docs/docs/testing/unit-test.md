@@ -44,7 +44,7 @@ npm test
 
 テストファイルは `test/` ディレクトリ以下に配置します。シミュレーションのロジックをテストする場合は `test/simulations/<slug>/` 以下に置きます。
 
-```
+```text
 test/
 ├── _build/
 │   └── getHtmlInputsRecursively.test.js

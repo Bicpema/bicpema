@@ -1,3 +1,10 @@
 {
-  "ignores": ["**/themes/**"],
+  "ignores": [
+    "**/themes/**",
+    "**/node_modules/**",
+    "public/**",
+    "resources/**",
+    "docs/site/**",
+    "docs/.cache/**"
+  ],
 }
