@@ -1,4 +1,10 @@
 import { state } from "./state.js";
+import {
+  computeRightWaveDisplacement,
+  computeLeftWaveDisplacement,
+  computeStandingWaveDisplacement,
+  computeWaveFronts,
+} from "./physics.js";
 
 export function drawSimulation(p) {
   p.background(211, 237, 244);
@@ -15,8 +21,13 @@ export function drawSimulation(p) {
 
   if (state.running) {
     state.t += state.v;
-    state.rightFront = p.min(state.v * state.t, state.innerW);
-    state.leftFront = p.max(state.innerW - state.v * state.t, 0);
+    const { rightFront, leftFront } = computeWaveFronts(
+      state.v,
+      state.t,
+      state.innerW
+    );
+    state.rightFront = rightFront;
+    state.leftFront = leftFront;
   }
 }
 
@@ -70,7 +81,13 @@ function drawRightWave(p) {
   p.beginShape();
   for (let x = 0; x < state.innerW; x++) {
     if (x < state.rightFront) {
-      const y = state.A * p.sin(state.k * x - state.omega * state.t);
+      const y = computeRightWaveDisplacement(
+        state.A,
+        state.k,
+        x,
+        state.omega,
+        state.t
+      );
       p.vertex(x, state.innerH / 2 + y);
     }
   }
@@ -84,7 +101,13 @@ function drawLeftWave(p) {
   p.beginShape();
   for (let x = 0; x < state.innerW; x++) {
     if (x > state.leftFront) {
-      const y = state.A * p.sin(state.k * x + state.omega * state.t);
+      const y = computeLeftWaveDisplacement(
+        state.A,
+        state.k,
+        x,
+        state.omega,
+        state.t
+      );
       p.vertex(x, state.innerH / 2 + y);
     }
   }
@@ -98,10 +121,15 @@ function drawStandingWave(p) {
   p.beginShape();
   for (let x = 0; x < state.innerW; x++) {
     if (x <= state.rightFront && x >= state.leftFront) {
-      const y1 = state.A * p.sin(state.k * x - state.omega * state.t);
-      const y2 =
-        state.A * p.sin(state.k * (state.innerW - x) - state.omega * state.t);
-      p.vertex(x, state.innerH / 2 + (y1 + y2));
+      const y = computeStandingWaveDisplacement(
+        state.A,
+        state.k,
+        x,
+        state.omega,
+        state.t,
+        state.innerW
+      );
+      p.vertex(x, state.innerH / 2 + y);
     }
   }
   p.endShape();

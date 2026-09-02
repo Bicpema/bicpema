@@ -1,11 +1,14 @@
 import { state } from "./state.js";
+import { computeWaveDisplacement, computeArrivalTime } from "./physics.js";
 
 function displacement(p, x0) {
-  let v = state.omega / state.k;
-  let arrivalTime = (x0 - state.xStart) / v;
-  if (state.t <= arrivalTime) return 0;
-  return (
-    -state.A * p.sin(state.k * (x0 - state.xStart) - state.omega * state.t)
+  return computeWaveDisplacement(
+    state.A,
+    state.k,
+    state.omega,
+    x0,
+    state.xStart,
+    state.t
   );
 }
 
@@ -57,8 +60,12 @@ function drawLongitudinal(p) {
   p.circle(fp.x0, 0, 8);
   p.fill(255, 0, 0);
   p.circle(xNow, 0, 8);
-  let v = state.omega / state.k;
-  let arrivalTime = (fp.x0 - state.xStart) / v;
+  let arrivalTime = computeArrivalTime(
+    state.k,
+    state.omega,
+    fp.x0,
+    state.xStart
+  );
   if (state.t > arrivalTime) drawArrow(p, fp.x0, 0, xNow, 0);
   p.pop();
 }
@@ -91,8 +98,12 @@ function drawConvertedTransverse(p) {
   p.circle(fp.x0, 0, 8);
   p.fill(255, 0, 0);
   p.circle(fp.x0, -fdy, 8);
-  let v = state.omega / state.k;
-  let arrivalTime = (fp.x0 - state.xStart) / v;
+  let arrivalTime = computeArrivalTime(
+    state.k,
+    state.omega,
+    fp.x0,
+    state.xStart
+  );
   if (state.t > arrivalTime) drawArrow(p, fp.x0, 0, fp.x0, -fdy);
   p.pop();
 }
