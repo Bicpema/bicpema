@@ -1,5 +1,5 @@
 import p5 from "p5";
-import { BicpemaCanvasController } from "./bicpema-canvas-controller.js";
+import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import { state } from "./state.js";
 import { elementPositionInit } from "./init.js";
 import { drawChamber, animateCycle } from "./logic.js";

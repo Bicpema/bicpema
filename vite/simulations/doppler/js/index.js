@@ -3,7 +3,7 @@
 import p5 from "p5";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { BicpemaCanvasController } from "./bicpema-canvas-controller.js";
+import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import { settingInit, elCreate, initValue } from "./init.js";
 import { drawSimulation } from "./logic.js";
 

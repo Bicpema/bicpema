@@ -2,7 +2,7 @@ import p5 from "p5";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { state } from "./state.js";
-import { BicpemaCanvasController } from "./bicpema-canvas-controller.js";
+import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import { elCreate, initValue } from "./init.js";
 import { drawScene } from "./logic.js";
 import { V_W, ORIGIN_X, ORIGIN_Y, GRID_STEP } from "./constants.js";

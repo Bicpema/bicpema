@@ -1,5 +1,5 @@
 import { state } from "./state.js";
-import { BicpemaCanvasController } from "./bicpema-canvas-controller.js";
+import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 
 export const canvasController = new BicpemaCanvasController(
   true,

@@ -1,7 +1,7 @@
 import p5 from "p5";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { BicpemaCanvasController } from "./bicpema-canvas-controller.js";
+import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import { state } from "./state.js";
 import {
   FPS,
@@ -17,7 +17,9 @@ import { initChart, updateChart } from "./graph.js";
 const GRAPH_UPDATE_INTERVAL = 0.1;
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0, {
+    heightMode: "half",
+  });
 
   p.setup = () => {
     settingInit(p, canvasController);
