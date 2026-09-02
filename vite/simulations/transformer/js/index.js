@@ -1,7 +1,7 @@
 import p5 from "p5";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import { BicpemaCanvasController } from "./bicpema-canvas-controller.js";
+import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import { state } from "./state.js";
 import { elCreate, initValue, FPS } from "./init.js";
 import { drawSimulation } from "./logic.js";
@@ -11,13 +11,9 @@ const V_W = 1000;
 
 const sketch = (p) => {
   // 16:9 固定比率、下部設定パネルの高さを考慮してキャンバスサイズを計算
-  const canvasController = new BicpemaCanvasController(
-    true,
-    false,
-    1.0,
-    1.0,
-    "#settingsPanel"
-  );
+  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0, {
+    bottomBarSelector: "#settingsPanel",
+  });
 
   p.preload = () => {
     // 変圧器コア・コイル画像を事前ロード

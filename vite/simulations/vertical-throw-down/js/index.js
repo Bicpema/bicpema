@@ -2,11 +2,13 @@ import p5 from "p5";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { state } from "./state.js";
-import { BicpemaCanvasController } from "./bicpema-canvas-controller.js";
+import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import { elCreate, initValue, FPS } from "./init.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0, {
+    panelSelector: "#simPanel",
+  });
 
   p.preload = () => {
     state.font = p.loadFont(

@@ -2,7 +2,7 @@ import p5 from "p5";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../css/style.css";
-import { BicpemaCanvasController } from "./bicpema-canvas-controller.js";
+import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import {
   elementPositionInit,
   elementSelectInit,
