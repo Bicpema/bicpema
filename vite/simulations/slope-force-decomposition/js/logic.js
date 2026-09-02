@@ -1,5 +1,6 @@
 import { state } from "./state.js";
 import { V_W, V_H, SLOPE_SCALE, GRAVITY } from "./constants.js";
+import { decomposeGravityOnSlope } from "./physics.js";
 
 // ── 共通ユーティリティ ──────────────────────────────────────────────
 
@@ -84,7 +85,11 @@ function drawLabel(p, text, x, y, col, sz = 16) {
  */
 export function drawSlopeScene(p) {
   const θ = (state.slopeAngle * Math.PI) / 180;
-  const mg = state.mass * GRAVITY;
+  const { gravity: mg } = decomposeGravityOnSlope(
+    state.mass,
+    GRAVITY,
+    state.slopeAngle
+  );
   const sc = SLOPE_SCALE * 0.9;
 
   // 斜面の基準点（オブジェクト位置）
@@ -94,7 +99,7 @@ export function drawSlopeScene(p) {
   p.background(255, 255, 255);
   drawSlopeSurface(p, ox, oy, θ);
   drawSlopeVectors(p, ox, oy, θ, mg, sc);
-  drawSlopeInfoPanel(p, θ, mg);
+  drawSlopeInfoPanel(p, mg);
   drawSlopeLegend(p);
 }
 
@@ -195,12 +200,14 @@ function drawSlopeVectors(p, ox, oy, θ, mg, sc) {
   const tipGravY = baseY + gravLen;
 
   // F_parallel（斜面下向き: (-cosT, sinT) 方向）
-  const fpLen = mg * sinT * sc;
+  const parallel = mg * sinT;
+  const perpendicular = mg * cosT;
+  const fpLen = parallel * sc;
   const tipParX = baseX - fpLen * cosT;
   const tipParY = baseY + fpLen * sinT;
 
   // F_perp（斜面への法線方向、斜面に押し込む: (sinT, cosT) 方向）
-  const fnLen = mg * cosT * sc;
+  const fnLen = perpendicular * sc;
   const tipPerpX = baseX + fnLen * sinT;
   const tipPerpY = baseY + fnLen * cosT;
 
@@ -265,10 +272,9 @@ function drawRightAngleMark(p, ox, oy, θ, sz) {
 /**
  * 右下に数値パネルを描画する。
  * @param {p5} p
- * @param {number} θ ラジアン
  * @param {number} mg N
  */
-function drawSlopeInfoPanel(p, θ, mg) {
+function drawSlopeInfoPanel(p, mg) {
   const panelW = 290;
   const panelH = 130;
   const panelX = V_W - panelW - 10;
@@ -281,9 +287,14 @@ function drawSlopeInfoPanel(p, θ, mg) {
   p.rect(panelX, panelY, panelW, panelH, 8);
   p.noStroke();
 
+  const { parallel, perpendicular } = decomposeGravityOnSlope(
+    state.mass,
+    GRAVITY,
+    state.slopeAngle
+  );
   const mgStr = mg.toFixed(1);
-  const fpStr = (mg * Math.sin(θ)).toFixed(1);
-  const fnStr = (mg * Math.cos(θ)).toFixed(1);
+  const fpStr = parallel.toFixed(1);
+  const fnStr = perpendicular.toFixed(1);
   const θStr = `${state.slopeAngle.toFixed(1)}°`;
 
   p.textSize(14);

@@ -44,9 +44,11 @@ export function onCloseModalClick() {
  * 速度入力値が変更されたときの処理。
  */
 export function onSpeedInputChange() {
-  const value = parseFloat(document.getElementById("speedInput").value);
+  const speedInput = document.getElementById("speedInput");
+  if (!(speedInput instanceof HTMLInputElement)) return;
+  const value = parseFloat(speedInput.value);
   if (!isNaN(value)) {
     state.speedValue = Math.max(0, Math.min(1000, value));
-    document.getElementById("speedInput").value = state.speedValue;
+    speedInput.value = String(state.speedValue);
   }
 }

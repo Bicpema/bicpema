@@ -1,4 +1,9 @@
 import { state } from "./state.js";
+import {
+  mapIndexToX,
+  mapWaveformValueToY,
+  mapSpectrumValueToY,
+} from "./physics.js";
 
 const CANVAS_WIDTH = 1000;
 const GRID_SIZE = 50;
@@ -45,12 +50,13 @@ function drawMessage(p) {
       ? "マイク入力を可視化しています"
       : "左下の「音の入力開始」をクリックしてください",
     24,
-    20,
+    20
   );
 }
 
 function drawSignal(p) {
-  const values = state.displayMode === "waveform" ? state.waveform : state.spectrum;
+  const values =
+    state.displayMode === "waveform" ? state.waveform : state.spectrum;
   if (!values.length) return;
 
   const height = p.height / (p.width / CANVAS_WIDTH);
@@ -59,11 +65,11 @@ function drawSignal(p) {
   p.strokeWeight(3);
   p.beginShape();
   values.forEach((value, index) => {
-    const x = p.map(index, 0, values.length, 0, CANVAS_WIDTH);
+    const x = mapIndexToX(index, values.length, CANVAS_WIDTH);
     const y =
       state.displayMode === "waveform"
-        ? p.map(value, -1, 1, 0, height)
-        : p.map(value, 0, 255, height - 5, 0);
+        ? mapWaveformValueToY(value, height)
+        : mapSpectrumValueToY(value, height);
     p.vertex(x, y);
   });
   p.endShape();

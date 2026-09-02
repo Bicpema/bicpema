@@ -1,4 +1,10 @@
 import { state } from "./state.js";
+import {
+  computeIncidentDisplacement,
+  computeReflectedDisplacement,
+  computeCombinedDisplacement,
+  computeWaveFront,
+} from "./physics.js";
 
 export function drawSimulation(p) {
   p.background(255);
@@ -12,7 +18,13 @@ export function drawSimulation(p) {
   p.beginShape();
   for (let x = 0; x < p.width; x++) {
     if (x <= p.min(state.front, state.reflectX)) {
-      const y = state.A * p.sin(state.k * x - state.omega * state.t);
+      const y = computeIncidentDisplacement(
+        state.A,
+        state.k,
+        x,
+        state.omega,
+        state.t
+      );
       p.vertex(x, p.height / 2 + y);
     }
   }
@@ -24,7 +36,13 @@ export function drawSimulation(p) {
   p.beginShape();
   for (let x = 0; x < p.width; x++) {
     if (x >= state.reflectX && x <= state.front) {
-      const y = state.A * p.sin(state.k * x - state.omega * state.t);
+      const y = computeIncidentDisplacement(
+        state.A,
+        state.k,
+        x,
+        state.omega,
+        state.t
+      );
       p.vertex(x, p.height / 2 + y);
     }
   }
@@ -40,9 +58,15 @@ export function drawSimulation(p) {
     p.beginShape();
     for (let x = 0; x < p.width; x++) {
       if (x >= reflectedFront && x <= state.reflectX) {
-        let y =
-          state.A * p.sin(state.k * (mirrorOrigin - x) - state.omega * state.t);
-        if (state.mode === "fixed") y *= -1;
+        const y = computeReflectedDisplacement(
+          state.A,
+          state.k,
+          mirrorOrigin,
+          x,
+          state.omega,
+          state.t,
+          state.mode
+        );
         p.vertex(x, p.height / 2 + y);
       }
     }
@@ -55,9 +79,15 @@ export function drawSimulation(p) {
       p.beginShape();
       for (let x = 0; x < p.width; x++) {
         if (x >= state.reflectX && x <= state.front) {
-          const y =
-            -state.A *
-            p.sin(state.k * (mirrorOrigin - x) - state.omega * state.t);
+          const y = computeReflectedDisplacement(
+            state.A,
+            state.k,
+            mirrorOrigin,
+            x,
+            state.omega,
+            state.t,
+            "fixed"
+          );
           p.vertex(x, p.height / 2 + y);
         }
       }
@@ -75,11 +105,16 @@ export function drawSimulation(p) {
     p.beginShape();
     for (let x = 0; x < p.width; x++) {
       if (x >= reflectedFront && x <= state.reflectX) {
-        const yIncident = state.A * p.sin(state.k * x - state.omega * state.t);
-        let yReflected =
-          state.A * p.sin(state.k * (mirrorOrigin - x) - state.omega * state.t);
-        if (state.mode === "fixed") yReflected *= -1;
-        p.vertex(x, p.height / 2 + (yIncident + yReflected));
+        const y = computeCombinedDisplacement(
+          state.A,
+          state.k,
+          x,
+          state.omega,
+          state.t,
+          mirrorOrigin,
+          state.mode
+        );
+        p.vertex(x, p.height / 2 + y);
       }
     }
     p.endShape();
@@ -90,7 +125,14 @@ export function drawSimulation(p) {
       p.point(
         state.reflectX,
         p.height / 2 +
-          2 * state.A * p.sin(state.k * state.reflectX - state.omega * state.t)
+          2 *
+            computeIncidentDisplacement(
+              state.A,
+              state.k,
+              state.reflectX,
+              state.omega,
+              state.t
+            )
       );
     } else {
       p.point(state.reflectX, p.height / 2);
@@ -99,7 +141,7 @@ export function drawSimulation(p) {
 
   if (state.running) {
     state.t += state.v;
-    state.front = p.min(state.v * state.t, 2 * state.reflectX);
+    state.front = computeWaveFront(state.v, state.t, 2 * state.reflectX);
   }
 }
 

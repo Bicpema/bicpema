@@ -1,3 +1,7 @@
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 let backgroundDiv,
   startButton,
   stopButton,
@@ -730,15 +734,13 @@ class Material {
   }
   _draw() {
     if (clickedCount == true) {
-      this.materialX +=
-        gravityButton.value() *
-        sin(radians(slopeAngleButton.value())) *
-        cos(radians(slopeAngleButton.value())) *
-        (count / 60);
-      this.materialY +=
-        gravityButton.value() *
-        sq(sin(radians(slopeAngleButton.value()))) *
-        (count / 60);
+      const { dx, dy } = window.normalForcePhysics.computeSlideDisplacement(
+        gravityButton.value(),
+        slopeAngleButton.value(),
+        count
+      );
+      this.materialX += dx;
+      this.materialY += dy;
     }
     if (
       this.materialX >=
@@ -774,3 +776,8 @@ function windowResized() {
 function fullScreen() {
   createCanvas(windowWidth, (8 * windowHeight) / 10);
 }
+
+window.setup = setup;
+window.draw = draw;
+window.windowResized = windowResized;
+new p5();

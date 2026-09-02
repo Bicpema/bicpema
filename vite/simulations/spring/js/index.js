@@ -1,3 +1,8 @@
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import Chart from "chart.js/auto";
+
 let springImg, ballImg;
 function preload() {
   springImg = loadImage("/assets/img/springImg.png");
@@ -113,11 +118,11 @@ function graphCreation() {
 
 function graphSettings() {
   graph1.size(width / 2, height / 2).position(width / 2, windowHeight / 10);
-  graphCanvas1.size(0, 0).id("chart1");
+  graphCanvas1.id("chart1");
   graph2
     .size(width / 2, height / 2)
     .position(width / 2, windowHeight / 10 + height / 2);
-  graphCanvas2.size(0, 0).id("chart2");
+  graphCanvas2.id("chart2");
 }
 
 function graphDraw() {
@@ -177,22 +182,18 @@ class Spring {
     this.number = n;
   }
   _draw() {
-    let s_konstant;
-    if (this.combination == 1) {
-      s_konstant = this.konstant;
-    } else if (this.combination == 2) {
-      s_konstant = 2 * this.konstant;
-    } else {
-      s_konstant = sq(this.konstant) / (2 * this.konstant);
-    }
-    this.posx =
-      this.amplitude *
-      -cos(sqrt(s_konstant / this.weight) * (count / fps) + PI / 2);
-    this.posy =
-      this.amplitude *
-        sin(sqrt(s_konstant / this.weight) * (count / fps) + PI / 2) +
-      height / 4;
-    console.log(this.posx);
+    const s_konstant = window.springPhysics.computeEffectiveSpringConstant(
+      this.konstant,
+      this.combination
+    );
+    const { x, y } = window.springPhysics.computeSpringPosition(
+      s_konstant,
+      this.weight,
+      this.amplitude,
+      count / fps
+    );
+    this.posx = x;
+    this.posy = y + height / 4;
     let d;
     if (this.number == 1) {
       d = 0;
@@ -329,3 +330,9 @@ function fullScreen() {
   let canvas = createCanvas(windowWidth, (9 * windowHeight) / 10);
   canvas.parent(p5Canvas);
 }
+
+window.preload = preload;
+window.setup = setup;
+window.draw = draw;
+window.windowResized = windowResized;
+new p5();

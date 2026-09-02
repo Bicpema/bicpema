@@ -30,11 +30,6 @@ body {
   /* 幅も80vhに設定（正方形にするため） */
   position: relative;
   /* 子要素に相対位置を設定 */
-  background: url("hsv.jpg") no-repeat center center;
-  /* 画像を中央に配置 */
-  background-size: 87% 76%;
-  /* 画像を~%のサイズに縮小（幅と高さの両方を縮小） */
-  background-position: 79% 53%;
   opacity: 0.8;
   /* 画像の透過度を設定 */
   display: flex;

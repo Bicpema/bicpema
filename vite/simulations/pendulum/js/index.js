@@ -1,3 +1,7 @@
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 let radi = 0;
 let clickedCount;
 let gridIs;
@@ -144,17 +148,23 @@ class Ball {
     this.panelCount = 0;
     this.stringLength = s_l;
     this.theta0 = t_0;
-    this.theta =
-      radians(this.theta0) *
-      cos((sqrt(gravity / (this.stringLength / float(50 * 100))) * count) / 60);
+    this.theta = window.pendulumPhysics.computePendulumAngle(
+      this.theta0,
+      this.stringLength,
+      gravity,
+      count
+    );
   }
 
   calculate(n) {
     this.posx = n + width / 6 + this.stringLength * sin(this.theta);
     this.posy = 100 + this.stringLength * cos(this.theta);
-    this.theta =
-      radians(this.theta0) *
-      cos((sqrt(gravity / (this.stringLength / float(50 * 100))) * count) / 60);
+    this.theta = window.pendulumPhysics.computePendulumAngle(
+      this.theta0,
+      this.stringLength,
+      gravity,
+      count
+    );
   }
 
   display(n) {
@@ -165,3 +175,9 @@ class Ball {
 function windowResized() {
   resizeCanvas(windowWidth, (9 * windowHeight) / 10);
 }
+
+window.preload = preload;
+window.setup = setup;
+window.draw = draw;
+window.windowResized = windowResized;
+new p5();

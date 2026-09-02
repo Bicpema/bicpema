@@ -1,3 +1,7 @@
+import p5 from "p5";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+
 let dataArray;
 let weight;
 let stop_watch;
@@ -110,9 +114,12 @@ class Ball {
   }
 
   move() {
-    this.theta =
-      this.theta0 *
-      sin((sqrt(gravity / (this.Long * (0.25 / 300))) * count) / 60);
+    this.theta = window.pendulumWavePhysics.computePendulumWaveAngle(
+      this.theta0,
+      this.Long,
+      gravity,
+      count
+    );
     this.posx = width / 2 + this.Long * sin(this.theta);
     this.posy = 100 + this.Long * cos(this.theta);
   }
@@ -128,3 +135,10 @@ function windowResized() {
 function fullScreen() {
   createCanvas(windowWidth, windowHeight);
 }
+
+window.preload = preload;
+window.setup = setup;
+window.draw = draw;
+window.mousePressed = mousePressed;
+window.windowResized = windowResized;
+new p5();

@@ -11,7 +11,7 @@ export const V_W = 1000;
 /** 仮想キャンバスの高さ */
 const V_H = 562;
 /** 物理座標→ピクセル変換スケール（1m = 400px） */
-const PM = 400;
+export const PM = 400;
 
 /** フレームレート */
 const FPS = 60;
@@ -38,7 +38,7 @@ const RULER_THICK = 18;
 /** 定規の初期左端x座標（本の外側） */
 const RULER_INIT_LEFT = 510;
 /** 定規の初期長さ（本の外側部分） */
-const RULER_INIT_LENGTH = BOOK_LEFT_X - RULER_INIT_LEFT;
+export const RULER_INIT_LENGTH = BOOK_LEFT_X - RULER_INIT_LEFT;
 /** 定規の中心y座標 */
 const RULER_CENTER_Y = 413;
 
@@ -272,7 +272,7 @@ function updateInfoPanelDOM() {
  * @param {*} p p5インスタンス
  * @param {number} dt タイムステップ (s)
  */
-function update(p, dt) {
+export function update(p, dt) {
   if (state.phase === "approach") {
     state.approachX_px += state.v0_ms * PM * dt;
     if (state.approachX_px + CART_W >= RULER_INIT_LEFT) {
