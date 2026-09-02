@@ -54,6 +54,12 @@ TOPページ
 シミュレーション
 <http://localhost:1313/vite/simulations/wave-reflection/>
 
+ドキュメント（Markdown）のリントチェックを実行する
+
+```bash
+npm run lint:md
+```
+
 ## Blog
 
 記事の追加

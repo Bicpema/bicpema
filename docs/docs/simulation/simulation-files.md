@@ -4,7 +4,7 @@
 
 ## `vite/` のディレクトリ構成
 
-```
+```text
 vite/
 ├── _build/
 │   └── getHtmlInputsRecursively.js  # ビルド用ユーティリティ
