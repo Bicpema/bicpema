@@ -5,8 +5,8 @@ import { Ball } from "./class.js";
 
 /** 振り子（おもり）の個数 */
 export const BALL_COUNT = 100;
-/** 重力加速度 (m/s^2) */
-export const GRAVITY = 9.8;
+/** フレームレート */
+export const FPS = 60;
 /** 振り子の長さデータのCSV上の列インデックス */
 const LENGTH_COLUMN = 3;
 
@@ -15,6 +15,7 @@ const LENGTH_COLUMN = 3;
  * @param {*} p p5インスタンス
  */
 export function settingInit(p) {
+  p.frameRate(FPS);
   p.textSize(p.width / 25);
 }
 
@@ -31,6 +32,5 @@ export function valueInit(p) {
     state.balls.push(new Ball(length, p.asin(100 / length)));
   }
 
-  state.gravity = GRAVITY;
   state.count = 0;
 }

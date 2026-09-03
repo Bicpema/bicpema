@@ -1,6 +1,7 @@
 // logic.jsはシミュレーションの描画処理と物理更新専用のファイルです。
 
 import { state } from "./state.js";
+import { FPS } from "./init.js";
 
 /**
  * シミュレーションの描画と物理更新を行う。
@@ -15,5 +16,5 @@ export function drawSimulation(p) {
   }
 
   state.count++;
-  p.text(p.nf(state.count / 60, 1, 2) + "s", 100, 100);
+  p.text(p.nf(state.count / FPS, 1, 2) + "s", 100, 100);
 }
