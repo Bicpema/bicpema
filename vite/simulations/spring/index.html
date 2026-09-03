@@ -8,169 +8,194 @@
     <script type="module" src="./js/physics.js"></script>
   </head>
 
-  <body class="m-0 h-screen w-screen p-0 fixed text-base" oncontextmenu="return false;">
-    <div class="h-[10vh] bg-neutral-900 p-0">
-      <div class="flex items-center h-full m-0">
-        <a class="flex-1 text-center" href="https://bicpema.com/">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="2.5vw"
-            fill="currentColor"
-            class="bi bi-house-fill text-white"
-            viewBox="0 0 16 16"
-          >
-            <path
-              fill-rule="evenodd"
-              d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
-            />
-            <path
-              fill-rule="evenodd"
-              d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
-            />
-          </svg>
-        </a>
-        <div class="p-0 flex-[10] text-center m-0">
-          <span class="text-white" style="font-size: 2.5vw">ばねの単振動</span>
-        </div>
-        <div class="flex-1 text-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            height="2.5vw"
-            fill="currentColor"
-            class="bi bi-info-circle text-white"
-            viewBox="0 0 16 16"
-          >
-            <path
-              d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-            />
-            <path
-              d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
-            />
-          </svg>
-        </div>
-      </div>
-      <div class="p-0" id="p5Canvas"></div>
-      <div class="absolute start-0 bottom-0 m-1">
-        <button class="m-1 rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500" id="startButton">スタート</button>
-        <button class="m-1 rounded bg-red-600 px-3 py-2 text-white hover:bg-red-500" id="stopButton">ストップ</button>
-        <button class="m-1 rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500" id="resetButton">リセット</button>
-      </div>
+  <body
+    class="m-0 h-screen w-screen p-0 fixed text-base"
+    oncontextmenu="return false;"
+  >
+    <nav
+      class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
+      id="navBar"
+    >
+      <a
+        class="font-semibold text-white no-underline"
+        href="https://bicpema.com/"
+        >Bicpema</a
+      >
+      <span class="ml-3 font-light text-neutral-300">ばねの単振動</span>
+    </nav>
+
+    <div class="mt-[60px] p-0" id="p5Canvas"></div>
+    <div class="absolute start-0 bottom-0 m-1">
       <button
-        type="button"
-        class="settings-modal-open absolute end-0 bottom-0 m-2 rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
+        class="m-1 rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
+        id="startButton"
       >
-        シミュレーションの設定
+        スタート
       </button>
-      <!-- Modal -->
-      <div
-        class="fixed inset-0 z-[1100] hidden flex items-center justify-center bg-black/50"
-        id="settingModal"
+      <button
+        class="m-1 rounded bg-red-600 px-3 py-2 text-white hover:bg-red-500"
+        id="stopButton"
       >
-        <div class="w-full max-w-lg rounded bg-white p-4 text-neutral-900">
-          <div class="mb-3 flex items-center justify-between border-b border-neutral-200 pb-2">
-            <h1 class="text-xl font-semibold">
-              シミュレーションの設定
-            </h1>
-            <button
-              type="button"
-              class="modal-close text-xl leading-none text-neutral-500 hover:text-neutral-700"
-              aria-label="Close"
-            >
-              ×
-            </button>
-          </div>
-          <div>
-            <div class="mb-4">
-              <label class="mb-2 block text-lg">上のばねの設定</label>
-              <div class="mb-2 flex">
-                <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">ばね定数</span>
-                <input
-                  type="number"
-                  class="w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-                  id="konstantButton1"
-                  value="1"
-                />
-              </div>
-              <div class="mb-2 flex">
-                <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">組み合わせ</span>
-                <input
-                  type="number"
-                  class="w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-                  id="combiButton1"
-                  value="1"
-                />
-              </div>
-              <div class="mb-2 flex">
-                <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">質量</span>
-                <input
-                  type="number"
-                  class="w-full border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-                  id="weightButton1"
-                  value="1"
-                />
-                <span class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">kg</span>
-              </div>
-              <div class="flex">
-                <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">振幅</span>
-                <input
-                  type="number"
-                  class="w-full border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-                  id="amplitudeButton1"
-                  value="100"
-                />
-                <span class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">m</span>
-              </div>
+        ストップ
+      </button>
+      <button
+        class="m-1 rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
+        id="resetButton"
+      >
+        リセット
+      </button>
+    </div>
+    <button
+      type="button"
+      class="settings-modal-open absolute end-0 bottom-0 m-2 rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
+    >
+      シミュレーションの設定
+    </button>
+    <!-- Modal -->
+    <div
+      class="fixed inset-0 z-[1100] hidden flex items-center justify-center bg-black/50"
+      id="settingModal"
+    >
+      <div class="w-full max-w-lg rounded bg-white p-4 text-neutral-900">
+        <div
+          class="mb-3 flex items-center justify-between border-b border-neutral-200 pb-2"
+        >
+          <h1 class="text-xl font-semibold">シミュレーションの設定</h1>
+          <button
+            type="button"
+            class="modal-close text-xl leading-none text-neutral-500 hover:text-neutral-700"
+            aria-label="Close"
+          >
+            ×
+          </button>
+        </div>
+        <div>
+          <div class="mb-4">
+            <label class="mb-2 block text-lg">上のばねの設定</label>
+            <div class="mb-2 flex">
+              <span
+                class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+                >ばね定数</span
+              >
+              <input
+                type="number"
+                class="w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+                id="konstantButton1"
+                value="1"
+              />
             </div>
-            <div class="mb-4">
-              <label class="mb-2 block text-lg">下のばねの設定</label>
-              <div class="mb-2 flex">
-                <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">ばね定数</span>
-                <input
-                  type="number"
-                  class="w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-                  id="konstantButton2"
-                  value="1"
-                />
-              </div>
-              <div class="mb-2 flex">
-                <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">組み合わせ</span>
-                <input
-                  type="number"
-                  class="w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-                  id="combiButton2"
-                  value="1"
-                />
-              </div>
-              <div class="mb-2 flex">
-                <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">質量</span>
-                <input
-                  type="number"
-                  class="w-full border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-                  id="weightButton2"
-                  value="1"
-                />
-                <span class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">kg</span>
-              </div>
-              <div class="flex">
-                <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">振幅</span>
-                <input
-                  type="number"
-                  class="w-full border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-                  id="amplitudeButton2"
-                  value="100"
-                />
-                <span class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">m</span>
-              </div>
+            <div class="mb-2 flex">
+              <span
+                class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+                >組み合わせ</span
+              >
+              <input
+                type="number"
+                class="w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+                id="combiButton1"
+                value="1"
+              />
+            </div>
+            <div class="mb-2 flex">
+              <span
+                class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+                >質量</span
+              >
+              <input
+                type="number"
+                class="w-full border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+                id="weightButton1"
+                value="1"
+              />
+              <span
+                class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+                >kg</span
+              >
+            </div>
+            <div class="flex">
+              <span
+                class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+                >振幅</span
+              >
+              <input
+                type="number"
+                class="w-full border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+                id="amplitudeButton1"
+                value="100"
+              />
+              <span
+                class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+                >m</span
+              >
             </div>
           </div>
-          <div class="flex justify-end border-t border-neutral-200 pt-2">
-            <button
-              type="button"
-              class="modal-close rounded border border-neutral-400 px-3 py-1.5 hover:bg-neutral-100"
-            >
-              閉じる
-            </button>
+          <div class="mb-4">
+            <label class="mb-2 block text-lg">下のばねの設定</label>
+            <div class="mb-2 flex">
+              <span
+                class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+                >ばね定数</span
+              >
+              <input
+                type="number"
+                class="w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+                id="konstantButton2"
+                value="1"
+              />
+            </div>
+            <div class="mb-2 flex">
+              <span
+                class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+                >組み合わせ</span
+              >
+              <input
+                type="number"
+                class="w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+                id="combiButton2"
+                value="1"
+              />
+            </div>
+            <div class="mb-2 flex">
+              <span
+                class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+                >質量</span
+              >
+              <input
+                type="number"
+                class="w-full border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+                id="weightButton2"
+                value="1"
+              />
+              <span
+                class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+                >kg</span
+              >
+            </div>
+            <div class="flex">
+              <span
+                class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+                >振幅</span
+              >
+              <input
+                type="number"
+                class="w-full border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+                id="amplitudeButton2"
+                value="100"
+              />
+              <span
+                class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+                >m</span
+              >
+            </div>
           </div>
+        </div>
+        <div class="flex justify-end border-t border-neutral-200 pt-2">
+          <button
+            type="button"
+            class="modal-close rounded border border-neutral-400 px-3 py-1.5 hover:bg-neutral-100"
+          >
+            閉じる
+          </button>
         </div>
       </div>
     </div>
@@ -182,7 +207,9 @@
       aria-live="polite"
       aria-label="読み込み中"
     >
-      <div class="h-12 w-12 animate-spin rounded-full border-4 border-neutral-600 border-t-blue-500"></div>
+      <div
+        class="h-12 w-12 animate-spin rounded-full border-4 border-neutral-600 border-t-blue-500"
+      ></div>
     </div>
 
     <script type="module" src="./js/index.js"></script>

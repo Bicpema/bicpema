@@ -134,11 +134,9 @@ function graphCreation() {
 }
 
 function graphSettings() {
-  graph1.size(width / 2, height / 2).position(width / 2, windowHeight / 10);
+  graph1.size(width / 2, height / 2).position(width / 2, 60);
   graphCanvas1.id("chart1");
-  graph2
-    .size(width / 2, height / 2)
-    .position(width / 2, windowHeight / 10 + height / 2);
+  graph2.size(width / 2, height / 2).position(width / 2, 60 + height / 2);
   graphCanvas2.id("chart2");
 }
 

@@ -91,7 +91,8 @@ new p5(sketch);
 
 //フルスクリーン
 function fullScreen(p) {
-  p.createCanvas(p.windowWidth, (9 * p.windowHeight) / 10, p.P2D);
+  const canvas = p.createCanvas(p.windowWidth, p.windowHeight - 60, p.P2D);
+  canvas.parent("p5Canvas");
 }
 
 //ボタン
@@ -120,15 +121,15 @@ function buttonCreation(p) {
 function buttonSettings(p) {
   objectXSlider
     .size((4 * p.width) / 10, 2)
-    .position(p.width / 10, p.windowHeight / 10 + (3 * p.height) / 4)
+    .position(p.width / 10, 60 + (3 * p.height) / 4)
     .attribute("max", (4 * p.width) / 10);
   screenXSlider
     .size((4 * p.width) / 10, 2)
-    .position(p.width / 2, p.windowHeight / 10 + (3 * p.height) / 4)
+    .position(p.width / 2, 60 + (3 * p.height) / 4)
     .attribute("max", (4 * p.width) / 10);
   focusLengthSlider
     .size((4 * p.width) / 10, 2)
-    .position(p.width / 10, p.windowHeight / 10 + (6 * p.height) / 10)
+    .position(p.width / 10, 60 + (6 * p.height) / 10)
     .attribute("max", (4 * p.width) / 10);
   lensSelect
     .size((4 * p.width) / 10, p.height / 16)
