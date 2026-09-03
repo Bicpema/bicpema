@@ -10,7 +10,7 @@ let resetButton;
 //ヘッダー分(60px固定)を除いた、実際に使用できる高さ
 let usableHeight;
 
-//フルスクリーンにする手続き
+//フルスクリーンにする手続き（初回セットアップ専用）
 function fullScreen() {
   usableHeight = windowHeight - 60;
   let p5Canvas = document.getElementById("p5Canvas");
@@ -18,15 +18,12 @@ function fullScreen() {
   canvas.parent(p5Canvas);
 }
 
-//ウィンドウがリサイズされた時の手続き
+//ウィンドウがリサイズされた時の手続き（canvasは作り直さずリサイズのみ行う）
 function windowResized() {
-  fullScreen();
-  initSettings();
+  usableHeight = windowHeight - 60;
+  resizeCanvas(windowWidth, (7 * usableHeight) / 10);
+  updateLayout();
   buttonSettings();
-  clickedCount = false;
-  resetCount = true;
-  startButton.show();
-  stopButton.hide();
 }
 
 let speedButton1, speedButton2;
@@ -66,12 +63,18 @@ function buttonCreation() {
 }
 
 //基本的なボタンの初期設定の手続き
+//ボタンのイベント登録・表示状態の初期化（初回セットアップ専用。リサイズ時に再登録するとリスナーが重複するため呼ばない）
+function buttonEvents() {
+  startButton.mousePressed(moveButtonAction);
+  stopButton.mousePressed(moveButtonAction).hide();
+  resetButton.mousePressed(resetButtonAction);
+}
+//canvasサイズに依存するボタンの配置（リサイズ時にも呼ぶため、イベント登録や表示状態は変更しない）
 function buttonSettings() {
   backgroundDiv
     .size(width, (3 * usableHeight) / 10)
     .style("background-color", "white");
   startButton
-    .mousePressed(moveButtonAction)
     .size(windowWidth / 8, (3 * usableHeight) / 10)
     .position(0, height)
     .addClass(
@@ -79,16 +82,13 @@ function buttonSettings() {
     )
     .parent(backgroundDiv);
   stopButton
-    .mousePressed(moveButtonAction)
     .size(windowWidth / 8, (3 * usableHeight) / 10)
     .position(0, height)
     .addClass(
       "cursor-pointer rounded border border-red-600 bg-white text-red-600 hover:bg-red-50"
     )
-    .hide()
     .parent(backgroundDiv);
   resetButton
-    .mousePressed(resetButtonAction)
     .size(windowWidth / 8, (3 * usableHeight) / 10)
     .position(windowWidth / 8, height)
     .addClass(
@@ -245,12 +245,22 @@ let count;
 let pg;
 let b1, b2;
 
-function initSettings() {
+//canvasサイズに依存するレイアウト値の再計算（リサイズ時にも呼ぶため、シミュレーションの状態は変更しない）
+function updateLayout() {
   radi = width / 50;
+  if (pg) {
+    pg.resizeCanvas(width, height);
+  } else {
+    pg = createGraphics(width, height);
+  }
+  textSize(width / 100);
+  textAlign(CENTER, CENTER);
+}
+function initSettings() {
+  updateLayout();
   clickedCount = false;
   resetCount = true;
   count = 0;
-  pg = createGraphics(width, height);
   b1 = new Ball(
     50,
     (9 * height) / 10 - radi - heightButton1.value(),
@@ -271,8 +281,6 @@ function initSettings() {
     konstantButton2.value(),
     2
   );
-  textSize(width / 100);
-  textAlign(CENTER, CENTER);
 }
 
 //setup関数
@@ -281,6 +289,7 @@ function setup() {
   buttonCreation();
   initSettings();
   buttonSettings();
+  buttonEvents();
 }
 
 //draw関数
