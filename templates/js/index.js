@@ -3,6 +3,7 @@
 import p5 from "p5";
 import "../../../css/tailwind.css";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import {
   FPS,
   settingInit,
@@ -13,6 +14,7 @@ import {
 
 const sketch = (p) => {
   const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+  let isFirstDraw = true;
 
   // p.preload = () => {
   //   font = p.loadFont("...");
@@ -30,6 +32,11 @@ const sketch = (p) => {
     p.scale(p.width / 1000);
     p.background(0);
     // drawGraph(p);
+
+    if (isFirstDraw) {
+      isFirstDraw = false;
+      hideLoadingSpinner();
+    }
   };
 
   p.windowResized = () => {
