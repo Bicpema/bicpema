@@ -1,8 +1,11 @@
-import "../../../scss/common.scss";
-import "bootstrap";
-import $ from "jquery";
+import "../../../css/tailwind.css";
 import p5 from "p5";
 import html2canvas from "html2canvas";
+import {
+  initModal,
+  initCollapse,
+  initTabs,
+} from "../../../js/bicpema-modal-controller.js";
 import { computeCoordinateBounds } from "./physics.js";
 
 new p5();
@@ -28,7 +31,7 @@ window.onload = function () {
 function fullScreen() {
   let p5Canvas = select("#p5Canvas");
   let canvas = createCanvas(windowWidth, windowHeight - 60, WEBGL);
-  canvas.parent(p5Canvas).class("rounded border border-1");
+  canvas.parent(p5Canvas).class("rounded border");
 }
 
 // 外部ファイルの読み込み
@@ -339,13 +342,15 @@ function strataAddButtonFunction() {
     .id("tr-" + NextTrNum);
   let th = createElement("th", NextTrNum + "組目")
     .parent("tr-" + NextTrNum)
+    .class("border border-neutral-300 px-2 py-1 text-center")
     .id("th-" + NextTrNum);
   let td1 = createElement("td")
     .parent("tr-" + NextTrNum)
+    .class("border border-neutral-300 px-2 py-1")
     .id("td1-" + NextTrNum);
   let select1 = createSelect()
     .parent("td1-" + NextTrNum)
-    .class("form-select")
+    .class("block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900")
     .id("select1-" + NextTrNum);
   let select1doc = document.getElementById("select1-" + NextTrNum);
   select1doc.addEventListener("change", strataSelectFunction);
@@ -361,24 +366,27 @@ function strataAddButtonFunction() {
   for (let i = 0; i < strataArr.length; i++) select1.option(strataArr[i]);
   let td2 = createElement("td")
     .parent("tr-" + NextTrNum)
+    .class("border border-neutral-300 px-2 py-1")
     .id("td2-" + NextTrNum);
   let select2 = createSelect()
     .parent("td2-" + NextTrNum)
-    .class("form-select")
+    .class("block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900")
     .id("select2-" + NextTrNum);
   let td3 = createElement("td")
     .parent("tr-" + NextTrNum)
+    .class("border border-neutral-300 px-2 py-1")
     .id("td3-" + NextTrNum);
   let select3 = createSelect()
     .parent("td3-" + NextTrNum)
-    .class("form-select")
+    .class("block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900")
     .id("select3-" + NextTrNum);
   let td4 = createElement("td")
     .parent("tr-" + NextTrNum)
+    .class("border border-neutral-300 px-2 py-1")
     .id("td4-" + NextTrNum);
   let select4 = createSelect()
     .parent("td4-" + NextTrNum)
-    .class("form-select")
+    .class("block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900")
     .id("select4-" + NextTrNum);
   firstPlaceSelectFunction();
   secondPlaceSelectFunction();
@@ -614,6 +622,16 @@ function setup() {
   elInit();
   initValue();
   loadTestDataButtonFunction();
+  initModal({
+    openSelectors: ".data-register-modal-open",
+    modalSelector: "#dataRegisterModal",
+    closeSelectors: ".modal-close",
+  });
+  initCollapse({
+    toggleSelectors: ".collapse-toggle",
+    targetSelector: "#collapse",
+  });
+  initTabs({ tabSelector: "#dataRegisterModal .nav-link" });
   // フォントを非同期で読み込む（読み込み失敗してもシミュレーションは動作する）
   loadFont(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
@@ -1001,7 +1019,9 @@ function draw() {
   drawDirMark(-600, -600);
 
   // データ登録モーダルを開いている時にオービットコントロールを無効化
-  let modalIs = $("#dataRegisterModal").is(":hidden");
+  let modalIs = document
+    .getElementById("dataRegisterModal")
+    .classList.contains("hidden");
   if (modalIs) {
     orbitControl(2);
   }
@@ -1256,38 +1276,38 @@ class DOM {
       .parent(placePointNameInput)
       .class("mb-2")
       .id("placeNameInput" + str(this.n));
-    this.inputGroup1 = createDiv().parent(this.parentDiv).class("input-group");
-    this.inputGroup2 = createDiv().parent(this.parentDiv).class("input-group");
+    this.inputGroup1 = createDiv().parent(this.parentDiv).class("flex");
+    this.inputGroup2 = createDiv().parent(this.parentDiv).class("flex");
     // input要素の上の部分
     createElement("span", "地点" + str(this.n) + "：")
       .parent(this.inputGroup1)
-      .class("input-group-text");
+      .class("inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700");
     this.placeNameInput = createInput()
       .parent(this.inputGroup1)
-      .class("form-control")
+      .class("w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900")
       .input(placeNameInputFunction);
     // input要素の下の部分
     createElement("span", "緯度")
       .parent(this.inputGroup2)
-      .class("input-group-text");
+      .class("inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700");
     this.yInput = createInput(0, "number")
       .parent(this.inputGroup2)
-      .class("form-control");
+      .class("w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900");
     createElement("span", "経度")
       .parent(this.inputGroup2)
-      .class("input-group-text");
+      .class("inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700");
     this.xInput = createInput(0, "number")
       .parent(this.inputGroup2)
-      .class("form-control");
+      .class("w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900");
     createDiv("地点" + str(this.n) + "の名前、緯度、経度を入力してください。")
       .parent(this.parentDiv)
-      .class("form-text");
+      .class("text-sm text-neutral-500");
     // サブウィンドウ生成用のDOM
     this.placeDataInput = createA(
       "javascript:void(0)",
       "地点" + str(this.n) + "のデータを編集"
     )
-      .class("btn btn-outline-primary mb-2")
+      .class("mb-2 inline-block rounded border border-blue-600 bg-white px-3 py-1.5 text-blue-600 hover:bg-blue-50")
       .parent("placePointDataInput")
       .id("placeDataInput" + str(this.n));
   }

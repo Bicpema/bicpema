@@ -71,3 +71,112 @@ export function initCollapse({ toggleSelectors, targetSelector }) {
     });
   });
 }
+
+/**
+ * initTabs
+ *
+ * Bootstrap JSのタブ（data-bs-toggle="tab"等）の代替。
+ * タブ要素（トリガー）のhref属性（例: "#paneId"）で対象のペインを
+ * 特定し、クリックされたタブとそれに対応するペインのみを表示する。
+ * タブの見た目（active状態）は呼び出し側のCSSで
+ * ".nav-link" / ".nav-link.active" を定義しておく想定。
+ *
+ * @param {object} options
+ * @param {string} options.tabSelector タブ（トリガー）要素のCSSセレクタ（複数要素にマッチしてよい、各要素はhref="#paneId"を持つ）
+ */
+export function initTabs({ tabSelector }) {
+  const tabs = Array.from(document.querySelectorAll(tabSelector));
+  if (tabs.length === 0) return;
+
+  const getPane = (tab) => {
+    const paneSelector = tab.getAttribute("href");
+    if (!paneSelector?.startsWith("#")) return null;
+    return document.querySelector(paneSelector);
+  };
+
+  tabs.forEach((tab) => {
+    tab.closest(".nav-tabs")?.setAttribute("role", "tablist");
+  });
+
+  const activate = (activeTab) => {
+    tabs.forEach((tab) => {
+      const pane = getPane(tab);
+      const isActive = tab === activeTab;
+      if (pane?.id && !tab.id) {
+        tab.id = `${pane.id}Tab`;
+      }
+
+      tab.setAttribute("role", "tab");
+      tab.setAttribute("aria-selected", String(isActive));
+      tab.setAttribute("tabindex", isActive ? "0" : "-1");
+      tab.removeAttribute("aria-current");
+      if (pane?.id) {
+        tab.setAttribute("aria-controls", pane.id);
+        pane.setAttribute("role", "tabpanel");
+        pane.setAttribute("aria-labelledby", tab.id);
+      }
+      tab.classList.toggle("active", isActive);
+      if (pane) {
+        pane.classList.toggle("hidden", !isActive);
+        pane.hidden = !isActive;
+      }
+    });
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", (event) => {
+      event.preventDefault();
+      activate(tab);
+    });
+  });
+
+  activate(tabs.find((tab) => tab.classList.contains("active")) ?? tabs[0]);
+}
+
+/**
+ * initOffcanvas
+ *
+ * Bootstrap JSのoffcanvas（data-bs-toggle="offcanvas"等）の代替。
+ * 対象要素に"is-open"クラスを付け外しすることで表示/非表示を
+ * 切り替える。スライドイン等の見た目は呼び出し側のCSSで
+ * ".offcanvas" / ".offcanvas.is-open" を定義しておく想定。
+ *
+ * @param {object} options
+ * @param {string} options.openSelectors 開く要素のCSSセレクタ（複数要素にマッチしてよい）
+ * @param {string} options.offcanvasSelector 対象要素のCSSセレクタ（単一要素）
+ * @param {string} options.closeSelectors 閉じる要素のCSSセレクタ（複数要素にマッチしてよい）
+ */
+export function initOffcanvas({
+  openSelectors,
+  offcanvasSelector,
+  closeSelectors,
+}) {
+  const panel = document.querySelector(offcanvasSelector);
+  if (!panel) return;
+
+  const toggles = document.querySelectorAll(openSelectors);
+  const syncOpenState = (isOpen) => {
+    panel.classList.toggle("is-open", isOpen);
+    panel.setAttribute("aria-hidden", String(!isOpen));
+    toggles.forEach((toggle) => {
+      toggle.setAttribute("aria-expanded", String(isOpen));
+      if (panel.id) {
+        toggle.setAttribute("aria-controls", panel.id);
+      }
+    });
+  };
+  const open = () => syncOpenState(true);
+  const close = () => syncOpenState(false);
+
+  syncOpenState(panel.classList.contains("is-open"));
+
+  toggles.forEach((el) => {
+    el.addEventListener("click", open);
+  });
+  document.querySelectorAll(closeSelectors).forEach((el) => {
+    el.addEventListener("click", close);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && panel.classList.contains("is-open")) close();
+  });
+}

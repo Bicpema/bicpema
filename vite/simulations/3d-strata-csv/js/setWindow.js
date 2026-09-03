@@ -1,5 +1,4 @@
-import "../../../scss/common.scss";
-import "bootstrap";
+import "../../../css/tailwind.css";
 import p5 from "p5";
 
 new p5();
@@ -111,30 +110,35 @@ class TR {
     this.th = createElement("th")
       .id("th" + num)
       .html(trNum + "層目")
+      .class("border border-neutral-300 px-2 py-1")
       .parent("tr" + num);
     this.td1 = createElement("td")
       .id("td1" + num)
+      .class("border border-neutral-300 px-2 py-1")
       .parent("tr" + num);
     this.td1Input = createInput(0, "number")
       .id("td1Input" + num)
       .parent("td1" + num)
-      .class("form-control");
+      .class("w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900");
     this.td2 = createElement("td")
       .id("td2" + num)
+      .class("border border-neutral-300 px-2 py-1")
       .parent("tr" + num);
     this.td2Input = createInput(0, "number")
       .id("td2Input" + num)
       .parent("td2" + num)
-      .class("form-control");
+      .class("w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900");
     this.td3 = createElement("td")
       .id("td3" + num)
+      .class("border border-neutral-300 px-2 py-1")
       .parent("tr" + num);
     this.td3Select = createSelect()
       .id("td3Select" + num)
       .parent("td3" + num)
-      .class("form-select");
+      .class("block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900");
     this.td4 = createElement("td")
       .id("td4" + num)
+      .class("border border-neutral-300 px-2 py-1")
       .parent("tr" + num);
 
     // select要素（td3）にoption（選択肢）の追加
@@ -166,7 +170,7 @@ class TR {
     }
     this.trRemoveButton = createButton("削除")
       .parent("td4" + num)
-      .class("btn btn-outline-danger w-100")
+      .class("w-full rounded border border-red-600 bg-white px-3 py-1.5 text-red-600 hover:bg-red-50")
       .id("trRemoveButton" + num)
       .mousePressed(_removeButtonFunction);
     idArr.push(str(num));
