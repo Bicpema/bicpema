@@ -40,3 +40,29 @@ TailwindCSS自体はJSを持たないため、モーダル（設定パネル）�
 - TailwindCSSの具体的な導入方法（Tailwind CLI / PostCSSプラグイン / `@tailwindcss/vite` 等）
 - 既存シミュレーションの移行順序（利用頻度・保守頻度の高いものから着手する、など）
 - 移行完了の判定基準（Bootstrapクラスの残存を検知する自動チェックを設けるか）
+
+## 生CSS最小化方針（[Issue #470](https://github.com/Bicpema/bicpema/issues/470)）
+
+[#461](https://github.com/Bicpema/bicpema/issues/461)（3d-strata系の移行）の作業中、Bootstrap JSのタブコンポーネント代替として `style.css` に生CSSを追加したことをきっかけに、TailwindCSS移行済みのシミュレーションを含めて `vite/simulations/*/css/style.css` 全体（43ファイル、合計3203行）を棚卸しした。
+
+### 分類基準
+
+- **A. Tailwindユーティリティにそのまま置き換え可能**: `position` / `top` / `left` / `right` / `bottom`、`display:flex` 系（`flex-direction` / `flex-wrap` / `gap` / `justify-content` / `align-items`）、`z-index`、`width` / `height`（`calc()` を含む）、`border-radius`、`box-shadow`、`backdrop-filter`、`background-color`（hex/rgb/rgba）、`:hover` / `:active` などの疑似クラス、`transition`、`transform`。
+- **B. Tailwindの標準機能だけでは表現しづらく一手間必要なもの**: `576px` / `400px` のようなTailwindの標準ブレークポイント（`sm:`=640px 等）と一致しない `@media` はTailwind v4の任意値ブレークポイント記法（`max-[576px]:` 等）で表現する。JSで付け外しされるクラスの有無で見た目を変えるパターン（例: `.nav-link.active`）はTailwind v4の任意バリアント `[&.active]:` を使うか、JS側でトグルするクラス自体をユーティリティクラスの組に変更する。
+- **C. 生CSSとして残す必要があるもの**: 今回の棚卸しでは該当なし。`@keyframes` / `animation` を使っているファイルは1件も無く、p5.js側の描画色とCSS側の値が動的に連動していて置換できないケースも見当たらなかった（凡例色のような静的な色定義はTailwindの任意値記法で表現できるため対象外）。
+
+### 棚卸し結果と対応方針
+
+分類の結果、43ファイルのほぼ全量が分類A（そのままユーティリティクラスに置き換え可能）であり、分類Bは一部の独自ブレークポイントとタブのactive状態表現のみ、分類Cに該当するものは無かった。特に行数の多いファイル（150〜240行）は、`.settings-modal` / `.left-bottom-controls` / `.right-top-controls` / `.bottom-controls` という同一のボイラープレート（設定モーダルと配置固定ボタン群）がほぼコピーペーストで複数シミュレーションに重複しており、1件でクラスの組み合わせを確立すれば残りへ横展開できる。
+
+[#455](https://github.com/Bicpema/bicpema/issues/455)〜[#461](https://github.com/Bicpema/bicpema/issues/461)のTailwindCSS移行と同じグループ分けで、以下のフォローアップIssueに分割した（1件のPRにはしない）。
+
+| グループ | Issue | 対象シミュレーション数 | 生CSS合計行数 |
+| --- | --- | --- | --- |
+| 運動学系 | [#483](https://github.com/Bicpema/bicpema/issues/483) | 11件 | 1620行 |
+| 力・エネルギー・振動系 | [#484](https://github.com/Bicpema/bicpema/issues/484) | 11件 | 755行 |
+| 音・振動波系 | [#485](https://github.com/Bicpema/bicpema/issues/485) | 8件 | 224行 |
+| 光学系 | [#486](https://github.com/Bicpema/bicpema/issues/486) | 6件（うち2件は対応不要） | 160行 |
+| 熱系 | [#487](https://github.com/Bicpema/bicpema/issues/487) | 5件 | 284行 |
+| 電磁気系 | [#488](https://github.com/Bicpema/bicpema/issues/488) | 2件 | 28行 |
+| 地学系 | [#489](https://github.com/Bicpema/bicpema/issues/489) | 2件 | 132行 |
