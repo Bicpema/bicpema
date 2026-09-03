@@ -6,9 +6,15 @@ let startButton;
 let stopButton;
 let resetButton;
 
+//ヘッダー分(10vh)を除いた、実際に使用できる高さ
+let usableHeight;
+
 //フルスクリーンにする手続き
 function fullScreen() {
-  createCanvas(windowWidth, (7 * windowHeight) / 10);
+  usableHeight = (9 * windowHeight) / 10;
+  let p5Canvas = document.getElementById("p5Canvas");
+  let canvas = createCanvas(windowWidth, (7 * usableHeight) / 10);
+  canvas.parent(p5Canvas);
 }
 
 //ウィンドウがリサイズされた時の手続き
@@ -33,7 +39,9 @@ let speedExpla, angleExpla, weightExpla, heightExpla, konstantExpla;
 
 //ボタンの生成
 function buttonCreation() {
-  backgroundDiv = createElement("div");
+  backgroundDiv = createElement("div").parent(
+    document.getElementById("p5Canvas")
+  );
   startButton = createButton("スタート");
   stopButton = createButton("ストップ");
   resetButton = createButton("リセット");
@@ -59,110 +67,110 @@ function buttonCreation() {
 //基本的なボタンの初期設定の手続き
 function buttonSettings() {
   backgroundDiv
-    .size(width, (3 * windowHeight) / 10)
+    .size(width, (3 * usableHeight) / 10)
     .style("background-color", "white");
   startButton
     .mousePressed(moveButtonAction)
-    .size(windowWidth / 8, (3 * windowHeight) / 10)
+    .size(windowWidth / 8, (3 * usableHeight) / 10)
     .position(0, height)
     .addClass("cursor-pointer rounded border border-blue-600 bg-white text-blue-600 hover:bg-blue-50")
     .parent(backgroundDiv);
   stopButton
     .mousePressed(moveButtonAction)
-    .size(windowWidth / 8, (3 * windowHeight) / 10)
+    .size(windowWidth / 8, (3 * usableHeight) / 10)
     .position(0, height)
     .addClass("cursor-pointer rounded border border-red-600 bg-white text-red-600 hover:bg-red-50")
     .hide()
     .parent(backgroundDiv);
   resetButton
     .mousePressed(resetButtonAction)
-    .size(windowWidth / 8, (3 * windowHeight) / 10)
+    .size(windowWidth / 8, (3 * usableHeight) / 10)
     .position(windowWidth / 8, height)
     .addClass("cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100")
     .parent(backgroundDiv);
   ballExpla1
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((2 * windowWidth) / 8, height + windowHeight / 10)
+    .size(windowWidth / 8, usableHeight / 10)
+    .position((2 * windowWidth) / 8, height + usableHeight / 10)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
   ballExpla2
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((2 * windowWidth) / 8, height + (2 * windowHeight) / 10)
+    .size(windowWidth / 8, usableHeight / 10)
+    .position((2 * windowWidth) / 8, height + (2 * usableHeight) / 10)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
   speedExpla
-    .size(windowWidth / 8, windowHeight / 10)
+    .size(windowWidth / 8, usableHeight / 10)
     .position((3 * windowWidth) / 8, height)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
   speedButton1
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((3 * windowWidth) / 8, height + windowHeight / 10)
+    .size(windowWidth / 8, usableHeight / 10)
+    .position((3 * windowWidth) / 8, height + usableHeight / 10)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
   speedButton2
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((3 * windowWidth) / 8, height + (2 * windowHeight) / 10)
+    .size(windowWidth / 8, usableHeight / 10)
+    .position((3 * windowWidth) / 8, height + (2 * usableHeight) / 10)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
   angleExpla
-    .size(windowWidth / 8, windowHeight / 10)
+    .size(windowWidth / 8, usableHeight / 10)
     .position((4 * windowWidth) / 8, height)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
   angleButton1
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((4 * windowWidth) / 8, height + windowHeight / 10)
+    .size(windowWidth / 8, usableHeight / 10)
+    .position((4 * windowWidth) / 8, height + usableHeight / 10)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
   angleButton2
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((4 * windowWidth) / 8, height + (2 * windowHeight) / 10)
+    .size(windowWidth / 8, usableHeight / 10)
+    .position((4 * windowWidth) / 8, height + (2 * usableHeight) / 10)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
   weightExpla
-    .size(windowWidth / 8, windowHeight / 10)
+    .size(windowWidth / 8, usableHeight / 10)
     .position((5 * windowWidth) / 8, height)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
   weightButton1
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((5 * windowWidth) / 8, height + windowHeight / 10)
+    .size(windowWidth / 8, usableHeight / 10)
+    .position((5 * windowWidth) / 8, height + usableHeight / 10)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
   weightButton2
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((5 * windowWidth) / 8, height + (2 * windowHeight) / 10)
+    .size(windowWidth / 8, usableHeight / 10)
+    .position((5 * windowWidth) / 8, height + (2 * usableHeight) / 10)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
   heightExpla
-    .size(windowWidth / 8, windowHeight / 10)
+    .size(windowWidth / 8, usableHeight / 10)
     .position((6 * windowWidth) / 8, height)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
   heightButton1
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((6 * windowWidth) / 8, height + windowHeight / 10)
+    .size(windowWidth / 8, usableHeight / 10)
+    .position((6 * windowWidth) / 8, height + usableHeight / 10)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
   heightButton2
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((6 * windowWidth) / 8, height + (2 * windowHeight) / 10)
+    .size(windowWidth / 8, usableHeight / 10)
+    .position((6 * windowWidth) / 8, height + (2 * usableHeight) / 10)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
   konstantExpla
-    .size(windowWidth / 8, windowHeight / 10)
+    .size(windowWidth / 8, usableHeight / 10)
     .position((7 * windowWidth) / 8, height)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
   konstantButton1
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((7 * windowWidth) / 8, height + windowHeight / 10)
+    .size(windowWidth / 8, usableHeight / 10)
+    .position((7 * windowWidth) / 8, height + usableHeight / 10)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
   konstantButton2
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((7 * windowWidth) / 8, height + (2 * windowHeight) / 10)
+    .size(windowWidth / 8, usableHeight / 10)
+    .position((7 * windowWidth) / 8, height + (2 * usableHeight) / 10)
     .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .parent(backgroundDiv);
 }

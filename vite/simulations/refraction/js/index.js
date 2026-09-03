@@ -83,6 +83,9 @@ function draw() {
   lightResource();
   noFill();
   stroke(255);
+  push();
+  // "animationMax"がボタン幅(width/8)に収まるよう縮小する
+  textSize(width / 75);
   for (let i = 0; i < 4; i++) {
     fill(100);
     stroke(255);
@@ -114,6 +117,7 @@ function draw() {
       text("lineMax", width - ((4 - i) * width) / 8, 0, width / 8, height / 20);
     }
   }
+  pop();
 }
 
 function mousePressed() {
@@ -1660,10 +1664,12 @@ function lineMaxRays() {
 }
 
 function fullScreen() {
-  createCanvas(windowWidth, windowHeight);
+  let p5Canvas = document.getElementById("p5Canvas");
+  let canvas = createCanvas(windowWidth, (9 * windowHeight) / 10);
+  canvas.parent(p5Canvas);
 }
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  resizeCanvas(windowWidth, (9 * windowHeight) / 10);
 }
 
 window.preload = preload;
