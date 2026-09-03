@@ -3,7 +3,8 @@
   margin-top: 60px;
 }
 #p5Container #p5Canvas {
-  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 #p5Container .sandstone {
   background-color: #d7cda6;

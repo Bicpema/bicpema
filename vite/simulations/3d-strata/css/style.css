@@ -3,7 +3,8 @@
   margin-top: 60px;
 }
 #p5Canvas {
-  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 .sandstone {
   background-color: rgba(215, 205, 166, 200);
