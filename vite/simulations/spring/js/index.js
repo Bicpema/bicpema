@@ -1,386 +1,50 @@
+// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
+
 import p5 from "p5";
 import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
-import Chart from "chart.js/auto";
-import { initModal } from "../../../js/bicpema-modal-controller.js";
+import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
+import { state } from "./state.js";
+import { elCreate, initValue, resizeImages, layoutGraphs } from "./init.js";
+import { drawSimulation } from "./logic.js";
 
-const NAV_HEIGHT = 60;
-const MOUNT_LINE_LENGTH = 10; // 天井・ばね・玉の間の取り付け線の長さ
-const BRACKET_DROP = 5; // 直列/並列分岐点からばね取り付け位置までの垂下量
-const BRACKET_ATTACH_OFFSET = MOUNT_LINE_LENGTH + BRACKET_DROP; // 分岐して1本のばねに繋がるまでのオフセット
-const SINGLE_MOUNT_GAP = 2 * MOUNT_LINE_LENGTH; // ばね1本(直列・combination=3)の上下取り付け線の合計長さ
-const PARALLEL_MOUNT_GAP = 2 * BRACKET_ATTACH_OFFSET; // ばね2本並列(combination=2)の上下取り付け線の合計長さ
+/** ばね画像のURL */
+const SPRING_IMAGE_URL =
+  "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FspringImg.png?alt=media&token=39da612a-739a-4bc2-bde0-2429d1f4ef7d";
+/** おもり画像のURL */
+const BALL_IMAGE_URL =
+  "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FmetalBallImg.png?alt=media&token=97e75efc-9412-406f-af82-8c6c753a3d2a";
 
-let springImg, ballImg;
-function preload() {
-  springImg = loadImage(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FspringImg.png?alt=media&token=39da612a-739a-4bc2-bde0-2429d1f4ef7d"
-  );
-  ballImg = loadImage(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FmetalBallImg.png?alt=media&token=97e75efc-9412-406f-af82-8c6c753a3d2a"
-  );
-}
+const sketch = (p) => {
+  const canvasController = new BicpemaCanvasController(false, false, 1.0, 1.0);
+  let isFirstDraw = true;
 
-let startButton,
-  stopButton,
-  resetButton,
-  konstantButton1,
-  konstantButton2,
-  combiButton1,
-  combiButton2,
-  weightButton1,
-  weightButton2,
-  amplitudeButton1,
-  amplitudeButton2;
-function buttonCreation() {
-  startButton = select("#startButton");
-  stopButton = select("#stopButton");
-  resetButton = select("#resetButton");
-  konstantButton1 = select("#konstantButton1");
-  konstantButton2 = select("#konstantButton2");
-  combiButton1 = select("#combiButton1");
-  combiButton2 = select("#combiButton2");
-  weightButton1 = select("#weightButton1");
-  weightButton2 = select("#weightButton2");
-  amplitudeButton1 = select("#amplitudeButton1");
-  amplitudeButton2 = select("#amplitudeButton2");
-}
+  p.preload = () => {
+    state.springImage = p.loadImage(SPRING_IMAGE_URL);
+    state.ballImage = p.loadImage(BALL_IMAGE_URL);
+  };
 
-let clickedCount, resetCount;
-function moveButtonAction() {
-  if (clickedCount == false) {
-    clickedCount = true;
-    resetCount = false;
-  } else {
-    clickedCount = false;
-  }
-}
-function resetButtonAction() {
-  initSettings();
-}
-function buttonSettings() {
-  startButton.mousePressed(moveButtonAction);
-  stopButton.mousePressed(moveButtonAction);
-  resetButton.mousePressed(resetButtonAction);
-  initModal({
-    openSelectors: ".settings-modal-open",
-    modalSelector: "#settingModal",
-    closeSelectors: ".modal-close",
-  });
-}
+  p.setup = () => {
+    canvasController.fullScreen(p);
+    elCreate(p);
+    layoutGraphs(p);
+    initValue(p);
+  };
 
-//canvasサイズに依存する画像サイズの再計算（リサイズ時にも呼ぶため、シミュレーションの状態は変更しない）
-function resizeImages() {
-  springImg.resize(width / 20, height / 4);
-  ballImg.resize(height / 15, 0);
-}
-
-let countData, data1, data2, fps, count, spring1, spring2;
-function initSettings() {
-  resizeImages();
-  countData = new Array();
-  countData.push(0);
-  data1 = new Array();
-  data2 = new Array();
-  clickedCount = false;
-  resetCount = true;
-  fps = 60;
-  count = 0;
-  frameRate(fps);
-  spring1 = new Spring(
-    konstantButton1.value(),
-    weightButton1.value(),
-    combiButton1.value(),
-    amplitudeButton1.value(),
-    1
-  );
-  spring2 = new Spring(
-    konstantButton2.value(),
-    weightButton2.value(),
-    combiButton2.value(),
-    amplitudeButton2.value(),
-    2
-  );
-}
-
-function setup() {
-  fullScreen();
-  buttonCreation();
-  buttonSettings();
-  initSettings();
-  graphCreation();
-  graphSettings();
-}
-
-let isFirstDraw = true;
-
-function draw() {
-  if (isFirstDraw) {
-    isFirstDraw = false;
-    hideLoadingSpinner();
-  }
-
-  background(255);
-  spring1._draw();
-  spring2._draw();
-  if (clickedCount == true) {
-    count++;
-    if (count % 6 == 0) {
-      countData.push(count / 60);
-      data1.push(height / 4 - spring1.posy);
-      data2.push(height / 4 - spring2.posy);
+  p.draw = () => {
+    if (isFirstDraw) {
+      isFirstDraw = false;
+      hideLoadingSpinner();
     }
-  }
-  graphDraw();
-  line(0, height / 2, width, height / 2);
-}
 
-let graph1, graph2, graphCanvas1, graphCanvas2, chart1, chart2;
-function graphCreation() {
-  graph1 = createElement("div");
-  graph2 = createElement("div");
-  graphCanvas1 = createElement("canvas");
-  graphCanvas2 = createElement("canvas");
-  graphCanvas1.parent(graph1);
-  graphCanvas2.parent(graph2);
-}
+    drawSimulation(p);
+  };
 
-function graphSettings() {
-  graph1.size(width / 2, height / 2).position(width / 2, NAV_HEIGHT);
-  graphCanvas1.id("chart1");
-  graph2
-    .size(width / 2, height / 2)
-    .position(width / 2, NAV_HEIGHT + height / 2);
-  graphCanvas2.id("chart2");
-}
+  p.windowResized = () => {
+    canvasController.resizeScreen(p);
+    resizeImages(p);
+    layoutGraphs(p);
+  };
+};
 
-function graphDraw() {
-  if (typeof chart1 !== "undefined" && chart1) {
-    chart1.destroy();
-  }
-  if (typeof chart2 !== "undefined" && chart2) {
-    chart2.destroy();
-  }
-  var ctx1 = document.getElementById("chart1").getContext("2d");
-  chart1 = new Chart(ctx1, {
-    type: "line",
-    data: {
-      labels: countData,
-      datasets: [
-        {
-          label: "ばね１の位置の時間変化",
-          data: data1,
-          backgroundColor: "rgb(255,0,0)",
-          borderColor: "rgb(255,0,0)",
-        },
-      ],
-    },
-    options: {
-      animation: false,
-    },
-  });
-  var ctx2 = document.getElementById("chart2").getContext("2d");
-  chart2 = new Chart(ctx2, {
-    type: "line",
-    data: {
-      labels: countData,
-      datasets: [
-        {
-          label: "ばね２の位置の時間変化",
-          data: data2,
-          backgroundColor: "rgb(0,0,255)",
-          borderColor: "rgb(0,0,255)",
-        },
-      ],
-    },
-    options: {
-      animation: false,
-    },
-  });
-}
-
-//ばねのクラス
-class Spring {
-  constructor(k, w, c, a, n) {
-    this.posx = 0;
-    this.posy = 0;
-    this.konstant = k;
-    this.weight = w;
-    this.combination = c;
-    this.amplitude = a;
-    this.number = n;
-  }
-  _draw() {
-    const s_konstant = window.springPhysics.computeEffectiveSpringConstant(
-      this.konstant,
-      this.combination
-    );
-    const { x, y } = window.springPhysics.computeSpringPosition(
-      s_konstant,
-      this.weight,
-      this.amplitude,
-      count / fps
-    );
-    this.posx = x;
-    this.posy = y + height / 4;
-    let d;
-    if (this.number == 1) {
-      d = 0;
-    } else {
-      d = height / 2;
-    }
-    if (this.combination == 1) {
-      line(width / 4 / 2, d, width / 4 / 2, MOUNT_LINE_LENGTH + d);
-      image(
-        springImg,
-        width / 4 / 2 - springImg.width / 2,
-        MOUNT_LINE_LENGTH + d,
-        springImg.width,
-        this.posy - SINGLE_MOUNT_GAP - ballImg.height / 2
-      );
-      line(
-        width / 4 / 2,
-        this.posy - MOUNT_LINE_LENGTH - ballImg.height / 2 + d,
-        width / 4 / 2,
-        this.posy - ballImg.height / 2 + d
-      );
-    }
-    if (this.combination == 2) {
-      line(width / 4 / 2, d, width / 4 / 2, MOUNT_LINE_LENGTH + d);
-      line(
-        width / 4 / 4,
-        MOUNT_LINE_LENGTH + d,
-        (3 * (width / 4)) / 4,
-        MOUNT_LINE_LENGTH + d
-      );
-      line(
-        width / 4 / 4,
-        MOUNT_LINE_LENGTH + d,
-        width / 4 / 4,
-        BRACKET_ATTACH_OFFSET + d
-      );
-      line(
-        (3 * (width / 4)) / 4,
-        MOUNT_LINE_LENGTH + d,
-        (3 * (width / 4)) / 4,
-        BRACKET_ATTACH_OFFSET + d
-      );
-      image(
-        springImg,
-        width / 4 / 4 - springImg.width / 2,
-        BRACKET_ATTACH_OFFSET + d,
-        springImg.width,
-        this.posy - PARALLEL_MOUNT_GAP - ballImg.height / 2
-      );
-      image(
-        springImg,
-        (3 * (width / 4)) / 4 - springImg.width / 2,
-        BRACKET_ATTACH_OFFSET + d,
-        springImg.width,
-        this.posy - PARALLEL_MOUNT_GAP - ballImg.height / 2
-      );
-      line(
-        width / 4 / 4,
-        this.posy - BRACKET_ATTACH_OFFSET - ballImg.height / 2 + d,
-        width / 4 / 4,
-        this.posy - MOUNT_LINE_LENGTH - ballImg.height / 2 + d
-      );
-      line(
-        (3 * (width / 4)) / 4,
-        this.posy - BRACKET_ATTACH_OFFSET - ballImg.height / 2 + d,
-        (3 * (width / 4)) / 4,
-        this.posy - MOUNT_LINE_LENGTH - ballImg.height / 2 + d
-      );
-      line(
-        width / 4 / 4,
-        this.posy - MOUNT_LINE_LENGTH - ballImg.height / 2 + d,
-        (3 * (width / 4)) / 4,
-        this.posy - MOUNT_LINE_LENGTH - ballImg.height / 2 + d
-      );
-      line(
-        width / 4 / 2,
-        this.posy - MOUNT_LINE_LENGTH - ballImg.height / 2 + d,
-        width / 4 / 2,
-        this.posy - ballImg.height / 2 + d
-      );
-    }
-    if (this.combination == 3) {
-      line(width / 4 / 2, d, width / 4 / 2, MOUNT_LINE_LENGTH + d);
-      image(
-        springImg,
-        width / 4 / 2 - springImg.width / 2,
-        MOUNT_LINE_LENGTH + d,
-        springImg.width,
-        (this.posy - PARALLEL_MOUNT_GAP - ballImg.height / 2) / 2
-      );
-      line(
-        width / 4 / 2,
-        (this.posy - PARALLEL_MOUNT_GAP - ballImg.height / 2) / 2 +
-          MOUNT_LINE_LENGTH +
-          d,
-        width / 4 / 2,
-        (this.posy - PARALLEL_MOUNT_GAP - ballImg.height / 2) / 2 +
-          SINGLE_MOUNT_GAP +
-          d
-      );
-      image(
-        springImg,
-        width / 4 / 2 - springImg.width / 2,
-        (this.posy - PARALLEL_MOUNT_GAP - ballImg.height / 2) / 2 +
-          SINGLE_MOUNT_GAP +
-          d,
-        springImg.width,
-        (this.posy - PARALLEL_MOUNT_GAP - ballImg.height / 2) / 2
-      );
-      line(
-        width / 4 / 2,
-        this.posy - MOUNT_LINE_LENGTH - ballImg.height / 2 + d,
-        width / 4 / 2,
-        this.posy - ballImg.height / 2 + d
-      );
-    }
-    image(
-      ballImg,
-      width / 4 / 2 - ballImg.width / 2,
-      this.posy - ballImg.height / 2 + d
-    );
-    noFill();
-    ellipse(
-      width / 4 + width / 4 / 2,
-      height / 4 + d,
-      this.amplitude * 2,
-      this.amplitude * 2
-    );
-    line(
-      width / 4 + width / 4 / 2,
-      height / 4 + d,
-      width / 4 + width / 4 / 2 + this.posx,
-      this.posy + d
-    );
-    image(
-      ballImg,
-      width / 4 + width / 4 / 2 - ballImg.width / 2 + this.posx,
-      this.posy - ballImg.height / 2 + d
-    );
-    stroke(0, 100);
-  }
-}
-
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight - NAV_HEIGHT);
-  resizeImages();
-  graphSettings();
-}
-
-//フルスクリーンにする手続き（初回セットアップ専用）
-function fullScreen() {
-  let p5Canvas = document.getElementById("p5Canvas");
-  let canvas = createCanvas(windowWidth, windowHeight - NAV_HEIGHT);
-  canvas.parent(p5Canvas);
-}
-
-window.preload = preload;
-window.setup = setup;
-window.draw = draw;
-window.windowResized = windowResized;
-new p5();
+new p5(sketch);
