@@ -51,7 +51,17 @@
           ><span id="info-W" class="text-[15px] font-bold text-[#111]">0.000 J</span>
         </div>
         <div id="info-status" class="mt-2 text-[13px]">
-          現在の運動エネルギー = 0.000 J
+          <div id="status-critical" class="hidden">
+            <span class="text-[#d84c4c] font-bold">⚠ 臨界値以上（ものさしは完全に本の中）</span><br />
+            <small>めり込みが最大に達しました。物差しは本の中に完全に入っています。</small>
+          </div>
+          <div id="status-stopped" class="hidden">
+            <span class="text-[#0b6] font-bold">✓ W = ½ m v₀² = <span id="status-ke0">0.000</span> J</span><br />
+            <small>台車が静止 → 仕事 = 初期運動エネルギー</small>
+          </div>
+          <div id="status-running">
+            <span class="text-[#2c4dff] font-semibold">現在の運動エネルギー = ½ m v² = <span id="status-ke">0.000</span> J</span>
+          </div>
         </div>
       </div>
 

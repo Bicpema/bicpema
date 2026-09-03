@@ -32,7 +32,11 @@ export function elCreate(p) {
   state.infoKe0El = p.select("#info-ke0");
   state.infoDEl = p.select("#info-d");
   state.infoWEl = p.select("#info-W");
-  state.infoStatusEl = p.select("#info-status");
+  state.statusCriticalEl = p.select("#status-critical");
+  state.statusStoppedEl = p.select("#status-stopped");
+  state.statusRunningEl = p.select("#status-running");
+  state.statusKe0El = p.select("#status-ke0");
+  state.statusKeEl = p.select("#status-ke");
 }
 
 /**
@@ -68,12 +72,4 @@ export function initValue(p) {
   if (state.infoDEl) state.infoDEl.html(state.penetration_m.toFixed(3) + " m");
   if (state.infoWEl)
     state.infoWEl.html((state.force_N * state.penetration_m).toFixed(3) + " J");
-  if (state.infoStatusEl)
-    state.infoStatusEl.html(
-      "現在の運動エネルギー = " +
-        (0.5 * state.mass_kg * state.velocity_ms * state.velocity_ms).toFixed(
-          3
-        ) +
-        " J"
-    );
 }

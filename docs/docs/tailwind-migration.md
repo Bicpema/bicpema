@@ -66,3 +66,19 @@ TailwindCSS自体はJSを持たないため、モーダル（設定パネル）�
 | 熱系 | [#487](https://github.com/Bicpema/bicpema/issues/487) | 5件 | 284行 |
 | 電磁気系 | [#488](https://github.com/Bicpema/bicpema/issues/488) | 2件 | 28行 |
 | 地学系 | [#489](https://github.com/Bicpema/bicpema/issues/489) | 2件 | 132行 |
+
+## JS内HTML最小化方針（[Issue #491](https://github.com/Bicpema/bicpema/issues/491)）
+
+上記の生CSS最小化と同じ発想で、`vite/simulations/*/js/*.js` 内に文字列として埋め込まれたHTML（`p.createDiv("<div>...")` / `.html("<span>...")` 等）を棚卸しした。TailwindCSS移行時に設定モーダルや操作ボタンを `style.css` から `index.html` へ移した際、多くのシミュレーションではJS側は要素の生成・配置とイベントリスナー設定のみを担う構成に揃ったが、一部のシミュレーションはこの構成に揃っていなかった。
+
+### 対応方針の分類基準
+
+- **静的なマークアップをまるごとJSで生成しているケース**: `index.html` に直接書き、JS側は `p.select()` によるID参照とイベントリスナー設定のみを担う構成に揃える（`uniform-linear-motion` 等）。
+- **1行程度の軽微なケース**（`p.createDiv('<canvas id="graphCanvas"></canvas>')` など）: 同様に `index.html` に直書きし、`p.select()` で参照する（`free-fall` / `uniformly-accelerated-linear-motion` 等）。
+- **動的な内容でHTMLタグが必要になるケース**: 表示内容・配色が計算結果に連動して切り替わる場合でも、可能な限り状態ごとの静的マークアップを `index.html` に用意し、JS側は `addClass("hidden")` / `removeClass("hidden")` によるトグルと、数値部分のみの `.html()` 差し替えに留める（`cart-work-ruler` の情報パネル状態表示で対応）。テキストや配色を含むHTML全体を都度生成する必要があるものは、生HTMLとして残すことを許容する。
+
+### 対応状況
+
+- `uniform-linear-motion` の設定モーダル・操作ボタン・グラフ用canvasのマークアップを `index.html` に移した。
+- `free-fall` / `uniformly-accelerated-linear-motion` のグラフ用canvasタグを `index.html` に直書きした。
+- `cart-work-ruler/js/logic.js` の状態別ステータス表示（静止・臨界超過・運動中）は、3パターンの静的マークアップを `index.html` に用意し、`hidden` クラスのトグルと数値部分の差し替えのみJSで行う構成に変更した。

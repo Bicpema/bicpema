@@ -17,67 +17,6 @@ export function imgInit() {
  * @param {p5} p p5インスタンス
  */
 export function elCreate(p) {
-  p.createDiv(`<canvas id="graphCanvas"></canvas>`)
-    .id("graph")
-    .parent(p.select("#p5Container"))
-    .class("rounded border bg-white");
-
-  p.createDiv(
-    `<button type="button" class="rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500" id="graphButton">グラフの切り替え</button>`
-  )
-    .id("graphButtonParent")
-    .parent(p.select("#p5Container"));
-
-  p.createDiv(
-    '<button type="button" class="m-1 rounded bg-green-600 px-3 py-2 text-white hover:bg-green-500" id="playButton">一時停止</button><button type="button" class="m-1 rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500" id="resetButton">リセット</button>'
-  )
-    .id("motionControls")
-    .parent(p.select("#p5Container"))
-    .class("fixed bottom-0 left-0 z-[1100]");
-
-  p.createButton("シミュレーション設定")
-    .class(
-      "settings-modal-open fixed top-[72px] right-4 z-[1100] rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
-    )
-    .id("modalButton")
-    .parent(p.select("#p5Container"));
-
-  p.createDiv(
-    `<div class="w-full max-w-lg rounded bg-white p-4 text-neutral-900">
-        <div class="mb-3 flex items-center justify-between border-b border-neutral-200 pb-2">
-          <h1 class="text-lg font-semibold" id="modalLabel">シミュレーション設定</h1>
-          <button type="button" class="modal-close text-xl leading-none text-neutral-500 hover:text-neutral-700" aria-label="Close">&times;</button>
-        </div>
-        <div>
-          <div class="mb-4 flex items-center gap-2" id="scaleCheckBoxParent">
-            <input class="h-4 w-4 accent-blue-600" type="checkbox" id="scaleCheckBox" checked>
-            <label class="text-sm" for="scaleCheckBox">スケールの表示・非表示</label>
-          </div>
-          <div class="mb-3 mt-3 flex">
-            <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700" id="yellowCarSpeedLabel">黄色い車の速度</span>
-            <input type="number" min="1" max="20" class="min-w-0 flex-1 border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900" placeholder="cm/s" aria-describedby="yellowCarSpeedLabel" id="yellowCarSpeedInput" value="3"/>
-            <span class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">cm/s</span>
-          </div>
-          <div class="mb-3 mt-3 flex">
-            <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700" id="redCarSpeedLabel">赤い車の速度</span>
-            <input type="number" min="1" max="20" class="min-w-0 flex-1 border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900" placeholder="cm/s" aria-describedby="redCarSpeedLabel" id="redCarSpeedInput" value="2"/>
-            <span class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">cm/s</span>
-          </div>
-        </div>
-        <div class="flex justify-end border-t border-neutral-200 pt-2">
-          <button type="button" class="modal-close rounded border border-neutral-400 px-3 py-1.5 hover:bg-neutral-100">閉じる</button>
-        </div>
-    </div>`
-  )
-    .class("fixed inset-0 z-[1100] hidden flex items-center justify-center bg-black/50")
-    .id("modal")
-    .attribute("role", "dialog")
-    .attribute("aria-modal", "true")
-    .attribute("aria-labelledby", "modalLabel")
-    .attribute("aria-hidden", "true")
-    .attribute("tabindex", "-1")
-    .parent(p.select("#p5Container"));
-
   initModal({
     openSelectors: ".settings-modal-open",
     modalSelector: "#modal",
