@@ -471,7 +471,7 @@ function animationRays(p) {
       (state.n1 * p.cos(state.theta2) + state.n2 * p.cos(state.theta1))
   );
   const strength = (s + pr) / 2;
-  // beginDraw() and endDraw() is not supportet in p5.js, and or often not needed;
+  // beginDraw() and endDraw() is not supported in p5.js, and or often not needed;
   state.pg.noStroke();
   state.pg.fill(255, 0, 0);
   if (state.raysY < p.height / 2) {
@@ -570,7 +570,7 @@ function animationRays(p) {
       }
     }
   }
-  // beginDraw() and endDraw() is not supportet in p5.js, and or often not needed;
+  // beginDraw() and endDraw() is not supported in p5.js, and or often not needed;
   p.image(state.pg, 0, 0);
 }
 
@@ -1217,7 +1217,7 @@ function animationMaxBackgroundSetting(p) {
 }
 
 function animationMaxRays(p) {
-  // beginDraw() and endDraw() is not supportet in p5.js, and or often not needed;
+  // beginDraw() and endDraw() is not supported in p5.js, and or often not needed;
   state.pg.noStroke();
   state.pg.fill(255, 0, 0);
   state.pg.ellipse(state.raysX, state.raysY, 5, 5);
@@ -1312,7 +1312,7 @@ function animationMaxRays(p) {
       }
     }
   }
-  // beginDraw() and endDraw() is not supportet in p5.js, and or often not needed;
+  // beginDraw() and endDraw() is not supported in p5.js, and or often not needed;
   p.image(state.pg, 0, 0);
 }
 
