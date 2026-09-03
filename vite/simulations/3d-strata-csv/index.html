@@ -6,7 +6,6 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
 
-    <link rel="stylesheet" href="./css/style.css" type="text/css" />
   </head>
 
   <body class="bg-neutral-900">
@@ -18,8 +17,8 @@
       <span class="ml-3 font-light text-neutral-300">3D地層観察</span>
     </nav>
 
-    <div class="w-full" id="p5Container">
-      <div id="p5Canvas"></div>
+    <div class="w-full p-0 mt-[60px]" id="p5Container">
+      <div class="flex justify-center" id="p5Canvas"></div>
 
       <!-- ボタン要素 -->
       <div id="buttonParent">
@@ -52,7 +51,7 @@
 
       <!-- 凡例の表示のオフキャンバス -->
       <div
-        class="offcanvas"
+        class="offcanvas fixed top-0 bottom-0 left-0 z-[1200] w-[320px] max-w-[90vw] -translate-x-full overflow-y-auto bg-white text-[#212529] shadow-[2px_0_8px_rgba(0,0,0,0.15)] transition-transform duration-200 ease-in-out [&.is-open]:translate-x-0"
         id="legendOffCanvas"
         role="dialog"
         aria-labelledby="legendOffCanvasLabel"
@@ -71,31 +70,31 @@
           <ul class="m-0 list-none p-0">
             <li class="flex items-center justify-between gap-2 border-b border-neutral-100 py-2 last:border-b-0">
               <div>砂岩層</div>
-              <div class="sandstone h-6 w-10 rounded">　</div>
+              <div class="h-6 w-10 rounded bg-[#d7cda6]">　</div>
             </li>
             <li class="flex items-center justify-between gap-2 border-b border-neutral-100 py-2 last:border-b-0">
               <div>泥岩層</div>
-              <div class="mudstone h-6 w-10 rounded">　</div>
+              <div class="h-6 w-10 rounded bg-[#9c9a8f]">　</div>
             </li>
             <li class="flex items-center justify-between gap-2 border-b border-neutral-100 py-2 last:border-b-0">
               <div>れき岩層</div>
-              <div class="gravelstone h-6 w-10 rounded">　</div>
+              <div class="h-6 w-10 rounded bg-[#fcb4ac]">　</div>
             </li>
             <li class="flex items-center justify-between gap-2 border-b border-neutral-100 py-2 last:border-b-0">
               <div>石灰岩層</div>
-              <div class="limestone h-6 w-10 rounded">　</div>
+              <div class="h-6 w-10 rounded bg-[#78aaaa]">　</div>
             </li>
             <li class="flex items-center justify-between gap-2 border-b border-neutral-100 py-2 last:border-b-0">
               <div>凝灰岩層・火山灰層</div>
-              <div class="tuffstone h-6 w-10 rounded">　</div>
+              <div class="h-6 w-10 rounded bg-[#c8c8c8]">　</div>
             </li>
             <li class="flex items-center justify-between gap-2 border-b border-neutral-100 py-2 last:border-b-0">
               <div>ローム層</div>
-              <div class="loam h-6 w-10 rounded">　</div>
+              <div class="h-6 w-10 rounded bg-[#703a15]">　</div>
             </li>
             <li class="flex items-center justify-between gap-2 py-2">
               <div>その他の層</div>
-              <div class="other h-6 w-10 rounded">　</div>
+              <div class="h-6 w-10 rounded bg-black">　</div>
             </li>
           </ul>
         </div>
@@ -131,17 +130,17 @@
                   スケール、地点データ、地層データ、表示する平面の順に登録してください。
                 </div>
               </div>
-              <ul class="nav-tabs">
+              <ul class="m-0 mb-4 flex list-none gap-1 border-b border-b-[#dee2e6] p-0">
                 <li>
                   <a
-                    class="nav-link active"
+                    class="nav-link inline-block cursor-pointer rounded-t-md border border-transparent px-4 py-2 text-[#495057] no-underline hover:border-t-[#e9ecef] hover:border-x-[#e9ecef] hover:border-b-[#dee2e6] [&.active]:border-t-[#dee2e6] [&.active]:border-x-[#dee2e6] [&.active]:border-b-white [&.active]:bg-white [&.active]:font-bold active"
                     href="#scaleSetting"
                     >スケールの設定</a
                   >
                 </li>
                 <li>
                   <a
-                    class="nav-link"
+                    class="nav-link inline-block cursor-pointer rounded-t-md border border-transparent px-4 py-2 text-[#495057] no-underline hover:border-t-[#e9ecef] hover:border-x-[#e9ecef] hover:border-b-[#dee2e6] [&.active]:border-t-[#dee2e6] [&.active]:border-x-[#dee2e6] [&.active]:border-b-white [&.active]:bg-white [&.active]:font-bold"
                     aria-current="page"
                     href="#placePointNameRegister"
                     >地点データの登録</a
@@ -149,14 +148,14 @@
                 </li>
                 <li>
                   <a
-                    class="nav-link"
+                    class="nav-link inline-block cursor-pointer rounded-t-md border border-transparent px-4 py-2 text-[#495057] no-underline hover:border-t-[#e9ecef] hover:border-x-[#e9ecef] hover:border-b-[#dee2e6] [&.active]:border-t-[#dee2e6] [&.active]:border-x-[#dee2e6] [&.active]:border-b-white [&.active]:bg-white [&.active]:font-bold"
                     href="#placePointDataRegister"
                     >地層データの登録</a
                   >
                 </li>
                 <li>
                   <a
-                    class="nav-link"
+                    class="nav-link inline-block cursor-pointer rounded-t-md border border-transparent px-4 py-2 text-[#495057] no-underline hover:border-t-[#e9ecef] hover:border-x-[#e9ecef] hover:border-b-[#dee2e6] [&.active]:border-t-[#dee2e6] [&.active]:border-x-[#dee2e6] [&.active]:border-b-white [&.active]:bg-white [&.active]:font-bold"
                     href="#planeDataRegister"
                     >表示する平面の登録</a
                   >
