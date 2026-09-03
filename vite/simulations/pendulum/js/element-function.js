@@ -1,4 +1,4 @@
-// element-function.jsは仮想DOMメソッド管理専用のファイルです。
+// element-function.jsはイベントハンドラー専用のファイルです。
 
 import { state } from "./state.js";
 import { initValue } from "./init.js";
@@ -36,8 +36,9 @@ export function onGridClick() {
  * 振れ角度・紐の長さの入力が変更されたときの処理
  */
 export function onInputChange() {
-  state.leftPendulum.theta0 = state.leftAngleInput.value();
-  state.leftPendulum.stringLength = state.leftLengthInput.value() * 50;
-  state.rightPendulum.theta0 = state.rightAngleInput.value();
-  state.rightPendulum.stringLength = state.rightLengthInput.value() * 50;
+  state.leftPendulum.theta0 = Number(state.leftAngleInput.value());
+  state.leftPendulum.stringLength = Number(state.leftLengthInput.value()) * 50;
+  state.rightPendulum.theta0 = Number(state.rightAngleInput.value());
+  state.rightPendulum.stringLength =
+    Number(state.rightLengthInput.value()) * 50;
 }
