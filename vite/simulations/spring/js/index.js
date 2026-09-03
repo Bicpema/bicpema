@@ -64,10 +64,15 @@ function buttonSettings() {
   });
 }
 
-let countData, data1, data2, fps, count, spring1, spring2;
-function initSettings() {
+//canvasサイズに依存する画像サイズの再計算（リサイズ時にも呼ぶため、シミュレーションの状態は変更しない）
+function resizeImages() {
   springImg.resize(width / 20, height / 4);
   ballImg.resize(height / 15, 0);
+}
+
+let countData, data1, data2, fps, count, spring1, spring2;
+function initSettings() {
+  resizeImages();
   countData = new Array();
   countData.push(0);
   data1 = new Array();
@@ -336,14 +341,12 @@ class Spring {
 }
 
 function windowResized() {
-  fullScreen();
-  initSettings();
-  buttonSettings();
+  resizeCanvas(windowWidth, windowHeight - NAV_HEIGHT);
+  resizeImages();
   graphSettings();
-  clickedCount = false;
-  resetCount = true;
 }
 
+//フルスクリーンにする手続き（初回セットアップ専用）
 function fullScreen() {
   let p5Canvas = document.getElementById("p5Canvas");
   let canvas = createCanvas(windowWidth, windowHeight - NAV_HEIGHT);

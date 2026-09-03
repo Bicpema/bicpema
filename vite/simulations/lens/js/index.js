@@ -81,7 +81,7 @@ const sketch = (p) => {
   };
 
   p.windowResized = () => {
-    fullScreen(p);
+    resizeScreen(p);
     initSettings(p);
     buttonSettings(p);
   };
@@ -89,10 +89,15 @@ const sketch = (p) => {
 
 new p5(sketch);
 
-//フルスクリーン
+//フルスクリーン（初回セットアップ専用）
 function fullScreen(p) {
   const canvas = p.createCanvas(p.windowWidth, p.windowHeight - 60, p.P2D);
   canvas.parent("p5Canvas");
+}
+
+//ウィンドウリサイズ時はcanvasを作り直さず、リサイズのみ行う
+function resizeScreen(p) {
+  p.resizeCanvas(p.windowWidth, p.windowHeight - 60);
 }
 
 //ボタン
@@ -166,8 +171,12 @@ function initSettings(p) {
   blurValue = 0;
   imgWidth = state.fImg.width;
   imgHeight = state.fImg.height;
-  pg = p.createGraphics(screenHeight, screenHeight / 2);
-  pg = p.createGraphics(screenHeight, screenHeight / 2);
+  if (pg) {
+    // 作り直すとフィルター用に内部で保持されるWebGLレイヤーがDOMに残り続けるため、リサイズのみ行う
+    pg.resizeCanvas(screenHeight, screenHeight / 2);
+  } else {
+    pg = p.createGraphics(screenHeight, screenHeight / 2);
+  }
   p.noFill();
   p.stroke(255);
   p.strokeWeight(3);

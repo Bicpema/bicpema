@@ -44,13 +44,20 @@ function buttonCreation() {
 function materialSet() {
   material = new Material(weightButton.value(), 1);
 }
+//ボタンのイベント登録・表示状態の初期化（初回セットアップ専用。リサイズ時に再登録するとリスナーが重複するため呼ばない）
+//sortButton1〜3はbuttonCreation()で生成時にmousePressedを登録済み
+function buttonEvents() {
+  startButton.mousePressed(moveButtonAction);
+  stopButton.mousePressed(moveButtonAction).hide();
+  resetButton.mousePressed(resetButtonAction);
+}
+//canvasサイズに依存するボタンの配置（リサイズ時にも呼ぶため、イベント登録や表示状態は変更しない）
 function buttonSettings() {
   const controlTop = NAV_HEIGHT + height;
   backgroundDiv
     .size(width, windowHeight / 10)
     .style("background-color", "white");
   startButton
-    .mousePressed(moveButtonAction)
     .size(windowWidth / 8, windowHeight / 10)
     .position(0, controlTop)
     .addClass(
@@ -58,16 +65,13 @@ function buttonSettings() {
     )
     .parent(backgroundDiv);
   stopButton
-    .mousePressed(moveButtonAction)
     .size(windowWidth / 8, windowHeight / 10)
     .position(0, controlTop)
     .addClass(
       "cursor-pointer rounded border border-red-600 bg-white text-red-600 hover:bg-red-50"
     )
-    .hide()
     .parent(backgroundDiv);
   resetButton
-    .mousePressed(resetButtonAction)
     .size(windowWidth / 8, windowHeight / 10)
     .position(windowWidth / 8, controlTop)
     .addClass(
@@ -126,21 +130,18 @@ function buttonSettings() {
     .attribute("max", 20)
     .attribute("step", 0.1);
   sortButton1
-    .mousePressed(sortButtonAction1)
     .size(windowWidth / 8, windowHeight / 10)
     .position(width - (3 * windowWidth) / 8, NAV_HEIGHT)
     .addClass(
       "cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100"
     );
   sortButton2
-    .mousePressed(sortButtonAction2)
     .size(windowWidth / 8, windowHeight / 10)
     .position(width - (2 * windowWidth) / 8, NAV_HEIGHT)
     .addClass(
       "cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100"
     );
   sortButton3
-    .mousePressed(sortButtonAction3)
     .size(windowWidth / 8, windowHeight / 10)
     .position(width - windowWidth / 8, NAV_HEIGHT)
     .addClass(
@@ -182,6 +183,7 @@ function setup() {
   initSettings();
   materialSet();
   buttonSettings();
+  buttonEvents();
 }
 let isFirstDraw = true;
 
@@ -706,19 +708,23 @@ function rectMaterial(a, b, sort, w) {
     "normal"
   );
 }
-function initSettings() {
-  count = 0;
+//canvasサイズに依存するレイアウト値の再計算（リサイズ時にも呼ぶため、シミュレーションの状態は変更しない）
+function updateLayout() {
   SLOPE_WID = (2 * width) / 3;
   GROUND_HEI = (9 * height) / 10;
   MATERIAL_WID = width / 12;
   MATERIAL_HEI = height / 8;
   REFERENCE_POINT = (width - SLOPE_WID) / 2;
   MINIMUM_UNIT = width / 100;
-  clickedCount = false;
-  resetCount = true;
   textSize(2 * MINIMUM_UNIT);
   textAlign(CENTER);
   strokeWeight(5);
+}
+function initSettings() {
+  count = 0;
+  updateLayout();
+  clickedCount = false;
+  resetCount = true;
 }
 function slope() {
   fill(255);
@@ -797,14 +803,9 @@ class Material {
   }
 }
 function windowResized() {
-  fullScreen();
-  initSettings();
-  materialSet();
+  resizeScreen();
+  updateLayout();
   buttonSettings();
-  clickedCount = false;
-  resetCount = true;
-  startButton.show();
-  stopButton.hide();
 }
 function fullScreen() {
   let p5Canvas = document.getElementById("p5Canvas");
@@ -813,6 +814,9 @@ function fullScreen() {
     windowHeight - NAV_HEIGHT - windowHeight / 10
   );
   canvas.parent(p5Canvas);
+}
+function resizeScreen() {
+  resizeCanvas(windowWidth, windowHeight - NAV_HEIGHT - windowHeight / 10);
 }
 
 window.setup = setup;
