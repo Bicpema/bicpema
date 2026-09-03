@@ -2,6 +2,7 @@
 
 import { state, FPS } from "./state.js";
 import { Spring } from "./class.js";
+import { initCharts } from "./logic.js";
 import { moveButtonAction, resetButtonAction } from "./element-function.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 
@@ -89,4 +90,5 @@ export function initValue(p) {
     state.amplitudeInput2.value(),
     2
   );
+  initCharts();
 }

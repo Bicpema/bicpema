@@ -17,16 +17,16 @@ export function drawSimulation(p) {
       state.countData.push(state.count / FPS);
       state.data1.push(p.height / 4 - state.spring1.posy);
       state.data2.push(p.height / 4 - state.spring2.posy);
+      updateCharts();
     }
   }
-  drawGraphs();
   p.line(0, p.height / 2, p.width, p.height / 2);
 }
 
 /**
- * Chart.jsで上下2つのばねの変位グラフを再描画する。
+ * 上下2つのばねの変位グラフをChart.jsで初期化する（初回セットアップ・リセット時に呼び出す）。
  */
-function drawGraphs() {
+export function initCharts() {
   if (state.chart1) {
     state.chart1.destroy();
   }
@@ -69,4 +69,16 @@ function drawGraphs() {
       animation: false,
     },
   });
+}
+
+/**
+ * グラフの描画内容を最新のデータに更新する（destroy/再生成せずChart.jsのupdate()で反映する）。
+ */
+function updateCharts() {
+  if (state.chart1) {
+    state.chart1.update();
+  }
+  if (state.chart2) {
+    state.chart2.update();
+  }
 }

@@ -27,8 +27,8 @@ const sketch = (p) => {
   p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
-    initValue(p);
     layoutGraphs(p);
+    initValue(p);
   };
 
   p.draw = () => {
