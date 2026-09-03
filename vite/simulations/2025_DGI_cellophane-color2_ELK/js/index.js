@@ -6,6 +6,10 @@ import "../../../css/tailwind.css";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 window.Chart = Chart;
 window.math = math;
+// グラフの背景が暗い配色(body: bg-neutral-900)の上に透明で表示されるため、
+// Chart.jsの既定の文字色(#666、白背景向け)のままだとコントラスト不足で見えづらい。
+// 暗い背景でも視認できる明るい色に変更する。
+Chart.defaults.color = "#e5e5e5";
 
 // <変数の宣言>
 let cmfTable, osTable;
