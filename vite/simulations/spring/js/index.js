@@ -4,6 +4,8 @@ import "../../../css/tailwind.css";
 import Chart from "chart.js/auto";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 
+const NAV_HEIGHT = 60;
+
 let springImg, ballImg;
 function preload() {
   springImg = loadImage(
@@ -134,9 +136,11 @@ function graphCreation() {
 }
 
 function graphSettings() {
-  graph1.size(width / 2, height / 2).position(width / 2, 60);
+  graph1.size(width / 2, height / 2).position(width / 2, NAV_HEIGHT);
   graphCanvas1.id("chart1");
-  graph2.size(width / 2, height / 2).position(width / 2, 60 + height / 2);
+  graph2
+    .size(width / 2, height / 2)
+    .position(width / 2, NAV_HEIGHT + height / 2);
   graphCanvas2.id("chart2");
 }
 
@@ -342,7 +346,7 @@ function windowResized() {
 
 function fullScreen() {
   let p5Canvas = document.getElementById("p5Canvas");
-  let canvas = createCanvas(windowWidth, (9 * windowHeight) / 10);
+  let canvas = createCanvas(windowWidth, windowHeight - NAV_HEIGHT);
   canvas.parent(p5Canvas);
 }
 
