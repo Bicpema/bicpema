@@ -88,12 +88,38 @@ export function initTabs({ tabSelector }) {
   const tabs = Array.from(document.querySelectorAll(tabSelector));
   if (tabs.length === 0) return;
 
+  const getPane = (tab) => {
+    const paneSelector = tab.getAttribute("href");
+    if (!paneSelector?.startsWith("#")) return null;
+    return document.querySelector(paneSelector);
+  };
+
+  tabs.forEach((tab) => {
+    tab.closest(".nav-tabs")?.setAttribute("role", "tablist");
+  });
+
   const activate = (activeTab) => {
     tabs.forEach((tab) => {
-      const pane = document.querySelector(tab.getAttribute("href"));
+      const pane = getPane(tab);
       const isActive = tab === activeTab;
+      if (pane?.id && !tab.id) {
+        tab.id = `${pane.id}Tab`;
+      }
+
+      tab.setAttribute("role", "tab");
+      tab.setAttribute("aria-selected", String(isActive));
+      tab.setAttribute("tabindex", isActive ? "0" : "-1");
+      tab.removeAttribute("aria-current");
+      if (pane?.id) {
+        tab.setAttribute("aria-controls", pane.id);
+        pane.setAttribute("role", "tabpanel");
+        pane.setAttribute("aria-labelledby", tab.id);
+      }
       tab.classList.toggle("active", isActive);
-      if (pane) pane.classList.toggle("hidden", !isActive);
+      if (pane) {
+        pane.classList.toggle("hidden", !isActive);
+        pane.hidden = !isActive;
+      }
     });
   };
 
@@ -103,6 +129,8 @@ export function initTabs({ tabSelector }) {
       activate(tab);
     });
   });
+
+  activate(tabs.find((tab) => tab.classList.contains("active")) ?? tabs[0]);
 }
 
 /**
@@ -126,10 +154,23 @@ export function initOffcanvas({
   const panel = document.querySelector(offcanvasSelector);
   if (!panel) return;
 
-  const open = () => panel.classList.add("is-open");
-  const close = () => panel.classList.remove("is-open");
+  const toggles = document.querySelectorAll(openSelectors);
+  const syncOpenState = (isOpen) => {
+    panel.classList.toggle("is-open", isOpen);
+    panel.setAttribute("aria-hidden", String(!isOpen));
+    toggles.forEach((toggle) => {
+      toggle.setAttribute("aria-expanded", String(isOpen));
+      if (panel.id) {
+        toggle.setAttribute("aria-controls", panel.id);
+      }
+    });
+  };
+  const open = () => syncOpenState(true);
+  const close = () => syncOpenState(false);
 
-  document.querySelectorAll(openSelectors).forEach((el) => {
+  syncOpenState(panel.classList.contains("is-open"));
+
+  toggles.forEach((el) => {
     el.addEventListener("click", open);
   });
   document.querySelectorAll(closeSelectors).forEach((el) => {
