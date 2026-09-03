@@ -1,12 +1,11 @@
 import p5 from "p5";
 import "../../../css/tailwind.css";
 import Chart from "chart.js/auto";
-import html2canvas from "html2canvas";
+import { domToPng } from "modern-screenshot";
 import * as math from "mathjs";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 import { computePhaseRetardation } from "./physics.js";
 window.Chart = Chart;
-window.html2canvas = html2canvas;
 window.math = math;
 
 // <変数の宣言>
@@ -172,8 +171,8 @@ let lastSlider;
 // screenshotButtonの設定
 window.onload = function () {
   document.getElementById("screenshotButton").addEventListener("click", () => {
-    html2canvas(document.body).then((canvas) => {
-      downloadImage(canvas.toDataURL());
+    domToPng(document.body).then((dataUrl) => {
+      downloadImage(dataUrl);
     });
   });
   function downloadImage(dataUrl) {

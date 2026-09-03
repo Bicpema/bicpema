@@ -30,8 +30,8 @@
   },
   "dependencies": {
     "chart.js": "^4.5.1",
-    "html2canvas": "^1.4.1",
     "mathjs": "^15.1.1",
+    "modern-screenshot": "^4.7.0",
     "p5": "^1.11.10"
   }
 }
