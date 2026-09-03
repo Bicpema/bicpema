@@ -1,7 +1,7 @@
 import p5 from "p5";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "../../../css/tailwind.css";
 import Chart from "chart.js/auto";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
 
 let springImg, ballImg;
 function preload() {
@@ -54,6 +54,11 @@ function buttonSettings() {
   startButton.mousePressed(moveButtonAction);
   stopButton.mousePressed(moveButtonAction);
   resetButton.mousePressed(resetButtonAction);
+  initModal({
+    openSelectors: ".settings-modal-open",
+    modalSelector: "#settingModal",
+    closeSelectors: ".modal-close",
+  });
 }
 
 let countData, data1, data2, fps, count, spring1, spring2;

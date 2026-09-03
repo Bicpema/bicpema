@@ -1,8 +1,7 @@
 // index.js はメインのメソッドを呼び出すためのエントリーポイントです。
 
 import p5 from "p5";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "../../../css/tailwind.css";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import { state, V_W, V_H } from "./state.js";
 import { elCreate, initValue } from "./init.js";

@@ -7,34 +7,29 @@
     <link href="./css/style.css" rel="stylesheet" />
   </head>
 
-  <body class="bg-dark" oncontextmenu="return false;">
+  <body class="bg-neutral-900" oncontextmenu="return false;">
     <nav
-      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
-      data-bs-theme="dark"
+      class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
-        <span class="text-light fw-lighter">力の合成</span>
-      </div>
+      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <span class="ml-3 font-light text-neutral-300">力の合成</span>
     </nav>
 
-    <div class="container-fluid" id="p5Container">
+    <div class="w-full" id="p5Container">
       <div id="p5Canvas"></div>
       <button
         id="forceSettingsButton"
-        class="btn btn-primary right-top-controls"
-        data-bs-target="#forceSettingsModal"
-        data-bs-toggle="modal"
+        class="right-top-controls bg-blue-600 text-white hover:bg-blue-500"
         type="button"
       >設定</button>
     </div>
 
-    <div class="modal fade" id="forceSettingsModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog"><div class="modal-content">
-        <div class="modal-header"><h1 class="modal-title fs-5">設定</h1></div>
-        <div class="modal-body">矢印の先端をドラッグして、2つの力の大きさと向きを設定できます。</div>
-      </div></div>
+    <div class="fixed inset-0 z-[1100] hidden flex items-center justify-center bg-black/50" id="forceSettingsModal">
+      <div class="w-full max-w-lg rounded bg-white p-4 text-neutral-900">
+        <div class="mb-3 border-b border-neutral-200 pb-2"><h1 class="text-lg font-semibold">設定</h1></div>
+        <div class="text-sm">矢印の先端をドラッグして、2つの力の大きさと向きを設定できます。</div>
+      </div>
     </div>
 
     <script type="module" src="./js/index.js"></script>

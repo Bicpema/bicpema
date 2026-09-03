@@ -7,48 +7,45 @@
     <link href="./css/style.css" rel="stylesheet" />
   </head>
 
-  <body class="bg-dark" oncontextmenu="return false;">
+  <body class="bg-neutral-900" oncontextmenu="return false;">
     <nav
-      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
-      data-bs-theme="dark"
+      class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
-        <span class="text-light fw-lighter">3力の釣り合い</span>
-      </div>
+      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <span class="ml-3 font-light text-neutral-300">3力の釣り合い</span>
     </nav>
 
-    <div class="container-fluid" id="p5Container">
+    <div class="w-full" id="p5Container">
       <div id="p5Canvas"></div>
 
       <!-- 設定パネル -->
       <div id="settingsModal" class="settings-modal" style="display: none">
         <div class="settings-content">
           <h5>設定</h5>
-          <div class="mb-3">
-            <label for="weightInput" class="form-label">
+          <div class="mb-4">
+            <label for="weightInput" class="mb-2 block">
               おもりの重さ W:
               <span id="weightDisplay">20</span> N
             </label>
             <input
               type="range"
-              class="form-range"
+              class="w-full accent-blue-600"
               id="weightInput"
               min="5"
               max="50"
               step="1"
               value="20"
             />
-            <div class="d-flex justify-content-between">
-              <small class="text-white-50">5 N</small>
-              <small class="text-white-50">50 N</small>
+            <div class="flex justify-between">
+              <small class="text-white/50">5 N</small>
+              <small class="text-white/50">50 N</small>
             </div>
           </div>
-          <button id="resetButton" class="btn btn-secondary w-100 mb-2">
+          <button id="resetButton" class="mb-2 w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500">
             リセット
           </button>
-          <button id="closeModal" class="btn btn-secondary w-100">
+          <button id="closeModal" class="w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500">
             閉じる
           </button>
         </div>
@@ -56,7 +53,7 @@
 
       <!-- 右上コントロール -->
       <div class="right-top-controls">
-        <button id="toggleModal" class="btn btn-info">⚙ 設定</button>
+        <button id="toggleModal" class="bg-cyan-600 text-white hover:bg-cyan-500">⚙ 設定</button>
       </div>
     </div>
 
