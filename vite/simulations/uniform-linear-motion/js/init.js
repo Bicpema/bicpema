@@ -20,7 +20,7 @@ export function elCreate(p) {
   p.createDiv(`<canvas id="graphCanvas"></canvas>`)
     .id("graph")
     .parent(p.select("#p5Container"))
-    .class("rounded border");
+    .class("rounded border bg-white");
 
   p.createDiv(
     `<button type="button" class="rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500" id="graphButton">グラフの切り替え</button>`
@@ -32,11 +32,12 @@ export function elCreate(p) {
     '<button type="button" class="m-1 rounded bg-green-600 px-3 py-2 text-white hover:bg-green-500" id="playButton">一時停止</button><button type="button" class="m-1 rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500" id="resetButton">リセット</button>'
   )
     .id("motionControls")
-    .parent(p.select("#p5Container"));
+    .parent(p.select("#p5Container"))
+    .class("fixed bottom-0 left-0 z-[1100]");
 
   p.createButton("シミュレーション設定")
     .class(
-      "settings-modal-open rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
+      "settings-modal-open fixed top-[72px] right-4 z-[1100] rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
     )
     .id("modalButton")
     .parent(p.select("#p5Container"));

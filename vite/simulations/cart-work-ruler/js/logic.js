@@ -250,16 +250,16 @@ function updateInfoPanelDOM() {
   if (state.phase === "stopped") {
     if (state.criticalExceeded) {
       statusHtml =
-        '<span class="status-warning">⚠ 臨界値以上（ものさしは完全に本の中）</span><br><small>めり込みが最大に達しました。物差しは本の中に完全に入っています。</small>';
+        '<span class="text-[#d84c4c] font-bold">⚠ 臨界値以上（ものさしは完全に本の中）</span><br><small>めり込みが最大に達しました。物差しは本の中に完全に入っています。</small>';
     } else {
       statusHtml =
-        '<span class="status-ok">✓ W = ½ m v₀² = ' +
+        '<span class="text-[#0b6] font-bold">✓ W = ½ m v₀² = ' +
         ke0.toFixed(3) +
         " J</span><br><small>台車が静止 → 仕事 = 初期運動エネルギー</small>";
     }
   } else {
     statusHtml =
-      '<span class="status-info">現在の運動エネルギー = ½ m v² = ' +
+      '<span class="text-[#2c4dff] font-semibold">現在の運動エネルギー = ½ m v² = ' +
       ke.toFixed(3) +
       " J</span>";
   }

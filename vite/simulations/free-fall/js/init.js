@@ -34,7 +34,8 @@ export function elCreate(p) {
   const graphToggleParent = p
     .createDiv()
     .id("graphToggleParent")
-    .parent(p.select("#p5Container"));
+    .parent(p.select("#p5Container"))
+    .class("absolute top-10 left-5 z-[1000]");
 
   state.graphToggleButton = p
     .createButton("📊 グラフを表示")
@@ -50,7 +51,9 @@ export function elCreate(p) {
   p.createDiv('<canvas id="graphCanvas"></canvas>')
     .id("graph")
     .parent(p.select("#p5Container"))
-    .class("rounded border border-neutral-300")
+    .class(
+      "absolute top-[60px] left-1/2 z-[999] h-[300px] w-[80%] max-w-[800px] -translate-x-1/2 rounded-lg border border-neutral-300 p-2.5 shadow-[0_4px_12px_rgba(0,0,0,0.3)] max-[992px]:h-[250px] max-[992px]:w-[90%] max-[576px]:h-[200px] max-[576px]:w-[95%]",
+    )
     .style("display", "none")
     .style("background-color", "rgba(255, 255, 255, 0.50)");
 }

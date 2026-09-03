@@ -4,10 +4,9 @@
     <title>速度の合成</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./css/style.css" rel="stylesheet" />
   </head>
 
-  <body class="bg-neutral-900" oncontextmenu="return false;">
+  <body class="h-full overflow-hidden bg-neutral-900 p-0" oncontextmenu="return false;">
     <nav
       class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
@@ -16,13 +15,17 @@
       <span class="ml-3 font-light text-neutral-300">速度の合成</span>
     </nav>
 
-    <div class="w-full" id="p5Container">
-      <div id="p5Canvas"></div>
+    <div class="relative mt-[60px] h-[calc(100vh-60px)] w-full overflow-hidden p-0" id="p5Container">
+      <div class="flex h-full w-full justify-center" id="p5Canvas"></div>
 
       <!-- 設定パネル -->
-      <div id="settingsModal" class="settings-modal" style="display: none">
-        <div class="settings-content">
-          <h5>設定</h5>
+      <div
+        id="settingsModal"
+        class="absolute top-1/2 left-1/2 z-[2000] w-[380px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-white/30 bg-black/90 p-[30px] text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-[15px] max-[576px]:w-[300px] max-[576px]:p-5"
+        style="display: none"
+      >
+        <div>
+          <h5 class="mb-5 text-center text-[1.2rem] text-white">設定</h5>
           <div class="mb-3">
             <label for="riverSpeedInput" class="mb-2 block">
               川の速度（左向き固定）:
@@ -42,7 +45,7 @@
             <label for="boatSpeedInput" class="mb-2 block"
               >船の速度（水に対して）:</label
             >
-            <div id="boatSpeedValue" class="speed-label">5.0 m/s ← 下流</div>
+            <div id="boatSpeedValue" class="mb-1.5 text-[0.95rem] font-bold text-[#aef]">5.0 m/s ← 下流</div>
             <input
               type="range"
               class="w-full accent-blue-600"
@@ -63,14 +66,31 @@
       </div>
 
       <!-- 左下コントロール -->
-      <div class="left-bottom-controls">
-        <button id="resetButton" class="bg-blue-600 text-white hover:bg-blue-500">リセット</button>
-        <button id="playPauseButton" class="bg-green-600 text-white hover:bg-green-500">開始</button>
+      <div
+        class="absolute bottom-5 left-5 z-[1000] flex flex-wrap gap-2.5 max-[576px]:bottom-2.5 max-[576px]:left-2.5 max-[576px]:gap-2"
+      >
+        <button
+          id="resetButton"
+          class="rounded-lg bg-blue-600 px-5 py-2.5 text-base font-bold whitespace-nowrap text-white shadow-[0_4px_6px_rgba(0,0,0,0.3)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-[0_6px_8px_rgba(0,0,0,0.4)] active:translate-y-0 active:shadow-[0_2px_4px_rgba(0,0,0,0.3)] max-[576px]:px-[15px] max-[576px]:py-2 max-[576px]:text-sm max-[400px]:px-3 max-[400px]:py-1.5 max-[400px]:text-xs"
+        >
+          リセット
+        </button>
+        <button
+          id="playPauseButton"
+          class="rounded-lg bg-green-600 px-5 py-2.5 text-base font-bold whitespace-nowrap text-white shadow-[0_4px_6px_rgba(0,0,0,0.3)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:bg-green-500 hover:shadow-[0_6px_8px_rgba(0,0,0,0.4)] active:translate-y-0 active:shadow-[0_2px_4px_rgba(0,0,0,0.3)] max-[576px]:px-[15px] max-[576px]:py-2 max-[576px]:text-sm max-[400px]:px-3 max-[400px]:py-1.5 max-[400px]:text-xs"
+        >
+          開始
+        </button>
       </div>
 
       <!-- 右上コントロール -->
-      <div class="right-top-controls">
-        <button id="toggleModal" class="bg-cyan-600 text-white hover:bg-cyan-500">⚙ 設定</button>
+      <div class="absolute top-5 right-5 z-[1000] max-[576px]:top-2.5 max-[576px]:right-2.5">
+        <button
+          id="toggleModal"
+          class="rounded-lg bg-cyan-600 px-5 py-2.5 text-base font-bold whitespace-nowrap text-white shadow-[0_4px_6px_rgba(0,0,0,0.3)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:bg-cyan-500 hover:shadow-[0_6px_8px_rgba(0,0,0,0.4)] active:translate-y-0 active:shadow-[0_2px_4px_rgba(0,0,0,0.3)] max-[576px]:px-[15px] max-[576px]:py-2 max-[576px]:text-sm max-[400px]:px-3 max-[400px]:py-1.5 max-[400px]:text-xs"
+        >
+          ⚙ 設定
+        </button>
       </div>
     </div>
 
