@@ -259,11 +259,15 @@ function elementSelectInit() {
   setRadioButton = createRadio().parent(setRadioParent);
 
   unitSelect = select("#unitSelect");
-  strataFileInput = createFileInput(strataFileInputFunction);
+  strataFileInput = createFileInput(strataFileInputFunction).class(
+    "block text-sm text-neutral-700 file:mr-3 file:rounded-full file:border-0 file:bg-blue-600 file:px-3 file:py-2 file:text-white hover:file:bg-blue-500"
+  );
 }
 
 function elementPositionInit() {
   buttonParent.position(5, 65);
+  buttonParent.elt.style.left = "auto";
+  buttonParent.elt.style.right = "5px";
   placeAddButton.mousePressed(placeAddButtonFunction);
   placeRemoveButton.mousePressed(placeRemoveButtonFunction);
   strataAddButton.mousePressed(strataAddButtonFunction);
@@ -1164,6 +1168,11 @@ function setup() {
     openSelectors: ".data-register-modal-open",
     modalSelector: "#dataRegisterModal",
     closeSelectors: ".modal-close",
+  });
+  initModal({
+    openSelectors: ".csv-example-modal-open",
+    modalSelector: "#csvExampleModal",
+    closeSelectors: ".csv-example-modal-close",
   });
   initOffcanvas({
     openSelectors: ".legend-offcanvas-open",
