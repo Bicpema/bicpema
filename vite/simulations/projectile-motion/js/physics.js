@@ -41,9 +41,3 @@ export function computeDragProjectilePosition({
   const y = -speed * Math.sin(theta) * t + 0.5 * gravity * t * t + posy0;
   return { x, y };
 }
-
-if (typeof window !== "undefined") {
-  /** @type {any} */ (window).projectileMotionPhysics = {
-    computeDragProjectilePosition,
-  };
-}
