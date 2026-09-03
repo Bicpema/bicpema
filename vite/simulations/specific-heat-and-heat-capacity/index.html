@@ -7,28 +7,25 @@
     <link href="./css/style.css" rel="stylesheet" />
   </head>
 
-  <body class="bg-dark">
+  <body class="bg-neutral-900">
     <nav
-      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
-      data-bs-theme="dark"
+      class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
-        <span class="text-light fw-lighter">比熱と熱容量</span>
-      </div>
+      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <span class="ml-3 font-light text-neutral-300">比熱と熱容量</span>
     </nav>
 
-    <div class="container-fluid" id="p5Container">
+    <div class="w-full" id="p5Container">
       <div id="p5Canvas"></div>
 
       <!-- 設定モーダル -->
       <div id="settingsModal" class="settings-modal" style="display: none">
         <div class="modal-content-inner">
           <h5>設定</h5>
-          <div class="mb-3">
-            <label for="materialSelectA" class="form-label">物質A</label>
-            <select class="form-select" id="materialSelectA">
+          <div class="mb-4">
+            <label for="materialSelectA" class="mb-2 block">物質A</label>
+            <select class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900" id="materialSelectA">
               <option value="0">アルミニウム</option>
               <option value="1">鉄</option>
               <option value="2">銅</option>
@@ -36,16 +33,16 @@
               <option value="4">水銀</option>
             </select>
           </div>
-          <div class="mb-3">
-            <label for="massSelectA" class="form-label">物質Aの質量</label>
-            <select class="form-select" id="massSelectA">
+          <div class="mb-4">
+            <label for="massSelectA" class="mb-2 block">物質Aの質量</label>
+            <select class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900" id="massSelectA">
               <option value="1" selected>質量(小) 0.1kg</option>
               <option value="0">質量(大) 0.3kg</option>
             </select>
           </div>
-          <div class="mb-3">
-            <label for="materialSelectB" class="form-label">物質B</label>
-            <select class="form-select" id="materialSelectB">
+          <div class="mb-4">
+            <label for="materialSelectB" class="mb-2 block">物質B</label>
+            <select class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900" id="materialSelectB">
               <option value="0">アルミニウム</option>
               <option value="1">鉄</option>
               <option value="2">銅</option>
@@ -53,14 +50,14 @@
               <option value="4">水銀</option>
             </select>
           </div>
-          <div class="mb-3">
-            <label for="massSelectB" class="form-label">物質Bの質量</label>
-            <select class="form-select" id="massSelectB">
+          <div class="mb-4">
+            <label for="massSelectB" class="mb-2 block">物質Bの質量</label>
+            <select class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900" id="massSelectB">
               <option value="0" selected>質量(大) 0.3kg</option>
               <option value="1">質量(小) 0.1kg</option>
             </select>
           </div>
-          <button id="closeModal" class="btn btn-secondary w-100">
+          <button id="closeModal" class="w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500">
             閉じる
           </button>
         </div>
@@ -68,7 +65,7 @@
 
       <!-- 右上コントロール -->
       <div class="right-top-controls">
-        <button id="toggleModal" class="btn btn-info">⚙ 設定</button>
+        <button id="toggleModal" class="bg-cyan-600 text-white hover:bg-cyan-500">⚙ 設定</button>
       </div>
     </div>
 

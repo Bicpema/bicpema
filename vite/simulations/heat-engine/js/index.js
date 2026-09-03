@@ -3,8 +3,7 @@ import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.j
 import { state } from "./state.js";
 import { elementPositionInit } from "./init.js";
 import { drawChamber, animateCycle } from "./logic.js";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "../../../css/tailwind.css";
 
 const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
 

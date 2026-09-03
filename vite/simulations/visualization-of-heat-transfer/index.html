@@ -7,49 +7,46 @@
     <link href="./css/style.css" rel="stylesheet" />
   </head>
 
-  <body class="bg-dark">
+  <body class="bg-neutral-900">
     <nav
-      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
-      data-bs-theme="dark"
+      class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
-        <span class="text-light fw-lighter">熱の移動</span>
-      </div>
+      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <span class="ml-3 font-light text-neutral-300">熱の移動</span>
     </nav>
 
-    <div class="container-fluid" id="p5Container">
+    <div class="w-full" id="p5Container">
       <div id="p5Canvas"></div>
     </div>
 
     <!-- 上部設定パネル -->
     <div
-      class="position-absolute start-0 m-3 p-3 rounded"
+      class="absolute start-0 m-3 rounded p-3"
       style="top: 4.5rem; background: rgba(255, 255, 255, 0.9); z-index: 1000"
     >
-      <div class="form-check">
+      <div class="mb-1 flex items-center gap-2">
         <input
-          class="form-check-input"
+          class="h-4 w-4 accent-blue-600"
           type="radio"
           name="contact"
           id="contactYes"
           value="0"
         />
-        <label class="form-check-label" for="contactYes"
+        <label class="text-sm" for="contactYes"
           >接触させる<br /><small>(※ただし同質量, 同物質)</small></label
         >
       </div>
-      <div class="form-check">
+      <div class="flex items-center gap-2">
         <input
-          class="form-check-input"
+          class="h-4 w-4 accent-blue-600"
           type="radio"
           name="contact"
           id="contactNo"
           value="1"
           checked
         />
-        <label class="form-check-label" for="contactNo">接触前に戻す</label>
+        <label class="text-sm" for="contactNo">接触前に戻す</label>
       </div>
     </div>
 
