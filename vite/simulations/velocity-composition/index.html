@@ -7,19 +7,16 @@
     <link href="./css/style.css" rel="stylesheet" />
   </head>
 
-  <body class="bg-dark" oncontextmenu="return false;">
+  <body class="bg-neutral-900" oncontextmenu="return false;">
     <nav
-      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
-      data-bs-theme="dark"
+      class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
-        <span class="text-light fw-lighter">速度の合成</span>
-      </div>
+      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <span class="ml-3 font-light text-neutral-300">速度の合成</span>
     </nav>
 
-    <div class="container-fluid" id="p5Container">
+    <div class="w-full" id="p5Container">
       <div id="p5Canvas"></div>
 
       <!-- 設定パネル -->
@@ -27,13 +24,13 @@
         <div class="settings-content">
           <h5>設定</h5>
           <div class="mb-3">
-            <label for="riverSpeedInput" class="form-label">
+            <label for="riverSpeedInput" class="mb-2 block">
               川の速度（左向き固定）:
               <span id="riverSpeedValue">3.0</span> m/s
             </label>
             <input
               type="range"
-              class="form-range"
+              class="w-full accent-blue-600"
               id="riverSpeedInput"
               min="0"
               max="10"
@@ -42,24 +39,24 @@
             />
           </div>
           <div class="mb-3">
-            <label for="boatSpeedInput" class="form-label"
+            <label for="boatSpeedInput" class="mb-2 block"
               >船の速度（水に対して）:</label
             >
             <div id="boatSpeedValue" class="speed-label">5.0 m/s ← 下流</div>
             <input
               type="range"
-              class="form-range"
+              class="w-full accent-blue-600"
               id="boatSpeedInput"
               min="-10"
               max="10"
               step="0.5"
               value="5"
             />
-            <small class="text-secondary"
+            <small class="text-neutral-400"
               >← 下流方向（+）/ → 上流方向（−）</small
             >
           </div>
-          <button id="closeModal" class="btn btn-secondary w-100 mt-2">
+          <button id="closeModal" class="mt-2 w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500">
             閉じる
           </button>
         </div>
@@ -67,13 +64,13 @@
 
       <!-- 左下コントロール -->
       <div class="left-bottom-controls">
-        <button id="resetButton" class="btn btn-primary">リセット</button>
-        <button id="playPauseButton" class="btn btn-success">開始</button>
+        <button id="resetButton" class="bg-blue-600 text-white hover:bg-blue-500">リセット</button>
+        <button id="playPauseButton" class="bg-green-600 text-white hover:bg-green-500">開始</button>
       </div>
 
       <!-- 右上コントロール -->
       <div class="right-top-controls">
-        <button id="toggleModal" class="btn btn-info">⚙ 設定</button>
+        <button id="toggleModal" class="bg-cyan-600 text-white hover:bg-cyan-500">⚙ 設定</button>
       </div>
     </div>
 

@@ -40,7 +40,9 @@ export function elCreate(p) {
     .createButton("📊 グラフを表示")
     .id("graphToggleButton")
     .parent(graphToggleParent)
-    .class("btn btn-secondary mt-2");
+    .class(
+      "mt-2 cursor-pointer rounded bg-neutral-600 px-3 py-1.5 text-white hover:bg-neutral-500",
+    );
 
   state.graphToggleButton.mousePressed(() => onToggleGraph());
 
@@ -48,7 +50,7 @@ export function elCreate(p) {
   p.createDiv('<canvas id="graphCanvas"></canvas>')
     .id("graph")
     .parent(p.select("#p5Container"))
-    .class("rounded border border-1")
+    .class("rounded border border-neutral-300")
     .style("display", "none")
     .style("background-color", "rgba(255, 255, 255, 0.50)");
 }
