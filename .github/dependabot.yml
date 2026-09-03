@@ -5,9 +5,14 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    labels:
+      - "依存関係"
 
   # GitHub Actions の依存関係
   - package-ecosystem: "github-actions"
     directory: "/.github/workflows"
     schedule:
       interval: "weekly"
+    labels:
+      - "依存関係"
+      - "github actions"
