@@ -5,6 +5,11 @@ import Chart from "chart.js/auto";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 
 const NAV_HEIGHT = 60;
+const MOUNT_LINE_LENGTH = 10; // 天井・ばね・玉の間の取り付け線の長さ
+const BRACKET_DROP = 5; // 直列/並列分岐点からばね取り付け位置までの垂下量
+const BRACKET_ATTACH_OFFSET = MOUNT_LINE_LENGTH + BRACKET_DROP; // 分岐して1本のばねに繋がるまでのオフセット
+const SINGLE_MOUNT_GAP = 2 * MOUNT_LINE_LENGTH; // ばね1本(直列・combination=3)の上下取り付け線の合計長さ
+const PARALLEL_MOUNT_GAP = 2 * BRACKET_ATTACH_OFFSET; // ばね2本並列(combination=2)の上下取り付け線の合計長さ
 
 let springImg, ballImg;
 function preload() {
@@ -225,90 +230,111 @@ class Spring {
       d = height / 2;
     }
     if (this.combination == 1) {
-      line(width / 4 / 2, d, width / 4 / 2, 10 + d);
+      line(width / 4 / 2, d, width / 4 / 2, MOUNT_LINE_LENGTH + d);
       image(
         springImg,
         width / 4 / 2 - springImg.width / 2,
-        10 + d,
+        MOUNT_LINE_LENGTH + d,
         springImg.width,
-        this.posy - 20 - ballImg.height / 2
+        this.posy - SINGLE_MOUNT_GAP - ballImg.height / 2
       );
       line(
         width / 4 / 2,
-        this.posy - 10 - ballImg.height / 2 + d,
+        this.posy - MOUNT_LINE_LENGTH - ballImg.height / 2 + d,
         width / 4 / 2,
         this.posy - ballImg.height / 2 + d
       );
     }
     if (this.combination == 2) {
-      line(width / 4 / 2, d, width / 4 / 2, 10 + d);
-      line(width / 4 / 4, 10 + d, (3 * (width / 4)) / 4, 10 + d);
-      line(width / 4 / 4, 10 + d, width / 4 / 4, 15 + d);
-      line((3 * (width / 4)) / 4, 10 + d, (3 * (width / 4)) / 4, 15 + d);
+      line(width / 4 / 2, d, width / 4 / 2, MOUNT_LINE_LENGTH + d);
+      line(
+        width / 4 / 4,
+        MOUNT_LINE_LENGTH + d,
+        (3 * (width / 4)) / 4,
+        MOUNT_LINE_LENGTH + d
+      );
+      line(
+        width / 4 / 4,
+        MOUNT_LINE_LENGTH + d,
+        width / 4 / 4,
+        BRACKET_ATTACH_OFFSET + d
+      );
+      line(
+        (3 * (width / 4)) / 4,
+        MOUNT_LINE_LENGTH + d,
+        (3 * (width / 4)) / 4,
+        BRACKET_ATTACH_OFFSET + d
+      );
       image(
         springImg,
         width / 4 / 4 - springImg.width / 2,
-        15 + d,
+        BRACKET_ATTACH_OFFSET + d,
         springImg.width,
-        this.posy - 30 - ballImg.height / 2
+        this.posy - PARALLEL_MOUNT_GAP - ballImg.height / 2
       );
       image(
         springImg,
         (3 * (width / 4)) / 4 - springImg.width / 2,
-        15 + d,
+        BRACKET_ATTACH_OFFSET + d,
         springImg.width,
-        this.posy - 30 - ballImg.height / 2
+        this.posy - PARALLEL_MOUNT_GAP - ballImg.height / 2
       );
       line(
         width / 4 / 4,
-        this.posy - 15 - ballImg.height / 2 + d,
+        this.posy - BRACKET_ATTACH_OFFSET - ballImg.height / 2 + d,
         width / 4 / 4,
-        this.posy - 10 - ballImg.height / 2 + d
+        this.posy - MOUNT_LINE_LENGTH - ballImg.height / 2 + d
       );
       line(
         (3 * (width / 4)) / 4,
-        this.posy - 15 - ballImg.height / 2 + d,
+        this.posy - BRACKET_ATTACH_OFFSET - ballImg.height / 2 + d,
         (3 * (width / 4)) / 4,
-        this.posy - 10 - ballImg.height / 2 + d
+        this.posy - MOUNT_LINE_LENGTH - ballImg.height / 2 + d
       );
       line(
         width / 4 / 4,
-        this.posy - 10 - ballImg.height / 2 + d,
+        this.posy - MOUNT_LINE_LENGTH - ballImg.height / 2 + d,
         (3 * (width / 4)) / 4,
-        this.posy - 10 - ballImg.height / 2 + d
+        this.posy - MOUNT_LINE_LENGTH - ballImg.height / 2 + d
       );
       line(
         width / 4 / 2,
-        this.posy - 10 - ballImg.height / 2 + d,
+        this.posy - MOUNT_LINE_LENGTH - ballImg.height / 2 + d,
         width / 4 / 2,
         this.posy - ballImg.height / 2 + d
       );
     }
     if (this.combination == 3) {
-      line(width / 4 / 2, d, width / 4 / 2, 10 + d);
+      line(width / 4 / 2, d, width / 4 / 2, MOUNT_LINE_LENGTH + d);
       image(
         springImg,
         width / 4 / 2 - springImg.width / 2,
-        10 + d,
+        MOUNT_LINE_LENGTH + d,
         springImg.width,
-        (this.posy - 30 - ballImg.height / 2) / 2
+        (this.posy - PARALLEL_MOUNT_GAP - ballImg.height / 2) / 2
       );
       line(
         width / 4 / 2,
-        (this.posy - 30 - ballImg.height / 2) / 2 + 10 + d,
+        (this.posy - PARALLEL_MOUNT_GAP - ballImg.height / 2) / 2 +
+          MOUNT_LINE_LENGTH +
+          d,
         width / 4 / 2,
-        (this.posy - 30 - ballImg.height / 2) / 2 + 20 + d
+        (this.posy - PARALLEL_MOUNT_GAP - ballImg.height / 2) / 2 +
+          SINGLE_MOUNT_GAP +
+          d
       );
       image(
         springImg,
         width / 4 / 2 - springImg.width / 2,
-        (this.posy - 30 - ballImg.height / 2) / 2 + 20 + d,
+        (this.posy - PARALLEL_MOUNT_GAP - ballImg.height / 2) / 2 +
+          SINGLE_MOUNT_GAP +
+          d,
         springImg.width,
-        (this.posy - 30 - ballImg.height / 2) / 2
+        (this.posy - PARALLEL_MOUNT_GAP - ballImg.height / 2) / 2
       );
       line(
         width / 4 / 2,
-        this.posy - 10 - ballImg.height / 2 + d,
+        this.posy - MOUNT_LINE_LENGTH - ballImg.height / 2 + d,
         width / 4 / 2,
         this.posy - ballImg.height / 2 + d
       );

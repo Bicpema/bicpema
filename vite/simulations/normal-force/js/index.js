@@ -16,6 +16,27 @@ let backgroundDiv,
   sortButton2,
   sortButton3;
 const NAV_HEIGHT = 60;
+const CONTROL_PANEL_HEIGHT_DIVISOR = 10; // 操作パネルの高さ = windowHeight / この値
+const BUTTON_COLUMN_DIVISOR = 8; // 操作パネルを何等分してボタンを配置するか
+const DEFAULT_SLOPE_ANGLE = 20; // 坂の角度の初期値[°]
+const SLOPE_ANGLE_MIN = 0;
+const SLOPE_ANGLE_MAX = 89.9;
+const INPUT_STEP = 0.1;
+const DEFAULT_WEIGHT = 15; // 質量の初期値[kg]
+const WEIGHT_MIN = 0;
+const WEIGHT_MAX = 20;
+const DEFAULT_GRAVITY = 9.8; // 重力加速度の初期値[m/ss]
+const GRAVITY_MIN = 0;
+const GRAVITY_MAX = 20;
+function controlPanelHeight() {
+  return windowHeight / CONTROL_PANEL_HEIGHT_DIVISOR;
+}
+function buttonColumnWidth() {
+  return windowWidth / BUTTON_COLUMN_DIVISOR;
+}
+function canvasHeight() {
+  return windowHeight - NAV_HEIGHT - controlPanelHeight();
+}
 let count = 0;
 let SLOPE_WID = 0;
 let GROUND_HEI = 0;
@@ -32,11 +53,11 @@ function buttonCreation() {
   stopButton = createButton("ストップ");
   resetButton = createButton("リセット");
   slopeAngleButtonLabel = createElement("label", "坂の角度[°]");
-  slopeAngleButton = createInput(20, "number");
+  slopeAngleButton = createInput(DEFAULT_SLOPE_ANGLE, "number");
   weightButtonLabel = createElement("label", "質量[kg]");
-  weightButton = createInput(15, "number");
+  weightButton = createInput(DEFAULT_WEIGHT, "number");
   gravityButtonLabel = createElement("label", "重力加速度[m/ss]");
-  gravityButton = createInput(9.8, "number");
+  gravityButton = createInput(DEFAULT_GRAVITY, "number");
   sortButton1 = createButton(1).mousePressed(sortButtonAction1);
   sortButton2 = createButton(2).mousePressed(sortButtonAction2);
   sortButton3 = createButton(3).mousePressed(sortButtonAction3);
@@ -54,96 +75,96 @@ function buttonEvents() {
 //canvasサイズに依存するボタンの配置（リサイズ時にも呼ぶため、イベント登録や表示状態は変更しない）
 function buttonSettings() {
   const controlTop = NAV_HEIGHT + height;
-  backgroundDiv
-    .size(width, windowHeight / 10)
-    .style("background-color", "white");
+  const controlHeight = controlPanelHeight();
+  const buttonWidth = buttonColumnWidth();
+  backgroundDiv.size(width, controlHeight).style("background-color", "white");
   startButton
-    .size(windowWidth / 8, windowHeight / 10)
+    .size(buttonWidth, controlHeight)
     .position(0, controlTop)
     .addClass(
       "cursor-pointer rounded border border-blue-600 bg-white text-blue-600 hover:bg-blue-50"
     )
     .parent(backgroundDiv);
   stopButton
-    .size(windowWidth / 8, windowHeight / 10)
+    .size(buttonWidth, controlHeight)
     .position(0, controlTop)
     .addClass(
       "cursor-pointer rounded border border-red-600 bg-white text-red-600 hover:bg-red-50"
     )
     .parent(backgroundDiv);
   resetButton
-    .size(windowWidth / 8, windowHeight / 10)
-    .position(windowWidth / 8, controlTop)
+    .size(buttonWidth, controlHeight)
+    .position(buttonWidth, controlTop)
     .addClass(
       "cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100"
     )
     .parent(backgroundDiv);
   slopeAngleButtonLabel
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((2 * windowWidth) / 8, controlTop)
+    .size(buttonWidth, controlHeight)
+    .position(2 * buttonWidth, controlTop)
     .parent(backgroundDiv)
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     );
   slopeAngleButton
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((3 * windowWidth) / 8, controlTop)
+    .size(buttonWidth, controlHeight)
+    .position(3 * buttonWidth, controlTop)
     .parent(backgroundDiv)
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .attribute("min", 0)
-    .attribute("max", 89.9)
-    .attribute("step", 0.1);
+    .attribute("min", SLOPE_ANGLE_MIN)
+    .attribute("max", SLOPE_ANGLE_MAX)
+    .attribute("step", INPUT_STEP);
   weightButtonLabel
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((4 * windowWidth) / 8, controlTop)
+    .size(buttonWidth, controlHeight)
+    .position(4 * buttonWidth, controlTop)
     .parent(backgroundDiv)
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     );
   weightButton
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((5 * windowWidth) / 8, controlTop)
+    .size(buttonWidth, controlHeight)
+    .position(5 * buttonWidth, controlTop)
     .parent(backgroundDiv)
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .attribute("min", 0)
-    .attribute("max", 20)
-    .attribute("step", 0.1);
+    .attribute("min", WEIGHT_MIN)
+    .attribute("max", WEIGHT_MAX)
+    .attribute("step", INPUT_STEP);
   gravityButtonLabel
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((6 * windowWidth) / 8, controlTop)
+    .size(buttonWidth, controlHeight)
+    .position(6 * buttonWidth, controlTop)
     .parent(backgroundDiv)
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     );
   gravityButton
-    .size(windowWidth / 8, windowHeight / 10)
-    .position((7 * windowWidth) / 8, controlTop)
+    .size(buttonWidth, controlHeight)
+    .position(7 * buttonWidth, controlTop)
     .parent(backgroundDiv)
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .attribute("min", 0)
-    .attribute("max", 20)
-    .attribute("step", 0.1);
+    .attribute("min", GRAVITY_MIN)
+    .attribute("max", GRAVITY_MAX)
+    .attribute("step", INPUT_STEP);
   sortButton1
-    .size(windowWidth / 8, windowHeight / 10)
-    .position(width - (3 * windowWidth) / 8, NAV_HEIGHT)
+    .size(buttonWidth, controlHeight)
+    .position(width - 3 * buttonWidth, NAV_HEIGHT)
     .addClass(
       "cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100"
     );
   sortButton2
-    .size(windowWidth / 8, windowHeight / 10)
-    .position(width - (2 * windowWidth) / 8, NAV_HEIGHT)
+    .size(buttonWidth, controlHeight)
+    .position(width - 2 * buttonWidth, NAV_HEIGHT)
     .addClass(
       "cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100"
     );
   sortButton3
-    .size(windowWidth / 8, windowHeight / 10)
-    .position(width - windowWidth / 8, NAV_HEIGHT)
+    .size(buttonWidth, controlHeight)
+    .position(width - buttonWidth, NAV_HEIGHT)
     .addClass(
       "cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100"
     );
@@ -809,14 +830,11 @@ function windowResized() {
 }
 function fullScreen() {
   let p5Canvas = document.getElementById("p5Canvas");
-  let canvas = createCanvas(
-    windowWidth,
-    windowHeight - NAV_HEIGHT - windowHeight / 10
-  );
+  let canvas = createCanvas(windowWidth, canvasHeight());
   canvas.parent(p5Canvas);
 }
 function resizeScreen() {
-  resizeCanvas(windowWidth, windowHeight - NAV_HEIGHT - windowHeight / 10);
+  resizeCanvas(windowWidth, canvasHeight());
 }
 
 window.setup = setup;
