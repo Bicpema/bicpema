@@ -7,28 +7,25 @@
     <link href="./css/style.css" rel="stylesheet" />
   </head>
 
-  <body class="bg-dark">
+  <body class="bg-neutral-900">
     <nav
-      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
-      data-bs-theme="dark"
+      class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
-        <span class="text-light fw-lighter">半減期</span>
-      </div>
+      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <span class="ml-3 font-light text-neutral-300">半減期</span>
     </nav>
 
-    <div class="container-fluid" id="p5Container">
+    <div class="w-full" id="p5Container">
       <div id="p5Canvas"></div>
     </div>
 
     <!-- 左下: スタート/ストップ + リセット ボタン -->
-    <div id="toggleBtnWrapper" class="d-flex gap-2">
-      <button type="button" class="btn btn-primary" id="toggleBtn">
+    <div id="toggleBtnWrapper" class="flex gap-2">
+      <button type="button" class="rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500" id="toggleBtn">
         スタート
       </button>
-      <button type="button" class="btn btn-secondary" id="resetBtn">
+      <button type="button" class="rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500" id="resetBtn">
         リセット
       </button>
     </div>
@@ -37,10 +34,8 @@
     <div id="settingsBtnWrapper">
       <button
         type="button"
-        class="btn btn-secondary"
+        class="rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
         id="settingsButton"
-        data-bs-toggle="collapse"
-        data-bs-target="#settingsPanel"
         aria-expanded="false"
       >
         ⚙ 設定
@@ -48,45 +43,45 @@
     </div>
 
     <!-- 設定パネル -->
-    <div class="card collapse" id="settingsPanel">
-      <div class="card-body">
-        <h6 class="card-title">設定</h6>
-        <div class="mb-2 fw-bold">物質の選択</div>
-        <div class="form-check">
+    <div class="hidden rounded-lg border border-neutral-300 bg-white shadow-lg" id="settingsPanel">
+      <div class="p-4">
+        <h6 class="mb-3 text-base font-semibold">設定</h6>
+        <div class="mb-2 font-bold">物質の選択</div>
+        <div class="mb-2 flex items-center gap-2">
           <input
-            class="form-check-input"
+            class="h-4 w-4 accent-blue-600"
             type="radio"
             name="material"
             id="mat5730"
             value="5730"
             checked
           />
-          <label class="form-check-label" for="mat5730">炭素 C-14</label>
+          <label class="text-sm" for="mat5730">炭素 C-14</label>
         </div>
-        <div class="form-check">
+        <div class="mb-2 flex items-center gap-2">
           <input
-            class="form-check-input"
+            class="h-4 w-4 accent-blue-600"
             type="radio"
             name="material"
             id="mat8"
             value="8"
           />
-          <label class="form-check-label" for="mat8">ヨウ素 I-131</label>
+          <label class="text-sm" for="mat8">ヨウ素 I-131</label>
         </div>
-        <div class="form-check mb-3">
+        <div class="mb-4 flex items-center gap-2">
           <input
-            class="form-check-input"
+            class="h-4 w-4 accent-blue-600"
             type="radio"
             name="material"
             id="mat30"
             value="30"
           />
-          <label class="form-check-label" for="mat30">セシウム Cs-137</label>
+          <label class="text-sm" for="mat30">セシウム Cs-137</label>
         </div>
-        <div class="d-flex align-items-center gap-2">
+        <div class="flex items-center gap-2">
           <span>原子数:</span>
-          <button class="btn btn-sm btn-warning" id="atomPlusBtn">＋</button>
-          <button class="btn btn-sm btn-info" id="atomMinusBtn">ー</button>
+          <button class="rounded bg-amber-500 px-2 py-1 text-sm text-neutral-900 hover:bg-amber-400" id="atomPlusBtn">＋</button>
+          <button class="rounded bg-cyan-600 px-2 py-1 text-sm text-white hover:bg-cyan-500" id="atomMinusBtn">ー</button>
         </div>
       </div>
     </div>

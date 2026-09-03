@@ -1,3 +1,4 @@
+import { initCollapse } from "../../../js/bicpema-modal-controller.js";
 import { state } from "./state.js";
 import { initAtoms } from "./logic.js";
 
@@ -19,6 +20,10 @@ export function elementSelectInit(p) {
   state.atomPlusBtn = document.getElementById("atomPlusBtn");
   state.atomMinusBtn = document.getElementById("atomMinusBtn");
   state.materialRadios = document.querySelectorAll('input[name="material"]');
+  initCollapse({
+    toggleSelectors: "#settingsButton",
+    targetSelector: "#settingsPanel",
+  });
 }
 
 /**

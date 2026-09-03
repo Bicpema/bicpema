@@ -1,6 +1,5 @@
 import p5 from "p5";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "../../../css/tailwind.css";
 
 let backgroundDiv,
   startButton,
@@ -51,31 +50,31 @@ function buttonSettings() {
     .mousePressed(moveButtonAction)
     .size(windowWidth / 8, windowHeight / 10)
     .position(0, height + windowHeight / 10)
-    .addClass("btn btn-outline-primary")
+    .addClass("cursor-pointer rounded border border-blue-600 bg-white text-blue-600 hover:bg-blue-50")
     .parent(backgroundDiv);
   stopButton
     .mousePressed(moveButtonAction)
     .size(windowWidth / 8, windowHeight / 10)
     .position(0, height + windowHeight / 10)
-    .addClass("btn btn-outline-danger")
+    .addClass("cursor-pointer rounded border border-red-600 bg-white text-red-600 hover:bg-red-50")
     .hide()
     .parent(backgroundDiv);
   resetButton
     .mousePressed(resetButtonAction)
     .size(windowWidth / 8, windowHeight / 10)
     .position(windowWidth / 8, height + windowHeight / 10)
-    .addClass("btn btn-outline-secondary")
+    .addClass("cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100")
     .parent(backgroundDiv);
   slopeAngleButtonLabel
     .size(windowWidth / 8, windowHeight / 10)
     .position((2 * windowWidth) / 8, height + windowHeight / 10)
     .parent(backgroundDiv)
-    .addClass("btn btn-light");
+    .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900");
   slopeAngleButton
     .size(windowWidth / 8, windowHeight / 10)
     .position((3 * windowWidth) / 8, height + windowHeight / 10)
     .parent(backgroundDiv)
-    .addClass("btn btn-light")
+    .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .attribute("min", 0)
     .attribute("max", 89.9)
     .attribute("step", 0.1);
@@ -83,12 +82,12 @@ function buttonSettings() {
     .size(windowWidth / 8, windowHeight / 10)
     .position((4 * windowWidth) / 8, height + windowHeight / 10)
     .parent(backgroundDiv)
-    .addClass("btn btn-light");
+    .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900");
   weightButton
     .size(windowWidth / 8, windowHeight / 10)
     .position((5 * windowWidth) / 8, height + windowHeight / 10)
     .parent(backgroundDiv)
-    .addClass("btn btn-light")
+    .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .attribute("min", 0)
     .attribute("max", 20)
     .attribute("step", 0.1);
@@ -96,12 +95,12 @@ function buttonSettings() {
     .size(windowWidth / 8, windowHeight / 10)
     .position((6 * windowWidth) / 8, height + windowHeight / 10)
     .parent(backgroundDiv)
-    .addClass("btn btn-light");
+    .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900");
   gravityButton
     .size(windowWidth / 8, windowHeight / 10)
     .position((7 * windowWidth) / 8, height + windowHeight / 10)
     .parent(backgroundDiv)
-    .addClass("btn btn-light")
+    .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
     .attribute("min", 0)
     .attribute("max", 20)
     .attribute("step", 0.1);
@@ -109,17 +108,17 @@ function buttonSettings() {
     .mousePressed(sortButtonAction1)
     .size(windowWidth / 8, windowHeight / 10)
     .position(width - (3 * windowWidth) / 8, windowHeight / 10)
-    .addClass("btn btn-outline-secondary");
+    .addClass("cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100");
   sortButton2
     .mousePressed(sortButtonAction2)
     .size(windowWidth / 8, windowHeight / 10)
     .position(width - (2 * windowWidth) / 8, windowHeight / 10)
-    .addClass("btn btn-outline-secondary");
+    .addClass("cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100");
   sortButton3
     .mousePressed(sortButtonAction3)
     .size(windowWidth / 8, windowHeight / 10)
     .position(width - windowWidth / 8, windowHeight / 10)
-    .addClass("btn btn-outline-secondary");
+    .addClass("cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100");
 }
 function sortButtonAction1() {
   material.sort = 1;

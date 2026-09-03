@@ -1,6 +1,6 @@
 import p5 from "p5";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "../../../css/tailwind.css";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
 
 let radi = 0;
 let clickedCount;
@@ -71,6 +71,11 @@ function elInit() {
   leftLengthInput.input(inputFunction);
   rightAngleInput.input(inputFunction);
   rightLengthInput.input(inputFunction);
+  initModal({
+    openSelectors: ".settings-modal-open",
+    modalSelector: "#exampleModal",
+    closeSelectors: ".modal-close",
+  });
 }
 
 function initValue() {

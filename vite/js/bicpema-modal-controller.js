@@ -38,3 +38,36 @@ export function initModal({ openSelectors, modalSelector, closeSelectors }) {
     if (event.key === "Escape" && !modal.classList.contains("hidden")) close();
   });
 }
+
+/**
+ * initCollapse
+ *
+ * Bootstrap JSのcollapse（data-bs-toggle="collapse"等）の代替。
+ * 1つのトグル要素のクリックで、対象要素の表示/非表示（Tailwindの
+ * "hidden"クラス）を切り替える。開閉アニメーションは行わない。
+ *
+ * @param {object} options
+ * @param {string} options.toggleSelectors トグルする要素のCSSセレクタ（複数要素にマッチしてよい）
+ * @param {string} options.targetSelector 表示/非表示を切り替える対象のCSSセレクタ（単一要素）
+ */
+export function initCollapse({ toggleSelectors, targetSelector }) {
+  const target = document.querySelector(targetSelector);
+  if (!target) return;
+
+  const toggles = document.querySelectorAll(toggleSelectors);
+  const syncExpandedState = () => {
+    const isExpanded = !target.classList.contains("hidden");
+    toggles.forEach((toggle) => {
+      toggle.setAttribute("aria-expanded", String(isExpanded));
+    });
+  };
+
+  syncExpandedState();
+
+  toggles.forEach((el) => {
+    el.addEventListener("click", () => {
+      target.classList.toggle("hidden");
+      syncExpandedState();
+    });
+  });
+}
