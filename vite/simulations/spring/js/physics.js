@@ -27,10 +27,3 @@ export function computeSpringPosition(springConstant, mass, amplitude, t) {
     y: amplitude * Math.sin(omega * t + Math.PI / 2),
   };
 }
-
-if (typeof window !== "undefined") {
-  /** @type {any} */ (window).springPhysics = {
-    computeEffectiveSpringConstant,
-    computeSpringPosition,
-  };
-}
