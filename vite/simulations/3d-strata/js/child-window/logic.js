@@ -22,7 +22,9 @@ export function drawSimulation(p) {
   }
 
   // ヘッダー部分のhtml要素から地点名を取得
-  let name = document.getElementById("place_name").innerHTML;
+  // element-function.jsのloadOpenerLayersでtextContentとして書き込んでいるため、
+  // 読み出しもtextContentで統一する（innerHTMLだとHTMLエンティティ化された値になり得るため）。
+  let name = document.getElementById("place_name").textContent;
   name = name.split("のデータを編集")[0];
 
   // 地点名と地層データが格納された配列を生成し、親ウィンドウに送信

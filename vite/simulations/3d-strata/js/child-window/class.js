@@ -12,6 +12,7 @@ export class TR {
    */
   constructor(n, p) {
     const num = n;
+    this.num = num;
 
     // tr要素に関連するinput要素などの生成
     this.tr = p
@@ -74,7 +75,12 @@ export class TR {
     // 削除ボタンを押した時の処理
     const removeButtonFunction = () => {
       p.select("#tr" + num).remove();
-      state.trArr.pop(num);
+      // Array.prototype.pop()は引数を無視して末尾要素しか削除できないため、
+      // 削除対象の行番号(num)と一致する要素をfindIndex+spliceで特定して除去する。
+      state.trArr.splice(
+        state.trArr.findIndex((tr) => tr.num === num),
+        1
+      );
       state.trNum -= 1;
       state.idArr.splice(
         state.idArr.findIndex((idIndex) => idIndex == String(num)),

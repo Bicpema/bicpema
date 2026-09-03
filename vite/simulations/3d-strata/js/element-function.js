@@ -34,7 +34,8 @@ export function placeNameInputFunction(p) {
     }
     document.getElementById("placeDataInput" + (i + 1)).onclick = function () {
       window.open(
-        "/vite/simulations/3d-strata/childWindow.html?" + placeName,
+        "/vite/simulations/3d-strata/childWindow.html?" +
+          encodeURIComponent(placeName),
         "window_name",
         "width=1000,height=500"
       );
@@ -70,7 +71,8 @@ export function placeAddButtonFunction(p) {
   document.getElementById("placeDataInput" + newPlaceNum).onclick =
     function () {
       window.open(
-        "/vite/simulations/3d-strata/childWindow.html?" + placeName,
+        "/vite/simulations/3d-strata/childWindow.html?" +
+          encodeURIComponent(placeName),
         "window_name",
         "width=1000,height=500"
       );
@@ -262,15 +264,12 @@ export function placeRefreshFunction(p) {
     secondPlaceSelect.option(placeName);
     thirdPlaceSelect.option(placeName);
   }
-  firstPlaceSelectDoc.addEventListener("change", () =>
-    firstPlaceSelectFunction(p)
-  );
-  secondPlaceSelectDoc.addEventListener("change", () =>
-    secondPlaceSelectFunction(p)
-  );
-  thirdPlaceSelectDoc.addEventListener("change", () =>
-    thirdPlaceSelectFunction(p)
-  );
+  // placeRefreshFunctionは地点の追加・削除のたびに呼び出されるため、
+  // addEventListenerで都度追加すると呼び出し回数分ハンドラが多重登録されてしまう。
+  // 同一要素に対して常に単一のハンドラのみを保つよう、プロパティ代入で上書きする。
+  firstPlaceSelectDoc.onchange = () => firstPlaceSelectFunction(p);
+  secondPlaceSelectDoc.onchange = () => secondPlaceSelectFunction(p);
+  thirdPlaceSelectDoc.onchange = () => thirdPlaceSelectFunction(p);
 }
 
 /**

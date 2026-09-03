@@ -22,8 +22,7 @@ export function trAddButtonFunction(p) {
  */
 export function loadOpenerLayers(p) {
   // 受け取った地点名入りURLから地点名を抽出
-  let placeName = decodeURI(location.search);
-  placeName = placeName.substring(1, placeName.length);
+  const placeName = decodeURIComponent(location.search.substring(1));
 
   // 親ウィンドウがない場合の処理
   if (!window.opener || window.opener.closed) {
@@ -31,7 +30,9 @@ export function loadOpenerLayers(p) {
     return;
   }
 
-  document.getElementById("place_name").innerHTML =
+  // 地点名はURL（親ウィンドウの入力欄）由来のため、innerHTMLではなくtextContentで
+  // プレーンテキストとして表示し、DOM注入を防ぐ。
+  document.getElementById("place_name").textContent =
     placeName + "のデータを編集";
   document.title = placeName + "のデータを編集";
 

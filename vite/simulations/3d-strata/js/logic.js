@@ -27,13 +27,15 @@ function calculateValue() {
   for (const key in state.dataInputArr) {
     const value = state.dataInputArr[key];
     const data = value.data;
+    // input要素のvalue()は文字列を返すため、min/max比較が文字列比較になる
+    // （例: "9" > "10"）のを避けるためNumber()で数値に正規化する。
     const latitude = data.y.value();
-    latitudeArr.push(latitude != "" ? latitude : 0);
+    latitudeArr.push(latitude != "" ? Number(latitude) : 0);
     const longitude = data.x.value();
-    longitudeArr.push(longitude != "" ? longitude : 0);
+    longitudeArr.push(longitude != "" ? Number(longitude) : 0);
     const layer = value.layer;
     for (let i = 0; i < layer.length; i++) {
-      depthArr.push(layer[i][0], layer[i][1]);
+      depthArr.push(Number(layer[i][0]), Number(layer[i][1]));
     }
   }
   return {
