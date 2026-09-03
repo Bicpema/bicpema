@@ -1,200 +1,43 @@
+// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
+
 import p5 from "p5";
 import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
-import { initModal } from "../../../js/bicpema-modal-controller.js";
+import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
+import { state } from "./state.js";
+import { elCreate, initValue } from "./init.js";
+import { drawSimulation } from "./logic.js";
 
-let radi = 0;
-let clickedCount;
-let gridIs;
-let gravity = 0;
-let count = 0;
+/** おもりの画像URL */
+const WEIGHT_IMAGE_URL =
+  "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FmetalBallImg.png?alt=media&token=97e75efc-9412-406f-af82-8c6c753a3d2a";
 
-let leftPendulum;
-let rightPendulum;
+const sketch = (p) => {
+  const canvasController = new BicpemaCanvasController(false, false, 1.0, 1.0);
+  let isFirstDraw = true;
 
-function fullScreen() {
-  let p5Canvas = document.getElementById("p5Canvas");
-  let canvas = createCanvas(windowWidth, windowHeight - 60);
-  canvas.parent(p5Canvas);
-}
+  p.preload = () => {
+    state.weightImage = p.loadImage(WEIGHT_IMAGE_URL);
+  };
 
-let ball;
-function preload() {
-  ball = loadImage(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FmetalBallImg.png?alt=media&token=97e75efc-9412-406f-af82-8c6c753a3d2a"
-  );
-}
+  p.setup = () => {
+    canvasController.fullScreen(p);
+    elCreate(p);
+    initValue(p);
+  };
 
-function startButtonFunction() {
-  clickedCount = true;
-}
-
-function stopButtonFunction() {
-  clickedCount = false;
-}
-
-function resetButtonFunction() {
-  initValue();
-}
-
-function gridButtonFunction() {
-  if (gridIs == true) {
-    gridIs = false;
-  } else {
-    gridIs = true;
-  }
-}
-
-function inputFunction() {
-  leftPendulum.theta0 = leftAngleInput.value();
-  leftPendulum.stringLength = leftLengthInput.value() * 50;
-  rightPendulum.theta0 = rightAngleInput.value();
-  rightPendulum.stringLength = rightLengthInput.value() * 50;
-}
-
-let startButton, stopButton, resetButton, gridButton;
-let leftAngleInput, leftLengthInput, rightAngleInput, rightLengthInput;
-function elCreate() {
-  startButton = select("#startButton");
-  stopButton = select("#stopButton");
-  resetButton = select("#resetButton");
-  gridButton = select("#gridButton");
-  leftAngleInput = select("#leftAngleInput");
-  leftLengthInput = select("#leftLengthInput");
-  rightAngleInput = select("#rightAngleInput");
-  rightLengthInput = select("#rightLengthInput");
-}
-
-function elInit() {
-  startButton.mousePressed(startButtonFunction);
-  stopButton.mousePressed(stopButtonFunction);
-  gridButton.mousePressed(gridButtonFunction);
-  resetButton.mousePressed(resetButtonFunction);
-  leftAngleInput.input(inputFunction);
-  leftLengthInput.input(inputFunction);
-  rightAngleInput.input(inputFunction);
-  rightLengthInput.input(inputFunction);
-  initModal({
-    openSelectors: ".settings-modal-open",
-    modalSelector: "#exampleModal",
-    closeSelectors: ".modal-close",
-  });
-}
-
-function initValue() {
-  radi = width / 50;
-  clickedCount = false;
-  gridIs = false;
-  gravity = 9.8;
-  count = 0;
-  ball.resize(width / 18, 0);
-  leftPendulum = new Ball(500, 10);
-  rightPendulum = new Ball(500, 15);
-}
-
-function setup() {
-  fullScreen();
-  elCreate();
-  elInit();
-  initValue();
-}
-
-let isFirstDraw = true;
-
-function draw() {
-  if (isFirstDraw) {
-    isFirstDraw = false;
-    hideLoadingSpinner();
-  }
-
-  background(255);
-  if (clickedCount) count += 1;
-  background_setting();
-  leftPendulum.calculate(0);
-  rightPendulum.calculate(width / 3);
-  leftPendulum.display(0);
-  rightPendulum.display(width / 3);
-  leftPendulum.calculate((2 * width) / 3);
-  rightPendulum.calculate((2 * width) / 3);
-  tint(255, 150);
-  stroke(0, 150);
-  leftPendulum.display((2 * width) / 3);
-  rightPendulum.display((2 * width) / 3);
-  tint(255);
-}
-
-function background_setting() {
-  for (let i = 0; i < 3; i++) {
-    stroke(0, 100);
-    if (gridIs == true) {
-      for (let f = -width / 6; f < width / 6; f += 10) {
-        if (f % 50 == 0) {
-          strokeWeight(3);
-        } else {
-          strokeWeight(1);
-        }
-        line(
-          f + (width / 3) * i + width / 6,
-          0,
-          f + (width / 3) * i + width / 6,
-          height
-        );
-      }
-      for (let f = 0; f < height; f += 10) {
-        if (f % 50 == 0) {
-          strokeWeight(3);
-        } else {
-          strokeWeight(1);
-        }
-        line((width / 3) * i, f, (width / 3) * i + width / 3, f);
-      }
+  p.draw = () => {
+    if (isFirstDraw) {
+      isFirstDraw = false;
+      hideLoadingSpinner();
     }
-    noFill();
-    stroke(0);
-    strokeWeight(5);
-    rect((width / 3) * i, 0, width / 3, height);
-  }
-}
 
-class Ball {
-  constructor(s_l, t_0) {
-    this.posx = 0;
-    this.posy = 0;
-    this.theta = 0;
-    this.material = 0;
-    this.panelCount = 0;
-    this.stringLength = s_l;
-    this.theta0 = t_0;
-    this.theta = window.pendulumPhysics.computePendulumAngle(
-      this.theta0,
-      this.stringLength,
-      gravity,
-      count
-    );
-  }
+    drawSimulation(p);
+  };
 
-  calculate(n) {
-    this.posx = n + width / 6 + this.stringLength * sin(this.theta);
-    this.posy = 100 + this.stringLength * cos(this.theta);
-    this.theta = window.pendulumPhysics.computePendulumAngle(
-      this.theta0,
-      this.stringLength,
-      gravity,
-      count
-    );
-  }
+  p.windowResized = () => {
+    canvasController.resizeScreen(p);
+  };
+};
 
-  display(n) {
-    line(this.posx, this.posy, n + width / 6, 100);
-    image(ball, this.posx - radi, this.posy - radi, radi * 2, radi * 2);
-  }
-}
-function windowResized() {
-  resizeCanvas(windowWidth, windowHeight - 60);
-}
-
-window.preload = preload;
-window.setup = setup;
-window.draw = draw;
-window.windowResized = windowResized;
-new p5();
+new p5(sketch);
