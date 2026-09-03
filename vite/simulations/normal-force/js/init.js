@@ -17,13 +17,6 @@ import {
   GRAVITY_MAX,
 } from "./state.js";
 import { Material } from "./class.js";
-import {
-  sortButtonAction1,
-  sortButtonAction2,
-  sortButtonAction3,
-  moveButtonAction,
-  resetButtonAction,
-} from "./element-function.js";
 
 /**
  * 操作パネルの高さを求める。
@@ -71,8 +64,15 @@ export function resizeScreen(p) {
  * DOM要素の生成を行う（初回セットアップ専用）。
  * sortButton1〜3はここでmousePressedを登録する。
  * @param {*} p p5インスタンス
+ * @param {object} handlers 表示パターン切り替えボタンのイベントハンドラ
+ * @param {() => void} handlers.sortButtonAction1
+ * @param {() => void} handlers.sortButtonAction2
+ * @param {() => void} handlers.sortButtonAction3
  */
-export function buttonCreation(p) {
+export function buttonCreation(
+  p,
+  { sortButtonAction1, sortButtonAction2, sortButtonAction3 }
+) {
   state.backgroundDiv = p.createElement("div");
   state.startButton = p.createButton("スタート");
   state.stopButton = p.createButton("ストップ");
@@ -100,8 +100,11 @@ export function materialSet(p) {
  * ボタンのイベント登録・表示状態の初期化を行う（初回セットアップ専用。
  * リサイズ時に再登録するとリスナーが重複するため呼ばない）。
  * @param {*} p p5インスタンス
+ * @param {object} handlers スタート/ストップ/リセットボタンのイベントハンドラ
+ * @param {() => void} handlers.moveButtonAction
+ * @param {(p: *) => void} handlers.resetButtonAction
  */
-export function buttonEvents(p) {
+export function buttonEvents(p, { moveButtonAction, resetButtonAction }) {
   state.startButton.mousePressed(moveButtonAction);
   state.stopButton.mousePressed(moveButtonAction).hide();
   state.resetButton.mousePressed(() => resetButtonAction(p));

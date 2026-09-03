@@ -8,7 +8,7 @@ import { computeSlideDisplacement } from "./physics.js";
  * @param {*} p p5インスタンス
  * @param {number} a 矢印先端のx座標
  * @param {number} b 矢印先端のy座標
- * @param {string} n 矢印の向き（"gravity" | "vertical" | "holizonal" | "normal"）
+ * @param {string} n 矢印の向き（"gravity" | "vertical" | "horizontal" | "normal"）
  */
 function arrow(p, a, b, n) {
   if (n == "gravity") {
@@ -41,7 +41,7 @@ function arrow(p, a, b, n) {
           (-p.cos(p.radians(state.slopeAngleButton.value())) +
             p.sin(p.radians(state.slopeAngleButton.value())))
     );
-  } else if (n == "holizonal") {
+  } else if (n == "horizontal") {
     p.triangle(
       a,
       b,
@@ -342,7 +342,7 @@ function rectMaterial(p, a, b, sort, w) {
             p.cos(p.radians(state.slopeAngleButton.value()))) /
           2 +
         ARROW_LENGTH * p.sq(p.sin(p.radians(state.slopeAngleButton.value()))),
-      "holizonal"
+      "horizontal"
     );
   }
   if (sort == 2) {
@@ -428,7 +428,7 @@ function rectMaterial(p, a, b, sort, w) {
             p.cos(p.radians(state.slopeAngleButton.value()))) /
           2 +
         ARROW_LENGTH * p.sq(p.sin(p.radians(state.slopeAngleButton.value()))),
-      "holizonal"
+      "horizontal"
     );
     arrow(
       p,

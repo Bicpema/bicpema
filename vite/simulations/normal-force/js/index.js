@@ -13,6 +13,13 @@ import {
   initSettings,
   updateLayout,
 } from "./init.js";
+import {
+  sortButtonAction1,
+  sortButtonAction2,
+  sortButtonAction3,
+  moveButtonAction,
+  resetButtonAction,
+} from "./element-function.js";
 import { drawSimulation } from "./logic.js";
 
 const sketch = (p) => {
@@ -20,11 +27,15 @@ const sketch = (p) => {
 
   p.setup = () => {
     fullScreen(p);
-    buttonCreation(p);
+    buttonCreation(p, {
+      sortButtonAction1,
+      sortButtonAction2,
+      sortButtonAction3,
+    });
     initSettings(p);
     materialSet(p);
     buttonSettings(p);
-    buttonEvents(p);
+    buttonEvents(p, { moveButtonAction, resetButtonAction });
   };
 
   p.draw = () => {
