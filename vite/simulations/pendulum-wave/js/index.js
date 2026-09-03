@@ -131,10 +131,12 @@ class Ball {
   }
 }
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight);
+  resizeCanvas(windowWidth, (9 * windowHeight) / 10);
 }
 function fullScreen() {
-  createCanvas(windowWidth, windowHeight);
+  let p5Canvas = document.getElementById("p5Canvas");
+  let canvas = createCanvas(windowWidth, (9 * windowHeight) / 10);
+  canvas.parent(p5Canvas);
 }
 
 window.preload = preload;

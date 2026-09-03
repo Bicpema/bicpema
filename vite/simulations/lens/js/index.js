@@ -1087,11 +1087,13 @@ function screenDisplay(p, img) {
           );
           p.text(
             i / 5,
+            // スライダー最大値でも目盛りラベルがcanvas右端をはみ出さないよう、
+            // 右端からの余白(p.width/70)を狭くしている
             screenXSlider.value() +
               p.width / 2 +
               screenHeight / 2 +
               screenWidth / 2 +
-              p.width / 50,
+              p.width / 70,
             p.height / 2 - screenHeight + (p.height / (4 * 20)) * i - 10
           );
         }
