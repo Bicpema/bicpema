@@ -20,7 +20,6 @@ changelog:
     - title: "📦 依存関係の更新"
       labels:
         - "依存関係"
-        - "npm"
     - title: "🛠️ 開発環境改善"
       labels:
         - "開発環境改善"
@@ -29,6 +28,9 @@ changelog:
     - title: "🎨 Hugo テンプレート"
       labels:
         - "Hugo"
+    - title: "🔒 セキュリティ"
+      labels:
+        - "セキュリティ"
     - title: "📌 その他"
       labels:
         - "*"
