@@ -280,6 +280,8 @@ function elementPositionInit() {
   unitSelect.option("メートル", "meter");
   unitSelect.changed(unitSelectFunction);
   strataFileInput.position(0, buttonParent.y + buttonParent.height + 5);
+  strataFileInput.elt.style.left = "auto";
+  strataFileInput.elt.style.right = "5px";
 }
 
 // 地点のデータを入力するインプットの連想配列
