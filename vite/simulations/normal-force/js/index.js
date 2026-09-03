@@ -25,7 +25,7 @@ const INPUT_STEP = 0.1;
 const DEFAULT_WEIGHT = 15; // 質量の初期値[kg]
 const WEIGHT_MIN = 0;
 const WEIGHT_MAX = 20;
-const DEFAULT_GRAVITY = 9.8; // 重力加速度の初期値[m/ss]
+const DEFAULT_GRAVITY = 9.8; // 重力加速度の初期値[m/s^2]
 const GRAVITY_MIN = 0;
 const GRAVITY_MAX = 20;
 function controlPanelHeight() {
@@ -56,7 +56,7 @@ function buttonCreation() {
   slopeAngleButton = createInput(DEFAULT_SLOPE_ANGLE, "number");
   weightButtonLabel = createElement("label", "質量[kg]");
   weightButton = createInput(DEFAULT_WEIGHT, "number");
-  gravityButtonLabel = createElement("label", "重力加速度[m/ss]");
+  gravityButtonLabel = createElement("label", "重力加速度[m/s^2]");
   gravityButton = createInput(DEFAULT_GRAVITY, "number");
   sortButton1 = createButton(1).mousePressed(sortButtonAction1);
   sortButton2 = createButton(2).mousePressed(sortButtonAction2);

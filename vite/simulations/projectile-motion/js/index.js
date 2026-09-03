@@ -22,7 +22,8 @@ const DEFAULT_WEIGHT = 10; // 質量の初期値[kg]
 const GROUND_LEVEL_RATIO = 9 / 10; // 地面のy座標 = height * この値
 const BALL_RADIUS_DIVISOR = 50; // ボールの半径 = width / この値
 const BALL_START_X = 50; // ボールの発射位置のx座標
-const GRAVITY = 9.8; // 重力加速度[m/ss]
+const GRAVITY = 9.8; // 重力加速度[m/s^2]
+const SPEED_INPUT_STEP = 0.1;
 const FPS = 60;
 
 //地面のy座標を計算する手続き
@@ -71,7 +72,7 @@ function buttonCreation() {
   ballExpla1 = createElement("label", "赤玉");
   ballExpla2 = createElement("label", "青玉");
   speedExpla = createElement("label", "速度[m/s]");
-  speedButton1 = createInput(DEFAULT_SPEED, "number", 0.1);
+  speedButton1 = createInput(DEFAULT_SPEED, "number");
   speedButton2 = createInput(DEFAULT_SPEED, "number");
   angleExpla = createElement("label", "角度[°]");
   angleButton1 = createInput(DEFAULT_ANGLE_1, "number");
@@ -177,6 +178,7 @@ function buttonSettings() {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
+    .attribute("step", SPEED_INPUT_STEP)
     .parent(backgroundDiv);
   speedButton2
     .size(
