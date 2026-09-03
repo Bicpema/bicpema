@@ -1186,11 +1186,13 @@ let coordinateData;
 function draw() {
   background(255);
 
-  // データ登録モーダルを開いている時にオービットコントロールを無効化
-  let dataRegisterModalIs = document
-    .getElementById("dataRegisterModal")
-    .classList.contains("hidden");
-  if (dataRegisterModalIs) {
+  // いずれかのモーダルを開いている時はオービットコントロールを無効化
+  // ※凡例のオフキャンバス（#legendOffCanvas）は"hidden"クラスを使わず
+  // "is-open"クラスで開閉するため、ここでは対象に含めていない。
+  let isAnyModalOpen = ["dataRegisterModal", "csvExampleModal"].some(
+    (id) => !document.getElementById(id).classList.contains("hidden")
+  );
+  if (!isAnyModalOpen) {
     orbitControl();
   }
 
