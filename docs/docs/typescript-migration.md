@@ -7,9 +7,9 @@
 Issue #424 作成時点では `tsconfig.json` が未導入という前提だったが、その後 #409（シミュレーションの型チェックとロジックテストを導入する）に対応した #425 で、以下がすでに導入されている。
 
 - `tsconfig.json`（`allowJs: true` / `checkJs: true` によるJSDocベースの型チェック。`.ts`へのリネームは行っていない）
-- `@types/p5`（`vite/types/p5-global.d.ts` / `assets.d.ts` のアンビエント宣言と併用）
+- `@types/p5`（`vite/types/p5-global.d.ts` / `vite/types/assets.d.ts` のアンビエント宣言と併用）
 - `npm run typecheck` と `.github/workflows/test.yml` でのCI実行
-- `tsconfig.json` の `include` は `vite/_build/**/*.js` / `vite/simulations/free-fall/**/*.js` / `test/**/*.js` のみで、段階的に対象を拡張していく方針が明記されている
+- `tsconfig.json` の `include` は `vite/types/**/*.ts` / `vite/_build/**/*.js` / `vite/simulations/free-fall/**/*.js` / `test/**/*.js` のみで、段階的に対象を拡張していく方針が明記されている
 
 ## 決定事項
 
