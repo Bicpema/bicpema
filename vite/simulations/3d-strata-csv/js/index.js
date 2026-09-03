@@ -259,11 +259,15 @@ function elementSelectInit() {
   setRadioButton = createRadio().parent(setRadioParent);
 
   unitSelect = select("#unitSelect");
-  strataFileInput = createFileInput(strataFileInputFunction);
+  strataFileInput = createFileInput(strataFileInputFunction).class(
+    "block text-sm text-neutral-700 file:mr-3 file:rounded-full file:border-0 file:bg-blue-600 file:px-3 file:py-2 file:text-white hover:file:bg-blue-500"
+  );
 }
 
 function elementPositionInit() {
   buttonParent.position(5, 65);
+  buttonParent.elt.style.left = "auto";
+  buttonParent.elt.style.right = "5px";
   placeAddButton.mousePressed(placeAddButtonFunction);
   placeRemoveButton.mousePressed(placeRemoveButtonFunction);
   strataAddButton.mousePressed(strataAddButtonFunction);
@@ -276,6 +280,8 @@ function elementPositionInit() {
   unitSelect.option("メートル", "meter");
   unitSelect.changed(unitSelectFunction);
   strataFileInput.position(0, buttonParent.y + buttonParent.height + 5);
+  strataFileInput.elt.style.left = "auto";
+  strataFileInput.elt.style.right = "5px";
 }
 
 // 地点のデータを入力するインプットの連想配列
@@ -1165,6 +1171,11 @@ function setup() {
     modalSelector: "#dataRegisterModal",
     closeSelectors: ".modal-close",
   });
+  initModal({
+    openSelectors: ".csv-example-modal-open",
+    modalSelector: "#csvExampleModal",
+    closeSelectors: ".csv-example-modal-close",
+  });
   initOffcanvas({
     openSelectors: ".legend-offcanvas-open",
     offcanvasSelector: "#legendOffCanvas",
@@ -1177,11 +1188,13 @@ let coordinateData;
 function draw() {
   background(255);
 
-  // データ登録モーダルを開いている時にオービットコントロールを無効化
-  let dataRegisterModalIs = document
-    .getElementById("dataRegisterModal")
-    .classList.contains("hidden");
-  if (dataRegisterModalIs) {
+  // いずれかのモーダルを開いている時はオービットコントロールを無効化
+  // ※凡例のオフキャンバス（#legendOffCanvas）は"hidden"クラスを使わず
+  // "is-open"クラスで開閉するため、ここでは対象に含めていない。
+  let isAnyModalOpen = ["dataRegisterModal", "csvExampleModal"].some(
+    (id) => !document.getElementById(id).classList.contains("hidden")
+  );
+  if (!isAnyModalOpen) {
     orbitControl();
   }
 

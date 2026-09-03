@@ -42,6 +42,12 @@
         >
           データの登録
         </button>
+        <button
+          class="csv-example-modal-open rounded-full bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
+          type="button"
+        >
+          CSVの例を見る
+        </button>
       </div>
 
       <!-- 凡例の表示のオフキャンバス -->
@@ -161,7 +167,10 @@
                   <div class="container">
                     <h3 class="mt-4">単位</h3>
                     <div>
-                      <select id="unitSelect"></select>
+                      <select
+                        id="unitSelect"
+                        class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+                      ></select>
                     </div>
                     <div id="setRadioParent"></div>
                     <div id="setDepthParent">
@@ -328,6 +337,109 @@
                 閉じる
               </button>
             </div>
+        </div>
+      </div>
+
+      <!-- CSVファイルの例を示すモーダルウィンドウ -->
+      <div
+        class="fixed inset-0 z-[1100] hidden flex items-center justify-center bg-black/50"
+        id="csvExampleModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="csvExampleModalLabel"
+        aria-hidden="true"
+        tabindex="-1"
+      >
+        <div class="flex max-h-[85vh] w-full max-w-4xl flex-col overflow-hidden rounded bg-white">
+          <div class="flex items-center gap-2 border-b border-neutral-200 p-4">
+            <h1 class="flex-1 text-lg font-semibold" id="csvExampleModalLabel">
+              CSVファイルの例
+            </h1>
+            <button
+              type="button"
+              class="csv-example-modal-close text-xl leading-none text-neutral-500 hover:text-neutral-700"
+              aria-label="Close"
+            >&times;</button>
+          </div>
+          <div class="overflow-y-auto p-4">
+            <div
+              class="mb-4 flex items-center gap-2 rounded border border-blue-200 bg-blue-50 p-3 text-blue-900"
+              role="alert"
+            >
+              <div>
+                「ファイルを選択」から読み込むCSVファイルは、以下のような形式で作成してください。1行目はヘッダー行として読み飛ばされます。同じ地点の2行目以降は、地点名・y方向・x方向を空欄にしてください。
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full border-collapse text-sm">
+                <thead>
+                  <tr>
+                    <th class="border border-neutral-300 bg-neutral-100 px-2 py-1">地点名</th>
+                    <th class="border border-neutral-300 bg-neutral-100 px-2 py-1">y方向（緯度）</th>
+                    <th class="border border-neutral-300 bg-neutral-100 px-2 py-1">x方向（経度）</th>
+                    <th class="border border-neutral-300 bg-neutral-100 px-2 py-1">堆積物の上端の深さ</th>
+                    <th class="border border-neutral-300 bg-neutral-100 px-2 py-1">堆積物の下端の深さ</th>
+                    <th class="border border-neutral-300 bg-neutral-100 px-2 py-1">岩相の種類</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="border border-neutral-300 px-2 py-1">地点1</td>
+                    <td class="border border-neutral-300 px-2 py-1">35.6586</td>
+                    <td class="border border-neutral-300 px-2 py-1">139.7454</td>
+                    <td class="border border-neutral-300 px-2 py-1">0</td>
+                    <td class="border border-neutral-300 px-2 py-1">5</td>
+                    <td class="border border-neutral-300 px-2 py-1">砂岩層</td>
+                  </tr>
+                  <tr>
+                    <td class="border border-neutral-300 px-2 py-1 text-neutral-400">（空欄）</td>
+                    <td class="border border-neutral-300 px-2 py-1 text-neutral-400">（空欄）</td>
+                    <td class="border border-neutral-300 px-2 py-1 text-neutral-400">（空欄）</td>
+                    <td class="border border-neutral-300 px-2 py-1">5</td>
+                    <td class="border border-neutral-300 px-2 py-1">12</td>
+                    <td class="border border-neutral-300 px-2 py-1">泥岩層</td>
+                  </tr>
+                  <tr>
+                    <td class="border border-neutral-300 px-2 py-1">地点2</td>
+                    <td class="border border-neutral-300 px-2 py-1">35.6812</td>
+                    <td class="border border-neutral-300 px-2 py-1">139.7671</td>
+                    <td class="border border-neutral-300 px-2 py-1">0</td>
+                    <td class="border border-neutral-300 px-2 py-1">8</td>
+                    <td class="border border-neutral-300 px-2 py-1">れき岩層</td>
+                  </tr>
+                  <tr>
+                    <td class="border border-neutral-300 px-2 py-1 text-neutral-400">（空欄）</td>
+                    <td class="border border-neutral-300 px-2 py-1 text-neutral-400">（空欄）</td>
+                    <td class="border border-neutral-300 px-2 py-1 text-neutral-400">（空欄）</td>
+                    <td class="border border-neutral-300 px-2 py-1">8</td>
+                    <td class="border border-neutral-300 px-2 py-1">15</td>
+                    <td class="border border-neutral-300 px-2 py-1">ローム層</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="mt-3 mb-1 font-semibold">CSVテキストでの例</p>
+            <pre class="overflow-x-auto rounded border border-neutral-300 bg-neutral-100 p-3 text-xs text-neutral-900">地点名,y方向,x方向,堆積物の上端の深さ,堆積物の下端の深さ,岩相の種類
+地点1,35.6586,139.7454,0,5,砂岩層
+,,,5,12,泥岩層
+地点2,35.6812,139.7671,0,8,れき岩層
+,,,8,15,ローム層
+</pre>
+            <ul class="mt-3 list-disc pl-5 text-sm text-neutral-700">
+              <li>1行目はヘッダー行として読み飛ばされるため、内容は自由ですが省略しないでください。</li>
+              <li>同じ地点が複数行にまたがる場合、2行目以降は地点名・y方向・x方向を空欄にしてください。</li>
+              <li>「岩相の種類」は「砂岩層」「泥岩層」「れき岩層」「石灰岩層」「凝灰岩層・火山灰層」「ローム層」「その他の層」のいずれかを指定してください。</li>
+              <li>ファイルの末尾には空行を1行入れてください（末尾の空行は読み込み時に無視されます）。</li>
+            </ul>
+          </div>
+          <div class="flex justify-end border-t border-neutral-200 p-4">
+            <button
+              type="button"
+              class="csv-example-modal-close rounded border border-neutral-400 px-3 py-1.5 hover:bg-neutral-100"
+            >
+              閉じる
+            </button>
+          </div>
         </div>
       </div>
     </div>
