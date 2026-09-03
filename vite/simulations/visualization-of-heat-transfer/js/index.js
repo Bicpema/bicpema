@@ -1,6 +1,5 @@
 import p5 from "p5";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "../../../css/tailwind.css";
 import { initSimulation, windowResized } from "./init.js";
 import { drawSimulation } from "./logic.js";
 
