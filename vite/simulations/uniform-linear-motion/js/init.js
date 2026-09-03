@@ -2,6 +2,7 @@ import { state } from "./state.js";
 import { CAR } from "./car.js";
 import { CANVAS_HEIGHT } from "./constants.js";
 import { graphButtonFunction } from "./element-function.js";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
 
 /**
  * 画像の初期化を行う。
@@ -19,62 +20,68 @@ export function elCreate(p) {
   p.createDiv(`<canvas id="graphCanvas"></canvas>`)
     .id("graph")
     .parent(p.select("#p5Container"))
-    .class("rounded border border-1");
+    .class("rounded border");
 
   p.createDiv(
-    `<button type="button" class="btn btn-secondary" id="graphButton">グラフの切り替え</button>`
+    `<button type="button" class="rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500" id="graphButton">グラフの切り替え</button>`
   )
     .id("graphButtonParent")
     .parent(p.select("#p5Container"));
 
   p.createDiv(
-    '<button type="button" class="btn btn-success m-1" id="playButton">一時停止</button><button type="button" class="btn btn-secondary m-1" id="resetButton">リセット</button>'
+    '<button type="button" class="m-1 rounded bg-green-600 px-3 py-2 text-white hover:bg-green-500" id="playButton">一時停止</button><button type="button" class="m-1 rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500" id="resetButton">リセット</button>'
   )
     .id("motionControls")
     .parent(p.select("#p5Container"));
 
   p.createButton("シミュレーション設定")
-    .class("btn btn-primary")
+    .class(
+      "settings-modal-open rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
+    )
     .id("modalButton")
-    .parent(p.select("#p5Container"))
-    .attribute("data-bs-toggle", "modal")
-    .attribute("data-bs-target", "#modal");
+    .parent(p.select("#p5Container"));
 
   p.createDiv(
-    `<div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="modalLabel">シミュレーション設定</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    `<div class="w-full max-w-lg rounded bg-white p-4 text-neutral-900">
+        <div class="mb-3 flex items-center justify-between border-b border-neutral-200 pb-2">
+          <h1 class="text-lg font-semibold" id="modalLabel">シミュレーション設定</h1>
+          <button type="button" class="modal-close text-xl leading-none text-neutral-500 hover:text-neutral-700" aria-label="Close">&times;</button>
         </div>
-        <div class="modal-body">
-          <div class="form-check" id="scaleCheckBoxParent">
-            <input class="form-check-input" type="checkbox" id="scaleCheckBox" checked>
-            <label class="form-check-label" for="scaleCheckBox">スケールの表示・非表示</label>
+        <div>
+          <div class="mb-4 flex items-center gap-2" id="scaleCheckBoxParent">
+            <input class="h-4 w-4 accent-blue-600" type="checkbox" id="scaleCheckBox" checked>
+            <label class="text-sm" for="scaleCheckBox">スケールの表示・非表示</label>
           </div>
-          <div class="input-group mb-3 mt-3">
-            <span class="input-group-text" id="yellowCarSpeedLabel">黄色い車の速度</span>
-            <input type="number" min="1" max="20" class="form-control" placeholder="cm/s" aria-describedby="yellowCarSpeedLabel" id="yellowCarSpeedInput" value="3"/>
-            <span class="input-group-text">cm/s</span>
+          <div class="mb-3 mt-3 flex">
+            <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700" id="yellowCarSpeedLabel">黄色い車の速度</span>
+            <input type="number" min="1" max="20" class="min-w-0 flex-1 border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900" placeholder="cm/s" aria-describedby="yellowCarSpeedLabel" id="yellowCarSpeedInput" value="3"/>
+            <span class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">cm/s</span>
           </div>
-          <div class="input-group mb-3 mt-3">
-            <span class="input-group-text" id="redCarSpeedLabel">赤い車の速度</span>
-            <input type="number" min="1" max="20" class="form-control" placeholder="cm/s" aria-describedby="redCarSpeedLabel" id="redCarSpeedInput" value="2"/>
-            <span class="input-group-text">cm/s</span>
+          <div class="mb-3 mt-3 flex">
+            <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700" id="redCarSpeedLabel">赤い車の速度</span>
+            <input type="number" min="1" max="20" class="min-w-0 flex-1 border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900" placeholder="cm/s" aria-describedby="redCarSpeedLabel" id="redCarSpeedInput" value="2"/>
+            <span class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">cm/s</span>
           </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+        <div class="flex justify-end border-t border-neutral-200 pt-2">
+          <button type="button" class="modal-close rounded border border-neutral-400 px-3 py-1.5 hover:bg-neutral-100">閉じる</button>
         </div>
-      </div>
     </div>`
   )
-    .class("modal fade")
+    .class("fixed inset-0 z-[1100] hidden flex items-center justify-center bg-black/50")
     .id("modal")
-    .parent(p.select("#p5Container"))
-    .attribute("tabindex", "-1")
+    .attribute("role", "dialog")
+    .attribute("aria-modal", "true")
     .attribute("aria-labelledby", "modalLabel")
-    .attribute("aria-hidden", "true");
+    .attribute("aria-hidden", "true")
+    .attribute("tabindex", "-1")
+    .parent(p.select("#p5Container"));
+
+  initModal({
+    openSelectors: ".settings-modal-open",
+    modalSelector: "#modal",
+    closeSelectors: ".modal-close",
+  });
 
   p.select("#graphButton").mousePressed(() => graphButtonFunction());
   p.select("#playButton").mousePressed(() => {
