@@ -246,25 +246,31 @@ function updateInfoPanelDOM() {
   if (state.infoDEl) state.infoDEl.html(state.penetration_m.toFixed(3) + " m");
   if (state.infoWEl) state.infoWEl.html(work.toFixed(3) + " J");
 
-  let statusHtml = "";
-  if (state.phase === "stopped") {
-    if (state.criticalExceeded) {
-      statusHtml =
-        '<span class="text-[#d84c4c] font-bold">⚠ 臨界値以上（ものさしは完全に本の中）</span><br><small>めり込みが最大に達しました。物差しは本の中に完全に入っています。</small>';
-    } else {
-      statusHtml =
-        '<span class="text-[#0b6] font-bold">✓ W = ½ m v₀² = ' +
-        ke0.toFixed(3) +
-        " J</span><br><small>台車が静止 → 仕事 = 初期運動エネルギー</small>";
-    }
-  } else {
-    statusHtml =
-      '<span class="text-[#2c4dff] font-semibold">現在の運動エネルギー = ½ m v² = ' +
-      ke.toFixed(3) +
-      " J</span>";
-  }
+  const isStopped = state.phase === "stopped";
+  const showCritical = isStopped && state.criticalExceeded;
+  const showStopped = isStopped && !state.criticalExceeded;
+  const showRunning = !isStopped;
 
-  if (state.infoStatusEl) state.infoStatusEl.html(statusHtml);
+  setStatusVisible(state.statusCriticalEl, showCritical);
+  setStatusVisible(state.statusStoppedEl, showStopped);
+  setStatusVisible(state.statusRunningEl, showRunning);
+
+  if (state.statusKe0El) state.statusKe0El.html(ke0.toFixed(3));
+  if (state.statusKeEl) state.statusKeEl.html(ke.toFixed(3));
+}
+
+/**
+ * 情報パネルの状態別メッセージの表示・非表示を切り替える。
+ * @param {*} el p5.Element
+ * @param {boolean} visible
+ */
+function setStatusVisible(el, visible) {
+  if (!el) return;
+  if (visible) {
+    el.removeClass("hidden");
+  } else {
+    el.addClass("hidden");
+  }
 }
 
 /**
