@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import Chart from "chart.js/auto";
 import {
@@ -64,7 +65,14 @@ const sketch = (p) => {
     );
   };
 
+  let isFirstDraw = true;
+
   p.draw = () => {
+    if (isFirstDraw) {
+      isFirstDraw = false;
+      hideLoadingSpinner();
+    }
+
     p.orbitControl(10, 10, 10);
     //背景色
     p.background(100);

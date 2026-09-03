@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import { state } from "./state.js";
@@ -24,7 +25,14 @@ const sketch = (p) => {
     if (state.font) p.textFont(state.font);
   };
 
+  let isFirstDraw = true;
+
   p.draw = () => {
+    if (isFirstDraw) {
+      isFirstDraw = false;
+      hideLoadingSpinner();
+    }
+
     drawSimulation(p);
   };
 

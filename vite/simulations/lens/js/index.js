@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import {
   computeConvexLensImageDistance,
@@ -44,7 +45,14 @@ const sketch = (p) => {
     buttonSettings(p);
   };
 
+  let isFirstDraw = true;
+
   p.draw = () => {
+    if (isFirstDraw) {
+      isFirstDraw = false;
+      hideLoadingSpinner();
+    }
+
     gridDraw(p);
     lensDraw(p);
     baseDraw(p);

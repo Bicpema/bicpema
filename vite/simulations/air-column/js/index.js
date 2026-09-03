@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import { state } from "./state.js";
@@ -14,7 +15,14 @@ const sketch = (p) => {
     setupControls(p);
   };
 
+  let isFirstDraw = true;
+
   p.draw = () => {
+    if (isFirstDraw) {
+      isFirstDraw = false;
+      hideLoadingSpinner();
+    }
+
     p.scale(p.width / 1000);
     p.background(255);
     p.image(state.waveLayer, 0, 0);

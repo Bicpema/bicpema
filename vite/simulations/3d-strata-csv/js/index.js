@@ -1,5 +1,6 @@
 import "../../../css/tailwind.css";
 import p5 from "p5";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import { domToPng } from "modern-screenshot";
 import {
   initModal,
@@ -1185,7 +1186,14 @@ function setup() {
 }
 
 let coordinateData;
+let isFirstDraw = true;
+
 function draw() {
+  if (isFirstDraw) {
+    isFirstDraw = false;
+    hideLoadingSpinner();
+  }
+
   background(255);
 
   // いずれかのモーダルを開いている時はオービットコントロールを無効化

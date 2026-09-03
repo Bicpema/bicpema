@@ -1,6 +1,7 @@
 // index.js - メインのメソッドを呼び出すためのファイルです。
 
 import p5 from "p5";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import { state } from "./state.js";
@@ -49,7 +50,14 @@ const sketch = (p) => {
     valueInit();
   };
 
+  let isFirstDraw = true;
+
   p.draw = () => {
+    if (isFirstDraw) {
+      isFirstDraw = false;
+      hideLoadingSpinner();
+    }
+
     p.scale(p.width / V_W);
     p.background(255);
 

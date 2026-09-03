@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 
 let lightRotateTheta = 0;
@@ -54,7 +55,14 @@ function setup() {
   simulationMode = "lineMax";
 }
 
+let isFirstDraw = true;
+
 function draw() {
+  if (isFirstDraw) {
+    isFirstDraw = false;
+    hideLoadingSpinner();
+  }
+
   background(0);
   if (simulationMode == "animation") {
     animationRays();

@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import Chart from "chart.js/auto";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
@@ -99,7 +100,14 @@ function setup() {
   graphSettings();
 }
 
+let isFirstDraw = true;
+
 function draw() {
+  if (isFirstDraw) {
+    isFirstDraw = false;
+    hideLoadingSpinner();
+  }
+
   background(255);
   spring1._draw();
   spring2._draw();

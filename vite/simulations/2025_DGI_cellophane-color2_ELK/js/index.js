@@ -2,6 +2,7 @@ import Chart from "chart.js/auto";
 import { domToPng } from "modern-screenshot";
 import * as math from "mathjs";
 import p5 from "p5";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 window.Chart = Chart;
@@ -346,7 +347,14 @@ function setup() {
 }
 
 // ★ draw関数
+let isFirstDraw = true;
+
 function draw() {
+  if (isFirstDraw) {
+    isFirstDraw = false;
+    hideLoadingSpinner();
+  }
+
   currentValue = optRadio.value();
   radius = 111;
   prenormal();
