@@ -1,6 +1,5 @@
 import p5 from "p5";
 import "../../../css/tailwind.css";
-import "../css/style.css";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 import {

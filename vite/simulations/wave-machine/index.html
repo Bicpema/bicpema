@@ -5,7 +5,6 @@
     <title>ウェーブマシン</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./css/style.css" rel="stylesheet" />
   </head>
 
   <body class="bg-neutral-900" oncontextmenu="return false;">
@@ -17,8 +16,8 @@
       <span class="ml-3 font-light text-neutral-300">ウェーブマシン</span>
     </nav>
 
-    <div class="w-full" id="p5Container">
-      <div id="p5Canvas"></div>
+    <div class="w-full p-0 mt-[60px]" id="p5Container">
+      <div class="flex justify-center" id="p5Canvas"></div>
 
       <div class="absolute bottom-0 start-0 m-3">
         <button type="button" class="m-1 rounded bg-neutral-700 px-3 py-2 text-white hover:bg-neutral-600" id="decelerationButton">
@@ -41,7 +40,7 @@
             width="32"
             height="32"
             fill="currentColor"
-            class="bi bi-skip-start-fill skip-2"
+            class="bi bi-skip-start-fill -scale-x-100"
             viewBox="0 0 16 16"
           >
             <path
