@@ -79,6 +79,8 @@ npm run typecheck
 
 対象は `tsconfig.json` の `include` に列挙されたファイルです。シミュレーションのロジックに型チェックを追加する場合は、対象ディレクトリを `include` に追加してください。
 
+型チェックは`.ts`化ではなくJSDocコメント + `checkJs`で行う方針です。対象拡張の進め方や、本ページで扱う単体テストの展開との役割分担は [TypeScript化の方針](../typescript-migration.md) を参照してください。
+
 ## CI での実行
 
 `.github/workflows/test.yml` により、プルリクエスト作成時と `main` ブランチへのpush時に型チェック（`npm run typecheck`）・ユニットテスト（`npm test`）・ビルド確認（`npm run build`）が自動実行されます。
