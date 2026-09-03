@@ -21,7 +21,3 @@ export function computePendulumAngle(
   const omega = Math.sqrt(gravity / lengthM);
   return theta0 * Math.cos(omega * (count / fps));
 }
-
-if (typeof window !== "undefined") {
-  /** @type {any} */ (window).pendulumPhysics = { computePendulumAngle };
-}
