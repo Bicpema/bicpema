@@ -12,51 +12,6 @@ const sketch = (p) => {
   const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
 
   p.preload = () => {
-    const loadingDiv = document.createElement("div");
-    loadingDiv.id = "loading";
-    loadingDiv.style.cssText = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(255, 255, 255, 0.95);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 20px;
-      z-index: 9999;
-      font-size: 24px;
-      font-family: sans-serif;
-    `;
-
-    const spinner = document.createElement("div");
-    spinner.style.cssText = `
-      width: 50px;
-      height: 50px;
-      border: 5px solid #f3f3f3;
-      border-top: 5px solid #3498db;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    `;
-
-    const style = document.createElement("style");
-    style.textContent = `
-      @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-      }
-    `;
-    document.head.appendChild(style);
-
-    const loadingText = document.createElement("div");
-    loadingText.textContent = "読み込み中です...";
-
-    loadingDiv.appendChild(spinner);
-    loadingDiv.appendChild(loadingText);
-    document.body.appendChild(loadingDiv);
-
     state.font = p.loadFont(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
     );
@@ -72,9 +27,6 @@ const sketch = (p) => {
   };
 
   p.setup = () => {
-    const loadingDiv = document.getElementById("loading");
-    if (loadingDiv) loadingDiv.remove();
-
     canvasController.fullScreen(p);
     elCreate(p);
     initValue(p);
