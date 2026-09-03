@@ -6,65 +6,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="./css/style.css" rel="stylesheet" />
   </head>
-  <body class="bg-dark" oncontextmenu="return false;">
+  <body class="bg-neutral-900" oncontextmenu="return false;">
     <nav
-      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
-      data-bs-theme="dark"
+      class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
-        <span class="text-light fw-lighter">空気柱の共鳴</span>
-      </div>
+      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <span class="ml-3 font-light text-neutral-300">空気柱の共鳴</span>
     </nav>
-    <div class="container-fluid" id="p5Container">
+    <div class="w-full" id="p5Container">
       <div id="p5Canvas" style="position: relative">
         <div
-          class="position-absolute end-0 m-2"
+          class="absolute end-0 m-2"
           style="top: 0.5rem; z-index: 1000"
         >
           <table
-            class="table table-sm table-bordered mb-0 rounded overflow-hidden"
+            class="mb-0 overflow-hidden rounded border-collapse text-sm"
             style="background: rgba(255, 255, 255, 0.9); min-width: 240px"
           >
-            <thead class="table-dark">
+            <thead class="bg-neutral-800 text-white">
               <tr>
-                <th colspan="2" class="text-center">設定</th>
+                <th colspan="2" class="border border-neutral-300 px-2 py-1 text-center">設定</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td class="align-middle fw-semibold">管の種類</td>
-                <td>
-                  <select class="form-select form-select-sm" id="typeSelect">
+                <td class="border border-neutral-300 px-2 py-1 align-middle font-semibold">管の種類</td>
+                <td class="border border-neutral-300 px-2 py-1">
+                  <select class="rounded border border-neutral-300 bg-white px-2 py-1 text-sm text-neutral-900" id="typeSelect">
                     <option value="closed">閉管</option>
                     <option value="open">開管</option>
                   </select>
                 </td>
               </tr>
               <tr>
-                <td class="align-middle fw-semibold">倍振動数</td>
-                <td>
-                  <div class="d-flex align-items-center gap-1">
-                    <button class="btn btn-sm btn-primary" id="mnMinusBtn">
+                <td class="border border-neutral-300 px-2 py-1 align-middle font-semibold">倍振動数</td>
+                <td class="border border-neutral-300 px-2 py-1">
+                  <div class="flex items-center gap-1">
+                    <button class="rounded bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-500" id="mnMinusBtn">
                       －
                     </button>
                     <strong id="mnDisplay" class="mx-1">1</strong>
-                    <button class="btn btn-sm btn-warning" id="mnPlusBtn">
+                    <button class="rounded bg-amber-500 px-2 py-1 text-sm text-neutral-900 hover:bg-amber-400" id="mnPlusBtn">
                       ＋
                     </button>
                   </div>
                 </td>
               </tr>
               <tr>
-                <td class="align-middle fw-semibold">管の長さ</td>
-                <td>
-                  <div class="d-flex align-items-center gap-1">
-                    <button class="btn btn-sm btn-primary" id="lminusBtn">
+                <td class="border border-neutral-300 px-2 py-1 align-middle font-semibold">管の長さ</td>
+                <td class="border border-neutral-300 px-2 py-1">
+                  <div class="flex items-center gap-1">
+                    <button class="rounded bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-500" id="lminusBtn">
                       －
                     </button>
                     <strong id="lDisplay" class="mx-1">400</strong>
-                    <button class="btn btn-sm btn-warning" id="lplusBtn">
+                    <button class="rounded bg-amber-500 px-2 py-1 text-sm text-neutral-900 hover:bg-amber-400" id="lplusBtn">
                       ＋
                     </button>
                   </div>

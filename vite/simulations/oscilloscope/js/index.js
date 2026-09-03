@@ -1,8 +1,8 @@
 import p5 from "p5";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "../../../css/tailwind.css";
 import "../css/style.css";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
 import {
   elementPositionInit,
   elementSelectInit,
@@ -24,6 +24,11 @@ const sketch = (p) => {
     elementPositionInit(p);
     valueInit();
     setupControls(p, elements);
+    initModal({
+      openSelectors: ".settings-modal-open",
+      modalSelector: "#simulationSettingModal",
+      closeSelectors: ".modal-close",
+    });
   };
 
   p.draw = () => {

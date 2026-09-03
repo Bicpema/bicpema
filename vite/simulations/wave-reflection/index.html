@@ -6,39 +6,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="./css/style.css" rel="stylesheet" />
   </head>
-  <body class="bg-dark" oncontextmenu="return false;">
+  <body class="bg-neutral-900" oncontextmenu="return false;">
     <nav
-      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
-      data-bs-theme="dark"
+      class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
-        <span class="text-light fw-lighter">波の反射</span>
-      </div>
+      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <span class="ml-3 font-light text-neutral-300">波の反射</span>
     </nav>
 
-    <div class="container-fluid" id="p5Container">
+    <div class="w-full" id="p5Container">
       <div id="p5Canvas"></div>
 
       <!-- 凡例 -->
-      <div class="position-absolute top-0 end-0 m-2 mt-5 pt-3">
+      <div class="absolute top-0 end-0 m-2 mt-12 pt-4">
         <span
-          class="badge rounded-pill text-bg-primary me-1"
+          class="me-1 rounded-full px-2 py-1 text-xs text-white"
           style="background-color: #0000ff !important"
           >入射波</span
         >
-        <span class="badge rounded-pill text-bg-danger me-1">反射波</span>
-        <span class="badge rounded-pill" style="background-color: #00a000"
+        <span class="me-1 rounded-full bg-red-600 px-2 py-1 text-xs text-white">反射波</span>
+        <span class="rounded-full px-2 py-1 text-xs text-white" style="background-color: #00a000"
           >合成波</span
         >
       </div>
 
       <!-- 左下ボタンエリア -->
-      <div class="position-absolute bottom-0 start-0 m-3 d-flex gap-2">
-        <button class="btn btn-primary" id="moveBtn">スタート</button>
-        <button class="btn btn-warning" id="modeBtn">自由端</button>
-        <button class="btn btn-secondary" id="resetBtn">リセット</button>
+      <div class="absolute bottom-0 start-0 m-3 flex gap-2">
+        <button class="rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500" id="moveBtn">スタート</button>
+        <button class="rounded bg-amber-500 px-3 py-2 text-neutral-900 hover:bg-amber-400" id="modeBtn">自由端</button>
+        <button class="rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500" id="resetBtn">リセット</button>
       </div>
     </div>
 

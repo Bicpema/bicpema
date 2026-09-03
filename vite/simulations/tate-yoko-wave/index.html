@@ -6,37 +6,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="./css/style.css" rel="stylesheet" />
   </head>
-  <body class="bg-dark" oncontextmenu="return false;">
+  <body class="bg-neutral-900" oncontextmenu="return false;">
     <nav
-      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
-      data-bs-theme="dark"
+      class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
-        <span class="text-light fw-lighter">縦横波</span>
-      </div>
+      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <span class="ml-3 font-light text-neutral-300">縦横波</span>
     </nav>
 
-    <div class="container-fluid" id="p5Container">
+    <div class="w-full" id="p5Container">
       <div id="p5Canvas"></div>
     </div>
 
     <!-- Bottom-left controls -->
     <div
-      class="position-fixed bottom-0 start-0 m-3 d-flex align-items-center gap-2"
+      class="fixed bottom-0 start-0 m-3 flex items-center gap-2"
       style="z-index: 1000"
     >
-      <button class="btn btn-primary" id="moveBtn">スタート</button>
-      <button class="btn btn-secondary" id="resetBtn">リセット</button>
+      <button class="rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500" id="moveBtn">スタート</button>
+      <button class="rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500" id="resetBtn">リセット</button>
       <div
-        class="d-flex align-items-center gap-2 rounded px-3 py-2"
+        class="flex items-center gap-2 rounded px-3 py-2"
         style="background: rgba(255, 255, 255, 0.15)"
       >
-        <label class="text-light small mb-0" for="speedSlider">速度</label>
+        <label class="mb-0 text-sm text-neutral-300" for="speedSlider">速度</label>
         <input
           type="range"
-          class="form-range"
+          class="accent-blue-600"
           id="speedSlider"
           min="10"
           max="60"
