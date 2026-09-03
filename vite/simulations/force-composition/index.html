@@ -20,15 +20,32 @@
       <div id="p5Canvas"></div>
       <button
         id="forceSettingsButton"
-        class="right-top-controls bg-blue-600 text-white hover:bg-blue-500"
+        class="right-top-controls rounded-lg bg-blue-600 px-5 py-2 text-base font-bold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-lg active:translate-y-0 active:shadow"
         type="button"
       >設定</button>
     </div>
 
     <div class="fixed inset-0 z-[1100] hidden flex items-center justify-center bg-black/50" id="forceSettingsModal">
       <div class="w-full max-w-lg rounded bg-white p-4 text-neutral-900">
-        <div class="mb-3 border-b border-neutral-200 pb-2"><h1 class="text-lg font-semibold">設定</h1></div>
+        <div class="mb-3 flex items-center justify-between border-b border-neutral-200 pb-2">
+          <h1 class="text-lg font-semibold">設定</h1>
+          <button
+            type="button"
+            class="modal-close text-xl leading-none text-neutral-500 hover:text-neutral-700"
+            aria-label="閉じる"
+          >
+            ×
+          </button>
+        </div>
         <div class="text-sm">矢印の先端をドラッグして、2つの力の大きさと向きを設定できます。</div>
+        <div class="mt-4 flex justify-end border-t border-neutral-200 pt-2">
+          <button
+            type="button"
+            class="modal-close rounded border border-neutral-400 px-3 py-1.5 hover:bg-neutral-100"
+          >
+            閉じる
+          </button>
+        </div>
       </div>
     </div>
 

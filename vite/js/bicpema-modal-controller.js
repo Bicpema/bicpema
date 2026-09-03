@@ -54,10 +54,20 @@ export function initCollapse({ toggleSelectors, targetSelector }) {
   const target = document.querySelector(targetSelector);
   if (!target) return;
 
-  document.querySelectorAll(toggleSelectors).forEach((el) => {
+  const toggles = document.querySelectorAll(toggleSelectors);
+  const syncExpandedState = () => {
+    const isExpanded = !target.classList.contains("hidden");
+    toggles.forEach((toggle) => {
+      toggle.setAttribute("aria-expanded", String(isExpanded));
+    });
+  };
+
+  syncExpandedState();
+
+  toggles.forEach((el) => {
     el.addEventListener("click", () => {
-      const isHidden = target.classList.toggle("hidden");
-      el.setAttribute("aria-expanded", String(!isHidden));
+      target.classList.toggle("hidden");
+      syncExpandedState();
     });
   });
 }
