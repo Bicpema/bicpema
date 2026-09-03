@@ -17,12 +17,12 @@ export function elementPositionInit(p) {
       state.running = !state.running;
       if (!state.running) {
         moveBtn.textContent = "スタート";
-        moveBtn.classList.remove("btn-danger");
-        moveBtn.classList.add("btn-primary");
+        moveBtn.classList.remove("bg-red-600", "hover:bg-red-500");
+        moveBtn.classList.add("bg-blue-600", "hover:bg-blue-500");
       } else {
         moveBtn.textContent = "ストップ";
-        moveBtn.classList.remove("btn-primary");
-        moveBtn.classList.add("btn-danger");
+        moveBtn.classList.remove("bg-blue-600", "hover:bg-blue-500");
+        moveBtn.classList.add("bg-red-600", "hover:bg-red-500");
       }
     };
   }
@@ -33,8 +33,8 @@ export function elementPositionInit(p) {
       state.running = false;
       if (moveBtn) {
         moveBtn.textContent = "スタート";
-        moveBtn.classList.remove("btn-danger");
-        moveBtn.classList.add("btn-primary");
+        moveBtn.classList.remove("bg-red-600", "hover:bg-red-500");
+        moveBtn.classList.add("bg-blue-600", "hover:bg-blue-500");
       }
     };
   }
