@@ -107,7 +107,7 @@ function fullScreen(p) {
     (8 * usableHeight(p)) / 9,
     p.WEBGL
   );
-  canvas.parent(document.getElementById("p5Container"));
+  canvas.parent(p.select("#p5Container"));
 }
 
 //ボタン、スライダー、グラフのインスタンス
