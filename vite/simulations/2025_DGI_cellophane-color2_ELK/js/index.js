@@ -1,12 +1,15 @@
 import Chart from "chart.js/auto";
-import html2canvas from "html2canvas";
+import { domToPng } from "modern-screenshot";
 import * as math from "mathjs";
 import p5 from "p5";
 import "../../../css/tailwind.css";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 window.Chart = Chart;
-window.html2canvas = html2canvas;
 window.math = math;
+// グラフの背景が暗い配色(body: bg-neutral-900)の上に透明で表示されるため、
+// Chart.jsの既定の文字色(#666、白背景向け)のままだとコントラスト不足で見えづらい。
+// 暗い背景でも視認できる明るい色に変更する。
+Chart.defaults.color = "#e5e5e5";
 
 // <変数の宣言>
 let cmfTable, osTable;
@@ -169,8 +172,8 @@ let lastSlider;
 // screenshotButtonの設定
 window.onload = function () {
   document.getElementById("screenshotButton").addEventListener("click", () => {
-    html2canvas(document.body).then((canvas) => {
-      downloadImage(canvas.toDataURL());
+    domToPng(document.body).then((dataUrl) => {
+      downloadImage(dataUrl);
     });
   });
   function downloadImage(dataUrl) {

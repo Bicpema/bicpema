@@ -1,6 +1,6 @@
 import "../../../css/tailwind.css";
 import p5 from "p5";
-import html2canvas from "html2canvas";
+import { domToPng } from "modern-screenshot";
 import {
   initModal,
   initCollapse,
@@ -14,8 +14,8 @@ new p5();
 window.onload = function () {
   // screenshotButtonの設定
   document.getElementById("screenshotButton").addEventListener("click", () => {
-    html2canvas(document.body).then((canvas) => {
-      downloadImage(canvas.toDataURL());
+    domToPng(document.body).then((dataUrl) => {
+      downloadImage(dataUrl);
     });
   });
   function downloadImage(dataUrl) {

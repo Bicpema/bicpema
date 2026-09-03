@@ -77,7 +77,7 @@ const sketch = (p) => {
   };
 
   p.windowResized = () => {
-    p.resizeCanvas((2 * p.windowWidth) / 3, (8 * p.windowHeight) / 10);
+    p.resizeCanvas((2 * p.windowWidth) / 3, (8 * usableHeight(p)) / 9);
     elInit(p);
     initValue(p);
     incidentColor.style("background", "rgb(144,181,130)");
@@ -96,8 +96,18 @@ const sketch = (p) => {
 
 new p5(sketch);
 
+// ヘッダー(60px固定)を除いた、実際に使用できる高さ
+function usableHeight(p) {
+  return p.windowHeight - 60;
+}
+
 function fullScreen(p) {
-  p.createCanvas((2 * p.windowWidth) / 3, (8 * p.windowHeight) / 10, p.WEBGL);
+  let canvas = p.createCanvas(
+    (2 * p.windowWidth) / 3,
+    (8 * usableHeight(p)) / 9,
+    p.WEBGL
+  );
+  canvas.parent(p.select("#p5Container"));
 }
 
 //ボタン、スライダー、グラフのインスタンス
@@ -223,71 +233,71 @@ function bButtonFunction(p) {
 }
 
 function elInit(p) {
+  const contentHeight = usableHeight(p);
+  const canvasHeight = (8 * contentHeight) / 9;
   backgroundDiv
-    .size(p.windowWidth, p.windowHeight / 10)
-    .position(0, (9 * p.windowHeight) / 10);
+    .size(p.windowWidth, contentHeight / 9)
+    .position(0, 60 + canvasHeight);
+  const barHeight = contentHeight / 9;
   waveRepresentationButton
     .mousePressed(() => waveRepresentationFunction(p))
-    .size(p.windowWidth / 4, p.windowHeight / 10)
+    .size(p.windowWidth / 4, barHeight)
     .position(0, 0)
     .parent(backgroundDiv)
     .addClass(BTN_PRIMARY)
     .style("font-size", "3vh");
   cellophaneCountSlider
-    .size(p.windowWidth / 4, (2 * p.windowHeight) / 30)
-    .position(p.windowWidth / 4, p.windowHeight / 30)
+    .size(p.windowWidth / 4, (2 * barHeight) / 3)
+    .position(p.windowWidth / 4, barHeight / 3)
     .parent(backgroundDiv)
     .input(() => {
       cellophaneCountSliderFunction(p);
       updateGraph();
     });
   cellophaneCountSliderValue
-    .size(p.windowWidth / 4, p.windowHeight / 20)
+    .size(p.windowWidth / 4, barHeight / 2)
     .position(p.windowWidth / 4, 0)
     .parent(backgroundDiv)
     .style("font-size", "3vh");
   rButton
     .mousePressed(() => rButtonFunction(p))
-    .size(p.windowWidth / 12, p.windowHeight / 10)
+    .size(p.windowWidth / 12, barHeight)
     .position((2 * p.windowWidth) / 4 + (0 * p.windowWidth) / 12, 0)
     .parent(backgroundDiv)
     .addClass(BTN_DANGER);
   gButton
     .mousePressed(() => gButtonFunction(p))
-    .size(p.windowWidth / 12, p.windowHeight / 10)
+    .size(p.windowWidth / 12, barHeight)
     .position((2 * p.windowWidth) / 4 + (1 * p.windowWidth) / 12, 0)
     .parent(backgroundDiv)
     .addClass(BTN_SUCCESS);
   bButton
     .mousePressed(() => bButtonFunction(p))
-    .size(p.windowWidth / 12, p.windowHeight / 10)
+    .size(p.windowWidth / 12, barHeight)
     .position((2 * p.windowWidth) / 4 + (2 * p.windowWidth) / 12, 0)
     .parent(backgroundDiv)
     .addClass(BTN_PRIMARY);
   switchButton
     .mousePressed(() => switchFunction(p))
-    .size(p.windowWidth / 4, p.windowHeight / 10)
+    .size(p.windowWidth / 4, barHeight)
     .position((3 * p.windowWidth) / 4, 0)
     .parent(backgroundDiv)
     .addClass(BTN_DANGER)
     .style("font-size", "3vh");
   graph
     .size(p.windowWidth / 3, (4.5 * p.height) / 10)
-    .position((2 * p.windowWidth) / 3, p.windowHeight / 10 + p.height / 10)
+    .position((2 * p.windowWidth) / 3, 60 + p.height / 10)
     .style("background-color", "white");
   graphCanvas.position(0, 0).id("graphChart").parent(graph);
   cmfGraph
     .size(p.windowWidth / 3, (4.5 * p.height) / 10)
-    .position(
-      (2 * p.windowWidth) / 3,
-      p.windowHeight / 10 + (5.5 * p.height) / 10
-    )
+    .position((2 * p.windowWidth) / 3, 60 + (5.5 * p.height) / 10)
     .style("background-color", "white");
   cmfGraphCanvas.position(0, 0).id("cmfGraphChart").parent(cmfGraph);
   let lh = p.height / 10;
   incidentColor
     .size(p.windowWidth / 6, p.height / 10)
-    .position((2 * p.windowWidth) / 3, p.windowHeight / 10)
+    .position((2 * p.windowWidth) / 3, 60)
     .style("background", "white")
     .style("text-align", "center")
     .style("font-size", "3vh")
@@ -295,7 +305,7 @@ function elInit(p) {
     .addClass("font-bold");
   transmittedColor
     .size(p.windowWidth / 6, p.height / 10)
-    .position((2 * p.windowWidth) / 3 + p.windowWidth / 6, p.windowHeight / 10)
+    .position((2 * p.windowWidth) / 3 + p.windowWidth / 6, 60)
     .style("background", "white")
     .style("text-align", "center")
     .style("font-size", "3vh")
