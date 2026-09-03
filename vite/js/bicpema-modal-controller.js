@@ -71,3 +71,71 @@ export function initCollapse({ toggleSelectors, targetSelector }) {
     });
   });
 }
+
+/**
+ * initTabs
+ *
+ * Bootstrap JSのタブ（data-bs-toggle="tab"等）の代替。
+ * タブ要素（トリガー）のhref属性（例: "#paneId"）で対象のペインを
+ * 特定し、クリックされたタブとそれに対応するペインのみを表示する。
+ * タブの見た目（active状態）は呼び出し側のCSSで
+ * ".nav-link" / ".nav-link.active" を定義しておく想定。
+ *
+ * @param {object} options
+ * @param {string} options.tabSelector タブ（トリガー）要素のCSSセレクタ（複数要素にマッチしてよい、各要素はhref="#paneId"を持つ）
+ */
+export function initTabs({ tabSelector }) {
+  const tabs = Array.from(document.querySelectorAll(tabSelector));
+  if (tabs.length === 0) return;
+
+  const activate = (activeTab) => {
+    tabs.forEach((tab) => {
+      const pane = document.querySelector(tab.getAttribute("href"));
+      const isActive = tab === activeTab;
+      tab.classList.toggle("active", isActive);
+      if (pane) pane.classList.toggle("hidden", !isActive);
+    });
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", (event) => {
+      event.preventDefault();
+      activate(tab);
+    });
+  });
+}
+
+/**
+ * initOffcanvas
+ *
+ * Bootstrap JSのoffcanvas（data-bs-toggle="offcanvas"等）の代替。
+ * 対象要素に"is-open"クラスを付け外しすることで表示/非表示を
+ * 切り替える。スライドイン等の見た目は呼び出し側のCSSで
+ * ".offcanvas" / ".offcanvas.is-open" を定義しておく想定。
+ *
+ * @param {object} options
+ * @param {string} options.openSelectors 開く要素のCSSセレクタ（複数要素にマッチしてよい）
+ * @param {string} options.offcanvasSelector 対象要素のCSSセレクタ（単一要素）
+ * @param {string} options.closeSelectors 閉じる要素のCSSセレクタ（複数要素にマッチしてよい）
+ */
+export function initOffcanvas({
+  openSelectors,
+  offcanvasSelector,
+  closeSelectors,
+}) {
+  const panel = document.querySelector(offcanvasSelector);
+  if (!panel) return;
+
+  const open = () => panel.classList.add("is-open");
+  const close = () => panel.classList.remove("is-open");
+
+  document.querySelectorAll(openSelectors).forEach((el) => {
+    el.addEventListener("click", open);
+  });
+  document.querySelectorAll(closeSelectors).forEach((el) => {
+    el.addEventListener("click", close);
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && panel.classList.contains("is-open")) close();
+  });
+}

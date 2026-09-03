@@ -13,26 +13,26 @@
         <p>
           ※地層を追加する際には右の「地層を追加」ボタンを押し、削除する際にはそれぞれの行の「削除」ボタンを押してください。
         </p>
-        <div class="text-end mb-3">
-          <button class="btn btn-outline-primary" id="trAddButton">
+        <div class="mb-3 text-end">
+          <button class="rounded border border-blue-600 bg-white px-3 py-1.5 text-blue-600 hover:bg-blue-50" id="trAddButton">
             地層の追加
           </button>
         </div>
-        <table class="table table-bordered table-hover">
+        <table class="w-full border-collapse text-sm">
           <thead>
             <tr>
-              <th style="width: 11%">番号</th>
-              <th style="width: 26%">堆積物の上端の深さ</th>
-              <th style="width: 26%">堆積物の下端の深さ</th>
-              <th style="width: 26%">岩層の種類</th>
-              <th style="width: 11%">削除ボタン</th>
+              <th class="border border-neutral-300 bg-neutral-100 px-2 py-1" style="width: 11%">番号</th>
+              <th class="border border-neutral-300 bg-neutral-100 px-2 py-1" style="width: 26%">堆積物の上端の深さ</th>
+              <th class="border border-neutral-300 bg-neutral-100 px-2 py-1" style="width: 26%">堆積物の下端の深さ</th>
+              <th class="border border-neutral-300 bg-neutral-100 px-2 py-1" style="width: 26%">岩層の種類</th>
+              <th class="border border-neutral-300 bg-neutral-100 px-2 py-1" style="width: 11%">削除ボタン</th>
             </tr>
           </thead>
           <tbody id="tablebody"></tbody>
         </table>
         <div class="text-end">
           <button
-            class="btn btn-outline-secondary"
+            class="rounded border border-neutral-400 px-3 py-1.5 hover:bg-neutral-100"
             href="javascript:void(0);"
             onclick="window.close()"
           >

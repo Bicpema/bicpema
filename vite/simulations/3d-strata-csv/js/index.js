@@ -1,8 +1,11 @@
-import "../../../scss/common.scss";
-import "bootstrap";
-import $ from "jquery";
+import "../../../css/tailwind.css";
 import p5 from "p5";
 import html2canvas from "html2canvas";
+import {
+  initModal,
+  initTabs,
+  initOffcanvas,
+} from "../../../js/bicpema-modal-controller.js";
 import { computeCoordinateBounds, computeSquareBounds } from "./physics.js";
 
 new p5();
@@ -32,38 +35,38 @@ class DOM {
       .parent(placePointNameInput)
       .class("mb-2")
       .id("placeNameInput" + str(this.n));
-    this.inputGroup1 = createDiv().parent(this.parentDiv).class("input-group");
-    this.inputGroup2 = createDiv().parent(this.parentDiv).class("input-group");
+    this.inputGroup1 = createDiv().parent(this.parentDiv).class("flex");
+    this.inputGroup2 = createDiv().parent(this.parentDiv).class("flex");
     // input要素の上の部分
     createElement("span", "地点" + str(this.n) + "：")
       .parent(this.inputGroup1)
-      .class("input-group-text");
+      .class("inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700");
     this.placeNameInput = createInput()
       .parent(this.inputGroup1)
-      .class("form-control")
+      .class("w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900")
       .input(placeNameInputFunction);
     // input要素の下の部分
     createElement("span", "y方向")
       .parent(this.inputGroup2)
-      .class("input-group-text");
+      .class("inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700");
     this.yInput = createInput(0, "number")
       .parent(this.inputGroup2)
-      .class("form-control");
+      .class("w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900");
     createElement("span", "x方向")
       .parent(this.inputGroup2)
-      .class("input-group-text");
+      .class("inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700");
     this.xInput = createInput(0, "number")
       .parent(this.inputGroup2)
-      .class("form-control");
+      .class("w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900");
     createDiv("地点" + str(this.n) + "の名前、y方向、x方向を入力してください。")
       .parent(this.parentDiv)
-      .class("form-text");
+      .class("text-sm text-neutral-500");
     // サブウィンドウ生成用のDOM
     this.placeDataInput = createA(
       "javascript:void(0)",
       "地点" + str(this.n) + "のデータを編集"
     )
-      .class("btn btn-outline-primary mb-2")
+      .class("mb-2 inline-block rounded border border-blue-600 bg-white px-3 py-1.5 text-blue-600 hover:bg-blue-50")
       .parent("placePointDataInput")
       .id("placeDataInput" + str(this.n));
   }
@@ -112,7 +115,7 @@ class BicpemaCanvasController {
     } else {
       canvas = createCanvas(w * this.widthRatio, h * this.heightRatio);
     }
-    canvas.parent(P5_CANVAS).class("rounded border border-1");
+    canvas.parent(P5_CANVAS).class("rounded border");
   }
 
   /**
@@ -357,13 +360,15 @@ function strataAddButtonFunction() {
     .id("tr-" + NextTrNum);
   let th = createElement("th", NextTrNum + "組目")
     .parent("tr-" + NextTrNum)
+    .class("border border-neutral-300 px-2 py-1 text-center")
     .id("th-" + NextTrNum);
   let td1 = createElement("td")
     .parent("tr-" + NextTrNum)
+    .class("border border-neutral-300 px-2 py-1")
     .id("td1-" + NextTrNum);
   let select1 = createSelect()
     .parent("td1-" + NextTrNum)
-    .class("form-select")
+    .class("block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900")
     .id("select1-" + NextTrNum);
   let select1doc = document.getElementById("select1-" + NextTrNum);
   select1doc.addEventListener("change", strataSelectFunction);
@@ -379,24 +384,27 @@ function strataAddButtonFunction() {
   for (let i = 0; i < strataArr.length; i++) select1.option(strataArr[i]);
   let td2 = createElement("td")
     .parent("tr-" + NextTrNum)
+    .class("border border-neutral-300 px-2 py-1")
     .id("td2-" + NextTrNum);
   let select2 = createSelect()
     .parent("td2-" + NextTrNum)
-    .class("form-select")
+    .class("block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900")
     .id("select2-" + NextTrNum);
   let td3 = createElement("td")
     .parent("tr-" + NextTrNum)
+    .class("border border-neutral-300 px-2 py-1")
     .id("td3-" + NextTrNum);
   let select3 = createSelect()
     .parent("td3-" + NextTrNum)
-    .class("form-select")
+    .class("block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900")
     .id("select3-" + NextTrNum);
   let td4 = createElement("td")
     .parent("tr-" + NextTrNum)
+    .class("border border-neutral-300 px-2 py-1")
     .id("td4-" + NextTrNum);
   let select4 = createSelect()
     .parent("td4-" + NextTrNum)
-    .class("form-select")
+    .class("block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900")
     .id("select4-" + NextTrNum);
   firstPlaceSelectFunction();
   secondPlaceSelectFunction();
@@ -1152,6 +1160,17 @@ function setup() {
   elementSelectInit();
   elementPositionInit();
   valueInit();
+  initModal({
+    openSelectors: ".data-register-modal-open",
+    modalSelector: "#dataRegisterModal",
+    closeSelectors: ".modal-close",
+  });
+  initOffcanvas({
+    openSelectors: ".legend-offcanvas-open",
+    offcanvasSelector: "#legendOffCanvas",
+    closeSelectors: ".offcanvas-close",
+  });
+  initTabs({ tabSelector: "#dataRegisterModal .nav-link" });
 }
 
 let coordinateData;
@@ -1159,7 +1178,9 @@ function draw() {
   background(255);
 
   // データ登録モーダルを開いている時にオービットコントロールを無効化
-  let dataRegisterModalIs = $("#dataRegisterModal").is(":hidden");
+  let dataRegisterModalIs = document
+    .getElementById("dataRegisterModal")
+    .classList.contains("hidden");
   if (dataRegisterModalIs) {
     orbitControl();
   }
