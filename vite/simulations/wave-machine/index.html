@@ -8,23 +8,20 @@
     <link href="./css/style.css" rel="stylesheet" />
   </head>
 
-  <body class="bg-dark" oncontextmenu="return false;">
+  <body class="bg-neutral-900" oncontextmenu="return false;">
     <nav
-      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
-      data-bs-theme="dark"
+      class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
-        <span class="text-light fw-lighter">ウェーブマシン</span>
-      </div>
+      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <span class="ml-3 font-light text-neutral-300">ウェーブマシン</span>
     </nav>
 
-    <div class="container-fluid" id="p5Container">
+    <div class="w-full" id="p5Container">
       <div id="p5Canvas"></div>
 
-      <div class="position-absolute bottom-0 start-0 m-3">
-        <button type="button" class="btn btn-dark m-1" id="decelerationButton">
+      <div class="absolute bottom-0 start-0 m-3">
+        <button type="button" class="m-1 rounded bg-neutral-700 px-3 py-2 text-white hover:bg-neutral-600" id="decelerationButton">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"
@@ -38,7 +35,7 @@
             />
           </svg>
         </button>
-        <button type="button" class="btn btn-dark m-1" id="accelerationButton">
+        <button type="button" class="m-1 rounded bg-neutral-700 px-3 py-2 text-white hover:bg-neutral-600" id="accelerationButton">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="32"

@@ -6,55 +6,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="./css/style.css" rel="stylesheet" />
   </head>
-  <body class="bg-dark" oncontextmenu="return false;">
+  <body class="bg-neutral-900" oncontextmenu="return false;">
     <nav
-      class="navbar navbar-expand-md bg-dark border-bottom border-bottom-dark fixed-top"
-      data-bs-theme="dark"
+      class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <div class="container-fluid">
-        <a class="navbar-brand" href="https://bicpema.com/">Bicpema</a>
-        <span class="text-light fw-lighter">音の可視化</span>
-      </div>
+      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <span class="ml-3 font-light text-neutral-300">音の可視化</span>
     </nav>
 
-    <main class="container-fluid" id="p5Container">
+    <main class="w-full" id="p5Container">
       <div id="p5Canvas"></div>
-      <div class="position-absolute bottom-0 start-0 m-3">
-        <button class="btn btn-success m-1" id="startButton" type="button">音の入力開始</button>
-        <button class="btn btn-secondary m-1" id="stopButton" type="button">一時停止</button>
-        <button class="btn btn-secondary m-1" id="restartButton" type="button">再開</button>
+      <div class="absolute bottom-0 start-0 m-3">
+        <button class="m-1 rounded bg-green-600 px-3 py-2 text-white hover:bg-green-500" id="startButton" type="button">音の入力開始</button>
+        <button class="m-1 rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500" id="stopButton" type="button">一時停止</button>
+        <button class="m-1 rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500" id="restartButton" type="button">再開</button>
       </div>
-      <div class="position-absolute end-0 me-3" style="top: 4.2rem; z-index: 1100">
+      <div class="absolute end-0 me-3" style="top: 4.2rem; z-index: 1100">
         <button
-          class="btn btn-primary"
-          data-bs-target="#simulationSettingModal"
-          data-bs-toggle="modal"
+          class="settings-modal-open rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
           type="button"
         >表示設定</button>
       </div>
     </main>
 
     <div
-      aria-hidden="true"
-      aria-labelledby="simulationSettingModalLabel"
-      class="modal fade"
+      class="fixed inset-0 z-[1100] hidden flex items-center justify-center bg-black/50"
       id="simulationSettingModal"
-      tabindex="-1"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="simulationSettingModalLabel"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="simulationSettingModalLabel">表示設定</h1>
-            <button aria-label="閉じる" class="btn-close" data-bs-dismiss="modal" type="button"></button>
-          </div>
-          <div class="modal-body">
-            <label class="form-label" for="modeSelect">表示モード</label>
-            <select class="form-select" id="modeSelect">
-              <option value="waveform">波形</option>
-              <option value="spectrum">スペクトル</option>
-            </select>
-          </div>
+      <div class="w-full max-w-lg rounded bg-white p-4 text-neutral-900">
+        <div class="mb-3 flex items-center justify-between border-b border-neutral-200 pb-2">
+          <h1 class="text-lg font-semibold" id="simulationSettingModalLabel">表示設定</h1>
+          <button aria-label="閉じる" class="modal-close text-xl leading-none text-neutral-500 hover:text-neutral-700" type="button">&times;</button>
+        </div>
+        <div>
+          <label class="mb-2 block" for="modeSelect">表示モード</label>
+          <select class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900" id="modeSelect">
+            <option value="waveform">波形</option>
+            <option value="spectrum">スペクトル</option>
+          </select>
         </div>
       </div>
     </div>

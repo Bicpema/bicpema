@@ -41,12 +41,12 @@ function toggleMove(moveBtn) {
   state.running = !state.running;
   if (!state.running) {
     moveBtn.textContent = "スタート";
-    moveBtn.classList.remove("btn-danger");
-    moveBtn.classList.add("btn-primary");
+    moveBtn.classList.remove("bg-red-600", "hover:bg-red-500");
+    moveBtn.classList.add("bg-blue-600", "hover:bg-blue-500");
   } else {
     moveBtn.textContent = "ストップ";
-    moveBtn.classList.remove("btn-primary");
-    moveBtn.classList.add("btn-danger");
+    moveBtn.classList.remove("bg-blue-600", "hover:bg-blue-500");
+    moveBtn.classList.add("bg-red-600", "hover:bg-red-500");
   }
 }
 
@@ -54,12 +54,12 @@ function toggleMode(modeBtn) {
   state.mode = state.mode === "free" ? "fixed" : "free";
   if (state.mode === "free") {
     modeBtn.textContent = "自由端";
-    modeBtn.classList.remove("btn-success");
-    modeBtn.classList.add("btn-warning");
+    modeBtn.classList.remove("bg-green-600", "hover:bg-green-500", "text-white");
+    modeBtn.classList.add("bg-amber-500", "hover:bg-amber-400", "text-neutral-900");
   } else {
     modeBtn.textContent = "固定端";
-    modeBtn.classList.remove("btn-warning");
-    modeBtn.classList.add("btn-success");
+    modeBtn.classList.remove("bg-amber-500", "hover:bg-amber-400", "text-neutral-900");
+    modeBtn.classList.add("bg-green-600", "hover:bg-green-500", "text-white");
   }
 }
 
@@ -70,7 +70,7 @@ function resetSim() {
   const moveBtn = document.getElementById("moveBtn");
   if (moveBtn) {
     moveBtn.textContent = "スタート";
-    moveBtn.classList.remove("btn-danger");
-    moveBtn.classList.add("btn-primary");
+    moveBtn.classList.remove("bg-red-600", "hover:bg-red-500");
+    moveBtn.classList.add("bg-blue-600", "hover:bg-blue-500");
   }
 }
