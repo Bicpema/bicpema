@@ -4,10 +4,9 @@
     <title>力の合成</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./css/style.css" rel="stylesheet" />
   </head>
 
-  <body class="bg-neutral-900" oncontextmenu="return false;">
+  <body class="h-full overflow-hidden bg-neutral-900 p-0" oncontextmenu="return false;">
     <nav
       class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
@@ -16,11 +15,11 @@
       <span class="ml-3 font-light text-neutral-300">力の合成</span>
     </nav>
 
-    <div class="w-full" id="p5Container">
-      <div id="p5Canvas"></div>
+    <div class="relative mt-[60px] h-[calc(100vh-60px)] w-full overflow-hidden p-0" id="p5Container">
+      <div class="flex h-full w-full justify-center" id="p5Canvas"></div>
       <button
         id="forceSettingsButton"
-        class="right-top-controls rounded-lg bg-blue-600 px-5 py-2 text-base font-bold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-lg active:translate-y-0 active:shadow"
+        class="absolute top-4 right-4 z-[1000] rounded-lg bg-blue-600 px-5 py-2 text-base font-bold text-white shadow-md transition hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-lg active:translate-y-0 active:shadow max-[576px]:top-2.5 max-[576px]:right-2.5"
         type="button"
       >設定</button>
     </div>

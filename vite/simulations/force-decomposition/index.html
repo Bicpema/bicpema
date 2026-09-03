@@ -4,10 +4,9 @@
     <title>力の分解</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./css/style.css" rel="stylesheet" />
   </head>
 
-  <body class="bg-neutral-900" oncontextmenu="return false;">
+  <body class="h-full overflow-hidden bg-neutral-900 p-0" oncontextmenu="return false;">
     <nav
       class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
@@ -16,8 +15,8 @@
       <span class="ml-3 font-light text-neutral-300">力の分解</span>
     </nav>
 
-    <div class="w-full" id="p5Container">
-      <div id="p5Canvas"></div>
+    <div class="relative mt-[60px] h-[calc(100vh-60px)] w-full overflow-hidden p-0" id="p5Container">
+      <div class="flex h-full w-full justify-center" id="p5Canvas"></div>
     </div>
 
     <script type="module" src="./js/index.js"></script>
