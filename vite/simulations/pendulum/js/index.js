@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 
@@ -96,7 +97,14 @@ function setup() {
   initValue();
 }
 
+let isFirstDraw = true;
+
 function draw() {
+  if (isFirstDraw) {
+    isFirstDraw = false;
+    hideLoadingSpinner();
+  }
+
   background(255);
   if (clickedCount) count += 1;
   background_setting();

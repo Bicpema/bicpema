@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { state } from "./state.js";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
@@ -26,7 +27,14 @@ const sketch = (p) => {
     initValue(p);
   };
 
+  let isFirstDraw = true;
+
   p.draw = () => {
+    if (isFirstDraw) {
+      isFirstDraw = false;
+      hideLoadingSpinner();
+    }
+
     p.background(255);
     state.ball.update(1 / FPS);
     p.scale(p.width / 1000);

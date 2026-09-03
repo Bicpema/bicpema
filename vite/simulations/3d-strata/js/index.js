@@ -1,5 +1,6 @@
 import "../../../css/tailwind.css";
 import p5 from "p5";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import { domToPng } from "modern-screenshot";
 import {
   initModal,
@@ -984,7 +985,14 @@ let allSetData = {
 
 // draw関数
 let rotateTime = 0;
+let isFirstDraw = true;
+
 function draw() {
+  if (isFirstDraw) {
+    isFirstDraw = false;
+    hideLoadingSpinner();
+  }
+
   let coordinateData = calculateValue();
   let xMin = coordinateData.x.min;
   if (xMin == Infinity) xMin = 0;

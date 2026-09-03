@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import { state } from "./state.js";
@@ -36,7 +37,14 @@ const sketch = (p) => {
     p.loop();
   };
 
+  let isFirstDraw = true;
+
   p.draw = () => {
+    if (isFirstDraw) {
+      isFirstDraw = false;
+      hideLoadingSpinner();
+    }
+
     // 仮想座標系 (V_W × V_W*9/16) に合わせてスケーリング
     p.scale(p.width / V_W);
     drawSimulation(p);

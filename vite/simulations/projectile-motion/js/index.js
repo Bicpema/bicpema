@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 
 //ボタンのインスタンス
@@ -243,7 +244,14 @@ function setup() {
 }
 
 //draw関数
+let isFirstDraw = true;
+
 function draw() {
+  if (isFirstDraw) {
+    isFirstDraw = false;
+    hideLoadingSpinner();
+  }
+
   if (clickedCount == true) {
     count += 10;
   } else if (resetCount == true) {
