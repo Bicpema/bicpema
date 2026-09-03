@@ -4,14 +4,13 @@
     <title>斜方投射</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="./css/style.css" rel="stylesheet" />
     <!-- 物理計算ロジックを先に読み込んだ後でシミュレーション本体を実行 -->
     <script type="module" src="./js/physics.js"></script>
   </head>
 
-  <body>
-    <div class="upper-bar bg-neutral-900 p-0">
-      <div class="flex items-center upper-bar-content m-0">
+  <body class="m-0 h-screen w-screen p-0 fixed text-base">
+    <div class="h-[10vh] bg-neutral-900 p-0">
+      <div class="flex h-full items-center m-0">
         <a class="flex-1 text-center" href="https://bicpema.com/">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -30,7 +29,7 @@
             />
           </svg>
         </a>
-        <div class="simulation-title flex-[10] text-center m-0">
+        <div class="p-0 flex-[10] text-center m-0">
           <span class="text-white" style="font-size: 2.5vw">斜方投射</span>
         </div>
         <div class="flex-1 text-center">
