@@ -1,11 +1,20 @@
 import p5 from "p5";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "../../../css/tailwind.css";
 import Chart from "chart.js/auto";
 import {
   computeOpticalPathDifference,
   computeTransmittance,
 } from "./physics.js";
+
+// ボタンの色をJS側で動的に切り替えるため、Bootstrapのbtn-*相当の
+// スタイルをTailwindユーティリティクラスの文字列として定義しておく。
+// addClass/removeClassは常にこの定数を使うことで、確実に対応する
+// クラスの追加・削除ができるようにする。
+const BTN_PRIMARY = "rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500";
+const BTN_DANGER = "rounded bg-red-600 px-3 py-2 text-white hover:bg-red-500";
+const BTN_SECONDARY =
+  "rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500";
+const BTN_SUCCESS = "rounded bg-green-600 px-3 py-2 text-white hover:bg-green-500";
 
 const state = {
   spectrumSheet: null,
@@ -132,10 +141,10 @@ function elCreate(p) {
 function waveRepresentationFunction(p) {
   if (waveRepresentation == "line") {
     waveRepresentation = "sphere";
-    waveRepresentationButton.removeClass("btn-danger").addClass("btn-primary");
+    waveRepresentationButton.removeClass(BTN_DANGER).addClass(BTN_PRIMARY);
   } else if (waveRepresentation == "sphere") {
     waveRepresentation = "line";
-    waveRepresentationButton.removeClass("btn-primary").addClass("btn-danger");
+    waveRepresentationButton.removeClass(BTN_PRIMARY).addClass(BTN_DANGER);
   }
 }
 
@@ -168,14 +177,14 @@ function switchFunction(p) {
   if (switchIs == false) {
     switchIs = true;
     switchButton
-      .removeClass("btn btn-primary")
-      .addClass("btn btn-danger")
+      .removeClass(BTN_PRIMARY)
+      .addClass(BTN_DANGER)
       .html("ストップ");
   } else {
     switchIs = false;
     switchButton
-      .removeClass("btn btn-danger")
-      .addClass("btn btn-primary")
+      .removeClass(BTN_DANGER)
+      .addClass(BTN_PRIMARY)
       .html("スタート");
   }
 }
@@ -184,10 +193,10 @@ function switchFunction(p) {
 function rButtonFunction(p) {
   if (rIs == true) {
     rIs = false;
-    rButton.removeClass("btn btn-danger").addClass("btn btn-secondary");
+    rButton.removeClass(BTN_DANGER).addClass(BTN_SECONDARY);
   } else {
     rIs = true;
-    rButton.removeClass("btn btn-secondary").addClass("btn btn-danger");
+    rButton.removeClass(BTN_SECONDARY).addClass(BTN_DANGER);
   }
 }
 
@@ -195,10 +204,10 @@ function rButtonFunction(p) {
 function gButtonFunction(p) {
   if (gIs == true) {
     gIs = false;
-    gButton.removeClass("btn btn-success").addClass("btn btn-secondary");
+    gButton.removeClass(BTN_SUCCESS).addClass(BTN_SECONDARY);
   } else {
     gIs = true;
-    gButton.removeClass("btn btn-secondary").addClass("btn btn-success");
+    gButton.removeClass(BTN_SECONDARY).addClass(BTN_SUCCESS);
   }
 }
 
@@ -206,10 +215,10 @@ function gButtonFunction(p) {
 function bButtonFunction(p) {
   if (bIs == true) {
     bIs = false;
-    bButton.removeClass("btn btn-primary").addClass("btn btn-secondary");
+    bButton.removeClass(BTN_PRIMARY).addClass(BTN_SECONDARY);
   } else {
     bIs = true;
-    bButton.removeClass("btn btn-secondary").addClass("btn btn-primary");
+    bButton.removeClass(BTN_SECONDARY).addClass(BTN_PRIMARY);
   }
 }
 
@@ -222,7 +231,7 @@ function elInit(p) {
     .size(p.windowWidth / 4, p.windowHeight / 10)
     .position(0, 0)
     .parent(backgroundDiv)
-    .addClass("btn btn-primary")
+    .addClass(BTN_PRIMARY)
     .style("font-size", "3vh");
   cellophaneCountSlider
     .size(p.windowWidth / 4, (2 * p.windowHeight) / 30)
@@ -242,25 +251,25 @@ function elInit(p) {
     .size(p.windowWidth / 12, p.windowHeight / 10)
     .position((2 * p.windowWidth) / 4 + (0 * p.windowWidth) / 12, 0)
     .parent(backgroundDiv)
-    .addClass("btn btn-danger");
+    .addClass(BTN_DANGER);
   gButton
     .mousePressed(() => gButtonFunction(p))
     .size(p.windowWidth / 12, p.windowHeight / 10)
     .position((2 * p.windowWidth) / 4 + (1 * p.windowWidth) / 12, 0)
     .parent(backgroundDiv)
-    .addClass("btn btn-success");
+    .addClass(BTN_SUCCESS);
   bButton
     .mousePressed(() => bButtonFunction(p))
     .size(p.windowWidth / 12, p.windowHeight / 10)
     .position((2 * p.windowWidth) / 4 + (2 * p.windowWidth) / 12, 0)
     .parent(backgroundDiv)
-    .addClass("btn btn-primary");
+    .addClass(BTN_PRIMARY);
   switchButton
     .mousePressed(() => switchFunction(p))
     .size(p.windowWidth / 4, p.windowHeight / 10)
     .position((3 * p.windowWidth) / 4, 0)
     .parent(backgroundDiv)
-    .addClass("btn btn-danger")
+    .addClass(BTN_DANGER)
     .style("font-size", "3vh");
   graph
     .size(p.windowWidth / 3, (4.5 * p.height) / 10)
@@ -283,7 +292,7 @@ function elInit(p) {
     .style("text-align", "center")
     .style("font-size", "3vh")
     .style("line-height", lh + "px")
-    .addClass("fw-bold");
+    .addClass("font-bold");
   transmittedColor
     .size(p.windowWidth / 6, p.height / 10)
     .position((2 * p.windowWidth) / 3 + p.windowWidth / 6, p.windowHeight / 10)
@@ -291,7 +300,7 @@ function elInit(p) {
     .style("text-align", "center")
     .style("font-size", "3vh")
     .style("line-height", lh + "px")
-    .addClass("fw-bold");
+    .addClass("font-bold");
 }
 
 //csvファイル内のデータを格納する配列

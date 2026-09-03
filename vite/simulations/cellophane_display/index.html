@@ -9,12 +9,12 @@
   </head>
 
   <body oncontextmenu="return false;">
-    <div class="container-fluid bg-dark upper-bar p-0">
+    <div class="upper-bar bg-neutral-900 p-0">
       <div
-        class="row align-items-center upper-bar-content p-0 w-100 m-0"
+        class="flex w-full items-center upper-bar-content p-0 m-0"
         id="upper-bar"
       >
-        <a class="col text-center" href="https://bicpema.com/">
+        <a class="flex-1 text-center" href="https://bicpema.com/">
           <svg
             class="bi bi-house-fill text-white"
             fill="currentColor"
@@ -32,7 +32,7 @@
             ></path>
           </svg>
         </a>
-        <div class="col-10 navbar-brand text-center simulation-title p-0 m-0">
+        <div class="flex-[10] simulation-title text-center p-0 m-0">
           <h1
             class="text-white simulation-title-content"
             style="font-size: 2.5vw"
@@ -40,7 +40,7 @@
             偏光色を再現するシミュレーション
           </h1>
         </div>
-        <div class="col text-center">
+        <div class="flex-1 text-center">
           <svg
             class="bi bi-info-circle text-white"
             fill="currentColor"
@@ -57,23 +57,21 @@
           </svg>
         </div>
       </div>
-      <div class="row w-100 m-0">
-        <div class="col p-0 content-box">
+      <div class="flex w-full m-0">
+        <div class="flex-1 p-0 content-box">
           <div class="" id="p5Canvas"></div>
         </div>
       </div>
     </div>
     <!-- Button trigger modal -->
-    <div class="position-absolute bottom-0 m-3 start-0">
+    <div class="absolute bottom-0 m-3 start-0">
       <button
         type="button"
-        class="btn btn-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#settingModal"
+        class="settings-modal-open rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
       >
         シミュレーションの設定
       </button>
-      <a class="btn btn-secondary" id="screenshotButton" type="button">
+      <a class="rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500" id="screenshotButton" type="button">
         スクリーンショット
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -94,101 +92,99 @@
     </div>
     <!-- Modal -->
     <div
-      class="modal fade"
+      class="fixed inset-0 z-[1100] hidden flex items-center justify-center bg-black/50"
       id="settingModal"
-      tabindex="-1"
-      aria-labelledby="settingModalLabel"
-      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="settingModalTitle"
     >
-      <div class="modal-dialog modal-lg modal-dialog-scrollable">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-3" id="settingModalLabel">
-              シミュレーションの設定
-            </h1>
+      <div class="max-h-[85vh] w-full max-w-2xl overflow-y-auto rounded bg-white p-4 text-neutral-900">
+        <div class="mb-3 flex items-center justify-between border-b border-neutral-200 pb-2">
+          <h1 class="text-xl font-semibold" id="settingModalTitle">
+            シミュレーションの設定
+          </h1>
+          <button
+            type="button"
+            class="modal-close text-xl leading-none text-neutral-500 hover:text-neutral-700"
+            aria-label="Close"
+          >
+            &times;
+          </button>
+        </div>
+        <div>
+          <h2 class="text-lg font-semibold">偏光板とセロハンテープの設定</h2>
+          <div class="mb-4">
+            <select class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900" id="polarizerSelect">
+              <option>平行ニコル配置</option>
+              <option>直交ニコル配置</option>
+            </select>
+            <label class="mt-1 block text-sm text-neutral-600" for="polarizerSelect"
+              >偏光板の重ね方を選択してください。</label
+            >
+          </div>
+          <div class="mb-4">
+            <input
+              type="number"
+              class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+              id="opdInput"
+              placeholder=""
+              min="0"
+              value="250.00"
+            />
+            <label class="mt-1 block text-sm text-neutral-600" for="opdInput">光路差の値を入力してください。</label>
+          </div>
+
+          <h2 class="text-lg font-semibold">セロハンテープの組の設定</h2>
+          <button
+            class="mb-3 rounded border border-blue-600 bg-white px-3 py-1.5 text-blue-600 hover:bg-blue-50"
+            id="cellophaneAddButton"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20px"
+              height="20px"
+              fill="currentColor"
+              class="bi bi-plus-circle pb-1"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+              />
+            </svg>
+            追加
+          </button>
+          <button
+            class="mb-3 rounded border border-red-600 bg-white px-3 py-1.5 text-red-600 hover:bg-red-50"
+            id="cellophaneRemoveButton"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20px"
+              height="20px"
+              fill="currentColor"
+              class="bi bi-dash-circle pb-1"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+              />
+              <path
+                d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"
+              />
+            </svg>
+            削除
+          </button>
+          <div class="mb-3 overflow-auto" id="cellophaneColabNum"></div>
+          <div class="flex justify-end border-t border-neutral-200 pt-2">
             <button
               type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <h2 class="fs-5">偏光板とセロハンテープの設定</h2>
-            <div class="mb-3 form-floating">
-              <select class="form-select" id="polarizerSelect">
-                <option>平行ニコル配置</option>
-                <option>直交ニコル配置</option>
-              </select>
-              <label for="polarizerSelect"
-                >偏光板の重ね方を選択してください。</label
-              >
-            </div>
-            <div class="mb-3 form-floating">
-              <input
-                type="number"
-                class="form-control"
-                id="opdInput"
-                placeholder=""
-                min="0"
-                value="250.00"
-              />
-              <label for="opdInput">光路差の値を入力してください。</label>
-            </div>
-
-            <h2 class="fs-5">セロハンテープの組の設定</h2>
-            <button
-              class="btn btn-outline-primary mb-3"
-              id="cellophaneAddButton"
+              class="modal-close rounded border border-neutral-400 px-3 py-1.5 hover:bg-neutral-100"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20px"
-                height="20px"
-                fill="currentColor"
-                class="bi bi-plus-circle pb-1"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-                />
-                <path
-                  d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
-                />
-              </svg>
-              追加
+              閉じる
             </button>
-            <button
-              class="btn btn-outline-danger mb-3"
-              id="cellophaneRemoveButton"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20px"
-                height="20px"
-                fill="currentColor"
-                class="bi bi-dash-circle pb-1"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-                />
-                <path
-                  d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"
-                />
-              </svg>
-              削除
-            </button>
-            <div class="mb-3 overflow-auto" id="cellophaneColabNum"></div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-outline-secondary"
-                data-bs-dismiss="modal"
-              >
-                閉じる
-              </button>
-            </div>
           </div>
         </div>
       </div>

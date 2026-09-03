@@ -1,9 +1,9 @@
 import p5 from "p5";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "../../../css/tailwind.css";
 import Chart from "chart.js/auto";
 import html2canvas from "html2canvas";
 import * as math from "mathjs";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
 import { computePhaseRetardation } from "./physics.js";
 window.Chart = Chart;
 window.html2canvas = html2canvas;
@@ -255,6 +255,11 @@ function cellophaneRemoveButtonFunction() {
 function elInit() {
   cellophaneAddButton.mousePressed(cellophaneAddButtonFunction);
   cellophaneRemoveButton.mousePressed(cellophaneRemoveButtonFunction);
+  initModal({
+    openSelectors: ".settings-modal-open",
+    modalSelector: "#settingModal",
+    closeSelectors: ".modal-close",
+  });
 }
 
 // 光源の強度値の算出

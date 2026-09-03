@@ -2,6 +2,8 @@ import Chart from "chart.js/auto";
 import html2canvas from "html2canvas";
 import * as math from "mathjs";
 import p5 from "p5";
+import "../../../css/tailwind.css";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
 window.Chart = Chart;
 window.html2canvas = html2canvas;
 window.math = math;
@@ -249,6 +251,11 @@ function cellophaneRemoveButtonFunction() {
 function elInit() {
   cellophaneAddButton.mousePressed(cellophaneAddButtonFunction);
   cellophaneRemoveButton.mousePressed(cellophaneRemoveButtonFunction);
+  initModal({
+    openSelectors: ".settings-modal-open",
+    modalSelector: "#settingModal",
+    closeSelectors: ".modal-close",
+  });
 }
 
 // 光源の強度値の算出
