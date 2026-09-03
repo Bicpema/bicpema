@@ -19,10 +19,3 @@ export function computeSnellRatio(theta1, n12) {
 export function computeRefractionAngle(theta1, n12) {
   return Math.asin(computeSnellRatio(theta1, n12));
 }
-
-if (typeof window !== "undefined") {
-  /** @type {any} */ (window).refractionPhysics = {
-    computeSnellRatio,
-    computeRefractionAngle,
-  };
-}
