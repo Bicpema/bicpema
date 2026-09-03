@@ -5,10 +5,9 @@
     <title>セロハンによる色を変化を観察するシミュレーション</title>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <link rel="stylesheet" href="./css/style.css" type="text/css" />
   </head>
 
-  <body class="bg-neutral-900" oncontextmenu="return false;">
+  <body class="m-0 h-screen w-screen fixed bg-neutral-900 p-0 text-base" oncontextmenu="return false;">
     <nav
       class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
@@ -16,10 +15,10 @@
       <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
       <span class="ml-3 font-light text-neutral-300">偏光色を再現するシミュレーション</span>
     </nav>
-    <div id="p5Container">
+    <div class="mt-[60px]" id="p5Container">
       <div class="flex w-full m-0">
         <div class="flex-1 p-0 content-box">
-          <div class="" id="p5Canvas"></div>
+          <div class="h-[90vh]" id="p5Canvas"></div>
         </div>
       </div>
     </div>
