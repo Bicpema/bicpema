@@ -1673,11 +1673,11 @@ function lineMaxRays() {
 
 function fullScreen() {
   let p5Canvas = document.getElementById("p5Canvas");
-  let canvas = createCanvas(windowWidth, (9 * windowHeight) / 10);
+  let canvas = createCanvas(windowWidth, windowHeight - 60);
   canvas.parent(p5Canvas);
 }
 function windowResized() {
-  resizeCanvas(windowWidth, (9 * windowHeight) / 10);
+  resizeCanvas(windowWidth, windowHeight - 60);
 }
 
 window.preload = preload;

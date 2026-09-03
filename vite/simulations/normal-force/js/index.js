@@ -15,6 +15,7 @@ let backgroundDiv,
   sortButton1,
   sortButton2,
   sortButton3;
+const NAV_HEIGHT = 60;
 let count = 0;
 let SLOPE_WID = 0;
 let GROUND_HEI = 0;
@@ -44,82 +45,107 @@ function materialSet() {
   material = new Material(weightButton.value(), 1);
 }
 function buttonSettings() {
+  const controlTop = NAV_HEIGHT + height;
   backgroundDiv
     .size(width, windowHeight / 10)
     .style("background-color", "white");
   startButton
     .mousePressed(moveButtonAction)
     .size(windowWidth / 8, windowHeight / 10)
-    .position(0, height + windowHeight / 10)
-    .addClass("cursor-pointer rounded border border-blue-600 bg-white text-blue-600 hover:bg-blue-50")
+    .position(0, controlTop)
+    .addClass(
+      "cursor-pointer rounded border border-blue-600 bg-white text-blue-600 hover:bg-blue-50"
+    )
     .parent(backgroundDiv);
   stopButton
     .mousePressed(moveButtonAction)
     .size(windowWidth / 8, windowHeight / 10)
-    .position(0, height + windowHeight / 10)
-    .addClass("cursor-pointer rounded border border-red-600 bg-white text-red-600 hover:bg-red-50")
+    .position(0, controlTop)
+    .addClass(
+      "cursor-pointer rounded border border-red-600 bg-white text-red-600 hover:bg-red-50"
+    )
     .hide()
     .parent(backgroundDiv);
   resetButton
     .mousePressed(resetButtonAction)
     .size(windowWidth / 8, windowHeight / 10)
-    .position(windowWidth / 8, height + windowHeight / 10)
-    .addClass("cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100")
+    .position(windowWidth / 8, controlTop)
+    .addClass(
+      "cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100"
+    )
     .parent(backgroundDiv);
   slopeAngleButtonLabel
     .size(windowWidth / 8, windowHeight / 10)
-    .position((2 * windowWidth) / 8, height + windowHeight / 10)
+    .position((2 * windowWidth) / 8, controlTop)
     .parent(backgroundDiv)
-    .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900");
+    .addClass(
+      "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
+    );
   slopeAngleButton
     .size(windowWidth / 8, windowHeight / 10)
-    .position((3 * windowWidth) / 8, height + windowHeight / 10)
+    .position((3 * windowWidth) / 8, controlTop)
     .parent(backgroundDiv)
-    .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
+    .addClass(
+      "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
+    )
     .attribute("min", 0)
     .attribute("max", 89.9)
     .attribute("step", 0.1);
   weightButtonLabel
     .size(windowWidth / 8, windowHeight / 10)
-    .position((4 * windowWidth) / 8, height + windowHeight / 10)
+    .position((4 * windowWidth) / 8, controlTop)
     .parent(backgroundDiv)
-    .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900");
+    .addClass(
+      "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
+    );
   weightButton
     .size(windowWidth / 8, windowHeight / 10)
-    .position((5 * windowWidth) / 8, height + windowHeight / 10)
+    .position((5 * windowWidth) / 8, controlTop)
     .parent(backgroundDiv)
-    .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
+    .addClass(
+      "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
+    )
     .attribute("min", 0)
     .attribute("max", 20)
     .attribute("step", 0.1);
   gravityButtonLabel
     .size(windowWidth / 8, windowHeight / 10)
-    .position((6 * windowWidth) / 8, height + windowHeight / 10)
+    .position((6 * windowWidth) / 8, controlTop)
     .parent(backgroundDiv)
-    .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900");
+    .addClass(
+      "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
+    );
   gravityButton
     .size(windowWidth / 8, windowHeight / 10)
-    .position((7 * windowWidth) / 8, height + windowHeight / 10)
+    .position((7 * windowWidth) / 8, controlTop)
     .parent(backgroundDiv)
-    .addClass("rounded border border-neutral-300 bg-neutral-50 text-neutral-900")
+    .addClass(
+      "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
+    )
     .attribute("min", 0)
     .attribute("max", 20)
     .attribute("step", 0.1);
   sortButton1
     .mousePressed(sortButtonAction1)
     .size(windowWidth / 8, windowHeight / 10)
-    .position(width - (3 * windowWidth) / 8, windowHeight / 10)
-    .addClass("cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100");
+    .position(width - (3 * windowWidth) / 8, NAV_HEIGHT)
+    .addClass(
+      "cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100"
+    );
   sortButton2
     .mousePressed(sortButtonAction2)
     .size(windowWidth / 8, windowHeight / 10)
-    .position(width - (2 * windowWidth) / 8, windowHeight / 10)
-    .addClass("cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100");
+    .position(width - (2 * windowWidth) / 8, NAV_HEIGHT)
+    .addClass(
+      "cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100"
+    );
   sortButton3
     .mousePressed(sortButtonAction3)
     .size(windowWidth / 8, windowHeight / 10)
-    .position(width - windowWidth / 8, windowHeight / 10)
-    .addClass("cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100");
+    .position(width - windowWidth / 8, NAV_HEIGHT)
+    .addClass(
+      "cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100"
+    );
 }
 function sortButtonAction1() {
   material.sort = 1;
@@ -781,7 +807,12 @@ function windowResized() {
   stopButton.hide();
 }
 function fullScreen() {
-  createCanvas(windowWidth, (8 * windowHeight) / 10);
+  let p5Canvas = document.getElementById("p5Canvas");
+  let canvas = createCanvas(
+    windowWidth,
+    windowHeight - NAV_HEIGHT - windowHeight / 10
+  );
+  canvas.parent(p5Canvas);
 }
 
 window.setup = setup;

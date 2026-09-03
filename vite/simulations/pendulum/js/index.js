@@ -13,7 +13,9 @@ let leftPendulum;
 let rightPendulum;
 
 function fullScreen() {
-  createCanvas(windowWidth, (9 * windowHeight) / 10);
+  let p5Canvas = document.getElementById("p5Canvas");
+  let canvas = createCanvas(windowWidth, windowHeight - 60);
+  canvas.parent(p5Canvas);
 }
 
 let ball;
@@ -188,7 +190,7 @@ class Ball {
   }
 }
 function windowResized() {
-  resizeCanvas(windowWidth, (9 * windowHeight) / 10);
+  resizeCanvas(windowWidth, windowHeight - 60);
 }
 
 window.preload = preload;
