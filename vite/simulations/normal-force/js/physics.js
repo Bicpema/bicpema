@@ -18,9 +18,3 @@ export function computeSlideDisplacement(gravity, angleDeg, count, fps = 60) {
     dy: gravity * Math.sin(theta) * Math.sin(theta) * t,
   };
 }
-
-if (typeof window !== "undefined") {
-  /** @type {any} */ (window).normalForcePhysics = {
-    computeSlideDisplacement,
-  };
-}
