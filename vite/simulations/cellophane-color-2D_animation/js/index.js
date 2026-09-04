@@ -81,8 +81,12 @@ const sketch = (p) => {
   p.windowResized = () => {
     canvasController.resizeScreen(p);
     elInit(p);
-    for (let i = 0; i < state.cellophaneNum; i++)
+    // cellophaneRemoveButtonFunctionは呼ぶたびにstate.colabNum(組数)を1減らす。
+    // state.cellophaneNum(総枚数)は更新されないため、colabNumを基準に
+    // 組の数だけ削除する
+    while (state.colabNum > 0) {
       cellophaneRemoveButtonFunction(p);
+    }
     initValue(p);
     p.camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
     beforeColorCalculate(p);

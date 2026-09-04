@@ -107,7 +107,7 @@ export const state = {
   slider: undefined,
 
   //分割描画で新たに必要となった変数
-  count2: undefined,
+  count2: 0,
   lastValue: undefined,
   BisDead: undefined,
   CisDead: undefined,

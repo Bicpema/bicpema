@@ -95,7 +95,7 @@ export function prenormal(p) {
   p.translate(-100, -100);
   p.image(state.img, 0, 0);
   p.pop();
-  state.img.loadPixels;
+  state.img.loadPixels();
 
   // 偏光板の描画
   createPolarizer(p, 200, 0, 0, 0, 0);
@@ -181,7 +181,7 @@ export function colabNum2_normal(p) {
         state.img.pixels[i + 3] = 255; //7.13までは80
       }
       state.img.updatePixels();
-      state.count2 == 1;
+      state.count2 = 1;
     }
 
     //組数が変更された際に再度分割計算しなおすためのコマンド
@@ -316,10 +316,8 @@ export function colabNum2_normal(p) {
           state.tape_angle,
           state.rAftera,
           state.gAftera,
-          state.bAftera,
-          state.DrawisDead
+          state.bAftera
         );
-        state.img.updatePixels();
       } else {
       }
     }
@@ -736,18 +734,18 @@ export function afterColorCalculate1(p) {
     state.gAfter1 = toRGB(state.sRGB[1]);
     state.bAfter1 = toRGB(state.sRGB[2]);
     let ratio;
-    if (state.rAfter2 >= state.gAfter2 && state.rAfter2 >= state.bAfter2) {
+    if (state.rAfter1 >= state.gAfter1 && state.rAfter1 >= state.bAfter1) {
       ratio =
         state.xSumAfter ** (1 / 2.4) / state.sum_ls_xArrAfter ** (1 / 2.4);
     } else if (
-      state.gAfter2 >= state.rAfter2 &&
-      state.gAfter2 >= state.bAfter2
+      state.gAfter1 >= state.rAfter1 &&
+      state.gAfter1 >= state.bAfter1
     ) {
       ratio =
         state.ySumAfter ** (1 / 2.4) / state.sum_ls_yArrAfter ** (1 / 2.4);
     } else if (
-      state.bAfter2 >= state.rAfter2 &&
-      state.bAfter2 >= state.gAfter2
+      state.bAfter1 >= state.rAfter1 &&
+      state.bAfter1 >= state.gAfter1
     ) {
       ratio =
         state.zSumAfter ** (1 / 2.4) / state.sum_ls_zArrAfter ** (1 / 2.4);
@@ -1027,15 +1025,8 @@ export function drawTape_1(p, rAfter1, gAfter1, bAfter1, rotateInput) {
 }
 
 //tapeが2枚以上ある場合における，色の塗りつぶし
-export function drawTapes(
-  p,
-  tape_angle,
-  rAftera,
-  gAftera,
-  bAftera,
-  DrawisDead
-) {
-  if (!DrawisDead) {
+export function drawTapes(p, tape_angle, rAftera, gAftera, bAftera) {
+  if (!state.DrawisDead) {
     state.drawT++;
     if (state.drawCount == 0) {
       state.tape_array = new Array(state.img.pixels.length / 4).fill("");
@@ -1077,7 +1068,7 @@ export function drawTapes(
       state.img.pixels[index + 2] = bAftera[state.zz];
     }
     if (state.drawT >= state.colabNum) {
-      DrawisDead = true;
+      state.DrawisDead = true;
     }
     state.img.updatePixels();
   } else {
