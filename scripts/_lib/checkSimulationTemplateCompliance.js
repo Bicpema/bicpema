@@ -11,8 +11,10 @@ import { join } from "node:path";
 // - BicpemaCanvasControllerを利用している場合、シミュレーション固有の
 //   複製ファイルではなく共通の vite/js/bicpema-canvas-controller.js を
 //   参照しているか（#79の再発防止）
-const CANONICAL_CANVAS_CONTROLLER_IMPORT =
-  '"../../../js/bicpema-canvas-controller.js"';
+const CANVAS_CONTROLLER_IMPORT_PATTERN =
+  /from\s+(["'])([^"']*bicpema-canvas-controller\.js)\1/;
+const CANONICAL_CANVAS_CONTROLLER_IMPORT_PATH =
+  "../../../js/bicpema-canvas-controller.js";
 const ENTRY_SCRIPT_CANDIDATES = ["js/index.ts", "js/index.js"];
 const JS_FILE_EXTENSIONS = [".js", ".ts"];
 
@@ -83,18 +85,20 @@ export function findSimulationTemplateIssues(simulationDir) {
   if (!/id="p5Canvas"/.test(html)) issues.push("missing-p5-canvas");
 
   const jsFiles = listJsFilesRecursively(simulationDir);
-  const usesCanvasController = jsFiles.some((file) =>
-    readFileSync(file, "utf-8").includes("BicpemaCanvasController")
+  const fileContents = new Map(
+    jsFiles.map((file) => [file, readFileSync(file, "utf-8")])
+  );
+  const usesCanvasController = [...fileContents.values()].some((content) =>
+    content.includes("BicpemaCanvasController")
   );
   if (usesCanvasController) {
     const hasLocalCopy = jsFiles.some((file) =>
       file.endsWith("bicpema-canvas-controller.js")
     );
-    const hasNonCanonicalImport = jsFiles.some((file) => {
-      const content = readFileSync(file, "utf-8");
+    const hasNonCanonicalImport = [...fileContents.values()].some((content) => {
+      const match = content.match(CANVAS_CONTROLLER_IMPORT_PATTERN);
       return (
-        /from\s+["'][^"']*bicpema-canvas-controller\.js["']/.test(content) &&
-        !content.includes(CANONICAL_CANVAS_CONTROLLER_IMPORT)
+        match !== null && match[2] !== CANONICAL_CANVAS_CONTROLLER_IMPORT_PATH
       );
     });
     if (hasLocalCopy || hasNonCanonicalImport) {

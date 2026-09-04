@@ -19,6 +19,7 @@ describe("getSimulationSlugs", () => {
   it("シミュレーションディレクトリ名の一覧を取得する", () => {
     expect(getSimulationSlugs(simulationsDir)).toEqual([
       "compliant-sim",
+      "compliant-sim-single-quote-import",
       "local-controller-copy",
       "missing-p5-canvas",
     ]);
@@ -44,6 +45,14 @@ describe("findSimulationTemplateIssues", () => {
         resolve(simulationsDir, "local-controller-copy")
       )
     ).toEqual(["non-canonical-canvas-controller"]);
+  });
+
+  it("共通コントローラをシングルクォートでimportしていても誤検知しない", () => {
+    expect(
+      findSimulationTemplateIssues(
+        resolve(simulationsDir, "compliant-sim-single-quote-import")
+      )
+    ).toEqual([]);
   });
 });
 
