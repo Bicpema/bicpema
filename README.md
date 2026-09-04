@@ -152,3 +152,9 @@ bicpema
 - デプロイの状況は[こちら](https://github.com/Bicpema/bicpema/actions)で確認できる。
 - デプロイ先 URL → <https://bicpema.com/>
 - 開発者向けインストラクション（フォルダー構成、実装手順、コミットメッセージのルールなど）は[AGENTS.md](./AGENTS.md)を参照。Claude Code（`CLAUDE.md`経由）とGitHub Copilot Coding Agentで共通の内容。
+
+## License
+
+Bicpema独自のソースコード・コンテンツ（記事、画像、シミュレーション等）はAll Rights Reserved（全著作権留保）です。詳細は[LICENSE](./LICENSE)を参照してください。
+
+サブモジュールとして利用しているテーマ [hugo-theme-tailwind](https://github.com/tomowang/hugo-theme-tailwind) はMIT Licenseで提供されています。詳細は[themes/hugo-theme-tailwind/LICENSE](./themes/hugo-theme-tailwind/LICENSE)を参照してください。
