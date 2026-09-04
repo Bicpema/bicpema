@@ -2,9 +2,23 @@ name: 型チェック
 
 on:
   pull_request:
+    paths:
+      - "vite/**"
+      - "tsconfig.json"
+      - "package.json"
+      - "package-lock.json"
   push:
     branches:
       - main
+    paths:
+      - "vite/**"
+      - "tsconfig.json"
+      - "package.json"
+      - "package-lock.json"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   typecheck:

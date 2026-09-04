@@ -2,9 +2,21 @@ name: ドキュメントリント
 
 on:
   pull_request:
+    paths:
+      - "**/*.md"
+      - ".markdownlint.json"
+      - ".markdownlint-cli2.jsonc"
   push:
     branches:
       - main
+    paths:
+      - "**/*.md"
+      - ".markdownlint.json"
+      - ".markdownlint-cli2.jsonc"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lint-md:

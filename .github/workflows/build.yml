@@ -4,6 +4,15 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "vite/**"
+      - "vite.config.js"
+      - "package.json"
+      - "package-lock.json"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
