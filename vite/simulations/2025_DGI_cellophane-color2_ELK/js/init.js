@@ -28,9 +28,9 @@ export function elInit(p) {
   state.cellophaneRemoveButton.mousePressed(() =>
     cellophaneRemoveButtonFunction(p)
   );
-  document
-    .getElementById("screenshotButton")
-    .addEventListener("click", onScreenshotClick);
+  // resizeSimulation()からも呼ばれるため、addEventListenerでの多重登録を避け
+  // 上書き型のonclickでハンドラを設定する
+  document.getElementById("screenshotButton").onclick = onScreenshotClick;
   initModal({
     openSelectors: ".settings-modal-open",
     modalSelector: "#settingModal",
@@ -57,7 +57,15 @@ export function initValue(p) {
   state.dRowNum = state.dTable.getRowCount();
   state.R_all = state.rTable.getColumn("optical-strength");
 
-  // xyzを格納する配列の初期化
+  // xyzを格納する配列の初期化(windowResized経由での再呼び出し時に配列が
+  // 肥大化しないよう、pushする前に空にリセットする)
+  state.xArrAfter.length = 0;
+  state.yArrAfter.length = 0;
+  state.zArrAfter.length = 0;
+  state.xArrBefore.length = 0;
+  state.yArrBefore.length = 0;
+  state.zArrBefore.length = 0;
+  state.R_os.length = 0;
   for (let i = 0; i < state.osRowNum; i++) {
     state.xArrAfter.push(0);
     state.yArrAfter.push(0);
@@ -143,7 +151,10 @@ export function setupSimulation(p) {
  */
 export function resizeSimulation(p) {
   elInit(p);
-  for (let i = 0; i < state.cellophaneNum; i++) {
+  // cellophaneRemoveButtonFunctionは呼ぶたびにstate.colabNum(組数)を1減らす。
+  // state.cellophaneNum(総枚数)は更新されないため、colabNumを基準に
+  // 組の数だけ削除する
+  while (state.colabNum > 0) {
     cellophaneRemoveButtonFunction(p);
   }
   initValue(p);

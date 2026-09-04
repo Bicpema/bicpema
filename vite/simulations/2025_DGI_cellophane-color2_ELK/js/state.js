@@ -131,7 +131,7 @@ export const state = {
   radius: 0,
 
   // <分割描画の管理>
-  count2: undefined,
+  count2: 0,
   lastValue: undefined,
   BisDead: false,
   CisDead: false,
