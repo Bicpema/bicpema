@@ -1,4 +1,4 @@
-// index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
+// index.tsはメインのメソッドを呼び出すためのエントリーポイントです。
 
 import p5 from "p5";
 import "../../../css/tailwind.css";
@@ -12,7 +12,7 @@ import {
   valueInit,
 } from "./init.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
   let isFirstDraw = true;
 

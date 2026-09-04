@@ -16,6 +16,8 @@
     "vite/types/**/*.ts",
     "vite/_build/**/*.js",
     "vite/simulations/free-fall/**/*.js",
+    "vite/simulations/*/js/**/*.ts",
+    "templates/**/*.ts",
     "test/**/*.js"
   ],
   "exclude": ["node_modules", "static", "public"]

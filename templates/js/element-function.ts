@@ -1,7 +1,7 @@
-// elementFunction.jsは仮想DOMメソッド管理専用のファイルです。
+// elementFunction.tsは仮想DOMメソッド管理専用のファイルです。
 
 // メソッドの定義方法の例
-// export function onExampleClick(p) {
+// export function onExampleClick(p: p5) {
 //   state.xxx = yyy;
 // }
 
