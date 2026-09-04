@@ -14,7 +14,6 @@ export const ARTICLELESS_SIMULATION_ALLOWLIST = [
   "cellophane_display",
   "lens",
   "normal-force",
-  "pendulum",
   "pendulum-wave",
   "projectile-motion",
   "refraction",
