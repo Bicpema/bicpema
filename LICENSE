@@ -1,0 +1,7 @@
+Copyright (c) 2026 Bicpema
+
+All Rights Reserved.
+
+このリポジトリに含まれるBicpema独自のソースコード・コンテンツ（記事、画像、シミュレーション等）の著作権はBicpemaに帰属します。書面による明示的な許可なく、複製・改変・再配布・商用利用を行うことはできません。
+
+ただし、`themes/hugo-theme-tailwind`（サブモジュール）はMIT Licenseの下で提供されています。詳細は [themes/hugo-theme-tailwind/LICENSE](themes/hugo-theme-tailwind/LICENSE) を参照してください。
