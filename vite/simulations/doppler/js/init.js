@@ -5,10 +5,10 @@ import {
   startButtonFunction,
   stopButtonFunction,
   resetButtonAction,
-  onToggleModalClick,
-  onCloseModalClick,
   onSpeedInputChange,
 } from "./element-function.js";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
+import { bindStartStopControls } from "../../../js/bicpema-controls-controller.js";
 
 /**
  * フレームレート。
@@ -43,11 +43,19 @@ export function settingInit(p) {
  * @param {*} p - p5 インスタンス。
  */
 export function elCreate(p) {
-  p.select("#startButton").mousePressed(startButtonFunction);
-  p.select("#stopButton").mousePressed(stopButtonFunction);
-  p.select("#resetButton").mousePressed(resetButtonAction);
-  p.select("#settingsButton").mousePressed(onToggleModalClick);
-  p.select("#closeModal").mousePressed(onCloseModalClick);
+  bindStartStopControls(p, {
+    startSelector: "#startButton",
+    stopSelector: "#stopButton",
+    resetSelector: "#resetButton",
+    onStart: startButtonFunction,
+    onStop: stopButtonFunction,
+    onReset: resetButtonAction,
+  });
+  initModal({
+    openSelectors: "#settingsButton",
+    modalSelector: "#settingsModal",
+    closeSelectors: "#closeModal",
+  });
   p.select("#speedInput").input(onSpeedInputChange);
 }
 
