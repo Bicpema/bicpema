@@ -1,6 +1,6 @@
-// graph.jsはグラフ描画専用のファイルです。
+// graph.tsはグラフ描画専用のファイルです。
 
-// export function drawGraph(p) {
+// export function drawGraph(p: p5) {
 //   if (typeof graphChart !== "undefined" && graphChart) {
 //     graphChart.destroy();
 //   }
