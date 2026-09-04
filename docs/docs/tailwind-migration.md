@@ -90,7 +90,7 @@ TailwindCSS自体はJSを持たないため、モーダル（設定パネル）�
 ### 共通化に関する決定事項
 
 1. **共通化する。** 「生CSSを残さない」という#470の方針は維持しつつ、TailwindCSSの `@layer components` + `@apply` を用いてコンポーネントクラスを定義する。生CSSの直接記述ではなく、ユーティリティクラスの組を `@apply` で束ねるだけなので、#470の「Tailwindで表現できるものを生CSSで書かない」という趣旨から外れない。
-2. **対象範囲は、レイアウト・装飾（位置・角丸・影・transition・レスポンシブ対応）に加えて、色バリエーションも含める。** `resetButton` の背景色（青系）、`playPauseButton`（緑系）、`toggleModal`/`settingsButton`（シアン系）、`closeModal`（グレー系）のように、ボタンの役割と色の対応が既存の移行済みファイル間でほぼ一貫しているため、色差分だけを個別ユーティリティで書き分けさせるよりも、役割ごとの修飾クラスとして共通化したほうがHTML側の記述量を削減できる。個別シミュレーション固有の配色が必要な場合は、コンポーネントクラスに加えてユーティリティクラスを併記することを妨げない。
+2. **対象範囲は、レイアウト・装飾（位置・角丸・影・transition・レスポンシブ対応）に加えて、色バリエーションも含める。** `toggleModal`/`settingsButton`（シアン系）や `closeModal`（グレー系）はほぼ全ファイルで固定だが、それ以外は操作パターンによって配色が変わる。`playPauseButton` を主とするファイルでは `resetButton` が青系、`playPauseButton` 自体が緑系になることが多い一方、`startButton`/`stopButton` の2ボタン構成のファイル（`doppler` 等）では `startButton` が青系・`stopButton` が赤系・`resetButton` はグレー系（ニュートラル）になるなど、同じ役割名でもファイルによって色が揺れるケースがある。それでも色数自体は「青・緑・シアン・赤・グレー」の5系統に収まっており、役割名と1対1に固定するのではなく、色ごとの修飾クラス（`.btn-control-primary` 等）を用意してファイル側で必要な組み合わせを選べるようにする。個別シミュレーション固有の配色が必要な場合は、コンポーネントクラスに加えてユーティリティクラスを併記することを妨げない。
 3. **定義場所は `vite/css/tailwind.css` に `@layer components` を追記する。** 提案時点の想定（`vite/scss/common.scss`）はBootstrap時代の構成であり、TailwindCSS移行後の共通CSSエントリーポイントは `vite/css/tailwind.css`（`@import "tailwindcss";` のみ）である。現状は1ファイルで十分な規模のため新規ファイル分割は行わず、将来コンポーネントクラスが増えて可読性を損なう規模になった時点で改めてファイル分割を検討する。
 4. **命名規則は、BEMではなくTailwindのコンポーネント慣習（kebab-case + 機能プレフィックス）に寄せる。** `.modal-*`（設定モーダル関連）、`.controls-*`（固定位置のボタン群コンテナ）、`.btn-control` + `.btn-control-*`（コントロールボタン本体と色修飾）のように、役割を表すプレフィックスで分類する。
 5. **既に移行済みの[#483](https://github.com/Bicpema/bicpema/issues/483)・[#484](https://github.com/Bicpema/bicpema/issues/484)分は手戻りしない。** 動作確認済みの差分を今回のコンポーネントクラス化のためだけに書き換えるレビューコスト・デグレリスクを避けるため、未着手の[#485](https://github.com/Bicpema/bicpema/issues/485)〜[#489](https://github.com/Bicpema/bicpema/issues/489)から本方針を適用する。#483・#484対象のファイルは、別件の修正で該当箇所に触れる際に合わせて置き換える（強制はしない）。
@@ -137,18 +137,29 @@ TailwindCSS自体はJSを持たないため、モーダル（設定パネル）�
   .btn-control-danger {
     @apply bg-red-600 hover:bg-red-500;
   }
+  .btn-control-neutral {
+    @apply bg-neutral-600 hover:bg-neutral-500;
+  }
 }
 ```
 
-HTML側は次のようにコンポーネントクラス＋個別差分のユーティリティのみを書く。
+HTML側は次のようにコンポーネントクラス＋個別差分のユーティリティのみを書く。`playPauseButton` を持つファイルと `startButton`/`stopButton` の2ボタン構成のファイルとで、`resetButton` に割り当てる色修飾クラスが異なる点に注意する。
 
 ```html
+<!-- playPauseButton構成（reset=primary, playPause=success） -->
 <div class="controls-left-bottom">
   <button id="resetButton" class="btn-control btn-control-primary">リセット</button>
   <button id="playPauseButton" class="btn-control btn-control-success">再生</button>
 </div>
 <div class="controls-right-top">
   <button id="toggleModal" class="btn-control btn-control-info">設定</button>
+</div>
+
+<!-- startButton/stopButton構成（reset=neutral, doppler等） -->
+<div class="controls-left-bottom">
+  <button id="startButton" class="btn-control btn-control-primary">開始</button>
+  <button id="stopButton" class="btn-control btn-control-danger">停止</button>
+  <button id="resetButton" class="btn-control btn-control-neutral">リセット</button>
 </div>
 ```
 
