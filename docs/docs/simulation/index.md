@@ -31,11 +31,13 @@ python new_simulation.py
 
 ## 実装パターン
 
-シミュレーションには **2 つの実装パターン** があります。
+シミュレーションには **2 つの実装パターン** がありますが、[Issue #512](https://github.com/Bicpema/bicpema/issues/512) により **パターン A（p5 インスタンスモード）に統一する方針** が決定しています。新規シミュレーションは必ずパターン A で実装してください。
 
-### パターン A — ES モジュール + p5 インスタンスモード（推奨）
+パターン B（グローバルモード）はp5.jsのAPIを`window`のグローバル関数として直接定義するため、TypeScript化（[#424](https://github.com/Bicpema/bicpema/issues/424)）で導入した型チェック（`checkJs`/`.ts`）との相性が悪く、新規実装では使用しません。既存のパターン B 実装は、[#511](https://github.com/Bicpema/bicpema/issues/511) の段階移行の中でパターン A へ書き換えたうえで`.ts`化します。
 
-モダンなシミュレーションで採用している構成です。
+### パターン A — ES モジュール + p5 インスタンスモード（標準）
+
+採用しているシミュレーションの標準構成です。新規シミュレーションは`new_simulation.py`が生成するひな形（`templates/`配下）がこの構成に沿っているため、そのまま実装を進めてください。
 
 ```txt
 vite/simulations/{name}/
@@ -43,39 +45,59 @@ vite/simulations/{name}/
 ├── css/
 │   └── style.css
 └── js/
-    ├── index.js               # エントリーポイント（p5 スケッチの定義）
-    ├── state.js               # 共有状態の管理
-    ├── init.js                # 初期化処理
-    ├── element-function.js    # UI コントロールのイベントハンドラー
-    └── bicpema-canvas-controller.js  # キャンバスサイズ制御
+    ├── index.ts               # エントリーポイント（p5 スケッチの定義）
+    ├── init.ts                # 初期化処理
+    ├── state.ts               # 共有状態の管理
+    ├── logic.ts               # シミュレーションのロジック
+    ├── element-function.ts    # UI コントロールのイベントハンドラー
+    ├── class.ts               # クラス定義
+    └── graph.ts               # グラフ描画処理
 ```
 
-`index.js` の基本構造:
+キャンバスサイズ制御（`BicpemaCanvasController`）やローディングスピナー制御は`vite/js/`配下の共通モジュールとして提供されており、各シミュレーションからimportして利用します。
 
-```js
+`index.ts` の基本構造:
+
+```ts
 import p5 from "p5";
-import "bootstrap";
+import "../../../css/tailwind.css";
+import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
+import { settingInit, elementSelectInit, elementPositionInit, valueInit } from "./init.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
+    const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+    let isFirstDraw = true;
+
     p.setup = () => {
-        // セットアップ処理
+        canvasController.fullScreen(p);
+        settingInit(p);
+        elementSelectInit(p);
+        elementPositionInit(p);
+        valueInit(p);
     };
 
     p.draw = () => {
         // 毎フレームの描画処理
+
+        if (isFirstDraw) {
+            isFirstDraw = false;
+            hideLoadingSpinner();
+        }
     };
 
     p.windowResized = () => {
-        // ウィンドウリサイズ時の処理
+        canvasController.resizeScreen(p);
+        elementPositionInit(p);
     };
 };
 
 new p5(sketch);
 ```
 
-### パターン B — グローバルモード（旧実装）
+### パターン B — グローバルモード（旧実装・移行対象）
 
-古いシミュレーションで採用している構成です。
+古いシミュレーションで採用していた構成です。新規作成では使用せず、既存実装は順次パターン A へ移行します。
 
 ```txt
 vite/simulations/{name}/
