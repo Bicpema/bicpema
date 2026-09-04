@@ -1,22 +1,53 @@
 import { state } from "./state.js";
 
+/** 高さの最小値 */
+const HEIGHT_MIN = 10;
+/** 高さの最大値 */
+const HEIGHT_MAX = 100;
 /** 空気抵抗係数の最小値 */
 const DRAG_COEFFICIENT_MIN = 0;
 /** 空気抵抗係数の最大値 */
 const DRAG_COEFFICIENT_MAX = 2;
 
 /**
+ * 高さ入力欄の値をクランプし、範囲外だった場合は入力欄の表示も補正する
+ * @param {number} newHeight
+ * @returns {number} クランプ後の高さ
+ */
+export function clampHeight(newHeight) {
+  if (isNaN(newHeight) || newHeight < HEIGHT_MIN) {
+    state.heightInput.value(HEIGHT_MIN);
+    return HEIGHT_MIN;
+  }
+  if (newHeight > HEIGHT_MAX) {
+    state.heightInput.value(HEIGHT_MAX);
+    return HEIGHT_MAX;
+  }
+  return newHeight;
+}
+
+/**
+ * 空気抵抗係数入力欄の値をクランプし、範囲外だった場合は入力欄の表示も補正する
+ * @param {number} newDragCoefficient
+ * @returns {number} クランプ後の空気抵抗係数
+ */
+export function clampDragCoefficient(newDragCoefficient) {
+  if (isNaN(newDragCoefficient) || newDragCoefficient < DRAG_COEFFICIENT_MIN) {
+    state.dragCoefficientInput.value(DRAG_COEFFICIENT_MIN);
+    return DRAG_COEFFICIENT_MIN;
+  }
+  if (newDragCoefficient > DRAG_COEFFICIENT_MAX) {
+    state.dragCoefficientInput.value(DRAG_COEFFICIENT_MAX);
+    return DRAG_COEFFICIENT_MAX;
+  }
+  return newDragCoefficient;
+}
+
+/**
  * 高さ入力の値が変更されたときの処理
  */
 export function onHeightChange() {
-  let newHeight = parseFloat(state.heightInput.value());
-  if (isNaN(newHeight) || newHeight < 10) {
-    newHeight = 10;
-    state.heightInput.value(10);
-  } else if (newHeight > 100) {
-    newHeight = 100;
-    state.heightInput.value(100);
-  }
+  const newHeight = clampHeight(parseFloat(state.heightInput.value()));
   if (!state.ball.isMoving) {
     state.ball.reset(newHeight, state.ball.dragCoefficient);
   }
@@ -26,14 +57,9 @@ export function onHeightChange() {
  * 空気抵抗係数入力の値が変更されたときの処理
  */
 export function onDragCoefficientChange() {
-  let newDragCoefficient = parseFloat(state.dragCoefficientInput.value());
-  if (isNaN(newDragCoefficient) || newDragCoefficient < DRAG_COEFFICIENT_MIN) {
-    newDragCoefficient = DRAG_COEFFICIENT_MIN;
-    state.dragCoefficientInput.value(DRAG_COEFFICIENT_MIN);
-  } else if (newDragCoefficient > DRAG_COEFFICIENT_MAX) {
-    newDragCoefficient = DRAG_COEFFICIENT_MAX;
-    state.dragCoefficientInput.value(DRAG_COEFFICIENT_MAX);
-  }
+  const newDragCoefficient = clampDragCoefficient(
+    parseFloat(state.dragCoefficientInput.value())
+  );
   if (!state.ball.isMoving) {
     state.ball.reset(state.ball.initialHeight, newDragCoefficient);
   }
@@ -43,8 +69,10 @@ export function onDragCoefficientChange() {
  * リセットボタンが押されたときの処理
  */
 export function onReset() {
-  const newHeight = parseFloat(state.heightInput.value());
-  const newDragCoefficient = parseFloat(state.dragCoefficientInput.value());
+  const newHeight = clampHeight(parseFloat(state.heightInput.value()));
+  const newDragCoefficient = clampDragCoefficient(
+    parseFloat(state.dragCoefficientInput.value())
+  );
   state.ball.reset(newHeight, newDragCoefficient);
   state.playPauseButton.html("▶ 開始");
 }

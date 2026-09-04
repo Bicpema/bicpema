@@ -15,7 +15,7 @@ const DRAG_EPSILON = 1e-6;
  * @returns {{distanceFallen: number, velocity: number}} 落下距離と速度
  */
 export function computeDragFreeFall({ t, gravity, k }) {
-  if (k < DRAG_EPSILON) {
+  if (!Number.isFinite(k) || k < DRAG_EPSILON) {
     const velocity = gravity * t;
     const distanceFallen = 0.5 * gravity * t * t;
     return { distanceFallen, velocity };

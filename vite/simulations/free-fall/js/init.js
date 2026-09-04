@@ -5,6 +5,8 @@ import {
   onReset,
   onPlayPause,
   onToggleGraph,
+  clampHeight,
+  clampDragCoefficient,
 } from "./element-function.js";
 import { Ball } from "./ball.js";
 import { BallGraph } from "./graph.js";
@@ -67,8 +69,10 @@ export function initValue(p) {
   p.textFont(state.font);
   p.textSize(16);
 
-  const initialHeight = parseFloat(state.heightInput.value());
-  const initialDragCoefficient = parseFloat(state.dragCoefficientInput.value());
+  const initialHeight = clampHeight(parseFloat(state.heightInput.value()));
+  const initialDragCoefficient = clampDragCoefficient(
+    parseFloat(state.dragCoefficientInput.value())
+  );
   state.ball = new Ball(initialHeight, initialDragCoefficient);
   state.graph = new BallGraph();
 }
