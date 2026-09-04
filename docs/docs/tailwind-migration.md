@@ -82,3 +82,74 @@ TailwindCSS自体はJSを持たないため、モーダル（設定パネル）�
 - `uniform-linear-motion` の設定モーダル・操作ボタン・グラフ用canvasのマークアップを `index.html` に移した。
 - `free-fall` / `uniformly-accelerated-linear-motion` のグラフ用canvasタグを `index.html` に直書きした。
 - `cart-work-ruler/js/logic.js` の状態別ステータス表示（静止・臨界超過・運動中）は、3パターンの静的マークアップを `index.html` に用意し、`hidden` クラスのトグルと数値部分の差し替えのみJSで行う構成に変更した。
+
+## ボイラープレートの共通コンポーネントクラス化方針（[Issue #493](https://github.com/Bicpema/bicpema/issues/493)）
+
+上記の生CSS最小化方針（#470）に沿って[#483](https://github.com/Bicpema/bicpema/issues/483)・[#484](https://github.com/Bicpema/bicpema/issues/484)の移行を進めた結果、`free-fall` 等の完了済みファイルでは、設定モーダルや固定位置のボタン群で、1要素あたり15〜20個のユーティリティクラス（任意値記法込み）が並ぶ状態になった。同一の組み合わせがシミュレーション間でほぼコピーペーストされており、可読性の低下と、デザイン変更時に置換対象全ファイルを横断修正する必要があるという課題がある。
+
+### 共通化に関する決定事項
+
+1. **共通化する。** 「生CSSを残さない」という#470の方針は維持しつつ、TailwindCSSの `@layer components` + `@apply` を用いてコンポーネントクラスを定義する。生CSSの直接記述ではなく、ユーティリティクラスの組を `@apply` で束ねるだけなので、#470の「Tailwindで表現できるものを生CSSで書かない」という趣旨から外れない。
+2. **対象範囲は、レイアウト・装飾（位置・角丸・影・transition・レスポンシブ対応）に加えて、色バリエーションも含める。** `resetButton` の背景色（青系）、`playPauseButton`（緑系）、`toggleModal`/`settingsButton`（シアン系）、`closeModal`（グレー系）のように、ボタンの役割と色の対応が既存の移行済みファイル間でほぼ一貫しているため、色差分だけを個別ユーティリティで書き分けさせるよりも、役割ごとの修飾クラスとして共通化したほうがHTML側の記述量を削減できる。個別シミュレーション固有の配色が必要な場合は、コンポーネントクラスに加えてユーティリティクラスを併記することを妨げない。
+3. **定義場所は `vite/css/tailwind.css` に `@layer components` を追記する。** 提案時点の想定（`vite/scss/common.scss`）はBootstrap時代の構成であり、TailwindCSS移行後の共通CSSエントリーポイントは `vite/css/tailwind.css`（`@import "tailwindcss";` のみ）である。現状は1ファイルで十分な規模のため新規ファイル分割は行わず、将来コンポーネントクラスが増えて可読性を損なう規模になった時点で改めてファイル分割を検討する。
+4. **命名規則は、BEMではなくTailwindのコンポーネント慣習（kebab-case + 機能プレフィックス）に寄せる。** `.modal-*`（設定モーダル関連）、`.controls-*`（固定位置のボタン群コンテナ）、`.btn-control` + `.btn-control-*`（コントロールボタン本体と色修飾）のように、役割を表すプレフィックスで分類する。
+5. **既に移行済みの[#483](https://github.com/Bicpema/bicpema/issues/483)・[#484](https://github.com/Bicpema/bicpema/issues/484)分は手戻りしない。** 動作確認済みの差分を今回のコンポーネントクラス化のためだけに書き換えるレビューコスト・デグレリスクを避けるため、未着手の[#485](https://github.com/Bicpema/bicpema/issues/485)〜[#489](https://github.com/Bicpema/bicpema/issues/489)から本方針を適用する。#483・#484対象のファイルは、別件の修正で該当箇所に触れる際に合わせて置き換える（強制はしない）。
+
+### 実装例
+
+`free-fall` 等で確立された設定モーダル・右上/左下ボタン群のクラスの組を、`vite/css/tailwind.css` に以下のように定義する。
+
+```css
+@import "tailwindcss";
+
+@layer components {
+  /* 設定モーダル本体 */
+  .modal-panel {
+    @apply absolute top-1/2 left-1/2 z-[2000] w-[350px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-white/30 bg-black/90 p-[30px] text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-[15px] max-[576px]:w-[300px] max-[576px]:p-5;
+  }
+
+  /* モーダル内の閉じる／小型ボタン */
+  .btn-modal {
+    @apply w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500;
+  }
+
+  /* 固定位置のボタン群コンテナ */
+  .controls-left-bottom {
+    @apply absolute bottom-5 left-5 z-[1000] flex flex-wrap gap-2.5 max-[576px]:bottom-2.5 max-[576px]:left-2.5 max-[576px]:gap-2;
+  }
+  .controls-right-top {
+    @apply absolute top-5 right-5 z-[1000] max-[576px]:top-2.5 max-[576px]:right-2.5;
+  }
+
+  /* コントロールボタン本体（色は役割別の修飾クラスで指定） */
+  .btn-control {
+    @apply rounded-lg px-5 py-2.5 text-base font-bold whitespace-nowrap text-white shadow-[0_4px_6px_rgba(0,0,0,0.3)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_6px_8px_rgba(0,0,0,0.4)] active:translate-y-0 active:shadow-[0_2px_4px_rgba(0,0,0,0.3)] max-[576px]:px-[15px] max-[576px]:py-2 max-[576px]:text-sm max-[400px]:px-3 max-[400px]:py-1.5 max-[400px]:text-xs;
+  }
+  .btn-control-primary {
+    @apply bg-blue-600 hover:bg-blue-500;
+  }
+  .btn-control-success {
+    @apply bg-green-600 hover:bg-green-500;
+  }
+  .btn-control-info {
+    @apply bg-cyan-600 hover:bg-cyan-500;
+  }
+  .btn-control-danger {
+    @apply bg-red-600 hover:bg-red-500;
+  }
+}
+```
+
+HTML側は次のようにコンポーネントクラス＋個別差分のユーティリティのみを書く。
+
+```html
+<div class="controls-left-bottom">
+  <button id="resetButton" class="btn-control btn-control-primary">リセット</button>
+  <button id="playPauseButton" class="btn-control btn-control-success">再生</button>
+</div>
+<div class="controls-right-top">
+  <button id="toggleModal" class="btn-control btn-control-info">設定</button>
+</div>
+```
+
+上記は #485〜#489 着手時の出発点であり、対象シミュレーションの実装を進める中で過不足があれば `vite/css/tailwind.css` 側のコンポーネントクラスを追加・調整してよい。
