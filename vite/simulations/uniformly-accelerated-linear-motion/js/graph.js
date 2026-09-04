@@ -1,6 +1,12 @@
-import Chart from "chart.js/auto";
 import { state } from "./state.js";
 import { MAX_TIME } from "./constants.js";
+import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+
+const loadChart = createLazyImporter(() =>
+  import("chart.js/auto").then((module) => module.default)
+);
+/** @type {typeof import("chart.js").Chart | null} */
+let Chart = null;
 
 /**
  * x-tグラフとv-tグラフを描画するクラス
@@ -12,9 +18,18 @@ export class MotionGraph {
 
   /**
    * グラフを更新する
+   * Chart.jsが未読み込みの場合は動的importを行い、完了後に再度呼び出す。
    */
   updateGraph() {
     if (!state.graphVisible) return;
+
+    if (!Chart) {
+      loadChart().then((ChartCtor) => {
+        Chart = ChartCtor;
+        this.updateGraph();
+      });
+      return;
+    }
 
     const ctx = document.getElementById("graphCanvas");
     if (!ctx) return;

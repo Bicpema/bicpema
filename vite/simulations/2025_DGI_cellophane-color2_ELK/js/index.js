@@ -1,6 +1,5 @@
 // index.jsはメインのメソッドを呼び出すためのエントリーポイントです。
 
-import Chart from "chart.js/auto";
 import p5 from "p5";
 import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
@@ -9,11 +8,6 @@ import { state } from "./state.js";
 import { setupSimulation, resizeSimulation } from "./init.js";
 import { drawSimulation } from "./logic.js";
 import { onKeyPressed } from "./element-function.js";
-
-// グラフの背景が暗い配色(body: bg-neutral-900)の上に透明で表示されるため、
-// Chart.jsの既定の文字色(#666、白背景向け)のままだとコントラスト不足で見えづらい。
-// 暗い背景でも視認できる明るい色に変更する。
-Chart.defaults.color = "#e5e5e5";
 
 /** 等色関数のデータCSVのURL */
 const CMF_TABLE_URL =

@@ -1,7 +1,11 @@
 // logic.jsはシミュレーションの描画処理と物理更新専用のファイルです。
 
-import Chart from "chart.js/auto";
 import { state, FPS } from "./state.js";
+import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+
+const loadChart = createLazyImporter(() =>
+  import("chart.js/auto").then((module) => module.default)
+);
 
 /**
  * シミュレーションの描画と物理更新を行う。
@@ -25,8 +29,19 @@ export function drawSimulation(p) {
 
 /**
  * 上下2つのばねの変位グラフをChart.jsで初期化する（初回セットアップ・リセット時に呼び出す）。
+ * Chart.jsを動的importしてから生成する。読み込みに失敗した場合はグラフの初期化を中断する。
  */
-export function initCharts() {
+export async function initCharts() {
+  let Chart;
+  try {
+    Chart = await loadChart();
+  } catch (error) {
+    console.error(
+      "Chart.jsの読み込みに失敗したため、グラフを初期化できませんでした。",
+      error
+    );
+    return;
+  }
   if (state.chart1) {
     state.chart1.destroy();
   }
