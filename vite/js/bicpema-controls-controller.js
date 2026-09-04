@@ -14,7 +14,6 @@
 const DEFAULT_ARIA_LABELS = {
   start: "再生",
   stop: "一時停止",
-  toggle: "再生・一時停止",
   reset: "リセット",
 };
 
@@ -82,7 +81,11 @@ export function bindStartStopControls(
  * @param {string} options.resetSelector リセットボタンのCSSセレクタ
  * @param {() => void} options.onToggle トグルボタン押下時の処理
  * @param {() => void} options.onReset リセットボタン押下時の処理
- * @param {string} [options.toggleAriaLabel] トグルボタンのaria-label（未指定時は既定値）
+ * @param {string} [options.toggleAriaLabel] トグルボタンのaria-label。
+ *   トグルボタンは開始/一時停止/再開などクリックのたびに表示テキストが変わり、
+ *   それ自体がaccessible nameとして機能するため既定値は設定しない。
+ *   アイコンのみでテキストが変化しない等、明示的に固定のaria-labelが必要な
+ *   場合にのみ指定すること。
  * @param {string} [options.resetAriaLabel] リセットボタンのaria-label（未指定時は既定値）
  * @returns {{toggleButton: *, resetButton: *}} p.select()で取得した各ボタン要素
  */
@@ -100,7 +103,7 @@ export function bindToggleControls(
   const toggleButton = p.select(toggleSelector);
   const resetButton = p.select(resetSelector);
 
-  ensureAriaLabel(toggleButton, toggleAriaLabel ?? DEFAULT_ARIA_LABELS.toggle);
+  if (toggleAriaLabel) ensureAriaLabel(toggleButton, toggleAriaLabel);
   ensureAriaLabel(resetButton, resetAriaLabel ?? DEFAULT_ARIA_LABELS.reset);
 
   toggleButton?.mousePressed(onToggle);
