@@ -45,30 +45,50 @@ vite/simulations/{name}/
 ├── css/
 │   └── style.css
 └── js/
-    ├── index.js               # エントリーポイント（p5 スケッチの定義）
-    ├── state.js               # 共有状態の管理
-    ├── init.js                # 初期化処理
-    ├── element-function.js    # UI コントロールのイベントハンドラー
-    └── bicpema-canvas-controller.js  # キャンバスサイズ制御
+    ├── index.ts               # エントリーポイント（p5 スケッチの定義）
+    ├── init.ts                # 初期化処理
+    ├── state.ts               # 共有状態の管理
+    ├── logic.ts               # シミュレーションのロジック
+    ├── element-function.ts    # UI コントロールのイベントハンドラー
+    ├── class.ts               # クラス定義
+    └── graph.ts               # グラフ描画処理
 ```
 
-`index.js` の基本構造:
+キャンバスサイズ制御（`BicpemaCanvasController`）やローディングスピナー制御は`vite/js/`配下の共通モジュールとして提供されており、各シミュレーションからimportして利用します。
 
-```js
+`index.ts` の基本構造:
+
+```ts
 import p5 from "p5";
-import "bootstrap";
+import "../../../css/tailwind.css";
+import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
+import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
+import { settingInit, elementSelectInit, elementPositionInit, valueInit } from "./init.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
+    const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+    let isFirstDraw = true;
+
     p.setup = () => {
-        // セットアップ処理
+        canvasController.fullScreen(p);
+        settingInit(p);
+        elementSelectInit(p);
+        elementPositionInit(p);
+        valueInit(p);
     };
 
     p.draw = () => {
         // 毎フレームの描画処理
+
+        if (isFirstDraw) {
+            isFirstDraw = false;
+            hideLoadingSpinner();
+        }
     };
 
     p.windowResized = () => {
-        // ウィンドウリサイズ時の処理
+        canvasController.resizeScreen(p);
+        elementPositionInit(p);
     };
 };
 
