@@ -27,20 +27,6 @@ export function resetButtonAction() {
 }
 
 /**
- * 設定ボタンがクリックされたときの処理。
- */
-export function onToggleModalClick() {
-  document.getElementById("settingsModal").style.display = "block";
-}
-
-/**
- * 設定モーダルの閉じるボタンがクリックされたときの処理。
- */
-export function onCloseModalClick() {
-  document.getElementById("settingsModal").style.display = "none";
-}
-
-/**
  * 速度入力値が変更されたときの処理。
  */
 export function onSpeedInputChange() {

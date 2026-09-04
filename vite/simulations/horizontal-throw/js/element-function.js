@@ -62,22 +62,3 @@ export function onPlayPause() {
     state.playPauseButton.html("一時停止");
   }
 }
-
-/**
- * モーダルを表示/非表示
- */
-export function onToggleModal() {
-  const currentDisplay = state.settingsModal.style("display");
-  if (currentDisplay === "none") {
-    state.settingsModal.style("display", "block");
-  } else {
-    state.settingsModal.style("display", "none");
-  }
-}
-
-/**
- * モーダルを閉じる
- */
-export function onCloseModal() {
-  state.settingsModal.style("display", "none");
-}
