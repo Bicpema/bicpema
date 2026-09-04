@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit",
     "verify:runtime": "node scripts/verify-simulation-runtime.js",
     "check:article-links": "node scripts/check-article-simulation-links.js",
+    "check:template-compliance": "node scripts/check-simulation-template-compliance.js",
     "lint:md": "markdownlint-cli2 \"**/*.md\""
   },
   "devDependencies": {
