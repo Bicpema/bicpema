@@ -1,5 +1,14 @@
-import Chart from "chart.js/auto";
 import { state } from "./state.js";
+import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+
+const loadChart = createLazyImporter(() =>
+  import("chart.js/auto").then((module) => module.default)
+);
+/** @type {typeof import("chart.js").Chart | null} */
+let Chart = null;
+// 読み込み失敗後に毎フレーム再試行してネットワークに負荷をかけないよう、
+// 一度失敗したら諦めるためのフラグ。
+let chartLoadFailed = false;
 
 /** 速度データの表示色 */
 const VELOCITY_COLOR = "rgb(220, 60, 60)";
@@ -156,8 +165,23 @@ export class BallGraph {
 
   /**
    * データを更新してグラフを再描画
+   * Chart.jsが未読み込みの場合は動的importを行い、完了後に再度呼び出す。
    */
   updateGraph() {
+    if (!Chart) {
+      if (chartLoadFailed) return;
+      loadChart()
+        .then((ChartCtor) => {
+          Chart = ChartCtor;
+          this.updateGraph();
+        })
+        .catch((error) => {
+          chartLoadFailed = true;
+          console.error("Chart.jsの読み込みに失敗しました。", error);
+        });
+      return;
+    }
+
     this._initVtChart();
     this._initYtChart();
 

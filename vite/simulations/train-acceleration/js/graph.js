@@ -1,6 +1,5 @@
 // graph.js はグラフ描画専用のファイルです。
 
-import Chart from "chart.js/auto";
 import { state } from "./state.js";
 import {
   TRAIN_BODY_COLOR_RGB,
@@ -13,14 +12,31 @@ import {
   CHART_Y_AXIS_ROUND_UNIT,
   CHART_Y_AXIS_VELOCITY_MARGIN,
 } from "./constants.js";
+import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+
+const loadChart = createLazyImporter(() =>
+  import("chart.js/auto").then((module) => module.default)
+);
 
 const TRAIN_BODY_COLOR_CSS = `rgb(${TRAIN_BODY_COLOR_RGB.join(", ")})`;
 const TRAIN_BODY_FILL_COLOR_CSS = `rgba(${TRAIN_BODY_COLOR_RGB.join(", ")}, 0.15)`;
 
 /**
  * v-t グラフを初期化する。
+ * Chart.jsを動的importしてから生成する（完了までは既存グラフを保持する）。
+ * 読み込みに失敗した場合はグラフの初期化を中断する。
  */
-export const initChart = () => {
+export const initChart = async () => {
+  let Chart;
+  try {
+    Chart = await loadChart();
+  } catch (error) {
+    console.error(
+      "Chart.jsの読み込みに失敗したため、グラフを初期化できませんでした。",
+      error
+    );
+    return;
+  }
   if (state.graphChart) {
     state.graphChart.destroy();
   }

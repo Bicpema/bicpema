@@ -137,10 +137,12 @@ export function setupSimulation(p) {
   elCreate(p);
   elInit(p);
   initValue(p);
-  beforeColorCalculate(p);
   p.camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
   createStartimg();
   createSliderandRadio(p);
+  beforeColorCalculate(p).catch((error) => {
+    console.error("色計算の初期化に失敗しました。", error);
+  });
 }
 
 /**
@@ -158,5 +160,7 @@ export function resizeSimulation(p) {
   }
   initValue(p);
   p.camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
-  beforeColorCalculate(p);
+  beforeColorCalculate(p).catch((error) => {
+    console.error("色計算の再初期化に失敗しました。", error);
+  });
 }

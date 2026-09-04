@@ -1,4 +1,3 @@
-import Chart from "chart.js/auto";
 import { state } from "./state.js";
 import {
   PX_PER_DISTANCE_UNIT,
@@ -13,6 +12,22 @@ import {
   YELLOW_CAR_COLOR,
   RED_CAR_COLOR,
 } from "./constants.js";
+import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+
+const loadChart = createLazyImporter(() =>
+  import("chart.js/auto").then((module) => module.default)
+);
+/** @type {typeof import("chart.js").Chart | null} */
+let Chart = null;
+loadChart()
+  .then((ChartCtor) => {
+    Chart = ChartCtor;
+  })
+  .catch((error) => {
+    // 失敗時はgraphDrawの`if (!Chart) return;`ガードによりグラフ描画のみが
+    // スキップされ続けるため、ここではログ出力のみ行いunhandled rejectionを防ぐ。
+    console.error("Chart.jsの読み込みに失敗しました。", error);
+  });
 
 /**
  * スケールの表示をする。
@@ -41,9 +56,11 @@ export function drawScale(p, x, y, w, h) {
 
 /**
  * グラフを描画する。
+ * Chart.jsの読み込みが完了するまでは描画をスキップする。
  * @param {p5} p p5インスタンス
  */
 export function graphDraw(p) {
+  if (!Chart) return;
   let yellowCarData, redCarData;
   let title, verticalAxisLabel, yMax;
 
