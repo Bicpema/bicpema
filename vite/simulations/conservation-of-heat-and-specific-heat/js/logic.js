@@ -317,7 +317,6 @@ function ty(p, T) {
 }
 
 export function drawSimulation(p) {
-  p.frameRate(20);
   drawContainer(p);
   updateTemperature(p);
   // drawButton(p);

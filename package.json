@@ -11,6 +11,7 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "verify:runtime": "node scripts/verify-simulation-runtime.js",
+    "benchmark:performance": "node scripts/benchmark-simulation-performance.js",
     "check:article-links": "node scripts/check-article-simulation-links.js",
     "lint:md": "markdownlint-cli2 \"**/*.md\""
   },

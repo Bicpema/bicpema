@@ -1,4 +1,12 @@
 /**
+ * pixelDensityの上限値。
+ * 高DPI環境（displayDensityが3以上の端末等）でそのまま追従すると、
+ * キャンバスの実ピクセル数が過大になり描画負荷が急増するため上限を設ける。
+ * 詳細は docs/docs/simulation/index.md の「パフォーマンス方針」を参照。
+ */
+const MAX_PIXEL_DENSITY = 2;
+
+/**
  * BicpemaCanvasControllerクラス
  *
  * Bicpemaの動的なキャンバスサイズをコントロールする。
@@ -81,6 +89,7 @@ export class BicpemaCanvasController {
    * @param {*} p p5インスタンス。
    */
   fullScreen(p) {
+    p.pixelDensity(Math.min(p.displayDensity(), MAX_PIXEL_DENSITY));
     const P5_CANVAS = p.select("#p5Canvas");
     const { w, h } = this._getSize(p);
     const canvas = this.is3D
