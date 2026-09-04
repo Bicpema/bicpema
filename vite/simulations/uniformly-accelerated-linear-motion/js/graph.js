@@ -7,6 +7,8 @@ const loadChart = createLazyImporter(() =>
 );
 /** @type {typeof import("chart.js").Chart | null} */
 let Chart = null;
+// 読み込み失敗後に毎フレーム再試行しないためのフラグ。
+let chartLoadFailed = false;
 
 /** 位置データの表示色 */
 const POSITION_COLOR = "rgb(60, 150, 255)";
@@ -31,10 +33,16 @@ export class MotionGraph {
     if (!state.graphVisible) return;
 
     if (!Chart) {
-      loadChart().then((ChartCtor) => {
-        Chart = ChartCtor;
-        this.updateGraph();
-      });
+      if (chartLoadFailed) return;
+      loadChart()
+        .then((ChartCtor) => {
+          Chart = ChartCtor;
+          this.updateGraph();
+        })
+        .catch((error) => {
+          chartLoadFailed = true;
+          console.error("Chart.jsの読み込みに失敗しました。", error);
+        });
       return;
     }
 

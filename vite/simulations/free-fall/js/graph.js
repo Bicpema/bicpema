@@ -6,6 +6,8 @@ const loadChart = createLazyImporter(() =>
 );
 /** @type {typeof import("chart.js").Chart | null} */
 let Chart = null;
+// 読み込み失敗後に毎フレーム再試行しないためのフラグ。
+let chartLoadFailed = false;
 
 /** 速度データの表示色 */
 const VELOCITY_COLOR = "rgb(220, 60, 60)";
@@ -31,10 +33,16 @@ export class BallGraph {
     if (!state.graphVisible) return;
 
     if (!Chart) {
-      loadChart().then((ChartCtor) => {
-        Chart = ChartCtor;
-        this.updateGraph();
-      });
+      if (chartLoadFailed) return;
+      loadChart()
+        .then((ChartCtor) => {
+          Chart = ChartCtor;
+          this.updateGraph();
+        })
+        .catch((error) => {
+          chartLoadFailed = true;
+          console.error("Chart.jsの読み込みに失敗しました。", error);
+        });
       return;
     }
 
