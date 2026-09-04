@@ -6,11 +6,16 @@ export function drawChamber(p) {
   const gh = 400;
   const gx = 375;
   const gy = 81;
+  const cylinderCenterX = gx + gw / 2;
 
+  const heatIconW = 120;
+  const heatIconH = 55;
+  const heatIconX = cylinderCenterX - heatIconW / 2;
+  const heatIconY = gy + gh + 10;
   if (state.stage === 0 || state.stage === 1) {
-    p.image(state.img_flame, 420, gy + gh + 10, 120, 55);
+    p.image(state.img_flame, heatIconX, heatIconY, heatIconW, heatIconH);
   } else {
-    p.image(state.img_ice, 420, gy + gh + 10, 120, 55);
+    p.image(state.img_ice, heatIconX, heatIconY, heatIconW, heatIconH);
   }
 
   p.stroke(0);
@@ -69,7 +74,15 @@ export function drawChamber(p) {
   p.endShape();
 
   if (state.weightOn) {
-    p.image(state.img_weight, gx + pw * 0.37, state.pistonY - 97);
+    const weightW = 64;
+    const weightH = 76;
+    p.image(
+      state.img_weight,
+      gx + pw * 0.37,
+      state.pistonY - 97,
+      weightW,
+      weightH
+    );
   }
 
   const gasTop = state.pistonY - 38 + gapH + ph;
