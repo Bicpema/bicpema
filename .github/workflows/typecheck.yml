@@ -7,6 +7,7 @@ on:
       - "tsconfig.json"
       - "package.json"
       - "package-lock.json"
+      - ".github/workflows/typecheck.yml"
   push:
     branches:
       - main
@@ -15,6 +16,7 @@ on:
       - "tsconfig.json"
       - "package.json"
       - "package-lock.json"
+      - ".github/workflows/typecheck.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

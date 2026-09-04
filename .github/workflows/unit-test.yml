@@ -7,6 +7,7 @@ on:
       - "vitest.config.js"
       - "package.json"
       - "package-lock.json"
+      - ".github/workflows/unit-test.yml"
   push:
     branches:
       - main
@@ -15,6 +16,7 @@ on:
       - "vitest.config.js"
       - "package.json"
       - "package-lock.json"
+      - ".github/workflows/unit-test.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

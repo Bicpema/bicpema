@@ -8,6 +8,7 @@ on:
       - "scripts/check-article-simulation-links.js"
       - "scripts/articleless-simulation-allowlist.js"
       - "scripts/_lib/checkArticleSimulationLinks.js"
+      - ".github/workflows/check-article-links.yml"
   push:
     branches:
       - main
@@ -17,6 +18,7 @@ on:
       - "scripts/check-article-simulation-links.js"
       - "scripts/articleless-simulation-allowlist.js"
       - "scripts/_lib/checkArticleSimulationLinks.js"
+      - ".github/workflows/check-article-links.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

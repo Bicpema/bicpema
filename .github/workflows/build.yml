@@ -9,6 +9,7 @@ on:
       - "vite.config.js"
       - "package.json"
       - "package-lock.json"
+      - ".github/workflows/build.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
