@@ -1,12 +1,32 @@
 // graph.jsはグラフ描画専用のファイルです。
 
-import Chart from "chart.js/auto";
 import { state } from "./state.js";
+import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+
+// Chart.jsの動的importをモジュール読み込み時に開始する。p5のpreload()による
+// CSV/画像の取得と並行して読み込まれるため、setup()到達時には解決済みになる想定。
+const loadChart = createLazyImporter(() =>
+  import("chart.js/auto").then((module) => {
+    const ChartCtor = module.default;
+    // グラフの背景が暗い配色(body: bg-neutral-900)の上に透明で表示されるため、
+    // Chart.jsの既定の文字色(#666、白背景向け)のままだとコントラスト不足で見えづらい。
+    // 暗い背景でも視認できる明るい色に変更する。
+    ChartCtor.defaults.color = "#e5e5e5";
+    return ChartCtor;
+  })
+);
+/** @type {typeof import("chart.js").Chart | null} */
+let Chart = null;
+loadChart().then((ChartCtor) => {
+  Chart = ChartCtor;
+});
 
 /**
  * １枚目の偏光板を透過した後とシミュレーションのスペクトルの比較グラフを描画する。
+ * Chart.jsの読み込みが完了するまでは描画をスキップする。
  */
 export function drawGraph() {
+  if (!Chart) return;
   if (state.mainChartObj) {
     state.mainChartObj.destroy();
   }

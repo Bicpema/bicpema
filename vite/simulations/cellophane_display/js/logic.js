@@ -1,14 +1,25 @@
 // logic.jsはシミュレーションの描画処理と物理更新専用のファイルです。
 
-import * as math from "mathjs";
 import { state } from "./state.js";
 import { computePhaseRetardation } from "./physics.js";
+import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+
+// mathjsの動的importをモジュール読み込み時に開始する。p5のpreload()による
+// CSV/画像の取得と並行して読み込まれるため、setup()到達時には解決済みになる想定。
+const loadMath = createLazyImporter(() => import("mathjs"));
+/** @type {typeof import("mathjs") | null} */
+let math = null;
+loadMath().then((module) => {
+  math = module;
+});
 
 /**
  * シミュレーションの描画と物理更新を行う（p5のdraw()から毎フレーム呼び出される）。
+ * mathjsの読み込みが完了するまでは描画をスキップする。
  * @param {*} p p5インスタンス
  */
 export function drawSimulation(p) {
+  if (!math) return;
   state.currentValue = state.optRadio.value();
   state.radius = 111;
   prenormal(p);
@@ -377,9 +388,13 @@ function numInputFunction(p) {
 
 /**
  * 偏光板１枚を透過したときの色の計算。
+ * mathjsが未読み込みの場合は読み込みを待ってから計算する。
  * @param {*} p p5インスタンス
  */
-export function beforeColorCalculate(p) {
+export async function beforeColorCalculate(p) {
+  if (!math) {
+    math = await loadMath();
+  }
   // XYZ刺激値への変換（等色関数×スペクトル）
   for (let i = 380; i <= 750; i++) {
     state.xArrBefore[i - 380] =

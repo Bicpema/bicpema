@@ -1,12 +1,18 @@
 // graph.js はグラフ描画専用のファイルです。
 
-import Chart from "chart.js/auto";
 import { state } from "./state.js";
+import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+
+const loadChart = createLazyImporter(() =>
+  import("chart.js/auto").then((module) => module.default)
+);
 
 /**
  * v-t グラフを初期化する。
+ * Chart.jsを動的importしてから生成する（完了までは既存グラフを保持する）。
  */
-export const initChart = () => {
+export const initChart = async () => {
+  const Chart = await loadChart();
   if (state.graphChart) {
     state.graphChart.destroy();
   }

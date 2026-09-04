@@ -1,21 +1,29 @@
 import p5 from "p5";
 import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
-import Chart from "chart.js/auto";
 import {
   computeOpticalPathDifference,
   computeTransmittance,
 } from "./physics.js";
+import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+
+// Chart.jsの動的importをモジュール読み込み時に開始する。p5のpreload()による
+// CSVの取得と並行して読み込まれるため、setup()到達時には解決済みになる想定。
+const loadChart = createLazyImporter(() =>
+  import("chart.js/auto").then((module) => module.default)
+);
 
 // ボタンの色をJS側で動的に切り替えるため、Bootstrapのbtn-*相当の
 // スタイルをTailwindユーティリティクラスの文字列として定義しておく。
 // addClass/removeClassは常にこの定数を使うことで、確実に対応する
 // クラスの追加・削除ができるようにする。
-const BTN_PRIMARY = "rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500";
+const BTN_PRIMARY =
+  "rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500";
 const BTN_DANGER = "rounded bg-red-600 px-3 py-2 text-white hover:bg-red-500";
 const BTN_SECONDARY =
   "rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500";
-const BTN_SUCCESS = "rounded bg-green-600 px-3 py-2 text-white hover:bg-green-500";
+const BTN_SUCCESS =
+  "rounded bg-green-600 px-3 py-2 text-white hover:bg-green-500";
 
 const state = {
   spectrumSheet: null,
@@ -194,16 +202,10 @@ function cellophaneCountSliderFunction(p) {
 function switchFunction(p) {
   if (switchIs == false) {
     switchIs = true;
-    switchButton
-      .removeClass(BTN_PRIMARY)
-      .addClass(BTN_DANGER)
-      .html("ストップ");
+    switchButton.removeClass(BTN_PRIMARY).addClass(BTN_DANGER).html("ストップ");
   } else {
     switchIs = false;
-    switchButton
-      .removeClass(BTN_DANGER)
-      .addClass(BTN_PRIMARY)
-      .html("スタート");
+    switchButton.removeClass(BTN_DANGER).addClass(BTN_PRIMARY).html("スタート");
   }
 }
 
@@ -452,7 +454,9 @@ function main(p) {
 }
 
 //グラフを描画する手続き
-function initGraph() {
+//Chart.jsを動的importしてから生成する。
+async function initGraph() {
+  const Chart = await loadChart();
   const ctx1 = document.getElementById("graphChart").getContext("2d");
 
   graphChart = new Chart(ctx1, {
@@ -497,6 +501,7 @@ function initGraph() {
 }
 
 function updateGraph() {
+  if (!graphChart) return;
   const index = cellophaneCountSlider.value() - 1;
 
   graphChart.data.datasets[1].label =
@@ -511,7 +516,9 @@ function updateGraph() {
   graphChart.update();
 }
 
-function initCmfGraph() {
+//Chart.jsを動的importしてから生成する。
+async function initCmfGraph() {
+  const Chart = await loadChart();
   const ctx2 = document.getElementById("cmfGraphChart").getContext("2d");
 
   cmfGraphChart = new Chart(ctx2, {

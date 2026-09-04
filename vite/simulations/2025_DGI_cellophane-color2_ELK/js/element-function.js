@@ -1,19 +1,29 @@
 // element-function.jsは仮想DOMメソッド管理専用のファイルです。
 
-import { domToPng } from "modern-screenshot";
 import { state } from "./state.js";
 import { Cellophane } from "./class.js";
+import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+
+const loadScreenshot = createLazyImporter(() => import("modern-screenshot"));
 
 /**
  * スクリーンショットボタンが押されたときの処理。
+ * modern-screenshotはボタン押下時に初めて動的importする。
  */
 export function onScreenshotClick() {
-  domToPng(document.body).then((dataUrl) => {
-    const a = document.createElement("a");
-    a.href = dataUrl;
-    a.download = "screenshot.png";
-    a.click();
-  });
+  const button = document.getElementById("screenshotButton");
+  if (button) button.disabled = true;
+  loadScreenshot()
+    .then(({ domToPng }) => domToPng(document.body))
+    .then((dataUrl) => {
+      const a = document.createElement("a");
+      a.href = dataUrl;
+      a.download = "screenshot.png";
+      a.click();
+    })
+    .finally(() => {
+      if (button) button.disabled = false;
+    });
 }
 
 /**

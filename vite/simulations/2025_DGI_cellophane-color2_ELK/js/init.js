@@ -134,11 +134,11 @@ export function createSliderandRadio(p) {
  * シミュレーションの初回セットアップを行う。
  * @param {*} p p5インスタンス
  */
-export function setupSimulation(p) {
+export async function setupSimulation(p) {
   elCreate(p);
   elInit(p);
   initValue(p);
-  beforeColorCalculate(p);
+  await beforeColorCalculate(p);
   p.camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
   createStartimg();
   createSliderandRadio(p);
@@ -149,7 +149,7 @@ export function setupSimulation(p) {
  * セロハンの組を全て削除した上で初期値を設定し直す。
  * @param {*} p p5インスタンス
  */
-export function resizeSimulation(p) {
+export async function resizeSimulation(p) {
   elInit(p);
   // cellophaneRemoveButtonFunctionは呼ぶたびにstate.colabNum(組数)を1減らす。
   // state.cellophaneNum(総枚数)は更新されないため、colabNumを基準に
@@ -159,5 +159,5 @@ export function resizeSimulation(p) {
   }
   initValue(p);
   p.camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
-  beforeColorCalculate(p);
+  await beforeColorCalculate(p);
 }

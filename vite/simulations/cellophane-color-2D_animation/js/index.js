@@ -56,12 +56,12 @@ const sketch = (p) => {
   };
 
   // ★ setup関数
-  p.setup = () => {
+  p.setup = async () => {
     canvasController.fullScreen(p);
     elCreate(p);
     elInit(p);
     initValue(p);
-    beforeColorCalculate(p);
+    await beforeColorCalculate(p);
     p.camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
     createStartimg();
     createSliderandRadio(p);
@@ -78,7 +78,7 @@ const sketch = (p) => {
     drawSimulation(p);
   };
 
-  p.windowResized = () => {
+  p.windowResized = async () => {
     canvasController.resizeScreen(p);
     elInit(p);
     // cellophaneRemoveButtonFunctionは呼ぶたびにstate.colabNum(組数)を1減らす。
@@ -89,7 +89,7 @@ const sketch = (p) => {
     }
     initValue(p);
     p.camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
-    beforeColorCalculate(p);
+    await beforeColorCalculate(p);
   };
 
   p.keyPressed = () => {

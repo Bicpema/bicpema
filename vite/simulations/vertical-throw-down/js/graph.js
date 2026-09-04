@@ -1,5 +1,11 @@
-import Chart from "chart.js/auto";
 import { state } from "./state.js";
+import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+
+const loadChart = createLazyImporter(() =>
+  import("chart.js/auto").then((module) => module.default)
+);
+/** @type {typeof import("chart.js").Chart | null} */
+let Chart = null;
 
 /**
  * ボール運動のグラフ描画クラス
@@ -143,8 +149,17 @@ export class BallGraph {
 
   /**
    * データを更新してグラフを再描画
+   * Chart.jsが未読み込みの場合は動的importを行い、完了後に再度呼び出す。
    */
   updateGraph() {
+    if (!Chart) {
+      loadChart().then((ChartCtor) => {
+        Chart = ChartCtor;
+        this.updateGraph();
+      });
+      return;
+    }
+
     this._initVtChart();
     this._initYtChart();
 

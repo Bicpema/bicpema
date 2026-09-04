@@ -1,14 +1,29 @@
 // graph.js - v-tグラフ描画専用のファイルです。
 
-import Chart from "chart.js/auto";
 import { state } from "./state.js";
 import { SLOPE_LENGTH_M } from "./function.js";
+import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+
+const loadChart = createLazyImporter(() =>
+  import("chart.js/auto").then((module) => module.default)
+);
+/** @type {typeof import("chart.js").Chart | null} */
+let Chart = null;
 
 /**
  * v-tグラフを更新（Chart.jsを使用）
+ * Chart.jsが未読み込みの場合は動的importを行い、完了後に再度呼び出す。
  */
 export function updateGraph() {
   if (!state.graphVisible) return;
+
+  if (!Chart) {
+    loadChart().then((ChartCtor) => {
+      Chart = ChartCtor;
+      updateGraph();
+    });
+    return;
+  }
 
   const ctx = document.getElementById("graphCanvas");
   if (!ctx) return;

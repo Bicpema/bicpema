@@ -1,17 +1,38 @@
 // logic.jsはシミュレーションの描画処理と物理・色計算専用のファイルです。
 
-import Chart from "chart.js/auto";
-import * as math from "mathjs";
 import { state } from "./state.js";
 import { computePhaseRetardation } from "./physics.js";
+import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
 
-// グラフの背景が暗い配色(body: bg-neutral-900)の上に透明で表示されるため、
-// Chart.jsの既定の文字色(#666、白背景向け)のままだとコントラスト不足で見えづらい。
-// 暗い背景でも視認できる明るい色に変更する。
-Chart.defaults.color = "#e5e5e5";
+// Chart.js・mathjsの動的importをモジュール読み込み時に開始する。p5のpreload()による
+// CSV/画像の取得と並行して読み込まれるため、setup()到達時には解決済みになる想定。
+const loadChart = createLazyImporter(() =>
+  import("chart.js/auto").then((module) => {
+    const ChartCtor = module.default;
+    // グラフの背景が暗い配色(body: bg-neutral-900)の上に透明で表示されるため、
+    // Chart.jsの既定の文字色(#666、白背景向け)のままだとコントラスト不足で見えづらい。
+    // 暗い背景でも視認できる明るい色に変更する。
+    ChartCtor.defaults.color = "#e5e5e5";
+    return ChartCtor;
+  })
+);
+/** @type {typeof import("chart.js").Chart | null} */
+let Chart = null;
+loadChart().then((ChartCtor) => {
+  Chart = ChartCtor;
+});
+
+const loadMath = createLazyImporter(() => import("mathjs"));
+/** @type {typeof import("mathjs") | null} */
+let math = null;
+loadMath().then((module) => {
+  math = module;
+});
 
 // ★ draw相当のメイン処理
+// Chart.js・mathjsの読み込みが完了するまでは描画をスキップする。
 export function drawSimulation(p) {
+  if (!math || !Chart) return;
   state.currentValue = state.optRadio.value();
   state.radius = 111;
   prenormal(p);
@@ -201,9 +222,7 @@ export function colabNum2_normal(p) {
     for (let n = 1; n <= state.colabNum; n++) {
       //1でなく2では..?
       let numInputValue = parseInt(p.select("#numInput-" + n).value()); // 数値型に変換
-      let rotateInputValue = parseFloat(
-        p.select("#rotateInput-" + n).value()
-      ); // 数値型に変換
+      let rotateInputValue = parseFloat(p.select("#rotateInput-" + n).value()); // 数値型に変換
       let optInputValue = state.opdInput.value(); // 数値型に変換
       let nowpolarizer = state.polarizerSelect.value();
       if (numInputValue !== state.last_otherCellophaneNums[n - 2]) {
@@ -440,7 +459,11 @@ export function numInputFunction(p) {
 }
 
 // 偏光板１枚を透過したときの色の計算
-export function beforeColorCalculate(p) {
+// mathjsが未読み込みの場合は読み込みを待ってから計算する。
+export async function beforeColorCalculate(p) {
+  if (!math) {
+    math = await loadMath();
+  }
   // XYZ刺激値への変換（等色関数×スペクトル）
   for (let i = 380; i <= 750; i++) {
     state.xArrBefore[i - 380] =
@@ -862,10 +885,7 @@ export function afterColorCalculates(p, binaryString) {
           if (bit[j] == 0) {
             state.E_2 = math.multiply(
               r_theta(p, b),
-              math.multiply(
-                cello,
-                math.multiply(mai_r_theta(p, b), state.E_2)
-              )
+              math.multiply(cello, math.multiply(mai_r_theta(p, b), state.E_2))
             );
           } else {
             state.E_2 = state.E_2;
@@ -892,10 +912,7 @@ export function afterColorCalculates(p, binaryString) {
           if (bit[k] == 0) {
             state.E_2 = math.multiply(
               r_theta(p, b),
-              math.multiply(
-                cello,
-                math.multiply(mai_r_theta(p, b), state.E_2)
-              )
+              math.multiply(cello, math.multiply(mai_r_theta(p, b), state.E_2))
             ); //2024.6.21 ここでバグが生じる
           } else {
             state.E_2 = state.E_2;
@@ -1056,11 +1073,7 @@ export function drawTapes(p, tape_angle, rAftera, gAftera, bAftera) {
       }
     }
 
-    for (
-      let i = startYT * state.img.width;
-      i < endYT * state.img.width;
-      i++
-    ) {
+    for (let i = startYT * state.img.width; i < endYT * state.img.width; i++) {
       state.zz = parseInt(state.tape_arraySum[i], 2); //"0"又は"1"からなるバイナリ数を数字化
       let index = i * 4;
       state.img.pixels[index] = rAftera[state.zz];
@@ -1167,7 +1180,9 @@ export function optChanged() {
 }
 
 // HSV色空間分布の場合について
+// Chart.jsの読み込みが完了するまでは描画をスキップする。
 export function drawGraph() {
+  if (!Chart) return;
   if (typeof state.mainChartObj !== "undefined" && state.mainChartObj) {
     state.mainChartObj.destroy();
   }
@@ -1295,7 +1310,9 @@ export function drawGraph() {
   state.mainChartObj = new Chart(mainCtx, mainChartsetup);
 }
 
+// Chart.jsの読み込みが完了するまでは描画をスキップする。
 export function drawGraph2_1(x1, y1) {
+  if (!Chart) return;
   if (typeof state.mainChartObj !== "undefined" && state.mainChartObj) {
     state.mainChartObj.destroy();
   }
@@ -1375,7 +1392,9 @@ export function drawGraph2_1(x1, y1) {
   state.mainChartObj = new Chart(mainCtx, mainChartsetup);
 }
 
+// Chart.jsの読み込みが完了するまでは描画をスキップする。
 export function drawGraph2() {
+  if (!Chart) return;
   if (typeof state.mainChartObj !== "undefined" && state.mainChartObj) {
     state.mainChartObj.destroy();
   }
