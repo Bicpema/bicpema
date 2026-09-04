@@ -15,9 +15,3 @@ export function computePhaseRetardation(
 ) {
   return (dispersion * sheetCount * 2 * opd * Math.PI) / wavelength / 100;
 }
-
-if (typeof window !== "undefined") {
-  /** @type {any} */ (window).cellophaneColor2Physics = {
-    computePhaseRetardation,
-  };
-}
