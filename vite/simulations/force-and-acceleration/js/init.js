@@ -9,6 +9,7 @@ import {
   onCloseModal,
   onClearMax,
 } from "./element-function.js";
+import { INITIAL_CART_X } from "./constants.js";
 
 export const FPS = 60;
 
@@ -55,5 +56,5 @@ export function elementPositionInit(p) {
  */
 export function valueInit(p) {
   const mass = parseFloat(state.massInput.value());
-  state.cart = new Cart(250, mass);
+  state.cart = new Cart(INITIAL_CART_X, mass);
 }

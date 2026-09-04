@@ -13,8 +13,11 @@ import {
 } from "./init.js";
 import { drawTrack, drawTrain, drawInfoPanel } from "./function.js";
 import { initChart, updateChart } from "./graph.js";
-
-const GRAPH_UPDATE_INTERVAL = 0.1;
+import {
+  GRAPH_UPDATE_INTERVAL,
+  GROUND_Y_RATIO,
+  GROUND_FILL_Y_OFFSET,
+} from "./constants.js";
 
 const sketch = (p) => {
   const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0, {
@@ -41,7 +44,7 @@ const sketch = (p) => {
     /** 仮想キャンバス高さ */
     const VH = V_W * (p.height / p.width);
     /** 地面y座標（仮想ピクセル） */
-    const GROUND_Y = VH * 0.72;
+    const GROUND_Y = VH * GROUND_Y_RATIO;
 
     if (state.isPlaying) {
       const dt = 1 / FPS;
@@ -68,7 +71,12 @@ const sketch = (p) => {
     // 地面
     p.fill(80, 130, 60);
     p.noStroke();
-    p.rect(0, GROUND_Y + 28, V_W, VH - GROUND_Y - 28);
+    p.rect(
+      0,
+      GROUND_Y + GROUND_FILL_Y_OFFSET,
+      V_W,
+      VH - GROUND_Y - GROUND_FILL_Y_OFFSET
+    );
 
     // 線路
     drawTrack(p, GROUND_Y, state.train.trackOffset, V_W);

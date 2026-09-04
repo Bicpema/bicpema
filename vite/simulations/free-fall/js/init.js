@@ -9,6 +9,7 @@ import { Ball } from "./ball.js";
 import { BallGraph } from "./graph.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
+import { LABEL_TEXT_SIZE } from "./constants.js";
 
 export const FPS = 30;
 
@@ -61,7 +62,7 @@ export function initValue(p) {
   p.frameRate(FPS);
   p.textAlign(p.CENTER, p.CENTER);
   p.textFont(state.font);
-  p.textSize(16);
+  p.textSize(LABEL_TEXT_SIZE);
 
   const initialHeight = parseFloat(state.heightInput.value());
   state.ball = new Ball(initialHeight);

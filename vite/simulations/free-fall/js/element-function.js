@@ -1,16 +1,21 @@
 import { state } from "./state.js";
+import {
+  MIN_HEIGHT_INPUT,
+  MAX_HEIGHT_INPUT,
+  GROUND_LEVEL_HEIGHT,
+} from "./constants.js";
 
 /**
  * 高さ入力の値が変更されたときの処理
  */
 export function onHeightChange() {
   let newHeight = parseFloat(state.heightInput.value());
-  if (isNaN(newHeight) || newHeight < 10) {
-    newHeight = 10;
-    state.heightInput.value(10);
-  } else if (newHeight > 100) {
-    newHeight = 100;
-    state.heightInput.value(100);
+  if (isNaN(newHeight) || newHeight < MIN_HEIGHT_INPUT) {
+    newHeight = MIN_HEIGHT_INPUT;
+    state.heightInput.value(MIN_HEIGHT_INPUT);
+  } else if (newHeight > MAX_HEIGHT_INPUT) {
+    newHeight = MAX_HEIGHT_INPUT;
+    state.heightInput.value(MAX_HEIGHT_INPUT);
   }
   if (!state.ball.isMoving) {
     state.ball.reset(newHeight);
@@ -34,7 +39,7 @@ export function onPlayPause() {
     state.ball.stop();
     state.playPauseButton.html("再開");
   } else {
-    if (state.ball.height <= 1) {
+    if (state.ball.height <= GROUND_LEVEL_HEIGHT) {
       return;
     }
     state.ball.start();
