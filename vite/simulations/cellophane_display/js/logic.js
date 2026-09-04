@@ -173,13 +173,13 @@ function colabNum2_normal(p) {
       ); // 数値型に変換
       const optInputValue = state.opdInput.value(); // 数値型に変換
       const nowpolarizer = state.polarizerSelect.value();
-      if (numInputValue !== state.last_otherCellophaneNums[n - 2]) {
+      if (numInputValue !== state.last_otherCellophaneNums[n - 1]) {
         check++;
-        state.last_otherCellophaneNums[n - 2] = numInputValue;
+        state.last_otherCellophaneNums[n - 1] = numInputValue;
       }
-      if (rotateInputValue !== state.last_targetAngles[n - 2]) {
+      if (rotateInputValue !== state.last_targetAngles[n - 1]) {
         check++;
-        state.last_targetAngles[n - 2] = rotateInputValue;
+        state.last_targetAngles[n - 1] = rotateInputValue;
       }
       if (optInputValue !== state.last_opt1) {
         check++;
@@ -654,18 +654,18 @@ function afterColorCalculate1(p) {
     state.gAfter1 = toRGB(state.sRGB[1]);
     state.bAfter1 = toRGB(state.sRGB[2]);
     let ratio;
-    if (state.rAfter2 >= state.gAfter2 && state.rAfter2 >= state.bAfter2) {
+    if (state.rAfter1 >= state.gAfter1 && state.rAfter1 >= state.bAfter1) {
       ratio =
         state.xSumAfter ** (1 / 2.4) / state.sum_ls_xArrAfter ** (1 / 2.4);
     } else if (
-      state.gAfter2 >= state.rAfter2 &&
-      state.gAfter2 >= state.bAfter2
+      state.gAfter1 >= state.rAfter1 &&
+      state.gAfter1 >= state.bAfter1
     ) {
       ratio =
         state.ySumAfter ** (1 / 2.4) / state.sum_ls_yArrAfter ** (1 / 2.4);
     } else if (
-      state.bAfter2 >= state.rAfter2 &&
-      state.bAfter2 >= state.gAfter2
+      state.bAfter1 >= state.rAfter1 &&
+      state.bAfter1 >= state.gAfter1
     ) {
       ratio =
         state.zSumAfter ** (1 / 2.4) / state.sum_ls_zArrAfter ** (1 / 2.4);

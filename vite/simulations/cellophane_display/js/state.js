@@ -148,8 +148,8 @@ export const state = {
   tape_arraySum: [],
   zz: 0,
   /** program上の組数の制限(要素数15) */
-  last_otherCellophaneNums: [14],
-  last_targetAngles: [14],
+  last_otherCellophaneNums: new Array(15).fill(1),
+  last_targetAngles: new Array(15).fill(1),
   last_polarizer: null,
   /** 光路差(#opdInput、全組共通)の前回値 */
   last_opt1: null,
