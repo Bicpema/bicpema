@@ -2,9 +2,25 @@ name: シミュレーション起動確認
 
 on:
   pull_request:
+    paths:
+      - "vite/**"
+      - "vite.config.js"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/verify-runtime.yml"
   push:
     branches:
       - main
+    paths:
+      - "vite/**"
+      - "vite.config.js"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/verify-runtime.yml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   verify-runtime:
@@ -27,8 +43,20 @@ jobs:
       - name: ビルド
         run: npm run build
 
+      - name: Playwrightブラウザーのキャッシュ
+        id: playwright-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
       - name: Playwrightブラウザーのインストール
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
+
+      - name: Playwrightシステム依存パッケージのインストール
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: npx playwright install-deps chromium
 
       - name: シミュレーション起動確認
         run: npm run verify:runtime

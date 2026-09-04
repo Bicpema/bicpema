@@ -2,9 +2,25 @@ name: ユニットテスト
 
 on:
   pull_request:
+    paths:
+      - "vite/**"
+      - "vitest.config.js"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/unit-test.yml"
   push:
     branches:
       - main
+    paths:
+      - "vite/**"
+      - "vitest.config.js"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/unit-test.yml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   unit-test:

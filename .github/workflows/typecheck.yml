@@ -2,9 +2,25 @@ name: 型チェック
 
 on:
   pull_request:
+    paths:
+      - "vite/**"
+      - "tsconfig.json"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/typecheck.yml"
   push:
     branches:
       - main
+    paths:
+      - "vite/**"
+      - "tsconfig.json"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/typecheck.yml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   typecheck:

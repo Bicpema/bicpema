@@ -2,9 +2,27 @@ name: 記事とシミュレーションのリンク整合性チェック
 
 on:
   pull_request:
+    paths:
+      - "content/post/**"
+      - "vite/simulations/**"
+      - "scripts/check-article-simulation-links.js"
+      - "scripts/articleless-simulation-allowlist.js"
+      - "scripts/_lib/checkArticleSimulationLinks.js"
+      - ".github/workflows/check-article-links.yml"
   push:
     branches:
       - main
+    paths:
+      - "content/post/**"
+      - "vite/simulations/**"
+      - "scripts/check-article-simulation-links.js"
+      - "scripts/articleless-simulation-allowlist.js"
+      - "scripts/_lib/checkArticleSimulationLinks.js"
+      - ".github/workflows/check-article-links.yml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   check-article-links:
