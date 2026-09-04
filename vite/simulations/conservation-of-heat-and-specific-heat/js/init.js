@@ -1,6 +1,8 @@
 import { state } from "./state.js";
 
-const FPS = 60;
+// 温度変化はゆっくりであり、高フレームレートは不要なため低frameRateを採用する。
+// 詳細は docs/docs/simulation/index.md の「パフォーマンス方針」を参照。
+const FPS = 20;
 
 /** p5 基本設定（フレームレート・テキスト配置） */
 export function settingInit(p) {

@@ -60,26 +60,19 @@ export function drawSimulation(p) {
   if (state.clickedCount === true) {
     state.count += 10;
   } else if (state.resetCount === true) {
-    state.b1 = new Ball(
-      BALL_START_X,
-      groundLevel(p) - state.radi,
-      state.speedButton1.value(),
-      state.angleButton1.value(),
-      state.weightButton1.value(),
-      groundLevel(p) - state.radi - state.heightButton1.value(),
-      state.konstantButton1.value(),
-      1
-    );
-    state.b2 = new Ball(
-      BALL_START_X,
-      groundLevel(p) - state.radi,
-      state.speedButton2.value(),
-      state.angleButton2.value(),
-      state.weightButton2.value(),
-      groundLevel(p) - state.radi - state.heightButton2.value(),
-      state.konstantButton2.value(),
-      2
-    );
+    // 入力欄の値をライブ反映するため毎フレーム読み直す必要があるが、
+    // new Ball()での再生成、およびObject.assign()に渡すオブジェクトリテラルの生成も
+    // GC負荷になるため、既存インスタンスのフィールドへ個別に代入する。
+    state.b1.speed = state.speedButton1.value();
+    state.b1.theta = state.angleButton1.value();
+    state.b1.weight = state.weightButton1.value();
+    state.b1.konstant = state.konstantButton1.value();
+    state.b1.posy0 = groundLevel(p) - state.radi - state.heightButton1.value();
+    state.b2.speed = state.speedButton2.value();
+    state.b2.theta = state.angleButton2.value();
+    state.b2.weight = state.weightButton2.value();
+    state.b2.konstant = state.konstantButton2.value();
+    state.b2.posy0 = groundLevel(p) - state.radi - state.heightButton2.value();
   }
   backGround(p);
   state.b1._draw(p);
