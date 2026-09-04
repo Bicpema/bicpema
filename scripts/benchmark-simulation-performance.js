@@ -37,7 +37,12 @@ function parseArgs(argv) {
     if (separatorIndex === -1) continue;
     const key = arg.slice(0, separatorIndex);
     const value = arg.slice(separatorIndex + 1);
-    if (key === "--filter") options.filter = value.split(",").map((s) => s.trim());
+    if (key === "--filter") {
+      options.filter = value
+        .split(",")
+        .map((s) => s.trim())
+        .filter((s) => s.length > 0);
+    }
     if (key === "--duration") options.duration = Number(value) || options.duration;
     if (key === "--device-scale") options.deviceScale = Number(value) || options.deviceScale;
     if (key === "--base-url") options.baseUrl = value;
