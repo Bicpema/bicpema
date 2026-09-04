@@ -125,8 +125,8 @@ function lightResource(p) {
 
 function animationCalculate(p) {
   state.theta1 = p.radians(state.lightRotateTheta);
-  state.theta2 = computeRefractionAngle(state.theta1, state.n12);
   state.n12 = state.n2 / state.n1;
+  state.theta2 = computeRefractionAngle(state.theta1, state.n12);
   state.boundary = computeSnellRatio(state.theta1, state.n12);
   if (-1 < state.boundary && state.boundary < 1) {
     if (state.theta1 != p.PI / 2 && state.theta1 != -p.PI / 2) {
@@ -580,8 +580,8 @@ function animationRays(p) {
 
 function lineCalculate(p) {
   state.theta1 = p.radians(state.lightRotateTheta);
-  state.theta2 = computeRefractionAngle(state.theta1, state.n12);
   state.n12 = state.n2 / state.n1;
+  state.theta2 = computeRefractionAngle(state.theta1, state.n12);
   state.boundary = computeSnellRatio(state.theta1, state.n12);
 }
 
@@ -880,8 +880,8 @@ function lineRays(p) {
 
 function animationMaxCalculate(p) {
   state.theta1 = p.radians(state.lightRotateTheta);
-  state.theta2 = computeRefractionAngle(state.theta1, state.n12);
   state.n12 = state.n2 / state.n1;
+  state.theta2 = computeRefractionAngle(state.theta1, state.n12);
   state.boundary = computeSnellRatio(state.theta1, state.n12);
   if (-1 < state.boundary && state.boundary < 1) {
     if (state.theta1 != p.PI / 2 && state.theta1 != -p.PI / 2) {
@@ -1322,8 +1322,8 @@ function animationMaxRays(p) {
 
 function lineMaxCalculate(p) {
   state.theta1 = p.radians(state.lightRotateTheta);
-  state.theta2 = computeRefractionAngle(state.theta1, state.n12);
   state.n12 = state.n2 / state.n1;
+  state.theta2 = computeRefractionAngle(state.theta1, state.n12);
   state.boundary = computeSnellRatio(state.theta1, state.n12);
 }
 

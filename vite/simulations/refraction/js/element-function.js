@@ -31,6 +31,7 @@ export function onMousePressed(p) {
     state.lightRotateTheta < 90
   ) {
     state.lightRotateTheta += 0.1;
+    state.theta1 = p.radians(state.lightRotateTheta);
     state.raysX =
       p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
     state.raysY =
@@ -56,6 +57,7 @@ export function onMousePressed(p) {
     state.lightRotateTheta > -90
   ) {
     state.lightRotateTheta -= 0.1;
+    state.theta1 = p.radians(state.lightRotateTheta);
     state.raysX =
       p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
     state.raysY =
