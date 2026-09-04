@@ -21,6 +21,9 @@ export function onScreenshotClick() {
       a.download = "screenshot.png";
       a.click();
     })
+    .catch((error) => {
+      console.error("スクリーンショットの取得に失敗しました。", error);
+    })
     .finally(() => {
       if (button) button.disabled = false;
     });

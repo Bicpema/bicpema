@@ -18,16 +18,27 @@ const loadChart = createLazyImporter(() =>
 );
 /** @type {typeof import("chart.js").Chart | null} */
 let Chart = null;
-loadChart().then((ChartCtor) => {
-  Chart = ChartCtor;
-});
+loadChart()
+  .then((ChartCtor) => {
+    Chart = ChartCtor;
+  })
+  .catch((error) => {
+    // 失敗時はdrawGraph等の`if (!Chart) return;`ガードによりグラフ描画のみが
+    // スキップされ続けるため、ここではログ出力のみ行いunhandled rejectionを防ぐ。
+    console.error("Chart.jsの読み込みに失敗しました。", error);
+  });
 
 const loadMath = createLazyImporter(() => import("mathjs"));
 /** @type {typeof import("mathjs") | null} */
 let math = null;
-loadMath().then((module) => {
-  math = module;
-});
+loadMath()
+  .then((module) => {
+    math = module;
+  })
+  .catch(() => {
+    // 失敗時のエラー報告はbeforeColorCalculate側のcatchに任せ、ここでは
+    // unhandled rejectionにならないようにするだけに留める。
+  });
 
 // ★ draw相当のメイン処理
 // Chart.js・mathjsの読み込みが完了するまでは描画をスキップする。

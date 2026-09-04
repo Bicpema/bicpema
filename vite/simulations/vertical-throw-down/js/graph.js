@@ -6,6 +6,9 @@ const loadChart = createLazyImporter(() =>
 );
 /** @type {typeof import("chart.js").Chart | null} */
 let Chart = null;
+// 読み込み失敗後に毎フレーム再試行してネットワークに負荷をかけないよう、
+// 一度失敗したら諦めるためのフラグ。
+let chartLoadFailed = false;
 
 /**
  * ボール運動のグラフ描画クラス
@@ -153,10 +156,16 @@ export class BallGraph {
    */
   updateGraph() {
     if (!Chart) {
-      loadChart().then((ChartCtor) => {
-        Chart = ChartCtor;
-        this.updateGraph();
-      });
+      if (chartLoadFailed) return;
+      loadChart()
+        .then((ChartCtor) => {
+          Chart = ChartCtor;
+          this.updateGraph();
+        })
+        .catch((error) => {
+          chartLoadFailed = true;
+          console.error("Chart.jsの読み込みに失敗しました。", error);
+        });
       return;
     }
 

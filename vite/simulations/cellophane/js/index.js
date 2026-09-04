@@ -454,9 +454,18 @@ function main(p) {
 }
 
 //グラフを描画する手続き
-//Chart.jsを動的importしてから生成する。
+//Chart.jsを動的importしてから生成する。読み込みに失敗した場合は初期化を中断する。
 async function initGraph() {
-  const Chart = await loadChart();
+  let Chart;
+  try {
+    Chart = await loadChart();
+  } catch (error) {
+    console.error(
+      "Chart.jsの読み込みに失敗したため、グラフを初期化できませんでした。",
+      error
+    );
+    return;
+  }
   const ctx1 = document.getElementById("graphChart").getContext("2d");
 
   graphChart = new Chart(ctx1, {
@@ -516,9 +525,18 @@ function updateGraph() {
   graphChart.update();
 }
 
-//Chart.jsを動的importしてから生成する。
+//Chart.jsを動的importしてから生成する。読み込みに失敗した場合は初期化を中断する。
 async function initCmfGraph() {
-  const Chart = await loadChart();
+  let Chart;
+  try {
+    Chart = await loadChart();
+  } catch (error) {
+    console.error(
+      "Chart.jsの読み込みに失敗したため、グラフを初期化できませんでした。",
+      error
+    );
+    return;
+  }
   const ctx2 = document.getElementById("cmfGraphChart").getContext("2d");
 
   cmfGraphChart = new Chart(ctx2, {

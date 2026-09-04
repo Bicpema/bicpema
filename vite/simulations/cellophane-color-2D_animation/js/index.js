@@ -56,16 +56,18 @@ const sketch = (p) => {
   };
 
   // ★ setup関数
-  p.setup = async () => {
+  p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
     elInit(p);
     initValue(p);
-    await beforeColorCalculate(p);
     p.camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
     createStartimg();
     createSliderandRadio(p);
     uiInit();
+    beforeColorCalculate(p).catch((error) => {
+      console.error("色計算の初期化に失敗しました。", error);
+    });
   };
 
   // ★ draw関数
@@ -78,7 +80,7 @@ const sketch = (p) => {
     drawSimulation(p);
   };
 
-  p.windowResized = async () => {
+  p.windowResized = () => {
     canvasController.resizeScreen(p);
     elInit(p);
     // cellophaneRemoveButtonFunctionは呼ぶたびにstate.colabNum(組数)を1減らす。
@@ -89,7 +91,9 @@ const sketch = (p) => {
     }
     initValue(p);
     p.camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
-    await beforeColorCalculate(p);
+    beforeColorCalculate(p).catch((error) => {
+      console.error("色計算の再初期化に失敗しました。", error);
+    });
   };
 
   p.keyPressed = () => {

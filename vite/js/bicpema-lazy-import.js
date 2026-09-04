@@ -14,7 +14,13 @@ export function createLazyImporter(importFn) {
   let promise = null;
   return function load() {
     if (!promise) {
-      promise = importFn();
+      // importFn()が失敗した場合、失敗したPromiseを永続的にキャッシュしてしまうと
+      // ネットワーク一時断などから復旧できなくなる。失敗時はキャッシュを解除し、
+      // 次回呼び出しで再度importを試行できるようにする。
+      promise = importFn().catch((error) => {
+        promise = null;
+        throw error;
+      });
     }
     return promise;
   };

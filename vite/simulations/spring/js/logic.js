@@ -29,10 +29,19 @@ export function drawSimulation(p) {
 
 /**
  * 上下2つのばねの変位グラフをChart.jsで初期化する（初回セットアップ・リセット時に呼び出す）。
- * Chart.jsを動的importしてから生成する。
+ * Chart.jsを動的importしてから生成する。読み込みに失敗した場合はグラフの初期化を中断する。
  */
 export async function initCharts() {
-  const Chart = await loadChart();
+  let Chart;
+  try {
+    Chart = await loadChart();
+  } catch (error) {
+    console.error(
+      "Chart.jsの読み込みに失敗したため、グラフを初期化できませんでした。",
+      error
+    );
+    return;
+  }
   if (state.chart1) {
     state.chart1.destroy();
   }

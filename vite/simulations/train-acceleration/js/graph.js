@@ -10,9 +10,19 @@ const loadChart = createLazyImporter(() =>
 /**
  * v-t グラフを初期化する。
  * Chart.jsを動的importしてから生成する（完了までは既存グラフを保持する）。
+ * 読み込みに失敗した場合はグラフの初期化を中断する。
  */
 export const initChart = async () => {
-  const Chart = await loadChart();
+  let Chart;
+  try {
+    Chart = await loadChart();
+  } catch (error) {
+    console.error(
+      "Chart.jsの読み込みに失敗したため、グラフを初期化できませんでした。",
+      error
+    );
+    return;
+  }
   if (state.graphChart) {
     state.graphChart.destroy();
   }

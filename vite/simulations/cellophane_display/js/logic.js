@@ -9,9 +9,14 @@ import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
 const loadMath = createLazyImporter(() => import("mathjs"));
 /** @type {typeof import("mathjs") | null} */
 let math = null;
-loadMath().then((module) => {
-  math = module;
-});
+loadMath()
+  .then((module) => {
+    math = module;
+  })
+  .catch(() => {
+    // 失敗時のエラー報告はbeforeColorCalculate側のcatchに任せ、ここでは
+    // unhandled rejectionにならないようにするだけに留める。
+  });
 
 /**
  * シミュレーションの描画と物理更新を行う（p5のdraw()から毎フレーム呼び出される）。

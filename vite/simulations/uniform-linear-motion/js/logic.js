@@ -6,9 +6,15 @@ const loadChart = createLazyImporter(() =>
 );
 /** @type {typeof import("chart.js").Chart | null} */
 let Chart = null;
-loadChart().then((ChartCtor) => {
-  Chart = ChartCtor;
-});
+loadChart()
+  .then((ChartCtor) => {
+    Chart = ChartCtor;
+  })
+  .catch((error) => {
+    // 失敗時はgraphDrawの`if (!Chart) return;`ガードによりグラフ描画のみが
+    // スキップされ続けるため、ここではログ出力のみ行いunhandled rejectionを防ぐ。
+    console.error("Chart.jsの読み込みに失敗しました。", error);
+  });
 
 /**
  * スケールの表示をする。
