@@ -1,5 +1,10 @@
 import { state } from "./state.js";
 
+/** 空気抵抗係数の最小値 */
+const DRAG_COEFFICIENT_MIN = 0;
+/** 空気抵抗係数の最大値 */
+const DRAG_COEFFICIENT_MAX = 2;
+
 /**
  * 高さ入力の値が変更されたときの処理
  */
@@ -13,7 +18,24 @@ export function onHeightChange() {
     state.heightInput.value(100);
   }
   if (!state.ball.isMoving) {
-    state.ball.reset(newHeight);
+    state.ball.reset(newHeight, state.ball.dragCoefficient);
+  }
+}
+
+/**
+ * 空気抵抗係数入力の値が変更されたときの処理
+ */
+export function onDragCoefficientChange() {
+  let newDragCoefficient = parseFloat(state.dragCoefficientInput.value());
+  if (isNaN(newDragCoefficient) || newDragCoefficient < DRAG_COEFFICIENT_MIN) {
+    newDragCoefficient = DRAG_COEFFICIENT_MIN;
+    state.dragCoefficientInput.value(DRAG_COEFFICIENT_MIN);
+  } else if (newDragCoefficient > DRAG_COEFFICIENT_MAX) {
+    newDragCoefficient = DRAG_COEFFICIENT_MAX;
+    state.dragCoefficientInput.value(DRAG_COEFFICIENT_MAX);
+  }
+  if (!state.ball.isMoving) {
+    state.ball.reset(state.ball.initialHeight, newDragCoefficient);
   }
 }
 
@@ -22,7 +44,8 @@ export function onHeightChange() {
  */
 export function onReset() {
   const newHeight = parseFloat(state.heightInput.value());
-  state.ball.reset(newHeight);
+  const newDragCoefficient = parseFloat(state.dragCoefficientInput.value());
+  state.ball.reset(newHeight, newDragCoefficient);
   state.playPauseButton.html("▶ 開始");
 }
 

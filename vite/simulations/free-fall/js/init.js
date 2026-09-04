@@ -1,6 +1,7 @@
 import { state } from "./state.js";
 import {
   onHeightChange,
+  onDragCoefficientChange,
   onReset,
   onPlayPause,
   onToggleGraph,
@@ -19,6 +20,9 @@ export const FPS = 30;
 export function elCreate(p) {
   state.heightInput = p.select("#heightInput");
   state.heightInput.input(() => onHeightChange());
+
+  state.dragCoefficientInput = p.select("#dragCoefficientInput");
+  state.dragCoefficientInput.input(() => onDragCoefficientChange());
 
   const { toggleButton, resetButton } = bindToggleControls(p, {
     toggleSelector: "#playPauseButton",
@@ -64,6 +68,7 @@ export function initValue(p) {
   p.textSize(16);
 
   const initialHeight = parseFloat(state.heightInput.value());
-  state.ball = new Ball(initialHeight);
+  const initialDragCoefficient = parseFloat(state.dragCoefficientInput.value());
+  state.ball = new Ball(initialHeight, initialDragCoefficient);
   state.graph = new BallGraph();
 }
