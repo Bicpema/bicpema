@@ -476,5 +476,7 @@ export function loadLayers(placeName) {
       arrKey = key;
     }
   }
-  return state.dataInputArr[arrKey].layer;
+  // 子ウィンドウ表示中に親側で該当の地点が削除・リセットされている場合など、
+  // arrKeyに対応するデータが存在しないことがあるため、その場合は空配列を返す。
+  return state.dataInputArr[arrKey]?.layer ?? [];
 }

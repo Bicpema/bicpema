@@ -66,10 +66,12 @@ function calculateValue(p) {
     const ele2 = p.select("#depthDirectionMaxInput");
     const ele3 = p.select("#depthDirectionMinInput");
     if (unitSelectValue === "meter") {
+      // widthDirectionInputのvalue()は文字列を返すため、他の経路（auto時の
+      // computeCoordinateBounds等）と型を揃えて数値として保持する。
       state.xMin = 0;
-      state.xMax = ele1.value();
+      state.xMax = p.float(ele1.value());
       state.yMin = 0;
-      state.yMax = ele1.value();
+      state.yMax = p.float(ele1.value());
     }
     state.zMax = p.int(ele2.value());
     state.zMin = p.int(ele3.value());
