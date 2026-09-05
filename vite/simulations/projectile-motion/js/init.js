@@ -4,6 +4,11 @@ import { state } from "./state.js";
 
 /** ヘッダーの高さ[px] */
 export const NAV_HEIGHT = 60;
+/**
+ * pixelDensityの上限値。高DPI環境での過大な描画負荷を避けるために設定する。
+ * 詳細はdocs/docs/simulation/index.mdの「パフォーマンス方針」を参照。
+ */
+export const MAX_PIXEL_DENSITY = 2;
 /** usableHeightのうち、canvasに使う割合 */
 export const CANVAS_HEIGHT_RATIO = 7 / 10;
 /** usableHeightのうち、操作パネルに使う割合 */
@@ -52,6 +57,7 @@ export function updateUsableHeight(p) {
  * @param {*} p p5インスタンス
  */
 export function fullScreen(p) {
+  p.pixelDensity(Math.min(p.displayDensity(), MAX_PIXEL_DENSITY));
   updateUsableHeight(p);
   const p5Canvas = p.select("#p5Canvas");
   const canvas = p.createCanvas(

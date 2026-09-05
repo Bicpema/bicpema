@@ -8,8 +8,12 @@ export const canvasController = new BicpemaCanvasController(
   1.0
 );
 
+// 温度変化はゆっくりで60fpsの滑らかさが不要なため20fpsに抑えている。
+const FPS = 20;
+
 export function initSimulation(p) {
   canvasController.fullScreen(p);
+  p.frameRate(FPS);
   resetState();
 }
 
