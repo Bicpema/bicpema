@@ -28,7 +28,6 @@ const GW = 277;
 const GH = 266;
 
 export function drawSimulation(p) {
-  p.frameRate(20);
   p.background(255);
 
   updateTemperature();

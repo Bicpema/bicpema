@@ -87,7 +87,6 @@ function checked(p) {
  * @param {*} p p5インスタンス
  */
 function prenormal(p) {
-  p.frameRate(60);
   state.tape_angle = new Array(state.colabNum).fill(0);
   state.tape_angle_cal = new Array(state.colabNum).fill(0); //配列の宣言(1枚目以降) 1,2,3,4,5..colabNum
   state.tape_number_cal = new Array(state.colabNum).fill(0);

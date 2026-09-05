@@ -9,6 +9,8 @@ export const state = {
   groundImage: null,
   /** 高さ入力 */
   heightInput: null,
+  /** 空気抵抗係数入力 */
+  dragCoefficientInput: null,
   /** リセットボタン */
   resetButton: null,
   /** 開始/一時停止ボタン */

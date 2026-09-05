@@ -14,6 +14,10 @@ import {
 } from "./logic.js";
 import { cellophaneRemoveButtonFunction } from "./element-function.js";
 
+/** 標準のframeRate。draw()から毎フレーム呼び出されるprenormal()内から
+ * setup()側へ移設し、一度だけ設定するようにしている。 */
+const FPS = 60;
+
 const sketch = (p) => {
   const canvasController = new BicpemaCanvasController(false, true, 1.0, 1.0, {
     panelSelector: "#p5Canvas",
@@ -61,6 +65,7 @@ const sketch = (p) => {
     elCreate(p);
     elInit(p);
     initValue(p);
+    p.frameRate(FPS);
     p.camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
     createStartimg();
     createSliderandRadio(p);

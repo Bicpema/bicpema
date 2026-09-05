@@ -89,8 +89,13 @@ const sketch = (p) => {
 
 new p5(sketch);
 
+// 高DPI環境での過大な描画負荷を避けるための、pixelDensityの上限値。
+// 詳細はdocs/docs/simulation/index.mdの「パフォーマンス方針」を参照。
+const MAX_PIXEL_DENSITY = 2;
+
 //フルスクリーン（初回セットアップ専用）
 function fullScreen(p) {
+  p.pixelDensity(Math.min(p.displayDensity(), MAX_PIXEL_DENSITY));
   const canvas = p.createCanvas(p.windowWidth, p.windowHeight - 60, p.P2D);
   canvas.parent("p5Canvas");
 }
