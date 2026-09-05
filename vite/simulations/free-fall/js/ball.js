@@ -1,4 +1,5 @@
 import { state } from "./state.js";
+import { computeDragFreeFall } from "./physics.js";
 
 /**
  * Ballクラス
@@ -8,14 +9,16 @@ export class Ball {
   /**
    * @constructor
    * @param {number} initialHeight 初期高さ (m)
+   * @param {number} [dragCoefficient] 空気抵抗係数（質量1kgあたり）
    */
-  constructor(initialHeight) {
+  constructor(initialHeight, dragCoefficient = 0) {
     this.initialHeight = initialHeight;
     this.initialVelocity = 0;
     this.height = initialHeight;
     this.velocity = 0;
     this.time = 0;
     this.g = 9.8;
+    this.dragCoefficient = dragCoefficient;
     this.radius = 15;
     this.isMoving = false;
     this.graphDataInterval = 0.05; // グラフデータ記録間隔 (秒)
@@ -30,10 +33,13 @@ export class Ball {
     if (!this.isMoving) return;
 
     this.time += dt;
-    this.velocity = this.initialVelocity + this.g * this.time;
-    this.height =
-      this.initialHeight -
-      (this.initialVelocity * this.time + 0.5 * this.g * this.time * this.time);
+    const { distanceFallen, velocity } = computeDragFreeFall({
+      t: this.time,
+      gravity: this.g,
+      k: this.dragCoefficient,
+    });
+    this.velocity = velocity;
+    this.height = this.initialHeight - distanceFallen;
 
     if (this.height <= 1) {
       this.height = 1;
@@ -133,18 +139,21 @@ export class Ball {
     const rightX = canvasHeight * (16 / 9) - 20;
     p.text(`時間: ${this.time.toFixed(2)} s`, rightX, 20);
     p.text(`速度: ${this.velocity.toFixed(2)} m/s`, rightX, 50);
+    p.text(`空気抵抗係数: ${this.dragCoefficient.toFixed(2)}`, rightX, 80);
   }
 
   /**
    * リセット
    * @param {number} newHeight 新しい初期高さ
+   * @param {number} [dragCoefficient] 新しい空気抵抗係数
    */
-  reset(newHeight) {
+  reset(newHeight, dragCoefficient = this.dragCoefficient) {
     this.initialHeight = newHeight;
     this.height = newHeight;
     this.initialVelocity = 0;
     this.velocity = 0;
     this.time = 0;
+    this.dragCoefficient = dragCoefficient;
     this.isMoving = false;
     state.vtData = [];
     state.ytData = [];

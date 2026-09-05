@@ -32,6 +32,7 @@ beforeEach(() => {
   state.ytData = [];
   state.ball = new Ball(50);
   state.heightInput = createMockElement(50);
+  state.dragCoefficientInput = createMockElement(0);
   state.playPauseButton = createMockElement("");
 });
 
@@ -88,11 +89,13 @@ describe("onReset", () => {
     state.ball.start();
     state.ball.update(1);
     state.heightInput.value(30);
+    state.dragCoefficientInput.value(0.5);
 
     onReset();
 
     expect(state.ball.initialHeight).toBe(30);
     expect(state.ball.height).toBe(30);
+    expect(state.ball.dragCoefficient).toBe(0.5);
     expect(state.ball.isMoving).toBe(false);
   });
 
@@ -100,6 +103,27 @@ describe("onReset", () => {
     onReset();
 
     expect(state.playPauseButton.text()).toBe("▶ 開始");
+  });
+
+  it("数値でない高さ・空気抵抗係数の入力は範囲内にクランプする", () => {
+    state.heightInput.value(NaN);
+    state.dragCoefficientInput.value(NaN);
+
+    onReset();
+
+    expect(state.ball.initialHeight).toBe(10);
+    expect(state.ball.dragCoefficient).toBe(0);
+    expect(state.heightInput.value()).toBe(10);
+    expect(state.dragCoefficientInput.value()).toBe(0);
+  });
+
+  it("範囲外の空気抵抗係数の入力は上限にクランプする", () => {
+    state.dragCoefficientInput.value(5);
+
+    onReset();
+
+    expect(state.ball.dragCoefficient).toBe(2);
+    expect(state.dragCoefficientInput.value()).toBe(2);
   });
 });
 
