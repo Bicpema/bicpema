@@ -1,4 +1,22 @@
 import { state } from "./state.js";
+import {
+  GRAVITY,
+  BALL_RADIUS,
+  DEFAULT_INITIAL_VELOCITY,
+  GRAPH_DATA_INTERVAL,
+  GROUND_LEVEL_HEIGHT,
+  CANVAS_VIRTUAL_WIDTH,
+  GROUND_HEIGHT,
+  BUILDING_HEIGHT,
+  BUILDING_CENTER_X,
+  HEIGHT_SCALE,
+  LABEL_TEXT_SIZE,
+  STATUS_TEXT_SIZE,
+  SCALE_LINE_DASH,
+  LINE_STROKE_WEIGHT,
+  ARROW_LENGTH_VELOCITY_SCALE,
+  ARROW_MAX_LENGTH,
+} from "./constants.js";
 
 /**
  * Ballクラス
@@ -10,16 +28,16 @@ export class Ball {
    * @param {number} initialHeight 初期高さ (m)
    * @param {number} initialVelocity 初速度 (m/s) - 下向きを正とする
    */
-  constructor(initialHeight, initialVelocity = 10) {
+  constructor(initialHeight, initialVelocity = DEFAULT_INITIAL_VELOCITY) {
     this.initialHeight = initialHeight;
     this.initialVelocity = initialVelocity;
     this.height = initialHeight;
     this.velocity = initialVelocity;
     this.time = 0;
-    this.g = 9.8;
-    this.radius = 15;
+    this.g = GRAVITY;
+    this.radius = BALL_RADIUS;
     this.isMoving = false;
-    this.graphDataInterval = 0.05;
+    this.graphDataInterval = GRAPH_DATA_INTERVAL;
     this.lastGraphUpdate = 0;
   }
 
@@ -36,8 +54,8 @@ export class Ball {
       this.initialHeight -
       (this.initialVelocity * this.time + 0.5 * this.g * this.time * this.time);
 
-    if (this.height <= 1) {
-      this.height = 1;
+    if (this.height <= GROUND_LEVEL_HEIGHT) {
+      this.height = GROUND_LEVEL_HEIGHT;
       this.isMoving = false;
     }
 
@@ -64,19 +82,15 @@ export class Ball {
    * @param {number} canvasHeight キャンバスの高さ
    */
   display(p, canvasHeight) {
-    const buildingHeight = 400;
-    const groundHeight = 50;
-    const buildingCenterX = 400;
-    const scale = buildingHeight / 100;
     const ballY =
-      canvasHeight - groundHeight - this.height * scale - this.radius;
+      canvasHeight - GROUND_HEIGHT - this.height * HEIGHT_SCALE - this.radius;
 
     if (state.tallBuildingImage) {
       const buildingWidth =
-        buildingHeight *
+        BUILDING_HEIGHT *
         (state.tallBuildingImage.width / state.tallBuildingImage.height);
-      const buildingX = buildingCenterX - buildingWidth / 2;
-      const buildingY = canvasHeight - groundHeight - buildingHeight;
+      const buildingX = BUILDING_CENTER_X - buildingWidth / 2;
+      const buildingY = canvasHeight - GROUND_HEIGHT - BUILDING_HEIGHT;
 
       p.imageMode(p.CORNER);
       p.image(
@@ -84,14 +98,14 @@ export class Ball {
         buildingX,
         buildingY,
         buildingWidth,
-        buildingHeight
+        BUILDING_HEIGHT
       );
 
       const initialBallY =
-        canvasHeight - groundHeight - this.initialHeight * scale;
+        canvasHeight - GROUND_HEIGHT - this.initialHeight * HEIGHT_SCALE;
       p.stroke(0, 0, 0);
       p.strokeWeight(3);
-      p.drawingContext.setLineDash([10, 10]);
+      p.drawingContext.setLineDash(SCALE_LINE_DASH);
       p.line(
         buildingX + buildingWidth,
         initialBallY,
@@ -103,14 +117,14 @@ export class Ball {
       p.fill(0, 0, 0);
       p.noStroke();
       p.textAlign(p.LEFT, p.CENTER);
-      p.textSize(16);
+      p.textSize(LABEL_TEXT_SIZE);
       p.text(
         `${this.initialHeight.toFixed(0)} m`,
         buildingX + 2 * buildingWidth + 10,
         initialBallY
       );
 
-      const ballX = buildingCenterX + buildingWidth;
+      const ballX = BUILDING_CENTER_X + buildingWidth;
 
       if (state.ballImage) {
         p.imageMode(p.CENTER);
@@ -128,9 +142,12 @@ export class Ball {
       }
 
       // 速度ベクトル（下向き矢印）
-      const arrowLen = Math.min(this.velocity * 2, 80);
+      const arrowLen = Math.min(
+        this.velocity * ARROW_LENGTH_VELOCITY_SCALE,
+        ARROW_MAX_LENGTH
+      );
       p.stroke(220, 60, 60);
-      p.strokeWeight(2);
+      p.strokeWeight(LINE_STROKE_WEIGHT);
       p.line(ballX, ballY + this.radius, ballX, ballY + this.radius + arrowLen);
       p.fill(220, 60, 60);
       p.noStroke();
@@ -146,7 +163,7 @@ export class Ball {
       p.fill(255, 100, 100);
       p.noStroke();
       p.textAlign(p.LEFT, p.CENTER);
-      p.textSize(16);
+      p.textSize(LABEL_TEXT_SIZE);
       p.text(
         `${this.velocity.toFixed(1)} m/s`,
         ballX + this.radius + 10,
@@ -155,25 +172,29 @@ export class Ball {
     }
 
     if (state.groundImage) {
-      const groundWidth = 1000;
       p.imageMode(p.CORNER);
       p.image(
         state.groundImage,
         0,
-        canvasHeight - groundHeight - 10,
-        groundWidth,
-        groundHeight
+        canvasHeight - GROUND_HEIGHT - 10,
+        CANVAS_VIRTUAL_WIDTH,
+        GROUND_HEIGHT
       );
     } else {
       p.stroke(255);
-      p.strokeWeight(2);
-      p.line(0, canvasHeight - groundHeight, 1000, canvasHeight - groundHeight);
+      p.strokeWeight(LINE_STROKE_WEIGHT);
+      p.line(
+        0,
+        canvasHeight - GROUND_HEIGHT,
+        CANVAS_VIRTUAL_WIDTH,
+        canvasHeight - GROUND_HEIGHT
+      );
     }
 
     p.fill(255);
     p.noStroke();
     p.textAlign(p.RIGHT, p.TOP);
-    p.textSize(18);
+    p.textSize(STATUS_TEXT_SIZE);
     const rightX = canvasHeight * (16 / 9) - 20;
     p.text(`時間: ${this.time.toFixed(2)} s`, rightX, 20);
     p.text(`高さ: ${this.height.toFixed(2)} m`, rightX, 50);

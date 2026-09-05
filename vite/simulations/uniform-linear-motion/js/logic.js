@@ -1,4 +1,17 @@
 import { state } from "./state.js";
+import {
+  PX_PER_DISTANCE_UNIT,
+  SCALE_MINOR_TICK_INTERVAL,
+  SCALE_MAJOR_TICK_LINE_END_OFFSET,
+  SCALE_MINOR_TICK_LINE_END_OFFSET,
+  SCALE_LABEL_OFFSET,
+  DEFAULT_SIMULATION_DURATION,
+  CHART_TITLE_FONT_SIZE,
+  CHART_LABEL_FONT_SIZE,
+  TICK_LABEL_FONT_SIZE,
+  YELLOW_CAR_COLOR,
+  RED_CAR_COLOR,
+} from "./constants.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
 
 const loadChart = createLazyImporter(() =>
@@ -31,12 +44,12 @@ export function drawScale(p, x, y, w, h) {
   p.fill(0);
   p.stroke(0);
   p.strokeWeight(1);
-  for (let i = 0; i <= w; i += 5) {
-    if (i % 50 == 0) {
-      p.line(i, y - h, i, y - 30);
-      p.text(i / 50, i, y - 10);
+  for (let i = 0; i <= w; i += SCALE_MINOR_TICK_INTERVAL) {
+    if (i % PX_PER_DISTANCE_UNIT == 0) {
+      p.line(i, y - h, i, y - SCALE_MAJOR_TICK_LINE_END_OFFSET);
+      p.text(i / PX_PER_DISTANCE_UNIT, i, y - SCALE_LABEL_OFFSET);
     } else {
-      p.line(i, y - h, i, y - 40);
+      p.line(i, y - h, i, y - SCALE_MINOR_TICK_LINE_END_OFFSET);
     }
   }
 }
@@ -65,7 +78,7 @@ export function graphDraw(p) {
     redCarData = state.RED_CAR.xarr;
     title = "x-tグラフ";
     verticalAxisLabel = "移動距離 x [cm]";
-    yMax *= 10;
+    yMax *= DEFAULT_SIMULATION_DURATION;
   } else {
     yellowCarData = state.YELLOW_CAR.varr;
     redCarData = state.RED_CAR.varr;
@@ -86,7 +99,7 @@ export function graphDraw(p) {
         data: yellowCarData,
         pointRadius: 0,
         fill: true,
-        borderColor: "rgb(200, 200, 50)",
+        borderColor: YELLOW_CAR_COLOR,
       },
       {
         label: "赤い車のデータ",
@@ -94,7 +107,7 @@ export function graphDraw(p) {
         showLine: true,
         pointRadius: 0,
         fill: true,
-        borderColor: "rgb(255, 0, 0)",
+        borderColor: RED_CAR_COLOR,
       },
     ],
   };
@@ -103,31 +116,31 @@ export function graphDraw(p) {
       title: {
         display: true,
         text: title,
-        font: { size: 20 },
+        font: { size: CHART_TITLE_FONT_SIZE },
       },
       legend: {
-        labels: { font: { size: 16 } },
+        labels: { font: { size: CHART_LABEL_FONT_SIZE } },
       },
     },
     scales: {
       x: {
         min: 0,
-        max: 10,
-        ticks: { display: true, font: { size: 14 } },
+        max: DEFAULT_SIMULATION_DURATION,
+        ticks: { display: true, font: { size: TICK_LABEL_FONT_SIZE } },
         title: {
           display: true,
           text: "経過時間 t [s]",
-          font: { size: 16 },
+          font: { size: CHART_LABEL_FONT_SIZE },
         },
       },
       y: {
         min: 0,
         max: yMax,
-        ticks: { display: true, font: { size: 14 } },
+        ticks: { display: true, font: { size: TICK_LABEL_FONT_SIZE } },
         title: {
           display: true,
           text: verticalAxisLabel,
-          font: { size: 16 },
+          font: { size: CHART_LABEL_FONT_SIZE },
         },
       },
     },

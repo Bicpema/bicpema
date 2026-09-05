@@ -1,6 +1,6 @@
 // class.js はクラス管理専用のファイルです。
 
-import { TRAIN_HALF_W } from "./function.js";
+import { TRAIN_HALF_W } from "./constants.js";
 
 /**
  * Trainクラス

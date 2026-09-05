@@ -1,9 +1,10 @@
 import { state } from "./state.js";
+import {
+  MIN_HEIGHT_INPUT,
+  MAX_HEIGHT_INPUT,
+  GROUND_LEVEL_HEIGHT,
+} from "./constants.js";
 
-/** 高さの最小値 */
-const HEIGHT_MIN = 10;
-/** 高さの最大値 */
-const HEIGHT_MAX = 100;
 /** 空気抵抗係数の最小値 */
 const DRAG_COEFFICIENT_MIN = 0;
 /** 空気抵抗係数の最大値 */
@@ -15,13 +16,13 @@ const DRAG_COEFFICIENT_MAX = 2;
  * @returns {number} クランプ後の高さ
  */
 export function clampHeight(newHeight) {
-  if (isNaN(newHeight) || newHeight < HEIGHT_MIN) {
-    state.heightInput.value(HEIGHT_MIN);
-    return HEIGHT_MIN;
+  if (isNaN(newHeight) || newHeight < MIN_HEIGHT_INPUT) {
+    state.heightInput.value(MIN_HEIGHT_INPUT);
+    return MIN_HEIGHT_INPUT;
   }
-  if (newHeight > HEIGHT_MAX) {
-    state.heightInput.value(HEIGHT_MAX);
-    return HEIGHT_MAX;
+  if (newHeight > MAX_HEIGHT_INPUT) {
+    state.heightInput.value(MAX_HEIGHT_INPUT);
+    return MAX_HEIGHT_INPUT;
   }
   return newHeight;
 }
@@ -85,7 +86,7 @@ export function onPlayPause() {
     state.ball.stop();
     state.playPauseButton.html("再開");
   } else {
-    if (state.ball.height <= 1) {
+    if (state.ball.height <= GROUND_LEVEL_HEIGHT) {
       return;
     }
     state.ball.start();

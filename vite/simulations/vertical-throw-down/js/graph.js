@@ -10,6 +10,19 @@ let Chart = null;
 // 一度失敗したら諦めるためのフラグ。
 let chartLoadFailed = false;
 
+/** 速度データの表示色 */
+const VELOCITY_COLOR = "rgb(220, 60, 60)";
+/** 変位データの表示色 */
+const HEIGHT_COLOR = "rgb(60, 150, 255)";
+/** グラフの初期表示時における時間軸の最大値 (秒) */
+const INITIAL_MAX_TIME = 5;
+/** 運動中における時間軸最大値の余白 (秒) */
+const TIME_AXIS_MOVING_MARGIN = 0.5;
+/** 停止後における時間軸最大値の余白倍率 */
+const TIME_AXIS_STOPPED_MARGIN_RATIO = 1.05;
+/** 縦軸最大値の余白倍率 */
+const Y_AXIS_MAX_MARGIN_RATIO = 1.2;
+
 /**
  * ボール運動のグラフ描画クラス
  * v-tグラフとy-tグラフをそれぞれ独立したcanvasに表示
@@ -29,7 +42,7 @@ export class BallGraph {
     if (!ctx || this.vtChart) return;
 
     const maxVelocity = state.ball.initialVelocity + 10;
-    const maxTime = 5;
+    const maxTime = INITIAL_MAX_TIME;
 
     this.vtChart = new Chart(ctx, {
       type: "scatter",
@@ -40,8 +53,8 @@ export class BallGraph {
             data: [],
             showLine: true,
             pointRadius: 2,
-            pointBackgroundColor: "rgb(220, 60, 60)",
-            borderColor: "rgb(220, 60, 60)",
+            pointBackgroundColor: VELOCITY_COLOR,
+            borderColor: VELOCITY_COLOR,
             borderWidth: 2,
             fill: false,
           },
@@ -76,7 +89,7 @@ export class BallGraph {
               display: true,
               text: "速度 v [m/s]",
               font: { size: 12 },
-              color: "rgb(220, 60, 60)",
+              color: VELOCITY_COLOR,
             },
             ticks: { font: { size: 11 } },
           },
@@ -92,7 +105,7 @@ export class BallGraph {
     if (!ctx || this.ytChart) return;
 
     const maxHeight = state.ball.initialHeight;
-    const maxTime = 5;
+    const maxTime = INITIAL_MAX_TIME;
 
     this.ytChart = new Chart(ctx, {
       type: "scatter",
@@ -103,8 +116,8 @@ export class BallGraph {
             data: [],
             showLine: true,
             pointRadius: 2,
-            pointBackgroundColor: "rgb(60, 150, 255)",
-            borderColor: "rgb(60, 150, 255)",
+            pointBackgroundColor: HEIGHT_COLOR,
+            borderColor: HEIGHT_COLOR,
             borderWidth: 2,
             fill: false,
           },
@@ -139,7 +152,7 @@ export class BallGraph {
               display: true,
               text: "変位 y [m]",
               font: { size: 12 },
-              color: "rgb(60, 150, 255)",
+              color: HEIGHT_COLOR,
             },
             ticks: { font: { size: 11 } },
           },
@@ -176,8 +189,10 @@ export class BallGraph {
       this.vtChart.data.datasets[0].data = state.vtData;
       if (state.ball.time > 0) {
         const tMax = state.ball.isMoving
-          ? parseFloat((state.ball.time + 0.5).toFixed(1))
-          : parseFloat((state.ball.time * 1.05).toFixed(2));
+          ? parseFloat((state.ball.time + TIME_AXIS_MOVING_MARGIN).toFixed(1))
+          : parseFloat(
+              (state.ball.time * TIME_AXIS_STOPPED_MARGIN_RATIO).toFixed(2)
+            );
         this.vtChart.options.scales.x.max = tMax;
       }
       if (state.vtData.length > 0) {
@@ -185,7 +200,9 @@ export class BallGraph {
           ...state.vtData.map((d) => d.y),
           state.ball.initialVelocity + 1
         );
-        this.vtChart.options.scales.y.max = parseFloat((maxV * 1.2).toFixed(1));
+        this.vtChart.options.scales.y.max = parseFloat(
+          (maxV * Y_AXIS_MAX_MARGIN_RATIO).toFixed(1)
+        );
       }
       this.vtChart.update("none");
     }
@@ -194,15 +211,19 @@ export class BallGraph {
       this.ytChart.data.datasets[0].data = state.ytData;
       if (state.ball.time > 0) {
         const tMax = state.ball.isMoving
-          ? parseFloat((state.ball.time + 0.5).toFixed(1))
-          : parseFloat((state.ball.time * 1.05).toFixed(2));
+          ? parseFloat((state.ball.time + TIME_AXIS_MOVING_MARGIN).toFixed(1))
+          : parseFloat(
+              (state.ball.time * TIME_AXIS_STOPPED_MARGIN_RATIO).toFixed(2)
+            );
         this.ytChart.options.scales.x.max = tMax;
       }
       const maxY =
         state.ytData.length > 0
           ? Math.max(...state.ytData.map((d) => d.y), 1)
           : state.ball.initialHeight;
-      this.ytChart.options.scales.y.max = parseFloat((maxY * 1.2).toFixed(1));
+      this.ytChart.options.scales.y.max = parseFloat(
+        (maxY * Y_AXIS_MAX_MARGIN_RATIO).toFixed(1)
+      );
       this.ytChart.update("none");
     }
   }

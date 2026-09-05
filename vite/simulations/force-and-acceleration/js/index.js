@@ -10,17 +10,25 @@ import {
   elementPositionInit,
   valueInit,
 } from "./init.js";
+import {
+  CANVAS_WIDTH,
+  CANVAS_HEIGHT,
+  GROUND_HEIGHT,
+  FORCE_SCALE,
+  PIXELS_PER_METER,
+  CART_RESET_MARGIN,
+  MIN_ARROW_DRAG_DISTANCE,
+  FORCE_ARROW_COLOR,
+  DRAG_HINT_COLOR,
+  INFO_PANEL_MUTED_TEXT_COLOR,
+} from "./constants.js";
 
 /** キャンバスの論理幅 */
-const W = 1000;
+const W = CANVAS_WIDTH;
 /** キャンバスの論理高さ（16:9） */
-const H = (W * 9) / 16;
+const H = CANVAS_HEIGHT;
 /** 地面のy座標（論理ピクセル） */
-const GROUND_Y = H - 50;
-/** 1ピクセルあたり何Nの力か（N/px）*/
-const FORCE_SCALE = 0.05;
-/** 1メートルあたりのピクセル数 */
-const PIXELS_PER_METER = 60;
+const GROUND_Y = H - GROUND_HEIGHT;
 
 const sketch = (p) => {
   const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
@@ -84,7 +92,7 @@ const sketch = (p) => {
     state.cart.update(1 / FPS, PIXELS_PER_METER);
 
     // 台車が右端を越えたら自動リセット
-    if (state.cart.x > W + 200) {
+    if (state.cart.x > W + CART_RESET_MARGIN) {
       state.cart.reset();
     }
 
@@ -153,15 +161,15 @@ function drawTrack(p) {
  * @param {number} x2 矢印の終点x（マウス位置）
  */
 function drawForceArrow(p, x1, y, x2) {
-  if (x2 <= x1 + 5) return;
+  if (x2 <= x1 + MIN_ARROW_DRAG_DISTANCE) return;
 
   const arrowSize = 18;
 
-  p.stroke(200, 40, 40);
+  p.stroke(...FORCE_ARROW_COLOR);
   p.strokeWeight(5);
   p.line(x1, y, x2 - arrowSize, y);
 
-  p.fill(200, 40, 40);
+  p.fill(...FORCE_ARROW_COLOR);
   p.noStroke();
   p.triangle(
     x2,
@@ -172,7 +180,7 @@ function drawForceArrow(p, x1, y, x2) {
     y + arrowSize / 2
   );
 
-  p.fill(200, 40, 40);
+  p.fill(...FORCE_ARROW_COLOR);
   p.noStroke();
   if (state.font) p.textFont(state.font);
   p.textSize(22);
@@ -187,13 +195,13 @@ function drawForceArrow(p, x1, y, x2) {
  * @param {number} y ヒントのy座標
  */
 function drawDragHint(p, x, y) {
-  p.stroke(160);
+  p.stroke(DRAG_HINT_COLOR);
   p.strokeWeight(2);
   p.drawingContext.setLineDash([8, 6]);
   p.line(x + 10, y, x + 160, y);
   p.drawingContext.setLineDash([]);
 
-  p.fill(160);
+  p.fill(DRAG_HINT_COLOR);
   p.noStroke();
   const aSize = 14;
   p.triangle(
@@ -253,12 +261,12 @@ function drawInfoPanel(p, F, a, m, v, maxF, maxA, massAtMaxA) {
   // F = m * a を示す補助表示（最大加速度に対する力）
   p.textAlign(p.LEFT, p.TOP);
   p.textSize(14);
-  p.fill(200);
+  p.fill(INFO_PANEL_MUTED_TEXT_COLOR);
   const fFromAMax = massAtMaxA && maxA ? massAtMaxA * maxA : 0;
   p.text(`m × a_max = ${fFromAMax.toFixed(2)} N`, leftX, panelY + 94);
 
   p.textSize(20);
-  p.fill(200);
+  p.fill(INFO_PANEL_MUTED_TEXT_COLOR);
   p.text(`m = ${m.toFixed(1)} kg`, leftX, panelY + 116);
   p.text(`v = ${v.toFixed(2)} m/s`, leftX + 137, panelY + 116);
 }

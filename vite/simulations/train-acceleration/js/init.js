@@ -9,6 +9,7 @@ import {
   onReset,
   onAccelerationChange,
 } from "./element-function.js";
+import { DEFAULT_ACCELERATION, TRAIN_START_X_DIVISOR } from "./constants.js";
 
 /** フレームレート */
 export const FPS = 60;
@@ -58,7 +59,7 @@ export function initValue(p) {
   state.lastGraphUpdate = 0;
   state.maxObservedVelocity = 0;
   state.acceleration =
-    parseFloat(p.select("#accelerationInput").value()) || 2.0;
-  state.train = new Train(V_W / 3);
+    parseFloat(p.select("#accelerationInput").value()) || DEFAULT_ACCELERATION;
+  state.train = new Train(V_W / TRAIN_START_X_DIVISOR);
   state.vtData = [{ x: 0, y: 0 }];
 }

@@ -7,6 +7,15 @@ const loadChart = createLazyImporter(() =>
 );
 /** @type {typeof import("chart.js").Chart | null} */
 let Chart = null;
+// 読み込み失敗後に毎フレーム再試行しないためのフラグ。
+let chartLoadFailed = false;
+
+/** 位置データの表示色 */
+const POSITION_COLOR = "rgb(60, 150, 255)";
+/** 速度データの表示色 */
+const VELOCITY_COLOR = "rgb(220, 60, 60)";
+/** グラフ軸の最大値を実データの最大値からどれだけ余裕を持たせるかの倍率 */
+const AXIS_MAX_MARGIN_RATIO = 1.1;
 
 /**
  * x-tグラフとv-tグラフを描画するクラス
@@ -24,10 +33,16 @@ export class MotionGraph {
     if (!state.graphVisible) return;
 
     if (!Chart) {
-      loadChart().then((ChartCtor) => {
-        Chart = ChartCtor;
-        this.updateGraph();
-      });
+      if (chartLoadFailed) return;
+      loadChart()
+        .then((ChartCtor) => {
+          Chart = ChartCtor;
+          this.updateGraph();
+        })
+        .catch((error) => {
+          chartLoadFailed = true;
+          console.error("Chart.jsの読み込みに失敗しました。", error);
+        });
       return;
     }
 
@@ -60,8 +75,8 @@ export class MotionGraph {
           data: state.xtData,
           showLine: true,
           pointRadius: 2,
-          pointBackgroundColor: "rgb(60, 150, 255)",
-          borderColor: "rgb(60, 150, 255)",
+          pointBackgroundColor: POSITION_COLOR,
+          borderColor: POSITION_COLOR,
           borderWidth: 2,
           yAxisID: "y",
           fill: false,
@@ -71,8 +86,8 @@ export class MotionGraph {
           data: state.vtData,
           showLine: true,
           pointRadius: 2,
-          pointBackgroundColor: "rgb(220, 60, 60)",
-          borderColor: "rgb(220, 60, 60)",
+          pointBackgroundColor: VELOCITY_COLOR,
+          borderColor: VELOCITY_COLOR,
           borderWidth: 2,
           yAxisID: "y1",
           fill: false,
@@ -95,7 +110,9 @@ export class MotionGraph {
         x: {
           type: "linear",
           min: 0,
-          max: parseFloat(Math.min(maxTime * 1.1, MAX_TIME).toFixed(2)),
+          max: parseFloat(
+            Math.min(maxTime * AXIS_MAX_MARGIN_RATIO, MAX_TIME).toFixed(2)
+          ),
           title: {
             display: true,
             text: "時間 t [s]",
@@ -107,12 +124,12 @@ export class MotionGraph {
           type: "linear",
           position: "left",
           min: 0,
-          max: parseFloat((maxX * 1.1).toFixed(2)),
+          max: parseFloat((maxX * AXIS_MAX_MARGIN_RATIO).toFixed(2)),
           title: {
             display: true,
             text: "位置 x [m]",
             font: { size: 14 },
-            color: "rgb(60, 150, 255)",
+            color: POSITION_COLOR,
           },
           ticks: { font: { size: 12 } },
         },
@@ -120,12 +137,12 @@ export class MotionGraph {
           type: "linear",
           position: "right",
           min: 0,
-          max: parseFloat((maxV * 1.1).toFixed(2)),
+          max: parseFloat((maxV * AXIS_MAX_MARGIN_RATIO).toFixed(2)),
           title: {
             display: true,
             text: "速度 v [m/s]",
             font: { size: 14 },
-            color: "rgb(220, 60, 60)",
+            color: VELOCITY_COLOR,
           },
           ticks: { font: { size: 12 } },
           grid: {

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Train } from "../../../vite/simulations/train-acceleration/js/class.js";
-import { TRAIN_HALF_W } from "../../../vite/simulations/train-acceleration/js/function.js";
+import { TRAIN_HALF_W } from "../../../vite/simulations/train-acceleration/js/constants.js";
 
 describe("Train", () => {
   it("初期状態は指定したx座標・速度0で静止している", () => {
