@@ -3,6 +3,7 @@
 import {
   state,
   NAV_HEIGHT,
+  MAX_PIXEL_DENSITY,
   CONTROL_PANEL_HEIGHT_DIVISOR,
   BUTTON_COLUMN_DIVISOR,
   DEFAULT_SLOPE_ANGLE,
@@ -47,6 +48,7 @@ export function canvasHeight(p) {
  * @param {*} p p5インスタンス
  */
 export function fullScreen(p) {
+  p.pixelDensity(Math.min(p.displayDensity(), MAX_PIXEL_DENSITY));
   const p5Canvas = document.getElementById("p5Canvas");
   const canvas = p.createCanvas(p.windowWidth, canvasHeight(p));
   canvas.parent(p5Canvas);

@@ -7,6 +7,8 @@ import { initAtoms } from "./logic.js";
  * @param {*} p p5インスタンス。
  */
 export function settingInit(p) {
+  // 崩壊曲線・原子グリッドの状態更新が中心で、60fpsの滑らかさは不要なため
+  // 30fpsに抑えている。
   p.frameRate(30);
 }
 

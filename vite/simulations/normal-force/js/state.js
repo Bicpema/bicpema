@@ -2,6 +2,11 @@
 
 /** ナビゲーションバーの高さ(px) */
 export const NAV_HEIGHT = 60;
+/**
+ * pixelDensityの上限値。高DPI環境での過大な描画負荷を避けるために設定する。
+ * 詳細はdocs/docs/simulation/index.mdの「パフォーマンス方針」を参照。
+ */
+export const MAX_PIXEL_DENSITY = 2;
 /** 操作パネルの高さ = windowHeight / この値 */
 export const CONTROL_PANEL_HEIGHT_DIVISOR = 10;
 /** 操作パネルを何等分してボタンを配置するか */

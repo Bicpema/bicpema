@@ -117,7 +117,15 @@ function usableHeight(p) {
   return p.windowHeight - 60;
 }
 
+// 高DPI環境での過大な描画負荷を避けるための、pixelDensityの上限値。
+// 詳細はdocs/docs/simulation/index.mdの「パフォーマンス方針」を参照。
+const MAX_PIXEL_DENSITY = 2;
+// WEBGLで毎フレーム900本(rays_number × RGB3色)のRayを描画するため、
+// 60fpsでは負荷が高くなりやすく30fpsに抑えている。
+const FPS = 30;
+
 function fullScreen(p) {
+  p.pixelDensity(Math.min(p.displayDensity(), MAX_PIXEL_DENSITY));
   let canvas = p.createCanvas(
     (2 * p.windowWidth) / 3,
     (8 * usableHeight(p)) / 9,
@@ -391,7 +399,7 @@ function initValue(p) {
   opdr = 212.596704;
   opdg = 213.5303046;
   opdb = 215.5841246;
-  p.frameRate(30);
+  p.frameRate(FPS);
 }
 
 //偏光板を描画する関数

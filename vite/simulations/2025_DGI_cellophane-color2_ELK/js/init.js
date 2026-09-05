@@ -9,6 +9,10 @@ import {
 } from "./element-function.js";
 import { beforeColorCalculate } from "./logic.js";
 
+/** 標準のframeRate。draw()から毎フレーム呼び出される prenormal() 内から
+ * setup()側へ移設し、一度だけ設定するようにしている。 */
+const FPS = 60;
+
 /**
  * DOM要素の参照を取得する。
  * @param {*} p p5インスタンス
@@ -138,6 +142,7 @@ export function setupSimulation(p) {
   elCreate(p);
   elInit(p);
   initValue(p);
+  p.frameRate(FPS);
   p.camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
   createStartimg();
   createSliderandRadio(p);
