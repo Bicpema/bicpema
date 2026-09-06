@@ -2,6 +2,11 @@
 
 import { state } from "./state.js";
 import { SLOPE_LENGTH_M } from "./function.js";
+import {
+  RECORDED_DATA_COLOR,
+  AXIS_TITLE_FONT_SIZE,
+  AXIS_TICK_FONT_SIZE,
+} from "./constants.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
 
 const loadChart = createLazyImporter(() =>
@@ -69,8 +74,8 @@ export function updateGraph() {
         data: state.vtData,
         showLine: true,
         pointRadius: 5,
-        pointBackgroundColor: "rgb(220, 60, 60)",
-        borderColor: "rgb(220, 60, 60)",
+        pointBackgroundColor: RECORDED_DATA_COLOR,
+        borderColor: RECORDED_DATA_COLOR,
         borderWidth: 2,
         fill: false,
       },
@@ -98,9 +103,9 @@ export function updateGraph() {
         title: {
           display: true,
           text: "時間 t [s]",
-          font: { size: 14 },
+          font: { size: AXIS_TITLE_FONT_SIZE },
         },
-        ticks: { font: { size: 12 } },
+        ticks: { font: { size: AXIS_TICK_FONT_SIZE } },
       },
       y: {
         min: 0,
@@ -108,9 +113,9 @@ export function updateGraph() {
         title: {
           display: true,
           text: "速度 v [m/s]",
-          font: { size: 14 },
+          font: { size: AXIS_TITLE_FONT_SIZE },
         },
-        ticks: { font: { size: 12 } },
+        ticks: { font: { size: AXIS_TICK_FONT_SIZE } },
       },
     },
     animation: false,

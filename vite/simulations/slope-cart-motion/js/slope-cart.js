@@ -1,6 +1,7 @@
 // class.js - クラス管理専用のファイルです。
 
 import { PX_PER_M } from "./function.js";
+import { GRAVITY } from "./constants.js";
 
 /**
  * 斜面をくだる台車クラス
@@ -15,7 +16,7 @@ export class SlopeCart {
     this.angleDeg = angleDeg;
     this.angleRad = (angleDeg * Math.PI) / 180;
     this.slopeLengthM = slopeLengthM;
-    this.g = 9.8; // 重力加速度 (m/s²)
+    this.g = GRAVITY; // 重力加速度 (m/s²)
     this.accel = this.g * Math.sin(this.angleRad); // 斜面方向の加速度 (m/s²)
     this.time = 0; // 経過時間 (s)
     this.s = 0; // 斜面方向の変位 (m)

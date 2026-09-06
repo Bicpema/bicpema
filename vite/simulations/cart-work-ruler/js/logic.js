@@ -1,6 +1,12 @@
 // logic.jsはシミュレーションの描画処理と物理更新専用のファイルです。
 
 import { state } from "./state.js";
+import {
+  FPS,
+  VELOCITY_COLOR,
+  FORCE_COLOR,
+  PENETRATION_COLOR,
+} from "./constants.js";
 
 // ============================================================
 // レイアウト定数（仮想座標系: 1000×562）
@@ -12,9 +18,6 @@ export const V_W = 1000;
 const V_H = 562;
 /** 物理座標→ピクセル変換スケール（1m = 400px） */
 export const PM = 400;
-
-/** フレームレート */
-const FPS = 60;
 
 // 地面
 /** 地面のy座標 */
@@ -159,17 +162,17 @@ function drawVelocityArrow(p, cartLeftX, v) {
   const ax1 = arrowCenterX - arrowLen / 2;
   const ax2 = arrowCenterX + arrowLen / 2;
 
-  p.stroke(255, 165, 0);
+  p.stroke(...VELOCITY_COLOR);
   p.strokeWeight(3);
   p.line(ax1, arrowY, ax2, arrowY);
 
-  p.fill(255, 165, 0);
+  p.fill(...VELOCITY_COLOR);
   p.noStroke();
   p.triangle(ax2, arrowY, ax2 - 13, arrowY - 7, ax2 - 13, arrowY + 7);
 
   p.textAlign(p.CENTER, p.BOTTOM);
   p.textSize(14);
-  p.fill(255, 165, 0);
+  p.fill(...VELOCITY_COLOR);
   p.text("v = " + v.toFixed(2) + " m/s", arrowCenterX, arrowY - 4);
 }
 
@@ -183,11 +186,11 @@ function drawForceArrow(p, cartLeftX) {
   const arrowEndX = cartLeftX + 8;
   const arrowStartX = arrowEndX + 80;
 
-  p.stroke(220, 55, 55);
+  p.stroke(...FORCE_COLOR);
   p.strokeWeight(3);
   p.line(arrowStartX, arrowY, arrowEndX, arrowY);
 
-  p.fill(220, 55, 55);
+  p.fill(...FORCE_COLOR);
   p.noStroke();
   p.triangle(
     arrowEndX,
@@ -200,7 +203,7 @@ function drawForceArrow(p, cartLeftX) {
 
   p.textAlign(p.LEFT, p.BOTTOM);
   p.textSize(14);
-  p.fill(220, 55, 55);
+  p.fill(...FORCE_COLOR);
   p.text("F = " + state.force_N.toFixed(0) + " N", arrowStartX + 6, arrowY - 4);
 }
 
@@ -217,13 +220,13 @@ function drawPenetrationLine(p, d) {
   const x1 = RULER_INIT_LEFT;
   const x2 = RULER_INIT_LEFT + dPx;
 
-  p.stroke(60, 185, 60);
+  p.stroke(...PENETRATION_COLOR);
   p.strokeWeight(2);
   p.line(x1, lineY, x2, lineY);
   p.line(x1, lineY - 7, x1, lineY + 7);
   p.line(x2, lineY - 7, x2, lineY + 7);
 
-  p.fill(60, 185, 60);
+  p.fill(...PENETRATION_COLOR);
   p.noStroke();
   p.textAlign(p.CENTER, p.BOTTOM);
   p.textSize(13);

@@ -12,6 +12,7 @@ import {
   INIT_RING,
   INIT_WEIGHT,
 } from "./state.js";
+import { DRAG_HIT_MARGIN } from "./constants.js";
 
 // ────────────────────────────────────────────
 // ドラッグ操作
@@ -26,21 +27,27 @@ export function startDrag(vmx, vmy) {
   const { anchorA, anchorB, ring } = state;
 
   // リングを最優先にチェック（前面にある）
-  if (Math.hypot(vmx - ring.x, vmy - ring.y) <= RING_RADIUS + 6) {
+  if (Math.hypot(vmx - ring.x, vmy - ring.y) <= RING_RADIUS + DRAG_HIT_MARGIN) {
     state.dragging = "ring";
     state.dragOffsetX = ring.x - vmx;
     state.dragOffsetY = ring.y - vmy;
     return;
   }
 
-  if (Math.hypot(vmx - anchorA.x, vmy - anchorA.y) <= ANCHOR_RADIUS + 6) {
+  if (
+    Math.hypot(vmx - anchorA.x, vmy - anchorA.y) <=
+    ANCHOR_RADIUS + DRAG_HIT_MARGIN
+  ) {
     state.dragging = "anchorA";
     state.dragOffsetX = anchorA.x - vmx;
     state.dragOffsetY = anchorA.y - vmy;
     return;
   }
 
-  if (Math.hypot(vmx - anchorB.x, vmy - anchorB.y) <= ANCHOR_RADIUS + 6) {
+  if (
+    Math.hypot(vmx - anchorB.x, vmy - anchorB.y) <=
+    ANCHOR_RADIUS + DRAG_HIT_MARGIN
+  ) {
     state.dragging = "anchorB";
     state.dragOffsetX = anchorB.x - vmx;
     state.dragOffsetY = anchorB.y - vmy;

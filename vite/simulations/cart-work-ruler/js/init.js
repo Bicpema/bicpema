@@ -2,6 +2,7 @@
 
 import { state } from "./state.js";
 import { CART_START_X } from "./logic.js";
+import { FPS } from "./constants.js";
 import {
   onReset,
   onPlayPause,
@@ -44,7 +45,7 @@ export function elCreate(p) {
  * @param {*} p p5インスタンス
  */
 export function initValue(p) {
-  p.frameRate(60);
+  p.frameRate(FPS);
   p.textAlign(p.CENTER, p.CENTER);
   p.textFont(state.font);
   p.textSize(16);

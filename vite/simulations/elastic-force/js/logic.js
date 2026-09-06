@@ -15,6 +15,7 @@ import {
   GRAPH_BOTTOM,
   GRAPH_X_RANGE,
 } from "./state.js";
+import { HOOKE_LINE_COLOR } from "./constants.js";
 
 /**
  * 壁（地面画像を90°回転）を描画する
@@ -65,7 +66,7 @@ function drawGraph(p) {
   const cy = GRAPH_TOP + gh / 2; // グラフ中心 y（F=0 位置）
 
   // 固定レンジ: x軸 ±50cm, y軸 ±50N
-  const X_RANGE = 50; // cm
+  const X_RANGE = GRAPH_X_RANGE; // cm
   const Y_RANGE = 50; // N
   const X_STEP = 10; // cm刻み
   const Y_STEP = 10; // N刻み
@@ -99,7 +100,7 @@ function drawGraph(p) {
   const maxXforY = k > 0 ? (Y_RANGE / k) * 100 : X_RANGE;
   const clipX1cm = Math.max(-X_RANGE, -maxXforY);
   const clipX2cm = Math.min(X_RANGE, maxXforY);
-  p.stroke(70, 130, 200);
+  p.stroke(...HOOKE_LINE_COLOR);
   p.strokeWeight(2.5);
   p.line(
     cx + clipX1cm * pxPerCm,
@@ -157,7 +158,7 @@ function drawGraph(p) {
   p.text("フックの法則  F = kx", cx, GRAPH_TOP - 28);
 
   // F = kx の式（グラフ内）
-  p.fill(70, 130, 200);
+  p.fill(...HOOKE_LINE_COLOR);
   p.textAlign(p.LEFT, p.TOP);
   p.textSize(13);
   p.text(`k = ${k} N/m`, GRAPH_LEFT + 8, GRAPH_TOP + 8);
