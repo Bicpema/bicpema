@@ -2,6 +2,7 @@ import {
   computeMagneticFieldStrength,
   computeFieldDirection,
 } from "./physics.js";
+import { CURRENT_THRESHOLD, ARROW_SPACING } from "./constants.js";
 
 let lastCurrentVal = null;
 
@@ -13,15 +14,15 @@ function getCurrentVal() {
 function drawWire(p, currentVal) {
   p.push();
   p.noStroke();
-  if (p.abs(currentVal) > 0.1) {
+  if (p.abs(currentVal) > CURRENT_THRESHOLD) {
     p.fill("#FF8C00");
     let speed = currentVal;
-    let yOffset = (p.frameCount * speed) % 40;
+    let yOffset = (p.frameCount * speed) % ARROW_SPACING;
     for (let i = -6; i < 6; i++) {
       p.push();
-      p.translate(0, i * 40 + yOffset, 0);
+      p.translate(0, i * ARROW_SPACING + yOffset, 0);
       if (currentVal < 0) {
-        p.translate(0, 40, 0);
+        p.translate(0, ARROW_SPACING, 0);
         p.rotateX(p.PI);
       }
       p.cone(5, 10);

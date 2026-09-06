@@ -9,13 +9,15 @@ export function computeMagneticFieldStrength(current, radius) {
   return Math.abs(current) / radius;
 }
 
+import { CURRENT_THRESHOLD } from "./constants.js";
+
 /**
  * 電流の向きから磁場の回転方向を判定する（右ねじの法則）。
  * @param {number} current 電流 I
  * @returns {"counterclockwise"|"clockwise"|"none"} 磁場の向き
  */
 export function computeFieldDirection(current) {
-  if (current > 0.1) return "counterclockwise";
-  if (current < -0.1) return "clockwise";
+  if (current > CURRENT_THRESHOLD) return "counterclockwise";
+  if (current < -CURRENT_THRESHOLD) return "clockwise";
   return "none";
 }
