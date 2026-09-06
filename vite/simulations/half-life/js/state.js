@@ -1,7 +1,7 @@
 import {
   INITIAL_HALF_LIFE,
   MAX_YEARS_MULTIPLIER,
-  TIME_STEPS_PER_MAX_YEARS,
+  TIME_STEPS_PER_HALF_LIFE,
   INITIAL_GRID_SIDE,
   INITIAL_ATOM_COUNT,
 } from "./constants.js";
@@ -17,7 +17,7 @@ export const state = {
   /** グラフの最大時間 */
   maxYears: INITIAL_HALF_LIFE * MAX_YEARS_MULTIPLIER,
   /** 1フレームあたりの時間増分 */
-  T: INITIAL_HALF_LIFE / TIME_STEPS_PER_MAX_YEARS,
+  T: INITIAL_HALF_LIFE / TIME_STEPS_PER_HALF_LIFE,
   /** グリッドの1辺の原子数 */
   n: INITIAL_GRID_SIDE,
   /** 原子の総数 */

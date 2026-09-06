@@ -4,7 +4,7 @@ import { initAtoms } from "./logic.js";
 import {
   FRAME_RATE,
   MAX_YEARS_MULTIPLIER,
-  TIME_STEPS_PER_MAX_YEARS,
+  TIME_STEPS_PER_HALF_LIFE,
   MIN_GRID_SIDE,
   MAX_GRID_SIDE,
 } from "./constants.js";
@@ -128,7 +128,7 @@ export function valueInit(p) {
       radio.addEventListener("change", () => {
         state.halfLife = parseFloat(radio.value);
         state.maxYears = state.halfLife * MAX_YEARS_MULTIPLIER;
-        state.T = state.halfLife / TIME_STEPS_PER_MAX_YEARS;
+        state.T = state.halfLife / TIME_STEPS_PER_HALF_LIFE;
         state.currentTime = 0;
         initAtoms();
       });

@@ -18,7 +18,7 @@ export const INITIAL_HALF_LIFE = HALF_LIFE_CARBON_14;
 /** グラフの最大時間 = 半減期 * この倍率 */
 export const MAX_YEARS_MULTIPLIER = 5;
 /** 1フレームあたりの時間増分 = 半減期 / この分割数 */
-export const TIME_STEPS_PER_MAX_YEARS = 150;
+export const TIME_STEPS_PER_HALF_LIFE = 150;
 
 /** 原子グリッドの1辺の原子数の初期値 */
 export const INITIAL_GRID_SIDE = 8;
