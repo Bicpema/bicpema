@@ -1,23 +1,18 @@
 // logic.js はシミュレーションの中心的なロジックを定義するファイルです。
 
 import { state } from "./state.js";
-
-// 仮想キャンバス幅 (scale(p.width/1000) で使用)
-const VIRTUAL_W = 1000;
-
-// 仮想キャンバス高 (16:9)
-const VIRTUAL_H = 562;
-
-// シリンダーの定数 (仮想座標系)
-const CYL_LEFT = 183;
-const CYL_TOP = 134;
-const CYL_WIDTH = 634;
-const CYL_HEIGHT = 220;
-const CYL_CENTER_Y = 244;
-const CYL_DEPTH = 49;
-
-// 温度・体積変化の単位
-const DT_UNIT = 0.3;
+import {
+  VIRTUAL_W,
+  VIRTUAL_H,
+  PISTON_INIT_X,
+  CYL_LEFT,
+  CYL_TOP,
+  CYL_WIDTH,
+  CYL_HEIGHT,
+  CYL_CENTER_Y,
+  CYL_DEPTH,
+  DT_UNIT,
+} from "./constants.js";
 
 /**
  * シミュレーションを描画する。
@@ -117,7 +112,7 @@ function drawPiston(p) {
   p.noFill();
   p.strokeWeight(2);
   p.stroke(0, 100);
-  p.ellipse(512, CYL_CENTER_Y, CYL_DEPTH, CYL_HEIGHT);
+  p.ellipse(PISTON_INIT_X, CYL_CENTER_Y, CYL_DEPTH, CYL_HEIGHT);
   p.pop();
 }
 

@@ -4,6 +4,37 @@ import {
   computeTemperatureAtTime,
 } from "./physics.js";
 
+/** 冷却の緩和係数の係数 G（k_eff = G / C_hot） */
+const COOLING_RATE_CONSTANT = 1.8;
+/** 高温側を表す色（凡例・曲線・現在点で共通） */
+const HOT_COLOR = [255, 0, 0];
+/** 低温側を表す色（凡例・曲線・現在点で共通） */
+const COLD_COLOR = [0, 0, 255];
+/** 見出しテキストのフォントサイズ */
+const HEADER_FONT_SIZE = 32;
+/** グラフの凡例・軸ラベルのフォントサイズ */
+const GRAPH_FONT_SIZE = 30;
+/** グラフ上の現在値ラベルのフォントサイズ */
+const LABEL_FONT_SIZE = 24;
+/** グラフ上の現在値ラベルの背景の高さ */
+const LABEL_HEIGHT = 28;
+/** 吊り下げ棒のY座標 */
+const HOOK_Y = 70;
+/** 吊り下げ棒の幅 */
+const HOOK_WIDTH = 165;
+/** 吊り下げ棒の高さ */
+const HOOK_HEIGHT = 20;
+/** 吊り下げ線の下端Y座標 */
+const HOOK_LINE_BOTTOM_Y = 275;
+/** 質量「重い」選択時の球の表示半径 */
+const BALL_RADIUS_LARGE = 50;
+/** 質量「軽い」選択時の球の表示半径 */
+const BALL_RADIUS_SMALL = 30;
+/** 質量「重い」選択時の球のY座標 */
+const BALL_Y_LARGE = 424;
+/** 質量「軽い」選択時の球のY座標 */
+const BALL_Y_SMALL = 457;
+
 function getContactState() {
   const el = document.querySelector('input[name="contact"]:checked');
   return el ? parseInt(el.value) : 1;
@@ -53,15 +84,15 @@ function ballDraw(p) {
   const checkcolorA = getMaterialA();
   const checkMassA = getMassA();
 
-  const rA = checkMassA === 0 ? 50 : 30;
-  const yA = checkMassA === 0 ? 424 : 457;
+  const rA = checkMassA === 0 ? BALL_RADIUS_LARGE : BALL_RADIUS_SMALL;
+  const yA = checkMassA === 0 ? BALL_Y_LARGE : BALL_Y_SMALL;
 
   if (contactState === 1) {
     // 接触前: 棒を描画 (scale(1.7)空間内)
     p.strokeWeight(1);
     p.fill(181, 166, 66);
-    p.rect(50, 70, 165, 20);
-    p.line(215, 70, 215, 275);
+    p.rect(50, HOOK_Y, HOOK_WIDTH, HOOK_HEIGHT);
+    p.line(215, HOOK_Y, 215, HOOK_LINE_BOTTOM_Y);
     // scale(1.7)を解除して球を描く
     p.pop();
 
@@ -75,8 +106,8 @@ function ballDraw(p) {
     // 接触後: 棒を描画 (scale(1.7)空間内)
     p.strokeWeight(1);
     p.fill(181, 166, 66);
-    p.rect(100, 70, 165, 20);
-    p.line(265, 70, 265, 275);
+    p.rect(100, HOOK_Y, HOOK_WIDTH, HOOK_HEIGHT);
+    p.line(265, HOOK_Y, 265, HOOK_LINE_BOTTOM_Y);
     // scale(1.7)を解除して球を描く
     p.pop();
 
@@ -104,7 +135,7 @@ function drawContainer(p) {
 
 function showPara(p) {
   p.push();
-  p.textSize(32);
+  p.textSize(HEADER_FONT_SIZE);
   p.stroke(0);
   p.text("◎金属球の比熱は？ 熱量の保存の関係から測定しよう", 32, 0);
   p.pop();
@@ -112,14 +143,14 @@ function showPara(p) {
   if (getContactState() === 1) {
     p.push();
     p.stroke(0);
-    p.textSize(32);
+    p.textSize(HEADER_FONT_SIZE);
     p.text("物質A(95℃)", 100, 440);
-    p.stroke(255, 0, 0);
+    p.stroke(...HOT_COLOR);
     p.text("比熱 ?(J/(g・K))", 100, 480);
     p.stroke(0);
-    p.textSize(32);
+    p.textSize(HEADER_FONT_SIZE);
     p.text("水(15℃), 150 g", 480, 175);
-    p.stroke(0, 0, 255);
+    p.stroke(...COLD_COLOR);
     p.text("比熱 4.2(J/(g・K))", 480, 215);
     p.pop();
   }
@@ -146,8 +177,7 @@ function updateTemperature(p) {
       state.Thot0,
       state.Tcold0
     );
-    const G = 1.8;
-    const k_eff = G / state.C_hot;
+    const k_eff = COOLING_RATE_CONSTANT / state.C_hot;
     state.Thot = computeTemperatureAtTime(
       state.Teq,
       state.Thot0,
@@ -185,21 +215,21 @@ function drawGraph(p) {
 
   // 凡例
   p.fill(0);
-  p.stroke(255, 0, 0);
+  p.stroke(...HOT_COLOR);
   p.line(1360, 122, 1456, 122);
-  p.textSize(30);
+  p.textSize(GRAPH_FONT_SIZE);
   p.text("物質(高温)", 1208, 122);
-  p.stroke(0, 0, 255);
+  p.stroke(...COLD_COLOR);
   p.line(1360, 175, 1456, 175);
-  p.textSize(30);
+  p.textSize(GRAPH_FONT_SIZE);
   p.text("物質(低温)", 1208, 175);
 
   // 軸ラベル
   p.stroke(0);
   p.fill(0);
-  p.textSize(30);
+  p.textSize(GRAPH_FONT_SIZE);
   p.text("接触してからの経過時間(Q))", 1160, 712);
-  p.textSize(30);
+  p.textSize(GRAPH_FONT_SIZE);
   p.text("温", 792, 109);
   p.text("度", 792, 143);
   p.text("(K)", 788, 177);
@@ -221,9 +251,9 @@ function drawGraph(p) {
   if (getContactState() === 1) {
     p.push();
     p.strokeWeight(10);
-    p.stroke(255, 0, 0, 120);
+    p.stroke(...HOT_COLOR, 120);
     p.point(tx(p, 0), ty(p, state.Thot0));
-    p.stroke(0, 0, 255, 120);
+    p.stroke(...COLD_COLOR, 120);
     p.point(tx(p, 0), ty(p, state.Tcold0));
     p.pop();
   }
@@ -240,22 +270,20 @@ function drawGraph(p) {
     p.strokeWeight(3);
 
     // 高温曲線
-    p.stroke(255, 0, 0);
+    p.stroke(...HOT_COLOR);
     p.beginShape();
     for (let tt = 0; tt <= state.tMax; tt++) {
-      const G = 1.8;
-      const k_eff = G / state.C_hot;
+      const k_eff = COOLING_RATE_CONSTANT / state.C_hot;
       const T = computeTemperatureAtTime(state.Teq, state.Thot0, k_eff, tt);
       p.vertex(tx(p, tt), ty(p, T));
     }
     p.endShape();
 
     // 低温曲線
-    p.stroke(0, 0, 255);
+    p.stroke(...COLD_COLOR);
     p.beginShape();
     for (let tt = 0; tt <= state.tMax; tt++) {
-      const G = 1.8;
-      const k_eff = G / state.C_hot;
+      const k_eff = COOLING_RATE_CONSTANT / state.C_hot;
       const T = computeTemperatureAtTime(state.Teq, state.Tcold0, k_eff, tt);
       p.vertex(tx(p, tt), ty(p, T));
     }
@@ -265,14 +293,14 @@ function drawGraph(p) {
     const t_now = p.min(state.t, state.tMax);
 
     // 物質A (高温)
-    p.stroke(255, 0, 0);
+    p.stroke(...HOT_COLOR);
     p.strokeWeight(8);
     p.point(tx(p, t_now), ty(p, state.Thot));
     p.push();
     const labelA = p.nf(state.Thot, 1, 2) + " K";
-    p.textSize(24);
+    p.textSize(LABEL_FONT_SIZE);
     const twA = p.textWidth(labelA);
-    const thA = 28;
+    const thA = LABEL_HEIGHT;
     let lx = tx(p, t_now) + 12;
     let ly = ty(p, state.Thot) - 12;
     lx = p.constrain(lx, state.gx + 6, state.gx + state.gw - twA - 6);
@@ -285,14 +313,14 @@ function drawGraph(p) {
     p.pop();
 
     // 物質B (低温)
-    p.stroke(0, 0, 255);
+    p.stroke(...COLD_COLOR);
     p.strokeWeight(8);
     p.point(tx(p, t_now), ty(p, state.Tcold));
     p.push();
     const labelB = p.nf(state.Tcold, 1, 2) + " K";
-    p.textSize(24);
+    p.textSize(LABEL_FONT_SIZE);
     const twB = p.textWidth(labelB);
-    const thB = 28;
+    const thB = LABEL_HEIGHT;
     let lxb = tx(p, t_now) + 12;
     let lyb = ty(p, state.Tcold) + 38;
     lxb = p.constrain(lxb, state.gx + 6, state.gx + state.gw - twB - 6);

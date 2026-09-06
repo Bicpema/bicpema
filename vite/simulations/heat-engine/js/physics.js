@@ -1,9 +1,11 @@
+import { PISTON_Y_TOP, PISTON_Y_MID, PISTON_Y_BOTTOM } from "./constants.js";
+
 /**
  * 熱機関サイクル（4段階）における、経過時間に応じたピストンの高さを計算する。
- * stage 0: 加熱・おもりを持ち上げる (160→130)
- * stage 1: おもりを取り除く (130→80)
- * stage 2: 放熱して戻す (80→130)
- * stage 3: 元の状態に戻る (130→160)
+ * stage 0: 加熱・おもりを持ち上げる (PISTON_Y_TOP→PISTON_Y_MID)
+ * stage 1: おもりを取り除く (PISTON_Y_MID→PISTON_Y_BOTTOM)
+ * stage 2: 放熱して戻す (PISTON_Y_BOTTOM→PISTON_Y_MID)
+ * stage 3: 元の状態に戻る (PISTON_Y_MID→PISTON_Y_TOP)
  *
  * @param {number} stage 現在のサイクル段階 (0〜3)
  * @param {number} t 段階内の経過フレーム数
@@ -12,11 +14,11 @@
  */
 export function computePistonY(stage, t, duration) {
   const ratio = t / duration;
-  if (stage === 0) return lerp(160, 130, ratio);
-  if (stage === 1) return lerp(130, 80, ratio);
-  if (stage === 2) return lerp(80, 130, ratio);
-  if (stage === 3) return lerp(130, 160, ratio);
-  return 160;
+  if (stage === 0) return lerp(PISTON_Y_TOP, PISTON_Y_MID, ratio);
+  if (stage === 1) return lerp(PISTON_Y_MID, PISTON_Y_BOTTOM, ratio);
+  if (stage === 2) return lerp(PISTON_Y_BOTTOM, PISTON_Y_MID, ratio);
+  if (stage === 3) return lerp(PISTON_Y_MID, PISTON_Y_TOP, ratio);
+  return PISTON_Y_TOP;
 }
 
 /**

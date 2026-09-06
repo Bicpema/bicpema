@@ -2,11 +2,7 @@
 
 import { state } from "./state.js";
 import { computeThermodynamicState } from "./physics.js";
-
-// 座標は元の820px幅から仮想1000px幅にスケール済み (×1000/820 ≈ 1.22)
-const PISTON_INIT_X = 512; // 元: 420
-const DT_UNIT = 0.3;
-const DV_UNIT = 37; // 元: 30、仮想1000px幅へのスケール値
+import { PISTON_INIT_X, DT_UNIT, DV_UNIT } from "./constants.js";
 
 /**
  * リセットボタンがクリックされたときの処理。

@@ -1,3 +1,5 @@
+import { DT_UNIT, DV_UNIT } from "./constants.js";
+
 /**
  * 熱量ステップ入力から、熱力学第一法則（定圧膨張: ΔU = Q + Win）にもとづく
  * 状態量（Q・W・ΔU・温度・ピストン目標位置）を計算する。
@@ -7,16 +9,16 @@
  * @param {number} step 入力された熱量ステップ
  * @param {number} t0 基準温度
  * @param {number} pistonInitX ピストンの初期X座標
- * @param {number} [dtUnit=0.3] ステップあたりの温度変化量
- * @param {number} [dvUnit=37] ステップあたりのピストン移動量
+ * @param {number} [dtUnit=DT_UNIT] ステップあたりの温度変化量
+ * @param {number} [dvUnit=DV_UNIT] ステップあたりのピストン移動量
  * @returns {{Q: number, W: number, dU: number, T: number, pistonXTarget: number}}
  */
 export function computeThermodynamicState(
   step,
   t0,
   pistonInitX,
-  dtUnit = 0.3,
-  dvUnit = 37
+  dtUnit = DT_UNIT,
+  dvUnit = DV_UNIT
 ) {
   return {
     Q: step,
