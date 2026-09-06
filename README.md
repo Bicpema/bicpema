@@ -157,4 +157,4 @@ bicpema
 
 Bicpema独自のソースコード・コンテンツ（記事、画像、シミュレーション等）はAll Rights Reserved（全著作権留保）です。詳細は[LICENSE](./LICENSE)を参照してください。
 
-サブモジュールとして利用しているテーマ [hugo-theme-tailwind](https://github.com/tomowang/hugo-theme-tailwind) はMIT Licenseで提供されています。詳細は[themes/hugo-theme-tailwind/LICENSE](./themes/hugo-theme-tailwind/LICENSE)を参照してください。
+サブモジュールとして利用しているテーマ [hugo-theme-tailwind](https://github.com/tomowang/hugo-theme-tailwind) はMIT Licenseで提供されています。詳細は[themes/hugo-theme-tailwind/LICENSE](./themes/hugo-theme-tailwind/LICENSE)（submodule未初期化の場合は[上流リポジトリのLICENSE](https://github.com/tomowang/hugo-theme-tailwind/blob/main/LICENSE)）を参照してください。
