@@ -2,6 +2,7 @@
 
 import { state } from "./state.js";
 import { computePendulumWaveAngle } from "./physics.js";
+import { PIVOT_Y } from "./constants.js";
 
 /**
  * 振り子の波を構成する1つのおもりを表すクラス。
@@ -31,7 +32,7 @@ export class Ball {
       state.count
     );
     this.posx = p.width / 2 + this.length * p.sin(this.theta);
-    this.posy = 100 + this.length * p.cos(this.theta);
+    this.posy = PIVOT_Y + this.length * p.cos(this.theta);
   }
 
   /**
@@ -39,7 +40,7 @@ export class Ball {
    * @param {*} p p5インスタンス
    */
   display(p) {
-    p.line(p.width / 2, 100, this.posx, this.posy);
+    p.line(p.width / 2, PIVOT_Y, this.posx, this.posy);
     p.image(
       state.weightImage,
       this.posx - state.weightImage.width / 2,

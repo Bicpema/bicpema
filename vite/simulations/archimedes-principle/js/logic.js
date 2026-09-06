@@ -4,6 +4,23 @@ import { BASE_W, BASE_H, TANK_BOTTOM_Y, CYL_H } from "./init.js";
 /** シミュレーション内で使用する水面Y座標（基準座標系） */
 const WATER_SURFACE_Y = 175;
 
+/** 矢印の先端（矢頭）の大きさ */
+const ARROW_HEAD_SIZE = 14;
+/** 矢印の線の太さ */
+const ARROW_STROKE_WEIGHT = 3;
+/** 矢印ラベルのフォントサイズ */
+const ARROW_LABEL_FONT_SIZE = 18;
+/** 力の矢印の円柱中心からの水平オフセット */
+const ARROW_OFFSET_X = 15;
+/** 矢印ラベルの水平方向の追加オフセット */
+const ARROW_LABEL_OFFSET_X = 6;
+/** 矢印ラベルの垂直方向の追加オフセット */
+const ARROW_LABEL_OFFSET_Y = 2;
+/** 矢印長スケール: 密度1.0・完全水没のとき長さがこのpx値になる */
+const FORCE_SCALE = 80;
+/** ドラッグ時に円柱を移動できる水槽底面からの余白 */
+const DRAG_BOTTOM_MARGIN = 50;
+
 /**
  * 情報テキストをDOM要素に反映する。
  * @param {import("./cylinder.js").Cylinder} cylinder 円柱オブジェクト
@@ -32,7 +49,6 @@ function drawInfoText(cylinder, waterSurfaceY) {
  * @param {string} lAlignH 水平アライメント（p.LEFT / p.CENTER / p.RIGHT）
  */
 function drawArrow(p, x1, y1, x2, y2, col, label, lx, ly, lAlignH) {
-  const arrowSize = 14;
   const dx = x2 - x1;
   const dy = y2 - y1;
   const angle = Math.atan2(dy, dx);
@@ -40,7 +56,7 @@ function drawArrow(p, x1, y1, x2, y2, col, label, lx, ly, lAlignH) {
   p.push();
   p.stroke(col[0], col[1], col[2]);
   p.fill(col[0], col[1], col[2]);
-  p.strokeWeight(3);
+  p.strokeWeight(ARROW_STROKE_WEIGHT);
   p.line(x1, y1, x2, y2);
 
   // 矢頭
@@ -48,14 +64,21 @@ function drawArrow(p, x1, y1, x2, y2, col, label, lx, ly, lAlignH) {
   p.translate(x2, y2);
   p.rotate(angle);
   p.noStroke();
-  p.triangle(0, 0, -arrowSize, -arrowSize * 0.4, -arrowSize, arrowSize * 0.4);
+  p.triangle(
+    0,
+    0,
+    -ARROW_HEAD_SIZE,
+    -ARROW_HEAD_SIZE * 0.4,
+    -ARROW_HEAD_SIZE,
+    ARROW_HEAD_SIZE * 0.4
+  );
   p.pop();
 
   // ラベル
   if (label) {
     p.noStroke();
     p.textFont("sans-serif");
-    p.textSize(18);
+    p.textSize(ARROW_LABEL_FONT_SIZE);
     p.textAlign(lAlignH ?? p.CENTER, p.CENTER);
     p.text(label, lx ?? (x1 + x2) / 2, ly ?? (y1 + y2) / 2);
   }
@@ -80,21 +103,18 @@ function drawForceArrows(p) {
   const colGravity = [229, 57, 53]; // 重力: 赤  (#E53935)
   const colBuoyancy = [56, 142, 60]; // 浮力: 緑  (#388E3C)
 
-  // 矢印長スケール: 密度 1.0・完全水没のとき長さ 80px
-  const FORCE_SCALE = 80;
-
   // ----- 1. 重力（↓, 円柱中心から下向き） -----
   const gravityLen = cylinder.density * FORCE_SCALE;
   drawArrow(
     p,
-    cx - 15,
+    cx - ARROW_OFFSET_X,
     centerY,
-    cx - 15,
+    cx - ARROW_OFFSET_X,
     centerY + gravityLen,
     colGravity,
     "重力",
-    cx - 15 - 6,
-    centerY + gravityLen + 2,
+    cx - ARROW_OFFSET_X - ARROW_LABEL_OFFSET_X,
+    centerY + gravityLen + ARROW_LABEL_OFFSET_Y,
     p.RIGHT
   );
 
@@ -103,14 +123,14 @@ function drawForceArrows(p) {
     const buoyancyLen = subFrac * FORCE_SCALE;
     drawArrow(
       p,
-      cx + 15,
+      cx + ARROW_OFFSET_X,
       centerY,
-      cx + 15,
+      cx + ARROW_OFFSET_X,
       centerY - buoyancyLen,
       colBuoyancy,
       "浮力",
-      cx + 15 + 6,
-      centerY - buoyancyLen - 2,
+      cx + ARROW_OFFSET_X + ARROW_LABEL_OFFSET_X,
+      centerY - buoyancyLen - ARROW_LABEL_OFFSET_Y,
       p.LEFT
     );
   }
@@ -144,7 +164,7 @@ export function drawSimulation(p) {
     state.cylinder.cy = p.constrain(
       state.cylinder.cy,
       WATER_SURFACE_Y,
-      TANK_BOTTOM_Y - 50
+      TANK_BOTTOM_Y - DRAG_BOTTOM_MARGIN
     );
   }
 }

@@ -10,6 +10,14 @@ import {
   onGridClick,
   onInputChange,
 } from "./element-function.js";
+import {
+  GRAVITY,
+  BALL_RADIUS_DIVISOR,
+  WEIGHT_IMAGE_WIDTH_DIVISOR,
+  INITIAL_STRING_LENGTH,
+  INITIAL_LEFT_ANGLE_DEG,
+  INITIAL_RIGHT_ANGLE_DEG,
+} from "./constants.js";
 
 /**
  * 要素の選択とイベントハンドラーの設定を行う。
@@ -46,12 +54,15 @@ export function elCreate(p) {
  * @param {*} p p5インスタンス
  */
 export function initValue(p) {
-  state.radi = p.width / 50;
+  state.radi = p.width / BALL_RADIUS_DIVISOR;
   state.clickedCount = false;
   state.gridIs = false;
-  state.gravity = 9.8;
+  state.gravity = GRAVITY;
   state.count = 0;
-  state.weightImage.resize(p.width / 18, 0);
-  state.leftPendulum = new Ball(500, 10);
-  state.rightPendulum = new Ball(500, 15);
+  state.weightImage.resize(p.width / WEIGHT_IMAGE_WIDTH_DIVISOR, 0);
+  state.leftPendulum = new Ball(INITIAL_STRING_LENGTH, INITIAL_LEFT_ANGLE_DEG);
+  state.rightPendulum = new Ball(
+    INITIAL_STRING_LENGTH,
+    INITIAL_RIGHT_ANGLE_DEG
+  );
 }

@@ -1,5 +1,7 @@
 // state.js はシミュレーションの共有可変状態を管理するファイルです。
 
+import { GRAVITY } from "./constants.js";
+
 export const state = {
   /** おもりの画像 */
   weightImage: null,
@@ -10,7 +12,7 @@ export const state = {
   /** グリッド線を表示するかどうか */
   gridIs: false,
   /** 重力加速度 (m/s^2) */
-  gravity: 9.8,
+  gravity: GRAVITY,
   /** 経過フレーム数（累積カウンタ） */
   count: 0,
   /** 左の振り子 */

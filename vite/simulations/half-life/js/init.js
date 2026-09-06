@@ -1,15 +1,20 @@
 import { initCollapse } from "../../../js/bicpema-modal-controller.js";
 import { state } from "./state.js";
 import { initAtoms } from "./logic.js";
+import {
+  FRAME_RATE,
+  MAX_YEARS_MULTIPLIER,
+  TIME_STEPS_PER_HALF_LIFE,
+  MIN_GRID_SIDE,
+  MAX_GRID_SIDE,
+} from "./constants.js";
 
 /**
  * p5のフレームレートなど基本設定を行う。
  * @param {*} p p5インスタンス。
  */
 export function settingInit(p) {
-  // 崩壊曲線・原子グリッドの状態更新が中心で、60fpsの滑らかさは不要なため
-  // 30fpsに抑えている。
-  p.frameRate(30);
+  p.frameRate(FRAME_RATE);
 }
 
 /**
@@ -102,7 +107,7 @@ export function valueInit(p) {
 
   if (state.atomPlusBtn) {
     state.atomPlusBtn.addEventListener("click", () => {
-      state.n = p.constrain(state.n + 1, 4, 30);
+      state.n = p.constrain(state.n + 1, MIN_GRID_SIDE, MAX_GRID_SIDE);
       state.N0 = state.n * state.n;
       state.currentTime = 0;
       initAtoms();
@@ -111,7 +116,7 @@ export function valueInit(p) {
 
   if (state.atomMinusBtn) {
     state.atomMinusBtn.addEventListener("click", () => {
-      state.n = p.constrain(state.n - 1, 4, 30);
+      state.n = p.constrain(state.n - 1, MIN_GRID_SIDE, MAX_GRID_SIDE);
       state.N0 = state.n * state.n;
       state.currentTime = 0;
       initAtoms();
@@ -122,8 +127,8 @@ export function valueInit(p) {
     state.materialRadios.forEach((radio) => {
       radio.addEventListener("change", () => {
         state.halfLife = parseFloat(radio.value);
-        state.maxYears = state.halfLife * 5;
-        state.T = state.halfLife / 150;
+        state.maxYears = state.halfLife * MAX_YEARS_MULTIPLIER;
+        state.T = state.halfLife / TIME_STEPS_PER_HALF_LIFE;
         state.currentTime = 0;
         initAtoms();
       });

@@ -1,5 +1,10 @@
 import { state } from "./state.js";
 import { computeDecayFraction, computeRemainingCount } from "./physics.js";
+import {
+  HALF_LIFE_IODINE_131,
+  HALF_LIFE_CARBON_14,
+  HALF_LIFE_CESIUM_137,
+} from "./constants.js";
 
 /**
  * 原子配列を初期化する（各原子に 0〜1 のランダムしきい値を設定）。
@@ -84,7 +89,7 @@ function drawAxes(p, pad, w, bY, tY) {
 
   p.textAlign(p.CENTER);
   p.textSize(13);
-  if (state.halfLife === 8) {
+  if (state.halfLife === HALF_LIFE_IODINE_131) {
     p.text("経過日数 (日)", pad + w / 2, bY + 50);
   } else {
     p.text("経過年数 (年)", pad + w / 2, bY + 50);
@@ -94,9 +99,9 @@ function drawAxes(p, pad, w, bY, tY) {
   p.translate(pad - 50, (bY + tY) / 2);
   p.textAlign(p.CENTER, p.CENTER);
   p.textLeading(13);
-  if (state.halfLife === 8) {
+  if (state.halfLife === HALF_LIFE_IODINE_131) {
     p.text("ヨ\nウ\n素\nの\n量", 0, 0);
-  } else if (state.halfLife === 5730) {
+  } else if (state.halfLife === HALF_LIFE_CARBON_14) {
     p.text("炭\n素\nの\n量", 0, 0);
   }
   p.pop();
@@ -216,13 +221,13 @@ function drawAtomGrid(p, xStart, yStart, size, decayRate) {
     p.textAlign(p.LEFT, p.CENTER);
     p.text("放射線", imgX + 200, imgY + 45);
     p.textAlign(p.CENTER, p.TOP);
-    if (state.halfLife === 8) {
+    if (state.halfLife === HALF_LIFE_IODINE_131) {
       p.text("ヨウ素131", imgX + 45, imgY + 110);
       p.text("キセノン131", imgX + 276, imgY + 110);
-    } else if (state.halfLife === 5730) {
+    } else if (state.halfLife === HALF_LIFE_CARBON_14) {
       p.text("炭素14", imgX + 45, imgY + 110);
       p.text("窒素14", imgX + 276, imgY + 110);
-    } else if (state.halfLife === 30) {
+    } else if (state.halfLife === HALF_LIFE_CESIUM_137) {
       p.text("セシウム137", imgX + 55, imgY + 110);
       p.text("バリウム137", imgX + 266, imgY + 110);
     }
