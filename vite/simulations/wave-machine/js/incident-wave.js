@@ -1,6 +1,11 @@
 // IncidentWave.js はクラス管理専用のファイルです。
 
-import { state } from "./state.js";
+import {
+  state,
+  MAX_THETA,
+  WAVE_FREQUENCY_SCALE,
+  AMPLITUDE_SCALE_DIVISOR,
+} from "./state.js";
 
 /**
  * IncidentWave クラス
@@ -24,13 +29,15 @@ export class IncidentWave {
   calculate() {
     const p = this.p;
     if (this.number < this.time) {
-      if (this.theta > -30) {
+      if (this.theta > -MAX_THETA) {
         this.theta--;
       }
     } else {
       this.theta = 0;
     }
     this.time += state.speed;
-    this.posy = (p.height / 100) * p.sin(p.radians(6 * this.theta));
+    this.posy =
+      (p.height / AMPLITUDE_SCALE_DIVISOR) *
+      p.sin(p.radians(WAVE_FREQUENCY_SCALE * this.theta));
   }
 }

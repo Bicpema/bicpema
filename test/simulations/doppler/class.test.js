@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
 import { SOUND } from "../../../vite/simulations/doppler/js/class.js";
 import { state } from "../../../vite/simulations/doppler/js/state.js";
-import { FPS } from "../../../vite/simulations/doppler/js/init.js";
+import { FPS } from "../../../vite/simulations/doppler/js/constants.js";
 
 const stubP = { noFill: () => {}, ellipse: () => {} };
 

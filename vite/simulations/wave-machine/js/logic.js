@@ -1,6 +1,11 @@
 // logic.js はシミュレーションの中心的なロジックを定義するファイルです。
 
-import { state, MEDIUM_QUANTITY } from "./state.js";
+import {
+  state,
+  MEDIUM_QUANTITY,
+  MEDIUM_TRACK_MARGIN,
+  CONTENT_X_OFFSET,
+} from "./state.js";
 import { IncidentWave } from "./incident-wave.js";
 import { ReflectedWave } from "./reflected-wave.js";
 
@@ -40,14 +45,19 @@ function buttonFunction(p) {
   if (p.mouseIsPressed) {
     if (
       state.buttonClickedIs &&
-      p.dist(100, p.height / 2 + state.button.height, p.mouseX, p.mouseY) <
+      p.dist(
+        CONTENT_X_OFFSET,
+        p.height / 2 + state.button.height,
+        p.mouseX,
+        p.mouseY
+      ) <
         state.button.height / 2
     ) {
       for (let i = 0; i < MEDIUM_QUANTITY; i++) {
         state.incidentWaves.push(
           new IncidentWave(
             p,
-            (i * (p.width - 200)) / MEDIUM_QUANTITY,
+            (i * (p.width - MEDIUM_TRACK_MARGIN)) / MEDIUM_QUANTITY,
             100,
             state.incidentWaves.length,
             i,
@@ -59,7 +69,7 @@ function buttonFunction(p) {
         state.reflectedWaves.push(
           new ReflectedWave(
             p,
-            (i * (p.width - 200)) / MEDIUM_QUANTITY,
+            (i * (p.width - MEDIUM_TRACK_MARGIN)) / MEDIUM_QUANTITY,
             100,
             state.reflectedWaves.length,
             MEDIUM_QUANTITY - i - 2,
@@ -77,12 +87,15 @@ function buttonFunction(p) {
  */
 function stopperFunction(p) {
   if (
-    state.stopperX > p.width - 100 - state.stopper.width &&
+    state.stopperX > p.width - CONTENT_X_OFFSET - state.stopper.width &&
     state.stopperY > p.height / 2 - state.stopper.height / 4 &&
     state.stopperY < p.height / 2 + state.stopper.height / 4
   ) {
     state.stopperX =
-      p.width - state.stopper.width - 5 - (p.width - 200) / MEDIUM_QUANTITY;
+      p.width -
+      state.stopper.width -
+      5 -
+      (p.width - MEDIUM_TRACK_MARGIN) / MEDIUM_QUANTITY;
     state.stopperY = p.height / 2 - state.stopper.height / 8;
     state.fixedIs = true;
   } else {
@@ -110,14 +123,19 @@ function imageFunction(p) {
   p.tint(255);
   if (
     p.mouseIsPressed &&
-    p.dist(100, p.height / 2 + state.button.height, p.mouseX, p.mouseY) <
+    p.dist(
+      CONTENT_X_OFFSET,
+      p.height / 2 + state.button.height,
+      p.mouseX,
+      p.mouseY
+    ) <
       state.button.height / 2
   ) {
     p.tint(255, 200, 200, 200);
   }
   p.image(
     state.button,
-    100 - state.button.width / 2,
+    CONTENT_X_OFFSET - state.button.width / 2,
     p.height / 2 + state.button.height / 2
   );
   p.tint(255);

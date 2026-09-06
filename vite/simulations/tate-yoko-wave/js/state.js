@@ -1,3 +1,5 @@
+import { WAVE_ORIGIN_X } from "./constants.js";
+
 export const state = {
   particles: [],
   N: 80,
@@ -8,5 +10,5 @@ export const state = {
   t: 0,
   running: false,
   focusIndex: 0,
-  xStart: 60,
+  xStart: WAVE_ORIGIN_X,
 };

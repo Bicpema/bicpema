@@ -1,6 +1,11 @@
 // Medium.js はクラス管理専用のファイルです。
 
-import { state, MEDIUM_QUANTITY } from "./state.js";
+import {
+  state,
+  MEDIUM_QUANTITY,
+  MEDIUM_TRACK_MARGIN,
+  CONTENT_X_OFFSET,
+} from "./state.js";
 
 /**
  * Medium クラス
@@ -41,14 +46,15 @@ export class Medium {
     p.strokeWeight(5);
     p.stroke(0);
     p.line(
-      this.posx + 100,
+      this.posx + CONTENT_X_OFFSET,
       this.posy + p.height / 2,
-      (this.number * (p.width - 200)) / MEDIUM_QUANTITY + 100,
+      (this.number * (p.width - MEDIUM_TRACK_MARGIN)) / MEDIUM_QUANTITY +
+        CONTENT_X_OFFSET,
       p.height / 2
     );
     p.strokeWeight(1);
     p.noStroke();
     p.fill(255, 255, 0);
-    p.ellipse(this.posx + 100, this.posy + p.height / 2, 10, 10);
+    p.ellipse(this.posx + CONTENT_X_OFFSET, this.posy + p.height / 2, 10, 10);
   }
 }

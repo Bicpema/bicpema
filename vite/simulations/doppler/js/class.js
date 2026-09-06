@@ -1,7 +1,7 @@
 // class.js は SOUND クラス管理専用のファイルです。
 
 import { state } from "./state.js";
-import { FPS, H } from "./init.js";
+import { FPS, H, SOUND_SPEED } from "./constants.js";
 
 /**
  * 音波を表すクラス。
@@ -22,7 +22,7 @@ export class SOUND {
    */
   _draw(p) {
     if (state.clickedCount === true) {
-      this.radi += 340 / FPS;
+      this.radi += SOUND_SPEED / FPS;
     }
     p.noFill();
     p.ellipse(this.soundx, H / 2, this.radi * 2, this.radi * 2);
