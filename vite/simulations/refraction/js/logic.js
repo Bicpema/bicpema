@@ -2,6 +2,36 @@
 
 import { state } from "./state.js";
 import { computeRefractionAngle, computeSnellRatio } from "./physics.js";
+import {
+  ANGLE_LIMIT_DEG,
+  ROTATE_STEP_DEG,
+  ROTATE_FAST_STEP_DEG,
+  LONG_PRESS_ACTIVATE_FRAMES,
+  LONG_PRESS_FAST_FRAMES,
+  HIT_RADIUS_DIVISOR,
+  REMOCON_HOTSPOT_X_NUMERATOR,
+  REMOCON_HOTSPOT_TOP_Y_NUMERATOR,
+  REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR,
+  REMOCON_HOTSPOT_RATIO_DENOMINATOR,
+  REMOCON_LABEL_OFFSET_NUMERATOR,
+  REMOCON_LABEL_OFFSET_DENOMINATOR,
+  REMOCON_LABEL_WIDTH_DIVISOR,
+  REMOCON_LABEL_HEIGHT_DIVISOR,
+  REMOCON_LABEL_Y_OFFSET_DIVISOR,
+  LIGHT_SOURCE_LENGTH_DIVISOR,
+  MODE_TAB_COUNT,
+  MODE_TAB_WIDTH_DIVISOR,
+  MODE_TAB_HEIGHT_DIVISOR,
+  INCIDENT_ANGLE_COLOR,
+  COMPLEMENT_ANGLE_COLOR,
+  REFRACTED_ANGLE_COLOR,
+  RAY_COLOR,
+  AXIS_LINE_COLOR,
+  ANGLE_ARC_DIAMETER_DIVISOR,
+  ANGLE_LABEL_X_OFFSET_NUMERATOR,
+  ANGLE_LABEL_Y_OFFSET_NUMERATOR,
+  ANGLE_LABEL_OFFSET_DENOMINATOR,
+} from "./constants.js";
 
 /**
  * シミュレーションの描画と物理更新を行う。
@@ -47,14 +77,14 @@ function drawModeTabs(p) {
   p.push();
   // "animationMax"がボタン幅(width/8)に収まるよう縮小する
   p.textSize(p.width / 75);
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < MODE_TAB_COUNT; i++) {
     p.fill(100);
     p.stroke(255);
     p.rect(
-      p.width - ((4 - i) * p.width) / 8,
+      p.width - ((MODE_TAB_COUNT - i) * p.width) / MODE_TAB_WIDTH_DIVISOR,
       0,
-      p.width / 8,
-      p.height / 20,
+      p.width / MODE_TAB_WIDTH_DIVISOR,
+      p.height / MODE_TAB_HEIGHT_DIVISOR,
       100
     );
     p.fill(255);
@@ -62,37 +92,37 @@ function drawModeTabs(p) {
     if (i == 0) {
       p.text(
         "animation",
-        p.width - ((4 - i) * p.width) / 8,
+        p.width - ((MODE_TAB_COUNT - i) * p.width) / MODE_TAB_WIDTH_DIVISOR,
         0,
-        p.width / 8,
-        p.height / 20
+        p.width / MODE_TAB_WIDTH_DIVISOR,
+        p.height / MODE_TAB_HEIGHT_DIVISOR
       );
     }
     if (i == 1) {
       p.text(
         "animationMax",
-        p.width - ((4 - i) * p.width) / 8,
+        p.width - ((MODE_TAB_COUNT - i) * p.width) / MODE_TAB_WIDTH_DIVISOR,
         0,
-        p.width / 8,
-        p.height / 20
+        p.width / MODE_TAB_WIDTH_DIVISOR,
+        p.height / MODE_TAB_HEIGHT_DIVISOR
       );
     }
     if (i == 2) {
       p.text(
         "line",
-        p.width - ((4 - i) * p.width) / 8,
+        p.width - ((MODE_TAB_COUNT - i) * p.width) / MODE_TAB_WIDTH_DIVISOR,
         0,
-        p.width / 8,
-        p.height / 20
+        p.width / MODE_TAB_WIDTH_DIVISOR,
+        p.height / MODE_TAB_HEIGHT_DIVISOR
       );
     }
     if (i == 3) {
       p.text(
         "lineMax",
-        p.width - ((4 - i) * p.width) / 8,
+        p.width - ((MODE_TAB_COUNT - i) * p.width) / MODE_TAB_WIDTH_DIVISOR,
         0,
-        p.width / 8,
-        p.height / 20
+        p.width / MODE_TAB_WIDTH_DIVISOR,
+        p.height / MODE_TAB_HEIGHT_DIVISOR
       );
     }
   }
@@ -112,9 +142,9 @@ function lightResource(p) {
   p.rotate(p.radians(state.lightRotateTheta));
   p.rect(
     -p.width / 48,
-    p.height / 2 - p.height / 6,
+    p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR,
     p.width / 24,
-    p.height / 6
+    p.height / LIGHT_SOURCE_LENGTH_DIVISOR
   );
   p.pop();
 }
@@ -176,66 +206,78 @@ function animationOperation(p) {
       p.dist(
         p.width -
           state.rotateRemocon.width +
-          (9 * state.rotateRemocon.width) / 10,
+          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
           state.rotateRemocon.height +
-          (3 * state.rotateRemocon.height) / 10,
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.rotateRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / 20 &&
-      state.lightRotateTheta < 90 &&
-      state.count > 10
+        state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+      state.lightRotateTheta < ANGLE_LIMIT_DEG &&
+      state.count > LONG_PRESS_ACTIVATE_FRAMES
     ) {
-      if (state.count > 30) {
-        state.lightRotateTheta += 0.5;
+      if (state.count > LONG_PRESS_FAST_FRAMES) {
+        state.lightRotateTheta += ROTATE_FAST_STEP_DEG;
       } else {
-        state.lightRotateTheta += 0.1;
+        state.lightRotateTheta += ROTATE_STEP_DEG;
       }
       state.theta1 = p.radians(state.lightRotateTheta);
       state.theta2 = computeRefractionAngle(state.theta1, state.n12);
       state.n12 = state.n2 / state.n1;
       state.raysX =
-        p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
+        p.width / 2 -
+        (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+          p.sin(state.theta1);
       state.raysY =
-        p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1);
+        p.height / 2 +
+        (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+          p.cos(state.theta1);
       state.raysX2 = p.width / 2;
       state.raysY2 = p.height / 2;
-      if (state.lightRotateTheta > 90) {
-        state.lightRotateTheta = 90;
+      if (state.lightRotateTheta > ANGLE_LIMIT_DEG) {
+        state.lightRotateTheta = ANGLE_LIMIT_DEG;
       }
     }
     if (
       p.dist(
         p.width -
           state.rotateRemocon.width +
-          (9 * state.rotateRemocon.width) / 10,
+          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
           state.rotateRemocon.height +
-          (7 * state.rotateRemocon.height) / 10,
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.rotateRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / 20 &&
-      state.lightRotateTheta > -90 &&
-      state.count > 10
+        state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+      state.lightRotateTheta > -ANGLE_LIMIT_DEG &&
+      state.count > LONG_PRESS_ACTIVATE_FRAMES
     ) {
-      if (state.count > 30) {
-        state.lightRotateTheta -= 0.5;
+      if (state.count > LONG_PRESS_FAST_FRAMES) {
+        state.lightRotateTheta -= ROTATE_FAST_STEP_DEG;
       } else {
-        state.lightRotateTheta -= 0.1;
+        state.lightRotateTheta -= ROTATE_STEP_DEG;
       }
       state.theta1 = p.radians(state.lightRotateTheta);
       state.theta2 = computeRefractionAngle(state.theta1, state.n12);
       state.n12 = state.n2 / state.n1;
       state.raysX =
-        p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
+        p.width / 2 -
+        (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+          p.sin(state.theta1);
       state.raysY =
-        p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1);
+        p.height / 2 +
+        (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+          p.cos(state.theta1);
       state.raysX2 = p.width / 2;
       state.raysY2 = p.height / 2;
-      if (state.lightRotateTheta < -90) {
-        state.lightRotateTheta = -90;
+      if (state.lightRotateTheta < -ANGLE_LIMIT_DEG) {
+        state.lightRotateTheta = -ANGLE_LIMIT_DEG;
       }
     }
     state.theta1 = p.radians(state.lightRotateTheta);
@@ -253,26 +295,35 @@ function animationOperation(p) {
   );
   p.text(
     p.nf(p.abs(state.lightRotateTheta), 1, 1) + "'",
-    p.width - state.rotateRemocon.width + (5 * state.rotateRemocon.width) / 12,
-    p.height - state.rotateRemocon.height + state.rotateRemocon.height / 4,
-    state.rotateRemocon.width / 3,
-    state.rotateRemocon.height / 2
+    p.width -
+      state.rotateRemocon.width +
+      (REMOCON_LABEL_OFFSET_NUMERATOR * state.rotateRemocon.width) /
+        REMOCON_LABEL_OFFSET_DENOMINATOR,
+    p.height -
+      state.rotateRemocon.height +
+      state.rotateRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    state.rotateRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    state.rotateRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
   p.image(state.nRemocon, 0, p.height / 2 - state.nRemocon.height);
   p.text(
     p.nf(state.n2, 1, 1) + "'",
-    (5 * state.nRemocon.width) / 12,
-    p.height / 2 - state.nRemocon.height + state.nRemocon.height / 4,
-    state.nRemocon.width / 3,
-    state.nRemocon.height / 2
+    (REMOCON_LABEL_OFFSET_NUMERATOR * state.nRemocon.width) /
+      REMOCON_LABEL_OFFSET_DENOMINATOR,
+    p.height / 2 -
+      state.nRemocon.height +
+      state.nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    state.nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    state.nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
   p.image(state.nRemocon, 0, p.height / 2);
   p.text(
     p.nf(state.n1, 1, 1) + "'",
-    (5 * state.nRemocon.width) / 12,
-    p.height / 2 + state.nRemocon.height / 4,
-    state.nRemocon.width / 3,
-    state.nRemocon.height / 2
+    (REMOCON_LABEL_OFFSET_NUMERATOR * state.nRemocon.width) /
+      REMOCON_LABEL_OFFSET_DENOMINATOR,
+    p.height / 2 + state.nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    state.nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    state.nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
   p.stroke(255);
 }
@@ -284,21 +335,21 @@ function animationBackgroundSetting(p) {
   if (-1 < state.boundary && state.boundary < 1) {
     if (state.raysY <= p.height / 2) {
       if (state.theta1 >= 0 && state.raysX >= p.width / 2) {
-        p.stroke(255, 0, 255);
+        p.stroke(...INCIDENT_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           p.PI / 2,
           state.theta1 + p.PI / 2
         );
-        p.stroke(0, 255, 255);
+        p.stroke(...COMPLEMENT_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           -state.theta1 + p.PI / 2,
           p.PI / 2
         );
@@ -306,50 +357,62 @@ function animationBackgroundSetting(p) {
         p.noStroke();
         p.text(
           p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-          p.width / 2 - (2 * p.width) / 50,
-          p.height / 2 + (4 * p.width) / 50
+          p.width / 2 -
+            (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR,
+          p.height / 2 +
+            (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR
         );
         p.text(
           p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-          p.width / 2 + (2 * p.width) / 50,
-          p.height / 2 + (4 * p.width) / 50
+          p.width / 2 +
+            (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR,
+          p.height / 2 +
+            (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR
         );
         if (state.theta1 != p.PI / 2 && state.theta1 != -p.PI / 2) {
           p.text(
             p.nf(p.abs(p.degrees(state.theta2)), 1, 1) + "'",
-            p.width / 2 + (2 * p.width) / 50,
-            p.height / 2 - (4 * p.width) / 50
+            p.width / 2 +
+              (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+                ANGLE_LABEL_OFFSET_DENOMINATOR,
+            p.height / 2 -
+              (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+                ANGLE_LABEL_OFFSET_DENOMINATOR
           );
         }
         if (state.theta1 != p.PI / 2 && state.theta1 != -p.PI / 2) {
-          p.stroke(0, 255, 0);
+          p.stroke(...REFRACTED_ANGLE_COLOR);
           p.noFill();
           p.arc(
             p.width / 2,
             p.height / 2,
-            p.height / 10,
-            p.height / 10,
+            p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+            p.height / ANGLE_ARC_DIAMETER_DIVISOR,
             (3 * p.PI) / 2,
             state.theta2 + (3 * p.PI) / 2
           );
         }
       }
       if (state.theta1 < 0 && state.raysX <= p.width / 2) {
-        p.stroke(255, 0, 255);
+        p.stroke(...INCIDENT_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           state.theta1 + p.PI / 2,
           p.PI / 2
         );
-        p.stroke(0, 255, 255);
+        p.stroke(...COMPLEMENT_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           p.PI / 2,
           -state.theta1 + p.PI / 2
         );
@@ -357,29 +420,41 @@ function animationBackgroundSetting(p) {
         p.noStroke();
         p.text(
           p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-          p.width / 2 - (2 * p.width) / 50,
-          p.height / 2 + (4 * p.width) / 50
+          p.width / 2 -
+            (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR,
+          p.height / 2 +
+            (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR
         );
         p.text(
           p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-          p.width / 2 + (2 * p.width) / 50,
-          p.height / 2 + (4 * p.width) / 50
+          p.width / 2 +
+            (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR,
+          p.height / 2 +
+            (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR
         );
         if (state.theta1 != p.PI / 2 && state.theta1 != -p.PI / 2) {
           p.text(
             p.nf(p.abs(p.degrees(state.theta2)), 1, 1) + "'",
-            p.width / 2 + (2 * p.width) / 50,
-            p.height / 2 - (4 * p.width) / 50
+            p.width / 2 +
+              (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+                ANGLE_LABEL_OFFSET_DENOMINATOR,
+            p.height / 2 -
+              (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+                ANGLE_LABEL_OFFSET_DENOMINATOR
           );
         }
         if (state.theta1 != p.PI / 2 && state.theta1 != -p.PI / 2) {
-          p.stroke(0, 255, 0);
+          p.stroke(...REFRACTED_ANGLE_COLOR);
           p.noFill();
           p.arc(
             p.width / 2,
             p.height / 2,
-            p.height / 10,
-            p.height / 10,
+            p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+            p.height / ANGLE_ARC_DIAMETER_DIVISOR,
             state.theta2 + (3 * p.PI) / 2,
             (3 * p.PI) / 2
           );
@@ -389,21 +464,21 @@ function animationBackgroundSetting(p) {
   } else {
     if (state.theta1 >= 0) {
       if (state.raysX >= p.width / 2) {
-        p.stroke(255, 0, 255);
+        p.stroke(...INCIDENT_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           p.PI / 2,
           state.theta1 + p.PI / 2
         );
-        p.stroke(0, 255, 255);
+        p.stroke(...COMPLEMENT_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           -state.theta1 + p.PI / 2,
           p.PI / 2
         );
@@ -411,32 +486,40 @@ function animationBackgroundSetting(p) {
         p.noStroke();
         p.text(
           p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-          p.width / 2 - (2 * p.width) / 50,
-          p.height / 2 + (4 * p.width) / 50
+          p.width / 2 -
+            (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR,
+          p.height / 2 +
+            (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR
         );
         p.text(
           p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-          p.width / 2 + (2 * p.width) / 50,
-          p.height / 2 + (4 * p.width) / 50
+          p.width / 2 +
+            (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR,
+          p.height / 2 +
+            (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR
         );
       }
     } else {
       if (state.raysX <= p.width / 2) {
-        p.stroke(255, 0, 255);
+        p.stroke(...INCIDENT_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           state.theta1 + p.PI / 2,
           p.PI / 2
         );
-        p.stroke(0, 255, 255);
+        p.stroke(...COMPLEMENT_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           p.PI / 2,
           -state.theta1 + p.PI / 2
         );
@@ -444,18 +527,26 @@ function animationBackgroundSetting(p) {
         p.noStroke();
         p.text(
           p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-          p.width / 2 - (2 * p.width) / 50,
-          p.height / 2 + (4 * p.width) / 50
+          p.width / 2 -
+            (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR,
+          p.height / 2 +
+            (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR
         );
         p.text(
           p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-          p.width / 2 + (2 * p.width) / 50,
-          p.height / 2 + (4 * p.width) / 50
+          p.width / 2 +
+            (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR,
+          p.height / 2 +
+            (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR
         );
       }
     }
   }
-  p.stroke(255, 100);
+  p.stroke(...AXIS_LINE_COLOR);
   p.strokeWeight(5);
   p.line(p.width / 2, 0, p.width / 2, p.height);
   p.line(0, p.height / 2, p.width, p.height / 2);
@@ -473,13 +564,13 @@ function animationRays(p) {
   const strength = (s + pr) / 2;
   // beginDraw() and endDraw() is not supported in p5.js, and or often not needed;
   state.pg.noStroke();
-  state.pg.fill(255, 0, 0);
+  state.pg.fill(...RAY_COLOR);
   if (state.raysY < p.height / 2) {
-    state.pg.fill(255, 0, 0, 255 * (1 - strength));
+    state.pg.fill(...RAY_COLOR, 255 * (1 - strength));
   }
   state.pg.ellipse(state.raysX, state.raysY, 5, 5);
   if (-1 < state.boundary && state.boundary < 1 && state.raysY < p.height / 2) {
-    state.pg.fill(255, 0, 0, 255 * strength);
+    state.pg.fill(...RAY_COLOR, 255 * strength);
     state.pg.ellipse(state.raysX2, state.raysY2, 5, 5);
   }
   if (p.mouseIsPressed) {
@@ -487,83 +578,116 @@ function animationRays(p) {
       p.dist(
         p.width -
           state.rotateRemocon.width +
-          (9 * state.rotateRemocon.width) / 10,
+          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
           state.rotateRemocon.height +
-          (3 * state.rotateRemocon.height) / 10,
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.rotateRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / 20 ||
+        state.rotateRemocon.width / HIT_RADIUS_DIVISOR ||
       p.dist(
         p.width -
           state.rotateRemocon.width +
-          (9 * state.rotateRemocon.width) / 10,
+          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
           state.rotateRemocon.height +
-          (7 * state.rotateRemocon.height) / 10,
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.rotateRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / 20
+        state.rotateRemocon.width / HIT_RADIUS_DIVISOR
     ) {
       state.raysX =
-        p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
+        p.width / 2 -
+        (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+          p.sin(state.theta1);
       state.raysY =
-        p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1);
+        p.height / 2 +
+        (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+          p.cos(state.theta1);
       state.raysX2 = p.width / 2;
       state.raysY2 = p.height / 2;
       state.pg.background(0);
     }
     if (
       p.dist(
-        (9 * state.nRemocon.width) / 10,
-        p.height / 2 + (3 * state.nRemocon.height) / 10,
+        (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+          REMOCON_HOTSPOT_RATIO_DENOMINATOR,
+        p.height / 2 +
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.nRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.nRemocon.width / 20 ||
+        state.nRemocon.width / HIT_RADIUS_DIVISOR ||
       p.dist(
-        (9 * state.nRemocon.width) / 10,
-        p.height / 2 + (7 * state.nRemocon.height) / 10,
+        (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+          REMOCON_HOTSPOT_RATIO_DENOMINATOR,
+        p.height / 2 +
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.nRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.nRemocon.width / 20 ||
+        state.nRemocon.width / HIT_RADIUS_DIVISOR ||
       p.dist(
-        (9 * state.nRemocon.width) / 10,
-        p.height / 2 - state.nRemocon.height + (3 * state.nRemocon.height) / 10,
+        (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+          REMOCON_HOTSPOT_RATIO_DENOMINATOR,
+        p.height / 2 -
+          state.nRemocon.height +
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.nRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.nRemocon.width / 20 ||
+        state.nRemocon.width / HIT_RADIUS_DIVISOR ||
       p.dist(
-        (9 * state.nRemocon.width) / 10,
-        p.height / 2 - state.nRemocon.height + (7 * state.nRemocon.height) / 10,
+        (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+          REMOCON_HOTSPOT_RATIO_DENOMINATOR,
+        p.height / 2 -
+          state.nRemocon.height +
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.nRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.nRemocon.width / 20
+        state.nRemocon.width / HIT_RADIUS_DIVISOR
     ) {
       state.raysX =
-        p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
+        p.width / 2 -
+        (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+          p.sin(state.theta1);
       state.raysY =
-        p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1);
+        p.height / 2 +
+        (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+          p.cos(state.theta1);
       state.raysX2 = p.width / 2;
       state.raysY2 = p.height / 2;
       state.pg.background(0);
     }
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < MODE_TAB_COUNT; i++) {
       if (
-        p.width - ((4 - i) * p.width) / 8 < p.mouseX &&
-        p.mouseX < p.width - ((4 - i - 1) * p.width) / 8 &&
+        p.width - ((MODE_TAB_COUNT - i) * p.width) / MODE_TAB_WIDTH_DIVISOR <
+          p.mouseX &&
+        p.mouseX <
+          p.width -
+            ((MODE_TAB_COUNT - i - 1) * p.width) / MODE_TAB_WIDTH_DIVISOR &&
         0 < p.mouseY &&
-        p.mouseY < p.height / 20
+        p.mouseY < p.height / MODE_TAB_HEIGHT_DIVISOR
       ) {
         state.raysX =
-          p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
+          p.width / 2 -
+          (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+            p.sin(state.theta1);
         state.raysY =
-          p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1);
+          p.height / 2 +
+          (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+            p.cos(state.theta1);
         state.raysX2 = p.width / 2;
         state.raysY2 = p.height / 2;
         state.pg.background(0);
@@ -592,54 +716,58 @@ function lineOperation(p) {
       p.dist(
         p.width -
           state.rotateRemocon.width +
-          (9 * state.rotateRemocon.width) / 10,
+          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
           state.rotateRemocon.height +
-          (3 * state.rotateRemocon.height) / 10,
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.rotateRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / 20 &&
-      state.lightRotateTheta < 90 &&
-      state.count > 10
+        state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+      state.lightRotateTheta < ANGLE_LIMIT_DEG &&
+      state.count > LONG_PRESS_ACTIVATE_FRAMES
     ) {
-      if (state.count > 30) {
-        state.lightRotateTheta += 0.5;
+      if (state.count > LONG_PRESS_FAST_FRAMES) {
+        state.lightRotateTheta += ROTATE_FAST_STEP_DEG;
       } else {
-        state.lightRotateTheta += 0.1;
+        state.lightRotateTheta += ROTATE_STEP_DEG;
       }
       state.theta1 = p.radians(state.lightRotateTheta);
       state.theta2 = computeRefractionAngle(state.theta1, state.n12);
       state.n12 = state.n2 / state.n1;
-      if (state.lightRotateTheta > 90) {
-        state.lightRotateTheta = 90;
+      if (state.lightRotateTheta > ANGLE_LIMIT_DEG) {
+        state.lightRotateTheta = ANGLE_LIMIT_DEG;
       }
     }
     if (
       p.dist(
         p.width -
           state.rotateRemocon.width +
-          (9 * state.rotateRemocon.width) / 10,
+          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
           state.rotateRemocon.height +
-          (7 * state.rotateRemocon.height) / 10,
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.rotateRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / 20 &&
-      state.lightRotateTheta > -90 &&
-      state.count > 10
+        state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+      state.lightRotateTheta > -ANGLE_LIMIT_DEG &&
+      state.count > LONG_PRESS_ACTIVATE_FRAMES
     ) {
-      if (state.count > 30) {
-        state.lightRotateTheta -= 0.5;
+      if (state.count > LONG_PRESS_FAST_FRAMES) {
+        state.lightRotateTheta -= ROTATE_FAST_STEP_DEG;
       } else {
-        state.lightRotateTheta -= 0.1;
+        state.lightRotateTheta -= ROTATE_STEP_DEG;
       }
       state.theta1 = p.radians(state.lightRotateTheta);
       state.theta2 = computeRefractionAngle(state.theta1, state.n12);
       state.n12 = state.n2 / state.n1;
-      if (state.lightRotateTheta < -90) {
-        state.lightRotateTheta = -90;
+      if (state.lightRotateTheta < -ANGLE_LIMIT_DEG) {
+        state.lightRotateTheta = -ANGLE_LIMIT_DEG;
       }
     }
     state.theta1 = p.radians(state.lightRotateTheta);
@@ -657,26 +785,35 @@ function lineOperation(p) {
   );
   p.text(
     p.nf(p.abs(state.lightRotateTheta), 1, 1) + "'",
-    p.width - state.rotateRemocon.width + (5 * state.rotateRemocon.width) / 12,
-    p.height - state.rotateRemocon.height + state.rotateRemocon.height / 4,
-    state.rotateRemocon.width / 3,
-    state.rotateRemocon.height / 2
+    p.width -
+      state.rotateRemocon.width +
+      (REMOCON_LABEL_OFFSET_NUMERATOR * state.rotateRemocon.width) /
+        REMOCON_LABEL_OFFSET_DENOMINATOR,
+    p.height -
+      state.rotateRemocon.height +
+      state.rotateRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    state.rotateRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    state.rotateRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
   p.image(state.nRemocon, 0, p.height / 2 - state.nRemocon.height);
   p.text(
     p.nf(state.n2, 1, 1) + "'",
-    (5 * state.nRemocon.width) / 12,
-    p.height / 2 - state.nRemocon.height + state.nRemocon.height / 4,
-    state.nRemocon.width / 3,
-    state.nRemocon.height / 2
+    (REMOCON_LABEL_OFFSET_NUMERATOR * state.nRemocon.width) /
+      REMOCON_LABEL_OFFSET_DENOMINATOR,
+    p.height / 2 -
+      state.nRemocon.height +
+      state.nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    state.nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    state.nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
   p.image(state.nRemocon, 0, p.height / 2);
   p.text(
     p.nf(state.n1, 1, 1) + "'",
-    (5 * state.nRemocon.width) / 12,
-    p.height / 2 + state.nRemocon.height / 4,
-    state.nRemocon.width / 3,
-    state.nRemocon.height / 2
+    (REMOCON_LABEL_OFFSET_NUMERATOR * state.nRemocon.width) /
+      REMOCON_LABEL_OFFSET_DENOMINATOR,
+    p.height / 2 + state.nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    state.nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    state.nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
 }
 
@@ -686,61 +823,61 @@ function lineBackgroundSetting(p) {
   p.stroke(255);
   if (-1 < state.boundary && state.boundary < 1) {
     if (state.theta1 > 0) {
-      p.stroke(255, 0, 255);
+      p.stroke(...INCIDENT_ANGLE_COLOR);
       p.arc(
         p.width / 2,
         p.height / 2,
-        p.height / 10,
-        p.height / 10,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
         p.PI / 2,
         state.theta1 + p.PI / 2
       );
-      p.stroke(0, 255, 255);
+      p.stroke(...COMPLEMENT_ANGLE_COLOR);
       p.arc(
         p.width / 2,
         p.height / 2,
-        p.height / 10,
-        p.height / 10,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
         -state.theta1 + p.PI / 2,
         p.PI / 2
       );
       if (state.theta1 != p.PI / 2 && state.theta1 != -p.PI / 2) {
-        p.stroke(0, 255, 0);
+        p.stroke(...REFRACTED_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           (3 * p.PI) / 2,
           state.theta2 + (3 * p.PI) / 2
         );
       }
     } else {
-      p.stroke(255, 0, 255);
+      p.stroke(...INCIDENT_ANGLE_COLOR);
       p.arc(
         p.width / 2,
         p.height / 2,
-        p.height / 10,
-        p.height / 10,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
         state.theta1 + p.PI / 2,
         p.PI / 2
       );
-      p.stroke(0, 255, 255);
+      p.stroke(...COMPLEMENT_ANGLE_COLOR);
       p.arc(
         p.width / 2,
         p.height / 2,
-        p.height / 10,
-        p.height / 10,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
         p.PI / 2,
         -state.theta1 + p.PI / 2
       );
       if (state.theta1 != p.PI / 2 && state.theta1 != -p.PI / 2) {
-        p.stroke(0, 255, 0);
+        p.stroke(...REFRACTED_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           state.theta2 + (3 * p.PI) / 2,
           (3 * p.PI) / 2
         );
@@ -750,38 +887,50 @@ function lineBackgroundSetting(p) {
     p.noStroke();
     p.text(
       p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-      p.width / 2 - (2 * p.width) / 50,
-      p.height / 2 + (4 * p.width) / 50
+      p.width / 2 -
+        (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+          ANGLE_LABEL_OFFSET_DENOMINATOR,
+      p.height / 2 +
+        (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+          ANGLE_LABEL_OFFSET_DENOMINATOR
     );
     p.text(
       p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-      p.width / 2 + (2 * p.width) / 50,
-      p.height / 2 + (4 * p.width) / 50
+      p.width / 2 +
+        (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+          ANGLE_LABEL_OFFSET_DENOMINATOR,
+      p.height / 2 +
+        (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+          ANGLE_LABEL_OFFSET_DENOMINATOR
     );
     if (state.theta1 != p.PI / 2 && state.theta1 != -p.PI / 2) {
       p.text(
         p.nf(p.abs(p.degrees(state.theta2)), 1, 1) + "'",
-        p.width / 2 + (2 * p.width) / 50,
-        p.height / 2 - (4 * p.width) / 50
+        p.width / 2 +
+          (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR,
+        p.height / 2 -
+          (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR
       );
     }
   } else {
     if (state.theta1 > 0) {
-      p.stroke(255, 0, 255);
+      p.stroke(...INCIDENT_ANGLE_COLOR);
       p.arc(
         p.width / 2,
         p.height / 2,
-        p.height / 10,
-        p.height / 10,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
         p.PI / 2,
         state.theta1 + p.PI / 2
       );
-      p.stroke(0, 255, 255);
+      p.stroke(...COMPLEMENT_ANGLE_COLOR);
       p.arc(
         p.width / 2,
         p.height / 2,
-        p.height / 10,
-        p.height / 10,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
         -state.theta1 + p.PI / 2,
         p.PI / 2
       );
@@ -789,30 +938,38 @@ function lineBackgroundSetting(p) {
       p.noStroke();
       p.text(
         p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-        p.width / 2 - (2 * p.width) / 50,
-        p.height / 2 + (4 * p.width) / 50
+        p.width / 2 -
+          (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR,
+        p.height / 2 +
+          (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR
       );
       p.text(
         p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-        p.width / 2 + (2 * p.width) / 50,
-        p.height / 2 + (4 * p.width) / 50
+        p.width / 2 +
+          (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR,
+        p.height / 2 +
+          (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR
       );
     } else {
-      p.stroke(255, 0, 255);
+      p.stroke(...INCIDENT_ANGLE_COLOR);
       p.arc(
         p.width / 2,
         p.height / 2,
-        p.height / 10,
-        p.height / 10,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
         state.theta1 + p.PI / 2,
         p.PI / 2
       );
-      p.stroke(0, 255, 255);
+      p.stroke(...COMPLEMENT_ANGLE_COLOR);
       p.arc(
         p.width / 2,
         p.height / 2,
-        p.height / 10,
-        p.height / 10,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
         p.PI / 2,
         -state.theta1 + p.PI / 2
       );
@@ -820,17 +977,25 @@ function lineBackgroundSetting(p) {
       p.noStroke();
       p.text(
         p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-        p.width / 2 - (2 * p.width) / 50,
-        p.height / 2 + (4 * p.width) / 50
+        p.width / 2 -
+          (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR,
+        p.height / 2 +
+          (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR
       );
       p.text(
         p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-        p.width / 2 + (2 * p.width) / 50,
-        p.height / 2 + (4 * p.width) / 50
+        p.width / 2 +
+          (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR,
+        p.height / 2 +
+          (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR
       );
     }
   }
-  p.stroke(255, 100);
+  p.stroke(...AXIS_LINE_COLOR);
   p.strokeWeight(5);
   p.line(p.width / 2, 0, p.width / 2, p.height);
   p.line(0, p.height / 2, p.width, p.height / 2);
@@ -847,17 +1012,21 @@ function lineRays(p) {
   );
   const strength = (s + pr) / 2;
   p.strokeWeight(5);
-  p.stroke(255, 0, 0);
+  p.stroke(...RAY_COLOR);
   p.line(
     p.width / 2,
     p.height / 2,
-    p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1),
-    p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1)
+    p.width / 2 -
+      (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+        p.sin(state.theta1),
+    p.height / 2 +
+      (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+        p.cos(state.theta1)
   );
   if (-1 < state.boundary && state.boundary < 1) {
-    p.stroke(255, 0, 0, 255 * strength);
+    p.stroke(...RAY_COLOR, 255 * strength);
   } else {
-    p.stroke(255, 0, 0);
+    p.stroke(...RAY_COLOR);
   }
   p.line(
     p.width / 2,
@@ -865,7 +1034,7 @@ function lineRays(p) {
     p.width / 2 + p.width * p.sin(state.theta1),
     p.height / 2 + p.width * p.cos(state.theta1)
   );
-  p.stroke(255, 0, 0, 255 * (1 - strength));
+  p.stroke(...RAY_COLOR, 255 * (1 - strength));
   p.line(
     p.width / 2,
     p.height / 2,
@@ -931,66 +1100,78 @@ function animationMaxOperation(p) {
       p.dist(
         p.width -
           state.rotateRemocon.width +
-          (9 * state.rotateRemocon.width) / 10,
+          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
           state.rotateRemocon.height +
-          (3 * state.rotateRemocon.height) / 10,
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.rotateRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / 20 &&
-      state.lightRotateTheta < 90 &&
-      state.count > 10
+        state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+      state.lightRotateTheta < ANGLE_LIMIT_DEG &&
+      state.count > LONG_PRESS_ACTIVATE_FRAMES
     ) {
-      if (state.count > 30) {
-        state.lightRotateTheta += 0.5;
+      if (state.count > LONG_PRESS_FAST_FRAMES) {
+        state.lightRotateTheta += ROTATE_FAST_STEP_DEG;
       } else {
-        state.lightRotateTheta += 0.1;
+        state.lightRotateTheta += ROTATE_STEP_DEG;
       }
       state.theta1 = p.radians(state.lightRotateTheta);
       state.theta2 = computeRefractionAngle(state.theta1, state.n12);
       state.n12 = state.n2 / state.n1;
       state.raysX =
-        p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
+        p.width / 2 -
+        (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+          p.sin(state.theta1);
       state.raysY =
-        p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1);
+        p.height / 2 +
+        (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+          p.cos(state.theta1);
       state.raysX2 = p.width / 2;
       state.raysY2 = p.height / 2;
-      if (state.lightRotateTheta > 90) {
-        state.lightRotateTheta = 90;
+      if (state.lightRotateTheta > ANGLE_LIMIT_DEG) {
+        state.lightRotateTheta = ANGLE_LIMIT_DEG;
       }
     }
     if (
       p.dist(
         p.width -
           state.rotateRemocon.width +
-          (9 * state.rotateRemocon.width) / 10,
+          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
           state.rotateRemocon.height +
-          (7 * state.rotateRemocon.height) / 10,
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.rotateRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / 20 &&
-      state.lightRotateTheta > -90 &&
-      state.count > 10
+        state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+      state.lightRotateTheta > -ANGLE_LIMIT_DEG &&
+      state.count > LONG_PRESS_ACTIVATE_FRAMES
     ) {
-      if (state.count > 30) {
-        state.lightRotateTheta -= 0.5;
+      if (state.count > LONG_PRESS_FAST_FRAMES) {
+        state.lightRotateTheta -= ROTATE_FAST_STEP_DEG;
       } else {
-        state.lightRotateTheta -= 0.1;
+        state.lightRotateTheta -= ROTATE_STEP_DEG;
       }
       state.theta1 = p.radians(state.lightRotateTheta);
       state.theta2 = computeRefractionAngle(state.theta1, state.n12);
       state.n12 = state.n2 / state.n1;
       state.raysX =
-        p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
+        p.width / 2 -
+        (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+          p.sin(state.theta1);
       state.raysY =
-        p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1);
+        p.height / 2 +
+        (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+          p.cos(state.theta1);
       state.raysX2 = p.width / 2;
       state.raysY2 = p.height / 2;
-      if (state.lightRotateTheta < -90) {
-        state.lightRotateTheta = -90;
+      if (state.lightRotateTheta < -ANGLE_LIMIT_DEG) {
+        state.lightRotateTheta = -ANGLE_LIMIT_DEG;
       }
     }
     state.theta1 = p.radians(state.lightRotateTheta);
@@ -1008,26 +1189,35 @@ function animationMaxOperation(p) {
   p.noStroke();
   p.text(
     p.nf(p.abs(state.lightRotateTheta), 1, 1) + "'",
-    p.width - state.rotateRemocon.width + (5 * state.rotateRemocon.width) / 12,
-    p.height - state.rotateRemocon.height + state.rotateRemocon.height / 4,
-    state.rotateRemocon.width / 3,
-    state.rotateRemocon.height / 2
+    p.width -
+      state.rotateRemocon.width +
+      (REMOCON_LABEL_OFFSET_NUMERATOR * state.rotateRemocon.width) /
+        REMOCON_LABEL_OFFSET_DENOMINATOR,
+    p.height -
+      state.rotateRemocon.height +
+      state.rotateRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    state.rotateRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    state.rotateRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
   p.image(state.nRemocon, 0, p.height / 2 - state.nRemocon.height);
   p.text(
     p.nf(state.n2, 1, 1) + "'",
-    (5 * state.nRemocon.width) / 12,
-    p.height / 2 - state.nRemocon.height + state.nRemocon.height / 4,
-    state.nRemocon.width / 3,
-    state.nRemocon.height / 2
+    (REMOCON_LABEL_OFFSET_NUMERATOR * state.nRemocon.width) /
+      REMOCON_LABEL_OFFSET_DENOMINATOR,
+    p.height / 2 -
+      state.nRemocon.height +
+      state.nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    state.nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    state.nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
   p.image(state.nRemocon, 0, p.height / 2);
   p.text(
     p.nf(state.n1, 1, 1) + "'",
-    (5 * state.nRemocon.width) / 12,
-    p.height / 2 + state.nRemocon.height / 4,
-    state.nRemocon.width / 3,
-    state.nRemocon.height / 2
+    (REMOCON_LABEL_OFFSET_NUMERATOR * state.nRemocon.width) /
+      REMOCON_LABEL_OFFSET_DENOMINATOR,
+    p.height / 2 + state.nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    state.nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    state.nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
   p.stroke(255);
 }
@@ -1039,21 +1229,21 @@ function animationMaxBackgroundSetting(p) {
   if (-1 < state.boundary && state.boundary < 1) {
     if (state.raysY <= p.height / 2) {
       if (state.theta1 >= 0 && state.raysX >= p.width / 2) {
-        p.stroke(255, 0, 255);
+        p.stroke(...INCIDENT_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           p.PI / 2,
           state.theta1 + p.PI / 2
         );
-        p.stroke(0, 255, 255);
+        p.stroke(...COMPLEMENT_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           -state.theta1 + p.PI / 2,
           p.PI / 2
         );
@@ -1061,50 +1251,62 @@ function animationMaxBackgroundSetting(p) {
         p.noStroke();
         p.text(
           p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-          p.width / 2 - (2 * p.width) / 50,
-          p.height / 2 + (4 * p.width) / 50
+          p.width / 2 -
+            (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR,
+          p.height / 2 +
+            (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR
         );
         p.text(
           p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-          p.width / 2 + (2 * p.width) / 50,
-          p.height / 2 + (4 * p.width) / 50
+          p.width / 2 +
+            (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR,
+          p.height / 2 +
+            (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR
         );
         if (state.theta1 != p.PI / 2 && state.theta1 != -p.PI / 2) {
           p.text(
             p.nf(p.abs(p.degrees(state.theta2)), 1, 1) + "'",
-            p.width / 2 + (2 * p.width) / 50,
-            p.height / 2 - (4 * p.width) / 50
+            p.width / 2 +
+              (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+                ANGLE_LABEL_OFFSET_DENOMINATOR,
+            p.height / 2 -
+              (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+                ANGLE_LABEL_OFFSET_DENOMINATOR
           );
         }
         if (state.theta1 != p.PI / 2 && state.theta1 != -p.PI / 2) {
-          p.stroke(0, 255, 0);
+          p.stroke(...REFRACTED_ANGLE_COLOR);
           p.noFill();
           p.arc(
             p.width / 2,
             p.height / 2,
-            p.height / 10,
-            p.height / 10,
+            p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+            p.height / ANGLE_ARC_DIAMETER_DIVISOR,
             (3 * p.PI) / 2,
             state.theta2 + (3 * p.PI) / 2
           );
         }
       }
       if (state.theta1 < 0 && state.raysX <= p.width / 2) {
-        p.stroke(255, 0, 255);
+        p.stroke(...INCIDENT_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           state.theta1 + p.PI / 2,
           p.PI / 2
         );
-        p.stroke(0, 255, 255);
+        p.stroke(...COMPLEMENT_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           p.PI / 2,
           -state.theta1 + p.PI / 2
         );
@@ -1112,29 +1314,41 @@ function animationMaxBackgroundSetting(p) {
         p.noStroke();
         p.text(
           p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-          p.width / 2 - (2 * p.width) / 50,
-          p.height / 2 + (4 * p.width) / 50
+          p.width / 2 -
+            (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR,
+          p.height / 2 +
+            (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR
         );
         p.text(
           p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-          p.width / 2 + (2 * p.width) / 50,
-          p.height / 2 + (4 * p.width) / 50
+          p.width / 2 +
+            (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR,
+          p.height / 2 +
+            (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR
         );
         if (state.theta1 != p.PI / 2 && state.theta1 != -p.PI / 2) {
           p.text(
             p.nf(p.abs(p.degrees(state.theta2)), 1, 1) + "'",
-            p.width / 2 + (2 * p.width) / 50,
-            p.height / 2 - (4 * p.width) / 50
+            p.width / 2 +
+              (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+                ANGLE_LABEL_OFFSET_DENOMINATOR,
+            p.height / 2 -
+              (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+                ANGLE_LABEL_OFFSET_DENOMINATOR
           );
         }
         if (state.theta1 != p.PI / 2 && state.theta1 != -p.PI / 2) {
-          p.stroke(0, 255, 0);
+          p.stroke(...REFRACTED_ANGLE_COLOR);
           p.noFill();
           p.arc(
             p.width / 2,
             p.height / 2,
-            p.height / 10,
-            p.height / 10,
+            p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+            p.height / ANGLE_ARC_DIAMETER_DIVISOR,
             state.theta2 + (3 * p.PI) / 2,
             (3 * p.PI) / 2
           );
@@ -1144,21 +1358,21 @@ function animationMaxBackgroundSetting(p) {
   } else {
     if (state.theta1 >= 0) {
       if (state.raysX >= p.width / 2) {
-        p.stroke(255, 0, 255);
+        p.stroke(...INCIDENT_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           p.PI / 2,
           state.theta1 + p.PI / 2
         );
-        p.stroke(0, 255, 255);
+        p.stroke(...COMPLEMENT_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           -state.theta1 + p.PI / 2,
           p.PI / 2
         );
@@ -1166,32 +1380,40 @@ function animationMaxBackgroundSetting(p) {
         p.noStroke();
         p.text(
           p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-          p.width / 2 - (2 * p.width) / 50,
-          p.height / 2 + (4 * p.width) / 50
+          p.width / 2 -
+            (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR,
+          p.height / 2 +
+            (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR
         );
         p.text(
           p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-          p.width / 2 + (2 * p.width) / 50,
-          p.height / 2 + (4 * p.width) / 50
+          p.width / 2 +
+            (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR,
+          p.height / 2 +
+            (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR
         );
       }
     } else {
       if (state.raysX <= p.width / 2) {
-        p.stroke(255, 0, 255);
+        p.stroke(...INCIDENT_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           state.theta1 + p.PI / 2,
           p.PI / 2
         );
-        p.stroke(0, 255, 255);
+        p.stroke(...COMPLEMENT_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           p.PI / 2,
           -state.theta1 + p.PI / 2
         );
@@ -1199,18 +1421,26 @@ function animationMaxBackgroundSetting(p) {
         p.noStroke();
         p.text(
           p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-          p.width / 2 - (2 * p.width) / 50,
-          p.height / 2 + (4 * p.width) / 50
+          p.width / 2 -
+            (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR,
+          p.height / 2 +
+            (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR
         );
         p.text(
           p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-          p.width / 2 + (2 * p.width) / 50,
-          p.height / 2 + (4 * p.width) / 50
+          p.width / 2 +
+            (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR,
+          p.height / 2 +
+            (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+              ANGLE_LABEL_OFFSET_DENOMINATOR
         );
       }
     }
   }
-  p.stroke(255, 100);
+  p.stroke(...AXIS_LINE_COLOR);
   p.strokeWeight(5);
   p.line(p.width / 2, 0, p.width / 2, p.height);
   p.line(0, p.height / 2, p.width, p.height / 2);
@@ -1219,7 +1449,7 @@ function animationMaxBackgroundSetting(p) {
 function animationMaxRays(p) {
   // beginDraw() and endDraw() is not supported in p5.js, and or often not needed;
   state.pg.noStroke();
-  state.pg.fill(255, 0, 0);
+  state.pg.fill(...RAY_COLOR);
   state.pg.ellipse(state.raysX, state.raysY, 5, 5);
   if (-1 < state.boundary && state.boundary < 1 && state.raysY < p.height / 2) {
     state.pg.ellipse(state.raysX2, state.raysY2, 5, 5);
@@ -1229,83 +1459,116 @@ function animationMaxRays(p) {
       p.dist(
         p.width -
           state.rotateRemocon.width +
-          (9 * state.rotateRemocon.width) / 10,
+          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
           state.rotateRemocon.height +
-          (3 * state.rotateRemocon.height) / 10,
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.rotateRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / 20 ||
+        state.rotateRemocon.width / HIT_RADIUS_DIVISOR ||
       p.dist(
         p.width -
           state.rotateRemocon.width +
-          (9 * state.rotateRemocon.width) / 10,
+          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
           state.rotateRemocon.height +
-          (7 * state.rotateRemocon.height) / 10,
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.rotateRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / 20
+        state.rotateRemocon.width / HIT_RADIUS_DIVISOR
     ) {
       state.raysX =
-        p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
+        p.width / 2 -
+        (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+          p.sin(state.theta1);
       state.raysY =
-        p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1);
+        p.height / 2 +
+        (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+          p.cos(state.theta1);
       state.raysX2 = p.width / 2;
       state.raysY2 = p.height / 2;
       state.pg.background(0);
     }
     if (
       p.dist(
-        (9 * state.nRemocon.width) / 10,
-        p.height / 2 + (3 * state.nRemocon.height) / 10,
+        (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+          REMOCON_HOTSPOT_RATIO_DENOMINATOR,
+        p.height / 2 +
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.nRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.nRemocon.width / 20 ||
+        state.nRemocon.width / HIT_RADIUS_DIVISOR ||
       p.dist(
-        (9 * state.nRemocon.width) / 10,
-        p.height / 2 + (7 * state.nRemocon.height) / 10,
+        (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+          REMOCON_HOTSPOT_RATIO_DENOMINATOR,
+        p.height / 2 +
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.nRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.nRemocon.width / 20 ||
+        state.nRemocon.width / HIT_RADIUS_DIVISOR ||
       p.dist(
-        (9 * state.nRemocon.width) / 10,
-        p.height / 2 - state.nRemocon.height + (3 * state.nRemocon.height) / 10,
+        (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+          REMOCON_HOTSPOT_RATIO_DENOMINATOR,
+        p.height / 2 -
+          state.nRemocon.height +
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.nRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.nRemocon.width / 20 ||
+        state.nRemocon.width / HIT_RADIUS_DIVISOR ||
       p.dist(
-        (9 * state.nRemocon.width) / 10,
-        p.height / 2 - state.nRemocon.height + (7 * state.nRemocon.height) / 10,
+        (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+          REMOCON_HOTSPOT_RATIO_DENOMINATOR,
+        p.height / 2 -
+          state.nRemocon.height +
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.nRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.nRemocon.width / 20
+        state.nRemocon.width / HIT_RADIUS_DIVISOR
     ) {
       state.raysX =
-        p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
+        p.width / 2 -
+        (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+          p.sin(state.theta1);
       state.raysY =
-        p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1);
+        p.height / 2 +
+        (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+          p.cos(state.theta1);
       state.raysX2 = p.width / 2;
       state.raysY2 = p.height / 2;
       state.pg.background(0);
     }
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < MODE_TAB_COUNT; i++) {
       if (
-        p.width - ((4 - i) * p.width) / 8 < p.mouseX &&
-        p.mouseX < p.width - ((4 - i - 1) * p.width) / 8 &&
+        p.width - ((MODE_TAB_COUNT - i) * p.width) / MODE_TAB_WIDTH_DIVISOR <
+          p.mouseX &&
+        p.mouseX <
+          p.width -
+            ((MODE_TAB_COUNT - i - 1) * p.width) / MODE_TAB_WIDTH_DIVISOR &&
         0 < p.mouseY &&
-        p.mouseY < p.height / 20
+        p.mouseY < p.height / MODE_TAB_HEIGHT_DIVISOR
       ) {
         state.raysX =
-          p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
+          p.width / 2 -
+          (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+            p.sin(state.theta1);
         state.raysY =
-          p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1);
+          p.height / 2 +
+          (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+            p.cos(state.theta1);
         state.raysX2 = p.width / 2;
         state.raysY2 = p.height / 2;
         state.pg.background(0);
@@ -1334,54 +1597,58 @@ function lineMaxOperation(p) {
       p.dist(
         p.width -
           state.rotateRemocon.width +
-          (9 * state.rotateRemocon.width) / 10,
+          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
           state.rotateRemocon.height +
-          (3 * state.rotateRemocon.height) / 10,
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.rotateRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / 20 &&
-      state.lightRotateTheta < 90 &&
-      state.count > 10
+        state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+      state.lightRotateTheta < ANGLE_LIMIT_DEG &&
+      state.count > LONG_PRESS_ACTIVATE_FRAMES
     ) {
-      if (state.count > 30) {
-        state.lightRotateTheta += 0.5;
+      if (state.count > LONG_PRESS_FAST_FRAMES) {
+        state.lightRotateTheta += ROTATE_FAST_STEP_DEG;
       } else {
-        state.lightRotateTheta += 0.1;
+        state.lightRotateTheta += ROTATE_STEP_DEG;
       }
       state.theta1 = p.radians(state.lightRotateTheta);
       state.theta2 = computeRefractionAngle(state.theta1, state.n12);
       state.n12 = state.n2 / state.n1;
-      if (state.lightRotateTheta > 90) {
-        state.lightRotateTheta = 90;
+      if (state.lightRotateTheta > ANGLE_LIMIT_DEG) {
+        state.lightRotateTheta = ANGLE_LIMIT_DEG;
       }
     }
     if (
       p.dist(
         p.width -
           state.rotateRemocon.width +
-          (9 * state.rotateRemocon.width) / 10,
+          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
           state.rotateRemocon.height +
-          (7 * state.rotateRemocon.height) / 10,
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.rotateRemocon.height) /
+            REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / 20 &&
-      state.lightRotateTheta > -90 &&
-      state.count > 10
+        state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+      state.lightRotateTheta > -ANGLE_LIMIT_DEG &&
+      state.count > LONG_PRESS_ACTIVATE_FRAMES
     ) {
-      if (state.count > 30) {
-        state.lightRotateTheta -= 0.5;
+      if (state.count > LONG_PRESS_FAST_FRAMES) {
+        state.lightRotateTheta -= ROTATE_FAST_STEP_DEG;
       } else {
-        state.lightRotateTheta -= 0.1;
+        state.lightRotateTheta -= ROTATE_STEP_DEG;
       }
       state.theta1 = p.radians(state.lightRotateTheta);
       state.theta2 = computeRefractionAngle(state.theta1, state.n12);
       state.n12 = state.n2 / state.n1;
-      if (state.lightRotateTheta < -90) {
-        state.lightRotateTheta = -90;
+      if (state.lightRotateTheta < -ANGLE_LIMIT_DEG) {
+        state.lightRotateTheta = -ANGLE_LIMIT_DEG;
       }
     }
     state.theta1 = p.radians(state.lightRotateTheta);
@@ -1399,26 +1666,35 @@ function lineMaxOperation(p) {
   );
   p.text(
     p.nf(p.abs(state.lightRotateTheta), 1, 1) + "'",
-    p.width - state.rotateRemocon.width + (5 * state.rotateRemocon.width) / 12,
-    p.height - state.rotateRemocon.height + state.rotateRemocon.height / 4,
-    state.rotateRemocon.width / 3,
-    state.rotateRemocon.height / 2
+    p.width -
+      state.rotateRemocon.width +
+      (REMOCON_LABEL_OFFSET_NUMERATOR * state.rotateRemocon.width) /
+        REMOCON_LABEL_OFFSET_DENOMINATOR,
+    p.height -
+      state.rotateRemocon.height +
+      state.rotateRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    state.rotateRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    state.rotateRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
   p.image(state.nRemocon, 0, p.height / 2 - state.nRemocon.height);
   p.text(
     p.nf(state.n2, 1, 1) + "'",
-    (5 * state.nRemocon.width) / 12,
-    p.height / 2 - state.nRemocon.height + state.nRemocon.height / 4,
-    state.nRemocon.width / 3,
-    state.nRemocon.height / 2
+    (REMOCON_LABEL_OFFSET_NUMERATOR * state.nRemocon.width) /
+      REMOCON_LABEL_OFFSET_DENOMINATOR,
+    p.height / 2 -
+      state.nRemocon.height +
+      state.nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    state.nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    state.nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
   p.image(state.nRemocon, 0, p.height / 2);
   p.text(
     p.nf(state.n1, 1, 1) + "'",
-    (5 * state.nRemocon.width) / 12,
-    p.height / 2 + state.nRemocon.height / 4,
-    state.nRemocon.width / 3,
-    state.nRemocon.height / 2
+    (REMOCON_LABEL_OFFSET_NUMERATOR * state.nRemocon.width) /
+      REMOCON_LABEL_OFFSET_DENOMINATOR,
+    p.height / 2 + state.nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    state.nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    state.nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
 }
 
@@ -1428,61 +1704,61 @@ function lineMaxBackgroundSetting(p) {
   p.stroke(255);
   if (-1 < state.boundary && state.boundary < 1) {
     if (state.theta1 > 0) {
-      p.stroke(255, 0, 255);
+      p.stroke(...INCIDENT_ANGLE_COLOR);
       p.arc(
         p.width / 2,
         p.height / 2,
-        p.height / 10,
-        p.height / 10,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
         p.PI / 2,
         state.theta1 + p.PI / 2
       );
-      p.stroke(0, 255, 255);
+      p.stroke(...COMPLEMENT_ANGLE_COLOR);
       p.arc(
         p.width / 2,
         p.height / 2,
-        p.height / 10,
-        p.height / 10,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
         -state.theta1 + p.PI / 2,
         p.PI / 2
       );
       if (state.theta1 != p.PI / 2 && state.theta1 != -p.PI / 2) {
-        p.stroke(0, 255, 0);
+        p.stroke(...REFRACTED_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           (3 * p.PI) / 2,
           state.theta2 + (3 * p.PI) / 2
         );
       }
     } else {
-      p.stroke(255, 0, 255);
+      p.stroke(...INCIDENT_ANGLE_COLOR);
       p.arc(
         p.width / 2,
         p.height / 2,
-        p.height / 10,
-        p.height / 10,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
         state.theta1 + p.PI / 2,
         p.PI / 2
       );
-      p.stroke(0, 255, 255);
+      p.stroke(...COMPLEMENT_ANGLE_COLOR);
       p.arc(
         p.width / 2,
         p.height / 2,
-        p.height / 10,
-        p.height / 10,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
         p.PI / 2,
         -state.theta1 + p.PI / 2
       );
       if (state.theta1 != p.PI / 2 && state.theta1 != -p.PI / 2) {
-        p.stroke(0, 255, 0);
+        p.stroke(...REFRACTED_ANGLE_COLOR);
         p.arc(
           p.width / 2,
           p.height / 2,
-          p.height / 10,
-          p.height / 10,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+          p.height / ANGLE_ARC_DIAMETER_DIVISOR,
           state.theta2 + (3 * p.PI) / 2,
           (3 * p.PI) / 2
         );
@@ -1492,38 +1768,50 @@ function lineMaxBackgroundSetting(p) {
     p.noStroke();
     p.text(
       p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-      p.width / 2 - (2 * p.width) / 50,
-      p.height / 2 + (4 * p.width) / 50
+      p.width / 2 -
+        (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+          ANGLE_LABEL_OFFSET_DENOMINATOR,
+      p.height / 2 +
+        (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+          ANGLE_LABEL_OFFSET_DENOMINATOR
     );
     p.text(
       p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-      p.width / 2 + (2 * p.width) / 50,
-      p.height / 2 + (4 * p.width) / 50
+      p.width / 2 +
+        (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+          ANGLE_LABEL_OFFSET_DENOMINATOR,
+      p.height / 2 +
+        (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+          ANGLE_LABEL_OFFSET_DENOMINATOR
     );
     if (state.theta1 != p.PI / 2 && state.theta1 != -p.PI / 2) {
       p.text(
         p.nf(p.abs(p.degrees(state.theta2)), 1, 1) + "'",
-        p.width / 2 + (2 * p.width) / 50,
-        p.height / 2 - (4 * p.width) / 50
+        p.width / 2 +
+          (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR,
+        p.height / 2 -
+          (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR
       );
     }
   } else {
     if (state.theta1 > 0) {
-      p.stroke(255, 0, 255);
+      p.stroke(...INCIDENT_ANGLE_COLOR);
       p.arc(
         p.width / 2,
         p.height / 2,
-        p.height / 10,
-        p.height / 10,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
         p.PI / 2,
         state.theta1 + p.PI / 2
       );
-      p.stroke(0, 255, 255);
+      p.stroke(...COMPLEMENT_ANGLE_COLOR);
       p.arc(
         p.width / 2,
         p.height / 2,
-        p.height / 10,
-        p.height / 10,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
         -state.theta1 + p.PI / 2,
         p.PI / 2
       );
@@ -1531,30 +1819,38 @@ function lineMaxBackgroundSetting(p) {
       p.noStroke();
       p.text(
         p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-        p.width / 2 - (2 * p.width) / 50,
-        p.height / 2 + (4 * p.width) / 50
+        p.width / 2 -
+          (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR,
+        p.height / 2 +
+          (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR
       );
       p.text(
         p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-        p.width / 2 + (2 * p.width) / 50,
-        p.height / 2 + (4 * p.width) / 50
+        p.width / 2 +
+          (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR,
+        p.height / 2 +
+          (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR
       );
     } else {
-      p.stroke(255, 0, 255);
+      p.stroke(...INCIDENT_ANGLE_COLOR);
       p.arc(
         p.width / 2,
         p.height / 2,
-        p.height / 10,
-        p.height / 10,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
         state.theta1 + p.PI / 2,
         p.PI / 2
       );
-      p.stroke(0, 255, 255);
+      p.stroke(...COMPLEMENT_ANGLE_COLOR);
       p.arc(
         p.width / 2,
         p.height / 2,
-        p.height / 10,
-        p.height / 10,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
+        p.height / ANGLE_ARC_DIAMETER_DIVISOR,
         p.PI / 2,
         -state.theta1 + p.PI / 2
       );
@@ -1562,17 +1858,25 @@ function lineMaxBackgroundSetting(p) {
       p.noStroke();
       p.text(
         p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-        p.width / 2 - (2 * p.width) / 50,
-        p.height / 2 + (4 * p.width) / 50
+        p.width / 2 -
+          (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR,
+        p.height / 2 +
+          (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR
       );
       p.text(
         p.nf(p.abs(p.degrees(state.theta1)), 1, 1) + "'",
-        p.width / 2 + (2 * p.width) / 50,
-        p.height / 2 + (4 * p.width) / 50
+        p.width / 2 +
+          (ANGLE_LABEL_X_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR,
+        p.height / 2 +
+          (ANGLE_LABEL_Y_OFFSET_NUMERATOR * p.width) /
+            ANGLE_LABEL_OFFSET_DENOMINATOR
       );
     }
   }
-  p.stroke(255, 100);
+  p.stroke(...AXIS_LINE_COLOR);
   p.strokeWeight(5);
   p.line(p.width / 2, 0, p.width / 2, p.height);
   p.line(0, p.height / 2, p.width, p.height / 2);
@@ -1580,14 +1884,18 @@ function lineMaxBackgroundSetting(p) {
 
 function lineMaxRays(p) {
   p.strokeWeight(5);
-  p.stroke(255, 0, 0);
+  p.stroke(...RAY_COLOR);
   p.line(
     p.width / 2,
     p.height / 2,
-    p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1),
-    p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1)
+    p.width / 2 -
+      (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+        p.sin(state.theta1),
+    p.height / 2 +
+      (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+        p.cos(state.theta1)
   );
-  p.stroke(255, 0, 0);
+  p.stroke(...RAY_COLOR);
   p.line(
     p.width / 2,
     p.height / 2,

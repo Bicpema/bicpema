@@ -3,6 +3,17 @@ import {
   computeSecondaryVoltage,
   computeSecondaryCurrentAmplitude,
 } from "./physics.js";
+import {
+  LABEL_FONT_SIZE,
+  CURRENT_COLOR,
+  PRIMARY_CURRENT_AMPLITUDE,
+  ARROWHEAD_PROTRUSION_SCALE,
+  OSCILLO_WIDTH,
+  OSCILLO_HEIGHT,
+  OSCILLO_BG_COLOR,
+  WAVEFORM_COLOR,
+  WAVEFORM_STROKE_WEIGHT,
+} from "./constants.js";
 
 /**
  * シミュレーション全体を描画する関数。
@@ -20,7 +31,7 @@ export function drawSimulation(p) {
   p.background(255);
 
   // 変圧器本体の下に巻数テキストを表示
-  p.textSize(16);
+  p.textSize(LABEL_FONT_SIZE);
   p.textAlign(p.CENTER, p.TOP);
   p.text("一次コイル", 380, 450);
   p.text("巻数：" + (state.count1 + 1), 380, 475);
@@ -104,7 +115,7 @@ function magline(p) {
   }
   p.noStroke();
   p.fill(0, 50, 200);
-  p.textSize(16);
+  p.textSize(LABEL_FONT_SIZE);
   p.textAlign(p.CENTER, p.BOTTOM);
   p.text("磁力線", 177, 110);
 }
@@ -152,8 +163,8 @@ function coil1(p) {
   p.translate(-40, y + state.count1 * h);
   current1(p);
   p.noStroke();
-  p.fill(255, 0, 0);
-  p.textSize(16);
+  p.fill(...CURRENT_COLOR);
+  p.textSize(LABEL_FONT_SIZE);
   p.textAlign(p.CENTER, p.TOP);
   p.text("一次電流", 0, 20);
   p.pop();
@@ -201,8 +212,8 @@ function coil2(p) {
     p.translate(x2 + 82, y - h - d);
     current2(p);
     p.noStroke();
-    p.fill(255, 0, 0);
-    p.textSize(16);
+    p.fill(...CURRENT_COLOR);
+    p.textSize(LABEL_FONT_SIZE);
     p.textAlign(p.CENTER, p.BOTTOM);
     p.text("二次電流", 5, -10);
     p.pop();
@@ -223,8 +234,8 @@ function coil2(p) {
     p.translate(x2 + 82, y - h);
     current2(p);
     p.noStroke();
-    p.fill(255, 0, 0);
-    p.textSize(16);
+    p.fill(...CURRENT_COLOR);
+    p.textSize(LABEL_FONT_SIZE);
     p.textAlign(p.CENTER, p.BOTTOM);
     p.text("二次電流", 5, -10);
     p.pop();
@@ -237,14 +248,14 @@ function coil2(p) {
  * @param {*} p p5インスタンス。
  */
 function oscillo1(p) {
-  const w = 200; // 描画領域の幅
-  const h = 200; // 描画領域の高さ
+  const w = OSCILLO_WIDTH; // 描画領域の幅
+  const h = OSCILLO_HEIGHT; // 描画領域の高さ
   const V1 = h / 10; // グリッド幅 = 最大振幅
-  p.textSize(16);
+  p.textSize(LABEL_FONT_SIZE);
   p.textAlign(p.CENTER, p.BOTTOM);
   p.text("一次電圧", 100, -10);
   // 背景
-  p.fill(75, 127, 127, 220);
+  p.fill(...OSCILLO_BG_COLOR);
   p.noStroke();
   p.rect(0, 0, w, h);
   // グリッド線
@@ -255,8 +266,8 @@ function oscillo1(p) {
   }
   // 波形: y = 中心 + V1 * sin(kx - ωt)
   p.noFill();
-  p.stroke(0, 255, 255);
-  p.strokeWeight(2);
+  p.stroke(...WAVEFORM_COLOR);
+  p.strokeWeight(WAVEFORM_STROKE_WEIGHT);
   p.beginShape();
   for (let x = 0; x <= w; x++) {
     let y = h / 2 + V1 * p.sin(state.waveK * x - state.omega * state.t);
@@ -271,16 +282,16 @@ function oscillo1(p) {
  * @param {*} p p5インスタンス。
  */
 function oscillo2(p) {
-  const w = 200; // 描画領域の幅
-  const h = 200; // 描画領域の高さ
+  const w = OSCILLO_WIDTH; // 描画領域の幅
+  const h = OSCILLO_HEIGHT; // 描画領域の高さ
   const V1 = h / 10; // グリッド幅 = 一次電圧の最大振幅
   // 変圧比による二次電圧の振幅 V2 = V1 × (N2 / N1)
   let V2 = computeSecondaryVoltage(V1, state.count1 + 1, state.count2 + 1);
-  p.textSize(16);
+  p.textSize(LABEL_FONT_SIZE);
   p.textAlign(p.CENTER, p.BOTTOM);
   p.text("二次電圧", 100, -10);
   // 背景
-  p.fill(75, 127, 127, 220);
+  p.fill(...OSCILLO_BG_COLOR);
   p.noStroke();
   p.rect(0, 0, w, h);
   // グリッド線
@@ -291,8 +302,8 @@ function oscillo2(p) {
   }
   // 波形: 同位相は +V2、逆位相は −V2
   p.noFill();
-  p.stroke(0, 255, 255);
-  p.strokeWeight(2);
+  p.stroke(...WAVEFORM_COLOR);
+  p.strokeWeight(WAVEFORM_STROKE_WEIGHT);
   p.beginShape();
   for (let x = 0; x <= w; x++) {
     let y;
@@ -314,11 +325,11 @@ function oscillo2(p) {
 function current1(p) {
   p.push();
   p.noStroke();
-  p.fill(255, 0, 0);
+  p.fill(...CURRENT_COLOR);
   // I: 電流の大きさ（正負で向き変化）
-  const I = 15 * p.sin(state.omega * state.t);
+  const I = PRIMARY_CURRENT_AMPLITUDE * p.sin(state.omega * state.t);
   // x: 矢じりの突出量
-  const x = 10 * p.sin(state.omega * state.t);
+  const x = ARROWHEAD_PROTRUSION_SCALE * p.sin(state.omega * state.t);
   // 電流の胴体（細い四角形）
   p.quad(0, 0, 0 + I, 0, 0 + I, 0 + 5, 0, 0 + 5);
   // 電流の矢じり（三角形）
@@ -335,19 +346,19 @@ function current1(p) {
 function current2(p) {
   p.push();
   p.noStroke();
-  p.fill(255, 0, 0);
+  p.fill(...CURRENT_COLOR);
   // 一次電流の最大振幅（current1と同じ値）に変圧比を適用し、逆位相なら符号を反転したうえで
   // 時間変化 sin(ωt) を掛けて瞬時値を求める
   const secondaryAmplitude = computeSecondaryCurrentAmplitude(
-    15,
+    PRIMARY_CURRENT_AMPLITUDE,
     state.count1 + 1,
     state.count2 + 1,
     state.phase
   );
   const I = secondaryAmplitude * p.sin(state.omega * state.t);
   const x = state.phase
-    ? 10 * p.sin(state.omega * state.t)
-    : -10 * p.sin(state.omega * state.t);
+    ? ARROWHEAD_PROTRUSION_SCALE * p.sin(state.omega * state.t)
+    : -ARROWHEAD_PROTRUSION_SCALE * p.sin(state.omega * state.t);
   // 電流の胴体（細い四角形）
   p.quad(0, 0, 0 + I, 0, 0 + I, 0 + 5, 0, 0 + 5);
   // 電流の矢じり（三角形）

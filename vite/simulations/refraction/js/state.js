@@ -1,16 +1,18 @@
 // state.js はシミュレーションの共有可変状態を管理するファイルです。
 
+import { INITIAL_N1, INITIAL_N2 } from "./constants.js";
+
 export const state = {
   /** 光源の回転角（度） */
   lightRotateTheta: 0,
   /** animation/animationMaxモードで使う軌跡描画用オフスクリーングラフィックス */
   pg: null,
   /** 入射側の媒質の屈折率 */
-  n1: 1,
+  n1: INITIAL_N1,
   /** 屈折側の媒質の屈折率 */
-  n2: 1.5,
+  n2: INITIAL_N2,
   /** 相対屈折率 (n2/n1) */
-  n12: 1.5,
+  n12: INITIAL_N2 / INITIAL_N1,
   /** 入射角（ラジアン） */
   theta1: 0,
   /** 屈折角（ラジアン） */
