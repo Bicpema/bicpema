@@ -6,6 +6,22 @@ import {
   computeConcaveLensImageDistance,
   computeMagnification,
 } from "./physics.js";
+import {
+  HEADER_HEIGHT,
+  WORKBENCH_LENGTH_CM,
+  MOUNT_WIDTH,
+  MOUNT_HEIGHT,
+  GRID_LINE_COLOR,
+  FOCUS_MARK_HALF_LENGTH,
+  IMAGE_COLOR,
+  OBJECT_COLOR,
+  SCREEN_INDICATOR_COLOR,
+  SCREEN_TICK_COLOR,
+  LENS_MOUNT_COLOR,
+  TINT_ALPHA_NORMAL,
+  TINT_ALPHA_DIM,
+  HEAD_TILT_ANGLE_RAD,
+} from "./constants.js";
 
 const state = {
   headImg: null,
@@ -96,13 +112,17 @@ const MAX_PIXEL_DENSITY = 2;
 //フルスクリーン（初回セットアップ専用）
 function fullScreen(p) {
   p.pixelDensity(Math.min(p.displayDensity(), MAX_PIXEL_DENSITY));
-  const canvas = p.createCanvas(p.windowWidth, p.windowHeight - 60, p.P2D);
+  const canvas = p.createCanvas(
+    p.windowWidth,
+    p.windowHeight - HEADER_HEIGHT,
+    p.P2D
+  );
   canvas.parent("p5Canvas");
 }
 
 //ウィンドウリサイズ時はcanvasを作り直さず、リサイズのみ行う
 function resizeScreen(p) {
-  p.resizeCanvas(p.windowWidth, p.windowHeight - 60);
+  p.resizeCanvas(p.windowWidth, p.windowHeight - HEADER_HEIGHT);
 }
 
 //ボタン
@@ -131,15 +151,15 @@ function buttonCreation(p) {
 function buttonSettings(p) {
   objectXSlider
     .size((4 * p.width) / 10, 2)
-    .position(p.width / 10, 60 + (3 * p.height) / 4)
+    .position(p.width / 10, HEADER_HEIGHT + (3 * p.height) / 4)
     .attribute("max", (4 * p.width) / 10);
   screenXSlider
     .size((4 * p.width) / 10, 2)
-    .position(p.width / 2, 60 + (3 * p.height) / 4)
+    .position(p.width / 2, HEADER_HEIGHT + (3 * p.height) / 4)
     .attribute("max", (4 * p.width) / 10);
   focusLengthSlider
     .size((4 * p.width) / 10, 2)
-    .position(p.width / 10, 60 + (6 * p.height) / 10)
+    .position(p.width / 10, HEADER_HEIGHT + (6 * p.height) / 10)
     .attribute("max", (4 * p.width) / 10);
   lensSelect
     .size((4 * p.width) / 10, p.height / 16)
@@ -198,15 +218,15 @@ function gridDraw(p) {
   p.stroke(255, 255);
   p.line(
     p.width / 2 - ((4 * p.width) / 10 - focusLengthSlider.value()),
-    p.height / 2 - 30,
+    p.height / 2 - FOCUS_MARK_HALF_LENGTH,
     p.width / 2 - ((4 * p.width) / 10 - focusLengthSlider.value()),
-    p.height / 2 + 30
+    p.height / 2 + FOCUS_MARK_HALF_LENGTH
   );
   p.line(
     p.width / 2 + ((4 * p.width) / 10 - focusLengthSlider.value()),
-    p.height / 2 - 30,
+    p.height / 2 - FOCUS_MARK_HALF_LENGTH,
     p.width / 2 + ((4 * p.width) / 10 - focusLengthSlider.value()),
-    p.height / 2 + 30
+    p.height / 2 + FOCUS_MARK_HALF_LENGTH
   );
 
   //背景方眼の描画
@@ -221,7 +241,7 @@ function gridDraw(p) {
     if (i % 5 == 0) {
       p.noStroke();
       p.text(
-        15 - i / 5,
+        WORKBENCH_LENGTH_CM - i / 5,
         ((p.width / 2 - p.width / 10) * i) / 75 + p.width / 10,
         p.height / 2 + p.width / 75
       );
@@ -230,7 +250,7 @@ function gridDraw(p) {
         ((p.width / 2 - p.width / 10) * i) / 75 + p.width / 2,
         p.height / 2 + p.width / 75
       );
-      p.stroke(255, 100);
+      p.stroke(...GRID_LINE_COLOR);
       p.strokeWeight(1);
     } else {
       p.strokeWeight(0.5);
@@ -258,7 +278,7 @@ function gridDraw(p) {
         p.width / 10 - p.width / 75,
         p.height / 2 - ((p.height / 4) * i) / 20
       );
-      p.stroke(255, 100);
+      p.stroke(...GRID_LINE_COLOR);
       p.strokeWeight(1);
     } else {
       p.strokeWeight(0.5);
@@ -313,10 +333,10 @@ function baseDraw(p) {
     (3 * p.height) / 4
   );
   p.rect(
-    objectXSlider.value() - 25 + p.width / 10,
-    (3 * p.height) / 4 - 25,
-    50,
-    25
+    objectXSlider.value() - MOUNT_WIDTH / 2 + p.width / 10,
+    (3 * p.height) / 4 - MOUNT_HEIGHT,
+    MOUNT_WIDTH,
+    MOUNT_HEIGHT
   );
 }
 
@@ -617,8 +637,8 @@ function opticalPathDisplay(p, img) {
         objectY + (a + p.width / 2 - state.headImg.width) * p.tan(theta_2)
       );
     }
-    p.fill(100);
-    p.stroke(100);
+    p.fill(LENS_MOUNT_COLOR);
+    p.stroke(LENS_MOUNT_COLOR);
     p.rect(
       p.width / 2 - lensWidth / 2,
       p.height / 2,
@@ -745,8 +765,8 @@ function opticalPathDisplay(p, img) {
         objectY + (a + p.width / 2 - state.headImg.width) * p.tan(theta_2)
       );
     }
-    p.fill(100);
-    p.stroke(100);
+    p.fill(LENS_MOUNT_COLOR);
+    p.stroke(LENS_MOUNT_COLOR);
     p.rect(
       p.width / 2 - lensWidth / 2,
       p.height / 2 - lensHeight / 12,
@@ -779,7 +799,7 @@ function objectAndVirtualImageDisplay(p, img) {
   //物体の描画
   p.noFill();
   p.image(img, objectXSlider.value() - img.width / 2 + p.width / 10, objectY);
-  p.stroke(255, 0, 0);
+  p.stroke(...OBJECT_COLOR);
   p.rect(
     objectXSlider.value() - img.width / 2 + p.width / 10,
     objectY,
@@ -791,7 +811,10 @@ function objectAndVirtualImageDisplay(p, img) {
   p.text(
     "レンズからの距離:" +
       p.str(
-        (15 * (1 - objectXSlider.value() / ((4 * p.width) / 10))).toFixed(1)
+        (
+          WORKBENCH_LENGTH_CM *
+          (1 - objectXSlider.value() / ((4 * p.width) / 10))
+        ).toFixed(1)
       ) +
       " cm",
     objectXSlider.value() + p.width / 10,
@@ -817,7 +840,7 @@ function objectAndVirtualImageDisplay(p, img) {
         img.width * m,
         img.height * m
       );
-      p.stroke(0, 0, 255);
+      p.stroke(...IMAGE_COLOR);
       p.stroke(255);
       p.push();
       p.translate(
@@ -831,7 +854,7 @@ function objectAndVirtualImageDisplay(p, img) {
               )
             )
       );
-      p.rotate(p.PI / 10);
+      p.rotate(HEAD_TILT_ANGLE_RAD);
       p.image(state.headImg, 0, 0);
       p.pop();
     }
@@ -851,7 +874,7 @@ function objectAndVirtualImageDisplay(p, img) {
       img.width * m,
       img.height * m
     );
-    p.stroke(0, 0, 255);
+    p.stroke(...IMAGE_COLOR);
     p.rect(
       p.width / 2 - b - (img.width * m) / 2,
       p.height / 2 - img.height * m,
@@ -871,7 +894,7 @@ function objectAndVirtualImageDisplay(p, img) {
           ) -
         img.height
     );
-    p.rotate(-p.PI / 10);
+    p.rotate(-HEAD_TILT_ANGLE_RAD);
     p.image(state.headImg, 0, 0);
     p.pop();
   }
@@ -890,7 +913,7 @@ function objectAndVirtualImageDisplay(p, img) {
         img.width * m,
         img.height * m
       );
-      p.stroke(0, 0, 255);
+      p.stroke(...IMAGE_COLOR);
       p.rect(
         p.width / 2 - b - (img.width * m) / 2,
         p.height / 2 - img.height * m,
@@ -910,7 +933,7 @@ function objectAndVirtualImageDisplay(p, img) {
               )
             )
       );
-      p.rotate(p.PI / 10);
+      p.rotate(HEAD_TILT_ANGLE_RAD);
       p.image(state.headImg, 0, 0);
       p.pop();
     }
@@ -930,7 +953,7 @@ function objectAndVirtualImageDisplay(p, img) {
         img.width * m,
         img.height * m
       );
-      p.stroke(0, 0, 255);
+      p.stroke(...IMAGE_COLOR);
       p.rect(
         p.width / 2 - b - (img.width * m) / 2,
         p.height / 2 - img.height * m,
@@ -950,7 +973,7 @@ function objectAndVirtualImageDisplay(p, img) {
               )
             )
       );
-      p.rotate(p.PI / 10);
+      p.rotate(HEAD_TILT_ANGLE_RAD);
       p.image(state.headImg, 0, 0);
       p.pop();
     }
@@ -968,7 +991,12 @@ function screenDisplay(p, img) {
   p.noStroke();
   p.text(
     "レンズからの距離:" +
-      p.str((15 * (screenXSlider.value() / ((4 * p.width) / 10))).toFixed(1)) +
+      p.str(
+        (
+          WORKBENCH_LENGTH_CM *
+          (screenXSlider.value() / ((4 * p.width) / 10))
+        ).toFixed(1)
+      ) +
       " cm",
     screenXSlider.value() + (5 * p.width) / 10,
     (3 * p.height) / 4 + (1.5 * p.width) / 75
@@ -992,17 +1020,17 @@ function screenDisplay(p, img) {
       pg.translate(screenHeight / 2 - (img.width * m) / 2, 0);
       pg.scale(-1, -1);
       if (lensSelect.value() == "半分の凸レンズ") {
-        pg.tint(255, 100);
+        pg.tint(255, TINT_ALPHA_NORMAL);
       }
       if (lensSelect.value() == "縞々のスリットの凸レンズ") {
-        pg.tint(255, 75);
+        pg.tint(255, TINT_ALPHA_DIM);
         if (
           p.height / 2 + img.height * m <
             p.height / 2 + state.candleImg.height - lensHeight / 12 ||
           p.height / 2 + img.height * m >
             p.height / 2 + state.candleImg.height + lensHeight / 12
         ) {
-          pg.tint(255, 100);
+          pg.tint(255, TINT_ALPHA_NORMAL);
         }
       }
       pg.image(
@@ -1025,7 +1053,7 @@ function screenDisplay(p, img) {
         p.height / 2 - screenHeight - 10
       );
       p.noFill();
-      p.stroke(0, 255, 0);
+      p.stroke(...SCREEN_INDICATOR_COLOR);
       p.rect(
         screenXSlider.value() +
           p.width / 2 -
@@ -1056,7 +1084,7 @@ function screenDisplay(p, img) {
         screenWidth,
         screenHeight
       );
-      p.stroke(0, 255, 0);
+      p.stroke(...SCREEN_INDICATOR_COLOR);
       p.line(
         screenXSlider.value() + p.width / 2,
         p.height / 2 - screenHeight / 2,
@@ -1072,10 +1100,10 @@ function screenDisplay(p, img) {
       );
       p.fill(100);
       p.rect(
-        screenXSlider.value() + p.width / 2 - 25,
-        (3 * p.height) / 4 - 25,
-        50,
-        25
+        screenXSlider.value() + p.width / 2 - MOUNT_WIDTH / 2,
+        (3 * p.height) / 4 - MOUNT_HEIGHT,
+        MOUNT_WIDTH,
+        MOUNT_HEIGHT
       );
       p.strokeWeight(1);
       p.fill(255);
@@ -1095,7 +1123,7 @@ function screenDisplay(p, img) {
               7,
             p.height / 2 - screenHeight + +(p.height / (4 * 20)) * i - 10
           );
-          p.stroke(255, 50);
+          p.stroke(...SCREEN_TICK_COLOR);
           p.line(
             screenXSlider.value() +
               p.width / 2 -
@@ -1120,7 +1148,7 @@ function screenDisplay(p, img) {
             p.height / 2 - screenHeight + (p.height / (4 * 20)) * i - 10
           );
         }
-        p.stroke(255, 50);
+        p.stroke(...SCREEN_TICK_COLOR);
         p.line(
           screenXSlider.value() +
             p.width / 2 -
@@ -1135,7 +1163,7 @@ function screenDisplay(p, img) {
         );
       }
       p.strokeWeight(3);
-      p.stroke(255, 0, 0);
+      p.stroke(...OBJECT_COLOR);
       p.noFill();
       p.rect(
         screenXSlider.value() + p.width / 2 + screenWidth / 2 - img.width / 2,
@@ -1166,7 +1194,7 @@ function focusDraw(p, img) {
             (4 * p.width) / 10 - focusLengthSlider.value(),
             (4 * p.width) / 10,
             0,
-            15,
+            WORKBENCH_LENGTH_CM,
             0
           )
           .toFixed(1)

@@ -5,6 +5,21 @@
 
 import { state } from "./state.js";
 import { computeRefractionAngle, computeSnellRatio } from "./physics.js";
+import {
+  ANGLE_LIMIT_DEG,
+  ROTATE_STEP_DEG,
+  N_STEP,
+  N_MIN,
+  HIT_RADIUS_DIVISOR,
+  REMOCON_HOTSPOT_X_NUMERATOR,
+  REMOCON_HOTSPOT_TOP_Y_NUMERATOR,
+  REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR,
+  REMOCON_HOTSPOT_RATIO_DENOMINATOR,
+  LIGHT_SOURCE_LENGTH_DIVISOR,
+  MODE_TAB_COUNT,
+  MODE_TAB_WIDTH_DIVISOR,
+  MODE_TAB_HEIGHT_DIVISOR,
+} from "./constants.js";
 
 /**
  * キャンバスクリック時の処理。
@@ -20,142 +35,187 @@ export function onMousePressed(p) {
     p.dist(
       p.width -
         state.rotateRemocon.width +
-        (9 * state.rotateRemocon.width) / 10,
+        (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+          REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.height -
         state.rotateRemocon.height +
-        (3 * state.rotateRemocon.height) / 10,
+        (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.rotateRemocon.height) /
+          REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.mouseX,
       p.mouseY
     ) <
-      state.rotateRemocon.width / 20 &&
-    state.lightRotateTheta < 90
+      state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+    state.lightRotateTheta < ANGLE_LIMIT_DEG
   ) {
-    state.lightRotateTheta += 0.1;
+    state.lightRotateTheta += ROTATE_STEP_DEG;
     state.theta1 = p.radians(state.lightRotateTheta);
     state.theta2 = computeRefractionAngle(state.theta1, state.n12);
     state.boundary = computeSnellRatio(state.theta1, state.n12);
     state.raysX =
-      p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
+      p.width / 2 -
+      (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+        p.sin(state.theta1);
     state.raysY =
-      p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1);
+      p.height / 2 +
+      (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+        p.cos(state.theta1);
     state.raysX2 = p.width / 2;
     state.raysY2 = p.height / 2;
-    if (state.lightRotateTheta > 90) {
-      state.lightRotateTheta = 90;
+    if (state.lightRotateTheta > ANGLE_LIMIT_DEG) {
+      state.lightRotateTheta = ANGLE_LIMIT_DEG;
     }
   }
   if (
     p.dist(
       p.width -
         state.rotateRemocon.width +
-        (9 * state.rotateRemocon.width) / 10,
+        (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+          REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.height -
         state.rotateRemocon.height +
-        (7 * state.rotateRemocon.height) / 10,
+        (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.rotateRemocon.height) /
+          REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.mouseX,
       p.mouseY
     ) <
-      state.rotateRemocon.width / 20 &&
-    state.lightRotateTheta > -90
+      state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+    state.lightRotateTheta > -ANGLE_LIMIT_DEG
   ) {
-    state.lightRotateTheta -= 0.1;
+    state.lightRotateTheta -= ROTATE_STEP_DEG;
     state.theta1 = p.radians(state.lightRotateTheta);
     state.theta2 = computeRefractionAngle(state.theta1, state.n12);
     state.boundary = computeSnellRatio(state.theta1, state.n12);
     state.raysX =
-      p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
+      p.width / 2 -
+      (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+        p.sin(state.theta1);
     state.raysY =
-      p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1);
+      p.height / 2 +
+      (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+        p.cos(state.theta1);
     state.raysX2 = p.width / 2;
     state.raysY2 = p.height / 2;
-    if (state.lightRotateTheta < -90) {
-      state.lightRotateTheta = -90;
+    if (state.lightRotateTheta < -ANGLE_LIMIT_DEG) {
+      state.lightRotateTheta = -ANGLE_LIMIT_DEG;
     }
   }
   if (
     p.dist(
-      (9 * state.nRemocon.width) / 10,
-      p.height / 2 + (3 * state.nRemocon.height) / 10,
+      (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+        REMOCON_HOTSPOT_RATIO_DENOMINATOR,
+      p.height / 2 +
+        (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.nRemocon.height) /
+          REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.mouseX,
       p.mouseY
     ) <
-    state.nRemocon.width / 20
+    state.nRemocon.width / HIT_RADIUS_DIVISOR
   ) {
-    state.n1 += 0.1;
+    state.n1 += N_STEP;
     state.raysX =
-      p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
+      p.width / 2 -
+      (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+        p.sin(state.theta1);
     state.raysY =
-      p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1);
+      p.height / 2 +
+      (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+        p.cos(state.theta1);
     state.raysX2 = p.width / 2;
     state.raysY2 = p.height / 2;
   }
   if (
     p.dist(
-      (9 * state.nRemocon.width) / 10,
-      p.height / 2 + (7 * state.nRemocon.height) / 10,
+      (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+        REMOCON_HOTSPOT_RATIO_DENOMINATOR,
+      p.height / 2 +
+        (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.nRemocon.height) /
+          REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.mouseX,
       p.mouseY
     ) <
-      state.nRemocon.width / 20 &&
-    state.n1 > 0.1
+      state.nRemocon.width / HIT_RADIUS_DIVISOR &&
+    state.n1 > N_MIN
   ) {
-    state.n1 -= 0.1;
-    if (state.n1 < 0.1) {
-      state.n1 = 0.1;
+    state.n1 -= N_STEP;
+    if (state.n1 < N_MIN) {
+      state.n1 = N_MIN;
     }
     state.raysX =
-      p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
+      p.width / 2 -
+      (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+        p.sin(state.theta1);
     state.raysY =
-      p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1);
+      p.height / 2 +
+      (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+        p.cos(state.theta1);
     state.raysX2 = p.width / 2;
     state.raysY2 = p.height / 2;
   }
   if (
     p.dist(
-      (9 * state.nRemocon.width) / 10,
-      p.height / 2 - state.nRemocon.height + (3 * state.nRemocon.height) / 10,
+      (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+        REMOCON_HOTSPOT_RATIO_DENOMINATOR,
+      p.height / 2 -
+        state.nRemocon.height +
+        (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.nRemocon.height) /
+          REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.mouseX,
       p.mouseY
     ) <
-    state.nRemocon.width / 20
+    state.nRemocon.width / HIT_RADIUS_DIVISOR
   ) {
-    state.n2 += 0.1;
+    state.n2 += N_STEP;
     state.raysX =
-      p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
+      p.width / 2 -
+      (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+        p.sin(state.theta1);
     state.raysY =
-      p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1);
+      p.height / 2 +
+      (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+        p.cos(state.theta1);
     state.raysX2 = p.width / 2;
     state.raysY2 = p.height / 2;
   }
   if (
     p.dist(
-      (9 * state.nRemocon.width) / 10,
-      p.height / 2 - state.nRemocon.height + (7 * state.nRemocon.height) / 10,
+      (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+        REMOCON_HOTSPOT_RATIO_DENOMINATOR,
+      p.height / 2 -
+        state.nRemocon.height +
+        (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.nRemocon.height) /
+          REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.mouseX,
       p.mouseY
     ) <
-      state.nRemocon.width / 20 &&
-    state.n2 > 0.1
+      state.nRemocon.width / HIT_RADIUS_DIVISOR &&
+    state.n2 > N_MIN
   ) {
-    state.n2 -= 0.1;
-    if (state.n2 < 0.1) {
-      state.n2 = 0.1;
+    state.n2 -= N_STEP;
+    if (state.n2 < N_MIN) {
+      state.n2 = N_MIN;
     }
     state.raysX =
-      p.width / 2 - (p.height / 2 - p.height / 6) * p.sin(state.theta1);
+      p.width / 2 -
+      (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+        p.sin(state.theta1);
     state.raysY =
-      p.height / 2 + (p.height / 2 - p.height / 6) * p.cos(state.theta1);
+      p.height / 2 +
+      (p.height / 2 - p.height / LIGHT_SOURCE_LENGTH_DIVISOR) *
+        p.cos(state.theta1);
     state.raysX2 = p.width / 2;
     state.raysY2 = p.height / 2;
   }
 
   const modes = ["animation", "animationMax", "line", "lineMax"];
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < MODE_TAB_COUNT; i++) {
     if (
-      p.width - ((4 - i) * p.width) / 8 < p.mouseX &&
-      p.mouseX < p.width - ((4 - i - 1) * p.width) / 8 &&
+      p.width - ((MODE_TAB_COUNT - i) * p.width) / MODE_TAB_WIDTH_DIVISOR <
+        p.mouseX &&
+      p.mouseX <
+        p.width -
+          ((MODE_TAB_COUNT - i - 1) * p.width) / MODE_TAB_WIDTH_DIVISOR &&
       0 < p.mouseY &&
-      p.mouseY < p.height / 20
+      p.mouseY < p.height / MODE_TAB_HEIGHT_DIVISOR
     ) {
       state.simulationMode = modes[i];
     }
