@@ -6,6 +6,9 @@ import {
   GRID_STEP,
   ORIGIN_X,
   ORIGIN_Y,
+  DRAG_RADIUS,
+  LABEL_FONT_SIZE,
+  AXIS_LABEL_FONT_SIZE,
 } from "./constants.js";
 import { decomposeForce } from "./physics.js";
 
@@ -88,7 +91,7 @@ function drawDashed(p, x1, y1, x2, y2, col) {
  * @param {p5.Color} col テキスト色
  * @param {number} [sz=16] フォントサイズ
  */
-function drawLabel(p, text, x, y, col, sz = 16) {
+function drawLabel(p, text, x, y, col, sz = LABEL_FONT_SIZE) {
   p.textSize(sz);
   p.noStroke();
   p.fill(col);
@@ -194,13 +197,13 @@ function drawAxes(p, ox, oy) {
   // 軸ラベル
   p.noStroke();
   p.fill(0);
-  p.textSize(18);
+  p.textSize(AXIS_LABEL_FONT_SIZE);
   p.textAlign(p.CENTER, p.CENTER);
   p.text("x", V_W - 8, oy + 20);
   p.text("y", ox - 20, 10);
 
   // 原点ラベル『O』
-  p.textSize(16);
+  p.textSize(LABEL_FONT_SIZE);
   p.text("O", ox - 14, oy + 14);
 }
 
@@ -240,7 +243,7 @@ function drawXYLabels(p, Fx, Fy, tipX, tipY, θ) {
   // F ラベル（力の中点より少し外側）
   const midX = ORIGIN_X + Fx / 2 + 16 * Math.sin(θ);
   const midY = ORIGIN_Y + Fy / 2 - 16 * Math.cos(θ);
-  drawLabel(p, "F", midX, midY, p.color(0), 18);
+  drawLabel(p, "F", midX, midY, p.color(0), AXIS_LABEL_FONT_SIZE);
 
   // Fx ラベル
   if (Math.abs(Fx) > 8) {
@@ -352,7 +355,7 @@ export function handlePress(p) {
   const tipX = ORIGIN_X + fx;
   const tipY = ORIGIN_Y + fy;
   const dist = Math.hypot(vx - tipX, vy - tipY);
-  if (dist < 28) {
+  if (dist < DRAG_RADIUS) {
     state.isDragging = true;
   }
 }

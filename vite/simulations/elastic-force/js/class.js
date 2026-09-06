@@ -1,6 +1,7 @@
 // class.js はクラス管理専用のファイルです。
 
 import { PX_PER_M, MIN_SPRING_LENGTH, MAX_SPRING_LENGTH } from "./state.js";
+import { FORCE_ARROW_COLOR } from "./constants.js";
 
 // 変位の表示しきい値 (m) ─ これ以下は変位・弾性力を表示しない
 const DISPLACEMENT_THRESHOLD = 0.001;
@@ -215,7 +216,7 @@ export class Spring {
 
     // 弾性力ラベル（バネの下）
     p.textSize(16);
-    p.fill(200, 30, 30);
+    p.fill(...FORCE_ARROW_COLOR);
     p.text("F = " + F.toFixed(2) + " N", labelX, this.attachY + 46);
 
     // 弾性力の矢印（バネ先端から弾性力の向きへ）
@@ -223,9 +224,9 @@ export class Spring {
     const arrowLen = F * 20;
     const arrowStartX = this.endX;
     const arrowEndX = arrowStartX + arrowDir * arrowLen;
-    p.stroke(200, 30, 30);
+    p.stroke(...FORCE_ARROW_COLOR);
     p.strokeWeight(2.5);
-    p.fill(200, 30, 30);
+    p.fill(...FORCE_ARROW_COLOR);
     p.line(arrowStartX, this.attachY, arrowEndX, this.attachY);
     const hs = 9;
     p.triangle(

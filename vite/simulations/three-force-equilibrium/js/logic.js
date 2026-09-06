@@ -16,6 +16,12 @@ import {
   W_COLOR,
   RING_COLOR,
 } from "./state.js";
+import {
+  DRAG_HIT_MARGIN,
+  FORCE_LABEL_FONT_SIZE,
+  MIN_STRING_LENGTH,
+  DETERMINANT_EPSILON,
+} from "./constants.js";
 
 // ────────────────────────────────────────────
 // 物理計算
@@ -38,7 +44,7 @@ export function calcEquilibrium() {
   const d1 = Math.hypot(anchorA.x - ring.x, anchorA.y - ring.y);
   const d2 = Math.hypot(anchorB.x - ring.x, anchorB.y - ring.y);
 
-  if (d1 < 5 || d2 < 5) {
+  if (d1 < MIN_STRING_LENGTH || d2 < MIN_STRING_LENGTH) {
     state.isEquilibrium = false;
     return;
   }
@@ -50,7 +56,7 @@ export function calcEquilibrium() {
 
   // クラーメルの公式
   const det = u1x * u2y - u2x * u1y;
-  if (Math.abs(det) < 0.01) {
+  if (Math.abs(det) < DETERMINANT_EPSILON) {
     state.isEquilibrium = false;
     return;
   }
@@ -256,7 +262,7 @@ function drawWeight(p) {
 
   // 重さラベル
   p.fill(W_COLOR[0], W_COLOR[1], W_COLOR[2]);
-  p.textSize(14);
+  p.textSize(FORCE_LABEL_FONT_SIZE);
   p.textAlign(p.CENTER, p.TOP);
   p.text(`${W} N`, wCX, wTop + WEIGHT_SIZE + 6);
 }
@@ -343,7 +349,7 @@ function drawForceArrows(p) {
   );
 
   p.noStroke();
-  p.textSize(14);
+  p.textSize(FORCE_LABEL_FONT_SIZE);
   p.textAlign(p.CENTER, p.CENTER);
 
   p.fill(T1_COLOR[0], T1_COLOR[1], T1_COLOR[2]);
@@ -653,7 +659,7 @@ function drawForceTrianglePanel(p) {
   );
 
   p.noStroke();
-  p.textSize(14);
+  p.textSize(FORCE_LABEL_FONT_SIZE);
   p.textAlign(p.CENTER, p.CENTER);
 
   p.fill(W_COLOR[0], W_COLOR[1], W_COLOR[2]);
@@ -698,10 +704,13 @@ function drawDivider(p) {
 function updateCursor(p, vmx, vmy) {
   const { anchorA, anchorB, ring } = state;
   const isOverAnchorA =
-    Math.hypot(vmx - anchorA.x, vmy - anchorA.y) <= ANCHOR_RADIUS + 6;
+    Math.hypot(vmx - anchorA.x, vmy - anchorA.y) <=
+    ANCHOR_RADIUS + DRAG_HIT_MARGIN;
   const isOverAnchorB =
-    Math.hypot(vmx - anchorB.x, vmy - anchorB.y) <= ANCHOR_RADIUS + 6;
-  const isOverRing = Math.hypot(vmx - ring.x, vmy - ring.y) <= RING_RADIUS + 6;
+    Math.hypot(vmx - anchorB.x, vmy - anchorB.y) <=
+    ANCHOR_RADIUS + DRAG_HIT_MARGIN;
+  const isOverRing =
+    Math.hypot(vmx - ring.x, vmy - ring.y) <= RING_RADIUS + DRAG_HIT_MARGIN;
 
   if (state.dragging || isOverAnchorA || isOverAnchorB || isOverRing) {
     p.cursor("grab");

@@ -6,6 +6,8 @@ import {
   ORIGIN_X,
   ORIGIN_Y,
   GRID_STEP,
+  LABEL_FONT_SIZE,
+  AXIS_LABEL_FONT_SIZE,
 } from "./constants.js";
 import {
   composeForces,
@@ -81,7 +83,7 @@ export function drawArrowWithLabel(p, fromX, fromY, toX, toY, col, label) {
   const ty = my + ny * offset;
 
   p.noStroke();
-  p.textSize(16);
+  p.textSize(LABEL_FONT_SIZE);
   p.textAlign(p.CENTER, p.CENTER);
 
   // テキスト背景
@@ -191,13 +193,13 @@ export function drawGrid(p) {
   // 軸ラベル
   p.noStroke();
   p.fill(0);
-  p.textSize(18);
+  p.textSize(AXIS_LABEL_FONT_SIZE);
   p.textAlign(p.CENTER, p.CENTER);
   p.text("x", V_W - 8, ORIGIN_Y + 20);
   p.text("y", ORIGIN_X - 20, 10);
 
   // 原点ラベル「O」
-  p.textSize(16);
+  p.textSize(LABEL_FONT_SIZE);
   p.text("O", ORIGIN_X - 14, ORIGIN_Y + 14);
 }
 

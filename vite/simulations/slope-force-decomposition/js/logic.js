@@ -1,5 +1,15 @@
 import { state } from "./state.js";
-import { V_W, V_H, SLOPE_SCALE, GRAVITY } from "./constants.js";
+import {
+  V_W,
+  V_H,
+  SLOPE_SCALE,
+  GRAVITY,
+  LABEL_FONT_SIZE,
+  GRAVITY_COLOR,
+  PARALLEL_COLOR,
+  PERPENDICULAR_COLOR,
+  BLOCK_HEIGHT,
+} from "./constants.js";
 import { decomposeGravityOnSlope } from "./physics.js";
 
 // ── 共通ユーティリティ ──────────────────────────────────────────────
@@ -69,7 +79,7 @@ function drawDashed(p, x1, y1, x2, y2, col) {
 /**
  * ラベル付きテキストを描画する。
  */
-function drawLabel(p, text, x, y, col, sz = 16) {
+function drawLabel(p, text, x, y, col, sz = LABEL_FONT_SIZE) {
   p.textSize(sz);
   p.noStroke();
   p.fill(col);
@@ -165,7 +175,7 @@ function drawSlopeSurface(p, ox, oy, θ) {
  */
 function drawBlock(p, ox, oy, θ) {
   const bw = 52;
-  const bh = 36;
+  const bh = BLOCK_HEIGHT;
   p.push();
   p.translate(ox, oy);
   p.rotate(-θ);
@@ -188,7 +198,7 @@ function drawBlock(p, ox, oy, θ) {
 function drawSlopeVectors(p, ox, oy, θ, mg, sc) {
   const cosT = Math.cos(θ);
   const sinT = Math.sin(θ);
-  const bh = 36; // ブロック高さ
+  const bh = BLOCK_HEIGHT; // ブロック高さ
 
   // ベクトルの基点をブロック中央に
   const baseX = ox - (bh / 2) * sinT;
@@ -216,23 +226,38 @@ function drawSlopeVectors(p, ox, oy, θ, mg, sc) {
   drawDashed(p, tipParX, tipParY, tipGravX, tipGravY, p.color(150, 150, 150));
 
   // F_perp（青）
-  drawArrow(p, baseX, baseY, tipPerpX, tipPerpY, p.color(50, 100, 220), 3);
+  drawArrow(
+    p,
+    baseX,
+    baseY,
+    tipPerpX,
+    tipPerpY,
+    p.color(...PERPENDICULAR_COLOR),
+    3
+  );
   // F_parallel（赤）
-  drawArrow(p, baseX, baseY, tipParX, tipParY, p.color(220, 50, 50), 3);
+  drawArrow(p, baseX, baseY, tipParX, tipParY, p.color(...PARALLEL_COLOR), 3);
   // 重力 mg（緑）
-  drawArrow(p, baseX, baseY, tipGravX, tipGravY, p.color(40, 170, 70), 4);
+  drawArrow(p, baseX, baseY, tipGravX, tipGravY, p.color(...GRAVITY_COLOR), 4);
 
   // ラベル
-  drawLabel(p, "mg", baseX + 16, baseY + gravLen / 2, p.color(40, 170, 70), 16);
+  drawLabel(
+    p,
+    "mg",
+    baseX + 16,
+    baseY + gravLen / 2,
+    p.color(...GRAVITY_COLOR),
+    LABEL_FONT_SIZE
+  );
   if (fpLen > 8) {
     const lx = baseX - (fpLen * cosT) / 2 - 18 * sinT;
     const ly = baseY + (fpLen * sinT) / 2 - 18 * cosT;
-    drawLabel(p, "mg sinθ", lx, ly, p.color(220, 50, 50), 14);
+    drawLabel(p, "mg sinθ", lx, ly, p.color(...PARALLEL_COLOR), 14);
   }
   if (fnLen > 8) {
     const lx = baseX + (fnLen * sinT) / 2 - 22 * cosT;
     const ly = baseY + (fnLen * cosT) / 2 - 22 * sinT;
-    drawLabel(p, "mg cosθ", lx, ly, p.color(50, 100, 220), 14);
+    drawLabel(p, "mg cosθ", lx, ly, p.color(...PERPENDICULAR_COLOR), 14);
   }
 
   // 直角マーク
@@ -300,15 +325,15 @@ function drawSlopeInfoPanel(p, mg) {
   p.textSize(14);
   p.textAlign(p.LEFT, p.CENTER);
 
-  p.fill(40, 170, 70);
+  p.fill(...GRAVITY_COLOR);
   p.text(`mg        = ${mgStr} N`, panelX + 16, panelY + lineH * 0.6);
-  p.fill(220, 50, 50);
+  p.fill(...PARALLEL_COLOR);
   p.text(
     `mg sinθ  = ${fpStr} N（斜面方向）`,
     panelX + 16,
     panelY + lineH * 1.7
   );
-  p.fill(50, 100, 220);
+  p.fill(...PERPENDICULAR_COLOR);
   p.text(`mg cosθ = ${fnStr} N（垂直方向）`, panelX + 16, panelY + lineH * 2.8);
   p.fill(0);
   p.text(`θ（斜面角）= ${θStr}`, panelX + 16, panelY + lineH * 3.9);
@@ -335,11 +360,11 @@ function drawSlopeLegend(p) {
 
   p.textSize(13);
   p.textAlign(p.LEFT, p.CENTER);
-  p.fill(40, 170, 70);
+  p.fill(...GRAVITY_COLOR);
   p.text("━━ mg: 重力", lx + 10, ly + lineH * 0.6);
-  p.fill(220, 50, 50);
+  p.fill(...PARALLEL_COLOR);
   p.text("━━ mg sinθ: 斜面方向成分", lx + 10, ly + lineH * 1.7);
-  p.fill(50, 100, 220);
+  p.fill(...PERPENDICULAR_COLOR);
   p.text("━━ mg cosθ: 斜面垂直方向成分", lx + 10, ly + lineH * 2.8);
 
   p.textAlign(p.CENTER, p.CENTER);

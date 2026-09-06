@@ -16,3 +16,7 @@ export const ORIGIN_Y = 281;
 export const DRAG_RADIUS = 28;
 /** 最大力の大きさ（N） */
 export const MAX_FORCE = 10;
+/** ラベルテキストの共通フォントサイズ */
+export const LABEL_FONT_SIZE = 16;
+/** 主要ラベル（軸ラベル・力Fラベル）のフォントサイズ */
+export const AXIS_LABEL_FONT_SIZE = 18;

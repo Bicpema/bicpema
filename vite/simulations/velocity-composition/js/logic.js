@@ -2,6 +2,22 @@ import { state } from "./state.js";
 import { V_W, V_H, RIVER_BOTTOM } from "./constants.js";
 
 /**
+ * 川の速度(v川)を表す色
+ * @type {readonly [number, number, number]}
+ */
+const RIVER_COLOR = [255, 100, 100];
+/**
+ * 船の速度(v船)を表す色
+ * @type {readonly [number, number, number]}
+ */
+const BOAT_COLOR = [80, 240, 100];
+/**
+ * 合成速度(v合)を表す色
+ * @type {readonly [number, number, number]}
+ */
+const COMPOSITE_COLOR = [110, 170, 255];
+
+/**
  * 矢印を描画する。
  * @param {p5} p p5インスタンス
  * @param {number} fromX 始点のX座標
@@ -129,13 +145,13 @@ export function drawLegend(p) {
   p.textSize(14);
   p.textAlign(p.LEFT, p.CENTER);
 
-  p.fill(255, 100, 100);
+  p.fill(...RIVER_COLOR);
   p.text("━━ v川: 川の速度（常に左向き）", lx, ly + lineH * 0);
 
-  p.fill(80, 240, 100);
+  p.fill(...BOAT_COLOR);
   p.text("━━ v船: 船の速度（水に対して）", lx, ly + lineH * 1);
 
-  p.fill(110, 170, 255);
+  p.fill(...COMPOSITE_COLOR);
   p.text("━━ v合: 岸から観測した合成速度", lx, ly + lineH * 2);
 }
 
@@ -167,14 +183,14 @@ export function drawInfoPanel(p) {
 
   const cs = state.boat.compositeSpeed;
 
-  p.fill(255, 100, 100);
+  p.fill(...RIVER_COLOR);
   p.text(
     `v川: ${state.boat.riverSpeed.toFixed(1)} m/s ←`,
     px - panelW + 10,
     py - panelH + lineH * 0.6
   );
 
-  p.fill(80, 240, 100);
+  p.fill(...BOAT_COLOR);
   const boatDir = dirChar(state.boat.boatSpeed);
   const boatAbs = Math.abs(state.boat.boatSpeed).toFixed(1);
   p.text(
@@ -183,7 +199,7 @@ export function drawInfoPanel(p) {
     py - panelH + lineH * 1.7
   );
 
-  p.fill(110, 170, 255);
+  p.fill(...COMPOSITE_COLOR);
   p.text(
     `v合: ${Math.abs(cs).toFixed(1)} m/s ${dirChar(cs)}`,
     px - panelW + 10,
