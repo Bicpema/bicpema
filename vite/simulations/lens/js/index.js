@@ -841,6 +841,12 @@ function objectAndVirtualImageDisplay(p, img) {
         img.height * m
       );
       p.stroke(...IMAGE_COLOR);
+      p.rect(
+        p.width / 2 - b - (img.width * m) / 2,
+        p.height / 2 - img.height * m,
+        img.width * m,
+        img.height * m
+      );
       p.stroke(255);
       p.push();
       p.translate(

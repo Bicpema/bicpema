@@ -1,3 +1,5 @@
+import { CURRENT_THRESHOLD } from "./constants.js";
+
 /**
  * 直線電流のまわりの磁場の強さ（相対値）を計算する（アンペールの法則）。
  * B ∝ |I| / r
@@ -8,8 +10,6 @@
 export function computeMagneticFieldStrength(current, radius) {
   return Math.abs(current) / radius;
 }
-
-import { CURRENT_THRESHOLD } from "./constants.js";
 
 /**
  * 電流の向きから磁場の回転方向を判定する（右ねじの法則）。
