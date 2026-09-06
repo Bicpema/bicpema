@@ -3,6 +3,29 @@
 import { state } from "./state.js";
 import { computePhaseRetardation } from "./physics.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+import {
+  CELLOPHANE_RADIUS,
+  POLARIZER_SIZE,
+  CELLOPHANE_THICKNESS,
+  CROSSED_POLARIZER_OFFSET_DEG,
+  GUIDE_LINE_Z_OFFSET,
+  GUIDE_LINE_HALF_LENGTH,
+  XYZ_TO_SRGB_MATRIX,
+  WAVELENGTH_MIN,
+  WAVELENGTH_MAX,
+  SRGB_GAMMA_THRESHOLD,
+  SRGB_LINEAR_SCALE,
+  SRGB_GAMMA_SCALE,
+  SRGB_GAMMA_EXPONENT,
+  SRGB_GAMMA_OFFSET,
+  INITIAL_PIXEL_COLOR,
+  DEFAULT_GRAY,
+  BATCH_SIZE_INITIAL,
+  BATCH_SIZE_MIN,
+  BATCH_SIZE_MAX,
+  BATCH_SIZE_GROWTH_FACTOR,
+  BATCH_FPS_THRESHOLD,
+} from "./constants.js";
 
 // mathjsの動的importをモジュール読み込み時に開始する。p5のpreload()による
 // CSV/画像の取得と並行して読み込まれるため、setup()到達時には解決済みになる想定。
@@ -26,7 +49,7 @@ loadMath()
 export function drawSimulation(p) {
   if (!math) return;
   state.currentValue = state.optRadio.value();
-  state.radius = 111;
+  state.radius = CELLOPHANE_RADIUS;
   prenormal(p);
   colabNum1_normal(p);
   colabNum2_normal(p);
@@ -63,9 +86,9 @@ export function optChanged() {
 function checked(p) {
   // 基準線(0°)
   p.push();
-  p.translate(0, 0, -60);
+  p.translate(0, 0, GUIDE_LINE_Z_OFFSET);
   p.stroke(255, 0, 0);
-  p.line(0, 100, 0, -100);
+  p.line(0, GUIDE_LINE_HALF_LENGTH, 0, -GUIDE_LINE_HALF_LENGTH);
   p.pop();
   for (let i = 0; i < state.colabNum; i++) {
     // colabNumが3の場合, 0,1,2 (1,2,3枚)
@@ -75,8 +98,8 @@ function checked(p) {
     p.rotateZ((rotateInput.value() * p.PI) / 180);
     p.stroke(0, 0, 0); //2024.6.14 透明度を50から20へ変更 (157, 204, 224, 0)
     p.push();
-    p.translate(0, 0, -60);
-    p.line(0, 100, 0, -100);
+    p.translate(0, 0, GUIDE_LINE_Z_OFFSET);
+    p.line(0, GUIDE_LINE_HALF_LENGTH, 0, -GUIDE_LINE_HALF_LENGTH);
     p.pop();
     p.pop();
   }
@@ -109,12 +132,26 @@ function prenormal(p) {
   state.img.loadPixels();
 
   // 偏光板の描画
-  createPolarizer(p, 200, 0, 0, 0, 0);
+  createPolarizer(p, POLARIZER_SIZE, 0, 0, 0, 0);
   state.cellophaneNum = numInputFunction(p);
   if (state.polarizerSelect.value() == "平行ニコル配置")
-    createPolarizer(p, 200, 0, 0, -0.1 * state.cellophaneNum, 0);
+    createPolarizer(
+      p,
+      POLARIZER_SIZE,
+      0,
+      0,
+      -CELLOPHANE_THICKNESS * state.cellophaneNum,
+      0
+    );
   if (state.polarizerSelect.value() == "直交ニコル配置")
-    createPolarizer(p, 200, 0, 0, -0.1 * state.cellophaneNum, 1);
+    createPolarizer(
+      p,
+      POLARIZER_SIZE,
+      0,
+      0,
+      -CELLOPHANE_THICKNESS * state.cellophaneNum,
+      1
+    );
 }
 
 /**
@@ -157,10 +194,10 @@ function colabNum2_normal(p) {
   if (state.colabNum >= 2) {
     if (state.count2 === 0) {
       for (let i = 0; i < state.img.pixels.length; i += 4) {
-        state.img.pixels[i] = 200;
-        state.img.pixels[i + 1] = 200;
-        state.img.pixels[i + 2] = 200;
-        state.img.pixels[i + 3] = 255; //7.13までは80
+        state.img.pixels[i] = INITIAL_PIXEL_COLOR[0];
+        state.img.pixels[i + 1] = INITIAL_PIXEL_COLOR[1];
+        state.img.pixels[i + 2] = INITIAL_PIXEL_COLOR[2];
+        state.img.pixels[i + 3] = INITIAL_PIXEL_COLOR[3]; //7.13までは80
       }
       state.img.updatePixels();
       state.count2 = 1;
@@ -242,12 +279,15 @@ function colabNum2_normal(p) {
       p.ellipse(0, 0, p.frameRate() * 8, p.frameRate() * 8);
       p.pop();
       if (typeof state.Bsize === "undefined") {
-        state.Bsize = 100;
+        state.Bsize = BATCH_SIZE_INITIAL;
       }
-      if (p.frameRate() < 30) {
-        state.Bsize = p.max(25, state.Bsize / 2); // フレームレートが低い場合、Bsizeを小さく
+      if (p.frameRate() < BATCH_FPS_THRESHOLD) {
+        state.Bsize = p.max(BATCH_SIZE_MIN, state.Bsize / 2); // フレームレートが低い場合、Bsizeを小さく
       } else {
-        state.Bsize = p.min(1000, state.Bsize * 1.5); // フレームレートが高い場合、Bsizeを大きく
+        state.Bsize = p.min(
+          BATCH_SIZE_MAX,
+          state.Bsize * BATCH_SIZE_GROWTH_FACTOR
+        ); // フレームレートが高い場合、Bsizeを大きく
       }
 
       const start = (state.Bdraw - 1) * state.Bsize;
@@ -329,7 +369,7 @@ function createCellophane(p, n, rAfter, a, angle_1) {
   p.fill(255, 255, 255, 0); //2024.6.14 透明度を50から20へ変更 (157, 204, 224, 0)
   for (let i = 0; i < n; i++) {
     p.push();
-    p.translate(-0, 0, -0.1 * (i + a));
+    p.translate(-0, 0, -CELLOPHANE_THICKNESS * (i + a));
     p.box(
       2 * state.radius * p.cos(angle_1),
       2 * state.radius * p.sin(angle_1),
@@ -366,10 +406,10 @@ function jhons(p, theta) {
 
 /** RGBへの変換 */
 function toRGB(a) {
-  if (a <= 0.0031308) {
-    a = 12.92 * a;
+  if (a <= SRGB_GAMMA_THRESHOLD) {
+    a = SRGB_LINEAR_SCALE * a;
   } else {
-    a = 1.055 * Math.pow(a, 1 / 2.4) - 0.055;
+    a = SRGB_GAMMA_SCALE * Math.pow(a, SRGB_GAMMA_EXPONENT) - SRGB_GAMMA_OFFSET;
   }
   // 0〜1にクリップ
   a = Math.max(0, Math.min(1, a));
@@ -400,27 +440,28 @@ export async function beforeColorCalculate(p) {
     math = await loadMath();
   }
   // XYZ刺激値への変換（等色関数×スペクトル）
-  for (let i = 380; i <= 750; i++) {
-    state.xArrBefore[i - 380] =
-      state.R_all[i - 380] *
-      state.osArrOrigin[i - 380] *
-      state.xLambda[i - 380];
-    state.yArrBefore[i - 380] =
-      state.R_all[i - 380] *
-      state.osArrOrigin[i - 380] *
-      state.yLambda[i - 380];
-    state.zArrBefore[i - 380] =
-      state.R_all[i - 380] *
-      state.osArrOrigin[i - 380] *
-      state.zLambda[i - 380];
-    state.R_os[i - 380] = state.R_all[i - 380] * state.osArrOrigin[i - 380];
+  for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
+    state.xArrBefore[i - WAVELENGTH_MIN] =
+      state.R_all[i - WAVELENGTH_MIN] *
+      state.osArrOrigin[i - WAVELENGTH_MIN] *
+      state.xLambda[i - WAVELENGTH_MIN];
+    state.yArrBefore[i - WAVELENGTH_MIN] =
+      state.R_all[i - WAVELENGTH_MIN] *
+      state.osArrOrigin[i - WAVELENGTH_MIN] *
+      state.yLambda[i - WAVELENGTH_MIN];
+    state.zArrBefore[i - WAVELENGTH_MIN] =
+      state.R_all[i - WAVELENGTH_MIN] *
+      state.osArrOrigin[i - WAVELENGTH_MIN] *
+      state.zLambda[i - WAVELENGTH_MIN];
+    state.R_os[i - WAVELENGTH_MIN] =
+      state.R_all[i - WAVELENGTH_MIN] * state.osArrOrigin[i - WAVELENGTH_MIN];
   }
   state.Intensity_all_now = math.sum(state.R_os);
-  for (let i = 380; i <= 750; i++) {
-    state.speyBox[i - 380] =
-      state.osArrOrigin[i - 380] *
-      state.yLambda[i - 380] *
-      state.R_all[i - 380];
+  for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
+    state.speyBox[i - WAVELENGTH_MIN] =
+      state.osArrOrigin[i - WAVELENGTH_MIN] *
+      state.yLambda[i - WAVELENGTH_MIN] *
+      state.R_all[i - WAVELENGTH_MIN];
   }
   state.spey = math.sum(state.speyBox);
   state.K = 1.0 / state.spey; //0.5
@@ -428,11 +469,7 @@ export async function beforeColorCalculate(p) {
   state.xSumBefore = math.sum(state.xArrBefore) * state.K;
   state.ySumBefore = math.sum(state.yArrBefore) * state.K;
   state.zSumBefore = math.sum(state.zArrBefore) * state.K;
-  state.tosRGB = [
-    [3.2406, -1.5372, -0.4986],
-    [-0.9689, 1.8758, 0.0415],
-    [0.0557, -0.204, 1.057],
-  ];
+  state.tosRGB = XYZ_TO_SRGB_MATRIX;
   state.rgbBefore = math.multiply(state.tosRGB, [
     state.xSumBefore,
     state.ySumBefore,
@@ -461,10 +498,10 @@ function afterColorCalculate(p) {
     state.E_1 = [[-p.sin(a)], [p.cos(a)]];
 
     // それぞれの波長毎に計算
-    for (let i = 380; i <= 750; i++) {
+    for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
       const l = i;
       const delta = computePhaseRetardation(
-        state.dArr[i - 380],
+        state.dArr[i - WAVELENGTH_MIN],
         firstCellophaneNum.value(),
         state.opdInput.value(),
         l
@@ -480,7 +517,7 @@ function afterColorCalculate(p) {
         for (let n = 2; n <= state.colabNum; n++) {
           const otherCellophaneNum = p.select("#numInput-" + n);
           const delta = computePhaseRetardation(
-            state.dArr[i - 380],
+            state.dArr[i - WAVELENGTH_MIN],
             otherCellophaneNum.value(),
             state.opdInput.value(),
             l
@@ -502,7 +539,9 @@ function afterColorCalculate(p) {
       if (state.polarizerSelect.value() == "平行ニコル配置") {
         c = p.radians(-referenceAngle.value());
       } else if (state.polarizerSelect.value() == "直交ニコル配置") {
-        c = p.radians(-referenceAngle.value()) - p.radians(90);
+        c =
+          p.radians(-referenceAngle.value()) -
+          p.radians(CROSSED_POLARIZER_OFFSET_DEG);
       }
 
       state.E_3 = math.multiply(jhons(p, c), state.E_2);
@@ -510,45 +549,46 @@ function afterColorCalculate(p) {
         math.abs(math.multiply(state.E_3[0], state.E_3[0])) +
           math.abs(math.multiply(state.E_3[1], state.E_3[1]))
       );
-      state.osArr[i - 380] =
-        relativeStrength * state.osArrOrigin[i - 380] * state.R_all[i - 380];
-      state.xArrAfter[i - 380] = state.osArr[i - 380] * state.xLambda[i - 380];
-      state.yArrAfter[i - 380] = state.osArr[i - 380] * state.yLambda[i - 380];
-      state.zArrAfter[i - 380] = state.osArr[i - 380] * state.zLambda[i - 380];
+      state.osArr[i - WAVELENGTH_MIN] =
+        relativeStrength *
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN];
+      state.xArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.xLambda[i - WAVELENGTH_MIN];
+      state.yArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.yLambda[i - WAVELENGTH_MIN];
+      state.zArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.zLambda[i - WAVELENGTH_MIN];
       // 明度の表現の為の, 光源スペクトル成分*等色関数*補正関数
-      ls_xArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.xLambda[i - 380];
-      ls_yArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.yLambda[i - 380];
-      ls_zArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.zLambda[i - 380];
+      ls_xArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.xLambda[i - WAVELENGTH_MIN];
+      ls_yArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.yLambda[i - WAVELENGTH_MIN];
+      ls_zArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.zLambda[i - WAVELENGTH_MIN];
     }
     state.Intensity_all_now = math.sum(state.osArr);
     const sum_ls_xArrAfter = math.sum(ls_xArrAfter);
     const sum_ls_yArrAfter = math.sum(ls_yArrAfter);
     const sum_ls_zArrAfter = math.sum(ls_zArrAfter);
-    for (let i = 380; i <= 750; i++) {
-      state.speyBox[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.yLambda[i - 380] *
-        state.R_all[i - 380];
+    for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
+      state.speyBox[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.yLambda[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN];
     }
     state.spey = math.sum(state.speyBox);
     state.K = 1.0 / state.spey;
     state.xSumAfter = math.sum(state.xArrAfter) * state.K;
     state.ySumAfter = math.sum(state.yArrAfter) * state.K;
     state.zSumAfter = math.sum(state.zArrAfter) * state.K;
-    state.tosRGB = [
-      [3.2406, -1.5372, -0.4986],
-      [-0.9689, 1.8758, 0.0415],
-      [0.0557, -0.204, 1.057],
-    ];
+    state.tosRGB = XYZ_TO_SRGB_MATRIX;
     state.sRGB = math.multiply(state.tosRGB, [
       state.xSumAfter,
       state.ySumAfter,
@@ -579,8 +619,8 @@ function afterColorCalculate(p) {
       state.rAfter = 0;
       state.gAfter = 0;
       state.bAfter = 0;
-      for (let i = 380; i <= 750; i++) {
-        state.osArr[i - 380] = 0;
+      for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
+        state.osArr[i - WAVELENGTH_MIN] = 0;
       }
     }
   }
@@ -600,10 +640,10 @@ function afterColorCalculate1(p) {
     state.E_1 = [[-p.sin(a)], [p.cos(a)]];
 
     // それぞれの波長毎に計算
-    for (let i = 380; i <= 750; i++) {
+    for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
       const l = i;
       const delta = computePhaseRetardation(
-        state.dArr[i - 380],
+        state.dArr[i - WAVELENGTH_MIN],
         firstCellophaneNum.value(),
         state.opdInput.value(),
         l
@@ -617,7 +657,9 @@ function afterColorCalculate1(p) {
       if (state.polarizerSelect.value() == "平行ニコル配置") {
         c = p.radians(-referenceAngle.value());
       } else if (state.polarizerSelect.value() == "直交ニコル配置") {
-        c = p.radians(-referenceAngle.value()) - p.radians(90);
+        c =
+          p.radians(-referenceAngle.value()) -
+          p.radians(CROSSED_POLARIZER_OFFSET_DEG);
       }
 
       state.E_3 = math.multiply(jhons(p, c), state.E_2);
@@ -625,45 +667,46 @@ function afterColorCalculate1(p) {
         math.abs(math.multiply(state.E_3[0], state.E_3[0])) +
           math.abs(math.multiply(state.E_3[1], state.E_3[1]))
       );
-      state.osArr[i - 380] =
-        relativeStrength * state.osArrOrigin[i - 380] * state.R_all[i - 380];
-      state.xArrAfter[i - 380] = state.osArr[i - 380] * state.xLambda[i - 380];
-      state.yArrAfter[i - 380] = state.osArr[i - 380] * state.yLambda[i - 380];
-      state.zArrAfter[i - 380] = state.osArr[i - 380] * state.zLambda[i - 380];
+      state.osArr[i - WAVELENGTH_MIN] =
+        relativeStrength *
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN];
+      state.xArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.xLambda[i - WAVELENGTH_MIN];
+      state.yArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.yLambda[i - WAVELENGTH_MIN];
+      state.zArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.zLambda[i - WAVELENGTH_MIN];
       // 明度の表現の為の, 光源スペクトル成分*等色関数*補正関数
-      state.ls_xArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.xLambda[i - 380];
-      state.ls_yArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.yLambda[i - 380];
-      state.ls_zArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.zLambda[i - 380];
+      state.ls_xArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.xLambda[i - WAVELENGTH_MIN];
+      state.ls_yArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.yLambda[i - WAVELENGTH_MIN];
+      state.ls_zArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.zLambda[i - WAVELENGTH_MIN];
     }
     state.Intensity_all_now = math.sum(state.osArr);
     state.sum_ls_xArrAfter = math.sum(state.ls_xArrAfter);
     state.sum_ls_yArrAfter = math.sum(state.ls_yArrAfter);
     state.sum_ls_zArrAfter = math.sum(state.ls_zArrAfter);
-    for (let i = 380; i <= 750; i++) {
-      state.speyBox[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.yLambda[i - 380] *
-        state.R_all[i - 380];
+    for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
+      state.speyBox[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.yLambda[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN];
     }
     state.spey = math.sum(state.speyBox);
     state.K = 1.0 / state.spey;
     state.xSumAfter = math.sum(state.xArrAfter) * state.K;
     state.ySumAfter = math.sum(state.yArrAfter) * state.K;
     state.zSumAfter = math.sum(state.zArrAfter) * state.K;
-    state.tosRGB = [
-      [3.2406, -1.5372, -0.4986],
-      [-0.9689, 1.8758, 0.0415],
-      [0.0557, -0.204, 1.057],
-    ];
+    state.tosRGB = XYZ_TO_SRGB_MATRIX;
     state.sRGB = math.multiply(state.tosRGB, [
       state.xSumAfter,
       state.ySumAfter,
@@ -700,8 +743,8 @@ function afterColorCalculate1(p) {
       state.rAfter1 = 0;
       state.gAfter1 = 0;
       state.bAfter1 = 0;
-      for (let i = 380; i <= 750; i++) {
-        state.osArr[i - 380] = 0;
+      for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
+        state.osArr[i - WAVELENGTH_MIN] = 0;
       }
     }
   }
@@ -764,10 +807,10 @@ function afterColorCalculates(p, binaryString) {
 
   if (numStart !== 0) {
     // それぞれの波長毎に計算
-    for (let i = 380; i <= 750; i++) {
+    for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
       const l = i;
       const delta = computePhaseRetardation(
-        state.dArr[i - 380],
+        state.dArr[i - WAVELENGTH_MIN],
         firstCellophaneNum.value(),
         state.opdInput.value(),
         l
@@ -784,7 +827,7 @@ function afterColorCalculates(p, binaryString) {
           const n = j + 1;
           const otherCellophaneNum = p.select("#numInput-" + n);
           const delta = computePhaseRetardation(
-            state.dArr[i - 380],
+            state.dArr[i - WAVELENGTH_MIN],
             otherCellophaneNum.value(),
             state.opdInput.value(),
             l
@@ -810,7 +853,7 @@ function afterColorCalculates(p, binaryString) {
           const num = k + 1;
           const otherCellophaneNum = p.select("#numInput-" + num);
           const delta = computePhaseRetardation(
-            state.dArr[i - 380],
+            state.dArr[i - WAVELENGTH_MIN],
             otherCellophaneNum.value(),
             state.opdInput.value(),
             l
@@ -836,7 +879,9 @@ function afterColorCalculates(p, binaryString) {
       if (state.polarizerSelect.value() == "平行ニコル配置") {
         c = p.radians(-referenceAngle.value());
       } else if (state.polarizerSelect.value() == "直交ニコル配置") {
-        c = p.radians(-referenceAngle.value()) - p.radians(90);
+        c =
+          p.radians(-referenceAngle.value()) -
+          p.radians(CROSSED_POLARIZER_OFFSET_DEG);
       }
 
       state.E_3 = math.multiply(jhons(p, c), state.E_2);
@@ -844,45 +889,46 @@ function afterColorCalculates(p, binaryString) {
         math.abs(math.multiply(state.E_3[0], state.E_3[0])) +
           math.abs(math.multiply(state.E_3[1], state.E_3[1]))
       );
-      state.osArr[i - 380] =
-        relativeStrength * state.osArrOrigin[i - 380] * state.R_all[i - 380];
-      state.xArrAfter[i - 380] = state.osArr[i - 380] * state.xLambda[i - 380];
-      state.yArrAfter[i - 380] = state.osArr[i - 380] * state.yLambda[i - 380];
-      state.zArrAfter[i - 380] = state.osArr[i - 380] * state.zLambda[i - 380];
+      state.osArr[i - WAVELENGTH_MIN] =
+        relativeStrength *
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN];
+      state.xArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.xLambda[i - WAVELENGTH_MIN];
+      state.yArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.yLambda[i - WAVELENGTH_MIN];
+      state.zArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.zLambda[i - WAVELENGTH_MIN];
       // 明度の表現の為の, 光源スペクトル成分*等色関数*補正関数
-      state.ls_xArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.xLambda[i - 380];
-      state.ls_yArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.yLambda[i - 380];
-      state.ls_zArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.zLambda[i - 380];
+      state.ls_xArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.xLambda[i - WAVELENGTH_MIN];
+      state.ls_yArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.yLambda[i - WAVELENGTH_MIN];
+      state.ls_zArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.zLambda[i - WAVELENGTH_MIN];
     }
     state.Intensity_all_now = math.sum(state.osArr);
     state.sum_ls_xArrAfter = math.sum(state.ls_xArrAfter);
     state.sum_ls_yArrAfter = math.sum(state.ls_yArrAfter);
     state.sum_ls_zArrAfter = math.sum(state.ls_zArrAfter);
-    for (let i = 380; i <= 750; i++) {
-      state.speyBox[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.yLambda[i - 380] *
-        state.R_all[i - 380];
+    for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
+      state.speyBox[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.yLambda[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN];
     }
     state.spey = math.sum(state.speyBox);
     state.K = 1.0 / state.spey;
     state.xSumAfter = math.sum(state.xArrAfter) * state.K;
     state.ySumAfter = math.sum(state.yArrAfter) * state.K;
     state.zSumAfter = math.sum(state.zArrAfter) * state.K;
-    state.tosRGB = [
-      [3.2406, -1.5372, -0.4986],
-      [-0.9689, 1.8758, 0.0415],
-      [0.0557, -0.204, 1.057],
-    ];
+    state.tosRGB = XYZ_TO_SRGB_MATRIX;
     state.sRGB = math.multiply(state.tosRGB, [
       state.xSumAfter,
       state.ySumAfter,
@@ -913,9 +959,9 @@ function afterColorCalculates(p, binaryString) {
     //bAfter2 *=ratio
   } else {
     if (state.polarizerSelect.value() == "平行ニコル配置") {
-      state.rAfter2 = 200;
-      state.gAfter2 = 200;
-      state.bAfter2 = 200;
+      state.rAfter2 = DEFAULT_GRAY;
+      state.gAfter2 = DEFAULT_GRAY;
+      state.bAfter2 = DEFAULT_GRAY;
     } else if (state.polarizerSelect.value() == "直交ニコル配置") {
       state.rAfter2 = 0;
       state.gAfter2 = 0;
@@ -944,9 +990,9 @@ function drawTape_1(p, rAfter1, gAfter1, bAfter1, rotateInput) {
       state.img.pixels[i + 2] = bAfter1;
     } else {
       if (state.polarizerSelect.value() == "平行ニコル配置") {
-        state.img.pixels[i + 0] = 200;
-        state.img.pixels[i + 1] = 200;
-        state.img.pixels[i + 2] = 200;
+        state.img.pixels[i + 0] = DEFAULT_GRAY;
+        state.img.pixels[i + 1] = DEFAULT_GRAY;
+        state.img.pixels[i + 2] = DEFAULT_GRAY;
       } else if (state.polarizerSelect.value() == "直交ニコル配置") {
         state.img.pixels[i + 0] = 0;
         state.img.pixels[i + 1] = 0;
