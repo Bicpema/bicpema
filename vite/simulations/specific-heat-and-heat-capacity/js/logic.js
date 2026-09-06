@@ -14,6 +14,10 @@ const LABEL_FONT_SIZE = 26;
 const HOOK_COLOR = [181, 166, 66];
 /** フックバー・吊り下げ線のY座標 */
 const HOOK_Y = 70;
+/** フックバーの幅 */
+const HOOK_BAR_WIDTH = 165;
+/** フックバーの高さ */
+const HOOK_BAR_HEIGHT = 20;
 /** 吊り下げ線の下端オフセット（球の中心からの余白） */
 const HOOK_LINE_BOTTOM_OFFSET = 30;
 /** 物質Aの吊り下げ位置（中心x座標） */
@@ -105,8 +109,8 @@ function drawHooksAndBalls(p, VH) {
   p.fill(...HOOK_COLOR);
   p.stroke(...HOOK_COLOR);
   p.strokeWeight(1);
-  p.rect(50, HOOK_Y, 165, 20);
-  p.rect(354, HOOK_Y, 165, 20);
+  p.rect(50, HOOK_Y, HOOK_BAR_WIDTH, HOOK_BAR_HEIGHT);
+  p.rect(354, HOOK_Y, HOOK_BAR_WIDTH, HOOK_BAR_HEIGHT);
   p.strokeWeight(3);
   p.line(OBJECT_A_X, HOOK_Y, OBJECT_A_X, VH / 3.15 - HOOK_LINE_BOTTOM_OFFSET);
   p.line(OBJECT_B_X, HOOK_Y, OBJECT_B_X, VH / 3.15 - HOOK_LINE_BOTTOM_OFFSET);
