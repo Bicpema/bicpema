@@ -1,4 +1,5 @@
 import { state } from "./state.js";
+import { WAVE_ORIGIN_X } from "./constants.js";
 
 export function settingInit(p) {
   state.k = p.TWO_PI / state.lambda;
@@ -41,10 +42,10 @@ export function elementPositionInit(p) {
 }
 
 export function valueInit(p) {
-  state.xStart = 60;
+  state.xStart = WAVE_ORIGIN_X;
   state.particles = [];
   for (let i = 0; i < state.N; i++) {
-    let x0 = p.map(i, 0, state.N - 1, state.xStart, p.width - 60);
+    let x0 = p.map(i, 0, state.N - 1, state.xStart, p.width - WAVE_ORIGIN_X);
     state.particles.push({ x0 });
   }
   state.focusIndex = p.floor(state.N / 2);

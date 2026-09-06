@@ -1,6 +1,12 @@
 // ReflectedWave.js はクラス管理専用のファイルです。
 
-import { state, MEDIUM_QUANTITY } from "./state.js";
+import {
+  state,
+  MEDIUM_QUANTITY,
+  MAX_THETA,
+  WAVE_FREQUENCY_SCALE,
+  AMPLITUDE_SCALE_DIVISOR,
+} from "./state.js";
 
 /**
  * ReflectedWave クラス
@@ -25,11 +31,11 @@ export class ReflectedWave {
     const p = this.p;
     if (this.number < this.time - MEDIUM_QUANTITY) {
       if (state.fixedIs) {
-        if (this.theta < 30) {
+        if (this.theta < MAX_THETA) {
           this.theta++;
         }
       } else {
-        if (this.theta > -30) {
+        if (this.theta > -MAX_THETA) {
           this.theta--;
         }
       }
@@ -37,6 +43,8 @@ export class ReflectedWave {
       this.theta = 0;
     }
     this.time += state.speed;
-    this.posy = (p.height / 100) * p.sin(p.radians(6 * this.theta));
+    this.posy =
+      (p.height / AMPLITUDE_SCALE_DIVISOR) *
+      p.sin(p.radians(WAVE_FREQUENCY_SCALE * this.theta));
   }
 }

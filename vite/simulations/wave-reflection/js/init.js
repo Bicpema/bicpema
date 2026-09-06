@@ -54,11 +54,23 @@ function toggleMode(modeBtn) {
   state.mode = state.mode === "free" ? "fixed" : "free";
   if (state.mode === "free") {
     modeBtn.textContent = "自由端";
-    modeBtn.classList.remove("bg-green-600", "hover:bg-green-500", "text-white");
-    modeBtn.classList.add("bg-amber-500", "hover:bg-amber-400", "text-neutral-900");
+    modeBtn.classList.remove(
+      "bg-green-600",
+      "hover:bg-green-500",
+      "text-white"
+    );
+    modeBtn.classList.add(
+      "bg-amber-500",
+      "hover:bg-amber-400",
+      "text-neutral-900"
+    );
   } else {
     modeBtn.textContent = "固定端";
-    modeBtn.classList.remove("bg-amber-500", "hover:bg-amber-400", "text-neutral-900");
+    modeBtn.classList.remove(
+      "bg-amber-500",
+      "hover:bg-amber-400",
+      "text-neutral-900"
+    );
     modeBtn.classList.add("bg-green-600", "hover:bg-green-500", "text-white");
   }
 }

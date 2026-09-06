@@ -1,7 +1,16 @@
 // logic.js はシミュレーションの中心的なロジックを定義するファイルです。
 
 import { state } from "./state.js";
-import { FPS, W, H } from "./init.js";
+import {
+  FPS,
+  W,
+  H,
+  ORIGIN_X,
+  GRID_STEP,
+  MAJOR_GRID_INTERVAL,
+  MAJOR_GRID_STROKE_WEIGHT,
+  MINOR_GRID_STROKE_WEIGHT,
+} from "./constants.js";
 import { SOUND } from "./class.js";
 import { computeSourcePosition } from "./physics.js";
 
@@ -43,22 +52,22 @@ export function drawSimulation(p) {
  */
 function drawBackground(p) {
   p.stroke(0, 100);
-  for (let i = 0; i < W - 50; i += 10) {
-    if (i % 100 === 0) {
-      p.strokeWeight(2);
+  for (let i = 0; i < W - ORIGIN_X; i += GRID_STEP) {
+    if (i % MAJOR_GRID_INTERVAL === 0) {
+      p.strokeWeight(MAJOR_GRID_STROKE_WEIGHT);
     } else {
-      p.strokeWeight(1);
+      p.strokeWeight(MINOR_GRID_STROKE_WEIGHT);
     }
-    p.line(i + 50, 0, i + 50, H);
+    p.line(i + ORIGIN_X, 0, i + ORIGIN_X, H);
   }
-  for (let i = 0; i < H / 2; i += 10) {
-    if (i % 100 === 0) {
-      p.strokeWeight(2);
+  for (let i = 0; i < H / 2; i += GRID_STEP) {
+    if (i % MAJOR_GRID_INTERVAL === 0) {
+      p.strokeWeight(MAJOR_GRID_STROKE_WEIGHT);
     } else {
-      p.strokeWeight(1);
+      p.strokeWeight(MINOR_GRID_STROKE_WEIGHT);
     }
-    p.line(50, H / 2 + i, W, H / 2 + i);
-    p.line(50, H / 2 - i, W, H / 2 - i);
+    p.line(ORIGIN_X, H / 2 + i, W, H / 2 + i);
+    p.line(ORIGIN_X, H / 2 - i, W, H / 2 - i);
   }
   p.stroke(0);
 }

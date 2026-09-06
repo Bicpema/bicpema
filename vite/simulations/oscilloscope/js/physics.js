@@ -19,6 +19,9 @@ export function mapWaveformValueToY(value, canvasHeight) {
   return ((value + 1) / 2) * canvasHeight;
 }
 
+/** キャンバス下端に確保する余白（スペクトラムの底が枠線に重ならないようにする） */
+const SPECTRUM_BOTTOM_MARGIN = 5;
+
 /**
  * スペクトラムモードの強度値(0〜255)をキャンバス上のy座標に変換する。
  * 値が大きいほど上（yが小さい）になる。
@@ -27,5 +30,5 @@ export function mapWaveformValueToY(value, canvasHeight) {
  * @returns {number} y座標
  */
 export function mapSpectrumValueToY(value, canvasHeight) {
-  return (canvasHeight - 5) * (1 - value / 255);
+  return (canvasHeight - SPECTRUM_BOTTOM_MARGIN) * (1 - value / 255);
 }

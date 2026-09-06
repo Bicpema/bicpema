@@ -6,6 +6,15 @@ import {
   computeWaveFront,
 } from "./physics.js";
 
+/** 入射波を表す色（青） */
+const INCIDENT_COLOR = [0, 0, 255];
+/** 反射波を表す色（赤） */
+const REFLECTED_COLOR = [255, 0, 0];
+/** 合成波を表す色（緑） */
+const COMBINED_COLOR = [0, 160, 0];
+/** 未到達区間の波を示す破線パターン */
+const DASH_PATTERN = [6, 6];
+
 export function drawSimulation(p) {
   p.background(255);
   drawGrid(p);
@@ -13,7 +22,7 @@ export function drawSimulation(p) {
   p.noFill();
 
   // 入射波（青）- 壁より左の実線部分
-  p.stroke(0, 0, 255);
+  p.stroke(...INCIDENT_COLOR);
   p.strokeWeight(2);
   p.beginShape();
   for (let x = 0; x < p.width; x++) {
@@ -31,8 +40,8 @@ export function drawSimulation(p) {
   p.endShape();
 
   // 入射波（壁より右・点線）
-  p.stroke(0, 0, 255);
-  p.drawingContext.setLineDash([6, 6]);
+  p.stroke(...INCIDENT_COLOR);
+  p.drawingContext.setLineDash(DASH_PATTERN);
   p.beginShape();
   for (let x = 0; x < p.width; x++) {
     if (x >= state.reflectX && x <= state.front) {
@@ -53,7 +62,7 @@ export function drawSimulation(p) {
   if (state.front > state.reflectX) {
     const reflectedFront = p.max(0, 2 * state.reflectX - state.front);
     const mirrorOrigin = 2 * state.reflectX;
-    p.stroke(255, 0, 0);
+    p.stroke(...REFLECTED_COLOR);
     p.strokeWeight(2);
     p.beginShape();
     for (let x = 0; x < p.width; x++) {
@@ -74,8 +83,8 @@ export function drawSimulation(p) {
 
     // 固定端：壁より右の反射波（点線）
     if (state.mode === "fixed") {
-      p.stroke(255, 0, 0);
-      p.drawingContext.setLineDash([6, 6]);
+      p.stroke(...REFLECTED_COLOR);
+      p.drawingContext.setLineDash(DASH_PATTERN);
       p.beginShape();
       for (let x = 0; x < p.width; x++) {
         if (x >= state.reflectX && x <= state.front) {
@@ -100,7 +109,7 @@ export function drawSimulation(p) {
   if (state.front > state.reflectX) {
     const reflectedFront = p.max(0, 2 * state.reflectX - state.front);
     const mirrorOrigin = 2 * state.reflectX;
-    p.stroke(0, 160, 0);
+    p.stroke(...COMBINED_COLOR);
     p.strokeWeight(2.5);
     p.beginShape();
     for (let x = 0; x < p.width; x++) {

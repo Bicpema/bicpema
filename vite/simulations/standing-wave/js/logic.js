@@ -5,6 +5,7 @@ import {
   computeStandingWaveDisplacement,
   computeWaveFronts,
 } from "./physics.js";
+import { GRID_LINES_PER_WAVELENGTH } from "./constants.js";
 
 export function drawSimulation(p) {
   p.background(211, 237, 244);
@@ -35,7 +36,7 @@ function drawGrid(p) {
   p.stroke(200);
   p.strokeWeight(1);
   const yCenter = state.innerH / 2;
-  const gridUnitY = state.wavelength / 8;
+  const gridUnitY = state.wavelength / GRID_LINES_PER_WAVELENGTH;
   for (let y = yCenter; y <= state.innerH; y += gridUnitY) {
     p.line(0, y, state.innerW, y);
   }
@@ -43,7 +44,7 @@ function drawGrid(p) {
     p.line(0, y, state.innerW, y);
   }
   const xCenter = state.innerW / 2;
-  const gridUnitX = state.wavelength / 8;
+  const gridUnitX = state.wavelength / GRID_LINES_PER_WAVELENGTH;
   for (let x = xCenter; x <= state.innerW; x += gridUnitX) {
     p.line(x, 0, x, state.innerH);
   }

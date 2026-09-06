@@ -1,6 +1,12 @@
 // init.js は初期処理専用のファイルです。
 
-import { state, MEDIUM_QUANTITY } from "./state.js";
+import {
+  state,
+  MEDIUM_QUANTITY,
+  MEDIUM_TRACK_MARGIN,
+  STOPPER_WIDTH,
+  BUTTON_SIZE,
+} from "./state.js";
 import { Medium } from "./medium.js";
 import {
   onDecelerationButtonClick,
@@ -38,8 +44,8 @@ export function elementSelectInit(p) {
  * @param {*} p - p5 インスタンス。
  */
 export function valueInit(p) {
-  state.stopper.resize(100, 0);
-  state.button.resize(50, 50);
+  state.stopper.resize(STOPPER_WIDTH, 0);
+  state.button.resize(BUTTON_SIZE, BUTTON_SIZE);
   state.buttonClickedIs = true;
   state.fixedIs = true;
   state.speed = 1;
@@ -50,13 +56,16 @@ export function valueInit(p) {
   for (let i = 0; i < MEDIUM_QUANTITY; i++) {
     state.mediums[i] = new Medium(
       p,
-      (i * (p.width - 200)) / MEDIUM_QUANTITY,
+      (i * (p.width - MEDIUM_TRACK_MARGIN)) / MEDIUM_QUANTITY,
       0,
       i
     );
   }
 
   state.stopperX =
-    p.width - state.stopper.width - 5 - (p.width - 200) / MEDIUM_QUANTITY;
+    p.width -
+    state.stopper.width -
+    5 -
+    (p.width - MEDIUM_TRACK_MARGIN) / MEDIUM_QUANTITY;
   state.stopperY = p.height / 2 - state.stopper.height / 8;
 }

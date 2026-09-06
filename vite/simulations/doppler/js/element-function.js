@@ -1,6 +1,7 @@
 // element-function.js は仮想 DOM メソッド管理専用のファイルです。
 
 import { state } from "./state.js";
+import { ORIGIN_X } from "./constants.js";
 
 /**
  * スタートボタンがクリックされたときの処理。
@@ -20,7 +21,7 @@ export function stopButtonFunction() {
  * リセットボタンがクリックされたときの処理。
  */
 export function resetButtonAction() {
-  state.posx = 50;
+  state.posx = ORIGIN_X;
   state.clickedCount = false;
   state.count = 0;
   state.sounds = [];

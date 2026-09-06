@@ -1,9 +1,10 @@
 import { state } from "./state.js";
+import { MARGIN, WAVELENGTH, PERIOD_FRAMES } from "./constants.js";
 
 export function settingInit(p) {
-  state.wavelength = 200;
+  state.wavelength = WAVELENGTH;
   state.k = p.TWO_PI / state.wavelength;
-  state.omega = p.TWO_PI / 120;
+  state.omega = p.TWO_PI / PERIOD_FRAMES;
   state.v = state.omega / state.k;
   state.A = state.wavelength / 5;
 }
@@ -13,7 +14,7 @@ export function elementSelectInit(p) {
 }
 
 export function elementPositionInit(p) {
-  state.margin = 50;
+  state.margin = MARGIN;
   state.innerW = p.width - state.margin * 2;
   state.innerH = p.height - state.margin * 2;
 
