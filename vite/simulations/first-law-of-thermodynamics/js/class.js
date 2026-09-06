@@ -2,11 +2,13 @@
 
 import { state } from "./state.js";
 import { computeMoleculeSpeed } from "./physics.js";
-
-const DT_UNIT = 0.3;
-const X_MIN = 201;
-const Y_MIN = 146;
-const Y_MAX = 341;
+import {
+  DT_UNIT,
+  MOLECULE_MARGIN,
+  MOLECULE_X_MIN as X_MIN,
+  MOLECULE_Y_MIN as Y_MIN,
+  MOLECULE_Y_MAX as Y_MAX,
+} from "./constants.js";
 
 export class Molecule {
   /**
@@ -34,8 +36,8 @@ export class Molecule {
       this.x = X_MIN;
       this.vx *= -1;
     }
-    if (this.x > state.pistonX - 27) {
-      this.x = state.pistonX - 27;
+    if (this.x > state.pistonX - MOLECULE_MARGIN) {
+      this.x = state.pistonX - MOLECULE_MARGIN;
       this.vx *= -1;
     }
     if (this.y < Y_MIN || this.y > Y_MAX) this.vy *= -1;

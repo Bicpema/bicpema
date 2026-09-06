@@ -1,6 +1,14 @@
 import { state } from "./state.js";
 import { resetState } from "./init.js";
 import { computeTemperatureAtTime } from "./physics.js";
+import {
+  LABEL_FONT_SIZE,
+  LABEL_HEIGHT,
+  HOT_COLOR,
+  COLD_COLOR,
+  MOLECULE_JITTER_SCALE,
+  MOLECULE_JITTER_MAX,
+} from "./constants.js";
 
 // 仮想キャンバス寸法: p.scale(p.width / 1000) 適用後の 1000×562 論理ピクセル空間
 // 左側ブロック (接触前)
@@ -80,15 +88,15 @@ function drawBlock(p, x, y, w, h, T) {
   drawMolecules(p, x, y, w, h, T);
   p.fill(0);
   p.noStroke();
-  p.textSize(12);
+  p.textSize(LABEL_FONT_SIZE);
   p.text(`${T.toFixed(1)} K`, x + 6, y + 14);
 }
 
 function drawMolecules(p, x, y, w, h, T) {
   let dx = w / state.cols;
   let dy = h / state.rows;
-  let amp = 0.3 * p.sqrt(p.max(T, 0));
-  amp = p.constrain(amp, 0, 11);
+  let amp = MOLECULE_JITTER_SCALE * p.sqrt(p.max(T, 0));
+  amp = p.constrain(amp, 0, MOLECULE_JITTER_MAX);
   p.fill(255);
   p.stroke(0);
   for (let j = 0; j < state.rows; j++) {
@@ -127,11 +135,11 @@ function drawGraph(p) {
   // 凡例
   p.textSize(13);
   p.fill(0);
-  p.stroke(255, 0, 0);
+  p.stroke(...HOT_COLOR);
   p.line(918, 147, 957, 147);
   p.noStroke();
   p.text("物質(高温)", 856, 151);
-  p.stroke(0, 0, 255);
+  p.stroke(...COLD_COLOR);
   p.line(918, 172, 957, 172);
   p.noStroke();
   p.text("物質(低温)", 856, 177);
@@ -179,7 +187,7 @@ function drawGraph(p) {
     // 温度変化曲線（高温）
     p.noFill();
     p.strokeWeight(2);
-    p.stroke(255, 0, 0);
+    p.stroke(...HOT_COLOR);
     p.beginShape();
     for (let tt = 0; tt <= state.tMax; tt++) {
       let T = computeTemperatureAtTime(state.Teq, state.Thot0, state.heatK, tt);
@@ -188,7 +196,7 @@ function drawGraph(p) {
     p.endShape();
 
     // 温度変化曲線（低温）
-    p.stroke(0, 0, 255);
+    p.stroke(...COLD_COLOR);
     p.beginShape();
     for (let tt = 0; tt <= state.tMax; tt++) {
       let T = computeTemperatureAtTime(
@@ -204,14 +212,14 @@ function drawGraph(p) {
     const t_now = p.min(state.t, state.tMax);
 
     // 高温側の現在点 + ラベル
-    p.stroke(255, 0, 0);
+    p.stroke(...HOT_COLOR);
     p.strokeWeight(5);
     p.point(tx(t_now), ty(state.Thot));
     p.push();
     let labelA = p.nf(state.Thot, 1, 2) + " K";
-    p.textSize(12);
+    p.textSize(LABEL_FONT_SIZE);
     let twA = p.textWidth(labelA);
-    let thA = 14;
+    let thA = LABEL_HEIGHT;
     let lxA = p.constrain(tx(t_now) + 6, GX + 3, GX + GW - twA - 3);
     let lyA = p.constrain(ty(state.Thot) - 6, GY + thA + 3, GY + GH - 3);
     p.noStroke();
@@ -222,14 +230,14 @@ function drawGraph(p) {
     p.pop();
 
     // 低温側の現在点 + ラベル
-    p.stroke(0, 0, 255);
+    p.stroke(...COLD_COLOR);
     p.strokeWeight(5);
     p.point(tx(t_now), ty(state.Tcold));
     p.push();
     let labelB = p.nf(state.Tcold, 1, 2) + " K";
-    p.textSize(12);
+    p.textSize(LABEL_FONT_SIZE);
     let twB = p.textWidth(labelB);
-    let thB = 14;
+    let thB = LABEL_HEIGHT;
     let lxB = p.constrain(tx(t_now) + 6, GX + 3, GX + GW - twB - 3);
     let lyB = p.constrain(ty(state.Tcold) + 20, GY + thB + 3, GY + GH - 3);
     p.noStroke();

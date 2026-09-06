@@ -8,6 +8,33 @@ import { computeTemperatureChange } from "./physics.js";
  */
 const VW = 1200;
 
+/** ラベルテキストの共通フォントサイズ */
+const LABEL_FONT_SIZE = 26;
+/** フックバー・吊り下げ線の色 */
+const HOOK_COLOR = [181, 166, 66];
+/** フックバー・吊り下げ線のY座標 */
+const HOOK_Y = 70;
+/** フックバーの幅 */
+const HOOK_BAR_WIDTH = 165;
+/** フックバーの高さ */
+const HOOK_BAR_HEIGHT = 20;
+/** 吊り下げ線の下端オフセット（球の中心からの余白） */
+const HOOK_LINE_BOTTOM_OFFSET = 30;
+/** 物質Aの吊り下げ位置（中心x座標） */
+const OBJECT_A_X = 215;
+/** 物質Bの吊り下げ位置（中心x座標） */
+const OBJECT_B_X = 354;
+/** 質量「大」選択時の球の半径 */
+const BALL_RADIUS_LARGE = 50;
+/** 質量「小」選択時の球の半径 */
+const BALL_RADIUS_SMALL = 30;
+/** グラフ線を計算する際に加える熱量 Q */
+const HEAT_APPLIED = 5000;
+/** 物質Aのグラフ線・凡例の色 */
+const MATERIAL_A_COLOR = [255, 0, 0];
+/** 物質Bのグラフ線・凡例の色 */
+const MATERIAL_B_COLOR = [0, 0, 255, 150];
+
 /**
  * シミュレーション全体を描画する。
  * @param {*} p p5インスタンス
@@ -65,7 +92,7 @@ function drawObjectLabels(p, VH) {
   p.push();
   p.noStroke();
   p.fill(0);
-  p.textSize(26);
+  p.textSize(LABEL_FONT_SIZE);
   p.textAlign(p.LEFT, p.CENTER);
   p.text("物質A", (VW / 2) * 0.2, VW / 10);
   p.text("物質B", (VW / 2) * 0.63, VW / 10);
@@ -79,25 +106,25 @@ function drawObjectLabels(p, VH) {
  */
 function drawHooksAndBalls(p, VH) {
   p.push();
-  p.fill(181, 166, 66);
-  p.stroke(181, 166, 66);
+  p.fill(...HOOK_COLOR);
+  p.stroke(...HOOK_COLOR);
   p.strokeWeight(1);
-  p.rect(50, 70, 165, 20);
-  p.rect(354, 70, 165, 20);
+  p.rect(50, HOOK_Y, HOOK_BAR_WIDTH, HOOK_BAR_HEIGHT);
+  p.rect(354, HOOK_Y, HOOK_BAR_WIDTH, HOOK_BAR_HEIGHT);
   p.strokeWeight(3);
-  p.line(215, 70, 215, VH / 3.15 - 30);
-  p.line(354, 70, 354, VH / 3.15 - 30);
+  p.line(OBJECT_A_X, HOOK_Y, OBJECT_A_X, VH / 3.15 - HOOK_LINE_BOTTOM_OFFSET);
+  p.line(OBJECT_B_X, HOOK_Y, OBJECT_B_X, VH / 3.15 - HOOK_LINE_BOTTOM_OFFSET);
   p.pop();
 
   // 物質A
-  const rA = state.massA === 0 ? 50 : 30;
+  const rA = state.massA === 0 ? BALL_RADIUS_LARGE : BALL_RADIUS_SMALL;
   const yA = state.massA === 0 ? VH / 3.4 : VH / 3.15;
-  drawMaterialBall(p, 215, yA, rA, state.materialA);
+  drawMaterialBall(p, OBJECT_A_X, yA, rA, state.materialA);
 
   // 物質B
-  const rB = state.massB === 0 ? 50 : 30;
+  const rB = state.massB === 0 ? BALL_RADIUS_LARGE : BALL_RADIUS_SMALL;
   const yB = state.massB === 0 ? VH / 3.4 : VH / 3.15;
-  drawMaterialBall(p, 354, yB, rB, state.materialB);
+  drawMaterialBall(p, OBJECT_B_X, yB, rB, state.materialB);
 }
 
 /**
@@ -179,7 +206,7 @@ function drawGraphLines(p, VH) {
   p.push();
   p.noStroke();
   p.fill(0);
-  p.textSize(26);
+  p.textSize(LABEL_FONT_SIZE);
   p.textAlign(p.CENTER, p.CENTER);
   p.text("加熱時間(加えた熱量(Q))", (VW / 2) * 1.42, VW / 2.55 + VH / 9.5);
   p.text("温", (VW / 2) * 0.99, (VH / 9.5) * 1.3);
@@ -193,18 +220,18 @@ function drawGraphLines(p, VH) {
   // --- 物質A グラフ線（赤）---
   const massA = MASS_VALUES[state.massA];
   const cA = SPECIFIC_HEAT[state.materialA];
-  const deltaYA = computeTemperatureChange(5000, massA, cA);
+  const deltaYA = computeTemperatureChange(HEAT_APPLIED, massA, cA);
 
   p.push();
-  p.stroke(255, 0, 0);
+  p.stroke(...MATERIAL_A_COLOR);
   p.strokeWeight(1);
   p.line(gx0, lineOriginY, axRight, lineOriginY - deltaYA);
   // 凡例
   const legAy = gy0 + (ysize * 0.5) / 7;
   p.line((VW / 2) * 1.1, legAy, (VW / 2) * 1.2, legAy);
-  p.fill(255, 0, 0);
+  p.fill(...MATERIAL_A_COLOR);
   p.noStroke();
-  p.textSize(26);
+  p.textSize(LABEL_FONT_SIZE);
   p.textAlign(p.LEFT, p.CENTER);
   p.text("物質A", (VW / 2) * 1.21, gy0 + (ysize * 0.6) / 7);
   p.pop();
@@ -212,18 +239,18 @@ function drawGraphLines(p, VH) {
   // --- 物質B グラフ線（青）---
   const massB = MASS_VALUES[state.massB];
   const cB = SPECIFIC_HEAT[state.materialB];
-  const deltaYB = computeTemperatureChange(5000, massB, cB);
+  const deltaYB = computeTemperatureChange(HEAT_APPLIED, massB, cB);
 
   p.push();
-  p.stroke(0, 0, 255, 150);
+  p.stroke(...MATERIAL_B_COLOR);
   p.strokeWeight(1);
   p.line(gx0, lineOriginY, axRight, lineOriginY - deltaYB);
   // 凡例
   const legBy = gy0 + (ysize * 1.2) / 7;
   p.line((VW / 2) * 1.1, legBy, (VW / 2) * 1.2, legBy);
-  p.fill(0, 0, 255, 150);
+  p.fill(...MATERIAL_B_COLOR);
   p.noStroke();
-  p.textSize(26);
+  p.textSize(LABEL_FONT_SIZE);
   p.textAlign(p.LEFT, p.CENTER);
   p.text("物質B", (VW / 2) * 1.21, gy0 + (ysize * 1.35) / 7);
   p.pop();
@@ -238,7 +265,7 @@ function drawSpecificHeatLabels(p, VH) {
   p.push();
   p.noStroke();
   p.fill(0);
-  p.textSize(26);
+  p.textSize(LABEL_FONT_SIZE);
   p.textAlign(p.LEFT, p.CENTER);
   p.text(
     SPECIFIC_HEAT_LABELS[state.materialA] + "(J/(ｇ・K))",

@@ -1,12 +1,14 @@
 // state.js はシミュレーションの共有可変状態を管理するファイルです。
 
+import { PISTON_INIT_X, CYL_LEFT } from "./constants.js";
+
 export const state = {
   /** ピストンのX座標 */
-  pistonX: 512,
+  pistonX: PISTON_INIT_X,
   /** ピストンの目標X座標 */
-  pistonX_target: 512,
+  pistonX_target: PISTON_INIT_X,
   /** 気体の幅 */
-  gasWidth: 329,
+  gasWidth: PISTON_INIT_X - CYL_LEFT,
   /** 分子の配列 */
   molecules: [],
   /** 分子の数 */

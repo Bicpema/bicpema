@@ -8,9 +8,14 @@ import {
   onCloseModalClick,
   onQRadioChange,
 } from "./element-function.js";
-
-const PISTON_INIT_X = 512;
-const CYL_LEFT = 183;
+import {
+  PISTON_INIT_X,
+  CYL_LEFT,
+  MOLECULE_MARGIN,
+  MOLECULE_X_MIN,
+  MOLECULE_Y_MIN,
+  MOLECULE_Y_MAX,
+} from "./constants.js";
 
 /**
  * 値の初期化を行う。
@@ -31,8 +36,8 @@ export function initValue(p) {
     state.molecules.push(
       new Molecule(
         p,
-        p.random(201, PISTON_INIT_X - 27),
-        p.random(146, 341),
+        p.random(MOLECULE_X_MIN, PISTON_INIT_X - MOLECULE_MARGIN),
+        p.random(MOLECULE_Y_MIN, MOLECULE_Y_MAX),
         p.random(-1, 1),
         p.random(-1, 1)
       )
