@@ -3,6 +3,27 @@
 import { state } from "./state.js";
 import { computePhaseRetardation } from "./physics.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+import {
+  FPS,
+  WAVELENGTH_MIN,
+  WAVELENGTH_MAX,
+  STAGE_SIZE,
+  STAGE_HALF_SIZE,
+  SHEET_Z_OFFSET,
+  TAPE_WIDTH_SLIDER_MIN,
+  TAPE_WIDTH_SLIDER_MAX,
+  TAPE_WIDTH_SLIDER_DEFAULT,
+  BLANK_IMAGE_GRAY_LEVEL,
+  XYZ_TO_SRGB_MATRIX,
+  SRGB_LINEAR_THRESHOLD,
+  SRGB_LINEAR_SCALE,
+  SRGB_GAMMA,
+  SRGB_GAMMA_SCALE,
+  SRGB_GAMMA_OFFSET,
+  GRAPH_LABEL_FONT_SIZE,
+  GRAPH_TITLE_FONT_SIZE,
+  GRAPH_TICK_FONT_SIZE,
+} from "./constants.js";
 
 // Chart.js・mathjsの動的importをモジュール読み込み時に開始する。p5のpreload()による
 // CSV/画像の取得と並行して読み込まれるため、setup()到達時には解決済みになる想定。
@@ -70,7 +91,7 @@ export function checked(p) {
   p.push();
   p.translate(0, 0, -60);
   p.stroke(255, 0, 0);
-  p.line(0, 100, 0, -100);
+  p.line(0, STAGE_HALF_SIZE, 0, -STAGE_HALF_SIZE);
   p.pop();
   for (let i = 0; i < state.colabNum; i++) {
     //colabNumが3の場合, 0,1,2 (1,2,3枚)
@@ -81,7 +102,7 @@ export function checked(p) {
     p.stroke(0, 0, 0); //2024.6.14 透明度を50から20へ変更 (157, 204, 224, 0)
     p.push();
     p.translate(0, 0, -60);
-    p.line(0, 100, 0, -100);
+    p.line(0, STAGE_HALF_SIZE, 0, -STAGE_HALF_SIZE);
     p.pop();
     p.pop();
   }
@@ -89,7 +110,11 @@ export function checked(p) {
 
 //スライダーやラジオボタンを作成する処理
 export function createSliderandRadio(p) {
-  state.slider = p.createSlider(10, 400, 75); //テープの幅を決定するslider
+  state.slider = p.createSlider(
+    TAPE_WIDTH_SLIDER_MIN,
+    TAPE_WIDTH_SLIDER_MAX,
+    TAPE_WIDTH_SLIDER_DEFAULT
+  ); //テープの幅を決定するslider
   state.slider.position(50, 100);
   state.lastSlider = state.slider.value();
   state.lineradio = p.createRadio();
@@ -112,10 +137,10 @@ export function prenormal(p) {
   state.tape_number_cal = new Array(state.colabNum).fill(0);
 
   // テープ描画における条件設定(幅)
-  state.angle_1 = p.atan2(100, state.slider.value());
-  state.angle_2 = p.PI - p.atan2(100, state.slider.value());
-  state.angle_3 = p.PI + p.atan2(100, state.slider.value());
-  state.angle_4 = 2 * p.PI - p.atan2(100, state.slider.value());
+  state.angle_1 = p.atan2(STAGE_HALF_SIZE, state.slider.value());
+  state.angle_2 = p.PI - p.atan2(STAGE_HALF_SIZE, state.slider.value());
+  state.angle_3 = p.PI + p.atan2(STAGE_HALF_SIZE, state.slider.value());
+  state.angle_4 = 2 * p.PI - p.atan2(STAGE_HALF_SIZE, state.slider.value());
 
   // 回転の設定
   //rotateTime += 0.5
@@ -123,23 +148,37 @@ export function prenormal(p) {
   // 背景色の設定
   p.background(state.rBefore, state.gBefore, state.bBefore);
   p.push();
-  p.translate(-100, -100);
+  p.translate(-STAGE_HALF_SIZE, -STAGE_HALF_SIZE);
   p.image(state.img, 0, 0);
   p.pop();
   state.img.loadPixels();
 
   // 偏光板の描画
-  createPolarizer(p, 200, 0, 0, 0, 0);
+  createPolarizer(p, STAGE_SIZE, 0, 0, 0, 0);
   state.cellophaneNum = numInputFunction(p);
   if (state.polarizerSelect.value() == "平行ニコル配置")
-    createPolarizer(p, 200, 0, 0, -0.1 * state.cellophaneNum, 0);
+    createPolarizer(
+      p,
+      STAGE_SIZE,
+      0,
+      0,
+      -SHEET_Z_OFFSET * state.cellophaneNum,
+      0
+    );
   if (state.polarizerSelect.value() == "直交ニコル配置")
-    createPolarizer(p, 200, 0, 0, -0.1 * state.cellophaneNum, 1);
+    createPolarizer(
+      p,
+      STAGE_SIZE,
+      0,
+      0,
+      -SHEET_Z_OFFSET * state.cellophaneNum,
+      1
+    );
 }
 
 //"画像塗分け"における配列用意や画像の貼り付け, テープ幅の設定, 偏光板の表示など
 export function prefilledimage(p) {
-  p.frameRate(60);
+  p.frameRate(FPS);
   state.tape_angle = new Array(state.colabNum).fill(0);
   state.tape_angle_cal = new Array(state.colabNum).fill(0); //配列の宣言(1枚目以降) 1,2,3,4,5..colabNum
   state.tape_number_cal = new Array(state.colabNum).fill(0);
@@ -148,28 +187,42 @@ export function prefilledimage(p) {
   state.thresholds = state.edgieSlider.value();
 
   // テープ描画における条件設定(幅)
-  state.angle_1 = p.atan2(100, state.slider.value());
-  state.angle_2 = p.PI - p.atan2(100, state.slider.value());
-  state.angle_3 = p.PI + p.atan2(100, state.slider.value());
-  state.angle_4 = 2 * p.PI - p.atan2(100, state.slider.value());
+  state.angle_1 = p.atan2(STAGE_HALF_SIZE, state.slider.value());
+  state.angle_2 = p.PI - p.atan2(STAGE_HALF_SIZE, state.slider.value());
+  state.angle_3 = p.PI + p.atan2(STAGE_HALF_SIZE, state.slider.value());
+  state.angle_4 = 2 * p.PI - p.atan2(STAGE_HALF_SIZE, state.slider.value());
 
   // 回転の設定
   p.rotateY((180 * p.PI) / 180);
   // 背景色の設定
-  p.background(200);
+  p.background(BLANK_IMAGE_GRAY_LEVEL);
   p.push();
-  p.translate(-100, -100);
-  p.image(state.img2, 0, 0, 200, 200); // 画質を良くするために200,200のサイズ宣言は必要.
+  p.translate(-STAGE_HALF_SIZE, -STAGE_HALF_SIZE);
+  p.image(state.img2, 0, 0, STAGE_SIZE, STAGE_SIZE); // 画質を良くするために200,200のサイズ宣言は必要.
   p.pop();
   //img2.loadPixels();
 
   // 偏光板の描画
-  createPolarizer(p, 200, 0, 0, 0, 0);
+  createPolarizer(p, STAGE_SIZE, 0, 0, 0, 0);
   state.cellophaneNum = numInputFunction(p);
   if (state.polarizerSelect.value() == "平行ニコル配置")
-    createPolarizer(p, 200, 0, 0, -0.1 * state.cellophaneNum, 0);
+    createPolarizer(
+      p,
+      STAGE_SIZE,
+      0,
+      0,
+      -SHEET_Z_OFFSET * state.cellophaneNum,
+      0
+    );
   if (state.polarizerSelect.value() == "直交ニコル配置")
-    createPolarizer(p, 200, 0, 0, -0.1 * state.cellophaneNum, 1);
+    createPolarizer(
+      p,
+      STAGE_SIZE,
+      0,
+      0,
+      -SHEET_Z_OFFSET * state.cellophaneNum,
+      1
+    );
 }
 
 // normalにおける, 組数1での色計算と配色の処理
@@ -206,9 +259,9 @@ export function colabNum2_normal(p) {
   if (state.colabNum >= 2) {
     if (state.count2 === 0) {
       for (let i = 0; i < state.img.pixels.length; i += 4) {
-        state.img.pixels[i] = 200;
-        state.img.pixels[i + 1] = 200;
-        state.img.pixels[i + 2] = 200;
+        state.img.pixels[i] = BLANK_IMAGE_GRAY_LEVEL;
+        state.img.pixels[i + 1] = BLANK_IMAGE_GRAY_LEVEL;
+        state.img.pixels[i + 2] = BLANK_IMAGE_GRAY_LEVEL;
         state.img.pixels[i + 3] = 255; //7.13までは80
       }
       state.img.updatePixels();
@@ -368,14 +421,14 @@ export function colorRect(p) {
 
 //白画像を定位置に配置し, pixelsの色を初期値にする処理. 入力画像のサイズを設定する処理
 export function createStartimg() {
-  state.img.resize(200, 200);
-  state.centerX = 100;
-  state.centerY = 100;
+  state.img.resize(STAGE_SIZE, STAGE_SIZE);
+  state.centerX = STAGE_HALF_SIZE;
+  state.centerY = STAGE_HALF_SIZE;
   state.img.loadPixels();
   for (let i = 0; i < state.img.pixels.length; i += 4) {
-    state.img.pixels[i] = 200;
-    state.img.pixels[i + 1] = 200;
-    state.img.pixels[i + 2] = 200;
+    state.img.pixels[i] = BLANK_IMAGE_GRAY_LEVEL;
+    state.img.pixels[i + 1] = BLANK_IMAGE_GRAY_LEVEL;
+    state.img.pixels[i + 2] = BLANK_IMAGE_GRAY_LEVEL;
     state.img.pixels[i + 3] = 255; // 7.13までは80
   }
   state.img.updatePixels();
@@ -410,7 +463,7 @@ export function createCellophane(p, n, rAfter, a, angle_1) {
   p.fill(255, 255, 255, 0); //2024.6.14 透明度を50から20へ変更 (157, 204, 224, 0)
   for (let i = 0; i < n; i++) {
     p.push();
-    p.translate(-0, 0, -0.1 * (i + a));
+    p.translate(-0, 0, -SHEET_Z_OFFSET * (i + a));
     p.box(
       2 * state.radius * p.cos(angle_1),
       2 * state.radius * p.sin(angle_1),
@@ -447,10 +500,10 @@ export function jhons(p, theta) {
 
 // RGBへの変換
 export function toRGB(a) {
-  if (a <= 0.0031308) {
-    a = 12.92 * a;
+  if (a <= SRGB_LINEAR_THRESHOLD) {
+    a = SRGB_LINEAR_SCALE * a;
   } else {
-    a = 1.055 * Math.pow(a, 1 / 2.4) - 0.055;
+    a = SRGB_GAMMA_SCALE * Math.pow(a, 1 / SRGB_GAMMA) - SRGB_GAMMA_OFFSET;
   }
   // 0〜1にクリップ
   a = Math.max(0, Math.min(1, a));
@@ -475,27 +528,28 @@ export async function beforeColorCalculate(p) {
     math = await loadMath();
   }
   // XYZ刺激値への変換（等色関数×スペクトル）
-  for (let i = 380; i <= 750; i++) {
-    state.xArrBefore[i - 380] =
-      state.R_all[i - 380] *
-      state.osArrOrigin[i - 380] *
-      state.xLambda[i - 380];
-    state.yArrBefore[i - 380] =
-      state.R_all[i - 380] *
-      state.osArrOrigin[i - 380] *
-      state.yLambda[i - 380];
-    state.zArrBefore[i - 380] =
-      state.R_all[i - 380] *
-      state.osArrOrigin[i - 380] *
-      state.zLambda[i - 380];
-    state.R_os[i - 380] = state.R_all[i - 380] * state.osArrOrigin[i - 380];
+  for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
+    state.xArrBefore[i - WAVELENGTH_MIN] =
+      state.R_all[i - WAVELENGTH_MIN] *
+      state.osArrOrigin[i - WAVELENGTH_MIN] *
+      state.xLambda[i - WAVELENGTH_MIN];
+    state.yArrBefore[i - WAVELENGTH_MIN] =
+      state.R_all[i - WAVELENGTH_MIN] *
+      state.osArrOrigin[i - WAVELENGTH_MIN] *
+      state.yLambda[i - WAVELENGTH_MIN];
+    state.zArrBefore[i - WAVELENGTH_MIN] =
+      state.R_all[i - WAVELENGTH_MIN] *
+      state.osArrOrigin[i - WAVELENGTH_MIN] *
+      state.zLambda[i - WAVELENGTH_MIN];
+    state.R_os[i - WAVELENGTH_MIN] =
+      state.R_all[i - WAVELENGTH_MIN] * state.osArrOrigin[i - WAVELENGTH_MIN];
   }
   state.Intensity_all_now = math.sum(state.R_os);
-  for (let i = 380; i <= 750; i++) {
-    state.speyBox[i - 380] =
-      state.osArrOrigin[i - 380] *
-      state.yLambda[i - 380] *
-      state.R_all[i - 380];
+  for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
+    state.speyBox[i - WAVELENGTH_MIN] =
+      state.osArrOrigin[i - WAVELENGTH_MIN] *
+      state.yLambda[i - WAVELENGTH_MIN] *
+      state.R_all[i - WAVELENGTH_MIN];
   }
   state.spey = math.sum(state.speyBox);
   state.K = 1.0 / state.spey; //0.5
@@ -503,11 +557,7 @@ export async function beforeColorCalculate(p) {
   state.xSumBefore = math.sum(state.xArrBefore) * state.K;
   state.ySumBefore = math.sum(state.yArrBefore) * state.K;
   state.zSumBefore = math.sum(state.zArrBefore) * state.K;
-  state.tosRGB = [
-    [3.2406, -1.5372, -0.4986],
-    [-0.9689, 1.8758, 0.0415],
-    [0.0557, -0.204, 1.057],
-  ];
+  state.tosRGB = XYZ_TO_SRGB_MATRIX;
   state.rgbBefore = math.multiply(state.tosRGB, [
     state.xSumBefore,
     state.ySumBefore,
@@ -545,10 +595,10 @@ export function afterColorCalculate(p) {
     state.E_1 = [[-p.sin(a)], [p.cos(a)]];
 
     // それぞれの波長毎に計算
-    for (let i = 380; i <= 750; i++) {
+    for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
       let l = i;
       let delta = computePhaseRetardation(
-        state.dArr[i - 380],
+        state.dArr[i - WAVELENGTH_MIN],
         firstCellophaneNum.value(),
         firstopdInput.value(),
         l
@@ -565,7 +615,7 @@ export function afterColorCalculate(p) {
           let otherCellophaneNum = p.select("#numInput-" + n);
           let otheropdInput = p.select("#opdInput");
           let delta = computePhaseRetardation(
-            state.dArr[i - 380],
+            state.dArr[i - WAVELENGTH_MIN],
             otherCellophaneNum.value(),
             otheropdInput.value(),
             l
@@ -595,45 +645,46 @@ export function afterColorCalculate(p) {
         math.abs(math.multiply(state.E_3[0], state.E_3[0])) +
           math.abs(math.multiply(state.E_3[1], state.E_3[1]))
       );
-      state.osArr[i - 380] =
-        relativeStrength * state.osArrOrigin[i - 380] * state.R_all[i - 380];
-      state.xArrAfter[i - 380] = state.osArr[i - 380] * state.xLambda[i - 380];
-      state.yArrAfter[i - 380] = state.osArr[i - 380] * state.yLambda[i - 380];
-      state.zArrAfter[i - 380] = state.osArr[i - 380] * state.zLambda[i - 380];
+      state.osArr[i - WAVELENGTH_MIN] =
+        relativeStrength *
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN];
+      state.xArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.xLambda[i - WAVELENGTH_MIN];
+      state.yArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.yLambda[i - WAVELENGTH_MIN];
+      state.zArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.zLambda[i - WAVELENGTH_MIN];
       // 明度の表現の為の, 光源スペクトル成分*等色関数*補正関数
-      ls_xArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.xLambda[i - 380];
-      ls_yArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.yLambda[i - 380];
-      ls_zArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.zLambda[i - 380];
+      ls_xArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.xLambda[i - WAVELENGTH_MIN];
+      ls_yArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.yLambda[i - WAVELENGTH_MIN];
+      ls_zArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.zLambda[i - WAVELENGTH_MIN];
     }
     state.Intensity_all_now = math.sum(state.osArr);
     let sum_ls_xArrAfter = math.sum(ls_xArrAfter);
     let sum_ls_yArrAfter = math.sum(ls_yArrAfter);
     let sum_ls_zArrAfter = math.sum(ls_zArrAfter);
-    for (let i = 380; i <= 750; i++) {
-      state.speyBox[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.yLambda[i - 380] *
-        state.R_all[i - 380];
+    for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
+      state.speyBox[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.yLambda[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN];
     }
     state.spey = math.sum(state.speyBox);
     state.K = 1.0 / state.spey;
     state.xSumAfter = math.sum(state.xArrAfter) * state.K;
     state.ySumAfter = math.sum(state.yArrAfter) * state.K;
     state.zSumAfter = math.sum(state.zArrAfter) * state.K;
-    state.tosRGB = [
-      [3.2406, -1.5372, -0.4986],
-      [-0.9689, 1.8758, 0.0415],
-      [0.0557, -0.204, 1.057],
-    ];
+    state.tosRGB = XYZ_TO_SRGB_MATRIX;
     state.sRGB = math.multiply(state.tosRGB, [
       state.xSumAfter,
       state.ySumAfter,
@@ -664,8 +715,8 @@ export function afterColorCalculate(p) {
       state.rAfter = 0;
       state.gAfter = 0;
       state.bAfter = 0;
-      for (let i = 380; i <= 750; i++) {
-        state.osArr[i - 380] = 0;
+      for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
+        state.osArr[i - WAVELENGTH_MIN] = 0;
       }
     }
   }
@@ -695,10 +746,10 @@ export function afterColorCalculate1(p) {
     state.E_1 = [[-p.sin(a)], [p.cos(a)]];
 
     // それぞれの波長毎に計算
-    for (let i = 380; i <= 750; i++) {
+    for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
       let l = i;
       let delta = computePhaseRetardation(
-        state.dArr[i - 380],
+        state.dArr[i - WAVELENGTH_MIN],
         firstCellophaneNum.value(),
         firstopdInput.value(),
         l
@@ -719,45 +770,46 @@ export function afterColorCalculate1(p) {
         math.abs(math.multiply(state.E_3[0], state.E_3[0])) +
           math.abs(math.multiply(state.E_3[1], state.E_3[1]))
       );
-      state.osArr[i - 380] =
-        relativeStrength * state.osArrOrigin[i - 380] * state.R_all[i - 380];
-      state.xArrAfter[i - 380] = state.osArr[i - 380] * state.xLambda[i - 380];
-      state.yArrAfter[i - 380] = state.osArr[i - 380] * state.yLambda[i - 380];
-      state.zArrAfter[i - 380] = state.osArr[i - 380] * state.zLambda[i - 380];
+      state.osArr[i - WAVELENGTH_MIN] =
+        relativeStrength *
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN];
+      state.xArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.xLambda[i - WAVELENGTH_MIN];
+      state.yArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.yLambda[i - WAVELENGTH_MIN];
+      state.zArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.zLambda[i - WAVELENGTH_MIN];
       // 明度の表現の為の, 光源スペクトル成分*等色関数*補正関数
-      state.ls_xArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.xLambda[i - 380];
-      state.ls_yArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.yLambda[i - 380];
-      state.ls_zArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.zLambda[i - 380];
+      state.ls_xArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.xLambda[i - WAVELENGTH_MIN];
+      state.ls_yArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.yLambda[i - WAVELENGTH_MIN];
+      state.ls_zArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.zLambda[i - WAVELENGTH_MIN];
     }
     state.Intensity_all_now = math.sum(state.osArr);
     state.sum_ls_xArrAfter = math.sum(state.ls_xArrAfter);
     state.sum_ls_yArrAfter = math.sum(state.ls_yArrAfter);
     state.sum_ls_zArrAfter = math.sum(state.ls_zArrAfter);
-    for (let i = 380; i <= 750; i++) {
-      state.speyBox[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.yLambda[i - 380] *
-        state.R_all[i - 380];
+    for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
+      state.speyBox[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.yLambda[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN];
     }
     state.spey = math.sum(state.speyBox);
     state.K = 1.0 / state.spey;
     state.xSumAfter = math.sum(state.xArrAfter) * state.K;
     state.ySumAfter = math.sum(state.yArrAfter) * state.K;
     state.zSumAfter = math.sum(state.zArrAfter) * state.K;
-    state.tosRGB = [
-      [3.2406, -1.5372, -0.4986],
-      [-0.9689, 1.8758, 0.0415],
-      [0.0557, -0.204, 1.057],
-    ];
+    state.tosRGB = XYZ_TO_SRGB_MATRIX;
     state.sRGB = math.multiply(state.tosRGB, [
       state.xSumAfter,
       state.ySumAfter,
@@ -769,19 +821,22 @@ export function afterColorCalculate1(p) {
     let ratio;
     if (state.rAfter1 >= state.gAfter1 && state.rAfter1 >= state.bAfter1) {
       ratio =
-        state.xSumAfter ** (1 / 2.4) / state.sum_ls_xArrAfter ** (1 / 2.4);
+        state.xSumAfter ** (1 / SRGB_GAMMA) /
+        state.sum_ls_xArrAfter ** (1 / SRGB_GAMMA);
     } else if (
       state.gAfter1 >= state.rAfter1 &&
       state.gAfter1 >= state.bAfter1
     ) {
       ratio =
-        state.ySumAfter ** (1 / 2.4) / state.sum_ls_yArrAfter ** (1 / 2.4);
+        state.ySumAfter ** (1 / SRGB_GAMMA) /
+        state.sum_ls_yArrAfter ** (1 / SRGB_GAMMA);
     } else if (
       state.bAfter1 >= state.rAfter1 &&
       state.bAfter1 >= state.gAfter1
     ) {
       ratio =
-        state.zSumAfter ** (1 / 2.4) / state.sum_ls_zArrAfter ** (1 / 2.4);
+        state.zSumAfter ** (1 / SRGB_GAMMA) /
+        state.sum_ls_zArrAfter ** (1 / SRGB_GAMMA);
     }
   }
 
@@ -795,8 +850,8 @@ export function afterColorCalculate1(p) {
       state.rAfter1 = 0;
       state.gAfter1 = 0;
       state.bAfter1 = 0;
-      for (let i = 380; i <= 750; i++) {
-        state.osArr[i - 380] = 0;
+      for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
+        state.osArr[i - WAVELENGTH_MIN] = 0;
       }
     }
   }
@@ -859,11 +914,11 @@ export function afterColorCalculates(p, binaryString) {
 
   if (numStart !== 0) {
     // それぞれの波長毎に計算
-    for (let i = 380; i <= 750; i++) {
+    for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
       let l = i;
       let firstopdInput = p.select("#opdInput"); // セロハン1組目の光路差
       let delta = computePhaseRetardation(
-        state.dArr[i - 380],
+        state.dArr[i - WAVELENGTH_MIN],
         firstCellophaneNum.value(),
         firstopdInput.value(),
         l
@@ -881,7 +936,7 @@ export function afterColorCalculates(p, binaryString) {
           let otherCellophaneNum = p.select("#numInput-" + n);
           let otheropdInput = p.select("#opdInput");
           let delta = computePhaseRetardation(
-            state.dArr[i - 380],
+            state.dArr[i - WAVELENGTH_MIN],
             otherCellophaneNum.value(),
             otheropdInput.value(),
             l
@@ -908,7 +963,7 @@ export function afterColorCalculates(p, binaryString) {
           let otherCellophaneNum = p.select("#numInput-" + num);
           let otheropdInput = p.select("#opdInput");
           let delta = computePhaseRetardation(
-            state.dArr[i - 380],
+            state.dArr[i - WAVELENGTH_MIN],
             otherCellophaneNum.value(),
             otheropdInput.value(),
             l
@@ -942,45 +997,46 @@ export function afterColorCalculates(p, binaryString) {
         math.abs(math.multiply(state.E_3[0], state.E_3[0])) +
           math.abs(math.multiply(state.E_3[1], state.E_3[1]))
       );
-      state.osArr[i - 380] =
-        relativeStrength * state.osArrOrigin[i - 380] * state.R_all[i - 380];
-      state.xArrAfter[i - 380] = state.osArr[i - 380] * state.xLambda[i - 380];
-      state.yArrAfter[i - 380] = state.osArr[i - 380] * state.yLambda[i - 380];
-      state.zArrAfter[i - 380] = state.osArr[i - 380] * state.zLambda[i - 380];
+      state.osArr[i - WAVELENGTH_MIN] =
+        relativeStrength *
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN];
+      state.xArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.xLambda[i - WAVELENGTH_MIN];
+      state.yArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.yLambda[i - WAVELENGTH_MIN];
+      state.zArrAfter[i - WAVELENGTH_MIN] =
+        state.osArr[i - WAVELENGTH_MIN] * state.zLambda[i - WAVELENGTH_MIN];
       // 明度の表現の為の, 光源スペクトル成分*等色関数*補正関数
-      state.ls_xArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.xLambda[i - 380];
-      state.ls_yArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.yLambda[i - 380];
-      state.ls_zArrAfter[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.R_all[i - 380] *
-        state.zLambda[i - 380];
+      state.ls_xArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.xLambda[i - WAVELENGTH_MIN];
+      state.ls_yArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.yLambda[i - WAVELENGTH_MIN];
+      state.ls_zArrAfter[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN] *
+        state.zLambda[i - WAVELENGTH_MIN];
     }
     state.Intensity_all_now = math.sum(state.osArr);
     state.sum_ls_xArrAfter = math.sum(state.ls_xArrAfter);
     state.sum_ls_yArrAfter = math.sum(state.ls_yArrAfter);
     state.sum_ls_zArrAfter = math.sum(state.ls_zArrAfter);
-    for (let i = 380; i <= 750; i++) {
-      state.speyBox[i - 380] =
-        state.osArrOrigin[i - 380] *
-        state.yLambda[i - 380] *
-        state.R_all[i - 380];
+    for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
+      state.speyBox[i - WAVELENGTH_MIN] =
+        state.osArrOrigin[i - WAVELENGTH_MIN] *
+        state.yLambda[i - WAVELENGTH_MIN] *
+        state.R_all[i - WAVELENGTH_MIN];
     }
     state.spey = math.sum(state.speyBox);
     state.K = 1.0 / state.spey;
     state.xSumAfter = math.sum(state.xArrAfter) * state.K;
     state.ySumAfter = math.sum(state.yArrAfter) * state.K;
     state.zSumAfter = math.sum(state.zArrAfter) * state.K;
-    state.tosRGB = [
-      [3.2406, -1.5372, -0.4986],
-      [-0.9689, 1.8758, 0.0415],
-      [0.0557, -0.204, 1.057],
-    ];
+    state.tosRGB = XYZ_TO_SRGB_MATRIX;
     state.sRGB = math.multiply(state.tosRGB, [
       state.xSumAfter,
       state.ySumAfter,
@@ -992,28 +1048,31 @@ export function afterColorCalculates(p, binaryString) {
     let ratio;
     if (state.rAfter2 >= state.gAfter2 && state.rAfter2 >= state.bAfter2) {
       ratio =
-        state.xSumAfter ** (1 / 2.4) / state.sum_ls_xArrAfter ** (1 / 2.4);
+        state.xSumAfter ** (1 / SRGB_GAMMA) /
+        state.sum_ls_xArrAfter ** (1 / SRGB_GAMMA);
     } else if (
       state.gAfter2 >= state.rAfter2 &&
       state.gAfter2 >= state.bAfter2
     ) {
       ratio =
-        state.ySumAfter ** (1 / 2.4) / state.sum_ls_yArrAfter ** (1 / 2.4);
+        state.ySumAfter ** (1 / SRGB_GAMMA) /
+        state.sum_ls_yArrAfter ** (1 / SRGB_GAMMA);
     } else if (
       state.bAfter2 >= state.rAfter2 &&
       state.bAfter2 >= state.gAfter2
     ) {
       ratio =
-        state.zSumAfter ** (1 / 2.4) / state.sum_ls_zArrAfter ** (1 / 2.4);
+        state.zSumAfter ** (1 / SRGB_GAMMA) /
+        state.sum_ls_zArrAfter ** (1 / SRGB_GAMMA);
     }
     //rAfter2 *=ratio
     //gAfter2 *=ratio
     //bAfter2 *=ratio
   } else {
     if (state.polarizerSelect.value() == "平行ニコル配置") {
-      state.rAfter2 = 200;
-      state.gAfter2 = 200;
-      state.bAfter2 = 200;
+      state.rAfter2 = BLANK_IMAGE_GRAY_LEVEL;
+      state.gAfter2 = BLANK_IMAGE_GRAY_LEVEL;
+      state.bAfter2 = BLANK_IMAGE_GRAY_LEVEL;
     } else if (state.polarizerSelect.value() == "直交ニコル配置") {
       state.rAfter2 = 0;
       state.gAfter2 = 0;
@@ -1039,9 +1098,9 @@ export function drawTape_1(p, rAfter1, gAfter1, bAfter1, rotateInput) {
       state.img.pixels[i + 2] = bAfter1;
     } else {
       if (state.polarizerSelect.value() == "平行ニコル配置") {
-        state.img.pixels[i + 0] = 200;
-        state.img.pixels[i + 1] = 200;
-        state.img.pixels[i + 2] = 200;
+        state.img.pixels[i + 0] = BLANK_IMAGE_GRAY_LEVEL;
+        state.img.pixels[i + 1] = BLANK_IMAGE_GRAY_LEVEL;
+        state.img.pixels[i + 2] = BLANK_IMAGE_GRAY_LEVEL;
       } else if (state.polarizerSelect.value() == "直交ニコル配置") {
         state.img.pixels[i + 0] = 0;
         state.img.pixels[i + 1] = 0;
@@ -1102,7 +1161,7 @@ export function drawTapes(p, tape_angle, rAftera, gAftera, bAftera) {
 // ある角度におけるテープの4隅の点の情報を入手
 export function getrectPoint(p, tape_angle) {
   p.push();
-  p.translate(-100, -100);
+  p.translate(-STAGE_HALF_SIZE, -STAGE_HALF_SIZE);
   let sinValues = [
     p.sin(state.angle_1 + tape_angle - p.PI / 2),
     p.sin(state.angle_2 + tape_angle - p.PI / 2),
@@ -1169,8 +1228,9 @@ export function crossProduct(P, A, B) {
 
 // 光源の強度値の算出
 export function intensity_max() {
-  for (let i = 380; i <= 750; i++) {
-    state.Intensity_all_box[i - 380] = state.osArrOrigin[i - 380];
+  for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
+    state.Intensity_all_box[i - WAVELENGTH_MIN] =
+      state.osArrOrigin[i - WAVELENGTH_MIN];
   }
   state.Intensity_all = math.sum(state.Intensity_all_box);
   return state.Intensity_all;
@@ -1255,7 +1315,7 @@ export function drawGraph() {
       legend: {
         labels: {
           font: {
-            size: 16,
+            size: GRAPH_LABEL_FONT_SIZE,
           },
         },
       },
@@ -1263,7 +1323,7 @@ export function drawGraph() {
         display: true,
         text: "１枚目の偏光板を透過した後とシミュレーションのスペクトルの比較",
         font: {
-          size: 20,
+          size: GRAPH_TITLE_FONT_SIZE,
         },
       },
     },
@@ -1277,14 +1337,14 @@ export function drawGraph() {
           display: true,
           text: "波長(nm)",
           font: {
-            size: 16,
+            size: GRAPH_LABEL_FONT_SIZE,
           },
         },
-        max: 750,
-        min: 380,
+        max: WAVELENGTH_MAX,
+        min: WAVELENGTH_MIN,
         ticks: {
           font: {
-            size: 14,
+            size: GRAPH_TICK_FONT_SIZE,
           },
         },
       },
@@ -1294,14 +1354,14 @@ export function drawGraph() {
           display: true,
           text: "強度(a.u.)",
           font: {
-            size: 16,
+            size: GRAPH_LABEL_FONT_SIZE,
           },
         },
         max: 1,
         min: 0,
         ticks: {
           font: {
-            size: 14,
+            size: GRAPH_TICK_FONT_SIZE,
           },
         },
       },
@@ -1364,11 +1424,11 @@ export function drawGraph2_1(x1, y1) {
   // グラフのオプション設定
   let mainOptions = {
     plugins: {
-      legend: { labels: { font: { size: 16 } } },
+      legend: { labels: { font: { size: GRAPH_LABEL_FONT_SIZE } } },
       title: {
         display: true,
         text: "HSV色空間上での各層の色",
-        font: { size: 20 },
+        font: { size: GRAPH_TITLE_FONT_SIZE },
       },
     },
     responsive: true,
@@ -1377,17 +1437,25 @@ export function drawGraph2_1(x1, y1) {
     scales: {
       x: {
         display: true,
-        title: { display: true, text: "x", font: { size: 16 } },
+        title: {
+          display: true,
+          text: "x",
+          font: { size: GRAPH_LABEL_FONT_SIZE },
+        },
         max: 1,
         min: -1,
-        ticks: { font: { size: 14 }, stepSize: 0.1 },
+        ticks: { font: { size: GRAPH_TICK_FONT_SIZE }, stepSize: 0.1 },
       },
       y: {
         display: true,
-        title: { display: true, text: "y", font: { size: 16 } },
+        title: {
+          display: true,
+          text: "y",
+          font: { size: GRAPH_LABEL_FONT_SIZE },
+        },
         max: 1,
         min: -1,
-        ticks: { font: { size: 14 }, stepSize: 0.1 },
+        ticks: { font: { size: GRAPH_TICK_FONT_SIZE }, stepSize: 0.1 },
       },
     },
   };
@@ -1451,11 +1519,11 @@ export function drawGraph2() {
   // グラフのオプション設定
   let mainOptions = {
     plugins: {
-      legend: { labels: { font: { size: 16 } } },
+      legend: { labels: { font: { size: GRAPH_LABEL_FONT_SIZE } } },
       title: {
         display: true,
         text: "HSV色空間上での各層の色",
-        font: { size: 20 },
+        font: { size: GRAPH_TITLE_FONT_SIZE },
       },
     },
     responsive: true,
@@ -1464,17 +1532,25 @@ export function drawGraph2() {
     scales: {
       x: {
         display: true,
-        title: { display: true, text: "x", font: { size: 16 } },
+        title: {
+          display: true,
+          text: "x",
+          font: { size: GRAPH_LABEL_FONT_SIZE },
+        },
         max: 1,
         min: -1,
-        ticks: { font: { size: 14 }, stepSize: 0.1 },
+        ticks: { font: { size: GRAPH_TICK_FONT_SIZE }, stepSize: 0.1 },
       },
       y: {
         display: true,
-        title: { display: true, text: "y", font: { size: 16 } },
+        title: {
+          display: true,
+          text: "y",
+          font: { size: GRAPH_LABEL_FONT_SIZE },
+        },
         max: 1,
         min: -1,
-        ticks: { font: { size: 14 }, stepSize: 0.1 },
+        ticks: { font: { size: GRAPH_TICK_FONT_SIZE }, stepSize: 0.1 },
       },
     },
   };

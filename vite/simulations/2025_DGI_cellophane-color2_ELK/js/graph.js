@@ -2,6 +2,13 @@
 
 import { state } from "./state.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+import {
+  WAVELENGTH_MIN,
+  WAVELENGTH_MAX,
+  GRAPH_LABEL_FONT_SIZE,
+  GRAPH_TITLE_FONT_SIZE,
+  GRAPH_TICK_FONT_SIZE,
+} from "./constants.js";
 
 // Chart.jsの動的importをモジュール読み込み時に開始する。p5のpreload()による
 // CSV/画像の取得と並行して読み込まれるため、setup()到達時には解決済みになる想定。
@@ -96,7 +103,7 @@ export function drawGraph() {
       legend: {
         labels: {
           font: {
-            size: 16,
+            size: GRAPH_LABEL_FONT_SIZE,
           },
         },
       },
@@ -104,7 +111,7 @@ export function drawGraph() {
         display: true,
         text: "１枚目の偏光板を透過した後とシミュレーションのスペクトルの比較",
         font: {
-          size: 20,
+          size: GRAPH_TITLE_FONT_SIZE,
         },
       },
     },
@@ -118,14 +125,14 @@ export function drawGraph() {
           display: true,
           text: "波長(nm)",
           font: {
-            size: 16,
+            size: GRAPH_LABEL_FONT_SIZE,
           },
         },
-        max: 750,
-        min: 380,
+        max: WAVELENGTH_MAX,
+        min: WAVELENGTH_MIN,
         ticks: {
           font: {
-            size: 14,
+            size: GRAPH_TICK_FONT_SIZE,
           },
         },
       },
@@ -135,14 +142,14 @@ export function drawGraph() {
           display: true,
           text: "強度(a.u.)",
           font: {
-            size: 16,
+            size: GRAPH_LABEL_FONT_SIZE,
           },
         },
         max: 1,
         min: 0,
         ticks: {
           font: {
-            size: 14,
+            size: GRAPH_TICK_FONT_SIZE,
           },
         },
       },

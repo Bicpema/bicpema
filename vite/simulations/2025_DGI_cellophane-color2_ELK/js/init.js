@@ -8,6 +8,15 @@ import {
   onScreenshotClick,
 } from "./element-function.js";
 import { beforeColorCalculate } from "./logic.js";
+import {
+  CAMERA_DISTANCE,
+  STAGE_SIZE,
+  STAGE_HALF_SIZE,
+  BLANK_IMAGE_GRAY_LEVEL,
+  TAPE_WIDTH_SLIDER_MIN,
+  TAPE_WIDTH_SLIDER_MAX,
+  TAPE_WIDTH_SLIDER_DEFAULT,
+} from "./constants.js";
 
 /** 標準のframeRate。draw()から毎フレーム呼び出される prenormal() 内から
  * setup()側へ移設し、一度だけ設定するようにしている。 */
@@ -100,14 +109,14 @@ export function initValue(p) {
  * 白画像を定位置に配置し, pixelsの色を初期値にする処理。入力画像のサイズを設定する処理。
  */
 export function createStartimg() {
-  state.img.resize(200, 200);
-  state.centerX = 100;
-  state.centerY = 100;
+  state.img.resize(STAGE_SIZE, STAGE_SIZE);
+  state.centerX = STAGE_HALF_SIZE;
+  state.centerY = STAGE_HALF_SIZE;
   state.img.loadPixels();
   for (let i = 0; i < state.img.pixels.length; i += 4) {
-    state.img.pixels[i] = 200;
-    state.img.pixels[i + 1] = 200;
-    state.img.pixels[i + 2] = 200;
+    state.img.pixels[i] = BLANK_IMAGE_GRAY_LEVEL;
+    state.img.pixels[i + 1] = BLANK_IMAGE_GRAY_LEVEL;
+    state.img.pixels[i + 2] = BLANK_IMAGE_GRAY_LEVEL;
     state.img.pixels[i + 3] = 255;
   }
   state.img.updatePixels();
@@ -118,7 +127,11 @@ export function createStartimg() {
  * @param {*} p p5インスタンス
  */
 export function createSliderandRadio(p) {
-  state.slider = p.createSlider(10, 400, 75); // テープの幅を決定するslider
+  state.slider = p.createSlider(
+    TAPE_WIDTH_SLIDER_MIN,
+    TAPE_WIDTH_SLIDER_MAX,
+    TAPE_WIDTH_SLIDER_DEFAULT
+  ); // テープの幅を決定するslider
   state.slider.position(50, 100);
   state.lastSlider = state.slider.value();
   state.lineradio = p.createRadio();
@@ -143,7 +156,7 @@ export function setupSimulation(p) {
   elInit(p);
   initValue(p);
   p.frameRate(FPS);
-  p.camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
+  p.camera(0, 0, CAMERA_DISTANCE, 0, 0, 0, 0, 1, 0);
   createStartimg();
   createSliderandRadio(p);
   beforeColorCalculate(p).catch((error) => {
@@ -165,7 +178,7 @@ export function resizeSimulation(p) {
     cellophaneRemoveButtonFunction(p);
   }
   initValue(p);
-  p.camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
+  p.camera(0, 0, CAMERA_DISTANCE, 0, 0, 0, 0, 1, 0);
   beforeColorCalculate(p).catch((error) => {
     console.error("色計算の再初期化に失敗しました。", error);
   });
