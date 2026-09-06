@@ -1,5 +1,6 @@
 import p5 from "p5";
 import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
+import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import "../../../css/tailwind.css";
 import {
   computeConvexLensImageDistance,
@@ -33,6 +34,8 @@ const state = {
 };
 
 const sketch = (p) => {
+  const canvasController = new BicpemaCanvasController(false, false, 1.0, 1.0);
+
   p.preload = () => {
     state.headImg = p.loadImage(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FheadImg.png?alt=media&token=60e35b0a-2592-4864-9576-b93f584fadf3"
@@ -55,7 +58,7 @@ const sketch = (p) => {
   };
 
   p.setup = () => {
-    fullScreen(p);
+    canvasController.fullScreen(p);
     buttonCreation(p);
     initSettings(p);
     buttonSettings(p);
@@ -97,33 +100,13 @@ const sketch = (p) => {
   };
 
   p.windowResized = () => {
-    resizeScreen(p);
+    canvasController.resizeScreen(p);
     initSettings(p);
     buttonSettings(p);
   };
 };
 
 new p5(sketch);
-
-// 高DPI環境での過大な描画負荷を避けるための、pixelDensityの上限値。
-// 詳細はdocs/docs/simulation/index.mdの「パフォーマンス方針」を参照。
-const MAX_PIXEL_DENSITY = 2;
-
-//フルスクリーン（初回セットアップ専用）
-function fullScreen(p) {
-  p.pixelDensity(Math.min(p.displayDensity(), MAX_PIXEL_DENSITY));
-  const canvas = p.createCanvas(
-    p.windowWidth,
-    p.windowHeight - HEADER_HEIGHT,
-    p.P2D
-  );
-  canvas.parent("p5Canvas");
-}
-
-//ウィンドウリサイズ時はcanvasを作り直さず、リサイズのみ行う
-function resizeScreen(p) {
-  p.resizeCanvas(p.windowWidth, p.windowHeight - HEADER_HEIGHT);
-}
 
 //ボタン
 let objectXSlider, screenXSlider, focusLengthSlider, lensSelect, objectSelect;
