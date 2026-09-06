@@ -1,5 +1,19 @@
 import { state } from "./state.js";
 import { computeDragFreeFall } from "./physics.js";
+import {
+  GRAVITY,
+  BALL_RADIUS,
+  GRAPH_DATA_INTERVAL,
+  GROUND_LEVEL_HEIGHT,
+  CANVAS_VIRTUAL_WIDTH,
+  SCALE_LINE_MARGIN,
+  GROUND_HEIGHT,
+  HEIGHT_SCALE,
+  LABEL_TEXT_SIZE,
+  STATUS_TEXT_SIZE,
+  SCALE_LINE_DASH,
+  LINE_STROKE_WEIGHT,
+} from "./constants.js";
 
 /**
  * Ballクラス
@@ -17,11 +31,11 @@ export class Ball {
     this.height = initialHeight;
     this.velocity = 0;
     this.time = 0;
-    this.g = 9.8;
+    this.g = GRAVITY;
     this.dragCoefficient = dragCoefficient;
-    this.radius = 15;
+    this.radius = BALL_RADIUS;
     this.isMoving = false;
-    this.graphDataInterval = 0.05; // グラフデータ記録間隔 (秒)
+    this.graphDataInterval = GRAPH_DATA_INTERVAL;
     this.lastGraphUpdate = 0;
   }
 
@@ -41,8 +55,8 @@ export class Ball {
     this.velocity = velocity;
     this.height = this.initialHeight - distanceFallen;
 
-    if (this.height <= 1) {
-      this.height = 1;
+    if (this.height <= GROUND_LEVEL_HEIGHT) {
+      this.height = GROUND_LEVEL_HEIGHT;
       this.isMoving = false;
     }
 
@@ -74,28 +88,33 @@ export class Ball {
   display(p, canvasHeight, options = {}) {
     const { ballImage, groundImage } = options;
 
-    const groundHeight = 50;
-    const buildingHeight = 400;
-    const scale = buildingHeight / 100;
-
-    const ballX = 500;
+    const ballX = CANVAS_VIRTUAL_WIDTH / 2;
     const ballY =
-      canvasHeight - groundHeight - this.height * scale - this.radius;
+      canvasHeight - GROUND_HEIGHT - this.height * HEIGHT_SCALE - this.radius;
     const initialBallY =
-      canvasHeight - groundHeight - this.initialHeight * scale;
+      canvasHeight - GROUND_HEIGHT - this.initialHeight * HEIGHT_SCALE;
 
     // 目盛り線（初期高さ）
     p.stroke(0, 0, 0);
-    p.strokeWeight(2);
-    p.drawingContext.setLineDash([10, 6]);
-    p.line(100, initialBallY, 900, initialBallY);
+    p.strokeWeight(LINE_STROKE_WEIGHT);
+    p.drawingContext.setLineDash(SCALE_LINE_DASH);
+    p.line(
+      SCALE_LINE_MARGIN,
+      initialBallY,
+      CANVAS_VIRTUAL_WIDTH - SCALE_LINE_MARGIN,
+      initialBallY
+    );
     p.drawingContext.setLineDash([]);
 
     p.fill(0);
     p.noStroke();
     p.textAlign(p.LEFT, p.CENTER);
-    p.textSize(16);
-    p.text(`${this.initialHeight.toFixed(0)} m`, 910, initialBallY);
+    p.textSize(LABEL_TEXT_SIZE);
+    p.text(
+      `${this.initialHeight.toFixed(0)} m`,
+      CANVAS_VIRTUAL_WIDTH - SCALE_LINE_MARGIN + 10,
+      initialBallY
+    );
 
     // ボール
     if (ballImage) {
@@ -111,31 +130,35 @@ export class Ball {
     p.fill(255, 100, 100);
     p.noStroke();
     p.textAlign(p.LEFT, p.CENTER);
-    p.textSize(16);
+    p.textSize(LABEL_TEXT_SIZE);
     p.text(`${this.velocity.toFixed(1)} m/s`, ballX + this.radius + 10, ballY);
 
     // 地面
     if (groundImage) {
-      const groundWidth = 1000;
       p.imageMode(p.CORNER);
       p.image(
         groundImage,
         0,
-        canvasHeight - groundHeight - 10,
-        groundWidth,
-        groundHeight
+        canvasHeight - GROUND_HEIGHT - 10,
+        CANVAS_VIRTUAL_WIDTH,
+        GROUND_HEIGHT
       );
     } else {
       p.stroke(255);
-      p.strokeWeight(2);
-      p.line(0, canvasHeight - groundHeight, 1000, canvasHeight - groundHeight);
+      p.strokeWeight(LINE_STROKE_WEIGHT);
+      p.line(
+        0,
+        canvasHeight - GROUND_HEIGHT,
+        CANVAS_VIRTUAL_WIDTH,
+        canvasHeight - GROUND_HEIGHT
+      );
     }
 
     // 状態表示
     p.fill(0);
     p.noStroke();
     p.textAlign(p.RIGHT, p.TOP);
-    p.textSize(18);
+    p.textSize(STATUS_TEXT_SIZE);
     const rightX = canvasHeight * (16 / 9) - 20;
     p.text(`時間: ${this.time.toFixed(2)} s`, rightX, 20);
     p.text(`速度: ${this.velocity.toFixed(2)} m/s`, rightX, 50);

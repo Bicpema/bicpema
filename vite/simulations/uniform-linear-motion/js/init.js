@@ -1,6 +1,15 @@
 import { state } from "./state.js";
 import { CAR } from "./car.js";
-import { CANVAS_HEIGHT } from "./constants.js";
+import {
+  CANVAS_HEIGHT,
+  CAR_IMAGE_WIDTH,
+  ROAD_AREA_HEIGHT,
+  RESPONSIVE_BREAKPOINT,
+  GRAPH_TOP_OFFSET,
+  GRAPH_BUTTON_TOP_OFFSET,
+  DEFAULT_SIMULATION_DURATION,
+  CAR_TRAJECTORY_DISTANCE_THRESHOLD,
+} from "./constants.js";
 import { graphButtonFunction } from "./element-function.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 
@@ -8,8 +17,8 @@ import { initModal } from "../../../js/bicpema-modal-controller.js";
  * 画像の初期化を行う。
  */
 export function imgInit() {
-  state.YELLOW_CAR_IMG.resize(100, 0);
-  state.RED_CAR_IMAGE.resize(100, 0);
+  state.YELLOW_CAR_IMG.resize(CAR_IMAGE_WIDTH, 0);
+  state.RED_CAR_IMAGE.resize(CAR_IMAGE_WIDTH, 0);
 }
 
 /**
@@ -45,26 +54,25 @@ export function elSetting(p) {
   const GRAPH = p.select("#graph");
   const GRAPH_BUTTON_PARENT = p.select("#graphButtonParent");
 
-  if (p.width <= 992) {
-    GRAPH.position((p.windowWidth - p.width) / 2, p.height + 125).size(
-      p.width,
-      p.width
-    );
+  if (p.width <= RESPONSIVE_BREAKPOINT) {
+    GRAPH.position(
+      (p.windowWidth - p.width) / 2,
+      p.height + GRAPH_TOP_OFFSET
+    ).size(p.width, p.width);
     GRAPH_BUTTON_PARENT.position(
       (p.windowWidth - p.width) / 2,
-      p.height + p.width + 140
+      p.height + p.width + GRAPH_BUTTON_TOP_OFFSET
     );
   } else {
-    GRAPH.position(p.windowWidth / 2 - p.width / 4, p.height + 125).size(
-      p.width / 2,
-      p.width / 2
-    );
+    GRAPH.position(
+      p.windowWidth / 2 - p.width / 4,
+      p.height + GRAPH_TOP_OFFSET
+    ).size(p.width / 2, p.width / 2);
     GRAPH_BUTTON_PARENT.position(
       p.windowWidth / 2 - p.width / 4,
-      p.height + p.width / 2 + 140
+      p.height + p.width / 2 + GRAPH_BUTTON_TOP_OFFSET
     );
   }
-
 }
 
 /**
@@ -79,14 +87,17 @@ export function initValue(p) {
   const YELLOW_CAR_SPEED = parseFloat(yellowInput.value());
   const RED_CAR_SPEED = parseFloat(redInput.value());
   const minSpeed = Math.min(YELLOW_CAR_SPEED, RED_CAR_SPEED);
-  let carNum = 10;
-  if (Math.floor(20 / minSpeed) > 10) {
-    carNum = Math.floor(20 / minSpeed);
+  let carNum = DEFAULT_SIMULATION_DURATION;
+  if (
+    Math.floor(CAR_TRAJECTORY_DISTANCE_THRESHOLD / minSpeed) >
+    DEFAULT_SIMULATION_DURATION
+  ) {
+    carNum = Math.floor(CAR_TRAJECTORY_DISTANCE_THRESHOLD / minSpeed);
   }
 
   state.YELLOW_CAR = new CAR(
     0,
-    CANVAS_HEIGHT / 2 - state.YELLOW_CAR_IMG.height - 50,
+    CANVAS_HEIGHT / 2 - state.YELLOW_CAR_IMG.height - ROAD_AREA_HEIGHT,
     state.YELLOW_CAR_IMG,
     YELLOW_CAR_SPEED,
     [],
@@ -94,7 +105,7 @@ export function initValue(p) {
   );
   state.RED_CAR = new CAR(
     0,
-    CANVAS_HEIGHT - state.RED_CAR_IMAGE.height - 50,
+    CANVAS_HEIGHT - state.RED_CAR_IMAGE.height - ROAD_AREA_HEIGHT,
     state.RED_CAR_IMAGE,
     RED_CAR_SPEED,
     [],

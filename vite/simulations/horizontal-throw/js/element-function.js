@@ -1,16 +1,22 @@
 import { state } from "./state.js";
+import {
+  MIN_HEIGHT_INPUT,
+  MAX_HEIGHT_INPUT,
+  MIN_VELOCITY_INPUT,
+  MAX_VELOCITY_INPUT,
+} from "./constants.js";
 
 /**
  * 初期高さ入力の値が変更されたときの処理
  */
 export function onHeightChange() {
   let newHeight = parseFloat(state.heightInput.value());
-  if (isNaN(newHeight) || newHeight < 10) {
-    newHeight = 10;
-    state.heightInput.value(10);
-  } else if (newHeight > 80) {
-    newHeight = 80;
-    state.heightInput.value(80);
+  if (isNaN(newHeight) || newHeight < MIN_HEIGHT_INPUT) {
+    newHeight = MIN_HEIGHT_INPUT;
+    state.heightInput.value(MIN_HEIGHT_INPUT);
+  } else if (newHeight > MAX_HEIGHT_INPUT) {
+    newHeight = MAX_HEIGHT_INPUT;
+    state.heightInput.value(MAX_HEIGHT_INPUT);
   }
   if (!state.ball.isMoving) {
     state.ball.reset(newHeight, parseFloat(state.velocityInput.value()));
@@ -22,12 +28,12 @@ export function onHeightChange() {
  */
 export function onVelocityChange() {
   let newVelocity = parseFloat(state.velocityInput.value());
-  if (isNaN(newVelocity) || newVelocity < 5) {
-    newVelocity = 5;
-    state.velocityInput.value(5);
-  } else if (newVelocity > 30) {
-    newVelocity = 30;
-    state.velocityInput.value(30);
+  if (isNaN(newVelocity) || newVelocity < MIN_VELOCITY_INPUT) {
+    newVelocity = MIN_VELOCITY_INPUT;
+    state.velocityInput.value(MIN_VELOCITY_INPUT);
+  } else if (newVelocity > MAX_VELOCITY_INPUT) {
+    newVelocity = MAX_VELOCITY_INPUT;
+    state.velocityInput.value(MAX_VELOCITY_INPUT);
   }
   if (!state.ball.isMoving) {
     state.ball.reset(parseFloat(state.heightInput.value()), newVelocity);

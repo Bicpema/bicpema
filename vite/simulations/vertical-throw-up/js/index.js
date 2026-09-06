@@ -5,6 +5,7 @@ import { state } from "./state.js";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import { Ball } from "./ball.js";
 import { elCreate, initValue, FPS } from "./init.js";
+import { CANVAS_VIRTUAL_WIDTH } from "./constants.js";
 
 const sketch = (p) => {
   const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
@@ -37,8 +38,8 @@ const sketch = (p) => {
 
     p.background(255);
     state.ball.update(1 / FPS);
-    p.scale(p.width / 1000);
-    state.ball.display(p, (1000 * p.height) / p.width);
+    p.scale(p.width / CANVAS_VIRTUAL_WIDTH);
+    state.ball.display(p, (CANVAS_VIRTUAL_WIDTH * p.height) / p.width);
   };
 
   p.windowResized = () => {

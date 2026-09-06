@@ -1,9 +1,21 @@
 // function.js はその他のメソッド管理専用のファイルです。
 
 import { state } from "./state.js";
-
-/** 電車の半幅（仮想ピクセル） */
-export const TRAIN_HALF_W = 100;
+import {
+  TRAIN_HALF_W,
+  TRAIN_STROKE_WEIGHT,
+  TRAIN_BODY_COLOR_RGB,
+  TRAIN_LIGHT_OFFSET_X,
+  TRAIN_LIGHT_OFFSET_Y,
+  TRAIN_LIGHT_WIDTH,
+  TRAIN_LIGHT_HEIGHT,
+  WHEEL_OUTER_COLOR,
+  WHEEL_OUTER_STROKE_COLOR,
+  WHEEL_HUB_COLOR,
+  WHEEL_HUB_DIAMETER_RATIO,
+  INFO_PANEL_PRIMARY_TEXT_SIZE,
+  INFO_PANEL_SECONDARY_TEXT_SIZE,
+} from "./constants.js";
 
 /**
  * 線路（レールと枕木）を描画する。
@@ -59,9 +71,9 @@ export const drawTrain = (p, trainX, groundY) => {
   const WIN_H = 18;
 
   // 車体
-  p.fill(30, 100, 200);
+  p.fill(...TRAIN_BODY_COLOR_RGB);
   p.stroke(20, 60, 140);
-  p.strokeWeight(2);
+  p.strokeWeight(TRAIN_STROKE_WEIGHT);
   p.rect(trainX - BODY_W / 2, BODY_Y, BODY_W, BODY_H, 4, 4, 0, 0);
 
   // 屋根
@@ -88,37 +100,47 @@ export const drawTrain = (p, trainX, groundY) => {
   // 前面ライト（右側）
   p.fill(255, 255, 150);
   p.noStroke();
-  p.ellipse(trainX + BODY_W / 2 - 6, BODY_Y + BODY_H - 10, 10, 8);
+  p.ellipse(
+    trainX + BODY_W / 2 - TRAIN_LIGHT_OFFSET_X,
+    BODY_Y + BODY_H - TRAIN_LIGHT_OFFSET_Y,
+    TRAIN_LIGHT_WIDTH,
+    TRAIN_LIGHT_HEIGHT
+  );
 
   // 後面ライト（左側）
   p.fill(255, 80, 80);
   p.noStroke();
-  p.ellipse(trainX - BODY_W / 2 + 6, BODY_Y + BODY_H - 10, 10, 8);
+  p.ellipse(
+    trainX - BODY_W / 2 + TRAIN_LIGHT_OFFSET_X,
+    BODY_Y + BODY_H - TRAIN_LIGHT_OFFSET_Y,
+    TRAIN_LIGHT_WIDTH,
+    TRAIN_LIGHT_HEIGHT
+  );
 
   // 車輪（左）
-  p.fill(60);
-  p.stroke(40);
-  p.strokeWeight(2);
+  p.fill(WHEEL_OUTER_COLOR);
+  p.stroke(WHEEL_OUTER_STROKE_COLOR);
+  p.strokeWeight(TRAIN_STROKE_WEIGHT);
   p.circle(trainX - BODY_W / 2 + WHEEL_OFFSET, groundY + WHEEL_R, WHEEL_R * 2);
-  p.fill(100);
+  p.fill(WHEEL_HUB_COLOR);
   p.noStroke();
   p.circle(
     trainX - BODY_W / 2 + WHEEL_OFFSET,
     groundY + WHEEL_R,
-    WHEEL_R * 0.5
+    WHEEL_R * WHEEL_HUB_DIAMETER_RATIO
   );
 
   // 車輪（右）
-  p.fill(60);
-  p.stroke(40);
-  p.strokeWeight(2);
+  p.fill(WHEEL_OUTER_COLOR);
+  p.stroke(WHEEL_OUTER_STROKE_COLOR);
+  p.strokeWeight(TRAIN_STROKE_WEIGHT);
   p.circle(trainX + BODY_W / 2 - WHEEL_OFFSET, groundY + WHEEL_R, WHEEL_R * 2);
-  p.fill(100);
+  p.fill(WHEEL_HUB_COLOR);
   p.noStroke();
   p.circle(
     trainX + BODY_W / 2 - WHEEL_OFFSET,
     groundY + WHEEL_R,
-    WHEEL_R * 0.5
+    WHEEL_R * WHEEL_HUB_DIAMETER_RATIO
   );
 };
 
@@ -141,11 +163,11 @@ export const drawInfoPanel = (p, v, t, a) => {
   if (state.font) p.textFont(state.font);
   p.textAlign(p.LEFT, p.TOP);
 
-  p.textSize(22);
+  p.textSize(INFO_PANEL_PRIMARY_TEXT_SIZE);
   p.text(`速さ  v = ${v.toFixed(2)} m/s`, 30, 26);
   p.text(`時間  t = ${t.toFixed(1)} s`, 30, 58);
 
-  p.textSize(16);
+  p.textSize(INFO_PANEL_SECONDARY_TEXT_SIZE);
   p.fill(200);
   const aDir = a >= 0 ? "+" : "";
   p.text(`加速度 a = ${aDir}${a.toFixed(1)} m/s²`, 30, 94);

@@ -9,6 +9,8 @@ const loadChart = createLazyImporter(() =>
 );
 /** @type {typeof import("chart.js").Chart | null} */
 let Chart = null;
+// 読み込み失敗後に毎フレーム再試行しないためのフラグ。
+let chartLoadFailed = false;
 
 /**
  * v-tグラフを更新（Chart.jsを使用）
@@ -18,10 +20,16 @@ export function updateGraph() {
   if (!state.graphVisible) return;
 
   if (!Chart) {
-    loadChart().then((ChartCtor) => {
-      Chart = ChartCtor;
-      updateGraph();
-    });
+    if (chartLoadFailed) return;
+    loadChart()
+      .then((ChartCtor) => {
+        Chart = ChartCtor;
+        updateGraph();
+      })
+      .catch((error) => {
+        chartLoadFailed = true;
+        console.error("Chart.jsの読み込みに失敗しました。", error);
+      });
     return;
   }
 

@@ -1,16 +1,17 @@
 import { state } from "./state.js";
+import { MIN_INITIAL_VELOCITY, MAX_INITIAL_VELOCITY } from "./constants.js";
 
 /**
  * 初速度入力の値が変更されたときの処理
  */
 export function onVelocityChange() {
   let newVelocity = parseFloat(state.velocityInput.value());
-  if (isNaN(newVelocity) || newVelocity < 5) {
-    newVelocity = 5;
-    state.velocityInput.value(5);
-  } else if (newVelocity > 50) {
-    newVelocity = 50;
-    state.velocityInput.value(50);
+  if (isNaN(newVelocity) || newVelocity < MIN_INITIAL_VELOCITY) {
+    newVelocity = MIN_INITIAL_VELOCITY;
+    state.velocityInput.value(MIN_INITIAL_VELOCITY);
+  } else if (newVelocity > MAX_INITIAL_VELOCITY) {
+    newVelocity = MAX_INITIAL_VELOCITY;
+    state.velocityInput.value(MAX_INITIAL_VELOCITY);
   }
   if (!state.ball.isMoving) {
     state.ball.reset(newVelocity);

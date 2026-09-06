@@ -1,18 +1,39 @@
 import { state } from "./state.js";
-
-// 3D シーン定数
-const PLATFORM_W_M = 10; // 台の幅 (m)
-const PLATFORM_THICK = 18; // 台の厚み (px) ─ 浮かせた薄い棚
-const PLATFORM_D = 20; // 台の奥行き (px)
-const GROUND_D = 30; // 地面の奥行き (px)
-const GROUND_THICK = 16; // 地面の厚み (px)
-const BALL_R = 14; // 球の半径 (px)
-const ARROW_SCALE_3D = 3.5; // 速度矢印スケール
-const GHOST_INTERVAL = 0.35; // 残像を残す時間間隔 (秒)
-const GHOST_MAX = 35; // 残像の最大数
-// カメラスケール固定基準値 (設定変更でズームしない)
-const CAM_REF_H = 80; // 基準初期高さ (m)
-const CAM_REF_V = 30; // 基準初速度 (m/s)
+import {
+  GRAVITY,
+  DEFAULT_INITIAL_HEIGHT,
+  DEFAULT_INITIAL_VELOCITY,
+  PLATFORM_W_M,
+  PLATFORM_THICK,
+  PLATFORM_D,
+  GROUND_D,
+  GROUND_THICK,
+  BALL_R,
+  ARROW_SCALE_3D,
+  GHOST_INTERVAL,
+  GHOST_MAX,
+  GHOST_ALPHA,
+  GHOST_BALL_RADIUS_RATIO,
+  COMPONENT_BALL_RADIUS_RATIO,
+  CAM_REF_H,
+  CAM_REF_V,
+  CAMERA_MARGIN_RATIO,
+  MAIN_BALL_COLOR,
+  X_DIRECTION_COLOR,
+  X_DIRECTION_BALL_COLOR,
+  Y_DIRECTION_BALL_COLOR,
+  X_DIRECTION_LABEL_COLOR,
+  GUIDELINE_ALPHA,
+  COMPONENT_BALL_ALPHA,
+  VELOCITY_ARROW_ALPHA,
+  GHOST_GRID_ALPHA,
+  MIN_3D_LABEL_SIZE,
+  LABEL_SIZE_SCALE,
+  MIN_HUD_FONT_SIZE,
+  HUD_FONT_SIZE_RATIO,
+  HUD_LINE_HEIGHT_RATIO,
+  HUD_MARGIN,
+} from "./constants.js";
 
 /**
  * Ballクラス
@@ -24,7 +45,10 @@ export class Ball {
    * @param {number} initialHeight 初期の高さ (m)
    * @param {number} initialVelocity 初速度 (m/s) - 水平方向
    */
-  constructor(initialHeight = 30, initialVelocity = 15) {
+  constructor(
+    initialHeight = DEFAULT_INITIAL_HEIGHT,
+    initialVelocity = DEFAULT_INITIAL_VELOCITY
+  ) {
     this.initialHeight = initialHeight;
     this.initialVelocity = initialVelocity;
     this.x = 0;
@@ -32,7 +56,7 @@ export class Ball {
     this.vx = initialVelocity;
     this.vy = 0;
     this.time = 0;
-    this.g = 9.8;
+    this.g = GRAVITY;
     this.isMoving = false;
     this.trail = [];
     // 残像: {x, height, alpha} を共有、黄/青/赤の3球に使いまわす
@@ -80,9 +104,8 @@ export class Ball {
     const refMaxT = Math.sqrt((2 * CAM_REF_H) / this.g);
     const refMaxX_m = CAM_REF_V * refMaxT;
     const refTotalW_m = refMaxX_m + PLATFORM_W_M;
-    const margin = 0.78;
-    const scaleW = (p.width * margin) / refTotalW_m;
-    const scaleH = (p.height * margin) / CAM_REF_H;
+    const scaleW = (p.width * CAMERA_MARGIN_RATIO) / refTotalW_m;
+    const scaleH = (p.height * CAMERA_MARGIN_RATIO) / CAM_REF_H;
     const S = Math.min(scaleW, scaleH); // px/m (固定)
 
     // 実際のシーン寸法 (S は固定だが配置はパラメータに追従)
@@ -158,17 +181,16 @@ export class Ball {
       const gyViz = toBy(g.height);
 
       // x-ghost を通る垂直線
-      p.stroke(255, 255, 255, 75);
+      p.stroke(255, 255, 255, GHOST_GRID_ALPHA);
       p.line(gx, xBallY - BALL_R * 0.5, 0, gx, h0_px, 0);
 
       // y-ghost を通る水平線
-      p.stroke(255, 255, 255, 75);
+      p.stroke(255, 255, 255, GHOST_GRID_ALPHA);
       p.line(-platformW_px, gyViz, 0, maxX_px + 20, gyViz, 0);
     }
 
     // === 残像球 (黄/緑/黄を同じスナップショットから描画, 固定アルファ) ===
-    const GHOST_ALPHA = 160;
-    const r = BALL_R * 0.65;
+    const r = BALL_R * GHOST_BALL_RADIUS_RATIO;
     for (const g of this.ghosts) {
       const gx = toBx(g.x);
       const gyViz = toBy(g.height);
@@ -176,7 +198,7 @@ export class Ball {
       // 黄色残像 (メイン球, 放物線上)
       p.push();
       p.translate(gx, gyViz, 0);
-      p.fill(255, 215, 30, GHOST_ALPHA);
+      p.fill(...MAIN_BALL_COLOR, GHOST_ALPHA);
       p.noStroke();
       p.sphere(r);
       p.pop();
@@ -184,7 +206,7 @@ export class Ball {
       // 緑残像 (x方向球: y固定 = xBallY)
       p.push();
       p.translate(gx, xBallY, 0);
-      p.fill(50, 210, 80, GHOST_ALPHA);
+      p.fill(...X_DIRECTION_COLOR, GHOST_ALPHA);
       p.noStroke();
       p.sphere(r);
       p.pop();
@@ -200,7 +222,7 @@ export class Ball {
 
     // === x方向ガイドライン (水平, 緑) ===
     p.push();
-    p.stroke(50, 210, 80, 100);
+    p.stroke(...X_DIRECTION_COLOR, GUIDELINE_ALPHA);
     p.strokeWeight(1.5);
     p.noFill();
     p.line(0, xBallY, 0, bx, xBallY, 0);
@@ -208,7 +230,7 @@ export class Ball {
 
     // === y方向ガイドライン (垂直, 黄) ===
     p.push();
-    p.stroke(240, 200, 30, 100);
+    p.stroke(240, 200, 30, GUIDELINE_ALPHA);
     p.strokeWeight(1.5);
     p.noFill();
     p.line(0, xBallY, 0, 0, by, 0);
@@ -217,17 +239,17 @@ export class Ball {
     // === x方向球 (緑, y = xBallY 固定) ===
     p.push();
     p.translate(bx, xBallY, 0);
-    p.fill(50, 215, 85, 235);
+    p.fill(...X_DIRECTION_BALL_COLOR, COMPONENT_BALL_ALPHA);
     p.noStroke();
-    p.sphere(BALL_R * 0.88);
+    p.sphere(BALL_R * COMPONENT_BALL_RADIUS_RATIO);
     p.pop();
 
     // === y方向球 (黄色, x=0 固定) ===
     p.push();
     p.translate(0, by, 0);
-    p.fill(245, 205, 35, 235);
+    p.fill(...Y_DIRECTION_BALL_COLOR, COMPONENT_BALL_ALPHA);
     p.noStroke();
-    p.sphere(BALL_R * 0.88);
+    p.sphere(BALL_R * COMPONENT_BALL_RADIUS_RATIO);
     p.pop();
 
     // === 接続補助線 (main球 → x球 / main球 → y球) ===
@@ -242,7 +264,7 @@ export class Ball {
     // === メイン球 (黄色) ===
     p.push();
     p.translate(bx, by, 0);
-    p.fill(255, 215, 30);
+    p.fill(...MAIN_BALL_COLOR);
     p.noStroke();
     p.sphere(BALL_R);
 
@@ -250,8 +272,26 @@ export class Ball {
     if (this.time > 0) {
       const vxLen = this.vx * ARROW_SCALE_3D;
       const vyLen = this.vy * ARROW_SCALE_3D;
-      drawArrow3D(p, 0, 0, 0, vxLen, 0, 0, p.color(50, 215, 85, 230)); // vx → 緑
-      drawArrow3D(p, 0, 0, 0, 0, vyLen, 0, p.color(245, 205, 35, 230)); // vy → 黄
+      drawArrow3D(
+        p,
+        0,
+        0,
+        0,
+        vxLen,
+        0,
+        0,
+        p.color(...X_DIRECTION_BALL_COLOR, VELOCITY_ARROW_ALPHA)
+      ); // vx → 緑
+      drawArrow3D(
+        p,
+        0,
+        0,
+        0,
+        0,
+        vyLen,
+        0,
+        p.color(...Y_DIRECTION_BALL_COLOR, VELOCITY_ARROW_ALPHA)
+      ); // vy → 黄
     }
     p.pop();
 
@@ -259,12 +299,12 @@ export class Ball {
     if (state.font) {
       p.textFont(state.font);
       p.textAlign(p.CENTER, p.CENTER);
-      const labelSize = Math.max(12, S * 1.6);
+      const labelSize = Math.max(MIN_3D_LABEL_SIZE, S * LABEL_SIZE_SCALE);
 
       // x方向ラベル (緑)
       p.push();
       p.translate(bx, xBallY - BALL_R * 2.2, 0);
-      p.fill(80, 220, 100);
+      p.fill(...X_DIRECTION_LABEL_COLOR);
       p.noStroke();
       p.textSize(labelSize);
       p.text("x方向", 0, 0);
@@ -363,14 +403,14 @@ function drawHUD(p, ball) {
   p.textFont(state.font);
   p.textAlign(p.LEFT, p.TOP);
 
-  const fontSize = Math.max(13, p.width * 0.018);
+  const fontSize = Math.max(MIN_HUD_FONT_SIZE, p.width * HUD_FONT_SIZE_RATIO);
   p.textSize(fontSize);
-  const lineH = fontSize * 1.5;
-  const lx = -p.width / 2 + 15;
-  const ty = -p.height / 2 + 15;
+  const lineH = fontSize * HUD_LINE_HEIGHT_RATIO;
+  const lx = -p.width / 2 + HUD_MARGIN;
+  const ty = -p.height / 2 + HUD_MARGIN;
 
   // vx ラベル (緑)
-  p.fill(80, 220, 100);
+  p.fill(...X_DIRECTION_LABEL_COLOR);
   p.text(`→ vx = ${ball.vx.toFixed(1)} m/s`, lx, ty);
   // vy ラベル (黄)
   p.fill(240, 205, 50);
@@ -379,7 +419,7 @@ function drawHUD(p, ball) {
   // 右上: 情報
   p.textAlign(p.RIGHT, p.TOP);
   p.fill(220, 220, 230);
-  const rx = p.width / 2 - 15;
+  const rx = p.width / 2 - HUD_MARGIN;
   p.text(`時間: ${ball.time.toFixed(2)} s`, rx, ty);
   p.text(`水平距離: ${ball.x.toFixed(2)} m`, rx, ty + lineH);
   p.text(`高さ: ${ball.height.toFixed(2)} m`, rx, ty + lineH * 2);

@@ -4,6 +4,14 @@ import {
   MARKER_INTERVAL,
   PIXELS_PER_METER,
   MAX_TIME,
+  V_W,
+  CAR_WIDTH,
+  CAR_HEIGHT,
+  GROUND_Y_RATIO,
+  MARKER_DOT_HEIGHT_RATIO,
+  CAR_IMAGE_CENTER_HEIGHT_RATIO,
+  MARKER_TEXT_SIZE,
+  INFO_TEXT_SIZE,
 } from "./constants.js";
 
 /**
@@ -90,19 +98,19 @@ export class Car {
   display(p, vH, options = {}) {
     const { carImage, groundImage, showMarkers = true } = options;
 
-    const groundY = vH * 0.82;
-    const carWidth = 80;
-    const carHeight = 40;
+    const groundY = vH * GROUND_Y_RATIO;
+    const carWidth = CAR_WIDTH;
+    const carHeight = CAR_HEIGHT;
     const carPixelX = this.position * PIXELS_PER_METER;
 
     // 地面
     if (groundImage) {
       p.imageMode(p.CORNER);
-      p.image(groundImage, 0, groundY, 1000, vH - groundY + 10);
+      p.image(groundImage, 0, groundY, V_W, vH - groundY + 10);
     } else {
       p.fill(80, 60, 40);
       p.noStroke();
-      p.rect(0, groundY, 1000, vH - groundY);
+      p.rect(0, groundY, V_W, vH - groundY);
     }
 
     // 等時間マーカー
@@ -110,11 +118,16 @@ export class Car {
       for (const marker of this.markers) {
         p.fill(180, 120, 0, 180);
         p.noStroke();
-        p.ellipse(marker.px, groundY - carHeight * 0.8, 8, 8);
+        p.ellipse(
+          marker.px,
+          groundY - carHeight * MARKER_DOT_HEIGHT_RATIO,
+          8,
+          8
+        );
         p.fill(180, 120, 0);
         p.noStroke();
         p.textAlign(p.CENTER, p.BOTTOM);
-        p.textSize(12);
+        p.textSize(MARKER_TEXT_SIZE);
         p.text(`${marker.t}s`, marker.px, groundY - carHeight - 4);
       }
     }
@@ -125,7 +138,7 @@ export class Car {
       p.image(
         carImage,
         carPixelX,
-        groundY - carHeight * 0.3,
+        groundY - carHeight * CAR_IMAGE_CENTER_HEIGHT_RATIO,
         carWidth,
         carHeight
       );
@@ -149,7 +162,7 @@ export class Car {
     p.fill(30);
     p.noStroke();
     p.textAlign(p.RIGHT, p.TOP);
-    p.textSize(18);
+    p.textSize(INFO_TEXT_SIZE);
     const rightX = 980;
     p.text(`時間: ${this.time.toFixed(2)} s`, rightX, 20);
     p.text(`位置: ${this.position.toFixed(2)} m`, rightX, 50);

@@ -1,3 +1,11 @@
+import {
+  CART_WHEEL_RADIUS,
+  CART_BODY_WIDTH,
+  CART_BODY_HEIGHT,
+  CART_BOX_WIDTH,
+  CART_BOX_HEIGHT,
+} from "./constants.js";
+
 /**
  * Cartクラス
  * 力と加速度の関係を示す台車
@@ -22,11 +30,11 @@ export class Cart {
     this.massAtMaxForce = mass;
     this.massAtMaxAcceleration = mass;
 
-    this.WHEEL_R = 28;
-    this.BODY_W = 160;
-    this.BODY_H = 55;
-    this.BOX_W = 90;
-    this.BOX_H = 70;
+    this.WHEEL_R = CART_WHEEL_RADIUS;
+    this.BODY_W = CART_BODY_WIDTH;
+    this.BODY_H = CART_BODY_HEIGHT;
+    this.BOX_W = CART_BOX_WIDTH;
+    this.BOX_H = CART_BOX_HEIGHT;
 
     // 見た目の調整: 台車を地面にもう少し近づけるためのオフセット
     this.groundOffset = 6;

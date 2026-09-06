@@ -5,7 +5,14 @@ import { state } from "./state.js";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import { elCreate, elSetting, imgInit, initValue } from "./init.js";
 import { drawScale, graphDraw } from "./logic.js";
-import { CANVAS_WIDTH, CANVAS_HEIGHT } from "./constants.js";
+import {
+  CANVAS_WIDTH,
+  CANVAS_HEIGHT,
+  FRAME_RATE,
+  ROAD_AREA_HEIGHT,
+  ROAD_HEIGHT,
+  TICK_LABEL_FONT_SIZE,
+} from "./constants.js";
 
 const sketch = (p) => {
   const canvasController = new BicpemaCanvasController();
@@ -25,9 +32,9 @@ const sketch = (p) => {
     elSetting(p);
     imgInit();
     initValue(p);
-    p.textSize(14);
+    p.textSize(TICK_LABEL_FONT_SIZE);
     p.textAlign(p.CENTER);
-    p.frameRate(60);
+    p.frameRate(FRAME_RATE);
     state.graphData = true;
   };
 
@@ -39,18 +46,18 @@ const sketch = (p) => {
       hideLoadingSpinner();
     }
 
-    p.scale(p.width / 1000);
+    p.scale(p.width / CANVAS_WIDTH);
     p.background(0);
 
     p.fill(30);
     p.noStroke();
-    p.rect(0, CANVAS_HEIGHT / 2 - 50, 1000, 25);
-    p.rect(0, CANVAS_HEIGHT - 50, 1000, 25);
+    p.rect(0, CANVAS_HEIGHT / 2 - ROAD_AREA_HEIGHT, CANVAS_WIDTH, ROAD_HEIGHT);
+    p.rect(0, CANVAS_HEIGHT - ROAD_AREA_HEIGHT, CANVAS_WIDTH, ROAD_HEIGHT);
 
     const SCALE_CHECK_BOX = p.select("#scaleCheckBox");
     if (SCALE_CHECK_BOX && SCALE_CHECK_BOX.checked()) {
-      drawScale(p, 0, CANVAS_HEIGHT / 2, CANVAS_WIDTH, 50);
-      drawScale(p, 0, CANVAS_HEIGHT, CANVAS_WIDTH, 50);
+      drawScale(p, 0, CANVAS_HEIGHT / 2, CANVAS_WIDTH, ROAD_AREA_HEIGHT);
+      drawScale(p, 0, CANVAS_HEIGHT, CANVAS_WIDTH, ROAD_AREA_HEIGHT);
     }
 
     if (state.isPlaying) {

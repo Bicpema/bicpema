@@ -1,7 +1,7 @@
 import { state } from "./state.js";
 import { Car } from "./car.js";
 import { MotionGraph } from "./graph.js";
-import { FPS } from "./constants.js";
+import { FPS, DEFAULT_TEXT_SIZE } from "./constants.js";
 import {
   onReset,
   onPlayPause,
@@ -37,7 +37,7 @@ export function initValue(p) {
   p.frameRate(FPS);
   p.textAlign(p.CENTER, p.CENTER);
   if (state.font) p.textFont(state.font);
-  p.textSize(16);
+  p.textSize(DEFAULT_TEXT_SIZE);
 
   const v0 = parseFloat(state.initialVelocityInput.value());
   const a = parseFloat(state.accelerationInput.value());

@@ -1,18 +1,19 @@
 // element-function.jsは仮想DOMメソッド管理専用のファイルです。
 
 import { state } from "./state.js";
+import { MIN_MASS_INPUT, MAX_MASS_INPUT } from "./constants.js";
 
 /**
  * 質量入力が変更されたときの処理
  */
 export function onMassChange() {
   let m = parseFloat(state.massInput.value());
-  if (isNaN(m) || m < 0.5) {
-    m = 0.5;
-    state.massInput.value(0.5);
-  } else if (m > 5) {
-    m = 5;
-    state.massInput.value(5);
+  if (isNaN(m) || m < MIN_MASS_INPUT) {
+    m = MIN_MASS_INPUT;
+    state.massInput.value(MIN_MASS_INPUT);
+  } else if (m > MAX_MASS_INPUT) {
+    m = MAX_MASS_INPUT;
+    state.massInput.value(MAX_MASS_INPUT);
   }
   state.cart.mass = m;
   state.cart.reset();

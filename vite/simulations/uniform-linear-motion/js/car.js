@@ -1,3 +1,10 @@
+import {
+  MIN_CAR_SPEED,
+  MAX_CAR_SPEED,
+  PX_PER_DISTANCE_UNIT,
+  FRAME_RATE,
+} from "./constants.js";
+
 /**
  * 車オブジェクト
  */
@@ -15,7 +22,10 @@ export class CAR {
     this.posx = x;
     this.posy = y;
     this.img = i;
-    this.speed = Math.max(1, Math.min(20, Number(v) || 1));
+    this.speed = Math.max(
+      MIN_CAR_SPEED,
+      Math.min(MAX_CAR_SPEED, Number(v) || MIN_CAR_SPEED)
+    );
     this.xarr = xa;
     this.varr = va;
   }
@@ -24,7 +34,7 @@ export class CAR {
    * 座標をアップデートする。
    */
   update() {
-    this.posx += (50 * this.speed) / 60;
+    this.posx += (PX_PER_DISTANCE_UNIT * this.speed) / FRAME_RATE;
   }
 
   /**
@@ -36,16 +46,20 @@ export class CAR {
     p.stroke(255, 0, 0);
     p.strokeWeight(3);
     for (let i = 0; i < this.xarr.length; i++) {
-      if ((this.xarr[i]["y"] - this.xarr[0]["y"]) * 50 < this.posx) {
+      if (
+        (this.xarr[i]["y"] - this.xarr[0]["y"]) * PX_PER_DISTANCE_UNIT <
+        this.posx
+      ) {
         p.image(
           this.img,
-          (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50 - this.img.width / 2,
+          (this.xarr[i]["y"] - this.xarr[0]["y"]) * PX_PER_DISTANCE_UNIT -
+            this.img.width / 2,
           this.posy
         );
         p.line(
-          (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50,
+          (this.xarr[i]["y"] - this.xarr[0]["y"]) * PX_PER_DISTANCE_UNIT,
           this.posy + this.img.height - 10,
-          (this.xarr[i]["y"] - this.xarr[0]["y"]) * 50,
+          (this.xarr[i]["y"] - this.xarr[0]["y"]) * PX_PER_DISTANCE_UNIT,
           this.posy + this.img.height + 10
         );
       }

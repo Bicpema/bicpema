@@ -1,3 +1,5 @@
+import { DEFAULT_ACCELERATION } from "./constants.js";
+
 // グローバル状態管理オブジェクト
 export const state = {
   /** 再生中かどうか */
@@ -5,7 +7,7 @@ export const state = {
   /** 経過時間 (s) */
   elapsedTime: 0,
   /** 加速度 (m/s²) */
-  acceleration: 2.0,
+  acceleration: DEFAULT_ACCELERATION,
   /** 電車オブジェクト */
   train: null,
   /** v-t グラフ用データ配列 */

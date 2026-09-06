@@ -1,4 +1,17 @@
 import { state } from "./state.js";
+import {
+  GRAVITY,
+  BALL_RADIUS,
+  DEFAULT_INITIAL_VELOCITY,
+  GROUND_HEIGHT,
+  GROUND_WIDTH,
+  BALL_X,
+  ANIMATION_AREA_TOP_MARGIN,
+  HEIGHT_SCALE_RATIO,
+  ANNOTATION_TEXT_SIZE,
+  MAX_HEIGHT_LINE_DASH,
+  ZERO_LINE_DASH,
+} from "./constants.js";
 
 /**
  * Ballクラス
@@ -9,13 +22,13 @@ export class Ball {
    * @constructor
    * @param {number} initialVelocity 初速度 (m/s) - 上向きを正とする
    */
-  constructor(initialVelocity = 30) {
+  constructor(initialVelocity = DEFAULT_INITIAL_VELOCITY) {
     this.initialVelocity = initialVelocity;
     this.height = 0;
     this.velocity = initialVelocity;
     this.time = 0;
-    this.g = 9.8;
-    this.radius = 15;
+    this.g = GRAVITY;
+    this.radius = BALL_RADIUS;
     this.isMoving = false;
     this.maxHeight = (initialVelocity * initialVelocity) / (2 * this.g);
     this.history = [];
@@ -48,56 +61,58 @@ export class Ball {
    * @param {number} canvasHeight キャンバスの高さ
    */
   display(p, canvasHeight) {
-    const groundHeight = 50;
-    const ballX = 200;
-
     // 高さスケールを動的に計算（最高到達点がアニメーションエリアに収まるよう調整）
-    const availableH = canvasHeight - groundHeight - this.radius * 2 - 30;
-    const heightScale = (availableH * 0.85) / Math.max(this.maxHeight, 1);
+    const availableH =
+      canvasHeight -
+      GROUND_HEIGHT -
+      this.radius * 2 -
+      ANIMATION_AREA_TOP_MARGIN;
+    const heightScale =
+      (availableH * HEIGHT_SCALE_RATIO) / Math.max(this.maxHeight, 1);
 
     const ballY =
-      canvasHeight - groundHeight - this.height * heightScale - this.radius;
+      canvasHeight - GROUND_HEIGHT - this.height * heightScale - this.radius;
 
     // 最高到達点の点線を描画
     const maxHeightY =
-      canvasHeight - groundHeight - this.maxHeight * heightScale;
+      canvasHeight - GROUND_HEIGHT - this.maxHeight * heightScale;
     p.stroke(80);
     p.strokeWeight(1.5);
-    p.drawingContext.setLineDash([8, 8]);
-    p.line(ballX + 30, maxHeightY, ballX + 310, maxHeightY);
+    p.drawingContext.setLineDash(MAX_HEIGHT_LINE_DASH);
+    p.line(BALL_X + 30, maxHeightY, BALL_X + 310, maxHeightY);
     p.drawingContext.setLineDash([]);
 
     // 最高到達点の高さテキスト
     p.fill(50);
     p.noStroke();
     p.textAlign(p.LEFT, p.CENTER);
-    p.textSize(14);
+    p.textSize(ANNOTATION_TEXT_SIZE);
     p.text(
       `最高到達点: ${this.maxHeight.toFixed(1)} m`,
-      ballX + 35,
+      BALL_X + 35,
       maxHeightY - 14
     );
 
     // ボール
     if (state.ballImage) {
       p.imageMode(p.CENTER);
-      p.image(state.ballImage, ballX, ballY, this.radius * 2, this.radius * 2);
+      p.image(state.ballImage, BALL_X, ballY, this.radius * 2, this.radius * 2);
     } else {
       p.fill(255, 100, 100);
       p.noStroke();
-      p.circle(ballX, ballY, this.radius * 2);
+      p.circle(BALL_X, ballY, this.radius * 2);
     }
 
     // ボールの右側に速度を描画
     p.fill(220, 60, 60);
     p.noStroke();
     p.textAlign(p.LEFT, p.CENTER);
-    p.textSize(14);
+    p.textSize(ANNOTATION_TEXT_SIZE);
     const velocityText =
       this.velocity >= 0
         ? `↑ ${this.velocity.toFixed(1)} m/s`
         : `↓ ${Math.abs(this.velocity).toFixed(1)} m/s`;
-    p.text(velocityText, ballX + this.radius + 10, ballY);
+    p.text(velocityText, BALL_X + this.radius + 10, ballY);
 
     // 地面（左エリアのみ）
     if (state.groundImage) {
@@ -105,21 +120,26 @@ export class Ball {
       p.image(
         state.groundImage,
         0,
-        canvasHeight - groundHeight - 5,
-        545,
-        groundHeight
+        canvasHeight - GROUND_HEIGHT - 5,
+        GROUND_WIDTH,
+        GROUND_HEIGHT
       );
     } else {
       p.stroke(100);
       p.strokeWeight(2);
-      p.line(0, canvasHeight - groundHeight, 545, canvasHeight - groundHeight);
+      p.line(
+        0,
+        canvasHeight - GROUND_HEIGHT,
+        GROUND_WIDTH,
+        canvasHeight - GROUND_HEIGHT
+      );
     }
 
     // 情報表示（左上）
     p.fill(50);
     p.noStroke();
     p.textAlign(p.LEFT, p.TOP);
-    p.textSize(14);
+    p.textSize(ANNOTATION_TEXT_SIZE);
     p.text(`時間: ${this.time.toFixed(2)} s`, 15, 65);
     p.text(`高さ: ${this.height.toFixed(2)} m`, 15, 88);
     p.text(`速度: ${this.velocity.toFixed(2)} m/s`, 15, 111);
@@ -247,7 +267,7 @@ export class Ball {
     if (minY < 0 && maxY > 0) {
       p.stroke(160);
       p.strokeWeight(1);
-      p.drawingContext.setLineDash([5, 5]);
+      p.drawingContext.setLineDash(ZERO_LINE_DASH);
       p.line(plotX, mapY(0), plotX + plotW, mapY(0));
       p.drawingContext.setLineDash([]);
     }
