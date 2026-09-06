@@ -5,7 +5,7 @@ export const FPS = 60;
 /** 描画座標系の幅 */
 export const W = 1000;
 /** 描画座標系の高さ */
-export const H = ((1000 * 9) / 16) * 0.9;
+export const H = ((W * 9) / 16) * 0.9;
 /** 音源の初期X座標（背景グリッドの原点X座標でもある） */
 export const ORIGIN_X = 50;
 /** 音速 (m/s) */

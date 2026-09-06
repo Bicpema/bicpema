@@ -4,6 +4,8 @@
 export const WAVE_ORIGIN_X = 60;
 /** 軸線の右余白（波の描画範囲の右端は p.width - この値） */
 export const AXIS_RIGHT_MARGIN = 50;
+/** 軸の矢印（三角形）の長さ */
+export const ARROW_LENGTH = 10;
 
 /** 通常の粒子の表示サイズ */
 export const PARTICLE_SIZE = 5;

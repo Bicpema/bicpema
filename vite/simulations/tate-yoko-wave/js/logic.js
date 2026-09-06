@@ -3,6 +3,7 @@ import { computeWaveDisplacement, computeArrivalTime } from "./physics.js";
 import {
   WAVE_ORIGIN_X,
   AXIS_RIGHT_MARGIN,
+  ARROW_LENGTH,
   PARTICLE_SIZE,
   FOCUS_PARTICLE_SIZE,
   WAVE_COLOR,
@@ -45,9 +46,9 @@ function drawAxis(p, title) {
   p.triangle(
     p.width - AXIS_RIGHT_MARGIN,
     0,
-    p.width - WAVE_ORIGIN_X,
+    p.width - AXIS_RIGHT_MARGIN - ARROW_LENGTH,
     -4,
-    p.width - WAVE_ORIGIN_X,
+    p.width - AXIS_RIGHT_MARGIN - ARROW_LENGTH,
     4
   );
   p.noStroke();
