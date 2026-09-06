@@ -1,5 +1,16 @@
 import { state } from "./state.js";
 
+/** 水の密度 (g/cm³) */
+const WATER_DENSITY = 1.0;
+/** シミュレーション用の重力加速度スケール */
+const G = 0.5;
+/** 速度の減衰係数（1フレームごとに掛け合わせる） */
+const DAMPING = 0.92;
+/** 速度の上限（座標飛び防止） */
+const MAX_VY = 8;
+/** 水槽底面・水面での跳ね返り時の反発係数 */
+const RESTITUTION = 0.3;
+
 /**
  * Cylinderクラス
  *
@@ -37,10 +48,6 @@ export class Cylinder {
       return;
     }
 
-    const WATER_DENSITY = 1.0;
-    const G = 0.5;
-    const DAMPING = 0.92;
-
     const topY = this.cy - this.h;
     const bottomY = this.cy;
 
@@ -59,7 +66,6 @@ export class Cylinder {
     this.vy += this.ay;
 
     // 速度制限で座標飛びを防ぐ
-    const MAX_VY = 8;
     this.vy = Math.max(Math.min(this.vy, MAX_VY), -MAX_VY);
 
     this.vy *= DAMPING;
@@ -67,13 +73,13 @@ export class Cylinder {
 
     if (this.cy > tankBottomY) {
       this.cy = tankBottomY;
-      this.vy = -this.vy * 0.3;
+      this.vy = -this.vy * RESTITUTION;
     }
 
     const topLimitY = waterSurfaceY - this.h;
     if (this.cy - this.h < topLimitY) {
       this.cy = topLimitY + this.h;
-      this.vy = -this.vy * 0.3;
+      this.vy = -this.vy * RESTITUTION;
     }
   }
 

@@ -2,13 +2,14 @@
 
 import { state } from "./state.js";
 import { Ball } from "./class.js";
-
-/** 振り子（おもり）の個数 */
-export const BALL_COUNT = 100;
-/** フレームレート */
-export const FPS = 60;
-/** 振り子の長さデータのCSV上の列インデックス */
-const LENGTH_COLUMN = 3;
+import {
+  BALL_COUNT,
+  FPS,
+  LENGTH_COLUMN,
+  WEIGHT_IMAGE_WIDTH_DIVISOR,
+  GUIDE_TEXT_SIZE_DIVISOR,
+  PIVOT_Y,
+} from "./constants.js";
 
 /**
  * シミュレーションそのものの設定を行います。
@@ -16,7 +17,7 @@ const LENGTH_COLUMN = 3;
  */
 export function settingInit(p) {
   p.frameRate(FPS);
-  p.textSize(p.width / 25);
+  p.textSize(p.width / GUIDE_TEXT_SIZE_DIVISOR);
 }
 
 /**
@@ -24,12 +25,12 @@ export function settingInit(p) {
  * @param {*} p p5インスタンス
  */
 export function valueInit(p) {
-  state.weightImage.resize(p.width / 50, 0);
+  state.weightImage.resize(p.width / WEIGHT_IMAGE_WIDTH_DIVISOR, 0);
 
   state.balls = [];
   for (let i = 0; i < BALL_COUNT; i++) {
     const length = state.pendulumData.getNum(i, LENGTH_COLUMN);
-    state.balls.push(new Ball(length, p.asin(100 / length)));
+    state.balls.push(new Ball(length, p.asin(PIVOT_Y / length)));
   }
 
   state.count = 0;

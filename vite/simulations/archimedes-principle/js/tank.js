@@ -1,5 +1,10 @@
 import { state } from "./state.js";
 
+/** 水槽画像の上端の余白（縁を含めて表示するための調整値） */
+const IMAGE_TOP_MARGIN = 50;
+/** 水槽画像の高さ方向の余白（上下の縁を含めて表示するための調整値） */
+const IMAGE_HEIGHT_MARGIN = 100;
+
 /**
  * Tankクラス
  * 水槽の描画と状態を保持する。
@@ -31,7 +36,13 @@ export class Tank {
 
     p.push();
     p.imageMode(p.CORNER);
-    p.image(state.tankImage, imgX, imgY - 50, this.w, this.h + 100);
+    p.image(
+      state.tankImage,
+      imgX,
+      imgY - IMAGE_TOP_MARGIN,
+      this.w,
+      this.h + IMAGE_HEIGHT_MARGIN
+    );
     p.pop();
   }
 }

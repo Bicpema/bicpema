@@ -2,6 +2,7 @@
 
 import { state } from "./state.js";
 import { initValue } from "./init.js";
+import { LENGTH_INPUT_SCALE } from "./constants.js";
 
 /**
  * スタートボタンが押されたときの処理
@@ -37,8 +38,9 @@ export function onGridClick() {
  */
 export function onInputChange() {
   state.leftPendulum.theta0 = Number(state.leftAngleInput.value());
-  state.leftPendulum.stringLength = Number(state.leftLengthInput.value()) * 50;
+  state.leftPendulum.stringLength =
+    Number(state.leftLengthInput.value()) * LENGTH_INPUT_SCALE;
   state.rightPendulum.theta0 = Number(state.rightAngleInput.value());
   state.rightPendulum.stringLength =
-    Number(state.rightLengthInput.value()) * 50;
+    Number(state.rightLengthInput.value()) * LENGTH_INPUT_SCALE;
 }
