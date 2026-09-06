@@ -16,6 +16,15 @@ import {
   unitSelectFunction,
   strataFileInputFunction,
 } from "./element-function.js";
+import {
+  CAMERA_EYE_X,
+  CAMERA_EYE_Y,
+  CAMERA_EYE_Z,
+  FRAME_RATE,
+  TEXT_SIZE,
+  HEADER_HEIGHT,
+  UI_EDGE_MARGIN,
+} from "./constants.js";
 
 /** 日本語フォントのURL */
 const JA_FONT_URL =
@@ -48,9 +57,9 @@ export function elCreate(p) {
  * @param {*} p p5インスタンス
  */
 export function elInit(p) {
-  state.buttonParent.position(5, 65);
+  state.buttonParent.position(UI_EDGE_MARGIN, HEADER_HEIGHT + UI_EDGE_MARGIN);
   state.buttonParent.elt.style.left = "auto";
-  state.buttonParent.elt.style.right = "5px";
+  state.buttonParent.elt.style.right = `${UI_EDGE_MARGIN}px`;
   state.placeAddButton.mousePressed(() => placeAddButtonFunction(p));
   state.placeRemoveButton.mousePressed(() => placeRemoveButtonFunction(p));
   state.strataAddButton.mousePressed(() => strataAddButtonFunction(p));
@@ -64,10 +73,10 @@ export function elInit(p) {
   state.unitSelect.changed(unitSelectFunction);
   state.strataFileInput.position(
     0,
-    state.buttonParent.y + state.buttonParent.height + 5
+    state.buttonParent.y + state.buttonParent.height + UI_EDGE_MARGIN
   );
   state.strataFileInput.elt.style.left = "auto";
-  state.strataFileInput.elt.style.right = "5px";
+  state.strataFileInput.elt.style.right = `${UI_EDGE_MARGIN}px`;
 }
 
 /**
@@ -100,10 +109,10 @@ export function uiInit() {
  * @param {*} p p5インスタンス
  */
 export function initValue(p) {
-  p.frameRate(60);
+  p.frameRate(FRAME_RATE);
   p.textAlign(p.CENTER);
-  p.textSize(20);
-  p.camera(800, -500, 800, 0, 0, 0, 0, 1, 0);
+  p.textSize(TEXT_SIZE);
+  p.camera(CAMERA_EYE_X, CAMERA_EYE_Y, CAMERA_EYE_Z, 0, 0, 0, 0, 1, 0);
   state.rotateTime = 0;
 }
 

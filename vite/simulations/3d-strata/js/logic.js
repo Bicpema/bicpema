@@ -2,6 +2,27 @@
 
 import { state, STRATA_COLORS, ALL_SET_DATA } from "./state.js";
 import { computeCoordinateBounds } from "./physics.js";
+import {
+  WORLD_MIN,
+  WORLD_MAX,
+  WORLD_SIZE,
+  GRID_STEP,
+  GRID_LABEL_STEP,
+  BACKGROUND_COLOR,
+  AXIS_STROKE_WEIGHT,
+  GRID_STROKE_WEIGHT,
+  X_AXIS_COLOR,
+  Y_AXIS_COLOR,
+  Z_AXIS_COLOR,
+  GRID_LINE_COLOR,
+  STRATA_COLUMN_ALPHA,
+  STRATA_PLANE_ALPHA,
+  STRATA_COLUMN_SIZE,
+  PLACE_MARKER_COLOR,
+  PLACE_MARKER_VERTICAL_OFFSET,
+  ROTATION_INCREMENT_DEG,
+  Z_MIN_OVERRIDE,
+} from "./constants.js";
 
 /**
  * 地層の種類に応じたfill()を適用する。該当する種類がない場合は何もしない（直前のfill状態を維持する）。
@@ -50,75 +71,75 @@ function calculateValue() {
  * @param {*} p p5インスタンス
  */
 function backgroundSetting(p, xMin, xMax, yMin, yMax, zMin, zMax) {
-  p.background(240);
-  p.strokeWeight(3);
+  p.background(BACKGROUND_COLOR);
+  p.strokeWeight(AXIS_STROKE_WEIGHT);
   // x軸
-  p.stroke(255, 0, 0);
-  p.line(-500, 0, -500, 500, 0, -500);
+  p.stroke(...X_AXIS_COLOR);
+  p.line(WORLD_MIN, 0, WORLD_MIN, WORLD_MAX, 0, WORLD_MIN);
   // z軸
-  p.stroke(0, 255, 0);
-  p.line(-500, 0, -500, -500, 500, -500);
+  p.stroke(...Z_AXIS_COLOR);
+  p.line(WORLD_MIN, 0, WORLD_MIN, WORLD_MIN, WORLD_MAX, WORLD_MIN);
   // y軸
-  p.stroke(0, 0, 255);
-  p.line(-500, 0, -500, -500, 0, 500);
+  p.stroke(...Y_AXIS_COLOR);
+  p.line(WORLD_MIN, 0, WORLD_MIN, WORLD_MIN, 0, WORLD_MAX);
   // 格子線
   p.smooth();
-  p.strokeWeight(1);
-  p.stroke(170, 150);
+  p.strokeWeight(GRID_STROKE_WEIGHT);
+  p.stroke(...GRID_LINE_COLOR);
   p.fill(0);
-  for (let x = 0; x <= 1000; x += 50) {
-    p.line(x - 500, 0, -500, x - 500, 500, -500);
-    p.line(x - 500, 0, -500, x - 500, 0, 500);
-    p.line(x - 500, 0, 500, x - 500, 500, 500);
-    if (x % 100 == 0) {
+  for (let x = 0; x <= WORLD_SIZE; x += GRID_STEP) {
+    p.line(x + WORLD_MIN, 0, WORLD_MIN, x + WORLD_MIN, WORLD_MAX, WORLD_MIN);
+    p.line(x + WORLD_MIN, 0, WORLD_MIN, x + WORLD_MIN, 0, WORLD_MAX);
+    p.line(x + WORLD_MIN, 0, WORLD_MAX, x + WORLD_MIN, WORLD_MAX, WORLD_MAX);
+    if (x % GRID_LABEL_STEP == 0) {
       p.push();
-      p.translate(-500, 0, 500);
-      let xMap = p.map(x, 0, 1000, p.float(xMin), p.float(xMax));
-      if (xMin == xMax) xMap = x / 100;
+      p.translate(WORLD_MIN, 0, WORLD_MAX);
+      let xMap = p.map(x, 0, WORLD_SIZE, p.float(xMin), p.float(xMax));
+      if (xMin == xMax) xMap = x / GRID_LABEL_STEP;
       if (state.jaFont) p.text(p.nf(xMap, 1, 4), x, -10);
       p.pop();
     }
   }
   p.push();
-  p.translate(0, 0, 500);
+  p.translate(0, 0, WORLD_MAX);
   if (state.jaFont) p.text("経度", 0, -50);
   p.pop();
 
-  for (let z = 0; z <= 500; z += 50) {
-    p.line(-500, z, -500, 500, z, -500);
-    p.line(-500, z, -500, -500, z, 500);
-    p.line(-500, z, 500, 500, z, 500);
-    p.line(500, z, -500, 500, z, 500);
-    if (z % 100 == 0) {
+  for (let z = 0; z <= WORLD_MAX; z += GRID_STEP) {
+    p.line(WORLD_MIN, z, WORLD_MIN, WORLD_MAX, z, WORLD_MIN);
+    p.line(WORLD_MIN, z, WORLD_MIN, WORLD_MIN, z, WORLD_MAX);
+    p.line(WORLD_MIN, z, WORLD_MAX, WORLD_MAX, z, WORLD_MAX);
+    p.line(WORLD_MAX, z, WORLD_MIN, WORLD_MAX, z, WORLD_MAX);
+    if (z % GRID_LABEL_STEP == 0) {
       p.push();
-      p.translate(0, 0, -500);
-      let zMap = p.map(z, 0, 500, zMin, zMax);
+      p.translate(0, 0, WORLD_MIN);
+      let zMap = p.map(z, 0, WORLD_MAX, zMin, zMax);
       if (zMin == zMax) zMap = z;
-      if (state.jaFont) p.text(p.nf(zMap, 1, 4), -500, z);
+      if (state.jaFont) p.text(p.nf(zMap, 1, 4), WORLD_MIN, z);
       p.pop();
     }
   }
   p.push();
-  p.translate(0, 0, -500);
+  p.translate(0, 0, WORLD_MIN);
   if (state.jaFont) p.text("深さ", -550, 250, 0);
   p.pop();
-  for (let y = 0; y <= 1000; y += 50) {
-    p.line(-500, 0, y - 500, 500, 0, y - 500);
-    p.line(-500, 0, y - 500, -500, 500, y - 500);
-    p.line(500, 0, y - 500, 500, 500, y - 500);
-    if (y % 100 == 0) {
+  for (let y = 0; y <= WORLD_SIZE; y += GRID_STEP) {
+    p.line(WORLD_MIN, 0, y + WORLD_MIN, WORLD_MAX, 0, y + WORLD_MIN);
+    p.line(WORLD_MIN, 0, y + WORLD_MIN, WORLD_MIN, WORLD_MAX, y + WORLD_MIN);
+    p.line(WORLD_MAX, 0, y + WORLD_MIN, WORLD_MAX, WORLD_MAX, y + WORLD_MIN);
+    if (y % GRID_LABEL_STEP == 0) {
       p.push();
-      let yMap = p.map(y, 1000, 0, yMin, yMax);
-      if (yMin == yMax) yMap = (1000 - y) / 100;
+      let yMap = p.map(y, WORLD_SIZE, 0, yMin, yMax);
+      if (yMin == yMax) yMap = (WORLD_SIZE - y) / GRID_LABEL_STEP;
       p.rotateY(p.PI / 2);
-      p.translate(-y + 500, 0, 500);
+      p.translate(-y + WORLD_MAX, 0, WORLD_MAX);
       if (state.jaFont) p.text(p.nf(yMap, 1, 4), 0, -10);
       p.pop();
     }
   }
   p.push();
   p.rotateY(p.PI / 2);
-  p.translate(0, -50, 500);
+  p.translate(0, -50, WORLD_MAX);
   if (state.jaFont) p.text("緯度", 0, -10);
   p.pop();
 }
@@ -130,7 +151,7 @@ function backgroundSetting(p, xMin, xMax, yMin, yMax, zMin, zMax) {
 function drawDirMark(p, x, y) {
   p.push();
   p.rotateX(p.PI / 2);
-  p.strokeWeight(1);
+  p.strokeWeight(GRID_STROKE_WEIGHT);
   p.stroke(0);
   p.line(x + 50, y, x - 50, y);
   p.line(x + 20, y - 50, x - 20, y - 50);
@@ -180,10 +201,10 @@ function drawStrata(p, key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
   const data = state.dataInputArr[key].data;
   let x = data.x.value();
   if (x == "") x = 0;
-  x = p.map(x, xMin, xMax, -500, 500);
+  x = p.map(x, xMin, xMax, WORLD_MIN, WORLD_MAX);
   let y = data.y.value();
   if (y == "") y = 0;
-  y = p.map(y, yMin, yMax, 500, -500);
+  y = p.map(y, yMin, yMax, WORLD_MAX, WORLD_MIN);
   const layer = state.dataInputArr[key].layer;
   p.noStroke();
   const zArr = [];
@@ -192,14 +213,19 @@ function drawStrata(p, key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
     zArr.push(z);
     const zLength = layer[i][1] - layer[i][0];
     const kind = layer[i][2];
-    applyStrataFill(p, kind, 200);
+    applyStrataFill(p, kind, STRATA_COLUMN_ALPHA);
     p.push();
     p.translate(
       x,
-      p.map(z, zMin, zMax, 0, 500) + p.map(zLength, 0, zMax - zMin, 0, 500) / 2,
+      p.map(z, zMin, zMax, 0, WORLD_MAX) +
+        p.map(zLength, 0, zMax - zMin, 0, WORLD_MAX) / 2,
       y
     );
-    p.box(50, p.map(zLength, 0, zMax - zMin, 0, 500), 50);
+    p.box(
+      STRATA_COLUMN_SIZE,
+      p.map(zLength, 0, zMax - zMin, 0, WORLD_MAX),
+      STRATA_COLUMN_SIZE
+    );
     p.translate(100, 10, 0);
     p.fill(0);
     if (state.jaFont) p.text(kind, 0, 0);
@@ -210,8 +236,8 @@ function drawStrata(p, key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
       p.text(
         kind,
         x,
-        p.map(z, zMin, zMax, 0, 500) +
-          p.map(zLength, 0, zMax - zMin, 0, 500) / 2
+        p.map(z, zMin, zMax, 0, WORLD_MAX) +
+          p.map(zLength, 0, zMax - zMin, 0, WORLD_MAX) / 2
       );
     }
     p.pop();
@@ -221,12 +247,17 @@ function drawStrata(p, key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
   p.translate(x, 0, y);
   p.rotateY(p.radians(rotateTime));
   if (p.min(zArr) < 0) {
-    p.translate(0, p.map(p.min(zArr), zMin, zMax, 0, 500) - 25, 0);
+    p.translate(
+      0,
+      p.map(p.min(zArr), zMin, zMax, 0, WORLD_MAX) +
+        PLACE_MARKER_VERTICAL_OFFSET,
+      0
+    );
   } else {
-    p.translate(0, -25, 0);
+    p.translate(0, PLACE_MARKER_VERTICAL_OFFSET, 0);
   }
   if (state.jaFont) p.text(name, 0, -55);
-  p.fill(255, 0, 0);
+  p.fill(...PLACE_MARKER_COLOR);
   p.cone(10, 50, 10, 3, true);
   p.pop();
 }
@@ -251,45 +282,45 @@ function drawSelectedPlanes(p, xMin, xMax, yMin, yMax, zMin, zMax) {
         state.dataInputArr[key].data.x.value(),
         xMin,
         xMax,
-        -500,
-        500
+        WORLD_MIN,
+        WORLD_MAX
       );
       p1[1] = p.map(
         state.dataInputArr[key].data.y.value(),
         yMin,
         yMax,
-        500,
-        -500
+        WORLD_MAX,
+        WORLD_MIN
       );
     } else if (state.dataInputArr[key].name.value() == p2Name) {
       p2[0] = p.map(
         state.dataInputArr[key].data.x.value(),
         xMin,
         xMax,
-        -500,
-        500
+        WORLD_MIN,
+        WORLD_MAX
       );
       p2[1] = p.map(
         state.dataInputArr[key].data.y.value(),
         yMin,
         yMax,
-        500,
-        -500
+        WORLD_MAX,
+        WORLD_MIN
       );
     } else if (state.dataInputArr[key].name.value() == p3Name) {
       p3[0] = p.map(
         state.dataInputArr[key].data.x.value(),
         xMin,
         xMax,
-        -500,
-        500
+        WORLD_MIN,
+        WORLD_MAX
       );
       p3[1] = p.map(
         state.dataInputArr[key].data.y.value(),
         yMin,
         yMax,
-        500,
-        -500
+        WORLD_MAX,
+        WORLD_MIN
       );
     }
   }
@@ -311,14 +342,14 @@ function drawSelectedPlanes(p, xMin, xMax, yMin, yMax, zMin, zMax) {
     let p3Max = select4.substr(select4.indexOf("m-") + 2);
     p3Max = p3Max.substr(0, p3Max.indexOf("m"));
 
-    p1Min = p.map(p1Min, zMin, zMax, 0, 500);
-    p1Max = p.map(p1Max, zMin, zMax, 0, 500);
-    p2Min = p.map(p2Min, zMin, zMax, 0, 500);
-    p2Max = p.map(p2Max, zMin, zMax, 0, 500);
-    p3Min = p.map(p3Min, zMin, zMax, 0, 500);
-    p3Max = p.map(p3Max, zMin, zMax, 0, 500);
+    p1Min = p.map(p1Min, zMin, zMax, 0, WORLD_MAX);
+    p1Max = p.map(p1Max, zMin, zMax, 0, WORLD_MAX);
+    p2Min = p.map(p2Min, zMin, zMax, 0, WORLD_MAX);
+    p2Max = p.map(p2Max, zMin, zMax, 0, WORLD_MAX);
+    p3Min = p.map(p3Min, zMin, zMax, 0, WORLD_MAX);
+    p3Max = p.map(p3Max, zMin, zMax, 0, WORLD_MAX);
 
-    applyStrataFill(p, select1, 150);
+    applyStrataFill(p, select1, STRATA_PLANE_ALPHA);
     createPlane1(
       p,
       p1[0],
@@ -410,7 +441,7 @@ function drawAllSetPlanes(p) {
       const p2Min = range[1][1];
       const p3Max = range[2][0];
       const p3Min = range[2][1];
-      applyStrataFill(p, layer, 150);
+      applyStrataFill(p, layer, STRATA_PLANE_ALPHA);
       createPlane1(
         p,
         p1[0],
@@ -516,7 +547,7 @@ export function drawSimulation(p) {
   if (zMin == Infinity) zMin = 0;
   // 緊急的な措置としての変数の代入
   // 今後軸ラベルの最小値と最大値をスライダーで変更できる仕様に変える必要がある
-  zMin = -53;
+  zMin = Z_MIN_OVERRIDE;
   let zMax = coordinateData.z.max;
   if (zMax == -Infinity) zMax = 0;
   backgroundSetting(p, xMin, xMax, yMin, yMax, zMin, zMax);
@@ -530,7 +561,7 @@ export function drawSimulation(p) {
     p.orbitControl(2);
   }
 
-  state.rotateTime += 2;
+  state.rotateTime += ROTATION_INCREMENT_DEG;
   for (const key in state.dataInputArr) {
     drawStrata(p, key, state.rotateTime, xMin, xMax, yMin, yMax, zMin, zMax);
   }
