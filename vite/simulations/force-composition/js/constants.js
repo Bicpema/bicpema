@@ -12,3 +12,7 @@ export const ORIGIN_X = 500;
 export const ORIGIN_Y = 281;
 /** グリッド間隔 (px) */
 export const GRID_STEP = 50;
+/** ラベル・矢印テキストの共通フォントサイズ */
+export const LABEL_FONT_SIZE = 16;
+/** 座標軸ラベル（x, y）のフォントサイズ */
+export const AXIS_LABEL_FONT_SIZE = 18;

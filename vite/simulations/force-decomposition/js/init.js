@@ -1,5 +1,5 @@
 import { state } from "./state.js";
-import { FPS } from "./constants.js";
+import { FPS, LABEL_FONT_SIZE } from "./constants.js";
 
 /**
  * DOM要素を選択してstateに格納し、イベントリスナーを設定する。
@@ -19,5 +19,5 @@ export function initValue(p) {
   if (state.font) {
     p.textFont(state.font);
   }
-  p.textSize(16);
+  p.textSize(LABEL_FONT_SIZE);
 }

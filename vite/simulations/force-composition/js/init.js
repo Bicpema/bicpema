@@ -1,5 +1,5 @@
 import { state } from "./state.js";
-import { FPS } from "./constants.js";
+import { FPS, LABEL_FONT_SIZE } from "./constants.js";
 
 /**
  * DOM要素の初期化（現在は設定なし）。
@@ -17,5 +17,5 @@ export function initValue(p) {
   if (state.font) {
     p.textFont(state.font);
   }
-  p.textSize(16);
+  p.textSize(LABEL_FONT_SIZE);
 }

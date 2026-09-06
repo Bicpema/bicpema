@@ -1,4 +1,11 @@
-import { RIVER_BOTTOM, BOAT_Y, V_W } from "./constants.js";
+import {
+  RIVER_BOTTOM,
+  BOAT_Y,
+  V_W,
+  PX_PER_MPS,
+  WATER_PARTICLE_MARGIN,
+  BOAT_WRAP_MARGIN,
+} from "./constants.js";
 import { drawArrowWithLabel } from "./logic.js";
 import { state } from "./state.js";
 
@@ -27,12 +34,11 @@ export class WaterParticle {
    * @param {number} dt 時間刻み（秒）
    */
   update(dt) {
-    const PX_PER_MPS = 20;
     const riverSpeed = state.boat ? state.boat.riverSpeed : 3;
     const speed = riverSpeed * PX_PER_MPS * this.speedFactor;
     this.x -= speed * dt;
-    if (this.x < -60) {
-      this.x = 1060;
+    if (this.x < -WATER_PARTICLE_MARGIN) {
+      this.x = V_W + WATER_PARTICLE_MARGIN;
       this.y = this.p.random(20, RIVER_BOTTOM - 20);
     }
   }
@@ -80,10 +86,9 @@ export class Boat {
    */
   update(dt) {
     if (!this.isMoving) return;
-    const PX_PER_MPS = 20;
     this.x -= this.compositeSpeed * PX_PER_MPS * dt;
-    if (this.x > 1100) this.x = -100;
-    if (this.x < -100) this.x = 1100;
+    if (this.x > V_W + BOAT_WRAP_MARGIN) this.x = -BOAT_WRAP_MARGIN;
+    if (this.x < -BOAT_WRAP_MARGIN) this.x = V_W + BOAT_WRAP_MARGIN;
   }
 
   /**
