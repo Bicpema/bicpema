@@ -25,10 +25,6 @@ export const POLARIZER_SIZE = 125;
 
 /** 赤色光の1フレーム当たりの回転角速度（度）。緑・青色光の角速度算出の基準値 */
 export const ANGULAR_VELOCITY_R = (2 * 180) / 25;
-/** 緑色光の角速度の、赤色光に対する比 */
-export const ANGULAR_VELOCITY_RATIO_G = 0.78;
-/** 青色光の角速度の、赤色光に対する比 */
-export const ANGULAR_VELOCITY_RATIO_B = 0.62214285714;
 
 /** 波長600 nm(赤)のセロハン1枚あたりの光路差 (nm) */
 export const OPD_PER_SHEET_R = 212.596704;
@@ -43,6 +39,18 @@ export const WAVELENGTH_R = 600;
 export const WAVELENGTH_G = 550;
 /** 青色光の波長 (nm) */
 export const WAVELENGTH_B = 450;
+
+/**
+ * 色ごとの1フレーム当たりの回転角速度（度）を求める。
+ * 光速一定のもとでは角速度（振動数相当）は波長に反比例するため、
+ * 画面上に描画される波の空間的な波長がWAVELENGTH_R/G/Bの比と一致するよう、
+ * 赤色光の角速度(ANGULAR_VELOCITY_R)を基準に波長比から算出する。
+ * @param {number} wavelength 対象の光の波長 (nm)
+ * @returns {number} その光の1フレーム当たりの回転角速度（度）
+ */
+export function computeAngularVelocity(wavelength) {
+  return (ANGULAR_VELOCITY_R * WAVELENGTH_R) / wavelength;
+}
 
 /** 波を表現する際の振幅（sin波によるオフセット距離） */
 export const WAVE_AMPLITUDE = 25;

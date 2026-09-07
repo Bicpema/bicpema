@@ -6,9 +6,7 @@ import {
   computeTransmittance,
 } from "./physics.js";
 import {
-  ANGULAR_VELOCITY_R,
-  ANGULAR_VELOCITY_RATIO_G,
-  ANGULAR_VELOCITY_RATIO_B,
+  computeAngularVelocity,
   OPD_PER_SHEET_R,
   OPD_PER_SHEET_G,
   OPD_PER_SHEET_B,
@@ -67,21 +65,21 @@ export class Ray {
     const cellophaneCount = state.cellophaneCountSlider.value();
 
     if (this.clr === "r") {
-      this.w = ANGULAR_VELOCITY_R;
-      this.opd = computeOpticalPathDifference(cellophaneCount, OPD_PER_SHEET_R);
       this.wl = WAVELENGTH_R;
+      this.w = computeAngularVelocity(this.wl);
+      this.opd = computeOpticalPathDifference(cellophaneCount, OPD_PER_SHEET_R);
       this.magnification = computeTransmittance(this.opd, this.wl);
     }
     if (this.clr === "g") {
-      this.w = ANGULAR_VELOCITY_R * ANGULAR_VELOCITY_RATIO_G;
-      this.opd = computeOpticalPathDifference(cellophaneCount, OPD_PER_SHEET_G);
       this.wl = WAVELENGTH_G;
+      this.w = computeAngularVelocity(this.wl);
+      this.opd = computeOpticalPathDifference(cellophaneCount, OPD_PER_SHEET_G);
       this.magnification = computeTransmittance(this.opd, this.wl);
     }
     if (this.clr === "b") {
-      this.w = ANGULAR_VELOCITY_R * ANGULAR_VELOCITY_RATIO_B;
-      this.opd = computeOpticalPathDifference(cellophaneCount, OPD_PER_SHEET_B);
       this.wl = WAVELENGTH_B;
+      this.w = computeAngularVelocity(this.wl);
+      this.opd = computeOpticalPathDifference(cellophaneCount, OPD_PER_SHEET_B);
       this.magnification = computeTransmittance(this.opd, this.wl);
     }
     if (state.isRunning) {
