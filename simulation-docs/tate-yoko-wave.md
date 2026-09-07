@@ -109,10 +109,10 @@
     - `computeWaveDisplacement`/`computeArrivalTime`: 波の変位・到達時刻を計算する純粋関数。UI・p5に依存しない。
 - `vite/simulations/tate-yoko-wave/js/constants.js`
     - 波源x座標、軸右余白、矢印長さ、粒子サイズ、配色（波・注目粒子原点・変位矢印）などの定数。
-- 共通資産依存:
-    - `vite/js/bicpema-canvas-controller.js`（`BicpemaCanvasController`）: キャンバスサイズ制御・リサイズ処理。
-    - `vite/js/bicpema-loading-spinner.js`（`hideLoadingSpinner`）: 初期ローディング表示制御。
-    - `vite/css/tailwind.css`: 共通スタイル基盤（Tailwindユーティリティ）。
+- 共通資産依存（`js/index.js`からのimportパス表記。実体は`vite/js/`・`vite/css/`配下）:
+    - `../../../js/bicpema-canvas-controller.js`（`BicpemaCanvasController`）: キャンバスサイズ制御・リサイズ処理。
+    - `../../../js/bicpema-loading-spinner.js`（`hideLoadingSpinner`）: 初期ローディング表示制御。
+    - `../../../css/tailwind.css`: 共通スタイル基盤（Tailwindユーティリティ）。
 
 ```mermaid
 flowchart TD
@@ -125,9 +125,9 @@ flowchart TD
   E --> F
   E --> G["js/physics.js"]
   E --> H
-  C --> I["vite/js/bicpema-canvas-controller.js"]
-  C --> J["vite/js/bicpema-loading-spinner.js"]
-  C --> K["vite/css/tailwind.css"]
+  C --> I["../../../js/bicpema-canvas-controller.js"]
+  C --> J["../../../js/bicpema-loading-spinner.js"]
+  C --> K["../../../css/tailwind.css"]
 ```
 
 ## 6. 状態遷移

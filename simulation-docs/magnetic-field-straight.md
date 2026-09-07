@@ -104,10 +104,10 @@
     - グローバルモード（`function setup()`/`function draw()`）で書かれた旧実装。`index.html`からは参照されておらず、現行のビルド・実行経路には含まれない孤立ファイル（調査対象外・削除候補、詳細は「未確定事項」参照）。
 - `vite/simulations/magnetic-field-straight/style.css`
     - `html, body`の余白リセットと`canvas { display: block; }`のみを定義する簡易スタイル。`index.html`からは参照されておらず、現行実装では共通の`vite/css/tailwind.css`がスタイルを担っている（`sketch.js`と同様、旧実装時代の孤立ファイルと推定）。
-- 共通資産（本シミュレーション固有ではない）:
-    - `vite/js/bicpema-canvas-controller.js`: `BicpemaCanvasController`クラス（キャンバスサイズ計算・生成・リサイズ）。
-    - `vite/js/bicpema-loading-spinner.js`: `hideLoadingSpinner()`（ローディングスピナー非表示処理）。
-    - `vite/css/tailwind.css`: 共通のTailwindベーススタイル。
+- 共通資産（本シミュレーション固有ではない。`js/index.js`からのimportパス表記。実体は`vite/js/`・`vite/css/`配下）:
+    - `../../../js/bicpema-canvas-controller.js`: `BicpemaCanvasController`クラス（キャンバスサイズ計算・生成・リサイズ）。
+    - `../../../js/bicpema-loading-spinner.js`: `hideLoadingSpinner()`（ローディングスピナー非表示処理）。
+    - `../../../css/tailwind.css`: 共通のTailwindベーススタイル。
 
 ```mermaid
 flowchart TD
@@ -115,9 +115,9 @@ flowchart TD
   C --> D["js/init.js"]
   C --> E["js/logic.js"]
   C --> F["js/state.js"]
-  C --> L["vite/js/bicpema-canvas-controller.js"]
-  C --> M["vite/js/bicpema-loading-spinner.js"]
-  C --> N["vite/css/tailwind.css"]
+  C --> L["../../../js/bicpema-canvas-controller.js"]
+  C --> M["../../../js/bicpema-loading-spinner.js"]
+  C --> N["../../../css/tailwind.css"]
   E --> P["js/physics.js"]
   E --> K["js/constants.js"]
   P --> K
