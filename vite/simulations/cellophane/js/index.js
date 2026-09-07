@@ -12,7 +12,9 @@ import { initGraph, initCmfGraph } from "./graph.js";
 import { drawSimulation } from "./logic.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(false, true, 1.0, 1.0, {
+  const canvasController = new BicpemaCanvasController({
+    fixedAspectRatio: false,
+    is3D: true,
     panelSelector: "#p5Canvas",
   });
 
