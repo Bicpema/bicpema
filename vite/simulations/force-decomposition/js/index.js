@@ -13,7 +13,7 @@ import {
 import { V_W, MAX_FORCE } from "./constants.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+  const canvasController = new BicpemaCanvasController();
 
   p.preload = () => {
     state.font = p.loadFont(

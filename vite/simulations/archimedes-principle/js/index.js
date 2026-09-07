@@ -12,7 +12,7 @@ import {
 } from "./logic.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(true, false);
+  const canvasController = new BicpemaCanvasController();
 
   p.preload = () => {
     state.tankImage = p.loadImage(

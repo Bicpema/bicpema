@@ -19,7 +19,9 @@ import { FPS, CAMERA_DISTANCE } from "./constants.js";
 // 一度だけ設定するようにしている。
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(false, true, 1.0, 1.0, {
+  const canvasController = new BicpemaCanvasController({
+    fixedAspectRatio: false,
+    is3D: true,
     panelSelector: "#p5Canvas",
   });
   let isFirstDraw = true;

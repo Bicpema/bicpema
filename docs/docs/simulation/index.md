@@ -66,7 +66,7 @@ import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import { settingInit, elementSelectInit, elementPositionInit, valueInit } from "./init.js";
 
 const sketch = (p: p5) => {
-    const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+    const canvasController = new BicpemaCanvasController();
     let isFirstDraw = true;
 
     p.setup = () => {
@@ -93,6 +93,28 @@ const sketch = (p: p5) => {
 };
 
 new p5(sketch);
+```
+
+`BicpemaCanvasController`はオプションオブジェクトを1つ受け取ります。すべて省略可能で、既定値は標準の2D・全画面・16:9固定表示になるよう設定されています。
+
+| オプション | 型 | 既定値 | 説明 |
+| --- | --- | --- | --- |
+| `fixedAspectRatio` | `boolean` | `true` | `true`の場合、16:9比率を維持したままキャンバスを配置する。`false`の場合は利用可能領域いっぱいに広がる |
+| `is3D` | `boolean` | `false` | `true`の場合、WEBGLモードの3Dキャンバスを生成する |
+| `widthRatio` | `number`（`0.0`〜`1.0`） | `1.0` | 算出した幅に対して掛け合わせる比率 |
+| `heightRatio` | `number`（`0.0`〜`1.0`） | `1.0` | 算出した高さに対して掛け合わせる比率 |
+| `panelSelector` | `string \| null` | `null` | 指定した場合、そのDOM要素のサイズをウィンドウサイズの代わりに利用可能領域として使用する |
+| `bottomBarSelector` | `string \| null` | `null` | 指定した場合、そのDOM要素の高さ（+4px）を利用可能な高さから差し引く |
+| `heightMode` | `"aspect" \| "half"` | `"aspect"` | `"half"`の場合、アスペクト比の計算を行わず、利用可能な高さの半分をそのままキャンバスの高さにする |
+
+既定値以外を指定する場合は、必要なオプションのみを渡します。
+
+```ts
+// 3Dシミュレーションで、パネル要素を利用可能領域とする例
+const canvasController = new BicpemaCanvasController({
+    is3D: true,
+    panelSelector: "#p5Canvas",
+});
 ```
 
 ### パターン B — グローバルモード（旧実装・移行対象）

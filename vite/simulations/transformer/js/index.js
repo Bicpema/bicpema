@@ -11,7 +11,7 @@ const V_W = 1000;
 
 const sketch = (p) => {
   // 16:9 固定比率、下部設定パネルの高さを考慮してキャンバスサイズを計算
-  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0, {
+  const canvasController = new BicpemaCanvasController({
     bottomBarSelector: "#settingsPanel",
   });
 

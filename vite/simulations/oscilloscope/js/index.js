@@ -12,7 +12,7 @@ import {
 } from "./init.js";
 import { drawOscilloscope, updateAudioData } from "./logic.js";
 
-const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+const canvasController = new BicpemaCanvasController();
 
 const sketch = (p) => {
   let elements;
