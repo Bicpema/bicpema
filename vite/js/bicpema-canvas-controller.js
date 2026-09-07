@@ -16,7 +16,7 @@ export class BicpemaCanvasController {
   /**
    * @constructor
    * @param {object} [options] キャンバスの挙動を設定するオプション
-   * @param {boolean} [options.fixedAspectRatio] 回転時に比率（9:16）を固定化するか。falseの場合は利用可能領域いっぱいに広がる
+   * @param {boolean} [options.fixedAspectRatio] 回転時に比率（16:9）を固定化するか。falseの場合は利用可能領域いっぱいに広がる
    * @param {boolean} [options.is3D] WEBGLモードの3Dキャンバスとして生成するか
    * @param {number} [options.widthRatio] 算出した幅に対する比率（0.0~1.0）
    * @param {number} [options.heightRatio] 算出した高さに対する比率（0.0~1.0）

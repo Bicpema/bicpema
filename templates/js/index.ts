@@ -13,7 +13,7 @@ import {
 } from "./init.js";
 
 const sketch = (p: p5) => {
-  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+  const canvasController = new BicpemaCanvasController();
   let isFirstDraw = true;
 
   // p.preload = () => {

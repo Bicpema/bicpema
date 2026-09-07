@@ -99,7 +99,7 @@ new p5(sketch);
 
 | オプション | 型 | 既定値 | 説明 |
 | --- | --- | --- | --- |
-| `fixedAspectRatio` | `boolean` | `true` | `true`の場合、9:16比率を維持したままキャンバスを配置する。`false`の場合は利用可能領域いっぱいに広がる |
+| `fixedAspectRatio` | `boolean` | `true` | `true`の場合、16:9比率を維持したままキャンバスを配置する。`false`の場合は利用可能領域いっぱいに広がる |
 | `is3D` | `boolean` | `false` | `true`の場合、WEBGLモードの3Dキャンバスを生成する |
 | `widthRatio` | `number`（`0.0`〜`1.0`） | `1.0` | 算出した幅に対して掛け合わせる比率 |
 | `heightRatio` | `number`（`0.0`〜`1.0`） | `1.0` | 算出した高さに対して掛け合わせる比率 |
