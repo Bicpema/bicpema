@@ -48,8 +48,8 @@ export function elementSelectInit(p) {
     openSelectors: "#toggleModal",
     modalSelector: "#settingsModal",
     closeSelectors: "#closeModal",
+    onClose: applySettings,
   });
-  p.select("#closeModal").mousePressed(applySettings);
 }
 
 /**

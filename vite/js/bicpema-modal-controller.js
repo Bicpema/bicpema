@@ -10,8 +10,15 @@
  * @param {string} options.openSelectors モーダルを開く要素のCSSセレクタ（複数要素にマッチしてよい）
  * @param {string} options.modalSelector モーダル本体のCSSセレクタ（単一要素）
  * @param {string} options.closeSelectors モーダルを閉じる要素のCSSセレクタ（複数要素にマッチしてよい）
+ * @param {() => void} [options.onClose] 閉じるボタン・背景クリック・Escapeキーのいずれでモーダルが
+ *   閉じられた場合にも呼び出されるコールバック（設定値の反映など、閉じる操作に紐づく処理を行いたい場合に指定する）
  */
-export function initModal({ openSelectors, modalSelector, closeSelectors }) {
+export function initModal({
+  openSelectors,
+  modalSelector,
+  closeSelectors,
+  onClose,
+}) {
   const modal = document.querySelector(modalSelector);
   if (!modal) return;
 
@@ -20,7 +27,10 @@ export function initModal({ openSelectors, modalSelector, closeSelectors }) {
     modal.setAttribute("aria-hidden", String(isHidden));
   };
   const open = () => setModalVisibility(false);
-  const close = () => setModalVisibility(true);
+  const close = () => {
+    setModalVisibility(true);
+    onClose?.();
+  };
 
   setModalVisibility(modal.classList.contains("hidden"));
 

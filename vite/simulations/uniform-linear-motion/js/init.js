@@ -10,11 +10,7 @@ import {
   DEFAULT_SIMULATION_DURATION,
   CAR_TRAJECTORY_DISTANCE_THRESHOLD,
 } from "./constants.js";
-import {
-  graphButtonFunction,
-  onPlayPause,
-  onReset,
-} from "./element-function.js";
+import { graphButtonFunction, onPlayPause } from "./element-function.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 
@@ -24,6 +20,16 @@ import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 export function imgInit() {
   state.YELLOW_CAR_IMG.resize(CAR_IMAGE_WIDTH, 0);
   state.RED_CAR_IMAGE.resize(CAR_IMAGE_WIDTH, 0);
+}
+
+/**
+ * リセットボタンが押されたときの処理。
+ * @param {p5} p p5インスタンス
+ */
+function onReset(p) {
+  state.isPlaying = true;
+  state.playButton.html("一時停止");
+  initValue(p);
 }
 
 /**
