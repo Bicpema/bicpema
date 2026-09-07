@@ -69,7 +69,23 @@ export class Cylinder {
     this.vy = Math.max(Math.min(this.vy, MAX_VY), -MAX_VY);
 
     this.vy *= DAMPING;
+
+    // 更新前（本フレーム移動前）に完全水没していたかどうか
+    const wasFullySubmerged = topY >= waterSurfaceY;
+
     this.cy += this.vy;
+
+    // 密度が水と等しい（中性浮力）場合、水面と物体の上面が一致する位置で
+    // 慣性を打ち消して静止させる。完全水没した状態ではどの深さでも力が
+    // 釣り合ってしまい、慣性のみで沈み込む深さが毎回ばらついてしまうため、
+    // 水面をちょうど通過した瞬間に位置と速度を固定して再現性を持たせる。
+    if (this.density === WATER_DENSITY && !wasFullySubmerged) {
+      const flushBottomY = waterSurfaceY + this.h;
+      if (this.cy >= flushBottomY) {
+        this.cy = flushBottomY;
+        this.vy = 0;
+      }
+    }
 
     if (this.cy > tankBottomY) {
       this.cy = tankBottomY;
