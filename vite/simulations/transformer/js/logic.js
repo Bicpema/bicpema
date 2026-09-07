@@ -59,8 +59,10 @@ export function drawSimulation(p) {
   oscillo2(p);
   p.pop();
 
-  // フレームカウントを進める
-  state.t++;
+  // フレームカウントを進める（一時停止中は現在の波形を維持する）
+  if (state.isRunning) {
+    state.t++;
+  }
 }
 
 /**

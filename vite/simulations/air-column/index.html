@@ -10,64 +10,103 @@
       class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <a
+        class="font-semibold text-white no-underline"
+        href="https://bicpema.com/"
+        >Bicpema</a
+      >
       <span class="ml-3 font-light text-neutral-300">空気柱の共鳴</span>
     </nav>
     <div class="w-full p-0 mt-[60px]" id="p5Container">
       <div class="relative flex justify-center" id="p5Canvas">
+        <!-- 設定モーダル -->
         <div
-          class="absolute end-0 m-2"
-          style="top: 0.5rem; z-index: 1000"
+          id="settingsModal"
+          class="absolute top-1/2 left-1/2 z-[2000] hidden w-[320px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-white/30 bg-black/90 p-6 text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-[15px]"
+          role="dialog"
+          aria-modal="true"
+          aria-label="設定"
         >
-          <table
-            class="mb-0 overflow-hidden rounded border-collapse text-sm"
-            style="background: rgba(255, 255, 255, 0.9); min-width: 240px"
+          <h5 class="mb-4 text-center text-white">設定</h5>
+          <div class="mb-3">
+            <label for="typeSelect" class="mb-1 block text-sm">管の種類</label>
+            <select
+              class="w-full rounded border border-neutral-300 bg-white px-2 py-1 text-sm text-neutral-900"
+              id="typeSelect"
+            >
+              <option value="closed">閉管</option>
+              <option value="open">開管</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <span class="mb-1 block text-sm">倍振動数</span>
+            <div class="flex items-center gap-2">
+              <button
+                class="rounded bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-500"
+                id="mnMinusBtn"
+              >
+                －
+              </button>
+              <strong id="mnDisplay" class="mx-1">1</strong>
+              <button
+                class="rounded bg-amber-500 px-2 py-1 text-sm text-neutral-900 hover:bg-amber-400"
+                id="mnPlusBtn"
+              >
+                ＋
+              </button>
+            </div>
+          </div>
+          <div class="mb-4">
+            <span class="mb-1 block text-sm">管の長さ</span>
+            <div class="flex items-center gap-2">
+              <button
+                class="rounded bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-500"
+                id="lminusBtn"
+              >
+                －
+              </button>
+              <strong id="lDisplay" class="mx-1">400</strong>
+              <button
+                class="rounded bg-amber-500 px-2 py-1 text-sm text-neutral-900 hover:bg-amber-400"
+                id="lplusBtn"
+              >
+                ＋
+              </button>
+            </div>
+          </div>
+          <button
+            id="closeModal"
+            class="modal-close w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
           >
-            <thead class="bg-neutral-800 text-white">
-              <tr>
-                <th colspan="2" class="border border-neutral-300 px-2 py-1 text-center">設定</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="border border-neutral-300 px-2 py-1 align-middle font-semibold">管の種類</td>
-                <td class="border border-neutral-300 px-2 py-1">
-                  <select class="rounded border border-neutral-300 bg-white px-2 py-1 text-sm text-neutral-900" id="typeSelect">
-                    <option value="closed">閉管</option>
-                    <option value="open">開管</option>
-                  </select>
-                </td>
-              </tr>
-              <tr>
-                <td class="border border-neutral-300 px-2 py-1 align-middle font-semibold">倍振動数</td>
-                <td class="border border-neutral-300 px-2 py-1">
-                  <div class="flex items-center gap-1">
-                    <button class="rounded bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-500" id="mnMinusBtn">
-                      －
-                    </button>
-                    <strong id="mnDisplay" class="mx-1">1</strong>
-                    <button class="rounded bg-amber-500 px-2 py-1 text-sm text-neutral-900 hover:bg-amber-400" id="mnPlusBtn">
-                      ＋
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td class="border border-neutral-300 px-2 py-1 align-middle font-semibold">管の長さ</td>
-                <td class="border border-neutral-300 px-2 py-1">
-                  <div class="flex items-center gap-1">
-                    <button class="rounded bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-500" id="lminusBtn">
-                      －
-                    </button>
-                    <strong id="lDisplay" class="mx-1">400</strong>
-                    <button class="rounded bg-amber-500 px-2 py-1 text-sm text-neutral-900 hover:bg-amber-400" id="lplusBtn">
-                      ＋
-                    </button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+            閉じる
+          </button>
+        </div>
+
+        <!-- 左下: 再生/一時停止・リセット -->
+        <div class="absolute bottom-0 start-0 z-[1000] m-3 flex gap-2">
+          <button
+            id="playPauseButton"
+            class="rounded bg-green-600 px-4 py-2 text-white hover:bg-green-500"
+          >
+            ▶ 開始
+          </button>
+          <button
+            id="resetButton"
+            class="rounded bg-neutral-600 px-4 py-2 text-white hover:bg-neutral-500"
+          >
+            🔄 リセット
+          </button>
+        </div>
+
+        <!-- 右上: 設定ボタン -->
+        <div class="absolute end-0 top-0 z-[1000] m-3">
+          <button
+            id="toggleModal"
+            class="settings-modal-open rounded bg-cyan-600 px-4 py-2 text-white hover:bg-cyan-500"
+            aria-label="シミュレーションの設定"
+          >
+            ⚙ 設定
+          </button>
         </div>
       </div>
     </div>
@@ -79,7 +118,9 @@
       aria-live="polite"
       aria-label="読み込み中"
     >
-      <div class="h-12 w-12 animate-spin rounded-full border-4 border-neutral-600 border-t-blue-500"></div>
+      <div
+        class="h-12 w-12 animate-spin rounded-full border-4 border-neutral-600 border-t-blue-500"
+      ></div>
     </div>
 
     <script type="module" src="./js/index.js"></script>

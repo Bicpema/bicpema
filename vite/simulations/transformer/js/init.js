@@ -1,5 +1,7 @@
 import { state } from "./state.js";
 import { TURNS_MIN, TURNS_MAX, TURNS_STEP } from "./constants.js";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
+import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 
 /** フレームレート */
 export const FPS = 60;
@@ -57,6 +59,36 @@ export function elCreate(p) {
       );
     });
   }
+
+  const playPauseButton = document.getElementById("playPauseButton");
+  const phaseSameRadio = document.getElementById("phaseSame");
+  const speedSlowRadio = document.getElementById("speedSlow");
+
+  bindToggleControls(p, {
+    toggleSelector: "#playPauseButton",
+    resetSelector: "#resetButton",
+    onToggle: () => {
+      state.isRunning = !state.isRunning;
+      playPauseButton.textContent = state.isRunning ? "⏸ 一時停止" : "▶ 再開";
+    },
+    onReset: () => {
+      state.isRunning = false;
+      state.count1 = TURNS_MAX;
+      state.count2 = TURNS_MIN;
+      state.omega = 1;
+      state.t = 0;
+      state.phase = true;
+      if (phaseSameRadio) phaseSameRadio.checked = true;
+      if (speedSlowRadio) speedSlowRadio.checked = true;
+      playPauseButton.textContent = "▶ 開始";
+    },
+  });
+
+  initModal({
+    openSelectors: "#toggleModal",
+    modalSelector: "#settingsModal",
+    closeSelectors: "#closeModal",
+  });
 }
 
 /**

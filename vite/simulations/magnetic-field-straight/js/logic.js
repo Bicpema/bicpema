@@ -1,3 +1,4 @@
+import { state } from "./state.js";
 import {
   computeMagneticFieldStrength,
   computeFieldDirection,
@@ -17,7 +18,7 @@ function drawWire(p, currentVal) {
   if (p.abs(currentVal) > CURRENT_THRESHOLD) {
     p.fill("#FF8C00");
     let speed = currentVal;
-    let yOffset = (p.frameCount * speed) % ARROW_SPACING;
+    let yOffset = (state.t * speed) % ARROW_SPACING;
     for (let i = -6; i < 6; i++) {
       p.push();
       p.translate(0, i * ARROW_SPACING + yOffset, 0);
@@ -47,7 +48,7 @@ function drawCircle(p, R) {
 function drawFlowArrow(p, r, currentVal, arrowSize = 6, color = null) {
   // Arrow indicates direction; size reflects relative field strength at that radius
   const direction = currentVal >= 0 ? 1 : -1;
-  const t = (p.frameCount * 0.02 * direction) % p.TWO_PI;
+  const t = (state.t * 0.02 * direction) % p.TWO_PI;
   const x = r * p.cos(t);
   const z = r * p.sin(t);
   p.push();
@@ -138,5 +139,9 @@ export function drawSimulation(p) {
   if (lastCurrentVal !== currentVal) {
     updateInfoPanel(currentVal);
     lastCurrentVal = currentVal;
+  }
+
+  if (state.isRunning) {
+    state.t++;
   }
 }

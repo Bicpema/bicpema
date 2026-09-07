@@ -1,3 +1,10 @@
+import { state } from "./state.js";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
+import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
+
+/** 電流の強さの初期値（A） */
+const INITIAL_CURRENT = 1;
+
 export function settingInit(p) {}
 
 export function elementSelectInit(p) {}
@@ -19,4 +26,29 @@ export function elementPositionInit(p) {
   updateControlLabels();
 }
 
-export function valueInit(p) {}
+export function valueInit(p) {
+  const playPauseButton = document.getElementById("playPauseButton");
+  const currentSlider = document.getElementById("currentSlider");
+
+  bindToggleControls(p, {
+    toggleSelector: "#playPauseButton",
+    resetSelector: "#resetButton",
+    onToggle: () => {
+      state.isRunning = !state.isRunning;
+      playPauseButton.textContent = state.isRunning ? "⏸ 一時停止" : "▶ 再開";
+    },
+    onReset: () => {
+      state.isRunning = false;
+      state.t = 0;
+      if (currentSlider) currentSlider.value = String(INITIAL_CURRENT);
+      updateControlLabels();
+      playPauseButton.textContent = "▶ 開始";
+    },
+  });
+
+  initModal({
+    openSelectors: "#toggleModal",
+    modalSelector: "#settingsModal",
+    closeSelectors: "#closeModal",
+  });
+}

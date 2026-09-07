@@ -10,42 +10,97 @@
       class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <a
+        class="font-semibold text-white no-underline"
+        href="https://bicpema.com/"
+        >Bicpema</a
+      >
       <span class="ml-3 font-light text-neutral-300">直線電流の磁場</span>
     </nav>
 
-    <div class="w-full p-0 mt-[60px]" id="p5Container">
+    <div class="relative w-full p-0 mt-[60px]" id="p5Container">
       <div class="flex justify-center" id="p5Canvas"></div>
-    </div>
 
-    <!-- Top-left settings panel -->
-    <div
-      class="absolute start-0 m-3 rounded p-3"
-      style="top: 4.5rem; background: rgba(255, 255, 255, 0.85); z-index: 1000"
-    >
-      <label class="mb-1 block text-sm" id="currentLabel">電流の強さ: 1.0 A</label>
-      <input
-        type="range"
-        class="accent-blue-600"
-        id="currentSlider"
-        min="-4"
-        max="4"
-        step="1"
-        value="1"
-        style="width: 150px"
-      />
-      <div class="mt-2 text-sm">
-        <div><strong>B = μ<sub>0</sub>I/(2πr)</strong></div>
-        <div>μ<sub>0</sub>: 真空の透磁率、I: 電流</div>
+      <!-- 左上: 観測情報パネル（常時表示） -->
+      <div
+        class="absolute start-0 m-3 rounded p-3"
+        style="
+          top: 0.5rem;
+          background: rgba(255, 255, 255, 0.85);
+          z-index: 1000;
+        "
+      >
+        <div class="text-sm">
+          <div><strong>B = μ<sub>0</sub>I/(2πr)</strong></div>
+          <div>μ<sub>0</sub>: 真空の透磁率、I: 電流</div>
+        </div>
+        <div class="mt-2 text-sm" id="directionRelationLabel">
+          電流 +（正方向）→ 磁場 反時計回り（右ねじ）<br />
+          ※矢印は向きの表示で、回転速度は一定です
+        </div>
+        <div class="mt-1 text-sm" id="fieldDirectionLabel">
+          現在の磁場の向き: 反時計回り
+        </div>
+        <div class="mt-1 text-sm" id="bValueDisplay"></div>
       </div>
-      <div class="mt-2 text-sm" id="directionRelationLabel">
-        電流 +（正方向）→ 磁場 反時計回り（右ねじ）<br />
-        ※矢印は向きの表示で、回転速度は一定です
+
+      <!-- 設定モーダル -->
+      <div
+        id="settingsModal"
+        class="absolute top-1/2 left-1/2 z-[2000] hidden w-[300px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-white/30 bg-black/90 p-6 text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-[15px]"
+        role="dialog"
+        aria-modal="true"
+        aria-label="設定"
+      >
+        <h5 class="mb-4 text-center text-white">設定</h5>
+        <div class="mb-4">
+          <label class="mb-1 block text-sm" id="currentLabel"
+            >電流の強さ: 1.0 A</label
+          >
+          <input
+            type="range"
+            class="accent-blue-600 w-full"
+            id="currentSlider"
+            min="-4"
+            max="4"
+            step="1"
+            value="1"
+          />
+        </div>
+        <button
+          id="closeModal"
+          class="modal-close w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
+        >
+          閉じる
+        </button>
       </div>
-      <div class="mt-1 text-sm" id="fieldDirectionLabel">
-        現在の磁場の向き: 反時計回り
+
+      <!-- 左下: 再生/一時停止・リセット -->
+      <div class="absolute bottom-0 start-0 z-[1000] m-3 flex gap-2">
+        <button
+          id="playPauseButton"
+          class="rounded bg-green-600 px-4 py-2 text-white hover:bg-green-500"
+        >
+          ▶ 開始
+        </button>
+        <button
+          id="resetButton"
+          class="rounded bg-neutral-600 px-4 py-2 text-white hover:bg-neutral-500"
+        >
+          🔄 リセット
+        </button>
       </div>
-      <div class="mt-1 text-sm" id="bValueDisplay"></div>
+
+      <!-- 右上: 設定ボタン -->
+      <div class="absolute end-0 top-0 z-[1000] m-3">
+        <button
+          id="toggleModal"
+          class="settings-modal-open rounded bg-cyan-600 px-4 py-2 text-white hover:bg-cyan-500"
+          aria-label="シミュレーションの設定"
+        >
+          ⚙ 設定
+        </button>
+      </div>
     </div>
 
     <!-- ローディングスピナー（p5.jsの初回draw()実行時にjs/index.jsで非表示にします） -->
@@ -56,7 +111,9 @@
       aria-live="polite"
       aria-label="読み込み中"
     >
-      <div class="h-12 w-12 animate-spin rounded-full border-4 border-neutral-600 border-t-blue-500"></div>
+      <div
+        class="h-12 w-12 animate-spin rounded-full border-4 border-neutral-600 border-t-blue-500"
+      ></div>
     </div>
 
     <script type="module" src="./js/index.js"></script>
