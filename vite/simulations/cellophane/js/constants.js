@@ -1,30 +1,12 @@
 // constants.js は本シミュレーション内で共有する定数を管理するファイルです。
 
-/** ヘッダー分の高さ（キャンバスサイズ計算で共通して使用） */
-export const HEADER_HEIGHT = 60;
-
-/** キャンバス幅の分子（windowWidthに対する比率 2/3） */
-export const CANVAS_WIDTH_NUMERATOR = 2;
-/** キャンバス幅の分母（windowWidthに対する比率 2/3） */
-export const CANVAS_WIDTH_DENOMINATOR = 3;
-/** キャンバス高さの分子（使用可能高さに対する比率 8/9） */
-export const CANVAS_HEIGHT_NUMERATOR = 8;
-/** キャンバス高さの分母（使用可能高さに対する比率 8/9） */
-export const CANVAS_HEIGHT_DENOMINATOR = 9;
-
-/** 右側パネル（グラフ・光の色表示）の縦方向の分割数 */
-export const RIGHT_PANEL_ROW_COUNT = 10;
-/** スペクトルグラフの高さ（RIGHT_PANEL_ROW_COUNT分割中の行数） */
-export const GRAPH_HEIGHT_ROWS = 4.5;
-/** 等色関数グラフの上端位置（RIGHT_PANEL_ROW_COUNT分割中の行数オフセット） */
-export const CMF_GRAPH_TOP_OFFSET_ROWS = 5.5;
-
-/** 高DPI環境での過大な描画負荷を避けるための、pixelDensityの上限値 */
-export const MAX_PIXEL_DENSITY = 2;
-/** WEBGLで毎フレーム900本(rays_number × RGB3色)のRayを描画するため、負荷抑制用に設定するフレームレート */
+/**
+ * WEBGLで毎フレーム900本(RAYS_PER_COLOR × RGB3色)のRayを描画するため、
+ * 60fpsでは負荷が高くなりやすく30fpsに抑えている。
+ */
 export const FPS = 30;
 
-/** 入射光の表示色（CSS背景色文字列、setup()とwindowResized()で共通利用） */
+/** 入射光の表示色（CSS背景色文字列、setup()と枚数変更時で共通利用） */
 export const INCIDENT_LIGHT_CSS_COLOR = "rgb(144,181,130)";
 
 /** 描画する光線の本数（RGB各色ごと） */
@@ -89,3 +71,32 @@ export const GREEN_COLOR = [0, 255, 0];
  * @type {readonly [number, number, number]}
  */
 export const BLUE_COLOR = [0, 0, 255];
+
+// ボタンの色をJS側で動的に切り替えるため、Bootstrapのbtn-*相当の
+// スタイルをTailwindユーティリティクラスの文字列として定義しておく。
+// addClass/removeClassは常にこの定数を使うことで、確実に対応する
+// クラスの追加・削除ができるようにする。
+export const BTN_PRIMARY =
+  "rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500";
+export const BTN_DANGER =
+  "rounded bg-red-600 px-3 py-2 text-white hover:bg-red-500";
+export const BTN_SECONDARY =
+  "rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500";
+export const BTN_SUCCESS =
+  "rounded bg-green-600 px-3 py-2 text-white hover:bg-green-500";
+
+/**
+ * ボタンの見た目（色）を切り替える。
+ * DOMTokenList.add/removeは空白混じりのトークンを渡すと例外を投げるため、
+ * BTN_*定数（スペース区切りの複数クラス文字列）をそのままp5.Elementの
+ * addClass/removeClassへ渡すことはできない。個々のクラス名に分割してから
+ * classListを操作することで、レイアウト用に付与している他のクラス
+ * （flex-1等）を保持したまま安全に入れ替える。
+ * @param {*} element p.select()で取得したp5.Element
+ * @param {string} fromClassNames 取り除くBTN_*定数
+ * @param {string} toClassNames 付け加えるBTN_*定数
+ */
+export function swapButtonClass(element, fromClassNames, toClassNames) {
+  element.elt.classList.remove(...fromClassNames.split(" "));
+  element.elt.classList.add(...toClassNames.split(" "));
+}

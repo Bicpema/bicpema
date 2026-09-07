@@ -8,7 +8,6 @@
 // 是正した場合はここから削除すること（削除し忘れは
 // staleAllowlistSlugsとしてチェックが検知する）。
 export const TEMPLATE_COMPLIANCE_ALLOWLIST = [
-  "cellophane",
   "lens",
   "normal-force",
   "pendulum",

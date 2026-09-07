@@ -4,32 +4,79 @@
     <title>セロハンによる偏光の変化</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <style>
-      body {
-        padding: 0;
-        margin: 0;
-        position: fixed;
-        font-size: 16px;
-        width: 100vw;
-        height: 100vh;
-      }
-
-      #p5Container {
-        margin-top: 60px;
-      }
-    </style>
   </head>
 
-  <body class="bg-neutral-900" oncontextmenu="return false;">
+  <body
+    class="h-full overflow-hidden bg-neutral-900 p-0"
+    oncontextmenu="return false;"
+  >
     <nav
       class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
-      <span class="ml-3 font-light text-neutral-300">セロハンによる偏光の変化</span>
+      <a
+        class="font-semibold text-white no-underline"
+        href="https://bicpema.com/"
+        >Bicpema</a
+      >
+      <span class="ml-3 font-light text-neutral-300"
+        >セロハンによる偏光の変化</span
+      >
     </nav>
-    <div id="p5Container"></div>
+
+    <div
+      class="relative mt-[60px] flex h-[calc(100vh-60px)] w-full overflow-hidden p-0"
+      id="p5Container"
+    >
+      <div
+        class="flex h-full flex-[0_0_66.6667%] items-center justify-center overflow-hidden"
+        id="p5Canvas"
+      ></div>
+
+      <div
+        class="flex h-full flex-[0_0_33.3333%] flex-col gap-2 overflow-hidden bg-neutral-900 p-2"
+      >
+        <div class="flex gap-2">
+          <div
+            class="flex-1 rounded border border-neutral-700 bg-white p-2 text-center font-bold text-neutral-900"
+            id="incidentColor"
+          >
+            入射光
+          </div>
+          <div
+            class="flex-1 rounded border border-neutral-700 bg-white p-2 text-center font-bold text-neutral-900"
+            id="transmittedColor"
+          >
+            出射光
+          </div>
+          <button
+            type="button"
+            class="settings-modal-open cursor-pointer rounded bg-blue-600 px-3 py-1.5 text-white hover:bg-blue-500"
+            aria-label="シミュレーションの設定"
+          >
+            設定
+          </button>
+        </div>
+        <div class="relative min-h-0 flex-1 rounded bg-white p-1">
+          <canvas id="graphChart"></canvas>
+        </div>
+        <div class="relative min-h-0 flex-1 rounded bg-white p-1">
+          <canvas id="cmfGraphChart"></canvas>
+        </div>
+      </div>
+
+      <!-- 左下の再生操作エリア -->
+      <div class="absolute bottom-0 left-0 z-[1000] m-3">
+        <button
+          type="button"
+          id="playPauseButton"
+          class="cursor-pointer rounded bg-red-600 px-3 py-2 text-white hover:bg-red-500"
+        >
+          ストップ
+        </button>
+      </div>
+    </div>
+
     <!-- ローディングスピナー（p5.jsの初回draw()実行時にjs/index.jsで非表示にします） -->
     <div
       id="loadingSpinner"
@@ -38,9 +85,104 @@
       aria-live="polite"
       aria-label="読み込み中"
     >
-      <div class="h-12 w-12 animate-spin rounded-full border-4 border-neutral-600 border-t-blue-500"></div>
+      <div
+        class="h-12 w-12 animate-spin rounded-full border-4 border-neutral-600 border-t-blue-500"
+      ></div>
     </div>
 
-    <script language="javascript" type="module" src="./js/index.js"></script>
+    <!-- 設定モーダル -->
+    <div
+      class="fixed inset-0 z-[1100] hidden flex items-center justify-center bg-black/50"
+      id="settingsModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="シミュレーションの設定"
+    >
+      <div
+        class="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded bg-white p-4 text-neutral-900"
+      >
+        <div
+          class="mb-3 flex items-center justify-between border-b border-neutral-200 pb-2"
+        >
+          <h1 class="text-lg font-semibold">シミュレーションの設定</h1>
+          <button
+            type="button"
+            class="modal-close text-xl leading-none text-neutral-500 hover:text-neutral-700"
+            aria-label="Close"
+          >
+            &times;
+          </button>
+        </div>
+
+        <div class="mb-4">
+          <button
+            type="button"
+            id="waveRepresentationButton"
+            class="rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
+          >
+            波動表現の切り替え
+          </button>
+          <p class="mt-1 text-sm text-neutral-600">
+            光の波の表現方法（球・直線）を切り替えます。
+          </p>
+        </div>
+
+        <div class="mb-4">
+          <label
+            class="mb-1 block text-sm font-semibold"
+            for="cellophaneCountSlider"
+          >
+            セロハンテープの枚数: <span id="cellophaneCountValue">1</span>枚
+          </label>
+          <input
+            type="range"
+            class="w-full"
+            id="cellophaneCountSlider"
+            min="1"
+            max="10"
+            step="1"
+            value="1"
+          />
+        </div>
+
+        <div class="mb-2">
+          <span class="mb-1 block text-sm font-semibold">表示する光線の色</span>
+          <div class="flex gap-2">
+            <button
+              type="button"
+              id="rButton"
+              class="flex-1 rounded bg-red-600 px-3 py-2 text-white hover:bg-red-500"
+            >
+              赤(600 nm)
+            </button>
+            <button
+              type="button"
+              id="gButton"
+              class="flex-1 rounded bg-green-600 px-3 py-2 text-white hover:bg-green-500"
+            >
+              緑(550 nm)
+            </button>
+            <button
+              type="button"
+              id="bButton"
+              class="flex-1 rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
+            >
+              青(450 nm)
+            </button>
+          </div>
+        </div>
+
+        <div class="flex justify-end border-t border-neutral-200 pt-2">
+          <button
+            type="button"
+            class="modal-close rounded border border-neutral-400 px-3 py-1.5 hover:bg-neutral-100"
+          >
+            閉じる
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="./js/index.js"></script>
   </body>
 </html>
