@@ -16,10 +16,4 @@ export const state = {
   resetButton: null,
   /** 最大値クリアボタン要素 */
   clearMaxButton: null,
-  /** 設定モーダル開閉ボタン要素 */
-  toggleModal: null,
-  /** 設定モーダル閉じるボタン要素 */
-  closeModal: null,
-  /** 設定モーダル要素 */
-  settingsModal: null,
 };

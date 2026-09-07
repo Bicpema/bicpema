@@ -37,21 +37,3 @@ export function onClearMax() {
   state.cart.massAtMaxForce = state.cart.mass;
   state.cart.massAtMaxAcceleration = state.cart.mass;
 }
-
-/**
- * 設定モーダルを開閉するときの処理
- */
-export function onToggleModal() {
-  const currentDisplay = state.settingsModal.style("display");
-  state.settingsModal.style(
-    "display",
-    currentDisplay === "none" ? "block" : "none"
-  );
-}
-
-/**
- * 設定モーダルを閉じるときの処理
- */
-export function onCloseModal() {
-  state.settingsModal.style("display", "none");
-}
