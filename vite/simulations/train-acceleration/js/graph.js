@@ -40,7 +40,10 @@ export const initChart = async () => {
   if (state.graphChart) {
     state.graphChart.destroy();
   }
-  const ctx = document.getElementById("graphCanvas").getContext("2d");
+  const ctx = /** @type {HTMLCanvasElement | null} */ (
+    document.getElementById("graphCanvas")
+  );
+  if (!ctx) return;
   state.graphChart = new Chart(ctx, {
     type: "scatter",
     data: {

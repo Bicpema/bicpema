@@ -95,8 +95,8 @@ export function initValue(p) {
   const redInput = p.select("#redCarSpeedInput");
   if (!yellowInput || !redInput) return;
 
-  const YELLOW_CAR_SPEED = parseFloat(yellowInput.value());
-  const RED_CAR_SPEED = parseFloat(redInput.value());
+  const YELLOW_CAR_SPEED = parseFloat(String(yellowInput.value()));
+  const RED_CAR_SPEED = parseFloat(String(redInput.value()));
   const minSpeed = Math.min(YELLOW_CAR_SPEED, RED_CAR_SPEED);
   let carNum = DEFAULT_SIMULATION_DURATION;
   if (

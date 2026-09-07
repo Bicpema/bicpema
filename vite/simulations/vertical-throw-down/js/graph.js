@@ -38,7 +38,9 @@ export class BallGraph {
    * チャートを初期化（まだ存在しない場合のみ生成）
    */
   _initVtChart() {
-    const ctx = document.getElementById("vtCanvas");
+    const ctx = /** @type {HTMLCanvasElement | null} */ (
+      document.getElementById("vtCanvas")
+    );
     if (!ctx || this.vtChart) return;
 
     const maxVelocity = state.ball.initialVelocity + 10;
@@ -101,7 +103,9 @@ export class BallGraph {
   }
 
   _initYtChart() {
-    const ctx = document.getElementById("ytCanvas");
+    const ctx = /** @type {HTMLCanvasElement | null} */ (
+      document.getElementById("ytCanvas")
+    );
     if (!ctx || this.ytChart) return;
 
     const maxHeight = state.ball.initialHeight;

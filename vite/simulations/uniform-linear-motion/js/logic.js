@@ -68,8 +68,8 @@ export function graphDraw(p) {
   const redInput = p.select("#redCarSpeedInput");
   if (!yellowInput || !redInput) return;
 
-  const YELLOW_CAR_SPEED = parseFloat(yellowInput.value());
-  const RED_CAR_SPEED = parseFloat(redInput.value());
+  const YELLOW_CAR_SPEED = parseFloat(String(yellowInput.value()));
+  const RED_CAR_SPEED = parseFloat(String(redInput.value()));
 
   yMax = Math.max(YELLOW_CAR_SPEED, RED_CAR_SPEED);
 
@@ -90,7 +90,10 @@ export function graphDraw(p) {
     state.graphChart.destroy();
   }
 
-  const ctx = document.getElementById("graphCanvas").getContext("2d");
+  const ctx = /** @type {HTMLCanvasElement | null} */ (
+    document.getElementById("graphCanvas")
+  );
+  if (!ctx) return;
   const data = {
     datasets: [
       {
@@ -111,6 +114,7 @@ export function graphDraw(p) {
       },
     ],
   };
+  /** @type {import("chart.js").ChartOptions<"scatter">} */
   const options = {
     plugins: {
       title: {

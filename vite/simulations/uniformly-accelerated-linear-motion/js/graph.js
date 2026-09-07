@@ -46,7 +46,9 @@ export class MotionGraph {
       return;
     }
 
-    const ctx = document.getElementById("graphCanvas");
+    const ctx = /** @type {HTMLCanvasElement | null} */ (
+      document.getElementById("graphCanvas")
+    );
     if (!ctx) return;
 
     if (this.chart) {
@@ -95,6 +97,7 @@ export class MotionGraph {
       ],
     };
 
+    /** @type {import("chart.js").ChartOptions<"scatter">} */
     const options = {
       plugins: {
         title: {
