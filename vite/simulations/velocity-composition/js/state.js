@@ -9,7 +9,4 @@ export const state = {
   riverSpeedValue: null,
   resetButton: null,
   playPauseButton: null,
-  toggleModal: null,
-  closeModal: null,
-  settingsModal: null,
 };
