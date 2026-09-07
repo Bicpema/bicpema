@@ -8,7 +8,7 @@ import { drawScene, drawInfoPanel } from "./logic.js";
 import { FPS, V_W } from "./constants.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+  const canvasController = new BicpemaCanvasController();
 
   p.preload = () => {
     state.font = p.loadFont(

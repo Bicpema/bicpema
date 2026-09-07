@@ -21,7 +21,7 @@ import {
 } from "./function.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+  const canvasController = new BicpemaCanvasController();
 
   p.preload = () => {
     state.font = p.loadFont(

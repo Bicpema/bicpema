@@ -6,7 +6,7 @@ import { elementPositionInit } from "./init.js";
 import { drawChamber, animateCycle } from "./logic.js";
 import "../../../css/tailwind.css";
 
-const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+const canvasController = new BicpemaCanvasController();
 
 const sketch = (p) => {
   p.preload = () => {

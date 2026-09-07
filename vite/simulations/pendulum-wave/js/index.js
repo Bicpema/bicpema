@@ -16,7 +16,7 @@ const PENDULUM_DATA_URL =
   "https://dl.dropboxusercontent.com/s/a4mwnazwmgqmn87/pendulumData.csv";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(false, false, 1.0, 1.0);
+  const canvasController = new BicpemaCanvasController({ fixedAspectRatio: false });
   let isFirstDraw = true;
 
   p.preload = () => {

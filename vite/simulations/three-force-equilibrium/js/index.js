@@ -10,7 +10,7 @@ import { drawSimulation } from "./logic.js";
 import { startDrag, updateDrag, stopDrag } from "./element-function.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+  const canvasController = new BicpemaCanvasController();
 
   p.setup = () => {
     canvasController.fullScreen(p);

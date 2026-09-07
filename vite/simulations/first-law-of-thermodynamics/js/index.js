@@ -9,7 +9,7 @@ import { initValue, elCreate } from "./init.js";
 import { drawSimulation } from "./logic.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+  const canvasController = new BicpemaCanvasController();
 
   p.preload = () => {
     state.img_flame = p.loadImage(
