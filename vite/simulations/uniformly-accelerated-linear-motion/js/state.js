@@ -15,8 +15,6 @@ export const state = {
   vtData: [],
   /** x-t グラフ用データ */
   xtData: [],
-  /** 設定モーダル要素 */
-  settingsModal: null,
   /** 初速度入力 */
   initialVelocityInput: null,
   /** 加速度入力 */
@@ -25,10 +23,6 @@ export const state = {
   resetButton: null,
   /** 再生/一時停止ボタン */
   playPauseButton: null,
-  /** 設定トグルボタン */
-  toggleModal: null,
-  /** モーダルを閉じるボタン */
-  closeModal: null,
   /** グラフトグルボタン */
   graphToggleButton: null,
   /** 等時間マーカー表示チェックボックス */

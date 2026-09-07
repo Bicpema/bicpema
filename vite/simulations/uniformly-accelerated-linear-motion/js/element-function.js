@@ -25,25 +25,6 @@ export function onPlayPause() {
 }
 
 /**
- * 設定モーダルの表示/非表示を切り替える
- */
-export function onToggleModal() {
-  const currentDisplay = state.settingsModal.style("display");
-  if (currentDisplay === "none") {
-    state.settingsModal.style("display", "block");
-  } else {
-    state.settingsModal.style("display", "none");
-  }
-}
-
-/**
- * 設定モーダルを閉じる
- */
-export function onCloseModal() {
-  state.settingsModal.style("display", "none");
-}
-
-/**
  * グラフの表示/非表示を切り替える
  */
 export function onToggleGraph() {

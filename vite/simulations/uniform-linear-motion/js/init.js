@@ -10,8 +10,9 @@ import {
   DEFAULT_SIMULATION_DURATION,
   CAR_TRAJECTORY_DISTANCE_THRESHOLD,
 } from "./constants.js";
-import { graphButtonFunction } from "./element-function.js";
+import { graphButtonFunction, onPlayPause } from "./element-function.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
+import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 
 /**
  * 画像の初期化を行う。
@@ -19,6 +20,16 @@ import { initModal } from "../../../js/bicpema-modal-controller.js";
 export function imgInit() {
   state.YELLOW_CAR_IMG.resize(CAR_IMAGE_WIDTH, 0);
   state.RED_CAR_IMAGE.resize(CAR_IMAGE_WIDTH, 0);
+}
+
+/**
+ * リセットボタンが押されたときの処理。
+ * @param {p5} p p5インスタンス
+ */
+function onReset(p) {
+  state.isPlaying = true;
+  state.playButton.html("一時停止");
+  initValue(p);
 }
 
 /**
@@ -33,15 +44,15 @@ export function elCreate(p) {
   });
 
   p.select("#graphButton").mousePressed(() => graphButtonFunction());
-  p.select("#playButton").mousePressed(() => {
-    state.isPlaying = !state.isPlaying;
-    p.select("#playButton").html(state.isPlaying ? "一時停止" : "再開");
+
+  const { toggleButton } = bindToggleControls(p, {
+    toggleSelector: "#playButton",
+    resetSelector: "#resetButton",
+    onToggle: onPlayPause,
+    onReset: () => onReset(p),
   });
-  p.select("#resetButton").mousePressed(() => {
-    state.isPlaying = true;
-    p.select("#playButton").html("一時停止");
-    initValue(p);
-  });
+  state.playButton = toggleButton;
+
   p.select("#yellowCarSpeedInput").changed(() => initValue(p));
   p.select("#redCarSpeedInput").changed(() => initValue(p));
 }

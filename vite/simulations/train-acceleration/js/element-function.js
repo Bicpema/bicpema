@@ -42,22 +42,6 @@ export const onReset = () => {
 };
 
 /**
- * 設定モーダルを開閉する。
- */
-export const onToggleModal = () => {
-  const modal = document.getElementById("settingsModal");
-  const isHidden = modal.style.display === "none" || modal.style.display === "";
-  modal.style.display = isHidden ? "block" : "none";
-};
-
-/**
- * 設定モーダルを閉じる。
- */
-export const onCloseModal = () => {
-  document.getElementById("settingsModal").style.display = "none";
-};
-
-/**
  * 加速度入力が変更されたときの処理。
  */
 export const onAccelerationChange = () => {

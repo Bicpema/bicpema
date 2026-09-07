@@ -11,8 +11,14 @@
       class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
-      <span class="ml-3 font-light text-neutral-300">等速直線運動をする模型自動車のようす</span>
+      <a
+        class="font-semibold text-white no-underline"
+        href="https://bicpema.com/"
+        >Bicpema</a
+      >
+      <span class="ml-3 font-light text-neutral-300"
+        >等速直線運動をする模型自動車のようす</span
+      >
     </nav>
     <div class="w-full p-0 mt-[60px]" id="p5Container">
       <div class="flex justify-center" id="p5Canvas"></div>
@@ -22,16 +28,28 @@
       </div>
 
       <div id="graphButtonParent">
-        <button type="button" class="rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500" id="graphButton">
+        <button
+          type="button"
+          class="rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
+          id="graphButton"
+        >
           グラフの切り替え
         </button>
       </div>
 
       <div id="motionControls" class="fixed bottom-0 left-0 z-[1100]">
-        <button type="button" class="m-1 rounded bg-green-600 px-3 py-2 text-white hover:bg-green-500" id="playButton">
+        <button
+          type="button"
+          class="m-1 rounded bg-green-600 px-3 py-2 text-white hover:bg-green-500"
+          id="playButton"
+        >
           一時停止
         </button>
-        <button type="button" class="m-1 rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500" id="resetButton">
+        <button
+          type="button"
+          class="m-1 rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
+          id="resetButton"
+        >
           リセット
         </button>
       </div>
@@ -54,28 +72,82 @@
         tabindex="-1"
       >
         <div class="w-full max-w-lg rounded bg-white p-4 text-neutral-900">
-          <div class="mb-3 flex items-center justify-between border-b border-neutral-200 pb-2">
-            <h1 class="text-lg font-semibold" id="modalLabel">シミュレーション設定</h1>
-            <button type="button" class="modal-close text-xl leading-none text-neutral-500 hover:text-neutral-700" aria-label="Close">&times;</button>
+          <div
+            class="mb-3 flex items-center justify-between border-b border-neutral-200 pb-2"
+          >
+            <h1 class="text-lg font-semibold" id="modalLabel">
+              シミュレーション設定
+            </h1>
+            <button
+              type="button"
+              class="modal-close text-xl leading-none text-neutral-500 hover:text-neutral-700"
+              aria-label="Close"
+            >
+              &times;
+            </button>
           </div>
           <div>
             <div class="mb-4 flex items-center gap-2" id="scaleCheckBoxParent">
-              <input class="h-4 w-4 accent-blue-600" type="checkbox" id="scaleCheckBox" checked />
-              <label class="text-sm" for="scaleCheckBox">スケールの表示・非表示</label>
+              <input
+                class="h-4 w-4 accent-blue-600"
+                type="checkbox"
+                id="scaleCheckBox"
+                checked
+              />
+              <label class="text-sm" for="scaleCheckBox"
+                >スケールの表示・非表示</label
+              >
             </div>
             <div class="mb-3 mt-3 flex">
-              <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700" id="yellowCarSpeedLabel">黄色い車の速度</span>
-              <input type="number" min="1" max="20" class="min-w-0 flex-1 border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900" placeholder="cm/s" aria-describedby="yellowCarSpeedLabel" id="yellowCarSpeedInput" value="3" />
-              <span class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">cm/s</span>
+              <span
+                class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+                id="yellowCarSpeedLabel"
+                >黄色い車の速度</span
+              >
+              <input
+                type="number"
+                min="1"
+                max="20"
+                class="min-w-0 flex-1 border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+                placeholder="cm/s"
+                aria-describedby="yellowCarSpeedLabel"
+                id="yellowCarSpeedInput"
+                value="3"
+              />
+              <span
+                class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+                >cm/s</span
+              >
             </div>
             <div class="mb-3 mt-3 flex">
-              <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700" id="redCarSpeedLabel">赤い車の速度</span>
-              <input type="number" min="1" max="20" class="min-w-0 flex-1 border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900" placeholder="cm/s" aria-describedby="redCarSpeedLabel" id="redCarSpeedInput" value="2" />
-              <span class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">cm/s</span>
+              <span
+                class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+                id="redCarSpeedLabel"
+                >赤い車の速度</span
+              >
+              <input
+                type="number"
+                min="1"
+                max="20"
+                class="min-w-0 flex-1 border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+                placeholder="cm/s"
+                aria-describedby="redCarSpeedLabel"
+                id="redCarSpeedInput"
+                value="2"
+              />
+              <span
+                class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+                >cm/s</span
+              >
             </div>
           </div>
           <div class="flex justify-end border-t border-neutral-200 pt-2">
-            <button type="button" class="modal-close rounded border border-neutral-400 px-3 py-1.5 hover:bg-neutral-100">閉じる</button>
+            <button
+              type="button"
+              class="modal-close rounded border border-neutral-400 px-3 py-1.5 hover:bg-neutral-100"
+            >
+              閉じる
+            </button>
           </div>
         </div>
       </div>
@@ -88,7 +160,9 @@
       aria-live="polite"
       aria-label="読み込み中"
     >
-      <div class="h-12 w-12 animate-spin rounded-full border-4 border-neutral-600 border-t-blue-500"></div>
+      <div
+        class="h-12 w-12 animate-spin rounded-full border-4 border-neutral-600 border-t-blue-500"
+      ></div>
     </div>
 
     <script type="module" src="./js/index.js"></script>

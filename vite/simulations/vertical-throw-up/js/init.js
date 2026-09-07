@@ -1,12 +1,8 @@
 import { state } from "./state.js";
-import {
-  onVelocityChange,
-  onReset,
-  onPlayPause,
-  onToggleModal,
-  onCloseModal,
-} from "./element-function.js";
+import { onVelocityChange, onReset, onPlayPause } from "./element-function.js";
 import { Ball } from "./ball.js";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
+import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 
 export const FPS = 30;
 
@@ -16,17 +12,22 @@ export const FPS = 30;
  */
 export function elCreate(p) {
   state.velocityInput = p.select("#velocityInput");
-  state.resetButton = p.select("#resetButton");
-  state.playPauseButton = p.select("#playPauseButton");
-  state.toggleModal = p.select("#toggleModal");
-  state.closeModal = p.select("#closeModal");
-  state.settingsModal = p.select("#settingsModal");
-
   state.velocityInput.input(() => onVelocityChange());
-  state.resetButton.mousePressed(() => onReset());
-  state.playPauseButton.mousePressed(() => onPlayPause());
-  state.toggleModal.mousePressed(() => onToggleModal());
-  state.closeModal.mousePressed(() => onCloseModal());
+
+  const { toggleButton, resetButton } = bindToggleControls(p, {
+    toggleSelector: "#playPauseButton",
+    resetSelector: "#resetButton",
+    onToggle: onPlayPause,
+    onReset,
+  });
+  state.playPauseButton = toggleButton;
+  state.resetButton = resetButton;
+
+  initModal({
+    openSelectors: "#toggleModal",
+    modalSelector: "#settingsModal",
+    closeSelectors: "#closeModal",
+  });
 }
 
 /**
