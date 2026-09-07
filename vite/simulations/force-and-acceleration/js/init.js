@@ -2,14 +2,9 @@
 
 import { state } from "./state.js";
 import { Cart } from "./class.js";
-import {
-  onMassChange,
-  onReset,
-  onToggleModal,
-  onCloseModal,
-  onClearMax,
-} from "./element-function.js";
+import { onMassChange, onReset, onClearMax } from "./element-function.js";
 import { INITIAL_CART_X } from "./constants.js";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
 
 export const FPS = 60;
 
@@ -33,9 +28,6 @@ export function elementSelectInit(p) {
   state.massInput = p.select("#massInput");
   state.resetButton = p.select("#resetButton");
   state.clearMaxButton = p.select("#clearMaxButton");
-  state.toggleModal = p.select("#toggleModal");
-  state.closeModal = p.select("#closeModal");
-  state.settingsModal = p.select("#settingsModal");
 }
 
 /**
@@ -46,8 +38,12 @@ export function elementPositionInit(p) {
   state.massInput.input(onMassChange);
   state.resetButton.mousePressed(onReset);
   if (state.clearMaxButton) state.clearMaxButton.mousePressed(onClearMax);
-  state.toggleModal.mousePressed(onToggleModal);
-  state.closeModal.mousePressed(onCloseModal);
+
+  initModal({
+    openSelectors: "#toggleModal",
+    modalSelector: "#settingsModal",
+    closeSelectors: "#closeModal",
+  });
 }
 
 /**

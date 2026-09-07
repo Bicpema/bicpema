@@ -68,7 +68,6 @@ export const state = {
   dragOffsetY: 0,
 
   /** DOM要素参照 */
-  settingsModal: null,
   weightInput: null,
   weightDisplay: null,
 };

@@ -9,9 +9,6 @@ export const state = {
   /** 地面テクスチャ画像 */
   groundImg: null,
   /** UI要素 */
-  settingsModal: null,
-  toggleModal: null,
-  closeModal: null,
   slopeAngleInput: null,
   slopeAngleValue: null,
   massInput: null,
