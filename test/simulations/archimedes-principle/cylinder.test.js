@@ -61,6 +61,26 @@ describe("Cylinder.update (アルキメデスの原理)", () => {
     expect(cylinder.vy).toBe(vyBefore);
   });
 
+  it("密度が水と等しい物体は、開始位置や速度によらず水面と物体上面が一致する位置(140)に収束して静止する（#340）", () => {
+    // waterSurfaceY=100, h=40 のとき、水面と物体上面が一致する位置は cy=140
+    function settle(cylinder) {
+      for (let i = 0; i < 500; i++) {
+        cylinder.update(100, 1000);
+      }
+      return cylinder;
+    }
+
+    const fromAbove = settle(new Cylinder(0, 60, 20, 40, 1.0));
+    expect(fromAbove.cy).toBe(140);
+    expect(fromAbove.vy).toBe(0);
+
+    const fromAboveWithMomentum = settle(
+      Object.assign(new Cylinder(0, 60, 20, 40, 1.0), { vy: 8 })
+    );
+    expect(fromAboveWithMomentum.cy).toBe(140);
+    expect(fromAboveWithMomentum.vy).toBe(0);
+  });
+
   it("水槽の底に到達すると跳ね返り、底より下には沈まない", () => {
     const cylinder = new Cylinder(0, 300, 20, 40, 5.0); // 非常に重い
     cylinder.vy = 50; // 大きな下向き速度

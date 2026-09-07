@@ -1,12 +1,7 @@
 import { state } from "./state.js";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 
-export const canvasController = new BicpemaCanvasController(
-  true,
-  false,
-  1.0,
-  1.0
-);
+export const canvasController = new BicpemaCanvasController();
 
 // 温度変化はゆっくりで60fpsの滑らかさが不要なため20fpsに抑えている。
 const FPS = 20;

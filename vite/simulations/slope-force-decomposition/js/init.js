@@ -1,27 +1,23 @@
 import { state } from "./state.js";
 import { FPS, LABEL_FONT_SIZE } from "./constants.js";
-import {
-  onToggleModal,
-  onCloseModal,
-  onSlopeAngleChange,
-  onMassChange,
-} from "./element-function.js";
+import { onSlopeAngleChange, onMassChange } from "./element-function.js";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
 
 /**
  * DOM要素を選択してstateに格納し、イベントリスナーを設定する。
  * @param {p5} p p5インスタンス
  */
 export function elCreate(p) {
-  state.settingsModal = p.select("#settingsModal");
-  state.toggleModal = p.select("#toggleModal");
-  state.closeModal = p.select("#closeModal");
   state.slopeAngleInput = p.select("#slopeAngleInput");
   state.slopeAngleValue = p.select("#slopeAngleValue");
   state.massInput = p.select("#massInput");
   state.massValue = p.select("#massValue");
 
-  if (state.toggleModal) state.toggleModal.mousePressed(() => onToggleModal());
-  if (state.closeModal) state.closeModal.mousePressed(() => onCloseModal());
+  initModal({
+    openSelectors: "#toggleModal",
+    modalSelector: "#settingsModal",
+    closeSelectors: "#closeModal",
+  });
   if (state.slopeAngleInput)
     state.slopeAngleInput.input(() => onSlopeAngleChange());
   if (state.massInput) state.massInput.input(() => onMassChange());

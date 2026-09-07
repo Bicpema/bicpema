@@ -103,13 +103,14 @@ Bootstrap コンポーネント（スライダー・ボタン等）のイベン�
 
 キャンバスのサイズ制御を担当するクラスです。
 
-- `fixed=true` の場合、キャンバスを 16:9 の比率に固定し、ビューポート高さに合わせてクランプする
+- `fixedAspectRatio=true`（既定値）の場合、キャンバスを 16:9 の比率に固定し、ビューポート高さに合わせてクランプする
 - `p.createCanvas()` / `p.resizeCanvas()` を `p5` インスタンス（`p`）経由で呼び出す
+- オプションの一覧は[シミュレーションの実装方法](./index.md#実装パターン)を参照
 
 ```js title="BicpemaCanvasController の使い方"
 import { BicpemaCanvasController } from "./bicpema-canvas-controller.js";
 
-const controller = new BicpemaCanvasController({ fixed: true });
+const controller = new BicpemaCanvasController({ fixedAspectRatio: true });
 
 // setup() 内
 controller.fullScreen(p);

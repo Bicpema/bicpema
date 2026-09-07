@@ -1,12 +1,8 @@
 // init.js は初期処理専用のファイルです。
 
 import { state } from "./state.js";
-import {
-  onWeightChange,
-  onReset,
-  onToggleModal,
-  onCloseModal,
-} from "./element-function.js";
+import { onWeightChange, onReset } from "./element-function.js";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
 
 const FPS = 30;
 
@@ -15,14 +11,17 @@ const FPS = 30;
  * @param {*} p p5 インスタンス
  */
 export function elCreate(p) {
-  state.settingsModal = p.select("#settingsModal");
   state.weightInput = p.select("#weightInput");
   state.weightDisplay = p.select("#weightDisplay");
 
   state.weightInput.input(() => onWeightChange());
   p.select("#resetButton").mousePressed(() => onReset());
-  p.select("#toggleModal").mousePressed(() => onToggleModal());
-  p.select("#closeModal").mousePressed(() => onCloseModal());
+
+  initModal({
+    openSelectors: "#toggleModal",
+    modalSelector: "#settingsModal",
+    closeSelectors: "#closeModal",
+  });
 
   p.frameRate(FPS);
 }

@@ -6,7 +6,7 @@ import { state } from "./state.js";
 import { elementPositionInit, setupControls } from "./init.js";
 import { drawWave, drawUIContext, drawFormula } from "./logic.js";
 
-const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+const canvasController = new BicpemaCanvasController();
 
 const sketch = (p) => {
   p.setup = () => {

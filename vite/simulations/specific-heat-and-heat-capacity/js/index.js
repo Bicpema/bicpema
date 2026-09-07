@@ -7,7 +7,7 @@ import { settingInit, elCreate, initValue } from "./init.js";
 import { drawSimulation } from "./logic.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0);
+  const canvasController = new BicpemaCanvasController();
 
   p.preload = () => {
     state.burnerImg = p.loadImage(

@@ -8,9 +8,6 @@ export const state = {
   initialVelocityInput: null,
   resetButton: null,
   playPauseButton: null,
-  toggleModal: null,
-  closeModal: null,
-  settingsModal: null,
 
   /** グラフオブジェクト */
   graph: null,

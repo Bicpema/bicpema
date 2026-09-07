@@ -7,7 +7,7 @@ import { Ball } from "./ball.js";
 import { elCreate, initValue, FPS } from "./init.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(true, true, 1.0, 1.0);
+  const canvasController = new BicpemaCanvasController({ is3D: true });
 
   p.preload = () => {
     state.font = p.loadFont(

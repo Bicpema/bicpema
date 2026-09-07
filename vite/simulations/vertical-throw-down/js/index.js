@@ -6,7 +6,7 @@ import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.j
 import { elCreate, initValue, FPS } from "./init.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(true, false, 1.0, 1.0, {
+  const canvasController = new BicpemaCanvasController({
     panelSelector: "#simPanel",
   });
 

@@ -108,18 +108,3 @@ export function onReset() {
   state.weightDisplay.html(`${INIT_WEIGHT}`);
   state.dragging = null;
 }
-
-/**
- * 設定モーダルを開閉する。
- */
-export function onToggleModal() {
-  const display = state.settingsModal.style("display");
-  state.settingsModal.style("display", display === "none" ? "block" : "none");
-}
-
-/**
- * 設定モーダルを閉じる。
- */
-export function onCloseModal() {
-  state.settingsModal.style("display", "none");
-}

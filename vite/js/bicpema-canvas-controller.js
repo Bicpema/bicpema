@@ -15,23 +15,31 @@ const MAX_PIXEL_DENSITY = 2;
 export class BicpemaCanvasController {
   /**
    * @constructor
-   * @param {boolean} f 回転時に比率を固定化するか
-   * @param {boolean} i 3Dかどうか
-   * @param {number} w_r 幅の比率（0.0~1.0）
-   * @param {number} h_r 高さの比率（0.0~1.0）
-   * @param {object} [options] 個別シミュレーションのレイアウト差分を吸収するための追加オプション
+   * @param {object} [options] キャンバスの挙動を設定するオプション
+   * @param {boolean} [options.fixedAspectRatio] 回転時に比率（16:9）を固定化するか。falseの場合は利用可能領域いっぱいに広がる
+   * @param {boolean} [options.is3D] WEBGLモードの3Dキャンバスとして生成するか
+   * @param {number} [options.widthRatio] 算出した幅に対する比率（0.0~1.0）
+   * @param {number} [options.heightRatio] 算出した高さに対する比率（0.0~1.0）
    * @param {string|null} [options.panelSelector] 指定した場合、そのDOM要素のサイズをウィンドウサイズの代わりに利用可能領域として使用する
    * @param {string|null} [options.bottomBarSelector] 指定した場合、そのDOM要素の高さ（+4px）を利用可能な高さから差し引く
    * @param {"aspect"|"half"} [options.heightMode] "half"の場合、アスペクト比の計算を行わず、利用可能な高さの半分をそのままキャンバスの高さにする
    */
-  constructor(f = true, i = false, w_r = 1.0, h_r = 1.0, options = {}) {
-    this.fixed = f;
-    this.is3D = i;
-    this.widthRatio = w_r;
-    this.heightRatio = h_r;
-    this.panelSelector = options.panelSelector ?? null;
-    this.bottomBarSelector = options.bottomBarSelector ?? null;
-    this.heightMode = options.heightMode ?? "aspect";
+  constructor({
+    fixedAspectRatio = true,
+    is3D = false,
+    widthRatio = 1.0,
+    heightRatio = 1.0,
+    panelSelector = null,
+    bottomBarSelector = null,
+    heightMode = "aspect",
+  } = {}) {
+    this.fixed = fixedAspectRatio;
+    this.is3D = is3D;
+    this.widthRatio = widthRatio;
+    this.heightRatio = heightRatio;
+    this.panelSelector = panelSelector;
+    this.bottomBarSelector = bottomBarSelector;
+    this.heightMode = heightMode;
   }
 
   /**

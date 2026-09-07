@@ -22,7 +22,7 @@ import {
 } from "./element-function.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(false, true, 1.0, 1.0);
+  const canvasController = new BicpemaCanvasController({ fixedAspectRatio: false, is3D: true });
 
   // 子ウィンドウ（setWindow.html）からwindow.opener経由で呼び出されるための公開。
   // 別ドキュメントのため、ESモジュールのimport/exportでは参照できない。

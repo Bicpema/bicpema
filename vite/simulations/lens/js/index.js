@@ -34,7 +34,7 @@ const state = {
 };
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController(false, false, 1.0, 1.0);
+  const canvasController = new BicpemaCanvasController({ fixedAspectRatio: false });
 
   p.preload = () => {
     state.headImg = p.loadImage(

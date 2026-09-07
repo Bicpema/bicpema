@@ -4,12 +4,12 @@ import { state } from "./state.js";
 import { Train } from "./class.js";
 import {
   onPlayPause,
-  onToggleModal,
-  onCloseModal,
   onReset,
   onAccelerationChange,
 } from "./element-function.js";
 import { DEFAULT_ACCELERATION, TRAIN_START_X_DIVISOR } from "./constants.js";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
+import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 
 /** フレームレート */
 export const FPS = 60;
@@ -42,10 +42,17 @@ export function settingInit(p, canvasController) {
  * @param {*} p p5インスタンス。
  */
 export function elCreate(p) {
-  p.select("#playPauseButton").mousePressed(onPlayPause);
-  p.select("#toggleModal").mousePressed(onToggleModal);
-  p.select("#closeModal").mousePressed(onCloseModal);
-  p.select("#resetButton").mousePressed(onReset);
+  bindToggleControls(p, {
+    toggleSelector: "#playPauseButton",
+    resetSelector: "#resetButton",
+    onToggle: onPlayPause,
+    onReset,
+  });
+  initModal({
+    openSelectors: "#toggleModal",
+    modalSelector: "#settingsModal",
+    closeSelectors: "#closeModal",
+  });
   p.select("#accelerationInput").input(onAccelerationChange);
 }
 

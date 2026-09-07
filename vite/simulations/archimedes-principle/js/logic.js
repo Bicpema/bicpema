@@ -151,6 +151,10 @@ export function drawSimulation(p) {
   if (state.cylinder) {
     state.cylinder.draw(p);
   }
+  if (state.tank) {
+    // 水面の手前の線を円柱より前面に再描画し、沈み込みを表現する
+    state.tank.drawWaterSurfaceLine(p);
+  }
 
   drawForceArrows(p);
 
