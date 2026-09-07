@@ -66,6 +66,10 @@ export async function initGraph() {
       maintainAspectRatio: false,
     },
   });
+
+  // Chart.jsの動的import完了を待つ間にスライダーが操作されている可能性があるため、
+  // 生成直後に現在のセロハン枚数へ同期する。
+  updateGraph();
 }
 
 /**
