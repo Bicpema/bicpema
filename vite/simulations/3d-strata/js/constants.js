@@ -14,8 +14,8 @@ export const JA_FONT_SIZE = 25;
 export const WORLD_MIN = -500;
 /** ワールド座標系の上限値（経度・緯度・深さ方向のマッピング先、格子線・柱状図の座標計算で共通使用） */
 export const WORLD_MAX = 500;
-/** 格子線ループの上限（経度・緯度方向の全長。WORLD_MAX - WORLD_MINに相当） */
-export const WORLD_SIZE = 1000;
+/** 格子線ループの上限（経度・緯度方向の全長） */
+export const WORLD_SIZE = WORLD_MAX - WORLD_MIN;
 /** 格子線の間隔 */
 export const GRID_STEP = 50;
 /** 座標ラベルを表示する間隔（GRID_STEPの倍数ごとに表示） */

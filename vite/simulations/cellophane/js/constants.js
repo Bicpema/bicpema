@@ -31,7 +31,7 @@ export const INCIDENT_LIGHT_CSS_COLOR = "rgb(144,181,130)";
 export const RAYS_PER_COLOR = 300;
 /** 光線のZ座標の初期分布の起点 */
 export const RAY_Z_START = 150;
-/** 光線のZ座標の初期分布の範囲（RAY_Z_STARTから減算する幅の合計） */
+/** 光線のZ座標の初期分布の範囲（RAY_Z_STARTに加算する幅の合計） */
 export const RAY_Z_RANGE = 300;
 /** 光線が往復するZ座標の上限・下限の絶対値（これを超えると反対側へリセットする） */
 export const RAY_Z_LIMIT = 150;
@@ -41,7 +41,7 @@ export const POLARIZER_Z = 100;
 /** 偏光板のサイズ（一辺の長さ） */
 export const POLARIZER_SIZE = 125;
 
-/** 波長700 nmの光の1フレーム当たりの回転角速度（度）。赤色光の基準値 */
+/** 赤色光の1フレーム当たりの回転角速度（度）。緑・青色光の角速度算出の基準値 */
 export const ANGULAR_VELOCITY_R = (2 * 180) / 25;
 /** 緑色光の角速度の、赤色光に対する比 */
 export const ANGULAR_VELOCITY_RATIO_G = 0.78;

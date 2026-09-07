@@ -481,7 +481,7 @@ function main(p) {
 
   p.strokeWeight(1);
   //光の進行方向の軸
-  //長さはRAY_Z_RANGE(300)px
+  //長さはRAY_Z_RANGE(px)
   p.fill(0);
   p.stroke(0);
   p.push();

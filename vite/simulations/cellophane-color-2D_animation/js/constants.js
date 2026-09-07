@@ -14,7 +14,7 @@ export const WAVELENGTH_MAX = 750;
 /** 偏光板・セロハン・入力画像を配置するステージの一辺の長さ */
 export const STAGE_SIZE = 200;
 /** ステージの中心座標、およびステージの半分の長さに相当する値 */
-export const STAGE_HALF_SIZE = 100;
+export const STAGE_HALF_SIZE = STAGE_SIZE / 2;
 
 /** セロハンの重なりを表現するための1枚あたりのz方向オフセット */
 export const SHEET_Z_OFFSET = 0.1;
