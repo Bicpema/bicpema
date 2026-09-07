@@ -13,10 +13,10 @@ import {
   drawSimulation,
 } from "./logic.js";
 import { cellophaneRemoveButtonFunction } from "./element-function.js";
+import { FPS, CAMERA_DISTANCE } from "./constants.js";
 
-/** 標準のframeRate。draw()から毎フレーム呼び出されるprenormal()内から
- * setup()側へ移設し、一度だけ設定するようにしている。 */
-const FPS = 60;
+// FPSはdraw()から毎フレーム呼び出されるprenormal()内からsetup()側へ移設し、
+// 一度だけ設定するようにしている。
 
 const sketch = (p) => {
   const canvasController = new BicpemaCanvasController(false, true, 1.0, 1.0, {
@@ -66,7 +66,7 @@ const sketch = (p) => {
     elInit(p);
     initValue(p);
     p.frameRate(FPS);
-    p.camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
+    p.camera(0, 0, CAMERA_DISTANCE, 0, 0, 0, 0, 1, 0);
     createStartimg();
     createSliderandRadio(p);
     uiInit();
@@ -95,7 +95,7 @@ const sketch = (p) => {
       cellophaneRemoveButtonFunction(p);
     }
     initValue(p);
-    p.camera(0, 0, 300, 0, 0, 0, 0, 1, 0);
+    p.camera(0, 0, CAMERA_DISTANCE, 0, 0, 0, 0, 1, 0);
     beforeColorCalculate(p).catch((error) => {
       console.error("色計算の再初期化に失敗しました。", error);
     });

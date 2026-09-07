@@ -18,6 +18,12 @@ import {
   dSetButtonFunction,
   allSetButtonFunction,
 } from "./element-function.js";
+import {
+  CAMERA_EYE_X,
+  CAMERA_EYE_Y,
+  CAMERA_EYE_Z,
+  JA_FONT_SIZE,
+} from "./constants.js";
 
 /** 日本語フォントのURL */
 const JA_FONT_URL =
@@ -79,7 +85,7 @@ export function uiInit() {
  * @param {*} p p5インスタンス
  */
 export function initValue(p) {
-  p.camera(800, -500, 800, 0, 0, 0, 0, 1, 0);
+  p.camera(CAMERA_EYE_X, CAMERA_EYE_Y, CAMERA_EYE_Z, 0, 0, 0, 0, 1, 0);
   state.allSetIs = false;
 }
 
@@ -93,7 +99,7 @@ export function loadJapaneseFont(p) {
     (font) => {
       state.jaFont = font;
       p.textFont(state.jaFont);
-      p.textSize(25);
+      p.textSize(JA_FONT_SIZE);
       p.textAlign(p.CENTER);
     },
     () => {

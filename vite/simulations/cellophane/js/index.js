@@ -6,6 +6,42 @@ import {
   computeTransmittance,
 } from "./physics.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+import {
+  HEADER_HEIGHT,
+  CANVAS_WIDTH_NUMERATOR,
+  CANVAS_WIDTH_DENOMINATOR,
+  CANVAS_HEIGHT_NUMERATOR,
+  CANVAS_HEIGHT_DENOMINATOR,
+  RIGHT_PANEL_ROW_COUNT,
+  GRAPH_HEIGHT_ROWS,
+  CMF_GRAPH_TOP_OFFSET_ROWS,
+  MAX_PIXEL_DENSITY,
+  FPS,
+  INCIDENT_LIGHT_CSS_COLOR,
+  RAYS_PER_COLOR,
+  RAY_Z_START,
+  RAY_Z_RANGE,
+  RAY_Z_LIMIT,
+  POLARIZER_Z,
+  POLARIZER_SIZE,
+  ANGULAR_VELOCITY_R,
+  ANGULAR_VELOCITY_RATIO_G,
+  ANGULAR_VELOCITY_RATIO_B,
+  OPD_PER_SHEET_R,
+  OPD_PER_SHEET_G,
+  OPD_PER_SHEET_B,
+  WAVELENGTH_R,
+  WAVELENGTH_G,
+  WAVELENGTH_B,
+  WAVE_AMPLITUDE,
+  WAVE_POINT_RADIUS,
+  FULL_OPACITY,
+  DIM_OPACITY,
+  DIM_STROKE_WEIGHT,
+  RED_COLOR,
+  GREEN_COLOR,
+  BLUE_COLOR,
+} from "./constants.js";
 
 // Chart.jsの動的importをモジュール読み込み時に開始する。p5のpreload()による
 // CSVの取得と並行して読み込まれるため、setup()到達時には解決済みになる想定。
@@ -60,7 +96,7 @@ const sketch = (p) => {
 
     initGraph();
     initCmfGraph();
-    incidentColor.style("background", "rgb(144,181,130)");
+    incidentColor.style("background", INCIDENT_LIGHT_CSS_COLOR);
     transmittedColor.style(
       "background",
       "rgb(" +
@@ -93,10 +129,10 @@ const sketch = (p) => {
   };
 
   p.windowResized = () => {
-    p.resizeCanvas((2 * p.windowWidth) / 3, (8 * usableHeight(p)) / 9);
+    p.resizeCanvas(canvasWidth(p), canvasHeight(p));
     elInit(p);
     initValue(p);
-    incidentColor.style("background", "rgb(144,181,130)");
+    incidentColor.style("background", INCIDENT_LIGHT_CSS_COLOR);
     transmittedColor.style(
       "background",
       "rgb(" +
@@ -112,25 +148,25 @@ const sketch = (p) => {
 
 new p5(sketch);
 
-// ヘッダー(60px固定)を除いた、実際に使用できる高さ
+// ヘッダー(HEADER_HEIGHT px固定)を除いた、実際に使用できる高さ
 function usableHeight(p) {
-  return p.windowHeight - 60;
+  return p.windowHeight - HEADER_HEIGHT;
 }
 
-// 高DPI環境での過大な描画負荷を避けるための、pixelDensityの上限値。
+// setup()とwindowResized()で共通して使うキャンバスの幅・高さ。
 // 詳細はdocs/docs/simulation/index.mdの「パフォーマンス方針」を参照。
-const MAX_PIXEL_DENSITY = 2;
-// WEBGLで毎フレーム900本(rays_number × RGB3色)のRayを描画するため、
-// 60fpsでは負荷が高くなりやすく30fpsに抑えている。
-const FPS = 30;
+function canvasWidth(p) {
+  return (CANVAS_WIDTH_NUMERATOR * p.windowWidth) / CANVAS_WIDTH_DENOMINATOR;
+}
+function canvasHeight(p) {
+  return (
+    (CANVAS_HEIGHT_NUMERATOR * usableHeight(p)) / CANVAS_HEIGHT_DENOMINATOR
+  );
+}
 
 function fullScreen(p) {
   p.pixelDensity(Math.min(p.displayDensity(), MAX_PIXEL_DENSITY));
-  let canvas = p.createCanvas(
-    (2 * p.windowWidth) / 3,
-    (8 * usableHeight(p)) / 9,
-    p.WEBGL
-  );
+  let canvas = p.createCanvas(canvasWidth(p), canvasHeight(p), p.WEBGL);
   canvas.parent(p.select("#p5Container"));
 }
 
@@ -185,11 +221,7 @@ function waveRepresentationFunction(p) {
 //光線をredrawする手続き
 //スライダーが動いた時に呼び出される
 function cellophaneCountSliderFunction(p) {
-  for (let i = 0; i < rays_number; i++) {
-    r_rays[i] = new Ray(150 + i * (300 / rays_number), "r");
-    g_rays[i] = new Ray(150 + i * (300 / rays_number), "g");
-    b_rays[i] = new Ray(150 + i * (300 / rays_number), "b");
-  }
+  buildRays();
   cellophaneCountSliderValue.html(
     "セロハンテープの枚数:" + cellophaneCountSlider.value() + "枚"
   );
@@ -252,10 +284,9 @@ function bButtonFunction(p) {
 
 function elInit(p) {
   const contentHeight = usableHeight(p);
-  const canvasHeight = (8 * contentHeight) / 9;
   backgroundDiv
     .size(p.windowWidth, contentHeight / 9)
-    .position(0, 60 + canvasHeight);
+    .position(0, HEADER_HEIGHT + canvasHeight(p));
   const barHeight = contentHeight / 9;
   waveRepresentationButton
     .mousePressed(() => waveRepresentationFunction(p))
@@ -303,27 +334,37 @@ function elInit(p) {
     .addClass(BTN_DANGER)
     .style("font-size", "3vh");
   graph
-    .size(p.windowWidth / 3, (4.5 * p.height) / 10)
-    .position((2 * p.windowWidth) / 3, 60 + p.height / 10)
+    .size(
+      p.windowWidth / 3,
+      (GRAPH_HEIGHT_ROWS * p.height) / RIGHT_PANEL_ROW_COUNT
+    )
+    .position(canvasWidth(p), HEADER_HEIGHT + p.height / RIGHT_PANEL_ROW_COUNT)
     .style("background-color", "white");
   graphCanvas.position(0, 0).id("graphChart").parent(graph);
   cmfGraph
-    .size(p.windowWidth / 3, (4.5 * p.height) / 10)
-    .position((2 * p.windowWidth) / 3, 60 + (5.5 * p.height) / 10)
+    .size(
+      p.windowWidth / 3,
+      (GRAPH_HEIGHT_ROWS * p.height) / RIGHT_PANEL_ROW_COUNT
+    )
+    .position(
+      canvasWidth(p),
+      HEADER_HEIGHT +
+        (CMF_GRAPH_TOP_OFFSET_ROWS * p.height) / RIGHT_PANEL_ROW_COUNT
+    )
     .style("background-color", "white");
   cmfGraphCanvas.position(0, 0).id("cmfGraphChart").parent(cmfGraph);
-  let lh = p.height / 10;
+  let lh = p.height / RIGHT_PANEL_ROW_COUNT;
   incidentColor
-    .size(p.windowWidth / 6, p.height / 10)
-    .position((2 * p.windowWidth) / 3, 60)
+    .size(p.windowWidth / 6, p.height / RIGHT_PANEL_ROW_COUNT)
+    .position(canvasWidth(p), HEADER_HEIGHT)
     .style("background", "white")
     .style("text-align", "center")
     .style("font-size", "3vh")
     .style("line-height", lh + "px")
     .addClass("font-bold");
   transmittedColor
-    .size(p.windowWidth / 6, p.height / 10)
-    .position((2 * p.windowWidth) / 3 + p.windowWidth / 6, 60)
+    .size(p.windowWidth / 6, p.height / RIGHT_PANEL_ROW_COUNT)
+    .position(canvasWidth(p) + p.windowWidth / 6, HEADER_HEIGHT)
     .style("background", "white")
     .style("text-align", "center")
     .style("font-size", "3vh")
@@ -380,25 +421,31 @@ let rays_number,
   //波長450 nmのセロハン一枚当たりの位相差
   opdb;
 
+//光線(r_rays/g_rays/b_rays)を初期分布で生成し直す手続き
+//initValue()とcellophaneCountSliderFunction()の両方から呼ばれる
+function buildRays() {
+  for (let i = 0; i < rays_number; i++) {
+    r_rays[i] = new Ray(RAY_Z_START + i * (RAY_Z_RANGE / rays_number), "r");
+    g_rays[i] = new Ray(RAY_Z_START + i * (RAY_Z_RANGE / rays_number), "g");
+    b_rays[i] = new Ray(RAY_Z_START + i * (RAY_Z_RANGE / rays_number), "b");
+  }
+}
+
 function initValue(p) {
-  rays_number = 300;
+  rays_number = RAYS_PER_COLOR;
   r_rays = new Array(rays_number);
   g_rays = new Array(rays_number);
   b_rays = new Array(rays_number);
-  for (let i = 0; i < rays_number; i++) {
-    r_rays[i] = new Ray(150 + i * (300 / rays_number), "r");
-    g_rays[i] = new Ray(150 + i * (300 / rays_number), "g");
-    b_rays[i] = new Ray(150 + i * (300 / rays_number), "b");
-  }
+  buildRays();
   p.camera(300, 0, 0, 0, 0, 0, 0, 1, 0);
   waveRepresentation = "sphere";
   switchIs = true;
   rIs = true;
   gIs = true;
   bIs = true;
-  opdr = 212.596704;
-  opdg = 213.5303046;
-  opdb = 215.5841246;
+  opdr = OPD_PER_SHEET_R;
+  opdg = OPD_PER_SHEET_G;
+  opdb = OPD_PER_SHEET_B;
   p.frameRate(FPS);
 }
 
@@ -427,23 +474,23 @@ function createPolarizer(p, size, x, y, z, pattern) {
 //背景のデザインを規定する手続き
 function main(p) {
   //スタート寄りの偏光板
-  createPolarizer(p, 125, 0, 0, 100, 0);
+  createPolarizer(p, POLARIZER_SIZE, 0, 0, POLARIZER_Z, 0);
 
   //ゴール寄りの偏光板
-  createPolarizer(p, 125, 0, 0, -100, 1);
+  createPolarizer(p, POLARIZER_SIZE, 0, 0, -POLARIZER_Z, 1);
 
   p.strokeWeight(1);
   //光の進行方向の軸
-  //長さは300px
+  //長さはRAY_Z_RANGE(px)
   p.fill(0);
   p.stroke(0);
   p.push();
   p.rotateX(p.PI / 2);
-  p.cylinder(1, 300, 8, 8);
+  p.cylinder(1, RAY_Z_RANGE, 8, 8);
   p.pop();
   p.push();
   p.rotateX(-p.PI / 2);
-  p.translate(0, 150, 0);
+  p.translate(0, RAY_Z_LIMIT, 0);
   p.cone(4, 7, 10, 10, true);
   p.pop();
 
@@ -597,72 +644,79 @@ class Ray {
     //波長700 nmの１フレーム当たりの角速度
     //単位は (°)
     if (this.clr == "r") {
-      this.w = (2 * 180) / 25;
+      this.w = ANGULAR_VELOCITY_R;
       this.opd = computeOpticalPathDifference(
         cellophaneCountSlider.value(),
         opdr
       );
-      this.wl = 600;
+      this.wl = WAVELENGTH_R;
       this.magnification = computeTransmittance(this.opd, this.wl);
     }
     if (this.clr == "g") {
-      this.w = ((2 * 180) / 25) * 0.78;
+      this.w = ANGULAR_VELOCITY_R * ANGULAR_VELOCITY_RATIO_G;
       this.opd = computeOpticalPathDifference(
         cellophaneCountSlider.value(),
         opdg
       );
-      this.wl = 550;
+      this.wl = WAVELENGTH_G;
       this.magnification = computeTransmittance(this.opd, this.wl);
     }
     if (this.clr == "b") {
-      this.w = ((2 * 180) / 25) * 0.62214285714;
+      this.w = ANGULAR_VELOCITY_R * ANGULAR_VELOCITY_RATIO_B;
       this.opd = computeOpticalPathDifference(
         cellophaneCountSlider.value(),
         opdb
       );
-      this.wl = 450;
+      this.wl = WAVELENGTH_B;
       this.magnification = computeTransmittance(this.opd, this.wl);
     }
     if (switchIs == true) {
-      if (this.posz <= 150) {
+      if (this.posz <= RAY_Z_LIMIT) {
         this.t += this.w;
       }
       this.posz -= 1;
     }
-    if (this.posz < -150) {
-      this.posz = 150;
+    if (this.posz < -RAY_Z_LIMIT) {
+      this.posz = RAY_Z_LIMIT;
       this.t = 0;
     }
-    if (100 < this.posz && this.posz < 150) {
+    if (POLARIZER_Z < this.posz && this.posz < RAY_Z_LIMIT) {
       this.x = true;
       this.y = true;
       this.z = true;
-      this.posx = 25 * p.sin(p.radians(this.t));
-      this.posy = -25 * p.sin(p.radians(this.t));
-    } else if (cellophaneCountSlider.value() < this.posz && this.posz < 100) {
+      this.posx = WAVE_AMPLITUDE * p.sin(p.radians(this.t));
+      this.posy = -WAVE_AMPLITUDE * p.sin(p.radians(this.t));
+    } else if (
+      cellophaneCountSlider.value() < this.posz &&
+      this.posz < POLARIZER_Z
+    ) {
       this.x = false;
       this.y = false;
       this.z = true;
-      this.posx = 25 * p.sin(p.radians(this.t));
-      this.posy = -25 * p.sin(p.radians(this.t));
-    } else if (-100 < this.posz && this.posz < -cellophaneCountSlider.value()) {
+      this.posx = WAVE_AMPLITUDE * p.sin(p.radians(this.t));
+      this.posy = -WAVE_AMPLITUDE * p.sin(p.radians(this.t));
+    } else if (
+      -POLARIZER_Z < this.posz &&
+      this.posz < -cellophaneCountSlider.value()
+    ) {
       this.x = false;
       this.y = false;
       this.z = true;
       this.posx =
-        25 * p.sin(p.radians(this.t) + (this.opd / this.wl) * (2 * p.PI));
-      this.posy = -25 * p.sin(p.radians(this.t));
-    } else if (-150 < this.posz && this.posz < -100) {
+        WAVE_AMPLITUDE *
+        p.sin(p.radians(this.t) + (this.opd / this.wl) * (2 * p.PI));
+      this.posy = -WAVE_AMPLITUDE * p.sin(p.radians(this.t));
+    } else if (-RAY_Z_LIMIT < this.posz && this.posz < -POLARIZER_Z) {
       this.x = false;
       this.y = false;
       this.z = true;
       this.posx =
         p.sqrt(this.magnification) *
-        25 *
+        WAVE_AMPLITUDE *
         p.sin(p.radians(this.t) + (this.opd / this.wl) * (2 * p.PI));
       this.posy =
         p.sqrt(this.magnification) *
-        25 *
+        WAVE_AMPLITUDE *
         p.sin(p.radians(this.t) + (this.opd / this.wl) * (2 * p.PI));
     } else {
       this.x = false;
@@ -671,27 +725,27 @@ class Ray {
     }
     if (waveRepresentation == "line") {
       if (this.clr == "r") {
-        p.stroke(255, 0, 0);
+        p.stroke(...RED_COLOR);
         if (rIs == true) {
           p.strokeWeight(1);
         } else {
-          p.strokeWeight(0.1);
+          p.strokeWeight(DIM_STROKE_WEIGHT);
         }
       }
       if (this.clr == "g") {
-        p.stroke(0, 255, 0);
+        p.stroke(...GREEN_COLOR);
         if (gIs == true) {
           p.strokeWeight(1);
         } else {
-          p.strokeWeight(0.1);
+          p.strokeWeight(DIM_STROKE_WEIGHT);
         }
       }
       if (this.clr == "b") {
-        p.stroke(0, 0, 255);
+        p.stroke(...BLUE_COLOR);
         if (bIs == true) {
           p.strokeWeight(1);
         } else {
-          p.strokeWeight(0.1);
+          p.strokeWeight(DIM_STROKE_WEIGHT);
         }
       }
       //x方向の波
@@ -717,37 +771,37 @@ class Ray {
       p.noStroke();
       if (this.clr == "r") {
         if (rIs == true) {
-          p.fill(255, 0, 0, 255);
+          p.fill(...RED_COLOR, FULL_OPACITY);
         } else {
-          p.fill(255, 0, 0, 50);
+          p.fill(...RED_COLOR, DIM_OPACITY);
         }
       }
       if (this.clr == "g") {
         if (gIs == true) {
-          p.fill(0, 255, 0, 255);
+          p.fill(...GREEN_COLOR, FULL_OPACITY);
         } else {
-          p.fill(0, 255, 0, 50);
+          p.fill(...GREEN_COLOR, DIM_OPACITY);
         }
       }
       if (this.clr == "b") {
         if (bIs == true) {
-          p.fill(0, 0, 255, 255);
+          p.fill(...BLUE_COLOR, FULL_OPACITY);
         } else {
-          p.fill(0, 0, 255, 50);
+          p.fill(...BLUE_COLOR, DIM_OPACITY);
         }
       }
       //x方向の波
       p.push();
       p.translate(this.posx, 0, this.posz);
       if (this.x == true) {
-        p.sphere(1.5);
+        p.sphere(WAVE_POINT_RADIUS);
       }
       p.pop();
       //y方向の波
       p.push();
       p.translate(0, this.posy, this.posz);
       if (this.y == true) {
-        p.sphere(1.5);
+        p.sphere(WAVE_POINT_RADIUS);
       }
       p.pop();
       //z方向の波
@@ -755,7 +809,7 @@ class Ray {
       p.translate(this.posx, this.posy, this.posz);
 
       if (this.z == true) {
-        p.sphere(1.5);
+        p.sphere(WAVE_POINT_RADIUS);
       }
       p.pop();
     }
