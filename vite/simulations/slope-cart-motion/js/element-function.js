@@ -28,26 +28,6 @@ export function onPlayPause() {
 }
 
 /**
- * 設定モーダルを表示/非表示にする
- */
-export function onToggleModal() {
-  const currentDisplay = state.settingsModal.style("display");
-  if (currentDisplay === "none") {
-    state.settingsModal.style("display", "block");
-  } else {
-    state.settingsModal.style("display", "none");
-  }
-}
-
-/**
- * 設定モーダルを閉じる
- */
-export function onCloseModal() {
-  state.settingsModal.style("display", "none");
-  applySettings();
-}
-
-/**
  * 設定を適用してシミュレーションをリセットする
  */
 export function applySettings() {

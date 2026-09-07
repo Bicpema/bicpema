@@ -20,12 +20,6 @@ export const state = {
   resetButton: null,
   /** 再生/停止ボタン */
   playPauseButton: null,
-  /** 設定モーダル表示ボタン */
-  toggleModal: null,
-  /** 設定モーダル閉じるボタン */
-  closeModal: null,
-  /** 設定モーダル要素 */
-  settingsModal: null,
   /** 角度入力 */
   angleInput: null,
   /** 記録間隔入力 */

@@ -6,4 +6,5 @@ export const state = {
   graphData: true,
   graphChart: null,
   isPlaying: true,
+  playButton: null,
 };

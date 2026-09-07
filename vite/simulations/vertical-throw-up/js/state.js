@@ -6,7 +6,4 @@ export const state = {
   velocityInput: null,
   resetButton: null,
   playPauseButton: null,
-  toggleModal: null,
-  closeModal: null,
-  settingsModal: null,
 };

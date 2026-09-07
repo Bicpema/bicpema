@@ -3,12 +3,9 @@
 import { state } from "./state.js";
 import { CART_START_X } from "./logic.js";
 import { FPS } from "./constants.js";
-import {
-  onReset,
-  onPlayPause,
-  onToggleModal,
-  onCloseModal,
-} from "./element-function.js";
+import { onReset, onPlayPause } from "./element-function.js";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
+import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 
 /**
  * UI要素の生成とイベントリスナーの設定を担当する関数。
@@ -18,13 +15,21 @@ export function elCreate(p) {
   state.massInput = p.select("#massInput");
   state.velocityInput = p.select("#velocityInput");
   state.forceInput = p.select("#forceInput");
-  state.resetButton = p.select("#resetButton").mousePressed(() => onReset(p));
-  state.playPauseButton = p
-    .select("#playPauseButton")
-    .mousePressed(onPlayPause);
-  state.toggleModal = p.select("#toggleModal").mousePressed(onToggleModal);
-  state.closeModal = p.select("#closeModal").mousePressed(onCloseModal);
-  state.settingsModal = p.select("#settingsModal");
+
+  const { toggleButton, resetButton } = bindToggleControls(p, {
+    toggleSelector: "#playPauseButton",
+    resetSelector: "#resetButton",
+    onToggle: onPlayPause,
+    onReset: () => onReset(p),
+  });
+  state.playPauseButton = toggleButton;
+  state.resetButton = resetButton;
+
+  initModal({
+    openSelectors: "#toggleModal",
+    modalSelector: "#settingsModal",
+    closeSelectors: "#closeModal",
+  });
 
   // 情報パネルの DOM 要素参照
   state.infoMassEl = p.select("#info-mass");

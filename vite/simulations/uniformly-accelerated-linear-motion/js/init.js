@@ -2,12 +2,9 @@ import { state } from "./state.js";
 import { Car } from "./car.js";
 import { MotionGraph } from "./graph.js";
 import { FPS, DEFAULT_TEXT_SIZE } from "./constants.js";
-import {
-  onReset,
-  onPlayPause,
-  onToggleModal,
-  onCloseModal,
-} from "./element-function.js";
+import { onReset, onPlayPause } from "./element-function.js";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
+import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 
 /**
  * DOM要素をstateに格納し、イベントリスナーを設定する
@@ -17,16 +14,21 @@ export function elCreate(p) {
   state.initialVelocityInput = p.select("#initialVelocityInput");
   state.accelerationInput = p.select("#accelerationInput");
   state.showMarkersCheckBox = p.select("#showMarkersCheckBox");
-  state.resetButton = p.select("#resetButton");
-  state.playPauseButton = p.select("#playPauseButton");
-  state.toggleModal = p.select("#toggleModal");
-  state.closeModal = p.select("#closeModal");
-  state.settingsModal = p.select("#settingsModal");
 
-  state.resetButton.mousePressed(() => onReset());
-  state.playPauseButton.mousePressed(() => onPlayPause());
-  state.toggleModal.mousePressed(() => onToggleModal());
-  state.closeModal.mousePressed(() => onCloseModal());
+  const { toggleButton, resetButton } = bindToggleControls(p, {
+    toggleSelector: "#playPauseButton",
+    resetSelector: "#resetButton",
+    onToggle: onPlayPause,
+    onReset,
+  });
+  state.playPauseButton = toggleButton;
+  state.resetButton = resetButton;
+
+  initModal({
+    openSelectors: "#toggleModal",
+    modalSelector: "#settingsModal",
+    closeSelectors: "#closeModal",
+  });
 }
 
 /**

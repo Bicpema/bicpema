@@ -16,9 +16,6 @@ export const state = {
   forceInput: null,
   resetButton: null,
   playPauseButton: null,
-  toggleModal: null,
-  closeModal: null,
-  settingsModal: null,
 
   // --- シミュレーションパラメータ ---
   /** 台車の質量 (kg) */
