@@ -29,7 +29,7 @@
     - 相対磁場強度表示: `#bValueDisplay`（観測半径r=50における B=|I|/r の値を動的更新）。
 - 確定事項:
     - `<body oncontextmenu="return false;">` により右クリックのコンテキストメニューは無効化。
-    - `html, body { margin: 0; padding: 0; }` かつ `canvas { display: block; }`（`style.css`）でスクロールしない前提のレイアウト。ただし、この`style.css`は`index.html`から参照されておらず、実際のグローバルスタイルは共通の`vite/css/tailwind.css`（`js/index.js`が`import`）に依存している（後述「未確定事項」参照）。
+    - `html, body { margin: 0; padding: 0; }` かつ `canvas { display: block; }`でスクロールしない前提のレイアウト。実際のグローバルスタイルは共通の`vite/css/tailwind.css`（`js/index.js`が`import`）が担っている。
     - 3D視点は`p.camera(0, -300, 600, 0, 0, 0, 0, 1, 0)`で初期化され、`orbitControl()`によりユーザーがドラッグで視点変更できる。
 
 ## 3. 機能仕様
@@ -78,7 +78,7 @@
     - 磁場の向き: `computeFieldDirection(I)`は`I > 0.1`で`counterclockwise`、`I < -0.1`で`clockwise`、それ以外は`none`（右ねじの法則に基づく符号判定、`physics.test.js`でも検証済み）。
     - 磁力線の色・太さ・矢印サイズは、実際のB値をスライダー最大電流での理論上限`maxB`に対する比率としてマッピングした「見た目のスケール」であり、物理的な絶対値の表示ではない。
 - 推定事項:
-    - `drawFlowArrow`の周回速度定数`0.02`および矢印の周回方向反転ロジック（`directionOffset`の正負分岐）は、右ねじの法則に基づく向き表現を意図した実装と推定されるが、コード内コメントで明示的に「右ねじの法則」と説明されているのは`sketch.js`（旧実装、後述）側のみで、`js/logic.js`側には直接の言及が無い。
+    - `drawFlowArrow`の周回速度定数`0.02`および矢印の周回方向反転ロジック（`directionOffset`の正負分岐）は、右ねじの法則に基づく向き表現を意図した実装と推定されるが、`js/logic.js`側のコード内コメントには「右ねじの法則」の明示的な説明が無い。
     - `constants.js`の`ARROW_SPACING = 40`は導線矢印の間隔とアニメーションの周期（`% ARROW_SPACING`）の両方に使われており、意図的な共有かどうかは実装コメントからは確定できない。
 
 ## 5. ファイル構成と責務
@@ -100,10 +100,6 @@
     - `computeMagneticFieldStrength(current, radius)`と`computeFieldDirection(current)`の純粋関数を提供（`test/simulations/magnetic-field-straight/physics.test.js`でユニットテスト済み）。
 - `vite/simulations/magnetic-field-straight/js/constants.js`
     - `CURRENT_THRESHOLD`（電流の向き判定・矢印表示のしきい値）、`ARROW_SPACING`（導線矢印の間隔）を定義。
-- `vite/simulations/magnetic-field-straight/sketch.js`
-    - グローバルモード（`function setup()`/`function draw()`）で書かれた旧実装。`index.html`からは参照されておらず、現行のビルド・実行経路には含まれない孤立ファイル（調査対象外・削除候補、詳細は「未確定事項」参照）。
-- `vite/simulations/magnetic-field-straight/style.css`
-    - `html, body`の余白リセットと`canvas { display: block; }`のみを定義する簡易スタイル。`index.html`からは参照されておらず、現行実装では共通の`vite/css/tailwind.css`がスタイルを担っている（`sketch.js`と同様、旧実装時代の孤立ファイルと推定）。
 - 共通資産（本シミュレーション固有ではない。`js/index.js`からのimportパス表記。実体は`vite/js/`・`vite/css/`配下）:
     - `../../../js/bicpema-canvas-controller.js`: `BicpemaCanvasController`クラス（キャンバスサイズ計算・生成・リサイズ）。
     - `../../../js/bicpema-loading-spinner.js`: `hideLoadingSpinner()`（ローディングスピナー非表示処理）。
@@ -122,12 +118,6 @@ flowchart TD
   E --> K["js/constants.js"]
   P --> K
   T["test/simulations/magnetic-field-straight/physics.test.js"] --> P
-
-  X["sketch.js（孤立・未参照）"]
-  Y["style.css（孤立・未参照）"]
-
-  style X stroke-dasharray: 5 5
-  style Y stroke-dasharray: 5 5
 ```
 
 ## 6. 状態遷移
@@ -155,11 +145,9 @@ flowchart TD
 - 電流値はp5の`state`ではなくDOMの`#currentSlider.value`から毎フレーム読み取る方式のため、`state.js`は実質空で、状態管理としての一貫性がない。
 - スライダーが整数刻み（`step=1`）のため、電流値を細かく調整できない（-4〜4の11段階のみ）。
 - `drawFieldLines`内で磁力線の色・太さの正規化に使うスライダーの`min`/`max`属性をDOMから毎回読み直しており、HTML側の属性変更に応じて自動的にスケールが追従する設計だが、それに気づかずHTMLの`min`/`max`だけを変更すると見た目のスケールも変わる点に注意が必要。
-- `sketch.js`と`style.css`は現行の実行経路（`index.html` → `js/index.js`）から参照されておらず、保守時に誤って編集・参照すると実装に反映されない。
 
 ## 8. 未確定事項
 
-- `sketch.js`と`style.css`が意図的に残された参考実装（旧版アーカイブ）なのか、削除し忘れた不要ファイルなのかは、コミット履歴（PR #446「BicpemaCanvasControllerを共通モジュールに一元化」、PR #469「TailwindCSSへ移行」）から旧実装の名残と推定されるが、削除してよいかはリポジトリ管理者への確認が必要。
 - `content/post/直線電流の磁場/index.md`の「使用方法」に記載された「▶ 開始」「⚙ 設定」「🔄 リセット」ボタンの説明が、実装（スライダーのみ、常時アニメーション）と一致していない。記事を実装に合わせて修正すべきか、あるいは将来的に実装側へ標準UI（再生/停止・設定モーダル・リセット）を追加すべきかは未確定。
 - 記事中の「※矢印は向きの表示で、回転速度は一定です」という注記と、実装上`speed = currentVal`により電流値が大きいほど矢印のスクロール速度が変化する挙動との整合性（意図的な簡略化なのか、注記が古いままなのか）は確認が必要。
 - `drawFlowArrow`の周回速度定数`0.02`（`t = (p.frameCount * 0.02 * direction) % p.TWO_PI`）が固定値である理由（電流の強さに依存させない設計意図か、単なる未実装か）は実装コメントから確定できない。
