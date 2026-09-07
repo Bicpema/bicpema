@@ -10,10 +10,8 @@ import { drawSimulation } from "./logic.js";
 const V_W = 1000;
 
 const sketch = (p) => {
-  // 16:9 固定比率、下部設定パネルの高さを考慮してキャンバスサイズを計算
-  const canvasController = new BicpemaCanvasController({
-    bottomBarSelector: "#settingsPanel",
-  });
+  // 16:9 固定比率でキャンバスサイズを計算（設定UIはモーダル表示のため高さは考慮不要）
+  const canvasController = new BicpemaCanvasController();
 
   p.preload = () => {
     // 変圧器コア・コイル画像を事前ロード

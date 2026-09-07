@@ -50,7 +50,9 @@ export function drawWave(p) {
     p.vertex(startX + x, state.pipeY + yVal);
   }
   p.endShape();
-  state.time += 0.05;
+  if (state.isRunning) {
+    state.time += 0.05;
+  }
 }
 
 export function drawUIContext(p) {

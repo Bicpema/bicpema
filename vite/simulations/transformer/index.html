@@ -6,90 +6,156 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
 
-  <body class="h-full overflow-hidden bg-neutral-900 p-0" oncontextmenu="return false;">
+  <body
+    class="h-full overflow-hidden bg-neutral-900 p-0"
+    oncontextmenu="return false;"
+  >
     <nav
       class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <a
+        class="font-semibold text-white no-underline"
+        href="https://bicpema.com/"
+        >Bicpema</a
+      >
       <span class="ml-3 font-light text-neutral-300">変圧器</span>
     </nav>
 
-    <div class="relative h-[calc(100vh-60px-50px)] w-full overflow-hidden p-0 mt-[60px]" id="p5Container">
-      <div class="flex h-full w-full justify-center" id="p5Canvas"></div>
-    </div>
-
-    <!-- 下部設定パネル -->
     <div
-      id="settingsPanel"
-      class="fixed bottom-0 start-0 end-0 flex items-center gap-4 px-4 py-2"
-      style="background: rgba(30, 30, 30, 0.95); z-index: 1000; flex-wrap: wrap"
+      class="relative h-[calc(100vh-60px)] w-full overflow-hidden p-0 mt-[60px]"
+      id="p5Container"
     >
-      <div class="flex items-center gap-2">
-        <span class="text-sm font-bold text-white">位相</span>
-        <div class="mb-0 flex items-center gap-1">
-          <input
-            class="h-4 w-4 accent-blue-600"
-            type="radio"
-            name="phase"
-            id="phaseSame"
-            value="true"
-            checked
-          />
-          <label class="text-sm text-white" for="phaseSame"
-            >同位相</label
-          >
+      <div class="flex h-full w-full justify-center" id="p5Canvas"></div>
+
+      <!-- 設定モーダル -->
+      <div
+        id="settingsModal"
+        class="absolute top-1/2 left-1/2 z-[2000] hidden w-[360px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-white/30 bg-black/90 p-6 text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-[15px]"
+        role="dialog"
+        aria-modal="true"
+        aria-label="設定"
+      >
+        <h5 class="mb-4 text-center text-white">設定</h5>
+        <div class="mb-3">
+          <span class="mb-1 block text-sm font-bold">位相</span>
+          <div class="flex items-center gap-4">
+            <div class="flex items-center gap-1">
+              <input
+                class="h-4 w-4 accent-blue-600"
+                type="radio"
+                name="phase"
+                id="phaseSame"
+                value="true"
+                checked
+              />
+              <label class="text-sm" for="phaseSame">同位相</label>
+            </div>
+            <div class="flex items-center gap-1">
+              <input
+                class="h-4 w-4 accent-blue-600"
+                type="radio"
+                name="phase"
+                id="phaseOpposite"
+                value="false"
+              />
+              <label class="text-sm" for="phaseOpposite">逆位相</label>
+            </div>
+          </div>
         </div>
-        <div class="mb-0 flex items-center gap-1">
-          <input
-            class="h-4 w-4 accent-blue-600"
-            type="radio"
-            name="phase"
-            id="phaseOpposite"
-            value="false"
-          />
-          <label class="text-sm text-white" for="phaseOpposite"
-            >逆位相</label
-          >
+        <div class="mb-3">
+          <span class="mb-1 block text-sm font-bold">速度</span>
+          <div class="flex items-center gap-4">
+            <div class="flex items-center gap-1">
+              <input
+                class="h-4 w-4 accent-blue-600"
+                type="radio"
+                name="speed"
+                id="speedSlow"
+                value="1"
+                checked
+              />
+              <label class="text-sm" for="speedSlow">ゆっくり</label>
+            </div>
+            <div class="flex items-center gap-1">
+              <input
+                class="h-4 w-4 accent-blue-600"
+                type="radio"
+                name="speed"
+                id="speedFast"
+                value="5"
+              />
+              <label class="text-sm" for="speedFast">はやい</label>
+            </div>
+          </div>
         </div>
+        <div class="mb-3 flex items-center justify-between">
+          <span class="text-sm font-bold">一次コイル 巻数</span>
+          <div class="flex items-center gap-2">
+            <button
+              class="rounded bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-500"
+              id="coil1MinusBtn"
+            >
+              ー
+            </button>
+            <button
+              class="rounded bg-amber-500 px-2 py-1 text-sm text-neutral-900 hover:bg-amber-400"
+              id="coil1PlusBtn"
+            >
+              ＋
+            </button>
+          </div>
+        </div>
+        <div class="mb-4 flex items-center justify-between">
+          <span class="text-sm font-bold">二次コイル 巻数</span>
+          <div class="flex items-center gap-2">
+            <button
+              class="rounded bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-500"
+              id="coil2MinusBtn"
+            >
+              ー
+            </button>
+            <button
+              class="rounded bg-amber-500 px-2 py-1 text-sm text-neutral-900 hover:bg-amber-400"
+              id="coil2PlusBtn"
+            >
+              ＋
+            </button>
+          </div>
+        </div>
+        <button
+          id="closeModal"
+          class="modal-close w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
+        >
+          閉じる
+        </button>
       </div>
-      <div class="flex items-center gap-2">
-        <span class="text-sm font-bold text-white">速度</span>
-        <div class="mb-0 flex items-center gap-1">
-          <input
-            class="h-4 w-4 accent-blue-600"
-            type="radio"
-            name="speed"
-            id="speedSlow"
-            value="1"
-            checked
-          />
-          <label class="text-sm text-white" for="speedSlow"
-            >ゆっくり</label
-          >
-        </div>
-        <div class="mb-0 flex items-center gap-1">
-          <input
-            class="h-4 w-4 accent-blue-600"
-            type="radio"
-            name="speed"
-            id="speedFast"
-            value="5"
-          />
-          <label class="text-sm text-white" for="speedFast"
-            >はやい</label
-          >
-        </div>
+
+      <!-- 左下: 再生/一時停止・リセット -->
+      <div class="absolute bottom-0 start-0 z-[1000] m-3 flex gap-2">
+        <button
+          id="playPauseButton"
+          class="rounded bg-green-600 px-4 py-2 text-white hover:bg-green-500"
+        >
+          ▶ 開始
+        </button>
+        <button
+          id="resetButton"
+          class="rounded bg-neutral-600 px-4 py-2 text-white hover:bg-neutral-500"
+        >
+          🔄 リセット
+        </button>
       </div>
-      <div class="flex items-center gap-2">
-        <span class="text-sm font-bold text-white">一次コイル 巻数</span>
-        <button class="rounded bg-amber-500 px-2 py-1 text-sm text-neutral-900 hover:bg-amber-400" id="coil1PlusBtn">＋</button>
-        <button class="rounded bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-500" id="coil1MinusBtn">ー</button>
-      </div>
-      <div class="flex items-center gap-2">
-        <span class="text-sm font-bold text-white">二次コイル 巻数</span>
-        <button class="rounded bg-amber-500 px-2 py-1 text-sm text-neutral-900 hover:bg-amber-400" id="coil2PlusBtn">＋</button>
-        <button class="rounded bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-500" id="coil2MinusBtn">ー</button>
+
+      <!-- 右上: 設定ボタン -->
+      <div class="absolute end-0 top-0 z-[1000] m-3">
+        <button
+          id="toggleModal"
+          class="settings-modal-open rounded bg-cyan-600 px-4 py-2 text-white hover:bg-cyan-500"
+          aria-label="シミュレーションの設定"
+        >
+          ⚙ 設定
+        </button>
       </div>
     </div>
 
@@ -101,7 +167,9 @@
       aria-live="polite"
       aria-label="読み込み中"
     >
-      <div class="h-12 w-12 animate-spin rounded-full border-4 border-neutral-600 border-t-blue-500"></div>
+      <div
+        class="h-12 w-12 animate-spin rounded-full border-4 border-neutral-600 border-t-blue-500"
+      ></div>
     </div>
 
     <script type="module" src="./js/index.js"></script>
