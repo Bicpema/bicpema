@@ -29,14 +29,13 @@
       <div class="flex h-full w-full justify-center" id="p5Canvas"></div>
 
       <!-- 設定パネル -->
-      <div
-        id="settingsModal"
-        class="absolute top-1/2 left-1/2 z-[2000] hidden w-[380px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-white/30 bg-black/90 p-[30px] text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-[15px] max-[576px]:w-[300px] max-[576px]:p-5"
-        role="dialog"
-        aria-modal="true"
-        aria-label="設定"
-      >
-        <div>
+      <div id="settingsModal" class="fixed inset-0 z-[2000] hidden">
+        <div
+          class="absolute top-1/2 left-1/2 w-[380px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-white/30 bg-black/90 p-[30px] text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-[15px] max-[576px]:w-[300px] max-[576px]:p-5"
+          role="dialog"
+          aria-modal="true"
+          aria-label="設定"
+        >
           <h5 class="mb-5 text-center text-[1.2rem] text-white">設定</h5>
           <div class="mb-3">
             <label for="riverSpeedInput" class="mb-2 block">
