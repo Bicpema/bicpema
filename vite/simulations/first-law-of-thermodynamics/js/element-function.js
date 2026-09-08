@@ -22,21 +22,6 @@ export function onResetButtonClick() {
 }
 
 /**
- * 設定モーダルの表示を切り替える。
- */
-export function onToggleModalClick() {
-  const modal = document.getElementById("settingsModal");
-  modal.style.display = modal.style.display === "none" ? "block" : "none";
-}
-
-/**
- * 設定モーダルを閉じる。
- */
-export function onCloseModalClick() {
-  document.getElementById("settingsModal").style.display = "none";
-}
-
-/**
  * Q選択ラジオボタンが変更されたときの処理。
  */
 export function onQRadioChange() {
