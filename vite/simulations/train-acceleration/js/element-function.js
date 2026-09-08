@@ -45,7 +45,11 @@ export const onReset = () => {
  * 加速度入力が変更されたときの処理。
  */
 export const onAccelerationChange = () => {
-  const val = parseFloat(document.getElementById("accelerationInput").value);
+  const input = /** @type {HTMLInputElement | null} */ (
+    document.getElementById("accelerationInput")
+  );
+  if (!input) return;
+  const val = parseFloat(input.value);
   if (!isNaN(val)) {
     state.acceleration = val;
   }

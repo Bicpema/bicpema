@@ -13,6 +13,7 @@ import {
   RED_CAR_COLOR,
 } from "./constants.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+import { getCanvasElement } from "../../../js/bicpema-dom.js";
 
 const loadChart = createLazyImporter(() =>
   import("chart.js/auto").then((module) => module.default)
@@ -68,8 +69,8 @@ export function graphDraw(p) {
   const redInput = p.select("#redCarSpeedInput");
   if (!yellowInput || !redInput) return;
 
-  const YELLOW_CAR_SPEED = parseFloat(yellowInput.value());
-  const RED_CAR_SPEED = parseFloat(redInput.value());
+  const YELLOW_CAR_SPEED = parseFloat(String(yellowInput.value()));
+  const RED_CAR_SPEED = parseFloat(String(redInput.value()));
 
   yMax = Math.max(YELLOW_CAR_SPEED, RED_CAR_SPEED);
 
@@ -86,11 +87,13 @@ export function graphDraw(p) {
     verticalAxisLabel = "速度 v [cm/s]";
   }
 
+  const ctx = getCanvasElement("graphCanvas");
+  if (!ctx) return;
+
   if (state.graphChart) {
     state.graphChart.destroy();
   }
 
-  const ctx = document.getElementById("graphCanvas").getContext("2d");
   const data = {
     datasets: [
       {
@@ -111,6 +114,7 @@ export function graphDraw(p) {
       },
     ],
   };
+  /** @type {import("chart.js").ChartOptions<"scatter">} */
   const options = {
     plugins: {
       title: {

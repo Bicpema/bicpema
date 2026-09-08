@@ -1,6 +1,7 @@
 import { state } from "./state.js";
 import { MAX_TIME } from "./constants.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+import { getCanvasElement } from "../../../js/bicpema-dom.js";
 
 const loadChart = createLazyImporter(() =>
   import("chart.js/auto").then((module) => module.default)
@@ -46,7 +47,7 @@ export class MotionGraph {
       return;
     }
 
-    const ctx = document.getElementById("graphCanvas");
+    const ctx = getCanvasElement("graphCanvas");
     if (!ctx) return;
 
     if (this.chart) {
@@ -95,6 +96,7 @@ export class MotionGraph {
       ],
     };
 
+    /** @type {import("chart.js").ChartOptions<"scatter">} */
     const options = {
       plugins: {
         title: {

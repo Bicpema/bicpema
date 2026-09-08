@@ -13,6 +13,7 @@ import {
   CHART_Y_AXIS_VELOCITY_MARGIN,
 } from "./constants.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+import { getCanvasElement } from "../../../js/bicpema-dom.js";
 
 const loadChart = createLazyImporter(() =>
   import("chart.js/auto").then((module) => module.default)
@@ -37,10 +38,11 @@ export const initChart = async () => {
     );
     return;
   }
+  const ctx = getCanvasElement("graphCanvas");
+  if (!ctx) return;
   if (state.graphChart) {
     state.graphChart.destroy();
   }
-  const ctx = document.getElementById("graphCanvas").getContext("2d");
   state.graphChart = new Chart(ctx, {
     type: "scatter",
     data: {
