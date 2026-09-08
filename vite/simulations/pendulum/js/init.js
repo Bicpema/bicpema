@@ -3,6 +3,7 @@
 import { state } from "./state.js";
 import { Ball } from "./class.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
+import { bindStartStopControls } from "../../../js/bicpema-controls-controller.js";
 import {
   onStartClick,
   onStopClick,
@@ -24,19 +25,25 @@ import {
  * @param {*} p p5インスタンス
  */
 export function elCreate(p) {
-  state.startButton = p.select("#startButton");
-  state.stopButton = p.select("#stopButton");
-  state.resetButton = p.select("#resetButton");
   state.gridButton = p.select("#gridButton");
   state.leftAngleInput = p.select("#leftAngleInput");
   state.leftLengthInput = p.select("#leftLengthInput");
   state.rightAngleInput = p.select("#rightAngleInput");
   state.rightLengthInput = p.select("#rightLengthInput");
 
-  state.startButton.mousePressed(onStartClick);
-  state.stopButton.mousePressed(onStopClick);
+  const { startButton, stopButton, resetButton } = bindStartStopControls(p, {
+    startSelector: "#startButton",
+    stopSelector: "#stopButton",
+    resetSelector: "#resetButton",
+    onStart: onStartClick,
+    onStop: onStopClick,
+    onReset: () => onResetClick(p),
+  });
+  state.startButton = startButton;
+  state.stopButton = stopButton;
+  state.resetButton = resetButton;
+
   state.gridButton.mousePressed(onGridClick);
-  state.resetButton.mousePressed(() => onResetClick(p));
   state.leftAngleInput.input(onInputChange);
   state.leftLengthInput.input(onInputChange);
   state.rightAngleInput.input(onInputChange);

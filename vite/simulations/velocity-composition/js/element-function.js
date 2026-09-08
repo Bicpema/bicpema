@@ -61,20 +61,3 @@ export function onPlayPause() {
     state.playPauseButton.html("一時停止");
   }
 }
-
-/**
- * 設定パネルの表示/非表示を切り替える処理。
- */
-export function onToggleModal() {
-  if (!state.settingsModal) return;
-  const display = state.settingsModal.style("display");
-  state.settingsModal.style("display", display === "none" ? "block" : "none");
-}
-
-/**
- * 設定パネルを閉じる処理。
- */
-export function onCloseModal() {
-  if (!state.settingsModal) return;
-  state.settingsModal.style("display", "none");
-}

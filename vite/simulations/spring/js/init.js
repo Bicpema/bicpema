@@ -5,6 +5,7 @@ import { Spring } from "./class.js";
 import { initCharts } from "./logic.js";
 import { moveButtonAction, resetButtonAction } from "./element-function.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
+import { bindStartStopControls } from "../../../js/bicpema-controls-controller.js";
 
 /** ナビゲーションバーの高さ（px）。グラフDOM要素の位置決めに使用する。 */
 const NAV_HEIGHT = 60;
@@ -14,9 +15,14 @@ const NAV_HEIGHT = 60;
  * @param {*} p p5インスタンス
  */
 export function elCreate(p) {
-  p.select("#startButton").mousePressed(moveButtonAction);
-  p.select("#stopButton").mousePressed(moveButtonAction);
-  p.select("#resetButton").mousePressed(() => resetButtonAction(p));
+  bindStartStopControls(p, {
+    startSelector: "#startButton",
+    stopSelector: "#stopButton",
+    resetSelector: "#resetButton",
+    onStart: moveButtonAction,
+    onStop: moveButtonAction,
+    onReset: () => resetButtonAction(p),
+  });
   initModal({
     openSelectors: ".settings-modal-open",
     modalSelector: "#settingModal",

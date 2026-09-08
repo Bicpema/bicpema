@@ -6,9 +6,9 @@ import {
   onRiverSpeedChange,
   onReset,
   onPlayPause,
-  onToggleModal,
-  onCloseModal,
 } from "./element-function.js";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
+import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 
 /**
  * DOM要素を選択してstateに格納し、イベントリスナーを設定する。
@@ -19,21 +19,26 @@ export function elCreate(p) {
   state.riverSpeedInput = p.select("#riverSpeedInput");
   state.boatSpeedValue = p.select("#boatSpeedValue");
   state.riverSpeedValue = p.select("#riverSpeedValue");
-  state.resetButton = p.select("#resetButton");
-  state.playPauseButton = p.select("#playPauseButton");
-  state.toggleModal = p.select("#toggleModal");
-  state.closeModal = p.select("#closeModal");
-  state.settingsModal = p.select("#settingsModal");
 
   if (state.boatSpeedInput)
     state.boatSpeedInput.input(() => onBoatSpeedChange());
   if (state.riverSpeedInput)
     state.riverSpeedInput.input(() => onRiverSpeedChange());
-  if (state.resetButton) state.resetButton.mousePressed(() => onReset());
-  if (state.playPauseButton)
-    state.playPauseButton.mousePressed(() => onPlayPause());
-  if (state.toggleModal) state.toggleModal.mousePressed(() => onToggleModal());
-  if (state.closeModal) state.closeModal.mousePressed(() => onCloseModal());
+
+  const { toggleButton, resetButton } = bindToggleControls(p, {
+    toggleSelector: "#playPauseButton",
+    resetSelector: "#resetButton",
+    onToggle: onPlayPause,
+    onReset,
+  });
+  state.playPauseButton = toggleButton;
+  state.resetButton = resetButton;
+
+  initModal({
+    openSelectors: "#toggleModal",
+    modalSelector: "#settingsModal",
+    closeSelectors: "#closeModal",
+  });
 }
 
 /**
