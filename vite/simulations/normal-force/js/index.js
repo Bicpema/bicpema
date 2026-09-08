@@ -17,7 +17,8 @@ import {
   sortButtonAction1,
   sortButtonAction2,
   sortButtonAction3,
-  moveButtonAction,
+  onStartClick,
+  onStopClick,
   resetButtonAction,
 } from "./element-function.js";
 import { drawSimulation } from "./logic.js";
@@ -35,7 +36,7 @@ const sketch = (p) => {
     initSettings(p);
     materialSet(p);
     buttonSettings(p);
-    buttonEvents(p, { moveButtonAction, resetButtonAction });
+    buttonEvents(p, { onStartClick, onStopClick, resetButtonAction });
   };
 
   p.draw = () => {

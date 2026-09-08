@@ -73,9 +73,9 @@ export function fullScreen(p) {
  */
 export function elementSelectInit(p) {
   state.backgroundDiv = p.createElement("div").parent(p.select("#p5Canvas"));
-  state.startButton = p.createButton("スタート");
-  state.stopButton = p.createButton("ストップ");
-  state.resetButton = p.createButton("リセット");
+  state.startButton = p.createButton("スタート").id("startButton");
+  state.stopButton = p.createButton("ストップ").id("stopButton");
+  state.resetButton = p.createButton("リセット").id("resetButton");
   state.ballExpla1 = p.createElement("label", "赤玉");
   state.ballExpla2 = p.createElement("label", "青玉");
   state.speedExpla = p.createElement("label", "速度[m/s]");

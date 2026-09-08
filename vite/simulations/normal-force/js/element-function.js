@@ -18,18 +18,19 @@ export function sortButtonAction3() {
   state.material.sort = 3;
 }
 
-/** スタート/ストップボタンが押されたときの処理。 */
-export function moveButtonAction() {
-  if (state.clickedCount == false) {
-    state.clickedCount = true;
-    state.resetCount = false;
-    state.startButton.hide();
-    state.stopButton.show();
-  } else {
-    state.clickedCount = false;
-    state.startButton.show();
-    state.stopButton.hide();
-  }
+/** スタートボタンが押されたときの処理。 */
+export function onStartClick() {
+  state.clickedCount = true;
+  state.resetCount = false;
+  state.startButton.hide();
+  state.stopButton.show();
+}
+
+/** ストップボタンが押されたときの処理。 */
+export function onStopClick() {
+  state.clickedCount = false;
+  state.startButton.show();
+  state.stopButton.hide();
 }
 
 /**
