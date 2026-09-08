@@ -12,10 +12,12 @@ import {
   CANVAS_HEIGHT_RATIO,
 } from "./init.js";
 import {
-  onStartStopButtonClick,
+  onStartClick,
+  onStopClick,
   onResetButtonClick,
 } from "./element-function.js";
 import { resetSimulationState, updateLayout, drawSimulation } from "./logic.js";
+import { bindStartStopControls } from "../../../js/bicpema-controls-controller.js";
 
 const sketch = (p) => {
   let isFirstDraw = true;
@@ -26,9 +28,17 @@ const sketch = (p) => {
     resetSimulationState(p);
     elementPositionInit(p);
 
-    state.startButton.mousePressed(onStartStopButtonClick);
-    state.stopButton.mousePressed(onStartStopButtonClick).hide();
-    state.resetButton.mousePressed(() => onResetButtonClick(p));
+    const { startButton, stopButton, resetButton } = bindStartStopControls(p, {
+      startSelector: "#startButton",
+      stopSelector: "#stopButton",
+      resetSelector: "#resetButton",
+      onStart: onStartClick,
+      onStop: onStopClick,
+      onReset: () => onResetButtonClick(p),
+    });
+    state.startButton = startButton;
+    state.stopButton = stopButton.hide();
+    state.resetButton = resetButton;
   };
 
   p.draw = () => {

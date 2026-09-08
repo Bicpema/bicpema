@@ -4,19 +4,22 @@ import { state } from "./state.js";
 import { resetSimulationState } from "./logic.js";
 
 /**
- * スタート・ストップボタンがクリックされたときの処理。
+ * スタートボタンがクリックされたときの処理。
  */
-export function onStartStopButtonClick() {
-  if (state.clickedCount === false) {
-    state.clickedCount = true;
-    state.resetCount = false;
-    state.startButton.hide();
-    state.stopButton.show();
-  } else {
-    state.clickedCount = false;
-    state.startButton.show();
-    state.stopButton.hide();
-  }
+export function onStartClick() {
+  state.clickedCount = true;
+  state.resetCount = false;
+  state.startButton.hide();
+  state.stopButton.show();
+}
+
+/**
+ * ストップボタンがクリックされたときの処理。
+ */
+export function onStopClick() {
+  state.clickedCount = false;
+  state.startButton.show();
+  state.stopButton.hide();
 }
 
 /**

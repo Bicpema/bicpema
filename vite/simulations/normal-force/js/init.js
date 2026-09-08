@@ -18,6 +18,7 @@ import {
   GRAVITY_MAX,
 } from "./state.js";
 import { Material } from "./class.js";
+import { bindStartStopControls } from "../../../js/bicpema-controls-controller.js";
 
 /**
  * 操作パネルの高さを求める。
@@ -76,9 +77,9 @@ export function buttonCreation(
   { sortButtonAction1, sortButtonAction2, sortButtonAction3 }
 ) {
   state.backgroundDiv = p.createElement("div");
-  state.startButton = p.createButton("スタート");
-  state.stopButton = p.createButton("ストップ");
-  state.resetButton = p.createButton("リセット");
+  state.startButton = p.createButton("スタート").id("startButton");
+  state.stopButton = p.createButton("ストップ").id("stopButton");
+  state.resetButton = p.createButton("リセット").id("resetButton");
   state.slopeAngleButtonLabel = p.createElement("label", "坂の角度[°]");
   state.slopeAngleButton = p.createInput(DEFAULT_SLOPE_ANGLE, "number");
   state.weightButtonLabel = p.createElement("label", "質量[kg]");
@@ -103,13 +104,25 @@ export function materialSet(p) {
  * リサイズ時に再登録するとリスナーが重複するため呼ばない）。
  * @param {*} p p5インスタンス
  * @param {object} handlers スタート/ストップ/リセットボタンのイベントハンドラ
- * @param {() => void} handlers.moveButtonAction
+ * @param {() => void} handlers.onStartClick
+ * @param {() => void} handlers.onStopClick
  * @param {(p: *) => void} handlers.resetButtonAction
  */
-export function buttonEvents(p, { moveButtonAction, resetButtonAction }) {
-  state.startButton.mousePressed(moveButtonAction);
-  state.stopButton.mousePressed(moveButtonAction).hide();
-  state.resetButton.mousePressed(() => resetButtonAction(p));
+export function buttonEvents(
+  p,
+  { onStartClick, onStopClick, resetButtonAction }
+) {
+  const { startButton, stopButton, resetButton } = bindStartStopControls(p, {
+    startSelector: "#startButton",
+    stopSelector: "#stopButton",
+    resetSelector: "#resetButton",
+    onStart: onStartClick,
+    onStop: onStopClick,
+    onReset: () => resetButtonAction(p),
+  });
+  state.startButton = startButton;
+  state.stopButton = stopButton.hide();
+  state.resetButton = resetButton;
 }
 
 /**
