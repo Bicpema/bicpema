@@ -1,21 +1,19 @@
 import { state } from "./state.js";
 import { WAVE_ORIGIN_X } from "./constants.js";
+import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 
 export function settingInit(p) {
   state.k = p.TWO_PI / state.lambda;
 }
 
 export function elementSelectInit(p) {
-  // Elements are accessed via document.getElementById in handlers
-}
-
-export function elementPositionInit(p) {
-  const moveBtn = document.getElementById("moveBtn");
-  const resetBtn = document.getElementById("resetBtn");
-
-  if (moveBtn) {
-    moveBtn.onclick = () => {
+  const { toggleButton } = bindToggleControls(p, {
+    toggleSelector: "#moveBtn",
+    resetSelector: "#resetBtn",
+    onToggle: () => {
+      const moveBtn = toggleButton?.elt;
       state.running = !state.running;
+      if (!moveBtn) return;
       if (!state.running) {
         moveBtn.textContent = "スタート";
         moveBtn.classList.remove("bg-red-600", "hover:bg-red-500");
@@ -25,20 +23,21 @@ export function elementPositionInit(p) {
         moveBtn.classList.remove("bg-blue-600", "hover:bg-blue-500");
         moveBtn.classList.add("bg-red-600", "hover:bg-red-500");
       }
-    };
-  }
-
-  if (resetBtn) {
-    resetBtn.onclick = () => {
+    },
+    onReset: () => {
+      const moveBtn = toggleButton?.elt;
       state.t = 0;
       state.running = false;
-      if (moveBtn) {
-        moveBtn.textContent = "スタート";
-        moveBtn.classList.remove("bg-red-600", "hover:bg-red-500");
-        moveBtn.classList.add("bg-blue-600", "hover:bg-blue-500");
-      }
-    };
-  }
+      if (!moveBtn) return;
+      moveBtn.textContent = "スタート";
+      moveBtn.classList.remove("bg-red-600", "hover:bg-red-500");
+      moveBtn.classList.add("bg-blue-600", "hover:bg-blue-500");
+    },
+  });
+}
+
+export function elementPositionInit(p) {
+  // リサイズに追従して再配置が必要な要素はない（ボタン等の初期化はelementSelectInitで実施済み）
 }
 
 export function valueInit(p) {

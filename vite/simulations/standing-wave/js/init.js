@@ -1,5 +1,6 @@
 import { state } from "./state.js";
 import { MARGIN, WAVELENGTH, PERIOD_FRAMES } from "./constants.js";
+import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 
 export function settingInit(p) {
   state.wavelength = WAVELENGTH;
@@ -10,23 +11,18 @@ export function settingInit(p) {
 }
 
 export function elementSelectInit(p) {
-  // All UI elements are HTML Bootstrap elements; no p5 DOM selection needed.
+  const { toggleButton } = bindToggleControls(p, {
+    toggleSelector: "#moveBtn",
+    resetSelector: "#resetBtn",
+    onToggle: () => toggleMove(toggleButton?.elt),
+    onReset: () => resetSim(toggleButton?.elt),
+  });
 }
 
 export function elementPositionInit(p) {
   state.margin = MARGIN;
   state.innerW = p.width - state.margin * 2;
   state.innerH = p.height - state.margin * 2;
-
-  const moveBtn = document.getElementById("moveBtn");
-  if (moveBtn) {
-    moveBtn.onclick = () => toggleMove(moveBtn);
-  }
-
-  const resetBtn = document.getElementById("resetBtn");
-  if (resetBtn) {
-    resetBtn.onclick = () => resetSim();
-  }
 }
 
 export function valueInit(p) {
@@ -38,6 +34,7 @@ export function valueInit(p) {
 
 function toggleMove(moveBtn) {
   state.running = !state.running;
+  if (!moveBtn) return;
   if (!state.running) {
     moveBtn.textContent = "スタート";
     moveBtn.classList.remove("bg-red-600", "hover:bg-red-500");
@@ -49,15 +46,13 @@ function toggleMove(moveBtn) {
   }
 }
 
-function resetSim() {
+function resetSim(moveBtn) {
   state.t = 0;
   state.rightFront = 0;
   state.leftFront = state.innerW;
   state.running = false;
-  const moveBtn = document.getElementById("moveBtn");
-  if (moveBtn) {
-    moveBtn.textContent = "スタート";
-    moveBtn.classList.remove("bg-red-600", "hover:bg-red-500");
-    moveBtn.classList.add("bg-blue-600", "hover:bg-blue-500");
-  }
+  if (!moveBtn) return;
+  moveBtn.textContent = "スタート";
+  moveBtn.classList.remove("bg-red-600", "hover:bg-red-500");
+  moveBtn.classList.add("bg-blue-600", "hover:bg-blue-500");
 }
