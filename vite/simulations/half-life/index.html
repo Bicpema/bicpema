@@ -11,7 +11,11 @@
       class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <a
+        class="font-semibold text-white no-underline"
+        href="https://bicpema.com/"
+        >Bicpema</a
+      >
       <span class="ml-3 font-light text-neutral-300">半減期</span>
     </nav>
 
@@ -21,10 +25,18 @@
 
     <!-- 左下: スタート/ストップ + リセット ボタン -->
     <div id="toggleBtnWrapper" class="flex gap-2">
-      <button type="button" class="rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500" id="toggleBtn">
+      <button
+        type="button"
+        class="rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
+        id="toggleBtn"
+      >
         スタート
       </button>
-      <button type="button" class="rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500" id="resetBtn">
+      <button
+        type="button"
+        class="rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
+        id="resetBtn"
+      >
         リセット
       </button>
     </div>
@@ -33,7 +45,7 @@
     <div id="settingsBtnWrapper">
       <button
         type="button"
-        class="rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
+        class="rounded-lg bg-cyan-600 px-5 py-2.5 text-base font-bold whitespace-nowrap text-white shadow-[0_4px_6px_rgba(0,0,0,0.3)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:bg-cyan-500 hover:shadow-[0_6px_8px_rgba(0,0,0,0.4)] active:translate-y-0 active:shadow-[0_2px_4px_rgba(0,0,0,0.3)] max-[576px]:px-[15px] max-[576px]:py-2 max-[576px]:text-sm max-[400px]:px-3 max-[400px]:py-1.5 max-[400px]:text-xs"
         id="settingsButton"
         aria-expanded="false"
       >
@@ -42,7 +54,10 @@
     </div>
 
     <!-- 設定パネル -->
-    <div class="hidden rounded-lg border border-neutral-300 bg-white shadow-lg" id="settingsPanel">
+    <div
+      class="hidden rounded-lg border border-neutral-300 bg-white shadow-lg"
+      id="settingsPanel"
+    >
       <div class="p-4">
         <h6 class="mb-3 text-base font-semibold">設定</h6>
         <div class="mb-2 font-bold">物質の選択</div>
@@ -79,8 +94,18 @@
         </div>
         <div class="flex items-center gap-2">
           <span>原子数:</span>
-          <button class="rounded bg-amber-500 px-2 py-1 text-sm text-neutral-900 hover:bg-amber-400" id="atomPlusBtn">＋</button>
-          <button class="rounded bg-cyan-600 px-2 py-1 text-sm text-white hover:bg-cyan-500" id="atomMinusBtn">ー</button>
+          <button
+            class="rounded bg-amber-500 px-2 py-1 text-sm text-neutral-900 hover:bg-amber-400"
+            id="atomPlusBtn"
+          >
+            ＋
+          </button>
+          <button
+            class="rounded bg-cyan-600 px-2 py-1 text-sm text-white hover:bg-cyan-500"
+            id="atomMinusBtn"
+          >
+            ー
+          </button>
         </div>
       </div>
     </div>
@@ -93,7 +118,9 @@
       aria-live="polite"
       aria-label="読み込み中"
     >
-      <div class="h-12 w-12 animate-spin rounded-full border-4 border-neutral-600 border-t-blue-500"></div>
+      <div
+        class="h-12 w-12 animate-spin rounded-full border-4 border-neutral-600 border-t-blue-500"
+      ></div>
     </div>
 
     <script type="module" src="./js/index.js"></script>
