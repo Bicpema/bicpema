@@ -10,13 +10,11 @@ export function settingInit(p) {
 }
 
 export function elementSelectInit(p) {
-  const moveBtn = document.getElementById("moveBtn");
-
-  bindToggleControls(p, {
+  const { toggleButton } = bindToggleControls(p, {
     toggleSelector: "#moveBtn",
     resetSelector: "#resetBtn",
-    onToggle: () => toggleMove(moveBtn),
-    onReset: () => resetSim(moveBtn),
+    onToggle: () => toggleMove(toggleButton?.elt),
+    onReset: () => resetSim(toggleButton?.elt),
   });
 }
 
@@ -37,6 +35,7 @@ export function valueInit(p) {
 
 function toggleMove(moveBtn) {
   state.running = !state.running;
+  if (!moveBtn) return;
   if (!state.running) {
     moveBtn.textContent = "スタート";
     moveBtn.classList.remove("bg-red-600", "hover:bg-red-500");
@@ -77,6 +76,7 @@ function resetSim(moveBtn) {
   state.t = 0;
   state.front = 0;
   state.running = false;
+  if (!moveBtn) return;
   moveBtn.textContent = "スタート";
   moveBtn.classList.remove("bg-red-600", "hover:bg-red-500");
   moveBtn.classList.add("bg-blue-600", "hover:bg-blue-500");
