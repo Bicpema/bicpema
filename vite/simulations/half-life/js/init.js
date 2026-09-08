@@ -1,4 +1,5 @@
 import { initCollapse } from "../../../js/bicpema-modal-controller.js";
+import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 import { state } from "./state.js";
 import { initAtoms } from "./logic.js";
 import {
@@ -22,8 +23,6 @@ export function settingInit(p) {
  * @param {*} p p5インスタンス。
  */
 export function elementSelectInit(p) {
-  state.toggleBtn = document.getElementById("toggleBtn");
-  state.resetBtn = document.getElementById("resetBtn");
   state.atomPlusBtn = document.getElementById("atomPlusBtn");
   state.atomMinusBtn = document.getElementById("atomMinusBtn");
   state.materialRadios = document.querySelectorAll('input[name="material"]');
@@ -87,23 +86,22 @@ export function elementPositionInit(p) {
 export function valueInit(p) {
   initAtoms();
 
-  if (state.toggleBtn) {
-    state.toggleBtn.addEventListener("click", () => {
+  const { toggleButton, resetButton } = bindToggleControls(p, {
+    toggleSelector: "#toggleBtn",
+    resetSelector: "#resetBtn",
+    onToggle: () => {
       state.isRunning = !state.isRunning;
-      state.toggleBtn.textContent = state.isRunning ? "ストップ" : "スタート";
-    });
-  }
-
-  if (state.resetBtn) {
-    state.resetBtn.addEventListener("click", () => {
+      state.toggleBtn.html(state.isRunning ? "ストップ" : "スタート");
+    },
+    onReset: () => {
       state.isRunning = false;
       state.currentTime = 0;
       initAtoms();
-      if (state.toggleBtn) {
-        state.toggleBtn.textContent = "スタート";
-      }
-    });
-  }
+      state.toggleBtn.html("スタート");
+    },
+  });
+  state.toggleBtn = toggleButton;
+  state.resetBtn = resetButton;
 
   if (state.atomPlusBtn) {
     state.atomPlusBtn.addEventListener("click", () => {
