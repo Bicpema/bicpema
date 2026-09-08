@@ -1,5 +1,6 @@
 import { state } from "./state.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+import { getCanvasElement } from "../../../js/bicpema-dom.js";
 
 const loadChart = createLazyImporter(() =>
   import("chart.js/auto").then((module) => module.default)
@@ -38,9 +39,7 @@ export class BallGraph {
    * チャートを初期化（まだ存在しない場合のみ生成）
    */
   _initVtChart() {
-    const ctx = /** @type {HTMLCanvasElement | null} */ (
-      document.getElementById("vtCanvas")
-    );
+    const ctx = getCanvasElement("vtCanvas");
     if (!ctx || this.vtChart) return;
 
     const maxVelocity = state.ball.initialVelocity + 10;
@@ -103,9 +102,7 @@ export class BallGraph {
   }
 
   _initYtChart() {
-    const ctx = /** @type {HTMLCanvasElement | null} */ (
-      document.getElementById("ytCanvas")
-    );
+    const ctx = getCanvasElement("ytCanvas");
     if (!ctx || this.ytChart) return;
 
     const maxHeight = state.ball.initialHeight;
