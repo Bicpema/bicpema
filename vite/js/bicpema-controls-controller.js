@@ -30,6 +30,18 @@ function ensureAriaLabel(element, label) {
 }
 
 /**
+ * 要素の"click"イベントにハンドラを登録する。
+ * p5.Element.mousePressed()は内部的に"mousedown"のみをバインドし、
+ * キーボード操作（Tab移動 → Enter/Space）で発火する"click"イベントには
+ * 反応しないため、あえて素のaddEventListenerを使用してキーボード操作にも対応する。
+ * @param {*} element p.select()で取得したp5.Element（nullの場合は何もしない）
+ * @param {() => void} handler クリック時の処理
+ */
+function bindClick(element, handler) {
+  element?.elt?.addEventListener("click", handler);
+}
+
+/**
  * start/stopボタンが分かれているシミュレーション向けの共通バインディング。
  * @param {*} p p5インスタンス
  * @param {object} options
@@ -66,9 +78,9 @@ export function bindStartStopControls(
   ensureAriaLabel(stopButton, stopAriaLabel ?? DEFAULT_ARIA_LABELS.stop);
   ensureAriaLabel(resetButton, resetAriaLabel ?? DEFAULT_ARIA_LABELS.reset);
 
-  startButton?.mousePressed(onStart);
-  stopButton?.mousePressed(onStop);
-  resetButton?.mousePressed(onReset);
+  bindClick(startButton, onStart);
+  bindClick(stopButton, onStop);
+  bindClick(resetButton, onReset);
 
   return { startButton, stopButton, resetButton };
 }
@@ -106,8 +118,8 @@ export function bindToggleControls(
   if (toggleAriaLabel) ensureAriaLabel(toggleButton, toggleAriaLabel);
   ensureAriaLabel(resetButton, resetAriaLabel ?? DEFAULT_ARIA_LABELS.reset);
 
-  toggleButton?.mousePressed(onToggle);
-  resetButton?.mousePressed(onReset);
+  bindClick(toggleButton, onToggle);
+  bindClick(resetButton, onReset);
 
   return { toggleButton, resetButton };
 }
