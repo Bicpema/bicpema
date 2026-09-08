@@ -66,9 +66,9 @@ export function bindStartStopControls(
   ensureAriaLabel(stopButton, stopAriaLabel ?? DEFAULT_ARIA_LABELS.stop);
   ensureAriaLabel(resetButton, resetAriaLabel ?? DEFAULT_ARIA_LABELS.reset);
 
-  startButton?.mousePressed(onStart);
-  stopButton?.mousePressed(onStop);
-  resetButton?.mousePressed(onReset);
+  startButton?.mouseClicked(onStart);
+  stopButton?.mouseClicked(onStop);
+  resetButton?.mouseClicked(onReset);
 
   return { startButton, stopButton, resetButton };
 }
@@ -106,8 +106,8 @@ export function bindToggleControls(
   if (toggleAriaLabel) ensureAriaLabel(toggleButton, toggleAriaLabel);
   ensureAriaLabel(resetButton, resetAriaLabel ?? DEFAULT_ARIA_LABELS.reset);
 
-  toggleButton?.mousePressed(onToggle);
-  resetButton?.mousePressed(onReset);
+  toggleButton?.mouseClicked(onToggle);
+  resetButton?.mouseClicked(onReset);
 
   return { toggleButton, resetButton };
 }
