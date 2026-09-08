@@ -2,12 +2,8 @@
 
 import { state, SPRING_Y, ATTACH_X, NATURAL_LENGTH } from "./state.js";
 import { Spring } from "./class.js";
-import {
-  onSpringConstantChange,
-  onReset,
-  onToggleModal,
-  onCloseModal,
-} from "./element-function.js";
+import { onSpringConstantChange, onReset } from "./element-function.js";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
 
 const FPS = 30;
 
@@ -18,12 +14,15 @@ const FPS = 30;
 export function elCreate(p) {
   state.springConstantInput = p.select("#springConstantInput");
   state.springConstantDisplay = p.select("#springConstantDisplay");
-  state.settingsModal = p.select("#settingsModal");
 
   state.springConstantInput.input(() => onSpringConstantChange());
   p.select("#resetButton").mousePressed(() => onReset());
-  p.select("#toggleModal").mousePressed(() => onToggleModal());
-  p.select("#closeModal").mousePressed(() => onCloseModal());
+
+  initModal({
+    openSelectors: "#toggleModal",
+    modalSelector: "#settingsModal",
+    closeSelectors: "#closeModal",
+  });
 
   p.frameRate(FPS);
 }

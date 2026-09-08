@@ -4,9 +4,8 @@ import {
   onMaterialBChange,
   onMassAChange,
   onMassBChange,
-  onToggleModal,
-  onCloseModal,
 } from "./element-function.js";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
 
 export const FPS = 60;
 
@@ -53,8 +52,11 @@ export function elCreate(p) {
   state.massSelectA.changed(onMassAChange);
   state.massSelectB.changed(onMassBChange);
 
-  p.select("#toggleModal").mousePressed(onToggleModal);
-  p.select("#closeModal").mousePressed(onCloseModal);
+  initModal({
+    openSelectors: "#toggleModal",
+    modalSelector: "#settingsModal",
+    closeSelectors: "#closeModal",
+  });
 }
 
 /**

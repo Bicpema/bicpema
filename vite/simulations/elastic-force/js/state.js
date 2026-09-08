@@ -40,8 +40,6 @@ export const state = {
   springConstantInput: null,
   /** ばね定数表示ラベルの参照 */
   springConstantDisplay: null,
-  /** 設定モーダルの参照 */
-  settingsModal: null,
   /** 壁（地面）画像 */
   wallImg: null,
 };

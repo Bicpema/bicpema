@@ -2,12 +2,8 @@
 
 import { state } from "./state.js";
 import { Molecule } from "./class.js";
-import {
-  onResetButtonClick,
-  onToggleModalClick,
-  onCloseModalClick,
-  onQRadioChange,
-} from "./element-function.js";
+import { onResetButtonClick, onQRadioChange } from "./element-function.js";
+import { initModal } from "../../../js/bicpema-modal-controller.js";
 import {
   PISTON_INIT_X,
   CYL_LEFT,
@@ -56,8 +52,12 @@ export function initValue(p) {
  */
 export function elCreate(p) {
   p.select("#resetButton").mousePressed(() => onResetButtonClick());
-  p.select("#toggleModal").mousePressed(() => onToggleModalClick());
-  p.select("#closeModal").mousePressed(() => onCloseModalClick());
+
+  initModal({
+    openSelectors: "#toggleModal",
+    modalSelector: "#settingsModal",
+    closeSelectors: "#closeModal",
+  });
 
   document.querySelectorAll('input[name="qValue"]').forEach((r) => {
     r.addEventListener("change", () => onQRadioChange());
