@@ -28,7 +28,7 @@
       <!-- 設定モーダル -->
       <div
         id="settingsModal"
-        class="absolute top-1/2 left-1/2 z-[2000] hidden w-[340px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-white/30 bg-black/90 p-[30px] text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-[15px] max-[576px]:w-[290px] max-[576px]:p-5"
+        class="modal-panel hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] max-[576px]:w-[290px]"
         role="dialog"
         aria-modal="true"
         aria-label="設定"
@@ -36,11 +36,8 @@
         <div>
           <h5 class="mb-5 text-center text-white">設定</h5>
           <div class="mb-4">
-            <label for="materialSelectA" class="mb-2 block">物質A</label>
-            <select
-              class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-              id="materialSelectA"
-            >
+            <label for="materialSelectA" class="form-label">物質A</label>
+            <select class="form-control" id="materialSelectA">
               <option value="0">アルミニウム</option>
               <option value="1">鉄</option>
               <option value="2">銅</option>
@@ -49,21 +46,15 @@
             </select>
           </div>
           <div class="mb-4">
-            <label for="massSelectA" class="mb-2 block">物質Aの質量</label>
-            <select
-              class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-              id="massSelectA"
-            >
+            <label for="massSelectA" class="form-label">物質Aの質量</label>
+            <select class="form-control" id="massSelectA">
               <option value="1" selected>質量(小) 0.1kg</option>
               <option value="0">質量(大) 0.3kg</option>
             </select>
           </div>
           <div class="mb-4">
-            <label for="materialSelectB" class="mb-2 block">物質B</label>
-            <select
-              class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-              id="materialSelectB"
-            >
+            <label for="materialSelectB" class="form-label">物質B</label>
+            <select class="form-control" id="materialSelectB">
               <option value="0">アルミニウム</option>
               <option value="1">鉄</option>
               <option value="2">銅</option>
@@ -72,19 +63,13 @@
             </select>
           </div>
           <div class="mb-4">
-            <label for="massSelectB" class="mb-2 block">物質Bの質量</label>
-            <select
-              class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-              id="massSelectB"
-            >
+            <label for="massSelectB" class="form-label">物質Bの質量</label>
+            <select class="form-control" id="massSelectB">
               <option value="0" selected>質量(大) 0.3kg</option>
               <option value="1">質量(小) 0.1kg</option>
             </select>
           </div>
-          <button
-            id="closeModal"
-            class="modal-close w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
-          >
+          <button id="closeModal" class="modal-close modal-close-solid">
             閉じる
           </button>
         </div>

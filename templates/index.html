@@ -71,8 +71,9 @@
       ></div>
     </div>
 
-    <!-- 設定モーダル（必要に応じてコメントアウトを外して利用してください。開閉はjs/init.jsのinitModal()で行います） -->
     <!--
+      設定モーダル（必要に応じてコメントアウトを外して利用してください。開閉はjs/init.jsのinitModal()で行います）。
+      入力欄・ラベルには form-control / form-label を利用してください。
     <div
       class="fixed inset-0 z-[1100] hidden flex items-center justify-center bg-black/50"
       id="simulationSettingModal"
@@ -85,18 +86,18 @@
           <h1 class="text-lg font-semibold">シミュレーションの設定</h1>
           <button
             type="button"
-            class="modal-close text-xl leading-none text-neutral-500 hover:text-neutral-700"
+            class="modal-close modal-close-icon"
             aria-label="Close"
           >
             &times;
           </button>
         </div>
-        <div class="mb-3"></div>
+        <div class="mb-3">
+          <label for="exampleInput" class="form-label">項目名</label>
+          <input type="range" class="form-control" id="exampleInput" />
+        </div>
         <div class="flex justify-end border-t border-neutral-200 pt-2">
-          <button
-            type="button"
-            class="modal-close rounded border border-neutral-400 px-3 py-1.5 hover:bg-neutral-100"
-          >
+          <button type="button" class="modal-close modal-close-outline">
             閉じる
           </button>
         </div>

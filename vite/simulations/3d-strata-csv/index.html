@@ -141,7 +141,7 @@
             </h1>
             <button
               type="button"
-              class="modal-close text-xl leading-none text-neutral-500 hover:text-neutral-700"
+              class="modal-close modal-close-icon"
               aria-label="Close"
             >
               &times;
@@ -194,10 +194,7 @@
                 <div class="container">
                   <h3 class="mt-4">単位</h3>
                   <div>
-                    <select
-                      id="unitSelect"
-                      class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-                    ></select>
+                    <select id="unitSelect" class="form-control"></select>
                   </div>
                   <div id="setRadioParent"></div>
                   <div id="setDepthParent">
@@ -301,19 +298,19 @@
                         <tr>
                           <td class="border border-neutral-300 px-2 py-1">
                             <select
-                              class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+                              class="form-control"
                               id="firstPlaceSelect"
                             ></select>
                           </td>
                           <td class="border border-neutral-300 px-2 py-1">
                             <select
-                              class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+                              class="form-control"
                               id="secondPlaceSelect"
                             ></select>
                           </td>
                           <td class="border border-neutral-300 px-2 py-1">
                             <select
-                              class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+                              class="form-control"
                               id="thirdPlaceSelect"
                             ></select>
                           </td>
@@ -381,10 +378,7 @@
             </div>
           </div>
           <div class="flex justify-end border-t border-neutral-200 p-4">
-            <button
-              type="button"
-              class="modal-close rounded border border-neutral-400 px-3 py-1.5 hover:bg-neutral-100"
-            >
+            <button type="button" class="modal-close modal-close-outline">
               閉じる
             </button>
           </div>

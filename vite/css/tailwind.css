@@ -12,4 +12,52 @@
   .btn-settings-modal-open {
     @apply rounded-lg bg-cyan-600 px-5 py-2.5 text-base font-bold whitespace-nowrap text-white shadow-[0_4px_6px_rgba(0,0,0,0.3)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:bg-cyan-500 hover:shadow-[0_6px_8px_rgba(0,0,0,0.4)] active:translate-y-0 active:shadow-[0_2px_4px_rgba(0,0,0,0.3)] max-[576px]:px-[15px] max-[576px]:py-2 max-[576px]:text-sm max-[400px]:px-3 max-[400px]:py-1.5 max-[400px]:text-xs;
   }
+
+  /*
+   * 設定モーダル内の入力欄（input/select）の共通スタイル。
+   * サイズを変えたい場合は、このクラスに続けて px-2 py-1 text-sm 等の
+   * 上書き用ユーティリティクラスを追加で指定する。
+   */
+  .form-control {
+    @apply block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900;
+  }
+
+  /*
+   * 設定モーダル内のラベルの共通スタイル。
+   */
+  .form-label {
+    @apply mb-2 block;
+  }
+
+  /*
+   * 設定モーダル本体（中央固定・暗色半透明パネル）の骨格スタイル。
+   * 位置指定（absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 等）は
+   * シミュレーションごとに異なりうるため、このクラスには含めていない。
+   * 開閉状態を切り替える"hidden"ユーティリティクラスもJS側で
+   * classList.toggle()するため、このクラスには含めず要素側に別途指定する。
+   * 幅・パディング・ブレークポイントでの縮小値を変えたい場合は、このクラスに続けて
+   * w-[340px] max-[576px]:w-[290px] 等の上書き用ユーティリティクラスを追加で指定する。
+   */
+  .modal-panel {
+    @apply z-[2000] w-[350px] max-w-[90vw] rounded-xl border-2 border-white/30 bg-black/90 p-[30px] text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-[15px] max-[576px]:w-[300px] max-[576px]:p-5;
+  }
+
+  /*
+   * モーダルを閉じるボタンの共通スタイル。役割・モーダルの配色ごとに3パターンある。
+   * - .modal-close-solid  : 暗色モーダル（.modal-panel）フッターの全幅「閉じる」ボタン
+   * - .modal-close-outline: 白背景モーダルフッターの枠線付き「閉じる」ボタン
+   * - .modal-close-icon   : 白背景モーダルヘッダーの「×」アイコンボタン
+   * いずれもJS側でのクリック検知には`.modal-close`クラス（見た目を持たないフック用）を使う。
+   */
+  .modal-close-solid {
+    @apply w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500;
+  }
+
+  .modal-close-outline {
+    @apply rounded border border-neutral-400 px-3 py-1.5 hover:bg-neutral-100;
+  }
+
+  .modal-close-icon {
+    @apply text-xl leading-none text-neutral-500 hover:text-neutral-700;
+  }
 }

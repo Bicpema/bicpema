@@ -31,7 +31,7 @@
       <!-- 設定パネル -->
       <div
         id="settingsModal"
-        class="absolute top-0 right-5 z-[2000] hidden w-[400px] max-w-[90vw] rounded-xl border-2 border-white/30 bg-black/90 p-[30px] text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-[15px] max-[576px]:w-[300px] max-[576px]:p-5"
+        class="modal-panel hidden absolute top-0 right-5 w-[400px]"
         role="dialog"
         aria-modal="true"
         aria-label="シミュレーションの設定"
@@ -42,7 +42,7 @@
           </h5>
 
           <div class="mb-4">
-            <label class="mb-2 block">
+            <label class="form-label">
               質量: <span id="massValue">10 kg</span>
             </label>
             <input
@@ -56,7 +56,7 @@
             />
           </div>
           <div class="mb-4">
-            <label class="mb-2 block">
+            <label class="form-label">
               斜面の角度: <span id="slopeAngleValue">30°</span>
             </label>
             <input
@@ -70,10 +70,7 @@
             />
           </div>
 
-          <button
-            id="closeModal"
-            class="modal-close mt-2 w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
-          >
+          <button id="closeModal" class="modal-close modal-close-solid mt-2">
             閉じる
           </button>
         </div>
