@@ -46,7 +46,7 @@ const sketch = (p) => {
     state.car.display(p, vH, {
       carImage: state.carImage,
       groundImage: state.groundImage,
-      showMarkers: showMarkers,
+      showMarkers: showMarkers
     });
 
     if (state.graphVisible) {

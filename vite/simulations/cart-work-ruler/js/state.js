@@ -37,5 +37,5 @@ export const state = {
   /** フェーズ: 'idle' | 'approach' | 'contact' | 'stopped' */
   phase: "idle",
   /** シミュレーション実行中フラグ */
-  isRunning: false,
+  isRunning: false
 };

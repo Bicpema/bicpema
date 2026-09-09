@@ -9,7 +9,7 @@ import {
   BTN_SECONDARY,
   BTN_SUCCESS,
   swapButtonClass,
-  INCIDENT_LIGHT_CSS_COLOR,
+  INCIDENT_LIGHT_CSS_COLOR
 } from "./constants.js";
 
 /**

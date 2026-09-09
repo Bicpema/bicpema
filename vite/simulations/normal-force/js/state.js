@@ -72,5 +72,5 @@ export const state = {
   /** リセット直後かどうか */
   resetCount: true,
   /** 坂を滑る物体 */
-  material: null,
+  material: null
 };

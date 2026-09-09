@@ -26,5 +26,5 @@ export const state = {
   /** グラフトグルボタン */
   graphToggleButton: null,
   /** 等時間マーカー表示チェックボックス */
-  showMarkersCheckBox: null,
+  showMarkersCheckBox: null
 };

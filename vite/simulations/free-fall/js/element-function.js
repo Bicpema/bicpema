@@ -2,7 +2,7 @@ import { state } from "./state.js";
 import {
   MIN_HEIGHT_INPUT,
   MAX_HEIGHT_INPUT,
-  GROUND_LEVEL_HEIGHT,
+  GROUND_LEVEL_HEIGHT
 } from "./constants.js";
 
 /** 空気抵抗係数の最小値 */

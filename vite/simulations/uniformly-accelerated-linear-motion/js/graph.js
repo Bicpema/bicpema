@@ -80,7 +80,7 @@ export class MotionGraph {
           borderColor: POSITION_COLOR,
           borderWidth: 2,
           yAxisID: "y",
-          fill: false,
+          fill: false
         },
         {
           label: "速度 v (m/s)",
@@ -91,9 +91,9 @@ export class MotionGraph {
           borderColor: VELOCITY_COLOR,
           borderWidth: 2,
           yAxisID: "y1",
-          fill: false,
-        },
-      ],
+          fill: false
+        }
+      ]
     };
 
     /** @type {import("chart.js").ChartOptions<"scatter">} */
@@ -102,11 +102,11 @@ export class MotionGraph {
         title: {
           display: true,
           text: "x-tグラフ・v-tグラフ",
-          font: { size: 16 },
+          font: { size: 16 }
         },
         legend: {
-          labels: { font: { size: 13 } },
-        },
+          labels: { font: { size: 13 } }
+        }
       },
       scales: {
         x: {
@@ -118,9 +118,9 @@ export class MotionGraph {
           title: {
             display: true,
             text: "時間 t [s]",
-            font: { size: 14 },
+            font: { size: 14 }
           },
-          ticks: { font: { size: 12 } },
+          ticks: { font: { size: 12 } }
         },
         y: {
           type: "linear",
@@ -131,9 +131,9 @@ export class MotionGraph {
             display: true,
             text: "位置 x [m]",
             font: { size: 14 },
-            color: POSITION_COLOR,
+            color: POSITION_COLOR
           },
-          ticks: { font: { size: 12 } },
+          ticks: { font: { size: 12 } }
         },
         y1: {
           type: "linear",
@@ -144,22 +144,22 @@ export class MotionGraph {
             display: true,
             text: "速度 v [m/s]",
             font: { size: 14 },
-            color: VELOCITY_COLOR,
+            color: VELOCITY_COLOR
           },
           ticks: { font: { size: 12 } },
           grid: {
-            drawOnChartArea: false,
-          },
-        },
+            drawOnChartArea: false
+          }
+        }
       },
       animation: false,
-      maintainAspectRatio: false,
+      maintainAspectRatio: false
     };
 
     this.chart = new Chart(ctx, {
       type: "scatter",
       data: data,
-      options: options,
+      options: options
     });
   }
 

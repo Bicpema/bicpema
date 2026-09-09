@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from "vitest";
 import {
   update,
   PM,
-  RULER_INIT_LENGTH,
+  RULER_INIT_LENGTH
 } from "../../../vite/simulations/cart-work-ruler/js/logic.js";
 import { state } from "../../../vite/simulations/cart-work-ruler/js/state.js";
 

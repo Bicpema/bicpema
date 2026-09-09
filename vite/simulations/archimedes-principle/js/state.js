@@ -9,5 +9,5 @@ export const state = {
   /** 水槽画像 */
   tankImage: null,
   /** 沈む物体画像 */
-  cylinderImage: null,
+  cylinderImage: null
 };

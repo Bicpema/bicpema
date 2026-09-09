@@ -14,5 +14,5 @@ export const state = {
   /** シミュレーションが実行中かどうか */
   clickedCount: false,
   /** 音源の速度（m/s） */
-  speedValue: SOUND_SPEED,
+  speedValue: SOUND_SPEED
 };

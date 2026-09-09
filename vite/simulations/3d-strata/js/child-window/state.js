@@ -12,5 +12,5 @@ export const state = {
   /** 現在のtr要素（TRインスタンス）の配列 */
   trArr: [],
   /** 地層の追加ボタンのDOM要素の参照 */
-  trAddButton: null,
+  trAddButton: null
 };

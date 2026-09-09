@@ -19,5 +19,5 @@ export const state = {
   gh: 0,
   tMax: 300,
   Tmin: 0,
-  Tmax: 400,
+  Tmax: 400
 };

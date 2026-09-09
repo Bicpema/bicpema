@@ -3,7 +3,7 @@ import {
   CART_BODY_WIDTH,
   CART_BODY_HEIGHT,
   CART_BOX_WIDTH,
-  CART_BOX_HEIGHT,
+  CART_BOX_HEIGHT
 } from "./constants.js";
 
 /**

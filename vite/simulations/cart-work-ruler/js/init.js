@@ -20,7 +20,7 @@ export function elCreate(p) {
     toggleSelector: "#playPauseButton",
     resetSelector: "#resetButton",
     onToggle: onPlayPause,
-    onReset: () => onReset(p),
+    onReset: () => onReset(p)
   });
   state.playPauseButton = toggleButton;
   state.resetButton = resetButton;
@@ -28,7 +28,7 @@ export function elCreate(p) {
   initModal({
     openSelectors: "#toggleModal",
     modalSelector: "#settingsModal",
-    closeSelectors: "#closeModal",
+    closeSelectors: "#closeModal"
   });
 
   // 情報パネルの DOM 要素参照

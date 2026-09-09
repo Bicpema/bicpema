@@ -5,5 +5,5 @@ export const state = {
   groundImage: null,
   velocityInput: null,
   resetButton: null,
-  playPauseButton: null,
+  playPauseButton: null
 };

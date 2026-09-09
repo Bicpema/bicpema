@@ -14,5 +14,5 @@ export const TEMPLATE_COMPLIANCE_ALLOWLIST = [
   "pendulum-wave",
   "projectile-motion",
   "refraction",
-  "spring",
+  "spring"
 ];

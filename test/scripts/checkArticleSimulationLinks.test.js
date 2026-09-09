@@ -5,7 +5,7 @@ import {
   checkArticleSimulationLinks,
   extractLinkedSimulationSlugs,
   getArticleEntries,
-  getSimulationSlugs,
+  getSimulationSlugs
 } from "../../scripts/_lib/checkArticleSimulationLinks.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -18,7 +18,7 @@ describe("getSimulationSlugs", () => {
     expect(getSimulationSlugs(simulationsDir)).toEqual([
       "sim-a",
       "sim-b",
-      "sim-c",
+      "sim-c"
     ]);
   });
 });
@@ -34,7 +34,8 @@ describe("getArticleEntries", () => {
 
 describe("extractLinkedSimulationSlugs", () => {
   it("本文中の/vite/simulations/<slug>/リンクを抽出する", () => {
-    const content = "[開く](/vite/simulations/sim-a/) と [これも](/vite/simulations/sim-a/)";
+    const content =
+      "[開く](/vite/simulations/sim-a/) と [これも](/vite/simulations/sim-a/)";
 
     expect(extractLinkedSimulationSlugs(content)).toEqual(["sim-a"]);
   });
@@ -49,7 +50,7 @@ describe("checkArticleSimulationLinks", () => {
     const result = checkArticleSimulationLinks({ simulationsDir, postsDir });
 
     expect(result.brokenLinks).toEqual([
-      { articleDir: "記事い", slug: "sim-x" },
+      { articleDir: "記事い", slug: "sim-x" }
     ]);
   });
 
@@ -63,7 +64,7 @@ describe("checkArticleSimulationLinks", () => {
     const result = checkArticleSimulationLinks({
       simulationsDir,
       postsDir,
-      allowedArticlelessSlugs: ["sim-c"],
+      allowedArticlelessSlugs: ["sim-c"]
     });
 
     expect(result.missingArticleSlugs).toEqual([]);
@@ -74,12 +75,12 @@ describe("checkArticleSimulationLinks", () => {
     const result = checkArticleSimulationLinks({
       simulationsDir,
       postsDir,
-      allowedArticlelessSlugs: ["sim-a", "sim-does-not-exist"],
+      allowedArticlelessSlugs: ["sim-a", "sim-does-not-exist"]
     });
 
     expect(result.staleAllowlistSlugs.sort()).toEqual([
       "sim-a",
-      "sim-does-not-exist",
+      "sim-does-not-exist"
     ]);
   });
 });

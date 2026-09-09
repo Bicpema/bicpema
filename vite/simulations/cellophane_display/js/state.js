@@ -180,5 +180,5 @@ export const state = {
 
   // <スライダー幅について>
   currentSlider: 0,
-  lastSlider: 0,
+  lastSlider: 0
 };

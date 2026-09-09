@@ -6,7 +6,7 @@ describe("computeDragFreeFall", () => {
     const { distanceFallen, velocity } = computeDragFreeFall({
       t: 1,
       gravity: 9.8,
-      k: 0,
+      k: 0
     });
 
     expect(velocity).toBeCloseTo(9.8, 5);
@@ -27,7 +27,7 @@ describe("computeDragFreeFall", () => {
     const { distanceFallen, velocity } = computeDragFreeFall({
       t: 1,
       gravity: 9.8,
-      k: NaN,
+      k: NaN
     });
 
     expect(Number.isFinite(velocity)).toBe(true);
@@ -39,7 +39,7 @@ describe("computeDragFreeFall", () => {
     const { distanceFallen, velocity } = computeDragFreeFall({
       t: 1,
       gravity: 9.8,
-      k: Infinity,
+      k: Infinity
     });
 
     expect(Number.isFinite(velocity)).toBe(true);

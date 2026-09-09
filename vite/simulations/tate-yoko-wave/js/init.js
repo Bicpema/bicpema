@@ -32,7 +32,7 @@ export function elementSelectInit(p) {
       moveBtn.textContent = "スタート";
       moveBtn.classList.remove("bg-red-600", "hover:bg-red-500");
       moveBtn.classList.add("bg-blue-600", "hover:bg-blue-500");
-    },
+    }
   });
 }
 

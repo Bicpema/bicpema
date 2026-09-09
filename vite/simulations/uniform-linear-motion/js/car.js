@@ -2,7 +2,7 @@ import {
   MIN_CAR_SPEED,
   MAX_CAR_SPEED,
   PX_PER_DISTANCE_UNIT,
-  FRAME_RATE,
+  FRAME_RATE
 } from "./constants.js";
 
 /**

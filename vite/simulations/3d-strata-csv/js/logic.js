@@ -20,7 +20,7 @@ import {
   STRATA_COLUMN_SIZE,
   PLACE_MARKER_COLOR,
   PLACE_MARKER_VERTICAL_OFFSET,
-  ROTATION_INCREMENT_DEG,
+  ROTATION_INCREMENT_DEG
 } from "./constants.js";
 
 /**
@@ -79,7 +79,7 @@ function calculateValue(p) {
       xMin: state.xMin,
       xMax: state.xMax,
       yMin: state.yMin,
-      yMax: state.yMax,
+      yMax: state.yMax
     } = computeSquareBounds(state.xMin, state.xMax, state.yMin, state.yMax));
   } else if (setRadioButtonValue === "manual") {
     const ele1 = p.select("#widthDirectionInput");
@@ -99,7 +99,7 @@ function calculateValue(p) {
   return {
     x: { min: state.xMin, max: state.xMax },
     y: { min: state.yMin, max: state.yMax },
-    z: { min: state.zMin, max: state.zMax },
+    z: { min: state.zMin, max: state.zMax }
   };
 }
 

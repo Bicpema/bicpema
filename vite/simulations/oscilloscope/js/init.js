@@ -11,7 +11,7 @@ export function settingInit(p) {
 
 export function elementSelectInit() {
   return {
-    modeSelect: document.querySelector("#modeSelect"),
+    modeSelect: document.querySelector("#modeSelect")
   };
 }
 
@@ -48,7 +48,7 @@ export function setupControls(p, elements) {
       state.paused = false;
     },
     startAriaLabel: "音の入力開始",
-    resetAriaLabel: "再開",
+    resetAriaLabel: "再開"
   });
   elements.modeSelect.addEventListener("change", (event) => {
     state.displayMode = event.target.value;

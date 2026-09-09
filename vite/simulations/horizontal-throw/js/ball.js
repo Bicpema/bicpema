@@ -32,7 +32,7 @@ import {
   MIN_HUD_FONT_SIZE,
   HUD_FONT_SIZE_RATIO,
   HUD_LINE_HEIGHT_RATIO,
-  HUD_MARGIN,
+  HUD_MARGIN
 } from "./constants.js";
 
 /**

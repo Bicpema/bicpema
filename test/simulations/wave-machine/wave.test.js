@@ -4,7 +4,7 @@ import { ReflectedWave } from "../../../vite/simulations/wave-machine/js/reflect
 import { Medium } from "../../../vite/simulations/wave-machine/js/medium.js";
 import {
   state,
-  MEDIUM_QUANTITY,
+  MEDIUM_QUANTITY
 } from "../../../vite/simulations/wave-machine/js/state.js";
 
 const stubP = {
@@ -17,7 +17,7 @@ const stubP = {
   line: () => {},
   noStroke: () => {},
   fill: () => {},
-  ellipse: () => {},
+  ellipse: () => {}
 };
 
 beforeEach(() => {

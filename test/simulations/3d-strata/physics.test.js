@@ -9,7 +9,7 @@ describe("computeCoordinateBounds", () => {
   it("最小値と最大値を正しく計算する", () => {
     expect(computeCoordinateBounds([5, -3, 10, 0])).toEqual({
       min: -3,
-      max: 10,
+      max: 10
     });
   });
 
@@ -20,7 +20,7 @@ describe("computeCoordinateBounds", () => {
   it("負の値のみの場合も正しく計算する", () => {
     expect(computeCoordinateBounds([-10, -5, -20])).toEqual({
       min: -20,
-      max: -5,
+      max: -5
     });
   });
 });

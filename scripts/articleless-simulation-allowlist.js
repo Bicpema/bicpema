@@ -18,5 +18,5 @@ export const ARTICLELESS_SIMULATION_ALLOWLIST = [
   "projectile-motion",
   "refraction",
   "spring",
-  "train-acceleration",
+  "train-acceleration"
 ];

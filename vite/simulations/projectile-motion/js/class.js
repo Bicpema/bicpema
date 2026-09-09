@@ -42,7 +42,7 @@ export class Ball {
           k: this.konstant,
           gravity: this.gravity,
           posx0: this.posx0,
-          posy0: this.posy0,
+          posy0: this.posy0
         });
         this.posx = x;
         this.posy = y;

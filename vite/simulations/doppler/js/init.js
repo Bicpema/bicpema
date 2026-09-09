@@ -5,7 +5,7 @@ import {
   startButtonFunction,
   stopButtonFunction,
   resetButtonAction,
-  onSpeedInputChange,
+  onSpeedInputChange
 } from "./element-function.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 import { bindStartStopControls } from "../../../js/bicpema-controls-controller.js";
@@ -32,12 +32,12 @@ export function elCreate(p) {
     resetSelector: "#resetButton",
     onStart: startButtonFunction,
     onStop: stopButtonFunction,
-    onReset: resetButtonAction,
+    onReset: resetButtonAction
   });
   initModal({
     openSelectors: "#settingsButton",
     modalSelector: "#settingsModal",
-    closeSelectors: "#closeModal",
+    closeSelectors: "#closeModal"
   });
   p.select("#speedInput").input(onSpeedInputChange);
 }

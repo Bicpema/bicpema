@@ -57,18 +57,18 @@ export class BallGraph {
             pointBackgroundColor: VELOCITY_COLOR,
             borderColor: VELOCITY_COLOR,
             borderWidth: 2,
-            fill: false,
-          },
-        ],
+            fill: false
+          }
+        ]
       },
       options: {
         plugins: {
           title: {
             display: true,
             text: "v-t グラフ",
-            font: { size: 14 },
+            font: { size: 14 }
           },
-          legend: { display: false },
+          legend: { display: false }
         },
         scales: {
           x: {
@@ -78,9 +78,9 @@ export class BallGraph {
             title: {
               display: true,
               text: "時間 t [s]",
-              font: { size: 12 },
+              font: { size: 12 }
             },
-            ticks: { font: { size: 11 } },
+            ticks: { font: { size: 11 } }
           },
           y: {
             type: "linear",
@@ -90,14 +90,14 @@ export class BallGraph {
               display: true,
               text: "速度 v [m/s]",
               font: { size: 12 },
-              color: VELOCITY_COLOR,
+              color: VELOCITY_COLOR
             },
-            ticks: { font: { size: 11 } },
-          },
+            ticks: { font: { size: 11 } }
+          }
         },
         animation: false,
-        maintainAspectRatio: false,
-      },
+        maintainAspectRatio: false
+      }
     });
   }
 
@@ -120,18 +120,18 @@ export class BallGraph {
             pointBackgroundColor: HEIGHT_COLOR,
             borderColor: HEIGHT_COLOR,
             borderWidth: 2,
-            fill: false,
-          },
-        ],
+            fill: false
+          }
+        ]
       },
       options: {
         plugins: {
           title: {
             display: true,
             text: "y-t グラフ（変位）",
-            font: { size: 14 },
+            font: { size: 14 }
           },
-          legend: { display: false },
+          legend: { display: false }
         },
         scales: {
           x: {
@@ -141,9 +141,9 @@ export class BallGraph {
             title: {
               display: true,
               text: "時間 t [s]",
-              font: { size: 12 },
+              font: { size: 12 }
             },
-            ticks: { font: { size: 11 } },
+            ticks: { font: { size: 11 } }
           },
           y: {
             type: "linear",
@@ -153,14 +153,14 @@ export class BallGraph {
               display: true,
               text: "変位 y [m]",
               font: { size: 12 },
-              color: HEIGHT_COLOR,
+              color: HEIGHT_COLOR
             },
-            ticks: { font: { size: 11 } },
-          },
+            ticks: { font: { size: 11 } }
+          }
         },
         animation: false,
-        maintainAspectRatio: false,
-      },
+        maintainAspectRatio: false
+      }
     });
   }
 

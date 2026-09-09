@@ -27,7 +27,7 @@ export function elementSelectInit(p: p5): void {
   initModal({
     openSelectors: ".settings-modal-open",
     modalSelector: "#simulationSettingModal",
-    closeSelectors: ".modal-close",
+    closeSelectors: ".modal-close"
   });
 }
 

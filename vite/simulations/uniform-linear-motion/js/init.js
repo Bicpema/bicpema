@@ -8,7 +8,7 @@ import {
   GRAPH_TOP_OFFSET,
   GRAPH_BUTTON_TOP_OFFSET,
   DEFAULT_SIMULATION_DURATION,
-  CAR_TRAJECTORY_DISTANCE_THRESHOLD,
+  CAR_TRAJECTORY_DISTANCE_THRESHOLD
 } from "./constants.js";
 import { graphButtonFunction, onPlayPause } from "./element-function.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
@@ -40,7 +40,7 @@ export function elCreate(p) {
   initModal({
     openSelectors: ".settings-modal-open",
     modalSelector: "#modal",
-    closeSelectors: ".modal-close",
+    closeSelectors: ".modal-close"
   });
 
   p.select("#graphButton").mousePressed(() => graphButtonFunction());
@@ -49,7 +49,7 @@ export function elCreate(p) {
     toggleSelector: "#playButton",
     resetSelector: "#resetButton",
     onToggle: onPlayPause,
-    onReset: () => onReset(p),
+    onReset: () => onReset(p)
   });
   state.playButton = toggleButton;
 

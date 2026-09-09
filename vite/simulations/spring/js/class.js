@@ -3,7 +3,7 @@
 import { state, FPS } from "./state.js";
 import {
   computeEffectiveSpringConstant,
-  computeSpringPosition,
+  computeSpringPosition
 } from "./physics.js";
 
 /** 天井・ばね・玉の間の取り付け線の長さ */

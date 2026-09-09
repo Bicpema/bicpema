@@ -81,13 +81,13 @@ export function elCreate(p) {
       if (phaseSameRadio) phaseSameRadio.checked = true;
       if (speedSlowRadio) speedSlowRadio.checked = true;
       playPauseButton.textContent = "▶ 開始";
-    },
+    }
   });
 
   initModal({
     openSelectors: "#toggleModal",
     modalSelector: "#settingsModal",
-    closeSelectors: "#closeModal",
+    closeSelectors: "#closeModal"
   });
 }
 

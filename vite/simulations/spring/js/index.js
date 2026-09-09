@@ -17,7 +17,7 @@ const BALL_IMAGE_URL =
 
 const sketch = (p) => {
   const canvasController = new BicpemaCanvasController({
-    fixedAspectRatio: false,
+    fixedAspectRatio: false
   });
   let isFirstDraw = true;
 

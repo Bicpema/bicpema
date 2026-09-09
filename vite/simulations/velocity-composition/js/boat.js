@@ -4,7 +4,7 @@ import {
   V_W,
   PX_PER_MPS,
   WATER_PARTICLE_MARGIN,
-  BOAT_WRAP_MARGIN,
+  BOAT_WRAP_MARGIN
 } from "./constants.js";
 import { drawArrowWithLabel } from "./logic.js";
 import { state } from "./state.js";

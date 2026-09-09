@@ -10,7 +10,7 @@ import {
   CHART_X_AXIS_ROUND_UNIT,
   CHART_Y_AXIS_MIN_MAX,
   CHART_Y_AXIS_ROUND_UNIT,
-  CHART_Y_AXIS_VELOCITY_MARGIN,
+  CHART_Y_AXIS_VELOCITY_MARGIN
 } from "./constants.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
 import { getCanvasElement } from "../../../js/bicpema-dom.js";
@@ -56,9 +56,9 @@ export const initChart = async () => {
           borderWidth: 2,
           fill: true,
           backgroundColor: TRAIN_BODY_FILL_COLOR_CSS,
-          tension: 0.2,
-        },
-      ],
+          tension: 0.2
+        }
+      ]
     },
     options: {
       animation: false,
@@ -67,11 +67,11 @@ export const initChart = async () => {
         title: {
           display: true,
           text: "v-t グラフ",
-          font: { size: CHART_TITLE_FONT_SIZE },
+          font: { size: CHART_TITLE_FONT_SIZE }
         },
         legend: {
-          labels: { font: { size: CHART_AXIS_LABEL_FONT_SIZE } },
-        },
+          labels: { font: { size: CHART_AXIS_LABEL_FONT_SIZE } }
+        }
       },
       scales: {
         x: {
@@ -80,21 +80,21 @@ export const initChart = async () => {
           title: {
             display: true,
             text: "経過時間 t [s]",
-            font: { size: CHART_AXIS_LABEL_FONT_SIZE },
+            font: { size: CHART_AXIS_LABEL_FONT_SIZE }
           },
-          ticks: { font: { size: CHART_TICK_FONT_SIZE } },
+          ticks: { font: { size: CHART_TICK_FONT_SIZE } }
         },
         y: {
           min: 0,
           title: {
             display: true,
             text: "速さ v [m/s]",
-            font: { size: CHART_AXIS_LABEL_FONT_SIZE },
+            font: { size: CHART_AXIS_LABEL_FONT_SIZE }
           },
-          ticks: { font: { size: CHART_TICK_FONT_SIZE } },
-        },
-      },
-    },
+          ticks: { font: { size: CHART_TICK_FONT_SIZE } }
+        }
+      }
+    }
   });
 };
 

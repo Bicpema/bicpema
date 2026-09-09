@@ -3,7 +3,7 @@ import {
   MIN_HEIGHT_INPUT,
   MAX_HEIGHT_INPUT,
   MIN_VELOCITY_INPUT,
-  MAX_VELOCITY_INPUT,
+  MAX_VELOCITY_INPUT
 } from "./constants.js";
 
 /**

@@ -58,13 +58,13 @@ export async function initCharts() {
           label: "ばね１の位置の時間変化",
           data: state.data1,
           backgroundColor: "rgb(255,0,0)",
-          borderColor: "rgb(255,0,0)",
-        },
-      ],
+          borderColor: "rgb(255,0,0)"
+        }
+      ]
     },
     options: {
-      animation: false,
-    },
+      animation: false
+    }
   });
   const ctx2 = document.getElementById("chart2").getContext("2d");
   state.chart2 = new Chart(ctx2, {
@@ -76,13 +76,13 @@ export async function initCharts() {
           label: "ばね２の位置の時間変化",
           data: state.data2,
           backgroundColor: "rgb(0,0,255)",
-          borderColor: "rgb(0,0,255)",
-        },
-      ],
+          borderColor: "rgb(0,0,255)"
+        }
+      ]
     },
     options: {
-      animation: false,
-    },
+      animation: false
+    }
   });
 }
 

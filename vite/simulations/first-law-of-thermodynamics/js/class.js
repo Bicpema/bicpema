@@ -7,7 +7,7 @@ import {
   MOLECULE_MARGIN,
   MOLECULE_X_MIN as X_MIN,
   MOLECULE_Y_MIN as Y_MIN,
-  MOLECULE_Y_MAX as Y_MAX,
+  MOLECULE_Y_MAX as Y_MAX
 } from "./constants.js";
 
 export class Molecule {

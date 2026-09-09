@@ -11,7 +11,7 @@ import {
   rButtonFunction,
   gButtonFunction,
   bButtonFunction,
-  onPlayPause,
+  onPlayPause
 } from "./element-function.js";
 
 /**
@@ -40,7 +40,7 @@ export function elCreate(p) {
     toggleSelector: "#playPauseButton",
     resetSelector: "#resetButton",
     onToggle: onPlayPause,
-    onReset: () => {},
+    onReset: () => {}
   });
   state.playPauseButton = toggleButton;
 }
@@ -52,7 +52,7 @@ export function uiInit() {
   initModal({
     openSelectors: ".settings-modal-open",
     modalSelector: "#settingsModal",
-    closeSelectors: ".modal-close",
+    closeSelectors: ".modal-close"
   });
 }
 

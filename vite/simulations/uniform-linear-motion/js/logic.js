@@ -10,7 +10,7 @@ import {
   CHART_LABEL_FONT_SIZE,
   TICK_LABEL_FONT_SIZE,
   YELLOW_CAR_COLOR,
-  RED_CAR_COLOR,
+  RED_CAR_COLOR
 } from "./constants.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
 import { getCanvasElement } from "../../../js/bicpema-dom.js";
@@ -102,7 +102,7 @@ export function graphDraw(p) {
         data: yellowCarData,
         pointRadius: 0,
         fill: true,
-        borderColor: YELLOW_CAR_COLOR,
+        borderColor: YELLOW_CAR_COLOR
       },
       {
         label: "赤い車のデータ",
@@ -110,9 +110,9 @@ export function graphDraw(p) {
         showLine: true,
         pointRadius: 0,
         fill: true,
-        borderColor: RED_CAR_COLOR,
-      },
-    ],
+        borderColor: RED_CAR_COLOR
+      }
+    ]
   };
   /** @type {import("chart.js").ChartOptions<"scatter">} */
   const options = {
@@ -120,11 +120,11 @@ export function graphDraw(p) {
       title: {
         display: true,
         text: title,
-        font: { size: CHART_TITLE_FONT_SIZE },
+        font: { size: CHART_TITLE_FONT_SIZE }
       },
       legend: {
-        labels: { font: { size: CHART_LABEL_FONT_SIZE } },
-      },
+        labels: { font: { size: CHART_LABEL_FONT_SIZE } }
+      }
     },
     scales: {
       x: {
@@ -134,8 +134,8 @@ export function graphDraw(p) {
         title: {
           display: true,
           text: "経過時間 t [s]",
-          font: { size: CHART_LABEL_FONT_SIZE },
-        },
+          font: { size: CHART_LABEL_FONT_SIZE }
+        }
       },
       y: {
         min: 0,
@@ -144,17 +144,17 @@ export function graphDraw(p) {
         title: {
           display: true,
           text: verticalAxisLabel,
-          font: { size: CHART_LABEL_FONT_SIZE },
-        },
-      },
+          font: { size: CHART_LABEL_FONT_SIZE }
+        }
+      }
     },
     animation: false,
-    maintainAspectRatio: false,
+    maintainAspectRatio: false
   };
 
   state.graphChart = new Chart(ctx, {
     type: "scatter",
     data: data,
-    options: options,
+    options: options
   });
 }

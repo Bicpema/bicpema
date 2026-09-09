@@ -5,7 +5,7 @@ import { Train } from "./class.js";
 import {
   onPlayPause,
   onReset,
-  onAccelerationChange,
+  onAccelerationChange
 } from "./element-function.js";
 import { DEFAULT_ACCELERATION, TRAIN_START_X_DIVISOR } from "./constants.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
@@ -46,12 +46,12 @@ export function elCreate(p) {
     toggleSelector: "#playPauseButton",
     resetSelector: "#resetButton",
     onToggle: onPlayPause,
-    onReset,
+    onReset
   });
   initModal({
     openSelectors: "#toggleModal",
     modalSelector: "#settingsModal",
-    closeSelectors: "#closeModal",
+    closeSelectors: "#closeModal"
   });
   p.select("#accelerationInput").input(onAccelerationChange);
 }

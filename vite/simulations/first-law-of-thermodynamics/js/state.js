@@ -26,5 +26,5 @@ export const state = {
   /** 内部エネルギー変化量 */
   dU: 0,
   /** 炎の画像 */
-  img_flame: null,
+  img_flame: null
 };

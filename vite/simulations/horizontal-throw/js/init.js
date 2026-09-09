@@ -3,7 +3,7 @@ import {
   onHeightChange,
   onVelocityChange,
   onReset,
-  onPlayPause,
+  onPlayPause
 } from "./element-function.js";
 import { Ball } from "./ball.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
@@ -25,7 +25,7 @@ export function elCreate(p) {
     toggleSelector: "#playPauseButton",
     resetSelector: "#resetButton",
     onToggle: () => onPlayPause(),
-    onReset: () => onReset(),
+    onReset: () => onReset()
   });
   state.playPauseButton = toggleButton;
   state.resetButton = resetButton;
@@ -33,7 +33,7 @@ export function elCreate(p) {
   initModal({
     openSelectors: "#toggleModal",
     modalSelector: "#settingsModal",
-    closeSelectors: "#closeModal",
+    closeSelectors: "#closeModal"
   });
 }
 

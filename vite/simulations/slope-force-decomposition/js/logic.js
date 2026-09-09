@@ -8,7 +8,7 @@ import {
   GRAVITY_COLOR,
   PARALLEL_COLOR,
   PERPENDICULAR_COLOR,
-  BLOCK_HEIGHT,
+  BLOCK_HEIGHT
 } from "./constants.js";
 import { decomposeGravityOnSlope } from "./physics.js";
 

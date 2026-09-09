@@ -17,7 +17,9 @@ const N_REMOCON_URL =
   "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Frefraction%2FnRemocon.png?alt=media&token=5777700a-453e-4416-a110-bad723a98401";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController({ fixedAspectRatio: false });
+  const canvasController = new BicpemaCanvasController({
+    fixedAspectRatio: false
+  });
   let isFirstDraw = true;
 
   p.preload = () => {

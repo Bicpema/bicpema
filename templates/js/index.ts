@@ -9,7 +9,7 @@ import {
   settingInit,
   elementSelectInit,
   elementPositionInit,
-  valueInit,
+  valueInit
 } from "./init.js";
 
 const sketch = (p: p5) => {

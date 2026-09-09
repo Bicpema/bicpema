@@ -10,7 +10,7 @@ import {
   HEIGHT_SCALE_RATIO,
   ANNOTATION_TEXT_SIZE,
   MAX_HEIGHT_LINE_DASH,
-  ZERO_LINE_DASH,
+  ZERO_LINE_DASH
 } from "./constants.js";
 
 /**

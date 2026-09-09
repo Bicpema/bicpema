@@ -17,7 +17,7 @@ export function initModal({
   openSelectors,
   modalSelector,
   closeSelectors,
-  onClose,
+  onClose
 }) {
   const modal = document.querySelector(modalSelector);
   if (!modal) return;
@@ -159,7 +159,7 @@ export function initTabs({ tabSelector }) {
 export function initOffcanvas({
   openSelectors,
   offcanvasSelector,
-  closeSelectors,
+  closeSelectors
 }) {
   const panel = document.querySelector(offcanvasSelector);
   if (!panel) return;

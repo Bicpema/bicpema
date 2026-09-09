@@ -10,5 +10,5 @@ export const state = {
   t: 0,
   running: false,
   focusIndex: 0,
-  xStart: WAVE_ORIGIN_X,
+  xStart: WAVE_ORIGIN_X
 };

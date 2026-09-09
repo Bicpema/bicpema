@@ -7,12 +7,12 @@ import {
   ORIGIN_Y,
   GRID_STEP,
   LABEL_FONT_SIZE,
-  AXIS_LABEL_FONT_SIZE,
+  AXIS_LABEL_FONT_SIZE
 } from "./constants.js";
 import {
   composeForces,
   computeForceMagnitude,
-  computeForceAngleDeg,
+  computeForceAngleDeg
 } from "./physics.js";
 
 /**

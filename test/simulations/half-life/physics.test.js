@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   computeDecayFraction,
-  computeRemainingCount,
+  computeRemainingCount
 } from "../../../vite/simulations/half-life/js/physics.js";
 
 describe("computeDecayFraction", () => {

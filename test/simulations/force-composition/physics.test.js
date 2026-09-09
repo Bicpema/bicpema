@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   composeForces,
   computeForceMagnitude,
-  computeForceAngleDeg,
+  computeForceAngleDeg
 } from "../../../vite/simulations/force-composition/js/physics.js";
 
 describe("composeForces", () => {

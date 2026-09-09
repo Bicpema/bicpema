@@ -12,5 +12,5 @@ export const state = {
   slopeAngleInput: null,
   slopeAngleValue: null,
   massInput: null,
-  massValue: null,
+  massValue: null
 };

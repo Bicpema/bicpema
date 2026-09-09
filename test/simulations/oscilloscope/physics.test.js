@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   mapIndexToX,
   mapWaveformValueToY,
-  mapSpectrumValueToY,
+  mapSpectrumValueToY
 } from "../../../vite/simulations/oscilloscope/js/physics.js";
 
 describe("mapIndexToX", () => {

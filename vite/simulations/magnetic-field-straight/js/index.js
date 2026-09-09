@@ -7,12 +7,15 @@ import {
   settingInit,
   elementSelectInit,
   elementPositionInit,
-  valueInit,
+  valueInit
 } from "./init.js";
 import { drawSimulation } from "./logic.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController({ fixedAspectRatio: false, is3D: true });
+  const canvasController = new BicpemaCanvasController({
+    fixedAspectRatio: false,
+    is3D: true
+  });
 
   p.setup = () => {
     canvasController.fullScreen(p);

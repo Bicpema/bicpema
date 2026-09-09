@@ -4,7 +4,7 @@ import {
   state,
   MEDIUM_QUANTITY,
   MEDIUM_TRACK_MARGIN,
-  CONTENT_X_OFFSET,
+  CONTENT_X_OFFSET
 } from "./state.js";
 import { IncidentWave } from "./incident-wave.js";
 import { ReflectedWave } from "./reflected-wave.js";

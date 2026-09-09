@@ -7,7 +7,7 @@ import {
   HOT_COLOR,
   COLD_COLOR,
   MOLECULE_JITTER_SCALE,
-  MOLECULE_JITTER_MAX,
+  MOLECULE_JITTER_MAX
 } from "./constants.js";
 
 // 仮想キャンバス寸法: p.scale(p.width / 1000) 適用後の 1000×562 論理ピクセル空間

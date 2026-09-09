@@ -19,7 +19,7 @@ export function elCreate(p) {
     toggleSelector: "#playPauseButton",
     resetSelector: "#resetButton",
     onToggle: onPlayPause,
-    onReset,
+    onReset
   });
   state.playPauseButton = toggleButton;
   state.resetButton = resetButton;
@@ -27,7 +27,7 @@ export function elCreate(p) {
   initModal({
     openSelectors: "#toggleModal",
     modalSelector: "#settingsModal",
-    closeSelectors: "#closeModal",
+    closeSelectors: "#closeModal"
   });
 }
 

@@ -3,7 +3,7 @@
 import {
   initModal,
   initOffcanvas,
-  initTabs,
+  initTabs
 } from "../../../js/bicpema-modal-controller.js";
 import { state } from "./state.js";
 import {
@@ -14,7 +14,7 @@ import {
   strataRemoveButtonFunction,
   setRadioButtonFunction,
   unitSelectFunction,
-  strataFileInputFunction,
+  strataFileInputFunction
 } from "./element-function.js";
 import {
   CAMERA_EYE_X,
@@ -23,7 +23,7 @@ import {
   FRAME_RATE,
   TEXT_SIZE,
   HEADER_HEIGHT,
-  UI_EDGE_MARGIN,
+  UI_EDGE_MARGIN
 } from "./constants.js";
 
 /** 日本語フォントのURL */
@@ -89,17 +89,17 @@ export function uiInit() {
   initModal({
     openSelectors: ".data-register-modal-open",
     modalSelector: "#dataRegisterModal",
-    closeSelectors: ".modal-close",
+    closeSelectors: ".modal-close"
   });
   initModal({
     openSelectors: ".csv-example-modal-open",
     modalSelector: "#csvExampleModal",
-    closeSelectors: ".csv-example-modal-close",
+    closeSelectors: ".csv-example-modal-close"
   });
   initOffcanvas({
     openSelectors: ".legend-offcanvas-open",
     offcanvasSelector: "#legendOffCanvas",
-    closeSelectors: ".offcanvas-close",
+    closeSelectors: ".offcanvas-close"
   });
   initTabs({ tabSelector: "#dataRegisterModal .nav-link" });
 }

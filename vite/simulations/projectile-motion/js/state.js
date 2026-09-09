@@ -40,5 +40,5 @@ export const state = {
   /** 赤玉 */
   b1: null,
   /** 青玉 */
-  b2: null,
+  b2: null
 };

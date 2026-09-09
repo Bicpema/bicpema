@@ -9,7 +9,7 @@ import {
   elInit,
   initValue,
   uiInit,
-  loadJapaneseFont,
+  loadJapaneseFont
 } from "./init.js";
 import { drawSimulation } from "./logic.js";
 import {
@@ -18,11 +18,14 @@ import {
   placeRefreshFunction,
   firstPlaceSelectFunction,
   secondPlaceSelectFunction,
-  thirdPlaceSelectFunction,
+  thirdPlaceSelectFunction
 } from "./element-function.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController({ fixedAspectRatio: false, is3D: true });
+  const canvasController = new BicpemaCanvasController({
+    fixedAspectRatio: false,
+    is3D: true
+  });
 
   // 子ウィンドウ（setWindow.html）からwindow.opener経由で呼び出されるための公開。
   // 別ドキュメントのため、ESモジュールのimport/exportでは参照できない。

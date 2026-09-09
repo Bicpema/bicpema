@@ -9,5 +9,5 @@ export const state = {
   img_weight: null,
   img_ice: null,
   isPlaying: true,
-  playButton: null,
+  playButton: null
 };

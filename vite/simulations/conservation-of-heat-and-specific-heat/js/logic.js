@@ -1,7 +1,7 @@
 import { state } from "./state.js";
 import {
   computeEquilibriumTemperature,
-  computeTemperatureAtTime,
+  computeTemperatureAtTime
 } from "./physics.js";
 
 /** 冷却の緩和係数の係数 G（k_eff = G / C_hot） */

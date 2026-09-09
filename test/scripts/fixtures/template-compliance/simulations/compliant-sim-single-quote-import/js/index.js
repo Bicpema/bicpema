@@ -1,3 +1,3 @@
-import { BicpemaCanvasController } from '../../../js/bicpema-canvas-controller.js';
+import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 
 const canvasController = new BicpemaCanvasController();

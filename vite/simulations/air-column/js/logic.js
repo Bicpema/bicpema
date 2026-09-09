@@ -1,7 +1,7 @@
 import { state } from "./state.js";
 import {
   computeFreqConst,
-  computeStandingWaveDisplacement,
+  computeStandingWaveDisplacement
 } from "./physics.js";
 
 /** 仮想キャンバス幅 */

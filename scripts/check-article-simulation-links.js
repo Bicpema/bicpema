@@ -20,7 +20,7 @@ const rootDir = resolve(__dirname, "..");
 const result = checkArticleSimulationLinks({
   simulationsDir: resolve(rootDir, "vite", "simulations"),
   postsDir: resolve(rootDir, "content", "post"),
-  allowedArticlelessSlugs: ARTICLELESS_SIMULATION_ALLOWLIST,
+  allowedArticlelessSlugs: ARTICLELESS_SIMULATION_ALLOWLIST
 });
 
 let hasError = false;

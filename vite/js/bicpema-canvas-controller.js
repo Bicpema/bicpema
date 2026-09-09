@@ -31,7 +31,7 @@ export class BicpemaCanvasController {
     heightRatio = 1.0,
     panelSelector = null,
     bottomBarSelector = null,
-    heightMode = "aspect",
+    heightMode = "aspect"
   } = {}) {
     this.fixed = fixedAspectRatio;
     this.is3D = is3D;

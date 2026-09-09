@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   computePistonY,
-  advanceStage,
+  advanceStage
 } from "../../../vite/simulations/heat-engine/js/physics.js";
 
 describe("computePistonY", () => {

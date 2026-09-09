@@ -15,6 +15,6 @@ export function computeSlideDisplacement(gravity, angleDeg, count, fps = 60) {
   const t = count / fps;
   return {
     dx: gravity * Math.sin(theta) * Math.cos(theta) * t,
-    dy: gravity * Math.sin(theta) * Math.sin(theta) * t,
+    dy: gravity * Math.sin(theta) * Math.sin(theta) * t
   };
 }

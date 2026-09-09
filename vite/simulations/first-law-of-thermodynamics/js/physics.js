@@ -25,7 +25,7 @@ export function computeThermodynamicState(
     W: step,
     dU: step,
     T: t0 + step * dtUnit,
-    pistonXTarget: pistonInitX + step * dvUnit,
+    pistonXTarget: pistonInitX + step * dvUnit
   };
 }
 

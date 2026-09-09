@@ -4,7 +4,7 @@ import {
   ANGULAR_VELOCITY_R,
   WAVELENGTH_R,
   WAVELENGTH_G,
-  WAVELENGTH_B,
+  WAVELENGTH_B
 } from "../../../vite/simulations/cellophane/js/constants.js";
 
 describe("computeAngularVelocity", () => {

@@ -25,5 +25,5 @@ export const state = {
   /** 記録間隔入力 */
   intervalInput: null,
   /** 読み込み済みフォント */
-  font: null,
+  font: null
 };

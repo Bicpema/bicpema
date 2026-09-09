@@ -57,15 +57,15 @@ TailwindCSS自体はJSを持たないため、モーダル（設定パネル）�
 
 [#455](https://github.com/Bicpema/bicpema/issues/455)〜[#461](https://github.com/Bicpema/bicpema/issues/461)のTailwindCSS移行と同じグループ分けで、以下のフォローアップIssueに分割した（1件のPRにはしない）。
 
-| グループ | Issue | 対象シミュレーション数 | 生CSS合計行数 |
-| --- | --- | --- | --- |
-| 運動学系 | [#483](https://github.com/Bicpema/bicpema/issues/483) | 11件 | 1620行 |
-| 力・エネルギー・振動系 | [#484](https://github.com/Bicpema/bicpema/issues/484) | 11件 | 755行 |
-| 音・振動波系 | [#485](https://github.com/Bicpema/bicpema/issues/485) | 8件 | 224行 |
-| 光学系 | [#486](https://github.com/Bicpema/bicpema/issues/486) | 6件（うち2件は対応不要） | 160行 |
-| 熱系 | [#487](https://github.com/Bicpema/bicpema/issues/487) | 5件 | 284行 |
-| 電磁気系 | [#488](https://github.com/Bicpema/bicpema/issues/488) | 2件 | 28行 |
-| 地学系 | [#489](https://github.com/Bicpema/bicpema/issues/489) | 2件 | 132行 |
+| グループ               | Issue                                                 | 対象シミュレーション数   | 生CSS合計行数 |
+| ---------------------- | ----------------------------------------------------- | ------------------------ | ------------- |
+| 運動学系               | [#483](https://github.com/Bicpema/bicpema/issues/483) | 11件                     | 1620行        |
+| 力・エネルギー・振動系 | [#484](https://github.com/Bicpema/bicpema/issues/484) | 11件                     | 755行         |
+| 音・振動波系           | [#485](https://github.com/Bicpema/bicpema/issues/485) | 8件                      | 224行         |
+| 光学系                 | [#486](https://github.com/Bicpema/bicpema/issues/486) | 6件（うち2件は対応不要） | 160行         |
+| 熱系                   | [#487](https://github.com/Bicpema/bicpema/issues/487) | 5件                      | 284行         |
+| 電磁気系               | [#488](https://github.com/Bicpema/bicpema/issues/488) | 2件                      | 28行          |
+| 地学系                 | [#489](https://github.com/Bicpema/bicpema/issues/489) | 2件                      | 132行         |
 
 ## JS内HTML最小化方針（[Issue #491](https://github.com/Bicpema/bicpema/issues/491)）
 
@@ -103,43 +103,43 @@ TailwindCSS自体はJSを持たないため、モーダル（設定パネル）�
 @import "tailwindcss";
 
 @layer components {
-  /* 設定モーダル本体 */
-  .modal-panel {
-    @apply absolute top-1/2 left-1/2 z-[2000] w-[350px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-white/30 bg-black/90 p-[30px] text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-[15px] max-[576px]:w-[300px] max-[576px]:p-5;
-  }
+    /* 設定モーダル本体 */
+    .modal-panel {
+        @apply absolute top-1/2 left-1/2 z-[2000] w-[350px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-white/30 bg-black/90 p-[30px] text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-[15px] max-[576px]:w-[300px] max-[576px]:p-5;
+    }
 
-  /* モーダル内の閉じる／小型ボタン */
-  .btn-modal {
-    @apply w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500;
-  }
+    /* モーダル内の閉じる／小型ボタン */
+    .btn-modal {
+        @apply w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500;
+    }
 
-  /* 固定位置のボタン群コンテナ */
-  .controls-left-bottom {
-    @apply absolute bottom-5 left-5 z-[1000] flex flex-wrap gap-2.5 max-[576px]:bottom-2.5 max-[576px]:left-2.5 max-[576px]:gap-2;
-  }
-  .controls-right-top {
-    @apply absolute top-5 right-5 z-[1000] max-[576px]:top-2.5 max-[576px]:right-2.5;
-  }
+    /* 固定位置のボタン群コンテナ */
+    .controls-left-bottom {
+        @apply absolute bottom-5 left-5 z-[1000] flex flex-wrap gap-2.5 max-[576px]:bottom-2.5 max-[576px]:left-2.5 max-[576px]:gap-2;
+    }
+    .controls-right-top {
+        @apply absolute top-5 right-5 z-[1000] max-[576px]:top-2.5 max-[576px]:right-2.5;
+    }
 
-  /* コントロールボタン本体（色は役割別の修飾クラスで指定） */
-  .btn-control {
-    @apply rounded-lg px-5 py-2.5 text-base font-bold whitespace-nowrap text-white shadow-[0_4px_6px_rgba(0,0,0,0.3)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_6px_8px_rgba(0,0,0,0.4)] active:translate-y-0 active:shadow-[0_2px_4px_rgba(0,0,0,0.3)] max-[576px]:px-[15px] max-[576px]:py-2 max-[576px]:text-sm max-[400px]:px-3 max-[400px]:py-1.5 max-[400px]:text-xs;
-  }
-  .btn-control-primary {
-    @apply bg-blue-600 hover:bg-blue-500;
-  }
-  .btn-control-success {
-    @apply bg-green-600 hover:bg-green-500;
-  }
-  .btn-control-info {
-    @apply bg-cyan-600 hover:bg-cyan-500;
-  }
-  .btn-control-danger {
-    @apply bg-red-600 hover:bg-red-500;
-  }
-  .btn-control-neutral {
-    @apply bg-neutral-600 hover:bg-neutral-500;
-  }
+    /* コントロールボタン本体（色は役割別の修飾クラスで指定） */
+    .btn-control {
+        @apply rounded-lg px-5 py-2.5 text-base font-bold whitespace-nowrap text-white shadow-[0_4px_6px_rgba(0,0,0,0.3)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_6px_8px_rgba(0,0,0,0.4)] active:translate-y-0 active:shadow-[0_2px_4px_rgba(0,0,0,0.3)] max-[576px]:px-[15px] max-[576px]:py-2 max-[576px]:text-sm max-[400px]:px-3 max-[400px]:py-1.5 max-[400px]:text-xs;
+    }
+    .btn-control-primary {
+        @apply bg-blue-600 hover:bg-blue-500;
+    }
+    .btn-control-success {
+        @apply bg-green-600 hover:bg-green-500;
+    }
+    .btn-control-info {
+        @apply bg-cyan-600 hover:bg-cyan-500;
+    }
+    .btn-control-danger {
+        @apply bg-red-600 hover:bg-red-500;
+    }
+    .btn-control-neutral {
+        @apply bg-neutral-600 hover:bg-neutral-500;
+    }
 }
 ```
 
@@ -148,18 +148,26 @@ HTML側は次のようにコンポーネントクラス＋個別差分のユー�
 ```html
 <!-- playPauseButton構成（reset=primary, playPause=success） -->
 <div class="controls-left-bottom">
-  <button id="resetButton" class="btn-control btn-control-primary">リセット</button>
-  <button id="playPauseButton" class="btn-control btn-control-success">再生</button>
+    <button id="resetButton" class="btn-control btn-control-primary">
+        リセット
+    </button>
+    <button id="playPauseButton" class="btn-control btn-control-success">
+        再生
+    </button>
 </div>
 <div class="controls-right-top">
-  <button id="toggleModal" class="btn-control btn-control-info">設定</button>
+    <button id="toggleModal" class="btn-control btn-control-info">設定</button>
 </div>
 
 <!-- startButton/stopButton構成（reset=neutral, doppler等） -->
 <div class="controls-left-bottom">
-  <button id="startButton" class="btn-control btn-control-primary">開始</button>
-  <button id="stopButton" class="btn-control btn-control-danger">停止</button>
-  <button id="resetButton" class="btn-control btn-control-neutral">リセット</button>
+    <button id="startButton" class="btn-control btn-control-primary">
+        開始
+    </button>
+    <button id="stopButton" class="btn-control btn-control-danger">停止</button>
+    <button id="resetButton" class="btn-control btn-control-neutral">
+        リセット
+    </button>
 </div>
 ```
 

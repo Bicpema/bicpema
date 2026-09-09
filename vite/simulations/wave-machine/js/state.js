@@ -40,5 +40,5 @@ export const state = {
   /** 減速ボタンの参照 */
   decelerationButton: null,
   /** 加速ボタンの参照 */
-  accelerationButton: null,
+  accelerationButton: null
 };

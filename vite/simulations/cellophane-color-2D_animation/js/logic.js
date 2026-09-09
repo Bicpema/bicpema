@@ -22,7 +22,7 @@ import {
   SRGB_GAMMA_OFFSET,
   GRAPH_LABEL_FONT_SIZE,
   GRAPH_TITLE_FONT_SIZE,
-  GRAPH_TICK_FONT_SIZE,
+  GRAPH_TICK_FONT_SIZE
 } from "./constants.js";
 
 // Chart.js・mathjsの動的importをモジュール読み込み時に開始する。p5のpreload()による
@@ -478,7 +478,7 @@ export function createCellophane(p, n, rAfter, a, angle_1) {
 export function r_theta(p, theta) {
   return [
     [p.cos(theta), -p.sin(theta)],
-    [p.sin(theta), p.cos(theta)],
+    [p.sin(theta), p.cos(theta)]
   ];
 }
 
@@ -486,7 +486,7 @@ export function r_theta(p, theta) {
 export function mai_r_theta(p, theta) {
   return [
     [p.cos(theta), p.sin(theta)],
-    [-p.sin(theta), p.cos(theta)],
+    [-p.sin(theta), p.cos(theta)]
   ];
 }
 
@@ -494,7 +494,7 @@ export function mai_r_theta(p, theta) {
 export function jhons(p, theta) {
   return [
     [p.sin(theta) ** 2, -p.sin(theta) * p.cos(theta)],
-    [-p.sin(theta) * p.cos(theta), p.cos(theta) ** 2],
+    [-p.sin(theta) * p.cos(theta), p.cos(theta) ** 2]
   ];
 }
 
@@ -561,7 +561,7 @@ export async function beforeColorCalculate(p) {
   state.rgbBefore = math.multiply(state.tosRGB, [
     state.xSumBefore,
     state.ySumBefore,
-    state.zSumBefore,
+    state.zSumBefore
   ]);
   state.rBefore = toRGB(state.rgbBefore[0]);
   state.gBefore = toRGB(state.rgbBefore[1]);
@@ -605,7 +605,7 @@ export function afterColorCalculate(p) {
       );
       let cello = [
         [1, 0],
-        [0, math.exp(math.complex(0, -delta))],
+        [0, math.exp(math.complex(0, -delta))]
       ];
       state.E_2 = math.multiply(cello, state.E_1);
 
@@ -622,7 +622,7 @@ export function afterColorCalculate(p) {
           );
           let cello = [
             [1, 0],
-            [0, math.exp(math.complex(0, -delta))],
+            [0, math.exp(math.complex(0, -delta))]
           ];
           let targetAngle = p.select("#rotateInput-" + n);
           let b = p.radians(targetAngle.value() - referenceAngle.value());
@@ -688,7 +688,7 @@ export function afterColorCalculate(p) {
     state.sRGB = math.multiply(state.tosRGB, [
       state.xSumAfter,
       state.ySumAfter,
-      state.zSumAfter,
+      state.zSumAfter
     ]);
     state.rAfter = toRGB(state.sRGB[0]);
     state.gAfter = toRGB(state.sRGB[1]);
@@ -756,7 +756,7 @@ export function afterColorCalculate1(p) {
       );
       let cello = [
         [1, 0],
-        [0, math.exp(math.complex(0, -delta))],
+        [0, math.exp(math.complex(0, -delta))]
       ];
       state.E_2 = math.multiply(cello, state.E_1);
       if (state.polarizerSelect.value() == "平行ニコル配置") {
@@ -813,7 +813,7 @@ export function afterColorCalculate1(p) {
     state.sRGB = math.multiply(state.tosRGB, [
       state.xSumAfter,
       state.ySumAfter,
-      state.zSumAfter,
+      state.zSumAfter
     ]);
     state.rAfter1 = toRGB(state.sRGB[0]);
     state.gAfter1 = toRGB(state.sRGB[1]);
@@ -925,7 +925,7 @@ export function afterColorCalculates(p, binaryString) {
       ); //2024.6.22 firstCellophaneの値をvalueで数値化しないとだめだった!
       let cello = [
         [1, 0],
-        [0, math.exp(math.complex(0, -delta))],
+        [0, math.exp(math.complex(0, -delta))]
       ];
       state.E_2 = math.multiply(cello, state.E_1);
 
@@ -943,7 +943,7 @@ export function afterColorCalculates(p, binaryString) {
           );
           let cello = [
             [1, 0],
-            [0, math.exp(math.complex(0, -delta))],
+            [0, math.exp(math.complex(0, -delta))]
           ];
           let targetAngle = p.select("#rotateInput-" + n);
           let b = p.radians(targetAngle.value() - referenceAngle.value());
@@ -970,7 +970,7 @@ export function afterColorCalculates(p, binaryString) {
           );
           let cello = [
             [1, 0],
-            [0, math.exp(math.complex(0, -delta))],
+            [0, math.exp(math.complex(0, -delta))]
           ];
           let targetAngle = p.select("#rotateInput-" + num);
           let b = p.radians(targetAngle.value() - referenceAngle.value());
@@ -1040,7 +1040,7 @@ export function afterColorCalculates(p, binaryString) {
     state.sRGB = math.multiply(state.tosRGB, [
       state.xSumAfter,
       state.ySumAfter,
-      state.zSumAfter,
+      state.zSumAfter
     ]);
     state.rAfter2 = toRGB(state.sRGB[0]);
     state.gAfter2 = toRGB(state.sRGB[1]);
@@ -1166,13 +1166,13 @@ export function getrectPoint(p, tape_angle) {
     p.sin(state.angle_1 + tape_angle - p.PI / 2),
     p.sin(state.angle_2 + tape_angle - p.PI / 2),
     p.sin(state.angle_3 + tape_angle - p.PI / 2),
-    p.sin(state.angle_4 + tape_angle - p.PI / 2),
+    p.sin(state.angle_4 + tape_angle - p.PI / 2)
   ];
   let cosValues = [
     p.cos(state.angle_1 + tape_angle - p.PI / 2),
     p.cos(state.angle_2 + tape_angle - p.PI / 2),
     p.cos(state.angle_3 + tape_angle - p.PI / 2),
-    p.cos(state.angle_4 + tape_angle - p.PI / 2),
+    p.cos(state.angle_4 + tape_angle - p.PI / 2)
   ];
 
   state.x1 = state.centerX + cosValues[0] * state.radius;
@@ -1281,7 +1281,7 @@ export function drawGraph() {
           ",1)",
         pointRadius: 0,
         fill: "start",
-        showLine: true,
+        showLine: true
       },
       {
         label: "１枚目の偏光板を透過した時のスペクトル", //options.legend で凡例の表示・非表示を設定できる
@@ -1304,9 +1304,9 @@ export function drawGraph() {
           ",1)",
         pointRadius: 0,
         fill: "start",
-        showLine: true,
-      },
-    ],
+        showLine: true
+      }
+    ]
   };
 
   //グラフの表示設定
@@ -1315,17 +1315,17 @@ export function drawGraph() {
       legend: {
         labels: {
           font: {
-            size: GRAPH_LABEL_FONT_SIZE,
-          },
-        },
+            size: GRAPH_LABEL_FONT_SIZE
+          }
+        }
       },
       title: {
         display: true,
         text: "１枚目の偏光板を透過した後とシミュレーションのスペクトルの比較",
         font: {
-          size: GRAPH_TITLE_FONT_SIZE,
-        },
-      },
+          size: GRAPH_TITLE_FONT_SIZE
+        }
+      }
     },
     responsive: true,
     maintainAspectRatio: false,
@@ -1337,16 +1337,16 @@ export function drawGraph() {
           display: true,
           text: "波長(nm)",
           font: {
-            size: GRAPH_LABEL_FONT_SIZE,
-          },
+            size: GRAPH_LABEL_FONT_SIZE
+          }
         },
         max: WAVELENGTH_MAX,
         min: WAVELENGTH_MIN,
         ticks: {
           font: {
-            size: GRAPH_TICK_FONT_SIZE,
-          },
-        },
+            size: GRAPH_TICK_FONT_SIZE
+          }
+        }
       },
       y: {
         display: true,
@@ -1354,24 +1354,24 @@ export function drawGraph() {
           display: true,
           text: "強度(a.u.)",
           font: {
-            size: GRAPH_LABEL_FONT_SIZE,
-          },
+            size: GRAPH_LABEL_FONT_SIZE
+          }
         },
         max: 1,
         min: 0,
         ticks: {
           font: {
-            size: GRAPH_TICK_FONT_SIZE,
-          },
-        },
-      },
-    },
+            size: GRAPH_TICK_FONT_SIZE
+          }
+        }
+      }
+    }
   };
 
   let mainChartsetup = {
     type: "scatter",
     data: mainData,
-    options: mainOptions,
+    options: mainOptions
   };
 
   //canvasにグラフを描画
@@ -1407,7 +1407,7 @@ export function drawGraph2_1(x1, y1) {
         backgroundColor: "rgba(0, 0, 0, 0.5)",
         borderColor: "rgba(200, 200, 200, 1)",
         pointRadius: 5,
-        showLine: false,
+        showLine: false
       },
       {
         label: "HSV色空間の境界",
@@ -1416,9 +1416,9 @@ export function drawGraph2_1(x1, y1) {
         borderWidth: 2,
         showLine: true, // 線として描画
         fill: false,
-        pointRadius: 0, // 点を非表示
-      },
-    ],
+        pointRadius: 0 // 点を非表示
+      }
+    ]
   };
 
   // グラフのオプション設定
@@ -1428,8 +1428,8 @@ export function drawGraph2_1(x1, y1) {
       title: {
         display: true,
         text: "HSV色空間上での各層の色",
-        font: { size: GRAPH_TITLE_FONT_SIZE },
-      },
+        font: { size: GRAPH_TITLE_FONT_SIZE }
+      }
     },
     responsive: true,
     maintainAspectRatio: false,
@@ -1440,30 +1440,30 @@ export function drawGraph2_1(x1, y1) {
         title: {
           display: true,
           text: "x",
-          font: { size: GRAPH_LABEL_FONT_SIZE },
+          font: { size: GRAPH_LABEL_FONT_SIZE }
         },
         max: 1,
         min: -1,
-        ticks: { font: { size: GRAPH_TICK_FONT_SIZE }, stepSize: 0.1 },
+        ticks: { font: { size: GRAPH_TICK_FONT_SIZE }, stepSize: 0.1 }
       },
       y: {
         display: true,
         title: {
           display: true,
           text: "y",
-          font: { size: GRAPH_LABEL_FONT_SIZE },
+          font: { size: GRAPH_LABEL_FONT_SIZE }
         },
         max: 1,
         min: -1,
-        ticks: { font: { size: GRAPH_TICK_FONT_SIZE }, stepSize: 0.1 },
-      },
-    },
+        ticks: { font: { size: GRAPH_TICK_FONT_SIZE }, stepSize: 0.1 }
+      }
+    }
   };
 
   let mainChartsetup = {
     type: "scatter",
     data: mainData,
-    options: mainOptions,
+    options: mainOptions
   };
 
   let mainCtx = document.getElementById("mainSpectrumGraph0");
@@ -1502,7 +1502,7 @@ export function drawGraph2() {
         backgroundColor: "rgba(0, 0, 0, 0.5)",
         borderColor: "rgba(200, 200, 200, 1)",
         pointRadius: 5,
-        showLine: false,
+        showLine: false
       },
       {
         label: "HSV色空間の境界",
@@ -1511,9 +1511,9 @@ export function drawGraph2() {
         borderWidth: 2,
         showLine: true, // 線として描画
         fill: false,
-        pointRadius: 0, // 点を非表示
-      },
-    ],
+        pointRadius: 0 // 点を非表示
+      }
+    ]
   };
 
   // グラフのオプション設定
@@ -1523,8 +1523,8 @@ export function drawGraph2() {
       title: {
         display: true,
         text: "HSV色空間上での各層の色",
-        font: { size: GRAPH_TITLE_FONT_SIZE },
-      },
+        font: { size: GRAPH_TITLE_FONT_SIZE }
+      }
     },
     responsive: true,
     maintainAspectRatio: false,
@@ -1535,30 +1535,30 @@ export function drawGraph2() {
         title: {
           display: true,
           text: "x",
-          font: { size: GRAPH_LABEL_FONT_SIZE },
+          font: { size: GRAPH_LABEL_FONT_SIZE }
         },
         max: 1,
         min: -1,
-        ticks: { font: { size: GRAPH_TICK_FONT_SIZE }, stepSize: 0.1 },
+        ticks: { font: { size: GRAPH_TICK_FONT_SIZE }, stepSize: 0.1 }
       },
       y: {
         display: true,
         title: {
           display: true,
           text: "y",
-          font: { size: GRAPH_LABEL_FONT_SIZE },
+          font: { size: GRAPH_LABEL_FONT_SIZE }
         },
         max: 1,
         min: -1,
-        ticks: { font: { size: GRAPH_TICK_FONT_SIZE }, stepSize: 0.1 },
-      },
-    },
+        ticks: { font: { size: GRAPH_TICK_FONT_SIZE }, stepSize: 0.1 }
+      }
+    }
   };
 
   let mainChartsetup = {
     type: "scatter",
     data: mainData,
-    options: mainOptions,
+    options: mainOptions
   };
 
   let mainCtx = document.getElementById("mainSpectrumGraph0");

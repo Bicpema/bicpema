@@ -84,7 +84,7 @@ new p5(sketch);
 
 ```js title="js/state.js の基本構造"
 export const state = {
-    isPlaying: true,
+    isPlaying: true
     // その他のシミュレーション固有の状態
 };
 ```

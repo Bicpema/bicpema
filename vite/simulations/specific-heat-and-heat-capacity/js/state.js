@@ -19,5 +19,5 @@ export const state = {
   /** 物質A質量セレクト */
   massSelectA: null,
   /** 物質B質量セレクト */
-  massSelectB: null,
+  massSelectB: null
 };

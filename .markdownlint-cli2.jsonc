@@ -6,5 +6,5 @@
     "resources/**",
     "docs/site/**",
     "docs/.cache/**"
-  ],
+  ]
 }

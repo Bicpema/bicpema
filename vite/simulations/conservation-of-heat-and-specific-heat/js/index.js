@@ -7,7 +7,7 @@ import {
   settingInit,
   elementSelectInit,
   elementPositionInit,
-  valueInit,
+  valueInit
 } from "./init.js";
 import { drawSimulation } from "./logic.js";
 

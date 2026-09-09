@@ -10,14 +10,14 @@ import {
   settingInit,
   elementSelectInit,
   elementPositionInit,
-  valueInit,
+  valueInit
 } from "./init.js";
 import {
   V_W,
   drawSlope,
   drawCartOnSlope,
   drawRecordingTape,
-  drawInfoPanel,
+  drawInfoPanel
 } from "./function.js";
 
 const sketch = (p) => {

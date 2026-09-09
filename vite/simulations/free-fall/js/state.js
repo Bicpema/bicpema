@@ -25,5 +25,5 @@ export const state = {
   /** y-t グラフ用データ */
   ytData: [],
   /** グラフ表示状態 */
-  graphVisible: false,
+  graphVisible: false
 };

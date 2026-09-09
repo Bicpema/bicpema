@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   computeEquilibriumTemperature,
-  computeTemperatureAtTime,
+  computeTemperatureAtTime
 } from "../../../vite/simulations/conservation-of-heat-and-specific-heat/js/physics.js";
 
 describe("computeEquilibriumTemperature", () => {

@@ -11,7 +11,7 @@ import {
   CYL_HEIGHT,
   CYL_CENTER_Y,
   CYL_DEPTH,
-  DT_UNIT,
+  DT_UNIT
 } from "./constants.js";
 
 /**

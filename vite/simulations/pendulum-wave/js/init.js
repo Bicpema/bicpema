@@ -8,7 +8,7 @@ import {
   LENGTH_COLUMN,
   WEIGHT_IMAGE_WIDTH_DIVISOR,
   GUIDE_TEXT_SIZE_DIVISOR,
-  PIVOT_Y,
+  PIVOT_Y
 } from "./constants.js";
 
 /**

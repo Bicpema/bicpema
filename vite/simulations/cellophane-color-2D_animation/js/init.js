@@ -5,7 +5,7 @@ import { state } from "./state.js";
 import {
   onScreenshotClick,
   cellophaneAddButtonFunction,
-  cellophaneRemoveButtonFunction,
+  cellophaneRemoveButtonFunction
 } from "./element-function.js";
 
 /**
@@ -31,7 +31,7 @@ export function elInit(p) {
   initModal({
     openSelectors: ".settings-modal-open",
     modalSelector: "#settingModal",
-    closeSelectors: ".modal-close",
+    closeSelectors: ".modal-close"
   });
 }
 

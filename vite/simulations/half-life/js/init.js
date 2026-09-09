@@ -7,7 +7,7 @@ import {
   MAX_YEARS_MULTIPLIER,
   TIME_STEPS_PER_HALF_LIFE,
   MIN_GRID_SIDE,
-  MAX_GRID_SIDE,
+  MAX_GRID_SIDE
 } from "./constants.js";
 
 /**
@@ -28,7 +28,7 @@ export function elementSelectInit(p) {
   state.materialRadios = document.querySelectorAll('input[name="material"]');
   initCollapse({
     toggleSelectors: "#settingsButton",
-    targetSelector: "#settingsPanel",
+    targetSelector: "#settingsPanel"
   });
 }
 
@@ -98,7 +98,7 @@ export function valueInit(p) {
       state.currentTime = 0;
       initAtoms();
       state.toggleBtn.html("スタート");
-    },
+    }
   });
   state.toggleBtn = toggleButton;
   state.resetBtn = resetButton;

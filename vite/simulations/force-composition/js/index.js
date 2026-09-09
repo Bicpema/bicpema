@@ -65,7 +65,7 @@ const sketch = (p) => {
     initModal({
       openSelectors: "#forceSettingsButton",
       modalSelector: "#forceSettingsModal",
-      closeSelectors: ".modal-close",
+      closeSelectors: ".modal-close"
     });
   };
 

@@ -49,7 +49,7 @@ function parseArgs(argv) {
     concurrency: 4,
     timeout: 20000,
     settle: 2000,
-    baseUrl: null,
+    baseUrl: null
   };
   for (const arg of argv) {
     // 値側に "=" を含む場合（例: --base-url=http://host/?a=b）があるため、
@@ -138,7 +138,7 @@ async function verifySimulation(browser, baseUrl, name, options) {
   try {
     await page.goto(`${baseUrl}/vite/simulations/${name}/`, {
       waitUntil: "load",
-      timeout: options.timeout,
+      timeout: options.timeout
     });
     await page.waitForTimeout(options.settle);
   } catch (error) {
@@ -155,7 +155,7 @@ async function verifySimulation(browser, baseUrl, name, options) {
     name,
     ok: errors.length === 0 && consoleErrors.length === 0,
     errors,
-    consoleErrors,
+    consoleErrors
   };
 }
 
@@ -218,7 +218,7 @@ async function main() {
       root: join(rootDir, "vite"),
       base: "/vite",
       preview: { port, strictPort: true },
-      build: { outDir },
+      build: { outDir }
     });
     baseUrl = `http://localhost:${port}`;
   }
