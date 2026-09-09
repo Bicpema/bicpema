@@ -1,6 +1,7 @@
 // element-function.js - イベントハンドラー専用のファイルです。
 
 import { state } from "./state.js";
+import { updateGraph } from "./graph.js";
 
 /**
  * リセットボタンが押されたときの処理

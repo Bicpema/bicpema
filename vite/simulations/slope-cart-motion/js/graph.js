@@ -38,7 +38,9 @@ export function updateGraph() {
     return;
   }
 
-  const ctx = document.getElementById("graphCanvas");
+  const ctx = /** @type {HTMLCanvasElement | null} */ (
+    document.getElementById("graphCanvas")
+  );
   if (!ctx) return;
 
   // 既存グラフを破棄
@@ -84,6 +86,7 @@ export function updateGraph() {
 
   const vMax = state.cart.accel * maxT * 1.1;
 
+  /** @type {import("chart.js").ChartOptions<"scatter">} */
   const options = {
     plugins: {
       title: {
