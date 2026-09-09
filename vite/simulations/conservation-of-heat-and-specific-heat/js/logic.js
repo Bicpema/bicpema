@@ -3,6 +3,7 @@ import {
   computeEquilibriumTemperature,
   computeTemperatureAtTime
 } from "./physics.js";
+import { getCheckedRadioValue } from "../../../js/bicpema-dom.js";
 
 /** 冷却の緩和係数の係数 G（k_eff = G / C_hot） */
 const COOLING_RATE_CONSTANT = 1.8;
@@ -36,18 +37,18 @@ const BALL_Y_LARGE = 424;
 const BALL_Y_SMALL = 457;
 
 function getContactState() {
-  const el = document.querySelector('input[name="contact"]:checked');
-  return el ? parseInt(el.value) : 1;
+  const value = getCheckedRadioValue("contact");
+  return value !== null ? parseInt(value) : 1;
 }
 
 function getMaterialA() {
-  const el = document.querySelector('input[name="materialA"]:checked');
-  return el ? parseInt(el.value) : 0;
+  const value = getCheckedRadioValue("materialA");
+  return value !== null ? parseInt(value) : 0;
 }
 
 function getMassA() {
-  const el = document.querySelector('input[name="massA"]:checked');
-  return el ? parseInt(el.value) : 1;
+  const value = getCheckedRadioValue("massA");
+  return value !== null ? parseInt(value) : 1;
 }
 
 function getMaterialGradient(p, x, y, r, type) {

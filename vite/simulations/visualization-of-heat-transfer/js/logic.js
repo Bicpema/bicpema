@@ -9,6 +9,7 @@ import {
   MOLECULE_JITTER_SCALE,
   MOLECULE_JITTER_MAX
 } from "./constants.js";
+import { getCheckedRadioValue } from "../../../js/bicpema-dom.js";
 
 // 仮想キャンバス寸法: p.scale(p.width / 1000) 適用後の 1000×562 論理ピクセル空間
 // 左側ブロック (接触前)
@@ -46,9 +47,7 @@ export function drawSimulation(p) {
 }
 
 function updateTemperature() {
-  let contactState = parseInt(
-    document.querySelector('input[name="contact"]:checked')?.value ?? "1"
-  );
+  let contactState = parseInt(getCheckedRadioValue("contact") ?? "1");
   if (contactState === 0) {
     state.t++;
     state.Thot = computeTemperatureAtTime(
@@ -163,8 +162,7 @@ function drawGraph(p) {
   p.triangle(704, 137, 707, 130, 710, 137);
   p.triangle(984, 396, 975, 393, 975, 399);
 
-  const contactVal =
-    document.querySelector('input[name="contact"]:checked')?.value ?? "1";
+  const contactVal = getCheckedRadioValue("contact") ?? "1";
 
   if (contactVal === "1") {
     p.push();
