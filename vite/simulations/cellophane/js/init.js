@@ -3,6 +3,7 @@
 import { state } from "./state.js";
 import { createRays } from "./class.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
+import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 import { FPS } from "./constants.js";
 import {
   waveRepresentationFunction,
@@ -24,7 +25,6 @@ export function elCreate(p) {
   state.rButton = p.select("#rButton");
   state.gButton = p.select("#gButton");
   state.bButton = p.select("#bButton");
-  state.playPauseButton = p.select("#playPauseButton");
   state.incidentColor = p.select("#incidentColor");
   state.transmittedColor = p.select("#transmittedColor");
 
@@ -35,7 +35,14 @@ export function elCreate(p) {
   state.rButton.mousePressed(() => rButtonFunction());
   state.gButton.mousePressed(() => gButtonFunction());
   state.bButton.mousePressed(() => bButtonFunction());
-  state.playPauseButton.mousePressed(() => onPlayPause());
+
+  const { toggleButton } = bindToggleControls(p, {
+    toggleSelector: "#playPauseButton",
+    resetSelector: "#resetButton",
+    onToggle: onPlayPause,
+    onReset: () => {},
+  });
+  state.playPauseButton = toggleButton;
 }
 
 /**

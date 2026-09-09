@@ -1,5 +1,6 @@
 import p5 from "p5";
 import { state } from "./state.js";
+import { bindStartStopControls } from "../../../js/bicpema-controls-controller.js";
 
 export const FPS = 30;
 
@@ -10,9 +11,6 @@ export function settingInit(p) {
 
 export function elementSelectInit() {
   return {
-    startButton: document.querySelector("#startButton"),
-    stopButton: document.querySelector("#stopButton"),
-    restartButton: document.querySelector("#restartButton"),
     modeSelect: document.querySelector("#modeSelect"),
   };
 }
@@ -28,22 +26,29 @@ export function valueInit() {
 }
 
 export function setupControls(p, elements) {
-  elements.startButton.addEventListener("click", () => {
-    p.userStartAudio();
-    if (!state.mic) {
-      state.mic = new p5.AudioIn();
-      state.mic.start(() => {
-        state.audioStarted = true;
-      });
-      state.fft = new p5.FFT();
-      state.fft.setInput(state.mic);
-    }
-  });
-  elements.stopButton.addEventListener("click", () => {
-    state.paused = true;
-  });
-  elements.restartButton.addEventListener("click", () => {
-    state.paused = false;
+  bindStartStopControls(p, {
+    startSelector: "#startButton",
+    stopSelector: "#stopButton",
+    resetSelector: "#restartButton",
+    onStart: () => {
+      p.userStartAudio();
+      if (!state.mic) {
+        state.mic = new p5.AudioIn();
+        state.mic.start(() => {
+          state.audioStarted = true;
+        });
+        state.fft = new p5.FFT();
+        state.fft.setInput(state.mic);
+      }
+    },
+    onStop: () => {
+      state.paused = true;
+    },
+    onReset: () => {
+      state.paused = false;
+    },
+    startAriaLabel: "音の入力開始",
+    resetAriaLabel: "再開",
   });
   elements.modeSelect.addEventListener("change", (event) => {
     state.displayMode = event.target.value;
