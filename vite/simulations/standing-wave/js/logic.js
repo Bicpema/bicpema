@@ -3,7 +3,7 @@ import {
   computeRightWaveDisplacement,
   computeLeftWaveDisplacement,
   computeStandingWaveDisplacement,
-  computeWaveFronts,
+  computeWaveFronts
 } from "./physics.js";
 import { GRID_LINES_PER_WAVELENGTH } from "./constants.js";
 

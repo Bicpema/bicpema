@@ -3,7 +3,7 @@ import { computeDecayFraction, computeRemainingCount } from "./physics.js";
 import {
   HALF_LIFE_IODINE_131,
   HALF_LIFE_CARBON_14,
-  HALF_LIFE_CESIUM_137,
+  HALF_LIFE_CESIUM_137
 } from "./constants.js";
 
 /**

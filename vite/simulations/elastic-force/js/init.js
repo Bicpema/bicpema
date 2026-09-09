@@ -21,7 +21,7 @@ export function elCreate(p) {
   initModal({
     openSelectors: "#toggleModal",
     modalSelector: "#settingsModal",
-    closeSelectors: "#closeModal",
+    closeSelectors: "#closeModal"
   });
 
   p.frameRate(FPS);

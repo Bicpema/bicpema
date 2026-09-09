@@ -15,5 +15,5 @@ export const state = {
   /** リセットボタン要素 */
   resetButton: null,
   /** 最大値クリアボタン要素 */
-  clearMaxButton: null,
+  clearMaxButton: null
 };

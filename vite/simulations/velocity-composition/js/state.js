@@ -8,5 +8,5 @@ export const state = {
   boatSpeedValue: null,
   riverSpeedValue: null,
   resetButton: null,
-  playPauseButton: null,
+  playPauseButton: null
 };

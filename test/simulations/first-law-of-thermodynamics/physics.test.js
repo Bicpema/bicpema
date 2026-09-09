@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   computeThermodynamicState,
-  computeMoleculeSpeed,
+  computeMoleculeSpeed
 } from "../../../vite/simulations/first-law-of-thermodynamics/js/physics.js";
 
 describe("computeThermodynamicState", () => {

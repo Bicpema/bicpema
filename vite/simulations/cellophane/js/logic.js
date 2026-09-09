@@ -5,7 +5,7 @@ import {
   POLARIZER_SIZE,
   POLARIZER_Z,
   RAY_Z_RANGE,
-  RAY_Z_LIMIT,
+  RAY_Z_LIMIT
 } from "./constants.js";
 
 /**

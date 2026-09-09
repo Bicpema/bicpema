@@ -7,6 +7,8 @@ public
 resources
 vite/_build
 dist
+docs/site
+docs/.cache
 
 # Hugo
 .hugo_build.lock

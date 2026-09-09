@@ -11,7 +11,7 @@ import {
   MARKER_DOT_HEIGHT_RATIO,
   CAR_IMAGE_CENTER_HEIGHT_RATIO,
   MARKER_TEXT_SIZE,
-  INFO_TEXT_SIZE,
+  INFO_TEXT_SIZE
 } from "./constants.js";
 
 /**
@@ -63,11 +63,11 @@ export class Car {
     if (this.time - this.lastGraphUpdate >= GRAPH_INTERVAL) {
       state.xtData.push({
         x: parseFloat(this.time.toFixed(3)),
-        y: parseFloat(this.position.toFixed(3)),
+        y: parseFloat(this.position.toFixed(3))
       });
       state.vtData.push({
         x: parseFloat(this.time.toFixed(3)),
-        y: parseFloat(this.velocity.toFixed(3)),
+        y: parseFloat(this.velocity.toFixed(3))
       });
       this.lastGraphUpdate = this.time;
     }
@@ -80,7 +80,7 @@ export class Car {
         px:
           (this.initialVelocity * markerTime +
             0.5 * this.acceleration * markerTime * markerTime) *
-          PIXELS_PER_METER,
+          PIXELS_PER_METER
       });
       this.lastMarkerTime = markerTime;
     }

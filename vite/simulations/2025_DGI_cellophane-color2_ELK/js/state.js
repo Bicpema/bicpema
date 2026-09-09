@@ -181,5 +181,5 @@ export const state = {
 
   // <グラフ>
   /** メインスペクトルグラフのChart.jsインスタンス */
-  mainChartObj: null,
+  mainChartObj: null
 };

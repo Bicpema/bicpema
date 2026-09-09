@@ -5,7 +5,7 @@ import { SLOPE_LENGTH_M } from "./function.js";
 import {
   RECORDED_DATA_COLOR,
   AXIS_TITLE_FONT_SIZE,
-  AXIS_TICK_FONT_SIZE,
+  AXIS_TICK_FONT_SIZE
 } from "./constants.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
 
@@ -53,7 +53,7 @@ export function updateGraph() {
   for (let t = 0; t <= maxT; t += 0.05) {
     theoreticalData.push({
       x: parseFloat(t.toFixed(3)),
-      y: parseFloat((state.cart.accel * t).toFixed(4)),
+      y: parseFloat((state.cart.accel * t).toFixed(4))
     });
   }
 
@@ -67,7 +67,7 @@ export function updateGraph() {
         borderColor: "rgba(100, 160, 255, 0.6)",
         borderWidth: 2,
         borderDash: [6, 4],
-        fill: false,
+        fill: false
       },
       {
         label: "記録テープのデータ",
@@ -77,9 +77,9 @@ export function updateGraph() {
         pointBackgroundColor: RECORDED_DATA_COLOR,
         borderColor: RECORDED_DATA_COLOR,
         borderWidth: 2,
-        fill: false,
-      },
-    ],
+        fill: false
+      }
+    ]
   };
 
   const vMax = state.cart.accel * maxT * 1.1;
@@ -89,11 +89,11 @@ export function updateGraph() {
       title: {
         display: true,
         text: "v-tグラフ（速度-時間グラフ）",
-        font: { size: 16 },
+        font: { size: 16 }
       },
       legend: {
-        labels: { font: { size: 13 } },
-      },
+        labels: { font: { size: 13 } }
+      }
     },
     scales: {
       x: {
@@ -103,9 +103,9 @@ export function updateGraph() {
         title: {
           display: true,
           text: "時間 t [s]",
-          font: { size: AXIS_TITLE_FONT_SIZE },
+          font: { size: AXIS_TITLE_FONT_SIZE }
         },
-        ticks: { font: { size: AXIS_TICK_FONT_SIZE } },
+        ticks: { font: { size: AXIS_TICK_FONT_SIZE } }
       },
       y: {
         min: 0,
@@ -113,18 +113,18 @@ export function updateGraph() {
         title: {
           display: true,
           text: "速度 v [m/s]",
-          font: { size: AXIS_TITLE_FONT_SIZE },
+          font: { size: AXIS_TITLE_FONT_SIZE }
         },
-        ticks: { font: { size: AXIS_TICK_FONT_SIZE } },
-      },
+        ticks: { font: { size: AXIS_TICK_FONT_SIZE } }
+      }
     },
     animation: false,
-    maintainAspectRatio: false,
+    maintainAspectRatio: false
   };
 
   state.graphChart = new Chart(ctx, {
     type: "scatter",
     data: data,
-    options: options,
+    options: options
   });
 }

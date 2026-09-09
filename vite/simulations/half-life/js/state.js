@@ -3,7 +3,7 @@ import {
   MAX_YEARS_MULTIPLIER,
   TIME_STEPS_PER_HALF_LIFE,
   INITIAL_GRID_SIDE,
-  INITIAL_ATOM_COUNT,
+  INITIAL_ATOM_COUNT
 } from "./constants.js";
 
 // グローバル状態管理オブジェクト
@@ -27,5 +27,5 @@ export const state = {
   /** シミュレーション実行中かどうか */
   isRunning: false,
   /** 崩壊後（青色）の原子数 */
-  count: 0,
+  count: 0
 };

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   computeOpticalPathDifference,
-  computeTransmittance,
+  computeTransmittance
 } from "../../../vite/simulations/cellophane/js/physics.js";
 
 describe("computeOpticalPathDifference", () => {

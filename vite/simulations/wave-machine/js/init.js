@@ -5,12 +5,12 @@ import {
   MEDIUM_QUANTITY,
   MEDIUM_TRACK_MARGIN,
   STOPPER_WIDTH,
-  BUTTON_SIZE,
+  BUTTON_SIZE
 } from "./state.js";
 import { Medium } from "./medium.js";
 import {
   onDecelerationButtonClick,
-  onAccelerationButtonClick,
+  onAccelerationButtonClick
 } from "./element-function.js";
 
 /**

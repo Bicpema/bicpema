@@ -24,7 +24,7 @@ import {
   BATCH_SIZE_MIN,
   BATCH_SIZE_MAX,
   BATCH_SIZE_GROWTH_FACTOR,
-  BATCH_FPS_THRESHOLD,
+  BATCH_FPS_THRESHOLD
 } from "./constants.js";
 
 // mathjsの動的importをモジュール読み込み時に開始する。p5のpreload()による
@@ -384,7 +384,7 @@ function createCellophane(p, n, rAfter, a, angle_1) {
 function r_theta(p, theta) {
   return [
     [p.cos(theta), -p.sin(theta)],
-    [p.sin(theta), p.cos(theta)],
+    [p.sin(theta), p.cos(theta)]
   ];
 }
 
@@ -392,7 +392,7 @@ function r_theta(p, theta) {
 function mai_r_theta(p, theta) {
   return [
     [p.cos(theta), p.sin(theta)],
-    [-p.sin(theta), p.cos(theta)],
+    [-p.sin(theta), p.cos(theta)]
   ];
 }
 
@@ -400,7 +400,7 @@ function mai_r_theta(p, theta) {
 function jhons(p, theta) {
   return [
     [p.sin(theta) ** 2, -p.sin(theta) * p.cos(theta)],
-    [-p.sin(theta) * p.cos(theta), p.cos(theta) ** 2],
+    [-p.sin(theta) * p.cos(theta), p.cos(theta) ** 2]
   ];
 }
 
@@ -473,7 +473,7 @@ export async function beforeColorCalculate(p) {
   state.rgbBefore = math.multiply(state.tosRGB, [
     state.xSumBefore,
     state.ySumBefore,
-    state.zSumBefore,
+    state.zSumBefore
   ]);
   state.rBefore = toRGB(state.rgbBefore[0]);
   state.gBefore = toRGB(state.rgbBefore[1]);
@@ -508,7 +508,7 @@ function afterColorCalculate(p) {
       );
       const cello = [
         [1, 0],
-        [0, math.exp(math.complex(0, -delta))],
+        [0, math.exp(math.complex(0, -delta))]
       ];
       state.E_2 = math.multiply(cello, state.E_1);
 
@@ -524,7 +524,7 @@ function afterColorCalculate(p) {
           );
           const cello = [
             [1, 0],
-            [0, math.exp(math.complex(0, -delta))],
+            [0, math.exp(math.complex(0, -delta))]
           ];
           const targetAngle = p.select("#rotateInput-" + n);
           const b = p.radians(targetAngle.value() - referenceAngle.value());
@@ -592,7 +592,7 @@ function afterColorCalculate(p) {
     state.sRGB = math.multiply(state.tosRGB, [
       state.xSumAfter,
       state.ySumAfter,
-      state.zSumAfter,
+      state.zSumAfter
     ]);
     state.rAfter = toRGB(state.sRGB[0]);
     state.gAfter = toRGB(state.sRGB[1]);
@@ -650,7 +650,7 @@ function afterColorCalculate1(p) {
       );
       const cello = [
         [1, 0],
-        [0, math.exp(math.complex(0, -delta))],
+        [0, math.exp(math.complex(0, -delta))]
       ];
       state.E_2 = math.multiply(cello, state.E_1);
       let c;
@@ -710,7 +710,7 @@ function afterColorCalculate1(p) {
     state.sRGB = math.multiply(state.tosRGB, [
       state.xSumAfter,
       state.ySumAfter,
-      state.zSumAfter,
+      state.zSumAfter
     ]);
     state.rAfter1 = toRGB(state.sRGB[0]);
     state.gAfter1 = toRGB(state.sRGB[1]);
@@ -817,7 +817,7 @@ function afterColorCalculates(p, binaryString) {
       ); //2024.6.22 firstCellophaneの値をvalueで数値化しないとだめだった!
       const cello = [
         [1, 0],
-        [0, math.exp(math.complex(0, -delta))],
+        [0, math.exp(math.complex(0, -delta))]
       ];
       state.E_2 = math.multiply(cello, state.E_1);
 
@@ -834,7 +834,7 @@ function afterColorCalculates(p, binaryString) {
           );
           const cello = [
             [1, 0],
-            [0, math.exp(math.complex(0, -delta))],
+            [0, math.exp(math.complex(0, -delta))]
           ];
           const targetAngle = p.select("#rotateInput-" + n);
           const b = p.radians(targetAngle.value() - referenceAngle.value());
@@ -860,7 +860,7 @@ function afterColorCalculates(p, binaryString) {
           );
           const cello = [
             [1, 0],
-            [0, math.exp(math.complex(0, -delta))],
+            [0, math.exp(math.complex(0, -delta))]
           ];
           const targetAngle = p.select("#rotateInput-" + num);
           const b = p.radians(targetAngle.value() - referenceAngle.value()); //2024.6.21 いや,こっちでダメ?!
@@ -932,7 +932,7 @@ function afterColorCalculates(p, binaryString) {
     state.sRGB = math.multiply(state.tosRGB, [
       state.xSumAfter,
       state.ySumAfter,
-      state.zSumAfter,
+      state.zSumAfter
     ]);
     state.rAfter2 = toRGB(state.sRGB[0]);
     state.gAfter2 = toRGB(state.sRGB[1]);
@@ -1069,13 +1069,13 @@ function getrectPoint(p, tape_angle) {
     p.sin(state.angle_1 + tape_angle - p.PI / 2),
     p.sin(state.angle_2 + tape_angle - p.PI / 2),
     p.sin(state.angle_3 + tape_angle - p.PI / 2),
-    p.sin(state.angle_4 + tape_angle - p.PI / 2),
+    p.sin(state.angle_4 + tape_angle - p.PI / 2)
   ];
   const cosValues = [
     p.cos(state.angle_1 + tape_angle - p.PI / 2),
     p.cos(state.angle_2 + tape_angle - p.PI / 2),
     p.cos(state.angle_3 + tape_angle - p.PI / 2),
-    p.cos(state.angle_4 + tape_angle - p.PI / 2),
+    p.cos(state.angle_4 + tape_angle - p.PI / 2)
   ];
 
   state.x1 = state.centerX + cosValues[0] * state.radius;

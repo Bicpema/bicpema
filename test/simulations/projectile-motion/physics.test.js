@@ -11,7 +11,7 @@ describe("computeDragProjectilePosition", () => {
       k: 0,
       gravity: 9.8,
       posx0: 5,
-      posy0: 10,
+      posy0: 10
     });
 
     expect(x).toBeCloseTo(5, 10);
@@ -27,7 +27,7 @@ describe("computeDragProjectilePosition", () => {
       k: 1,
       gravity: 9.8,
       posx0: 5,
-      posy0: 10,
+      posy0: 10
     });
 
     expect(x).toBeCloseTo(5, 8);
@@ -49,7 +49,7 @@ describe("computeDragProjectilePosition", () => {
       k: 0.05,
       gravity,
       posx0: 0,
-      posy0: 0,
+      posy0: 0
     });
 
     // x = v0 cosθ t
@@ -79,7 +79,7 @@ describe("computeDragProjectilePosition", () => {
       k,
       gravity,
       posx0: 0,
-      posy0: 0,
+      posy0: 0
     });
 
     expect(x).toBeCloseTo((mass / k) * speed * Math.cos(theta) * decay, 10);
@@ -109,7 +109,7 @@ describe("computeDragProjectilePosition", () => {
       k,
       gravity,
       posx0: 0,
-      posy0: 0,
+      posy0: 0
     });
 
     expect(x).toBeCloseTo(expectedX, 10);
@@ -133,7 +133,7 @@ describe("computeDragProjectilePosition", () => {
       k,
       gravity,
       posx0: 0,
-      posy0: 0,
+      posy0: 0
     });
     const far = computeDragProjectilePosition({
       t: 500,
@@ -143,7 +143,7 @@ describe("computeDragProjectilePosition", () => {
       k,
       gravity,
       posx0: 0,
-      posy0: 0,
+      posy0: 0
     });
 
     const terminalX = (mass / k) * speed * Math.cos(theta);

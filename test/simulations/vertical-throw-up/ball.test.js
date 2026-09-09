@@ -67,7 +67,7 @@ describe("Ball", () => {
     expect(ball.history[0]).toEqual({
       t: ball.time,
       y: ball.height,
-      v: ball.velocity,
+      v: ball.velocity
     });
   });
 

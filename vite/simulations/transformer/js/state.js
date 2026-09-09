@@ -18,5 +18,5 @@ export const state = {
   minCount: TURNS_MIN, // 巻き線インデックスの最小値
   maxCount: TURNS_MAX, // 巻き線インデックスの最大値
   angle: -20, // コイル曲がり部の傾き角（度）
-  isRunning: false, // シミュレーション実行中かどうか（再生/一時停止ボタンで切り替え）
+  isRunning: false // シミュレーション実行中かどうか（再生/一時停止ボタンで切り替え）
 };

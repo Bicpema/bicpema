@@ -99,12 +99,12 @@ export function setupControls(p) {
       updateDisplays();
       updateWaveLayer(p);
       playPauseButton.textContent = "▶ 開始";
-    },
+    }
   });
 
   initModal({
     openSelectors: "#toggleModal",
     modalSelector: "#settingsModal",
-    closeSelectors: "#closeModal",
+    closeSelectors: "#closeModal"
   });
 }

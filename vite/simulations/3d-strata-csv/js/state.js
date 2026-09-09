@@ -8,7 +8,7 @@ export const STRATA_KINDS = [
   "石灰岩層",
   "凝灰岩層・火山灰層",
   "ローム層",
-  "その他の層",
+  "その他の層"
 ];
 
 /** 地層の種類ごとの表示色 [r, g, b]（「その他の層」は黒） */
@@ -19,7 +19,7 @@ export const STRATA_COLORS = {
   石灰岩層: [120, 170, 170],
   "凝灰岩層・火山灰層": [200, 200, 200],
   ローム層: [112, 58, 21],
-  その他の層: [0, 0, 0],
+  その他の層: [0, 0, 0]
 };
 
 export const state = {
@@ -63,5 +63,5 @@ export const state = {
   strataRemoveButton: null,
   setRadioButton: null,
   unitSelect: null,
-  strataFileInput: null,
+  strataFileInput: null
 };

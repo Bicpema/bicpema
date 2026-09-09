@@ -35,7 +35,7 @@ export async function initGraph() {
           label: "入射光",
           data: state.lightSourceIntensity,
           borderColor: "rgba(0, 0, 0 ,1)",
-          lineTension: 0.3,
+          lineTension: 0.3
         },
         {
           label: "出射光",
@@ -43,28 +43,28 @@ export async function initGraph() {
           fill: true,
           backgroundColor: "rgba(0,0,0,0.5)",
           borderColor: "rgba(0,0,0,1)",
-          lineTension: 0.3,
-        },
-      ],
+          lineTension: 0.3
+        }
+      ]
     },
     options: {
       scales: {
         x: {
           display: true,
-          title: { display: true, text: "波長(nm)" },
+          title: { display: true, text: "波長(nm)" }
         },
         y: {
           display: true,
           title: { display: true, text: "強度(a.u.)" },
-          min: 0,
-        },
+          min: 0
+        }
       },
       plugins: {
-        title: { display: true, text: "スペクトル" },
+        title: { display: true, text: "スペクトル" }
       },
       animation: false,
-      maintainAspectRatio: false,
-    },
+      maintainAspectRatio: false
+    }
   });
 
   // Chart.jsの動的import完了を待つ間にスライダーが操作されている可能性があるため、
@@ -115,26 +115,26 @@ export async function initCmfGraph() {
       datasets: [
         { label: "x(λ)", data: state.cmfr, borderColor: "rgba(255,0,0,1)" },
         { label: "y(λ)", data: state.cmfg, borderColor: "rgba(0,255,0,1)" },
-        { label: "z(λ)", data: state.cmfb, borderColor: "rgba(0,0,255,1)" },
-      ],
+        { label: "z(λ)", data: state.cmfb, borderColor: "rgba(0,0,255,1)" }
+      ]
     },
     options: {
       scales: {
         x: {
           display: true,
-          title: { display: true, text: "波長(nm)" },
+          title: { display: true, text: "波長(nm)" }
         },
         y: {
           display: true,
           title: { display: true, text: "強度(a.u.)" },
-          min: 0,
-        },
+          min: 0
+        }
       },
       plugins: {
-        title: { display: true, text: "測色標準観測者の等色関数" },
+        title: { display: true, text: "測色標準観測者の等色関数" }
       },
       animation: false,
-      maintainAspectRatio: false,
-    },
+      maintainAspectRatio: false
+    }
   });
 }

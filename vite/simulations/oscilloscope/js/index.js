@@ -8,7 +8,7 @@ import {
   elementSelectInit,
   settingInit,
   setupControls,
-  valueInit,
+  valueInit
 } from "./init.js";
 import { drawOscilloscope, updateAudioData } from "./logic.js";
 
@@ -27,7 +27,7 @@ const sketch = (p) => {
     initModal({
       openSelectors: ".settings-modal-open",
       modalSelector: "#simulationSettingModal",
-      closeSelectors: ".modal-close",
+      closeSelectors: ".modal-close"
     });
   };
 

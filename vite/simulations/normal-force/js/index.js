@@ -11,7 +11,7 @@ import {
   buttonSettings,
   buttonEvents,
   initSettings,
-  updateLayout,
+  updateLayout
 } from "./init.js";
 import {
   sortButtonAction1,
@@ -19,7 +19,7 @@ import {
   sortButtonAction3,
   onStartClick,
   onStopClick,
-  resetButtonAction,
+  resetButtonAction
 } from "./element-function.js";
 import { drawSimulation } from "./logic.js";
 
@@ -31,7 +31,7 @@ const sketch = (p) => {
     buttonCreation(p, {
       sortButtonAction1,
       sortButtonAction2,
-      sortButtonAction3,
+      sortButtonAction3
     });
     initSettings(p);
     materialSet(p);

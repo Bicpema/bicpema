@@ -46,5 +46,5 @@ export const state = {
   Tmax: 400,
 
   // 画像
-  boxImg: null,
+  boxImg: null
 };

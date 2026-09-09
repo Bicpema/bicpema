@@ -14,7 +14,7 @@ export function elementSelectInit(p) {
     toggleSelector: "#moveBtn",
     resetSelector: "#resetBtn",
     onToggle: () => toggleMove(toggleButton?.elt),
-    onReset: () => resetSim(toggleButton?.elt),
+    onReset: () => resetSim(toggleButton?.elt)
   });
 }
 

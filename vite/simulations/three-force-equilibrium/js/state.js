@@ -69,5 +69,5 @@ export const state = {
 
   /** DOM要素参照 */
   weightInput: null,
-  weightDisplay: null,
+  weightDisplay: null
 };

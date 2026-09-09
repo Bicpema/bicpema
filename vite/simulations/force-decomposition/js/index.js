@@ -8,7 +8,7 @@ import {
   drawXYScene,
   handlePress,
   handleDrag,
-  handleRelease,
+  handleRelease
 } from "./logic.js";
 import { V_W, MAX_FORCE } from "./constants.js";
 

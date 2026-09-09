@@ -14,5 +14,5 @@ export const state = {
   innerW: 0,
   innerH: 0,
   rightFront: 0,
-  leftFront: 0,
+  leftFront: 0
 };

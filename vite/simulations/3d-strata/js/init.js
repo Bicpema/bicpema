@@ -3,7 +3,7 @@
 import {
   initModal,
   initCollapse,
-  initTabs,
+  initTabs
 } from "../../../js/bicpema-modal-controller.js";
 import { state } from "./state.js";
 import {
@@ -16,13 +16,13 @@ import {
   bSetButtonFunction,
   cSetButtonFunction,
   dSetButtonFunction,
-  allSetButtonFunction,
+  allSetButtonFunction
 } from "./element-function.js";
 import {
   CAMERA_EYE_X,
   CAMERA_EYE_Y,
   CAMERA_EYE_Z,
-  JA_FONT_SIZE,
+  JA_FONT_SIZE
 } from "./constants.js";
 
 /** 日本語フォントのURL */
@@ -71,11 +71,11 @@ export function uiInit() {
   initModal({
     openSelectors: ".data-register-modal-open",
     modalSelector: "#dataRegisterModal",
-    closeSelectors: ".modal-close",
+    closeSelectors: ".modal-close"
   });
   initCollapse({
     toggleSelectors: ".collapse-toggle",
-    targetSelector: "#collapse",
+    targetSelector: "#collapse"
   });
   initTabs({ tabSelector: "#dataRegisterModal .nav-link" });
 }

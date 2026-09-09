@@ -39,7 +39,7 @@ export function elementSelectInit(p) {
     toggleSelector: "#playPauseButton",
     resetSelector: "#resetButton",
     onToggle: onPlayPause,
-    onReset,
+    onReset
   });
   state.playPauseButton = toggleButton;
   state.resetButton = resetButton;
@@ -48,7 +48,7 @@ export function elementSelectInit(p) {
     openSelectors: "#toggleModal",
     modalSelector: "#settingsModal",
     closeSelectors: "#closeModal",
-    onClose: applySettings,
+    onClose: applySettings
   });
 }
 

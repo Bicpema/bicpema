@@ -41,5 +41,5 @@ export const state = {
   /** ばね定数表示ラベルの参照 */
   springConstantDisplay: null,
   /** 壁（地面）画像 */
-  wallImg: null,
+  wallImg: null
 };

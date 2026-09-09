@@ -3,7 +3,7 @@ import {
   computeIncidentDisplacement,
   computeReflectedDisplacement,
   computeCombinedDisplacement,
-  computeWaveFront,
+  computeWaveFront
 } from "../../../vite/simulations/wave-reflection/js/physics.js";
 
 describe("computeIncidentDisplacement", () => {

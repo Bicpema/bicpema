@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   computeWaveDisplacement,
-  computeArrivalTime,
+  computeArrivalTime
 } from "../../../vite/simulations/tate-yoko-wave/js/physics.js";
 
 describe("computeArrivalTime", () => {

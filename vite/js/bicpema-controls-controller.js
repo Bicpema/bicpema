@@ -14,7 +14,7 @@
 const DEFAULT_ARIA_LABELS = {
   start: "再生",
   stop: "一時停止",
-  reset: "リセット",
+  reset: "リセット"
 };
 
 /**
@@ -67,7 +67,7 @@ export function bindStartStopControls(
     onReset,
     startAriaLabel,
     stopAriaLabel,
-    resetAriaLabel,
+    resetAriaLabel
   }
 ) {
   const startButton = p.select(startSelector);
@@ -109,7 +109,7 @@ export function bindToggleControls(
     onToggle,
     onReset,
     toggleAriaLabel,
-    resetAriaLabel,
+    resetAriaLabel
   }
 ) {
   const toggleButton = p.select(toggleSelector);

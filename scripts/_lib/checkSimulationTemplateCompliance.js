@@ -121,7 +121,7 @@ export function findSimulationTemplateIssues(simulationDir) {
  */
 export function checkSimulationTemplateCompliance({
   simulationsDir,
-  allowedNonCompliantSlugs = [],
+  allowedNonCompliantSlugs = []
 }) {
   const slugs = getSimulationSlugs(simulationsDir);
   const allowedSet = new Set(allowedNonCompliantSlugs);

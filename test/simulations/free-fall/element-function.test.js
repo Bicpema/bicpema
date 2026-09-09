@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach } from "vitest";
 import {
   onHeightChange,
   onReset,
-  onPlayPause,
+  onPlayPause
 } from "../../../vite/simulations/free-fall/js/element-function.js";
 import { Ball } from "../../../vite/simulations/free-fall/js/ball.js";
 import { state } from "../../../vite/simulations/free-fall/js/state.js";
@@ -23,7 +23,7 @@ function createMockElement(initial) {
       value = text;
       return undefined;
     },
-    text: () => value,
+    text: () => value
   };
 }
 

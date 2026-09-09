@@ -21,7 +21,7 @@ import {
   PLACE_MARKER_COLOR,
   PLACE_MARKER_VERTICAL_OFFSET,
   ROTATION_INCREMENT_DEG,
-  Z_MIN_OVERRIDE,
+  Z_MIN_OVERRIDE
 } from "./constants.js";
 
 /**
@@ -62,7 +62,7 @@ function calculateValue() {
   return {
     x: computeCoordinateBounds(longitudeArr),
     y: computeCoordinateBounds(latitudeArr),
-    z: computeCoordinateBounds(depthArr),
+    z: computeCoordinateBounds(depthArr)
   };
 }
 

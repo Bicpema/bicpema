@@ -3,7 +3,7 @@ import { computePistonY, advanceStage } from "./physics.js";
 import {
   PISTON_Y_TOP,
   PISTON_Y_MIN,
-  STAGE_DURATION_FRAMES,
+  STAGE_DURATION_FRAMES
 } from "./constants.js";
 
 export function drawChamber(p) {

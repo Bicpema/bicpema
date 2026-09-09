@@ -10,7 +10,7 @@ import {
   beforeColorCalculate,
   createStartimg,
   createSliderandRadio,
-  drawSimulation,
+  drawSimulation
 } from "./logic.js";
 import { cellophaneRemoveButtonFunction } from "./element-function.js";
 import { FPS, CAMERA_DISTANCE } from "./constants.js";
@@ -22,7 +22,7 @@ const sketch = (p) => {
   const canvasController = new BicpemaCanvasController({
     fixedAspectRatio: false,
     is3D: true,
-    panelSelector: "#p5Canvas",
+    panelSelector: "#p5Canvas"
   });
   let isFirstDraw = true;
 

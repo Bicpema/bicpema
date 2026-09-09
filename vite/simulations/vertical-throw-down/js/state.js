@@ -14,5 +14,5 @@ export const state = {
   /** v-t グラフ用データ */
   vtData: [],
   /** y-t グラフ用データ */
-  ytData: [],
+  ytData: []
 };

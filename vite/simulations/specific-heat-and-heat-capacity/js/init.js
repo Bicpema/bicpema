@@ -3,7 +3,7 @@ import {
   onMaterialAChange,
   onMaterialBChange,
   onMassAChange,
-  onMassBChange,
+  onMassBChange
 } from "./element-function.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 
@@ -20,7 +20,7 @@ export const SPECIFIC_HEAT_LABELS = [
   "0.448",
   "0.386",
   "0.236",
-  "0.140",
+  "0.140"
 ];
 
 /** 質量選択値 [kg] — index 0=大(0.3kg), 1=小(0.1kg) */
@@ -55,7 +55,7 @@ export function elCreate(p) {
   initModal({
     openSelectors: "#toggleModal",
     modalSelector: "#settingsModal",
-    closeSelectors: "#closeModal",
+    closeSelectors: "#closeModal"
   });
 }
 

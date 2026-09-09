@@ -21,12 +21,12 @@ export function elCreate(p) {
     resetSelector: "#resetButton",
     onStart: moveButtonAction,
     onStop: moveButtonAction,
-    onReset: () => resetButtonAction(p),
+    onReset: () => resetButtonAction(p)
   });
   initModal({
     openSelectors: ".settings-modal-open",
     modalSelector: "#settingModal",
-    closeSelectors: ".modal-close",
+    closeSelectors: ".modal-close"
   });
 
   state.konstantInput1 = p.select("#konstantButton1");

@@ -5,7 +5,7 @@ import {
   FPS,
   VELOCITY_COLOR,
   FORCE_COLOR,
-  PENETRATION_COLOR,
+  PENETRATION_COLOR
 } from "./constants.js";
 
 // ============================================================

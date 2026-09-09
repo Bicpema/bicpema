@@ -2,5 +2,5 @@ export const state = {
   /** アニメーション用の経過時間（一時停止中は増加しない） */
   t: 0,
   /** シミュレーション実行中かどうか（再生/一時停止ボタンで切り替え） */
-  isRunning: false,
+  isRunning: false
 };

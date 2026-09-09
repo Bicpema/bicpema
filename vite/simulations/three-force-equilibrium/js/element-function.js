@@ -10,7 +10,7 @@ import {
   INIT_ANCHOR_A,
   INIT_ANCHOR_B,
   INIT_RING,
-  INIT_WEIGHT,
+  INIT_WEIGHT
 } from "./state.js";
 import { DRAG_HIT_MARGIN } from "./constants.js";
 

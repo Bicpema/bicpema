@@ -6,5 +6,5 @@ export const state = {
   heightInput: null,
   velocityInput: null,
   resetButton: null,
-  playPauseButton: null,
+  playPauseButton: null
 };

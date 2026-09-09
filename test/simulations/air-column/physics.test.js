@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   computeFreqConst,
-  computeStandingWaveDisplacement,
+  computeStandingWaveDisplacement
 } from "../../../vite/simulations/air-column/js/physics.js";
 
 describe("computeFreqConst", () => {

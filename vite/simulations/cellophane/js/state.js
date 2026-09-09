@@ -46,5 +46,5 @@ export const state = {
   // 赤・緑・青の光線をそれぞれ表示するかどうか
   rIs: true,
   gIs: true,
-  bIs: true,
+  bIs: true
 };

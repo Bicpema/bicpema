@@ -24,6 +24,6 @@ export function computeSpringPosition(springConstant, mass, amplitude, t) {
   const omega = Math.sqrt(springConstant / mass);
   return {
     x: amplitude * -Math.cos(omega * t + Math.PI / 2),
-    y: amplitude * Math.sin(omega * t + Math.PI / 2),
+    y: amplitude * Math.sin(omega * t + Math.PI / 2)
   };
 }

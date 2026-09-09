@@ -12,7 +12,7 @@ import {
   LABEL_TEXT_SIZE,
   STATUS_TEXT_SIZE,
   SCALE_LINE_DASH,
-  LINE_STROKE_WEIGHT,
+  LINE_STROKE_WEIGHT
 } from "./constants.js";
 
 /**
@@ -50,7 +50,7 @@ export class Ball {
     const { distanceFallen, velocity } = computeDragFreeFall({
       t: this.time,
       gravity: this.g,
-      k: this.dragCoefficient,
+      k: this.dragCoefficient
     });
     this.velocity = velocity;
     this.height = this.initialHeight - distanceFallen;
@@ -67,11 +67,11 @@ export class Ball {
     ) {
       state.vtData.push({
         x: parseFloat(this.time.toFixed(3)),
-        y: parseFloat(this.velocity.toFixed(2)),
+        y: parseFloat(this.velocity.toFixed(2))
       });
       state.ytData.push({
         x: parseFloat(this.time.toFixed(3)),
-        y: parseFloat((this.initialHeight - this.height).toFixed(2)),
+        y: parseFloat((this.initialHeight - this.height).toFixed(2))
       });
       this.lastGraphUpdate = this.time;
     }

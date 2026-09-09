@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   computeEffectiveSpringConstant,
-  computeSpringPosition,
+  computeSpringPosition
 } from "../../../vite/simulations/spring/js/physics.js";
 
 describe("computeEffectiveSpringConstant", () => {

@@ -39,7 +39,7 @@ const sketch = (p) => {
     p.scale(p.width / 1000);
     state.ball.display(p, (1000 * p.height) / p.width, {
       ballImage: state.ballImage,
-      groundImage: state.groundImage,
+      groundImage: state.groundImage
     });
 
     if (state.ball.isMoving && state.graphVisible) {

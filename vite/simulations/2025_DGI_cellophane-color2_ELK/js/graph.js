@@ -7,7 +7,7 @@ import {
   WAVELENGTH_MAX,
   GRAPH_LABEL_FONT_SIZE,
   GRAPH_TITLE_FONT_SIZE,
-  GRAPH_TICK_FONT_SIZE,
+  GRAPH_TICK_FONT_SIZE
 } from "./constants.js";
 
 // Chart.jsの動的importをモジュール読み込み時に開始する。p5のpreload()による
@@ -69,7 +69,7 @@ export function drawGraph() {
           ",1)",
         pointRadius: 0,
         fill: "start",
-        showLine: true,
+        showLine: true
       },
       {
         label: "１枚目の偏光板を透過した時のスペクトル", //options.legend で凡例の表示・非表示を設定できる
@@ -92,9 +92,9 @@ export function drawGraph() {
           ",1)",
         pointRadius: 0,
         fill: "start",
-        showLine: true,
-      },
-    ],
+        showLine: true
+      }
+    ]
   };
 
   // グラフの表示設定
@@ -103,17 +103,17 @@ export function drawGraph() {
       legend: {
         labels: {
           font: {
-            size: GRAPH_LABEL_FONT_SIZE,
-          },
-        },
+            size: GRAPH_LABEL_FONT_SIZE
+          }
+        }
       },
       title: {
         display: true,
         text: "１枚目の偏光板を透過した後とシミュレーションのスペクトルの比較",
         font: {
-          size: GRAPH_TITLE_FONT_SIZE,
-        },
-      },
+          size: GRAPH_TITLE_FONT_SIZE
+        }
+      }
     },
     responsive: true,
     maintainAspectRatio: false,
@@ -125,16 +125,16 @@ export function drawGraph() {
           display: true,
           text: "波長(nm)",
           font: {
-            size: GRAPH_LABEL_FONT_SIZE,
-          },
+            size: GRAPH_LABEL_FONT_SIZE
+          }
         },
         max: WAVELENGTH_MAX,
         min: WAVELENGTH_MIN,
         ticks: {
           font: {
-            size: GRAPH_TICK_FONT_SIZE,
-          },
-        },
+            size: GRAPH_TICK_FONT_SIZE
+          }
+        }
       },
       y: {
         display: true,
@@ -142,24 +142,24 @@ export function drawGraph() {
           display: true,
           text: "強度(a.u.)",
           font: {
-            size: GRAPH_LABEL_FONT_SIZE,
-          },
+            size: GRAPH_LABEL_FONT_SIZE
+          }
         },
         max: 1,
         min: 0,
         ticks: {
           font: {
-            size: GRAPH_TICK_FONT_SIZE,
-          },
-        },
-      },
-    },
+            size: GRAPH_TICK_FONT_SIZE
+          }
+        }
+      }
+    }
   };
 
   const mainChartsetup = {
     type: "scatter",
     data: mainData,
-    options: mainOptions,
+    options: mainOptions
   };
 
   // canvasにグラフを描画

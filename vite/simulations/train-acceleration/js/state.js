@@ -19,5 +19,5 @@ export const state = {
   /** 読み込み済みフォント */
   font: null,
   /** Chart.js インスタンス */
-  graphChart: null,
+  graphChart: null
 };

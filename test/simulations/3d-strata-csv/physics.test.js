@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   computeCoordinateBounds,
-  computeSquareBounds,
+  computeSquareBounds
 } from "../../../vite/simulations/3d-strata-csv/js/physics.js";
 
 describe("computeCoordinateBounds", () => {
@@ -12,7 +12,7 @@ describe("computeCoordinateBounds", () => {
   it("最小値と最大値を正しく計算する", () => {
     expect(computeCoordinateBounds([5, -3, 10, 0])).toEqual({
       min: -3,
-      max: 10,
+      max: 10
     });
   });
 });

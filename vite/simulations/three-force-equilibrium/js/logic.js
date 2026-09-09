@@ -14,13 +14,13 @@ import {
   T1_COLOR,
   T2_COLOR,
   W_COLOR,
-  RING_COLOR,
+  RING_COLOR
 } from "./state.js";
 import {
   DRAG_HIT_MARGIN,
   FORCE_LABEL_FONT_SIZE,
   MIN_STRING_LENGTH,
-  DETERMINANT_EPSILON,
+  DETERMINANT_EPSILON
 } from "./constants.js";
 
 // ────────────────────────────────────────────
@@ -132,14 +132,14 @@ function placeLabelsAlongNormals(labels, minDistance, bounds) {
       ...label,
       dirX: label.dirX / len,
       dirY: label.dirY / len,
-      maxOffset: label.maxOffset ?? label.baseOffset + 90,
+      maxOffset: label.maxOffset ?? label.baseOffset + 90
     };
   });
 
   for (let i = 0; i < iterations; i += 1) {
     const points = normalized.map((label, idx) => ({
       x: label.anchorX + label.dirX * offsets[idx],
-      y: label.anchorY + label.dirY * offsets[idx],
+      y: label.anchorY + label.dirY * offsets[idx]
     }));
 
     for (let a = 0; a < points.length; a += 1) {
@@ -164,7 +164,7 @@ function placeLabelsAlongNormals(labels, minDistance, bounds) {
     y: Math.max(
       bounds.minY,
       Math.min(bounds.maxY, label.anchorY + label.dirY * offsets[idx])
-    ),
+    )
   }));
 }
 
@@ -328,7 +328,7 @@ function drawForceArrows(p) {
         dirX: t1Dir.x,
         dirY: t1Dir.y,
         baseOffset: 22,
-        maxOffset: 88,
+        maxOffset: 88
       },
       {
         anchorX: t2MX,
@@ -336,15 +336,15 @@ function drawForceArrows(p) {
         dirX: t2Dir.x,
         dirY: t2Dir.y,
         baseOffset: 22,
-        maxOffset: 88,
-      },
+        maxOffset: 88
+      }
     ],
     56,
     {
       minX: 70,
       maxX: PANEL_DIVIDER_X - 70,
       minY: CEILING_Y + 20,
-      maxY: V_H - 16,
+      maxY: V_H - 16
     }
   );
 
@@ -571,7 +571,7 @@ function drawForceTrianglePanel(p) {
   const P1raw = { x: 0, y: W * scale };
   const P2raw = {
     x: T1 * u1x * scale,
-    y: W * scale + T1 * u1y * scale,
+    y: W * scale + T1 * u1y * scale
   };
 
   // 重心を右パネル中央に配置
@@ -630,7 +630,7 @@ function drawForceTrianglePanel(p) {
         dirX: wNormal.x,
         dirY: wNormal.y,
         baseOffset: 14,
-        maxOffset: 88,
+        maxOffset: 88
       },
       {
         anchorX: (P1.x + P2.x) / 2,
@@ -638,7 +638,7 @@ function drawForceTrianglePanel(p) {
         dirX: t1Normal.x,
         dirY: t1Normal.y,
         baseOffset: 22,
-        maxOffset: 92,
+        maxOffset: 92
       },
       {
         anchorX: (P2.x + P0.x) / 2,
@@ -646,15 +646,15 @@ function drawForceTrianglePanel(p) {
         dirX: t2Normal.x,
         dirY: t2Normal.y,
         baseOffset: 22,
-        maxOffset: 92,
-      },
+        maxOffset: 92
+      }
     ],
     64,
     {
       minX: PANEL_DIVIDER_X + 90,
       maxX: V_W - 90,
       minY: 120,
-      maxY: V_H - 28,
+      maxY: V_H - 28
     }
   );
 

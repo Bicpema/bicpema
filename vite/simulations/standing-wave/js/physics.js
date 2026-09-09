@@ -57,6 +57,6 @@ export function computeStandingWaveDisplacement(
 export function computeWaveFronts(v, t, innerW) {
   return {
     rightFront: Math.min(v * t, innerW),
-    leftFront: Math.max(innerW - v * t, 0),
+    leftFront: Math.max(innerW - v * t, 0)
   };
 }

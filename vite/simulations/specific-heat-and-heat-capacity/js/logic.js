@@ -141,7 +141,7 @@ function drawMaterialBall(p, x, y, r, type) {
     ["rgb(200,200,200)", "rgb(80,80,80)"], // 鉄
     ["rgb(255,180,120)", "rgb(140,70,30)"], // 銅
     ["rgb(255,255,255)", "rgb(160,160,160)"], // 銀
-    ["rgb(230,230,240)", "rgb(120,120,150)"], // 水銀
+    ["rgb(230,230,240)", "rgb(120,120,150)"] // 水銀
   ];
   const [c0, c1] = gradColors[type] ?? gradColors[0];
   const g = p.drawingContext.createRadialGradient(

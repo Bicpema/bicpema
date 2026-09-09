@@ -4,7 +4,7 @@ import { describe, it, expect } from "vitest";
 import {
   checkSimulationTemplateCompliance,
   findSimulationTemplateIssues,
-  getSimulationSlugs,
+  getSimulationSlugs
 } from "../../scripts/_lib/checkSimulationTemplateCompliance.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -21,7 +21,7 @@ describe("getSimulationSlugs", () => {
       "compliant-sim",
       "compliant-sim-single-quote-import",
       "local-controller-copy",
-      "missing-p5-canvas",
+      "missing-p5-canvas"
     ]);
   });
 });
@@ -63,9 +63,9 @@ describe("checkSimulationTemplateCompliance", () => {
     expect(result.violations).toEqual([
       {
         slug: "local-controller-copy",
-        issues: ["non-canonical-canvas-controller"],
+        issues: ["non-canonical-canvas-controller"]
       },
-      { slug: "missing-p5-canvas", issues: ["missing-p5-canvas"] },
+      { slug: "missing-p5-canvas", issues: ["missing-p5-canvas"] }
     ]);
     expect(result.staleAllowlistSlugs).toEqual([]);
   });
@@ -73,14 +73,14 @@ describe("checkSimulationTemplateCompliance", () => {
   it("許容リストに含まれるslugはviolationsから除外される", () => {
     const result = checkSimulationTemplateCompliance({
       simulationsDir,
-      allowedNonCompliantSlugs: ["missing-p5-canvas"],
+      allowedNonCompliantSlugs: ["missing-p5-canvas"]
     });
 
     expect(result.violations).toEqual([
       {
         slug: "local-controller-copy",
-        issues: ["non-canonical-canvas-controller"],
-      },
+        issues: ["non-canonical-canvas-controller"]
+      }
     ]);
     expect(result.staleAllowlistSlugs).toEqual([]);
   });
@@ -88,12 +88,12 @@ describe("checkSimulationTemplateCompliance", () => {
   it("既に準拠している、または実在しないslugが許容リストにある場合はstaleAllowlistSlugsとして検出する", () => {
     const result = checkSimulationTemplateCompliance({
       simulationsDir,
-      allowedNonCompliantSlugs: ["compliant-sim", "sim-does-not-exist"],
+      allowedNonCompliantSlugs: ["compliant-sim", "sim-does-not-exist"]
     });
 
     expect(result.staleAllowlistSlugs.sort()).toEqual([
       "compliant-sim",
-      "sim-does-not-exist",
+      "sim-does-not-exist"
     ]);
   });
 });

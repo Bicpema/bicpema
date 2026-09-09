@@ -30,7 +30,7 @@ function parseArgs(argv) {
     filter: null,
     duration: 5000,
     deviceScale: 1,
-    baseUrl: null,
+    baseUrl: null
   };
   for (const arg of argv) {
     const separatorIndex = arg.indexOf("=");
@@ -43,8 +43,10 @@ function parseArgs(argv) {
         .map((s) => s.trim())
         .filter((s) => s.length > 0);
     }
-    if (key === "--duration") options.duration = Number(value) || options.duration;
-    if (key === "--device-scale") options.deviceScale = Number(value) || options.deviceScale;
+    if (key === "--duration")
+      options.duration = Number(value) || options.duration;
+    if (key === "--device-scale")
+      options.deviceScale = Number(value) || options.deviceScale;
     if (key === "--base-url") options.baseUrl = value;
   }
   return options;
@@ -80,14 +82,16 @@ function findFreePort() {
  * @param {{ duration: number, deviceScale: number }} options
  */
 async function benchmarkSimulation(browser, baseUrl, name, options) {
-  const context = await browser.newContext({ deviceScaleFactor: options.deviceScale });
+  const context = await browser.newContext({
+    deviceScaleFactor: options.deviceScale
+  });
   const page = await context.newPage();
   const client = await context.newCDPSession(page);
   await client.send("Performance.enable");
 
   await page.goto(`${baseUrl}/vite/simulations/${name}/`, {
     waitUntil: "load",
-    timeout: 20000,
+    timeout: 20000
   });
   await page.waitForTimeout(1000);
 
@@ -131,7 +135,7 @@ async function benchmarkSimulation(browser, baseUrl, name, options) {
       cssWidth: Math.round(rect.width),
       cssHeight: Math.round(rect.height),
       realWidth: canvas.width,
-      realHeight: canvas.height,
+      realHeight: canvas.height
     };
   });
 
@@ -147,8 +151,10 @@ async function benchmarkSimulation(browser, baseUrl, name, options) {
     heapMinMB: heapMin !== null ? heapMin / (1024 * 1024) : null,
     heapMaxMB: heapMax !== null ? heapMax / (1024 * 1024) : null,
     heapRangeMB:
-      heapMin !== null && heapMax !== null ? (heapMax - heapMin) / (1024 * 1024) : null,
-    canvasSize,
+      heapMin !== null && heapMax !== null
+        ? (heapMax - heapMin) / (1024 * 1024)
+        : null,
+    canvasSize
   };
 }
 
@@ -156,7 +162,9 @@ async function main() {
   const options = parseArgs(process.argv.slice(2));
 
   if (!options.baseUrl && !existsSync(outDir)) {
-    console.error(`${outDir} が見つかりません。先に \`npm run build\` を実行してください。`);
+    console.error(
+      `${outDir} が見つかりません。先に \`npm run build\` を実行してください。`
+    );
     process.exitCode = 1;
     return;
   }
@@ -176,7 +184,7 @@ async function main() {
       root: join(rootDir, "vite"),
       base: "/vite",
       preview: { port, strictPort: true },
-      build: { outDir },
+      build: { outDir }
     });
     baseUrl = `http://localhost:${port}`;
   }
@@ -193,14 +201,17 @@ async function main() {
       console.log(`■ ${result.name}`);
       // requestAnimationFrameベースの計測のため、p5のframeRate()による間引きが
       // 効いている場合は実際のdraw()実行頻度より高い値になる点に注意。
-      console.log(`  画面のペイント頻度(rAFベース): ${result.measuredFps.toFixed(1)} fps`);
+      console.log(
+        `  画面のペイント頻度(rAFベース): ${result.measuredFps.toFixed(1)} fps`
+      );
       if (result.heapMinMB !== null) {
         console.log(
           `  JSHeapUsedSize: ${result.heapMinMB.toFixed(2)}〜${result.heapMaxMB.toFixed(2)} MB (幅 ${result.heapRangeMB.toFixed(2)} MB)`
         );
       }
       if (result.canvasSize) {
-        const { cssWidth, cssHeight, realWidth, realHeight } = result.canvasSize;
+        const { cssWidth, cssHeight, realWidth, realHeight } =
+          result.canvasSize;
         console.log(
           `  canvas: CSS ${cssWidth}x${cssHeight} / 実ピクセル ${realWidth}x${realHeight}`
         );

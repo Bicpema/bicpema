@@ -5,7 +5,7 @@ import "../../../css/tailwind.css";
 import {
   computeConvexLensImageDistance,
   computeConcaveLensImageDistance,
-  computeMagnification,
+  computeMagnification
 } from "./physics.js";
 import {
   HEADER_HEIGHT,
@@ -21,7 +21,7 @@ import {
   LENS_MOUNT_COLOR,
   TINT_ALPHA_NORMAL,
   TINT_ALPHA_DIM,
-  HEAD_TILT_ANGLE_RAD,
+  HEAD_TILT_ANGLE_RAD
 } from "./constants.js";
 
 const state = {
@@ -30,11 +30,13 @@ const state = {
   concaveLensImg: null,
   candleImg: null,
   fImg: null,
-  ledImg: null,
+  ledImg: null
 };
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController({ fixedAspectRatio: false });
+  const canvasController = new BicpemaCanvasController({
+    fixedAspectRatio: false
+  });
 
   p.preload = () => {
     state.headImg = p.loadImage(
@@ -121,7 +123,7 @@ function buttonCreation(p) {
     "凸レンズ",
     "凹レンズ",
     "半分の凸レンズ",
-    "縞々のスリットの凸レンズ",
+    "縞々のスリットの凸レンズ"
   ];
   for (let i = 0; i < lensOptionArr.length; i++)
     lensSelect.option(lensOptionArr[i]);

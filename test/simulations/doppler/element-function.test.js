@@ -24,14 +24,14 @@ function setMockDom(element) {
   Object.defineProperty(globalThis, "HTMLInputElement", {
     value: MockHTMLInputElement,
     configurable: true,
-    writable: true,
+    writable: true
   });
   Object.defineProperty(globalThis, "document", {
     value: {
-      getElementById: () => element,
+      getElementById: () => element
     },
     configurable: true,
-    writable: true,
+    writable: true
   });
 }
 

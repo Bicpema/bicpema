@@ -1,7 +1,7 @@
 import { state } from "./state.js";
 import {
   computeMagneticFieldStrength,
-  computeFieldDirection,
+  computeFieldDirection
 } from "./physics.js";
 import { CURRENT_THRESHOLD, ARROW_SPACING } from "./constants.js";
 

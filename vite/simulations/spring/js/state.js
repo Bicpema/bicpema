@@ -49,5 +49,5 @@ export const state = {
   /** 上のばねのChart.jsインスタンス */
   chart1: null,
   /** 下のばねのChart.jsインスタンス */
-  chart2: null,
+  chart2: null
 };

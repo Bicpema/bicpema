@@ -23,12 +23,12 @@ const ISSUE_DESCRIPTIONS = {
   "missing-p5-container": 'id="p5Container"を持つ要素がありません',
   "missing-p5-canvas": 'id="p5Canvas"を持つ要素がありません',
   "non-canonical-canvas-controller":
-    "BicpemaCanvasControllerが共通ファイル（vite/js/bicpema-canvas-controller.js）以外から読み込まれています",
+    "BicpemaCanvasControllerが共通ファイル（vite/js/bicpema-canvas-controller.js）以外から読み込まれています"
 };
 
 const result = checkSimulationTemplateCompliance({
   simulationsDir: resolve(rootDir, "vite", "simulations"),
-  allowedNonCompliantSlugs: TEMPLATE_COMPLIANCE_ALLOWLIST,
+  allowedNonCompliantSlugs: TEMPLATE_COMPLIANCE_ALLOWLIST
 });
 
 let hasError = false;

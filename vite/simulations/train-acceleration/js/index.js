@@ -9,19 +9,19 @@ import {
   PX_PER_METER,
   settingInit,
   elCreate,
-  initValue,
+  initValue
 } from "./init.js";
 import { drawTrack, drawTrain, drawInfoPanel } from "./function.js";
 import { initChart, updateChart } from "./graph.js";
 import {
   GRAPH_UPDATE_INTERVAL,
   GROUND_Y_RATIO,
-  GROUND_FILL_Y_OFFSET,
+  GROUND_FILL_Y_OFFSET
 } from "./constants.js";
 
 const sketch = (p) => {
   const canvasController = new BicpemaCanvasController({
-    heightMode: "half",
+    heightMode: "half"
   });
 
   p.setup = () => {
@@ -59,7 +59,7 @@ const sketch = (p) => {
         if (v > state.maxObservedVelocity) state.maxObservedVelocity = v;
         state.vtData.push({
           x: parseFloat(state.elapsedTime.toFixed(2)),
-          y: v,
+          y: v
         });
         updateChart();
       }

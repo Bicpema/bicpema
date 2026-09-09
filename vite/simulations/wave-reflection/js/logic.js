@@ -3,7 +3,7 @@ import {
   computeIncidentDisplacement,
   computeReflectedDisplacement,
   computeCombinedDisplacement,
-  computeWaveFront,
+  computeWaveFront
 } from "./physics.js";
 
 /** 入射波を表す色（青） */

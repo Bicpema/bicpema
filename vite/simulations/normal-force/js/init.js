@@ -15,7 +15,7 @@ import {
   WEIGHT_MAX,
   DEFAULT_GRAVITY,
   GRAVITY_MIN,
-  GRAVITY_MAX,
+  GRAVITY_MAX
 } from "./state.js";
 import { Material } from "./class.js";
 import { bindStartStopControls } from "../../../js/bicpema-controls-controller.js";
@@ -118,7 +118,7 @@ export function buttonEvents(
     resetSelector: "#resetButton",
     onStart: onStartClick,
     onStop: onStopClick,
-    onReset: () => resetButtonAction(p),
+    onReset: () => resetButtonAction(p)
   });
   state.startButton = startButton;
   state.stopButton = stopButton.hide();

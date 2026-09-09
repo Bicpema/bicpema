@@ -5,7 +5,7 @@ import { state } from "./state.js";
 import {
   cellophaneAddButtonFunction,
   cellophaneRemoveButtonFunction,
-  onScreenshotClick,
+  onScreenshotClick
 } from "./element-function.js";
 import { beforeColorCalculate } from "./logic.js";
 import {
@@ -16,7 +16,7 @@ import {
   INITIAL_PIXEL_COLOR,
   TAPE_WIDTH_SLIDER_MIN,
   TAPE_WIDTH_SLIDER_MAX,
-  TAPE_WIDTH_SLIDER_DEFAULT,
+  TAPE_WIDTH_SLIDER_DEFAULT
 } from "./constants.js";
 
 // FPSは draw()から毎フレーム呼び出される prenormal() 内から
@@ -48,7 +48,7 @@ export function elInit(p) {
   initModal({
     openSelectors: ".settings-modal-open",
     modalSelector: "#settingModal",
-    closeSelectors: ".modal-close",
+    closeSelectors: ".modal-close"
   });
 }
 

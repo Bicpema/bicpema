@@ -8,7 +8,7 @@ import {
   settingInit,
   elementSelectInit,
   elementPositionInit,
-  valueInit,
+  valueInit
 } from "./init.js";
 import {
   CANVAS_WIDTH,
@@ -20,7 +20,7 @@ import {
   MIN_ARROW_DRAG_DISTANCE,
   FORCE_ARROW_COLOR,
   DRAG_HINT_COLOR,
-  INFO_PANEL_MUTED_TEXT_COLOR,
+  INFO_PANEL_MUTED_TEXT_COLOR
 } from "./constants.js";
 
 /** キャンバスの論理幅 */

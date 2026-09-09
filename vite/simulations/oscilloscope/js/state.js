@@ -5,5 +5,5 @@ export const state = {
   mic: null,
   fft: null,
   waveform: [],
-  spectrum: [],
+  spectrum: []
 };

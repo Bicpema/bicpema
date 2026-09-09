@@ -15,7 +15,7 @@ import {
   SCALE_LINE_DASH,
   LINE_STROKE_WEIGHT,
   ARROW_LENGTH_VELOCITY_SCALE,
-  ARROW_MAX_LENGTH,
+  ARROW_MAX_LENGTH
 } from "./constants.js";
 
 /**
@@ -66,11 +66,11 @@ export class Ball {
     ) {
       state.vtData.push({
         x: parseFloat(this.time.toFixed(3)),
-        y: parseFloat(this.velocity.toFixed(2)),
+        y: parseFloat(this.velocity.toFixed(2))
       });
       state.ytData.push({
         x: parseFloat(this.time.toFixed(3)),
-        y: parseFloat((this.initialHeight - this.height).toFixed(2)),
+        y: parseFloat((this.initialHeight - this.height).toFixed(2))
       });
       this.lastGraphUpdate = this.time;
     }

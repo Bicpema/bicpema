@@ -74,7 +74,7 @@ export function placeAddButtonFunction(p) {
     name: newDom.placeNameInput,
     data: { x: "", y: "" },
     edit: "",
-    layer: "",
+    layer: ""
   };
   state.dataInputArr[placeName].data.x = newDom.xInput;
   state.dataInputArr[placeName].data.y = newDom.yInput;
@@ -442,7 +442,7 @@ export function processCSV(csvText, p) {
     testData["地点" + placeNum].push([
       parseFloat(data[3]),
       parseFloat(data[4]),
-      data[5],
+      data[5]
     ]);
   }
   for (let i = 0; i < nameArr.length; i++) {

@@ -9,7 +9,7 @@ import {
   onStopClick,
   onResetClick,
   onGridClick,
-  onInputChange,
+  onInputChange
 } from "./element-function.js";
 import {
   GRAVITY,
@@ -17,7 +17,7 @@ import {
   WEIGHT_IMAGE_WIDTH_DIVISOR,
   INITIAL_STRING_LENGTH,
   INITIAL_LEFT_ANGLE_DEG,
-  INITIAL_RIGHT_ANGLE_DEG,
+  INITIAL_RIGHT_ANGLE_DEG
 } from "./constants.js";
 
 /**
@@ -37,7 +37,7 @@ export function elCreate(p) {
     resetSelector: "#resetButton",
     onStart: onStartClick,
     onStop: onStopClick,
-    onReset: () => onResetClick(p),
+    onReset: () => onResetClick(p)
   });
   state.startButton = startButton;
   state.stopButton = stopButton;
@@ -52,7 +52,7 @@ export function elCreate(p) {
   initModal({
     openSelectors: ".settings-modal-open",
     modalSelector: "#exampleModal",
-    closeSelectors: ".modal-close",
+    closeSelectors: ".modal-close"
   });
 }
 

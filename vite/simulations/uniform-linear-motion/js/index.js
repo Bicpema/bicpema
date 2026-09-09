@@ -11,7 +11,7 @@ import {
   FRAME_RATE,
   ROAD_AREA_HEIGHT,
   ROAD_HEIGHT,
-  TICK_LABEL_FONT_SIZE,
+  TICK_LABEL_FONT_SIZE
 } from "./constants.js";
 
 const sketch = (p) => {

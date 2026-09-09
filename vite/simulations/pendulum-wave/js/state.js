@@ -12,5 +12,5 @@ export const state = {
   /** 重力加速度 (m/s^2) */
   gravity: GRAVITY,
   /** 経過フレーム数（累積カウンタ） */
-  count: 0,
+  count: 0
 };

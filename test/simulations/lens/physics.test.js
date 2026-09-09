@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   computeConvexLensImageDistance,
   computeConcaveLensImageDistance,
-  computeMagnification,
+  computeMagnification
 } from "../../../vite/simulations/lens/js/physics.js";
 
 describe("computeConvexLensImageDistance", () => {

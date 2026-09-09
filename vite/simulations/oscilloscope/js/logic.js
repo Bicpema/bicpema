@@ -2,7 +2,7 @@ import { state } from "./state.js";
 import {
   mapIndexToX,
   mapWaveformValueToY,
-  mapSpectrumValueToY,
+  mapSpectrumValueToY
 } from "./physics.js";
 
 const CANVAS_WIDTH = 1000;

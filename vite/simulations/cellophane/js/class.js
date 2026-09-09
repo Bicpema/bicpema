@@ -3,7 +3,7 @@
 import { state } from "./state.js";
 import {
   computeOpticalPathDifference,
-  computeTransmittance,
+  computeTransmittance
 } from "./physics.js";
 import {
   computeAngularVelocity,
@@ -25,7 +25,7 @@ import {
   RAY_Z_RANGE,
   RAY_Z_START,
   RAY_Z_LIMIT,
-  POLARIZER_Z,
+  POLARIZER_Z
 } from "./constants.js";
 
 /**

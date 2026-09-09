@@ -14,6 +14,6 @@ export function decomposeGravityOnSlope(mass, gravity, angleDeg) {
   return {
     gravity: mg,
     parallel: mg * Math.sin(theta),
-    perpendicular: mg * Math.cos(theta),
+    perpendicular: mg * Math.cos(theta)
   };
 }

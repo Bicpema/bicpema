@@ -15,16 +15,16 @@ export default defineConfig({
     outDir,
     emptyOutDir: true,
     rollupOptions: {
-      input: getHtmlInputsRecursively(root),
+      input: getHtmlInputsRecursively(root)
     },
-    chunkSizeWarningLimit: 1500,
+    chunkSizeWarningLimit: 1500
   },
   css: {
     preprocessorOptions: {
       scss: {
-        quietDeps: true,
-      },
-    },
+        quietDeps: true
+      }
+    }
   },
   plugins: [
     tailwindcss(),
@@ -34,9 +34,9 @@ export default defineConfig({
         {
           src: resolve(root, "simulations"),
           dest: outDir,
-          overwrite: false,
-        },
-      ],
+          overwrite: false
+        }
+      ]
     }),
     // vite-ignoreをしているファイルに差分があった際も再ビルドする
     // https://stackoverflow.com/questions/63373804/rollup-watch-include-directory/63548394
@@ -47,7 +47,7 @@ export default defineConfig({
         for (let file of files) {
           this.addWatchFile(file);
         }
-      },
-    },
-  ],
+      }
+    }
+  ]
 });

@@ -10,7 +10,7 @@ import {
   MOLECULE_MARGIN,
   MOLECULE_X_MIN,
   MOLECULE_Y_MIN,
-  MOLECULE_Y_MAX,
+  MOLECULE_Y_MAX
 } from "./constants.js";
 
 /**
@@ -56,7 +56,7 @@ export function elCreate(p) {
   initModal({
     openSelectors: "#toggleModal",
     modalSelector: "#settingsModal",
-    closeSelectors: "#closeModal",
+    closeSelectors: "#closeModal"
   });
 
   document.querySelectorAll('input[name="qValue"]').forEach((r) => {

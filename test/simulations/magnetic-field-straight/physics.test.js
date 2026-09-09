@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   computeMagneticFieldStrength,
-  computeFieldDirection,
+  computeFieldDirection
 } from "../../../vite/simulations/magnetic-field-straight/js/physics.js";
 
 describe("computeMagneticFieldStrength", () => {

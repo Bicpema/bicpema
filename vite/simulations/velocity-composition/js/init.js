@@ -5,7 +5,7 @@ import {
   onBoatSpeedChange,
   onRiverSpeedChange,
   onReset,
-  onPlayPause,
+  onPlayPause
 } from "./element-function.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
@@ -29,7 +29,7 @@ export function elCreate(p) {
     toggleSelector: "#playPauseButton",
     resetSelector: "#resetButton",
     onToggle: onPlayPause,
-    onReset,
+    onReset
   });
   state.playPauseButton = toggleButton;
   state.resetButton = resetButton;
@@ -37,7 +37,7 @@ export function elCreate(p) {
   initModal({
     openSelectors: "#toggleModal",
     modalSelector: "#settingsModal",
-    closeSelectors: "#closeModal",
+    closeSelectors: "#closeModal"
   });
 }
 

@@ -8,7 +8,7 @@ import {
   FOCUS_PARTICLE_SIZE,
   WAVE_COLOR,
   FOCUS_ORIGIN_COLOR,
-  ARROW_COLOR,
+  ARROW_COLOR
 } from "./constants.js";
 
 function displacement(p, x0) {

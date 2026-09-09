@@ -23,7 +23,7 @@ export function elementPositionInit(p) {
     toggleSelector: "#playButton",
     resetSelector: "#resetButton",
     onToggle: onPlayPause,
-    onReset,
+    onReset
   });
   state.playButton = toggleButton;
 }

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   computeSnellRatio,
-  computeRefractionAngle,
+  computeRefractionAngle
 } from "../../../vite/simulations/refraction/js/physics.js";
 
 describe("computeSnellRatio", () => {

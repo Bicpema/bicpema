@@ -31,7 +31,7 @@ export function getArticleEntries(postsDir) {
       const indexPath = join(postsDir, entry.name, "index.md");
       try {
         return [
-          { articleDir: entry.name, content: readFileSync(indexPath, "utf-8") },
+          { articleDir: entry.name, content: readFileSync(indexPath, "utf-8") }
         ];
       } catch {
         // index.mdが存在しないディレクトリは記事として扱わない
@@ -68,7 +68,7 @@ export function extractLinkedSimulationSlugs(markdownContent) {
 export function checkArticleSimulationLinks({
   simulationsDir,
   postsDir,
-  allowedArticlelessSlugs = [],
+  allowedArticlelessSlugs = []
 }) {
   const simulationSlugs = new Set(getSimulationSlugs(simulationsDir));
   const articles = getArticleEntries(postsDir);

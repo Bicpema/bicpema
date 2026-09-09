@@ -8,7 +8,7 @@ import {
   ORIGIN_Y,
   DRAG_RADIUS,
   LABEL_FONT_SIZE,
-  AXIS_LABEL_FONT_SIZE,
+  AXIS_LABEL_FONT_SIZE
 } from "./constants.js";
 import { decomposeForce } from "./physics.js";
 

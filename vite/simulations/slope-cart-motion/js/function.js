@@ -48,7 +48,7 @@ function getSlopeLeft(angleDeg) {
   const lenPx = SLOPE_LENGTH_M * PX_PER_M;
   return {
     x: SLOPE_LX,
-    y: GROUND_Y - lenPx * Math.sin(theta),
+    y: GROUND_Y - lenPx * Math.sin(theta)
   };
 }
 
@@ -63,7 +63,7 @@ function getSlopeRight(angleDeg) {
   const lenPx = SLOPE_LENGTH_M * PX_PER_M;
   return {
     x: SLOPE_LX + lenPx * Math.cos(theta),
-    y: GROUND_Y,
+    y: GROUND_Y
   };
 }
 
@@ -310,7 +310,7 @@ export function drawInfoPanel(p, cart) {
     ["変位  s", s + " m"],
     ["速度  v", v + " m/s"],
     ["加速度 a", a + " m/s²"],
-    ["傾斜角 θ", cart.angleDeg + " °"],
+    ["傾斜角 θ", cart.angleDeg + " °"]
   ];
 
   rows.forEach(([label, value], i) => {

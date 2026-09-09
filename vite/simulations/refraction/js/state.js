@@ -40,5 +40,5 @@ export const state = {
   /** スネルの法則によるsin(θ2)相当の値（全反射判定に使用） */
   boundary: 0,
   /** 表示モード: "animation" | "animationMax" | "line" | "lineMax" */
-  simulationMode: "lineMax",
+  simulationMode: "lineMax"
 };

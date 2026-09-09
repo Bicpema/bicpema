@@ -17,7 +17,7 @@ export function drawSimulation(p) {
     strataData.push([
       state.trArr[i].td1Input.value(),
       state.trArr[i].td2Input.value(),
-      state.trArr[i].td3Select.value(),
+      state.trArr[i].td3Select.value()
     ]);
   }
 

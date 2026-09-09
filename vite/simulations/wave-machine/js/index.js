@@ -9,7 +9,9 @@ import { settingInit, elementSelectInit, valueInit } from "./init.js";
 import { drawSimulation } from "./logic.js";
 
 const sketch = (p) => {
-  const canvasController = new BicpemaCanvasController({ fixedAspectRatio: false });
+  const canvasController = new BicpemaCanvasController({
+    fixedAspectRatio: false
+  });
 
   p.preload = () => {
     state.stopper = p.loadImage(

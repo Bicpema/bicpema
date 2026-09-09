@@ -11,5 +11,5 @@ export const state = {
   f2TipY: -2 * GRID_STEP, // 2 格子上
 
   // --- ドラッグ状態 ---
-  dragging: null, // null | 'f1' | 'f2'
+  dragging: null // null | 'f1' | 'f2'
 };

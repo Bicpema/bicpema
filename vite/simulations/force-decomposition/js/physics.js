@@ -11,6 +11,6 @@ export function decomposeForce(magnitude, angleDeg) {
   const theta = (angleDeg * Math.PI) / 180;
   return {
     x: magnitude * Math.cos(theta),
-    y: -magnitude * Math.sin(theta),
+    y: -magnitude * Math.sin(theta)
   };
 }

@@ -1,7 +1,7 @@
 import { state } from "./state.js";
 import {
   computeSecondaryVoltage,
-  computeSecondaryCurrentAmplitude,
+  computeSecondaryCurrentAmplitude
 } from "./physics.js";
 import {
   LABEL_FONT_SIZE,
@@ -12,7 +12,7 @@ import {
   OSCILLO_HEIGHT,
   OSCILLO_BG_COLOR,
   WAVEFORM_COLOR,
-  WAVEFORM_STROKE_WEIGHT,
+  WAVEFORM_STROKE_WEIGHT
 } from "./constants.js";
 
 /**

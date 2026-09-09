@@ -8,7 +8,7 @@ import { elCreate, initValue, FPS } from "./init.js";
 import {
   drawSimulation,
   handleMousePressed,
-  handleMouseReleased,
+  handleMouseReleased
 } from "./logic.js";
 
 const sketch = (p) => {
@@ -32,7 +32,7 @@ const sketch = (p) => {
     p.loop();
     initCollapse({
       toggleSelectors: "#settingsButton",
-      targetSelector: "#settingsPanel",
+      targetSelector: "#settingsPanel"
     });
   };
 

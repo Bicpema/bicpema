@@ -4,7 +4,7 @@ import {
   state,
   MAX_THETA,
   WAVE_FREQUENCY_SCALE,
-  AMPLITUDE_SCALE_DIVISOR,
+  AMPLITUDE_SCALE_DIVISOR
 } from "./state.js";
 
 /**

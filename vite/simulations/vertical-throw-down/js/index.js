@@ -7,7 +7,7 @@ import { elCreate, initValue, FPS } from "./init.js";
 
 const sketch = (p) => {
   const canvasController = new BicpemaCanvasController({
-    panelSelector: "#simPanel",
+    panelSelector: "#simPanel"
   });
 
   p.preload = () => {

@@ -13,7 +13,7 @@ import {
   GRAPH_RIGHT,
   GRAPH_TOP,
   GRAPH_BOTTOM,
-  GRAPH_X_RANGE,
+  GRAPH_X_RANGE
 } from "./state.js";
 import { HOOKE_LINE_COLOR } from "./constants.js";
 

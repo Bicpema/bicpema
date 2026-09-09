@@ -43,12 +43,12 @@ export function valueInit(p) {
       if (currentSlider) currentSlider.value = String(INITIAL_CURRENT);
       updateControlLabels();
       playPauseButton.textContent = "▶ 開始";
-    },
+    }
   });
 
   initModal({
     openSelectors: "#toggleModal",
     modalSelector: "#settingsModal",
-    closeSelectors: "#closeModal",
+    closeSelectors: "#closeModal"
   });
 }

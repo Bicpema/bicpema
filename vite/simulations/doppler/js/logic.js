@@ -9,7 +9,7 @@ import {
   GRID_STEP,
   MAJOR_GRID_INTERVAL,
   MAJOR_GRID_STROKE_WEIGHT,
-  MINOR_GRID_STROKE_WEIGHT,
+  MINOR_GRID_STROKE_WEIGHT
 } from "./constants.js";
 import { SOUND } from "./class.js";
 import { computeSourcePosition } from "./physics.js";

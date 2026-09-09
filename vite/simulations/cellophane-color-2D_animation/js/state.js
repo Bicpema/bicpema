@@ -214,5 +214,5 @@ export const state = {
 
   // グラフ描画用のChart.jsインスタンス
   mainChartObj: undefined,
-  subChartObj: undefined,
+  subChartObj: undefined
 };

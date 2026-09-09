@@ -3,7 +3,7 @@ import {
   computeRightWaveDisplacement,
   computeLeftWaveDisplacement,
   computeStandingWaveDisplacement,
-  computeWaveFronts,
+  computeWaveFronts
 } from "../../../vite/simulations/standing-wave/js/physics.js";
 
 describe("computeRightWaveDisplacement", () => {

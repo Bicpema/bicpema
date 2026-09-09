@@ -32,7 +32,7 @@ const sketch = (p) => {
   const canvasController = new BicpemaCanvasController({
     fixedAspectRatio: false,
     is3D: true,
-    panelSelector: "#p5Canvas",
+    panelSelector: "#p5Canvas"
   });
   let isFirstDraw = true;
 

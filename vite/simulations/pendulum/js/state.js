@@ -35,5 +35,5 @@ export const state = {
   /** 右の振れ角度入力の参照 */
   rightAngleInput: null,
   /** 右の紐の長さ入力の参照 */
-  rightLengthInput: null,
+  rightLengthInput: null
 };
