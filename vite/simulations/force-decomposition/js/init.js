@@ -3,7 +3,7 @@ import { FPS, LABEL_FONT_SIZE } from "./constants.js";
 
 /**
  * DOM要素を選択してstateに格納し、イベントリスナーを設定する。
- * @param {p5} p p5インスタンス
+ * @param {p5} _p p5インスタンス
  */
 export function elCreate(_p) {
   // 設定UIなし

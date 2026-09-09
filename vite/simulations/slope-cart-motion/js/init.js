@@ -54,7 +54,7 @@ export function elementSelectInit(p) {
 
 /**
  * DOM要素の位置・サイズを設定する（リサイズ時も呼ばれる）
- * @param {*} p - p5インスタンス
+ * @param {*} _p - p5インスタンス
  */
 export function elementPositionInit(_p) {
   // グラフは CSS position:absolute で配置するため JS 側の設定不要
@@ -62,7 +62,6 @@ export function elementPositionInit(_p) {
 
 /**
  * シミュレーション変数を初期化する
- * @param {*} p - p5インスタンス
  */
 export function valueInit() {
   state.cart = new SlopeCart(state.slopeDeg, SLOPE_LENGTH_M);
