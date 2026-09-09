@@ -126,7 +126,9 @@ function drawConvertedTransverse(p) {
 }
 
 export function drawSimulation(p) {
-  const speedSlider = document.getElementById("speedSlider");
+  const speedSlider = /** @type {HTMLInputElement | null} */ (
+    document.getElementById("speedSlider")
+  );
   if (speedSlider) p.frameRate(parseInt(speedSlider.value));
   p.background(255);
   if (state.running) state.t += 1;
