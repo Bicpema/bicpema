@@ -8,6 +8,7 @@ image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []
+math: true
 ---
 
 ## シミュレーションのリンク
@@ -21,11 +22,15 @@ aliases: []
 - **斜面方向成分**（物体を滑らせようとする力）：mg sinθ
 - **斜面垂直方向成分**（斜面を押す力・垂直抗力の反力）：mg cosθ
 
-<p style="text-align: center;">mg sinθ + mg cosθ ≠ mg（スカラー和は異なる）</p>
+$$
+mg\sin\theta + mg\cos\theta \neq mg \quad (\text{スカラー和は異なる})
+$$
 
 しかし、ベクトルとして合成すると元の重力 mg に戻ります。3辺の関係は直角三角形の三平方の定理に対応します：
 
-<p style="text-align: center;">(mg sinθ)<sup>2</sup> + (mg cosθ)<sup>2</sup> = (mg)<sup>2</sup></p>
+$$
+(mg\sin\theta)^2 + (mg\cos\theta)^2 = (mg)^2
+$$
 
 斜面の傾きが大きくなるほど mg sinθ が大きくなり、物体が滑りやすくなることが視覚的に確認できます。
 

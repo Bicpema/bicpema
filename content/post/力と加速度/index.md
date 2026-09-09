@@ -8,6 +8,7 @@ image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []
+math: true
 ---
 
 ## シミュレーションのリンク
@@ -18,7 +19,9 @@ aliases: []
 
 力 F と加速度 a の関係は、ニュートンの運動の第二法則として知られており、物理学の基本法則のひとつです。
 
-<p style="text-align:center;">F = ma</p>
+$$
+F = ma
+$$
 
 ここで：
 
@@ -28,7 +31,9 @@ aliases: []
 
 この式から、質量が一定のとき、加速度は加えた力に比例することがわかります。
 
-<p style="text-align:center;">a = F/m</p>
+$$
+a = \frac{F}{m}
+$$
 
 このシミュレーションでは、台車に右向きの力を加えたとき、台車がどのような加速度で動き出すかを観察できます。力 F と加速度 a の値が画面上にリアルタイムで表示されるため、両者の比例関係を直感的に理解できます。
 

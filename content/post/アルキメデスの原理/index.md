@@ -8,6 +8,7 @@ image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []
+math: true
 ---
 
 ## シミュレーションのリンク
@@ -22,27 +23,31 @@ aliases: []
 
 ### アルキメデスの原理
 
-流体中の物体に働く浮力 F<sub>b</sub> は次の式で表されます。
+流体中の物体に働く浮力 \\( F_b \\) は次の式で表されます。
 
-<p style="text-align:center;">F<sub>b</sub> = ρ<sub>流体</sub> × V<sub>排除</sub> × g</p>
+$$
+F_b = \rho_{\text{流体}} \times V_{\text{排除}} \times g
+$$
 
 ここで:
 
-- ρ<sub>流体</sub>: 流体（水）の密度
-- V<sub>排除</sub>: 物体が排除した流体の体積（水中にある部分の体積）
+- \\( \rho\_{\text{流体}} \\): 流体（水）の密度
+- \\( V\_{\text{排除}} \\): 物体が排除した流体の体積（水中にある部分の体積）
 - g: 重力加速度
 
 ### 物体の浮き沈み
 
 物体にかかる重力と浮力を比べることで、浮き沈みを判定できます。
 
-- **浮力 > 重力**（ ρ<sub>物体</sub> < ρ<sub>流体</sub> ）: 物体は浮く
-- **浮力 = 重力**（ ρ<sub>物体</sub> = ρ<sub>流体</sub> ）: 物体は静止（中性浮力）
-- **浮力 < 重力**（ ρ<sub>物体</sub> > ρ<sub>流体</sub> ）: 物体は沈む
+- **浮力 > 重力**（ \\( \rho\_{\text{物体}} < \rho\_{\text{流体}} \\) ）: 物体は浮く
+- **浮力 = 重力**（ \\( \rho\_{\text{物体}} = \rho\_{\text{流体}} \\) ）: 物体は静止（中性浮力）
+- **浮力 < 重力**（ \\( \rho\_{\text{物体}} > \rho\_{\text{流体}} \\) ）: 物体は沈む
 
 円柱が浮いているとき、水中に沈んでいる体積の割合は次の式で求められます。
 
-<p style="text-align:center;">V<sub>排除</sub> / V<sub>全体</sub> = ρ<sub>物体</sub> / ρ<sub>流体</sub></p>
+$$
+\frac{V_{\text{排除}}}{V_{\text{全体}}} = \frac{\rho_{\text{物体}}}{\rho_{\text{流体}}}
+$$
 
 例えば、円柱の密度が 0.7 g/cm³ のとき、円柱の体積の 70% が水中に沈みます。
 

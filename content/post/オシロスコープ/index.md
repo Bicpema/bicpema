@@ -8,6 +8,7 @@ tags: ["物理", "波動", "高校", "音", "オシロスコープ", "周波数"
 categories: ["波動"]
 series: ["波動と音"]
 aliases: []
+math: true
 ---
 
 ## シミュレーションのリンク
@@ -24,7 +25,9 @@ aliases: []
 
 波の基本式は次のように表されます。
 
-<p align="center">v = fλ</p>
+$$
+v = f\lambda
+$$
 
 ここで:
 

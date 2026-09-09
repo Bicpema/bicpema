@@ -8,6 +8,7 @@ image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []
+math: true
 ---
 
 ## シミュレーションのリンク
@@ -24,7 +25,9 @@ aliases: []
 
 バネの変形量（自然長からの伸び・縮み）を x、ばね定数を k とすると、弾性力 F は次の式で表されます：
 
-<p style="text-align:center;">F = k|x|</p>
+$$
+F = k|x|
+$$
 
 ここで：
 

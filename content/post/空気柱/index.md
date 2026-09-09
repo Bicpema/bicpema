@@ -8,6 +8,7 @@ image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/
 categories: ["波動"]
 series: ["波動と音"]
 aliases: []
+math: true
 ---
 
 ## シミュレーションのリンク
@@ -20,9 +21,23 @@ aliases: []
 
 ### 主要な物理法則・公式
 
-開管: f_n = n v/(2L)
-閉管: f_n=(2n+1) v/(4L)
-波速: v=fλ
+開管:
+
+$$
+f_n = \frac{nv}{2L}
+$$
+
+閉管:
+
+$$
+f_n = \frac{(2n+1)v}{4L}
+$$
+
+波速:
+
+$$
+v = f\lambda
+$$
 
 ## 対象
 
