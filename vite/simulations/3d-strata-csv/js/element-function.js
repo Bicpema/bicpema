@@ -3,6 +3,7 @@
 import { state, STRATA_KINDS } from "./state.js";
 import { DOM } from "./class.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+import { getSelectElement } from "../../../js/bicpema-dom.js";
 
 const loadScreenshot = createLazyImporter(() => import("modern-screenshot"));
 
@@ -11,7 +12,9 @@ const loadScreenshot = createLazyImporter(() => import("modern-screenshot"));
  * modern-screenshotはボタン押下時に初めて動的importする。
  */
 export function onScreenshotClick() {
-  const button = document.getElementById("screenshotButton");
+  const button = /** @type {HTMLButtonElement | null} */ (
+    document.getElementById("screenshotButton")
+  );
   if (button) button.disabled = true;
   loadScreenshot()
     .then(({ domToPng }) => domToPng(document.body))
@@ -196,7 +199,7 @@ export function firstPlaceSelectFunction(p) {
   if (Object.keys(state.dataInputArr).length !== 0 && placeName != "-") {
     const strataArr = state.dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = document.getElementById("select2-" + (i + 1));
+      const strataSelect = getSelectElement("select2-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -210,7 +213,7 @@ export function firstPlaceSelectFunction(p) {
     }
   } else {
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = document.getElementById("select2-" + (i + 1));
+      const strataSelect = getSelectElement("select2-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -236,7 +239,7 @@ export function secondPlaceSelectFunction(p) {
   if (Object.keys(state.dataInputArr).length !== 0 && placeName != "-") {
     const strataArr = state.dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = document.getElementById("select3-" + (i + 1));
+      const strataSelect = getSelectElement("select3-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -250,7 +253,7 @@ export function secondPlaceSelectFunction(p) {
     }
   } else {
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = document.getElementById("select3-" + (i + 1));
+      const strataSelect = getSelectElement("select3-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -276,7 +279,7 @@ export function thirdPlaceSelectFunction(p) {
   if (Object.keys(state.dataInputArr).length !== 0 && placeName != "-") {
     const strataArr = state.dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = document.getElementById("select4-" + (i + 1));
+      const strataSelect = getSelectElement("select4-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -290,7 +293,7 @@ export function thirdPlaceSelectFunction(p) {
     }
   } else {
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = document.getElementById("select4-" + (i + 1));
+      const strataSelect = getSelectElement("select4-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -317,9 +320,9 @@ export function placeRefreshFunction(p) {
   const secondPlaceSelect = p.select("#secondPlaceSelect");
   const thirdPlaceSelect = p.select("#thirdPlaceSelect");
 
-  const firstPlaceSelectDoc = document.getElementById("firstPlaceSelect");
-  const secondPlaceSelectDoc = document.getElementById("secondPlaceSelect");
-  const thirdPlaceSelectDoc = document.getElementById("thirdPlaceSelect");
+  const firstPlaceSelectDoc = getSelectElement("firstPlaceSelect");
+  const secondPlaceSelectDoc = getSelectElement("secondPlaceSelect");
+  const thirdPlaceSelectDoc = getSelectElement("thirdPlaceSelect");
 
   while (firstPlaceSelectDoc.childElementCount > 0) {
     firstPlaceSelectDoc.remove(0);
@@ -357,9 +360,15 @@ export function placeRefreshFunction(p) {
  * スケール設定の「自動」「手動」ラジオボタンが変更された時の処理。
  */
 export function setRadioButtonFunction() {
-  const ele1 = document.getElementById("widthDirectionInput");
-  const ele2 = document.getElementById("depthDirectionMaxInput");
-  const ele3 = document.getElementById("depthDirectionMinInput");
+  const ele1 = /** @type {HTMLInputElement} */ (
+    document.getElementById("widthDirectionInput")
+  );
+  const ele2 = /** @type {HTMLInputElement} */ (
+    document.getElementById("depthDirectionMaxInput")
+  );
+  const ele3 = /** @type {HTMLInputElement} */ (
+    document.getElementById("depthDirectionMinInput")
+  );
   if (state.setRadioButton.value() === "auto") {
     ele1.value = "";
     ele2.value = "";
@@ -368,9 +377,9 @@ export function setRadioButtonFunction() {
     ele2.disabled = true;
     ele3.disabled = true;
   } else if (state.setRadioButton.value() === "manual") {
-    ele1.value = state.xMax;
-    ele2.value = state.zMax;
-    ele3.value = state.zMin;
+    ele1.value = String(state.xMax);
+    ele2.value = String(state.zMax);
+    ele3.value = String(state.zMin);
     ele1.disabled = false;
     ele2.disabled = false;
     ele3.disabled = false;
@@ -390,7 +399,7 @@ export function unitSelectFunction() {
 
 /**
  * CSVファイルが選択された時の処理。
- * @param {object} file p5.jsのファイルオブジェクト
+ * @param {import("p5").File} file p5.jsのファイルオブジェクト
  * @param {*} p p5インスタンス
  */
 export function strataFileInputFunction(file, p) {
@@ -403,7 +412,9 @@ export function strataFileInputFunction(file, p) {
     reader.onload = function () {
       // UTF-8でデコード
       const decoder = new TextDecoder("utf-8");
-      const csvText = decoder.decode(reader.result);
+      const csvText = decoder.decode(
+        /** @type {ArrayBuffer} */ (reader.result)
+      );
 
       processCSV(csvText, p);
     };
@@ -449,12 +460,12 @@ export function processCSV(csvText, p) {
     placeAddButtonFunction(p);
     const el = document.getElementById("placeNameInput" + (i + 1));
     const pa1 = el.children[0];
-    const pl = pa1.children[1];
+    const pl = /** @type {HTMLInputElement} */ (pa1.children[1]);
     pl.value = nameArr[i];
     const pa2 = el.children[1];
     const vl = pa2.children;
-    vl[1].value = placeArr[0][i];
-    vl[3].value = placeArr[1][i];
+    /** @type {HTMLInputElement} */ (vl[1]).value = String(placeArr[0][i]);
+    /** @type {HTMLInputElement} */ (vl[3]).value = String(placeArr[1][i]);
     state.dataInputArr["地点" + (i + 1)].layer = testData["地点" + (i + 1)];
   }
   placeNameInputFunction(p);
