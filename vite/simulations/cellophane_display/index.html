@@ -82,7 +82,7 @@
           </h1>
           <button
             type="button"
-            class="modal-close text-xl leading-none text-neutral-500 hover:text-neutral-700"
+            class="modal-close modal-close-icon"
             aria-label="Close"
           >
             &times;
@@ -91,10 +91,7 @@
         <div>
           <h2 class="text-lg font-semibold">偏光板とセロハンテープの設定</h2>
           <div class="mb-4">
-            <select
-              class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-              id="polarizerSelect"
-            >
+            <select class="form-control" id="polarizerSelect">
               <option>平行ニコル配置</option>
               <option>直交ニコル配置</option>
             </select>
@@ -107,7 +104,7 @@
           <div class="mb-4">
             <input
               type="number"
-              class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+              class="form-control"
               id="opdInput"
               placeholder=""
               min="0"
@@ -163,10 +160,7 @@
           </button>
           <div class="mb-3 overflow-auto" id="cellophaneColabNum"></div>
           <div class="flex justify-end border-t border-neutral-200 pt-2">
-            <button
-              type="button"
-              class="modal-close rounded border border-neutral-400 px-3 py-1.5 hover:bg-neutral-100"
-            >
+            <button type="button" class="modal-close modal-close-outline">
               閉じる
             </button>
           </div>

@@ -98,7 +98,7 @@
       <!-- 設定モーダル -->
       <div
         id="settingsModal"
-        class="absolute top-1/2 left-1/2 z-[2000] hidden w-[350px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-white/30 bg-black/90 p-[30px] text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-[15px] max-[576px]:w-[300px] max-[576px]:p-5"
+        class="modal-panel hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         role="dialog"
         aria-modal="true"
         aria-label="設定"
@@ -106,10 +106,10 @@
         <div>
           <h5 class="mb-5 text-center text-white">設定</h5>
           <div class="mb-3">
-            <label for="massInput" class="mb-2 block">台車の質量 m (kg)</label>
+            <label for="massInput" class="form-label">台車の質量 m (kg)</label>
             <input
               type="number"
-              class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+              class="form-control"
               id="massInput"
               min="0.1"
               max="2.0"
@@ -118,12 +118,12 @@
             />
           </div>
           <div class="mb-3">
-            <label for="velocityInput" class="mb-2 block"
+            <label for="velocityInput" class="form-label"
               >初速度 v₀ (m/s)</label
             >
             <input
               type="number"
-              class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+              class="form-control"
               id="velocityInput"
               min="0.5"
               max="3.0"
@@ -132,10 +132,10 @@
             />
           </div>
           <div class="mb-3">
-            <label for="forceInput" class="mb-2 block">抵抗力 F (N)</label>
+            <label for="forceInput" class="form-label">抵抗力 F (N)</label>
             <input
               type="number"
-              class="block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+              class="form-control"
               id="forceInput"
               min="1"
               max="50"
@@ -143,10 +143,7 @@
               value="5"
             />
           </div>
-          <button
-            id="closeModal"
-            class="modal-close w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
-          >
+          <button id="closeModal" class="modal-close modal-close-solid">
             閉じる
           </button>
         </div>

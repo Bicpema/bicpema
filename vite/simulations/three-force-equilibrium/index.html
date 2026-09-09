@@ -31,7 +31,7 @@
       <!-- 設定パネル -->
       <div
         id="settingsModal"
-        class="absolute top-1/2 left-1/2 z-[2000] hidden w-[340px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-white/30 bg-black/90 p-[30px] text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-[15px] max-[576px]:w-[290px] max-[576px]:p-5"
+        class="modal-panel hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] max-[576px]:w-[290px]"
         role="dialog"
         aria-modal="true"
         aria-label="設定"
@@ -39,7 +39,7 @@
         <div>
           <h5 class="mb-5 text-center text-[1.1rem] text-white">設定</h5>
           <div class="mb-4">
-            <label for="weightInput" class="mb-2 block">
+            <label for="weightInput" class="form-label">
               おもりの重さ W:
               <span id="weightDisplay">20</span> N
             </label>
@@ -63,10 +63,7 @@
           >
             リセット
           </button>
-          <button
-            id="closeModal"
-            class="modal-close w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
-          >
+          <button id="closeModal" class="modal-close modal-close-solid">
             閉じる
           </button>
         </div>

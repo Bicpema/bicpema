@@ -31,7 +31,7 @@
       <!-- 設定モーダル -->
       <div
         id="settingsModal"
-        class="absolute top-1/2 left-1/2 z-[2000] hidden w-[360px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 border-white/30 bg-black/90 p-6 text-white shadow-[0_8px_32px_rgba(0,0,0,0.5)] backdrop-blur-[15px]"
+        class="modal-panel hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] p-6 max-[576px]:w-[360px] max-[576px]:p-6"
         role="dialog"
         aria-modal="true"
         aria-label="設定"
@@ -123,10 +123,7 @@
             </button>
           </div>
         </div>
-        <button
-          id="closeModal"
-          class="modal-close w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
-        >
+        <button id="closeModal" class="modal-close modal-close-solid">
           閉じる
         </button>
       </div>
