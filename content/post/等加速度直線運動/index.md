@@ -8,6 +8,7 @@ tags: ["物理", "力学", "高校", "大学", "等加速度直線運動", "速�
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []
+math: true
 ---
 
 ## シミュレーションのリンク
@@ -24,13 +25,17 @@ aliases: []
 
 等加速度直線運動における位置 x、速度 v と時間 t の関係は以下の式で表されます:
 
-<p style="text-align:center;">v = v<sub>0</sub> + at</p>
+$$
+v = v_0 + at
+$$
 
-<p style="text-align:center;">x = v<sub>0</sub>t + (1/2)at<sup>2</sup></p>
+$$
+x = v_0 t + \frac{1}{2}at^2
+$$
 
 ここで:
 
-- v<sub>0</sub>: 初速度 (m/s)
+- \\( v_0 \\): 初速度 (m/s)
 - a: 加速度 (m/s²)
 - t: 時間 (s)
 - x: 位置 (m)

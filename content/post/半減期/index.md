@@ -8,6 +8,7 @@ image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/
 categories: ["原子物理"]
 series: ["原子物理入門"]
 aliases: []
+math: true
 ---
 
 ## シミュレーションのリンク
@@ -20,18 +21,23 @@ aliases: []
 
 ### 主要な物理法則・公式
 
-<p style="text-align:center;">N(t) = N<sub>0</sub> e<sup>-λt</sup></p>
-<p style="text-align:center;">T<sub>1/2</sub> = ln2/λ</p>
+$$
+N(t) = N_0 e^{-\lambda t}
+$$
+
+$$
+T_{1/2} = \frac{\ln 2}{\lambda}
+$$
 
 ### 公式の説明
 
 - **N(t)**：時刻 t での原子数（個数）
-- **N<sub>0</sub>**：初期値（t = 0 時点での原子数）
+- \\( \mathbf{N_0} \\)：初期値（t = 0 時点での原子数）
 - **e**：自然対数の底（ネイピア数、約 2.718）
 - **λ（ラムダ）**：崩壊定数。核種ごとに固有の値で、崩壊の速さを表します。λ が大きいほど減衰が速い
 - **t**：経過時間
 - **ln**：自然対数（loge）
-- **T<sub>1/2</sub>**：半減期。N<sub>0</sub> が N<sub>0</sub>/2（二分の一）になるまでの時間。
+- \\( \mathbf{T\_{1/2}} \\)：半減期。\\( N_0 \\) が \\( N_0/2 \\)（二分の一）になるまでの時間。
 
 ## 対象
 
@@ -47,7 +53,7 @@ aliases: []
 
 ## 観察のポイント
 
-- N<sub>0</sub>の影響
+- \\( N_0 \\)の影響
 - λの大小での減衰速度
 - 半減期の視覚化
 

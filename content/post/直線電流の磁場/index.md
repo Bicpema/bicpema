@@ -8,6 +8,7 @@ image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/
 categories: ["電磁気"]
 series: ["電磁気学基礎"]
 aliases: []
+math: true
 ---
 
 ## シミュレーションのリンク
@@ -17,11 +18,13 @@ aliases: []
 ## 扱っている現象および本教材の説明
 
 直線電流の周りには、電流を中心とした同心円状の磁場ができます。磁場の大きさは
-**B = μ<sub>0</sub>I/(2πr)** で表され、μ<sub>0</sub> は真空の透磁率、I は電流です。
+\\( B = \mu_0 I/(2\pi r) \\) で表され、\\( \mu_0 \\) は真空の透磁率、I は電流です。
 
 ### 主要な物理法則・公式
 
-B(r)=μ<sub>0</sub>I/(2πr)
+$$
+B(r) = \frac{\mu_0 I}{2\pi r}
+$$
 
 ## 対象
 

@@ -8,6 +8,7 @@ image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []
+math: true
 ---
 
 ## シミュレーションのリンク
@@ -28,14 +29,16 @@ aliases: []
 
 斜面の傾斜角を θ とすると、台車に働く斜面方向の加速度は：
 
-<p style="text-align:center;">a = g sin θ</p>
+$$
+a = g\sin\theta
+$$
 
 ここで g = 9.8 m/s²（重力加速度）。
 
 初速度ゼロから出発すると：
 
-- 速度：v(t) = at
-- 変位：s(t) = (1/2)at<sup>2</sup>
+- 速度：\\( v(t) = at \\)
+- 変位：\\( s(t) = \dfrac{1}{2}at^2 \\)
 
 速度は時間に比例して増加するため、v-tグラフは原点を通る直線になります。
 
@@ -45,7 +48,7 @@ aliases: []
 
 記録テープには、一定時間間隔 T ごとの台車位置が点で記録されます。
 
-- <span style="color: red;">隣り合う点の間隔 Δs<sub>n</sub> = s(nT) − s((n−1)T) は時間とともに一定の割合で広がる</span>
+- <span style="color: red;">隣り合う点の間隔 \\( \Delta s_n = s(nT) - s((n-1)T) \\) は時間とともに一定の割合で広がる</span>
 - <span style="color: red;">これが等加速度運動の証拠です</span>
 
 ## 対象
