@@ -1,7 +1,7 @@
 /**
  * ばねの組み合わせ方（直列・並列）に応じた合成ばね定数を計算する。
  * @param {number|string} k 1本あたりのばね定数
- * @param {1|2|3|string} combination 1: 単独, 2: 並列（2本）, 3: 直列（2本、同じkの場合）
+ * @param {number|string} combination 1: 単独, 2: 並列（2本）, 3: 直列（2本、同じkの場合）
  * @returns {number} 合成ばね定数
  */
 export function computeEffectiveSpringConstant(k, combination) {

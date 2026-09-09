@@ -24,6 +24,9 @@
     "vite/simulations/projectile-motion/**/*.js",
     "vite/simulations/train-acceleration/**/*.js",
     "vite/simulations/velocity-composition/**/*.js",
+    "vite/simulations/elastic-force/**/*.js",
+    "vite/simulations/spring/**/*.js",
+    "vite/simulations/pendulum/**/*.js",
     "vite/simulations/*/js/**/*.ts",
     "templates/**/*.ts",
     "test/**/*.js"
