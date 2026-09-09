@@ -8,6 +8,7 @@ image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/
 categories: ["波動"]
 series: ["波動と音"]
 aliases: []
+math: true
 ---
 
 ## シミュレーションのリンク
@@ -16,12 +17,17 @@ aliases: []
 
 ## 扱っている現象および本教材の説明
 
-逆向きの波が重なり定在波を形成。弦の固定端でL=nλ/2、開放端でL=(2n+1)λ/4。
+逆向きの波が重なり定在波を形成。弦の固定端で \\( L = n\lambda/2 \\)、開放端で \\( L = (2n+1)\lambda/4 \\)。
 
 ### 主要な物理法則・公式
 
-L=nλ/2
-L=(2n+1)λ/4
+$$
+L = \frac{n\lambda}{2}
+$$
+
+$$
+L = \frac{(2n+1)\lambda}{4}
+$$
 
 ## 対象
 

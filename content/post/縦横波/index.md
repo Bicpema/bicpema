@@ -8,6 +8,7 @@ image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/
 categories: ["波動"]
 series: ["波動と音"]
 aliases: []
+math: true
 ---
 
 ## シミュレーションのリンク
@@ -20,8 +21,17 @@ aliases: []
 
 ### 主要な物理法則・公式
 
-y(x,t)=A sin(kx-ωt) (横波)
-Δx(x,t)=A sin(kx-ωt) (縦波)
+横波:
+
+$$
+y(x,t) = A\sin(kx-\omega t)
+$$
+
+縦波:
+
+$$
+\Delta x(x,t) = A\sin(kx-\omega t)
+$$
 
 ## 対象
 
