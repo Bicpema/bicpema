@@ -3,7 +3,7 @@ title: "アルキメデスの原理"
 description: "本教材はアルキメデスの原理を視覚的に理解するためのシミュレーション教材です。円柱の密度を変えることで浮力と重力のつり合いを観察できます。"
 author: "kenji"
 date: "2026-03-09"
-tags: ["物理", "力学", "浮力", "高校", "アルキメデスの原理"]
+tags: ["物理", "力学", "高校", "アルキメデスの原理", "浮力"]
 image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Farchimedes-principle%2Fthumbnail.png?alt=media&token=864fb76d-c902-416e-93bb-66d895d14525"
 categories: ["力学"]
 series: ["力学入門"]
