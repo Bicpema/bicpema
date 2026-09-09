@@ -40,8 +40,14 @@ export function loadOpenerLayers(p) {
   const layers = window.opener.loadLayers(placeName);
   for (let i = 0; i < layers.length; i++) {
     trAddButtonFunction(p);
-    document.getElementById("td1Input" + (i + 1)).value = layers[i][0];
-    document.getElementById("td2Input" + (i + 1)).value = layers[i][1];
-    document.getElementById("td3Select" + (i + 1)).value = layers[i][2];
+    /** @type {HTMLInputElement} */ (
+      document.getElementById("td1Input" + (i + 1))
+    ).value = layers[i][0];
+    /** @type {HTMLInputElement} */ (
+      document.getElementById("td2Input" + (i + 1))
+    ).value = layers[i][1];
+    /** @type {HTMLSelectElement} */ (
+      document.getElementById("td3Select" + (i + 1))
+    ).value = layers[i][2];
   }
 }

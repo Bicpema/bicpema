@@ -23,13 +23,16 @@ export const CYL_H = 100;
 
 /**
  * シミュレーションの初期値を設定する関数。
+ * @param {*} [p] p5インスタンス（未使用だが呼び出し元との引数形式を揃えるために受け取る）。
  */
-export function initValue() {
+export function initValue(p) {
   state.waterSurfaceY = TANK_BOTTOM_Y - TANK_H * WATER_FILL_RATIO;
 
   state.tank = new Tank(TANK_CX, TANK_BOTTOM_Y, TANK_W, TANK_H, TANK_D);
 
-  const densitySlider = document.getElementById("densitySlider");
+  const densitySlider = /** @type {HTMLInputElement | null} */ (
+    document.getElementById("densitySlider")
+  );
   const density = densitySlider ? parseFloat(densitySlider.value) : 1.0;
 
   let initBottomY;
@@ -56,7 +59,9 @@ export function elCreate(p) {
     });
   }
 
-  const densitySlider = document.getElementById("densitySlider");
+  const densitySlider = /** @type {HTMLInputElement | null} */ (
+    document.getElementById("densitySlider")
+  );
   if (densitySlider) {
     densitySlider.addEventListener("input", () => {
       const density = parseFloat(densitySlider.value);

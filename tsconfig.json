@@ -24,6 +24,10 @@
     "vite/simulations/projectile-motion/**/*.js",
     "vite/simulations/train-acceleration/**/*.js",
     "vite/simulations/velocity-composition/**/*.js",
+    "vite/simulations/half-life/**/*.js",
+    "vite/simulations/archimedes-principle/**/*.js",
+    "vite/simulations/3d-strata/**/*.js",
+    "vite/simulations/3d-strata-csv/**/*.js",
     "vite/simulations/*/js/**/*.ts",
     "templates/**/*.ts",
     "test/**/*.js"
