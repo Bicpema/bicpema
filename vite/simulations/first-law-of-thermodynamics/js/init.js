@@ -4,6 +4,7 @@ import { state } from "./state.js";
 import { Molecule } from "./class.js";
 import { onResetButtonClick, onQRadioChange } from "./element-function.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
+import { setCheckedRadioByValue } from "../../../js/bicpema-dom.js";
 import {
   PISTON_INIT_X,
   CYL_LEFT,
@@ -15,7 +16,7 @@ import {
 
 /**
  * 値の初期化を行う。
- * @param {object} p - p5 インスタンス
+ * @param {p5} p - p5 インスタンス
  */
 export function initValue(p) {
   state.pistonX = PISTON_INIT_X;
@@ -40,15 +41,12 @@ export function initValue(p) {
     );
   }
 
-  const qRadios = document.querySelectorAll('input[name="qValue"]');
-  qRadios.forEach((r) => {
-    r.checked = r.value === "0";
-  });
+  setCheckedRadioByValue("qValue", "0");
 }
 
 /**
  * DOM 要素のイベントリスナーを設定する。
- * @param {object} p - p5 インスタンス
+ * @param {p5} p - p5 インスタンス
  */
 export function elCreate(p) {
   p.select("#resetButton").mousePressed(() => onResetButtonClick());

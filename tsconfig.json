@@ -24,6 +24,11 @@
     "vite/simulations/projectile-motion/**/*.js",
     "vite/simulations/train-acceleration/**/*.js",
     "vite/simulations/velocity-composition/**/*.js",
+    "vite/simulations/conservation-of-heat-and-specific-heat/**/*.js",
+    "vite/simulations/first-law-of-thermodynamics/**/*.js",
+    "vite/simulations/heat-engine/**/*.js",
+    "vite/simulations/specific-heat-and-heat-capacity/**/*.js",
+    "vite/simulations/visualization-of-heat-transfer/**/*.js",
     "vite/simulations/*/js/**/*.ts",
     "templates/**/*.ts",
     "test/**/*.js"
