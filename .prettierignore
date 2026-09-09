@@ -19,6 +19,9 @@ docs/.cache
 # Themes (managed separately)
 themes
 
+# Hugo template overrides (Go templateタグ混在のためPrettierのHTMLパーサーでは解釈不可)
+layouts
+
 # Configuration
 *.min.js
 *.min.css
