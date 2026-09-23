@@ -79,7 +79,7 @@ npm run typecheck
 
 対象は `tsconfig.json` の `include` に列挙されたファイルです。シミュレーションのロジックに型チェックを追加する場合は、対象ディレクトリを `include` に追加してください。
 
-シミュレーションの`.ts`化（対象拡張）の進め方や、本ページで扱う単体テストの展開との役割分担は [TypeScript化の方針](../typescript-migration.md) を参照してください。
+シミュレーションの実装は `vite/simulations/**/*.ts` として`.ts`化済みです。実装パターンの詳細は [シミュレーション実装方法](../simulation/index.md#実装パターン) を参照してください。
 
 ## CI での実行
 

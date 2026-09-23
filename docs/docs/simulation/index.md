@@ -12,6 +12,11 @@ flowchart TD
   F --> G[PR を作成してマージ]
 ```
 
+## 関連ページ
+
+- [ファイル構成（リポジトリ全体）](./repository-files.md) — リポジトリ全体のディレクトリ構成
+- [ファイル構成（シミュレーション）](./simulation-files.md) — `vite/` ディレクトリの構成
+
 ## 雛形の生成
 
 リポジトリルートで以下を実行します。
@@ -136,6 +141,7 @@ vite/simulations/{name}/
 ## 実装上の注意
 
 - スクロールが発生しないよう、`html, body { overflow: hidden; height: 100%; }` を設定する
+- 設定モーダル・操作ボタン・フォーム部品などシミュレーション間で共通のUIパーツは、ユーティリティクラスを個別に並べる前に `vite/css/tailwind.css` の `@layer components`（`.modal-panel` / `.btn-settings-modal-open` / `.form-control` 等）に既存のコンポーネントクラスがないか確認し、再利用する
 - 再生・停止ボタンは左下に配置する
 - 設定表示ボタンは右上に配置する
 - 重いファイル（フォント、画像等）は [Firebase Storage](https://console.firebase.google.com/project/bicpema/storage) にアップロードし、URL で参照する
