@@ -1,4 +1,4 @@
-// elementFunction.js は仮想 DOM メソッド管理専用のファイルです。
+// elementFunction.ts は仮想 DOM メソッド管理専用のファイルです。
 
 import { state } from "./state.js";
 

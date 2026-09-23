@@ -35,9 +35,9 @@ function updateDisplays() {
 }
 
 export function setupControls(p) {
-  const typeSelect = /** @type {HTMLSelectElement | null} */ (
-    document.getElementById("typeSelect")
-  );
+  const typeSelect = document.getElementById(
+    "typeSelect"
+  ) as HTMLSelectElement | null;
   const mnPlusBtn = document.getElementById("mnPlusBtn");
   const mnMinusBtn = document.getElementById("mnMinusBtn");
   const lplusBtn = document.getElementById("lplusBtn");
@@ -48,7 +48,7 @@ export function setupControls(p) {
   }
 
   typeSelect.addEventListener("change", () => {
-    state.type = /** @type {"closed" | "open"} */ (typeSelect.value);
+    state.type = typeSelect.value as "closed" | "open";
     if (state.type === "closed" && state.m_n % 2 === 0) {
       state.m_n = Math.max(MN_MIN, state.m_n - 1);
     }

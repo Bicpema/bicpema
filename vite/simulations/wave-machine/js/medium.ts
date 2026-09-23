@@ -1,4 +1,4 @@
-// Medium.js はクラス管理専用のファイルです。
+// Medium.ts はクラス管理専用のファイルです。
 
 import {
   state,
@@ -13,7 +13,12 @@ import {
  * 媒質を表すクラス。
  */
 export class Medium {
-  constructor(p, x, y, n) {
+  p: any;
+  posx: number;
+  posy: number;
+  number: number;
+
+  constructor(p: any, x: number, y: number, n: number) {
     this.p = p;
     this.posx = x;
     this.posy = y;

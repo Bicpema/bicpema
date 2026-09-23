@@ -1,4 +1,4 @@
-// class.js は SOUND クラス管理専用のファイルです。
+// class.ts は SOUND クラス管理専用のファイルです。
 
 import { state } from "./state.js";
 import { FPS, H, SOUND_SPEED } from "./constants.js";
@@ -7,11 +7,14 @@ import { FPS, H, SOUND_SPEED } from "./constants.js";
  * 音波を表すクラス。
  */
 export class SOUND {
+  soundx: number;
+  radi: number;
+
   /**
    * @param {number} x 音波が生成された X 座標
    * @param {number} r 初期半径
    */
-  constructor(x, r) {
+  constructor(x: number, r: number) {
     this.soundx = x;
     this.radi = r;
   }

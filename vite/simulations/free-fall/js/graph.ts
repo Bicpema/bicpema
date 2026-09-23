@@ -1,3 +1,4 @@
+import type { Chart as ChartInstance } from "chart.js";
 import { state } from "./state.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
 import { getCanvasElement } from "../../../js/bicpema-dom.js";
@@ -21,7 +22,7 @@ const AXIS_MAX_MARGIN_RATIO = 1.1;
  * v-tグラフとy-tグラフを同時に表示
  */
 export class BallGraph {
-  chart: InstanceType<typeof import("chart.js").Chart> | null;
+  chart: ChartInstance<"scatter"> | null;
 
   constructor() {
     this.chart = null;

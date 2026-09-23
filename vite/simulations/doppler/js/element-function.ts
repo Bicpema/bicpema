@@ -1,4 +1,4 @@
-// element-function.js は仮想 DOM メソッド管理専用のファイルです。
+// element-function.ts は仮想 DOM メソッド管理専用のファイルです。
 
 import { state } from "./state.js";
 import { ORIGIN_X } from "./constants.js";
