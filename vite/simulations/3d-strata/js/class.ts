@@ -3,14 +3,23 @@
 import { placeNameInputFunction } from "./element-function.js";
 
 /**
- * 1地点分の名前・y方向・x方向の入力欄と、地層データ編集リンクを生成するクラス。
+ * 1地点分の名前・緯度・経度の入力欄と、地層データ編集リンクを生成するクラス。
  */
 export class DOM {
+  n: number;
+  parentDiv: any;
+  inputGroup1: any;
+  inputGroup2: any;
+  placeNameInput: any;
+  yInput: any;
+  xInput: any;
+  placeDataInput: any;
+
   /**
    * @param {number} n 地点番号
    * @param {*} p p5インスタンス
    */
-  constructor(n, p) {
+  constructor(n: number, p: any) {
     this.n = n;
     this.parentDiv = p
       .createDiv()
@@ -33,7 +42,7 @@ export class DOM {
       )
       .input(() => placeNameInputFunction(p));
     // input要素の下の部分
-    p.createElement("span", "y方向")
+    p.createElement("span", "緯度")
       .parent(this.inputGroup2)
       .class(
         "inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
@@ -44,7 +53,7 @@ export class DOM {
       .class(
         "w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
       );
-    p.createElement("span", "x方向")
+    p.createElement("span", "経度")
       .parent(this.inputGroup2)
       .class(
         "inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
@@ -55,7 +64,7 @@ export class DOM {
       .class(
         "w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
       );
-    p.createDiv("地点" + n + "の名前、y方向、x方向を入力してください。")
+    p.createDiv("地点" + n + "の名前、緯度、経度を入力してください。")
       .parent(this.parentDiv)
       .class("text-sm text-neutral-500");
     // サブウィンドウ生成用のDOM

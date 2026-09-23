@@ -30,9 +30,9 @@ export function initValue(p) {
 
   state.tank = new Tank(TANK_CX, TANK_BOTTOM_Y, TANK_W, TANK_H, TANK_D);
 
-  const densitySlider = /** @type {HTMLInputElement | null} */ (
-    document.getElementById("densitySlider")
-  );
+  const densitySlider = document.getElementById(
+    "densitySlider"
+  ) as HTMLInputElement | null;
   const density = densitySlider ? parseFloat(densitySlider.value) : 1.0;
 
   let initBottomY;
@@ -59,9 +59,9 @@ export function elCreate(p) {
     });
   }
 
-  const densitySlider = /** @type {HTMLInputElement | null} */ (
-    document.getElementById("densitySlider")
-  );
+  const densitySlider = document.getElementById(
+    "densitySlider"
+  ) as HTMLInputElement | null;
   if (densitySlider) {
     densitySlider.addEventListener("input", () => {
       const density = parseFloat(densitySlider.value);

@@ -22,7 +22,8 @@ export function trAddButtonFunction(p) {
  */
 export function loadOpenerLayers(p) {
   // 受け取った地点名入りURLから地点名を抽出
-  const placeName = decodeURIComponent(location.search.substring(1));
+  let placeName = decodeURI(location.search);
+  placeName = placeName.substring(1, placeName.length);
 
   // 親ウィンドウがない場合の処理
   if (!window.opener || window.opener.closed) {
@@ -35,7 +36,7 @@ export function loadOpenerLayers(p) {
 
   // 地点名はURL（親ウィンドウの入力欄）由来のため、innerHTMLではなくtextContentで
   // プレーンテキストとして表示し、DOM注入を防ぐ。
-  document.getElementById("place_name").textContent =
+  document.getElementById("placeName").textContent =
     placeName + "のデータを編集";
   document.title = placeName + "のデータを編集";
 
@@ -43,14 +44,12 @@ export function loadOpenerLayers(p) {
   const layers = window.opener.loadLayers(placeName);
   for (let i = 0; i < layers.length; i++) {
     trAddButtonFunction(p);
-    /** @type {HTMLInputElement} */ (
-      document.getElementById("td1Input" + (i + 1))
-    ).value = layers[i][0];
-    /** @type {HTMLInputElement} */ (
-      document.getElementById("td2Input" + (i + 1))
-    ).value = layers[i][1];
-    /** @type {HTMLSelectElement} */ (
-      document.getElementById("td3Select" + (i + 1))
+    (document.getElementById("td1Input" + (i + 1)) as HTMLInputElement).value =
+      layers[i][0];
+    (document.getElementById("td2Input" + (i + 1)) as HTMLInputElement).value =
+      layers[i][1];
+    (
+      document.getElementById("td3Select" + (i + 1)) as HTMLSelectElement
     ).value = layers[i][2];
   }
 }

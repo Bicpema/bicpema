@@ -6,11 +6,23 @@ import { state, STRATA_KINDS } from "./state.js";
  * 地層データ編集テーブルの1行（tr要素）を表すクラス。
  */
 export class TR {
+  num: number;
+  tr: any;
+  th: any;
+  td1: any;
+  td1Input: any;
+  td2: any;
+  td2Input: any;
+  td3: any;
+  td3Select: any;
+  td4: any;
+  trRemoveButton: any;
+
   /**
    * @param {number} n 新しく生成するtr要素の番号
    * @param {*} p p5インスタンス
    */
-  constructor(n, p) {
+  constructor(n: number, p: any) {
     const num = n;
     this.num = num;
 

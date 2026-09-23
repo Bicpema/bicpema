@@ -17,6 +17,16 @@ const RESTITUTION = 0.3;
  * アルキメデスの原理シミュレーションで使用する円柱を表すクラス。
  */
 export class Cylinder {
+  cx: number;
+  cy: number;
+  r: number;
+  h: number;
+  density: number;
+  vy: number;
+  ay: number;
+  dragging: boolean;
+  dragOffsetY: number;
+
   /**
    * @constructor
    * @param {number} cx 円柱の中心X座標（キャンバス座標）
@@ -25,7 +35,7 @@ export class Cylinder {
    * @param {number} h 円柱の高さ（キャンバス単位）
    * @param {number} density 円柱の密度（g/cm³）
    */
-  constructor(cx, cy, r, h, density) {
+  constructor(cx: number, cy: number, r: number, h: number, density: number) {
     this.cx = cx;
     this.cy = cy;
     this.r = r;
