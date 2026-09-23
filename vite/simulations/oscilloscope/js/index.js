@@ -21,7 +21,7 @@ const sketch = (p) => {
     canvasController.fullScreen(p);
     settingInit(p);
     elements = elementSelectInit();
-    elementPositionInit(p);
+    elementPositionInit();
     valueInit();
     setupControls(p, elements);
     initModal({
@@ -45,7 +45,7 @@ const sketch = (p) => {
 
   p.windowResized = () => {
     canvasController.resizeScreen(p);
-    elementPositionInit(p);
+    elementPositionInit();
   };
 };
 

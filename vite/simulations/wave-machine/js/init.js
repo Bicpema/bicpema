@@ -35,8 +35,8 @@ export function elementSelectInit(p) {
   state.decelerationButton = p.select("#decelerationButton");
   state.accelerationButton = p.select("#accelerationButton");
 
-  state.decelerationButton.mousePressed(() => onDecelerationButtonClick(p));
-  state.accelerationButton.mousePressed(() => onAccelerationButtonClick(p));
+  state.decelerationButton.mousePressed(() => onDecelerationButtonClick());
+  state.accelerationButton.mousePressed(() => onAccelerationButtonClick());
 }
 
 /**
