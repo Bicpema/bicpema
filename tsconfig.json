@@ -29,6 +29,9 @@
     "vite/simulations/heat-engine/**/*.js",
     "vite/simulations/specific-heat-and-heat-capacity/**/*.js",
     "vite/simulations/visualization-of-heat-transfer/**/*.js",
+    "vite/simulations/elastic-force/**/*.js",
+    "vite/simulations/spring/**/*.js",
+    "vite/simulations/pendulum/**/*.js",
     "vite/simulations/*/js/**/*.ts",
     "test/**/*.js"
   ],
