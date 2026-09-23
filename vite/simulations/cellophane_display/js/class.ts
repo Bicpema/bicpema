@@ -1,14 +1,17 @@
-// class.js はセロハンのDOMクラス管理専用のファイルです。
+// class.js はセロハンの組ごとの入力DOM要素を管理するCellophaneクラス管理専用のファイルです。
 
 /**
- * セロハンのDOMクラス
+ * 1組分のセロハンの枚数・回転角の入力欄を生成するクラス。
+ * 光路差は全組で共有する#opdInputを使用するため、ここでは生成しない。
  */
 export class Cellophane {
+  number: number;
+
   /**
-   * @param {*} p p5インスタンス
    * @param {number} n セロハンの組番号
+   * @param {*} p p5インスタンス
    */
-  constructor(p, n) {
+  constructor(n: number, p) {
     this.number = n;
     const parentDiv = p
       .createDiv()
@@ -39,7 +42,5 @@ export class Cellophane {
         "min-w-0 flex-1 rounded-r border border-l-0 border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
       )
       .id("rotateInput-" + this.number);
-    //let opdSpan = createSpan(this.number + "組目の光路差").parent(inputGroup).class("input-group-text")
-    //let opdIInput = createInput(270, "number").parent(inputGroup).class("form-control").id("opdInput-" + this.number)
   }
 }

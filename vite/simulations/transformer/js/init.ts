@@ -61,12 +61,12 @@ export function elCreate(p) {
   }
 
   const playPauseButton = document.getElementById("playPauseButton");
-  const phaseSameRadio = /** @type {HTMLInputElement | null} */ (
-    document.getElementById("phaseSame")
-  );
-  const speedSlowRadio = /** @type {HTMLInputElement | null} */ (
-    document.getElementById("speedSlow")
-  );
+  const phaseSameRadio = document.getElementById(
+    "phaseSame"
+  ) as HTMLInputElement | null;
+  const speedSlowRadio = document.getElementById(
+    "speedSlow"
+  ) as HTMLInputElement | null;
 
   bindToggleControls(p, {
     toggleSelector: "#playPauseButton",

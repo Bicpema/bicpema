@@ -4,11 +4,13 @@
  * 1組分のセロハンの枚数・回転角・光路差の入力欄を生成するクラス。
  */
 export class Cellophane {
+  number: number;
+
   /**
    * @param {number} n セロハンの組番号
    * @param {*} p p5インスタンス
    */
-  constructor(n, p) {
+  constructor(n: number, p) {
     this.number = n;
     const parentDiv = p
       .createDiv()
