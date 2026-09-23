@@ -25,8 +25,7 @@
     "vite/simulations/train-acceleration/**/*.js",
     "vite/simulations/velocity-composition/**/*.js",
     "vite/simulations/*/js/**/*.ts",
-    "templates/**/*.ts",
     "test/**/*.js"
   ],
-  "exclude": ["node_modules", "static", "public"]
+  "exclude": ["node_modules", "static", "public", "templates", "test/**/fixtures"]
 }
