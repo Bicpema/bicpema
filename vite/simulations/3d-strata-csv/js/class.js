@@ -60,6 +60,7 @@ export class DOM {
       .class("text-sm text-neutral-500");
     // サブウィンドウ生成用のDOM
     this.placeDataInput = p
+      // oxlint-disable-next-line no-script-url -- 実際のナビゲーション先ではなく、後続のonclick差し替え専用のプレースホルダーhref
       .createA("javascript:void(0)", "地点" + n + "のデータを編集")
       .class(
         "mb-2 inline-block rounded border border-blue-600 bg-white px-3 py-1.5 text-blue-600 hover:bg-blue-50"

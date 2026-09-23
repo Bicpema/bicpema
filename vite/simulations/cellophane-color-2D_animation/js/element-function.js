@@ -44,7 +44,7 @@ export function cellophaneAddButtonFunction(p) {
  */
 export function cellophaneRemoveButtonFunction(p) {
   if (state.colabNum > 0) {
-    let targetDiv = p.select("#cellophane-" + state.colabNum);
+    const targetDiv = p.select("#cellophane-" + state.colabNum);
     state.cellophaneArr.pop();
     targetDiv.remove();
     state.colabNum -= 1;

@@ -34,10 +34,8 @@ export class ReflectedWave {
         if (this.theta < MAX_THETA) {
           this.theta++;
         }
-      } else {
-        if (this.theta > -MAX_THETA) {
-          this.theta--;
-        }
+      } else if (this.theta > -MAX_THETA) {
+        this.theta--;
       }
     } else {
       this.theta = 0;

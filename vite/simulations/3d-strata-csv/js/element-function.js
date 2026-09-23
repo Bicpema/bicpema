@@ -42,12 +42,13 @@ export function placeNameInputFunction(p) {
   for (let i = 0; i < placeNum; i++) {
     const place = "地点" + (i + 1);
     let placeName = state.dataInputArr[place].name.value();
-    if (placeName == "") {
+    if (placeName === "") {
       placeName = place;
       state.dataInputArr[place].edit.html("地点" + (i + 1) + "のデータを編集");
     } else {
       state.dataInputArr[place].edit.html(placeName + "のデータを編集");
     }
+    // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
     document.getElementById("placeDataInput" + (i + 1)).onclick = () => {
       window.open(
         "/vite/simulations/3d-strata-csv/setWindow.html?" + placeName,
@@ -83,6 +84,7 @@ export function placeAddButtonFunction(p) {
   state.dataInputArr[placeName].data.y = newDom.yInput;
   state.dataInputArr[placeName].edit = newDom.placeDataInput;
 
+  // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   document.getElementById("placeDataInput" + newPlaceNum).onclick = () => {
     window.open(
       "/vite/simulations/3d-strata-csv/setWindow.html?" + placeName,
@@ -196,7 +198,7 @@ export function firstPlaceSelectFunction(p) {
     }
   }
   const trNum = document.getElementById("strataSelect").childElementCount;
-  if (Object.keys(state.dataInputArr).length !== 0 && placeName != "-") {
+  if (Object.keys(state.dataInputArr).length !== 0 && placeName !== "-") {
     const strataArr = state.dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
       const strataSelect = getSelectElement("select2-" + (i + 1));
@@ -206,7 +208,7 @@ export function firstPlaceSelectFunction(p) {
       const strataKind = p.select("#select1-" + (i + 1)).value();
       const element = p.select("#select2-" + (i + 1));
       for (let j = 0; j < strataArr.length; j++) {
-        if (strataKind == strataArr[j][2]) {
+        if (strataKind === strataArr[j][2]) {
           element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
         }
       }
@@ -231,12 +233,12 @@ export function secondPlaceSelectFunction(p) {
   secondPlaceName.innerHTML = secondPlaceSelect.value();
   let placeName = secondPlaceName.innerHTML;
   for (const key in state.dataInputArr) {
-    if (state.dataInputArr[key].name.value() == placeName) {
+    if (state.dataInputArr[key].name.value() === placeName) {
       placeName = key;
     }
   }
   const trNum = document.getElementById("strataSelect").childElementCount;
-  if (Object.keys(state.dataInputArr).length !== 0 && placeName != "-") {
+  if (Object.keys(state.dataInputArr).length !== 0 && placeName !== "-") {
     const strataArr = state.dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
       const strataSelect = getSelectElement("select3-" + (i + 1));
@@ -246,7 +248,7 @@ export function secondPlaceSelectFunction(p) {
       const strataKind = p.select("#select1-" + (i + 1)).value();
       const element = p.select("#select3-" + (i + 1));
       for (let j = 0; j < strataArr.length; j++) {
-        if (strataKind == strataArr[j][2]) {
+        if (strataKind === strataArr[j][2]) {
           element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
         }
       }
@@ -271,12 +273,12 @@ export function thirdPlaceSelectFunction(p) {
   thirdPlaceName.innerHTML = thirdPlaceSelect.value();
   let placeName = thirdPlaceName.innerHTML;
   for (const key in state.dataInputArr) {
-    if (state.dataInputArr[key].name.value() == placeName) {
+    if (state.dataInputArr[key].name.value() === placeName) {
       placeName = key;
     }
   }
   const trNum = document.getElementById("strataSelect").childElementCount;
-  if (Object.keys(state.dataInputArr).length !== 0 && placeName != "-") {
+  if (Object.keys(state.dataInputArr).length !== 0 && placeName !== "-") {
     const strataArr = state.dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
       const strataSelect = getSelectElement("select4-" + (i + 1));
@@ -286,7 +288,7 @@ export function thirdPlaceSelectFunction(p) {
       const strataKind = p.select("#select1-" + (i + 1)).value();
       const element = p.select("#select4-" + (i + 1));
       for (let j = 0; j < strataArr.length; j++) {
-        if (strataKind == strataArr[j][2]) {
+        if (strataKind === strataArr[j][2]) {
           element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
         }
       }
@@ -351,8 +353,11 @@ export function placeRefreshFunction(p) {
   // placeRefreshFunctionは地点の追加・削除・名前入力のたびに呼び出されるため、
   // addEventListenerで都度追加すると呼び出し回数分ハンドラが多重登録されてしまう。
   // 同一要素に対して常に単一のハンドラのみを保つよう、プロパティ代入で上書きする。
+  // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   firstPlaceSelectDoc.onchange = () => firstPlaceSelectFunction(p);
+  // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   secondPlaceSelectDoc.onchange = () => secondPlaceSelectFunction(p);
+  // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   thirdPlaceSelectDoc.onchange = () => thirdPlaceSelectFunction(p);
 }
 
@@ -409,7 +414,7 @@ export function strataFileInputFunction(file, p) {
     const reader = new FileReader();
     reader.readAsArrayBuffer(file.file); // ArrayBuffer で読み込む
 
-    reader.onload = function () {
+    reader.addEventListener("load", () => {
       // UTF-8でデコード
       const decoder = new TextDecoder("utf-8");
       const csvText = decoder.decode(
@@ -417,7 +422,7 @@ export function strataFileInputFunction(file, p) {
       );
 
       processCSV(csvText, p);
-    };
+    });
   } else {
     console.log("テキストファイルではありません");
   }
@@ -479,10 +484,12 @@ export function processCSV(csvText, p) {
 export function submit(arr) {
   const [name, dataArr] = arr;
   for (const key in state.dataInputArr) {
-    let placeName = state.dataInputArr[key].name.value();
-    if (placeName === "") placeName = key;
-    if (placeName === name) {
-      state.dataInputArr[key].layer = dataArr;
+    if (Object.hasOwn(state.dataInputArr, key)) {
+      let placeName = state.dataInputArr[key].name.value();
+      if (placeName === "") placeName = key;
+      if (placeName === name) {
+        state.dataInputArr[key].layer = dataArr;
+      }
     }
   }
 }

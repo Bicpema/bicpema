@@ -101,8 +101,9 @@ export function drawChamber(p) {
   p.fill(0);
   p.textSize(24);
   p.textAlign(p.LEFT, p.TOP);
-  if (state.stage === 0)
+  if (state.stage === 0) {
     p.text("① 加熱しておもりを持ち上げる仕事をする", 20, 20);
+  }
   if (state.stage === 1) p.text("② おもりを取り除く", 20, 20);
   if (state.stage === 2) p.text("③ 残った熱を放出させて元の状態に戻す", 20, 20);
   if (state.stage === 3) p.text("④ ①に戻る（繰り返し）", 20, 20);

@@ -172,11 +172,13 @@ function drawGrid(p) {
   p.strokeWeight(1);
   p.stroke(168, 206, 221);
   for (let x = ORIGIN_X; x <= V_W; x += GRID_STEP) p.line(x, 0, x, V_H);
-  for (let x = ORIGIN_X - GRID_STEP; x >= 0; x -= GRID_STEP)
+  for (let x = ORIGIN_X - GRID_STEP; x >= 0; x -= GRID_STEP) {
     p.line(x, 0, x, V_H);
+  }
   for (let y = ORIGIN_Y; y <= V_H; y += GRID_STEP) p.line(0, y, V_W, y);
-  for (let y = ORIGIN_Y - GRID_STEP; y >= 0; y -= GRID_STEP)
+  for (let y = ORIGIN_Y - GRID_STEP; y >= 0; y -= GRID_STEP) {
     p.line(0, y, V_W, y);
+  }
 }
 
 /**
@@ -188,7 +190,6 @@ function drawGrid(p) {
 function drawAxes(p, ox, oy) {
   const axisColor = p.color(0);
   const axisWeight = 2;
-  const axisHeadSize = 10;
   drawArrow(p, ox, oy, V_W - 10, oy, axisColor, axisWeight);
   drawArrow(p, ox, oy, 10, oy, axisColor, axisWeight);
   drawArrow(p, ox, oy, ox, 10, axisColor, axisWeight);
@@ -385,11 +386,13 @@ export function handleDrag(p, MAX_FORCE) {
 
   // UIスライダー更新
   if (state.magnitudeInput) state.magnitudeInput.value(state.forceMag);
-  if (state.magnitudeValue)
+  if (state.magnitudeValue) {
     state.magnitudeValue.html(`${state.forceMag.toFixed(1)} N`);
+  }
   if (state.angleInput) state.angleInput.value(state.forceAngle);
-  if (state.angleValue)
+  if (state.angleValue) {
     state.angleValue.html(`${state.forceAngle.toFixed(0)}°`);
+  }
 }
 
 /**

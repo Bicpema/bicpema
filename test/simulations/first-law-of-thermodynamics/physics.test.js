@@ -55,10 +55,7 @@ describe("computeMoleculeSpeed", () => {
     const t = 300;
     const z = 0.5;
 
-    expect(computeMoleculeSpeed(t, z)).toBeCloseTo(
-      Math.pow(t, 1.5) * (0.6 + z),
-      6
-    );
+    expect(computeMoleculeSpeed(t, z)).toBeCloseTo(t ** 1.5 * (0.6 + z), 6);
   });
 
   it("zが大きい分子ほど同じ温度でも速度が大きい", () => {

@@ -3,7 +3,7 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "lib": ["ES2022", "DOM"],
+    "lib": ["ES2025", "DOM"],
     "types": ["node", "p5"],
     "allowJs": true,
     "checkJs": true,
@@ -28,9 +28,17 @@
     "vite/simulations/archimedes-principle/**/*.js",
     "vite/simulations/3d-strata/**/*.js",
     "vite/simulations/3d-strata-csv/**/*.js",
+    "vite/simulations/elastic-force/**/*.js",
+    "vite/simulations/spring/**/*.js",
+    "vite/simulations/pendulum/**/*.js",
     "vite/simulations/*/js/**/*.ts",
-    "templates/**/*.ts",
     "test/**/*.js"
   ],
-  "exclude": ["node_modules", "static", "public"]
+  "exclude": [
+    "node_modules",
+    "static",
+    "public",
+    "templates",
+    "test/**/fixtures"
+  ]
 }

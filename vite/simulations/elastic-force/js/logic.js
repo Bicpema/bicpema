@@ -3,12 +3,10 @@
 import {
   state,
   V_W,
-  V_H,
   WALL_X,
   WALL_W,
   WALL_TOP,
   WALL_BOTTOM,
-  PX_PER_M,
   GRAPH_LEFT,
   GRAPH_RIGHT,
   GRAPH_TOP,
@@ -123,16 +121,18 @@ function drawGraph(p) {
 
   // x軸ラベル（10cm刻み）
   for (let xc = -X_RANGE; xc <= X_RANGE; xc += X_STEP) {
-    if (xc === 0) continue;
-    const gx = cx + xc * pxPerCm;
-    p.text(xc.toString(), gx, cy + 6);
+    if (xc !== 0) {
+      const gx = cx + xc * pxPerCm;
+      p.text(xc.toString(), gx, cy + 6);
+    }
   }
   // y軸ラベル（10N刻み）
   p.textAlign(p.RIGHT, p.CENTER);
   for (let fn = -Y_RANGE; fn <= Y_RANGE; fn += Y_STEP) {
-    if (fn === 0) continue;
-    const gy = cy - fn * pxPerN;
-    p.text(fn.toFixed(0), cx - 6, gy);
+    if (fn !== 0) {
+      const gy = cy - fn * pxPerN;
+      p.text(fn.toFixed(0), cx - 6, gy);
+    }
   }
 
   // 軸タイトル

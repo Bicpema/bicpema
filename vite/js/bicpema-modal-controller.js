@@ -94,15 +94,15 @@ export function initCollapse({ toggleSelectors, targetSelector }) {
  * @param {object} options
  * @param {string} options.tabSelector タブ（トリガー）要素のCSSセレクタ（複数要素にマッチしてよい、各要素はhref="#paneId"を持つ）
  */
+function getPane(tab) {
+  const paneSelector = tab.getAttribute("href");
+  if (!paneSelector?.startsWith("#")) return null;
+  return document.querySelector(paneSelector);
+}
+
 export function initTabs({ tabSelector }) {
   const tabs = Array.from(document.querySelectorAll(tabSelector));
   if (tabs.length === 0) return;
-
-  const getPane = (tab) => {
-    const paneSelector = tab.getAttribute("href");
-    if (!paneSelector?.startsWith("#")) return null;
-    return document.querySelector(paneSelector);
-  };
 
   tabs.forEach((tab) => {
     tab.closest(".nav-tabs")?.setAttribute("role", "tablist");

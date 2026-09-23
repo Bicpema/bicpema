@@ -46,17 +46,19 @@ function calculateValue() {
   const longitudeArr = [];
   const depthArr = [];
   for (const key in state.dataInputArr) {
-    const value = state.dataInputArr[key];
-    const data = value.data;
-    // input要素のvalue()は文字列を返すため、min/max比較が文字列比較になる
-    // （例: "9" > "10"）のを避けるためNumber()で数値に正規化する。
-    const latitude = data.y.value();
-    latitudeArr.push(latitude != "" ? Number(latitude) : 0);
-    const longitude = data.x.value();
-    longitudeArr.push(longitude != "" ? Number(longitude) : 0);
-    const layer = value.layer;
-    for (let i = 0; i < layer.length; i++) {
-      depthArr.push(Number(layer[i][0]), Number(layer[i][1]));
+    if (Object.hasOwn(state.dataInputArr, key)) {
+      const value = state.dataInputArr[key];
+      const data = value.data;
+      // input要素のvalue()は文字列を返すため、min/max比較が文字列比較になる
+      // （例: "9" > "10"）のを避けるためNumber()で数値に正規化する。
+      const latitude = data.y.value();
+      latitudeArr.push(latitude !== "" ? Number(latitude) : 0);
+      const longitude = data.x.value();
+      longitudeArr.push(longitude !== "" ? Number(longitude) : 0);
+      const layer = value.layer;
+      for (let i = 0; i < layer.length; i++) {
+        depthArr.push(Number(layer[i][0]), Number(layer[i][1]));
+      }
     }
   }
   return {
@@ -91,11 +93,11 @@ function backgroundSetting(p, xMin, xMax, yMin, yMax, zMin, zMax) {
     p.line(x + WORLD_MIN, 0, WORLD_MIN, x + WORLD_MIN, WORLD_MAX, WORLD_MIN);
     p.line(x + WORLD_MIN, 0, WORLD_MIN, x + WORLD_MIN, 0, WORLD_MAX);
     p.line(x + WORLD_MIN, 0, WORLD_MAX, x + WORLD_MIN, WORLD_MAX, WORLD_MAX);
-    if (x % GRID_LABEL_STEP == 0) {
+    if (x % GRID_LABEL_STEP === 0) {
       p.push();
       p.translate(WORLD_MIN, 0, WORLD_MAX);
       let xMap = p.map(x, 0, WORLD_SIZE, p.float(xMin), p.float(xMax));
-      if (xMin == xMax) xMap = x / GRID_LABEL_STEP;
+      if (xMin === xMax) xMap = x / GRID_LABEL_STEP;
       if (state.jaFont) p.text(p.nf(xMap, 1, 4), x, -10);
       p.pop();
     }
@@ -110,11 +112,11 @@ function backgroundSetting(p, xMin, xMax, yMin, yMax, zMin, zMax) {
     p.line(WORLD_MIN, z, WORLD_MIN, WORLD_MIN, z, WORLD_MAX);
     p.line(WORLD_MIN, z, WORLD_MAX, WORLD_MAX, z, WORLD_MAX);
     p.line(WORLD_MAX, z, WORLD_MIN, WORLD_MAX, z, WORLD_MAX);
-    if (z % GRID_LABEL_STEP == 0) {
+    if (z % GRID_LABEL_STEP === 0) {
       p.push();
       p.translate(0, 0, WORLD_MIN);
       let zMap = p.map(z, 0, WORLD_MAX, zMin, zMax);
-      if (zMin == zMax) zMap = z;
+      if (zMin === zMax) zMap = z;
       if (state.jaFont) p.text(p.nf(zMap, 1, 4), WORLD_MIN, z);
       p.pop();
     }
@@ -127,10 +129,10 @@ function backgroundSetting(p, xMin, xMax, yMin, yMax, zMin, zMax) {
     p.line(WORLD_MIN, 0, y + WORLD_MIN, WORLD_MAX, 0, y + WORLD_MIN);
     p.line(WORLD_MIN, 0, y + WORLD_MIN, WORLD_MIN, WORLD_MAX, y + WORLD_MIN);
     p.line(WORLD_MAX, 0, y + WORLD_MIN, WORLD_MAX, WORLD_MAX, y + WORLD_MIN);
-    if (y % GRID_LABEL_STEP == 0) {
+    if (y % GRID_LABEL_STEP === 0) {
       p.push();
       let yMap = p.map(y, WORLD_SIZE, 0, yMin, yMax);
-      if (yMin == yMax) yMap = (WORLD_SIZE - y) / GRID_LABEL_STEP;
+      if (yMin === yMax) yMap = (WORLD_SIZE - y) / GRID_LABEL_STEP;
       p.rotateY(p.PI / 2);
       p.translate(-y + WORLD_MAX, 0, WORLD_MAX);
       if (state.jaFont) p.text(p.nf(yMap, 1, 4), 0, -10);
@@ -197,13 +199,13 @@ function createPlane2(p, x1, z1, y1, x2, z2, y2, x3, z3, y3, x4, z4, y4) {
  */
 function drawStrata(p, key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
   let name = state.dataInputArr[key].name.value();
-  if (name == "") name = key;
+  if (name === "") name = key;
   const data = state.dataInputArr[key].data;
   let x = data.x.value();
-  if (x == "") x = 0;
+  if (x === "") x = 0;
   x = p.map(x, xMin, xMax, WORLD_MIN, WORLD_MAX);
   let y = data.y.value();
-  if (y == "") y = 0;
+  if (y === "") y = 0;
   y = p.map(y, yMin, yMax, WORLD_MAX, WORLD_MIN);
   const layer = state.dataInputArr[key].layer;
   p.noStroke();
@@ -271,13 +273,13 @@ function drawSelectedPlanes(p, xMin, xMax, yMin, yMax, zMin, zMax) {
   const p1Name = p.select("#firstPlaceSelect").value();
   const p2Name = p.select("#secondPlaceSelect").value();
   const p3Name = p.select("#thirdPlaceSelect").value();
-  if (p1Name == "-" || p2Name == "-" || p3Name == "-") return;
+  if (p1Name === "-" || p2Name === "-" || p3Name === "-") return;
 
   const p1 = [0, 0];
   const p2 = [0, 0];
   const p3 = [0, 0];
   for (const key in state.dataInputArr) {
-    if (state.dataInputArr[key].name.value() == p1Name) {
+    if (state.dataInputArr[key].name.value() === p1Name) {
       p1[0] = p.map(
         state.dataInputArr[key].data.x.value(),
         xMin,
@@ -292,7 +294,7 @@ function drawSelectedPlanes(p, xMin, xMax, yMin, yMax, zMin, zMax) {
         WORLD_MAX,
         WORLD_MIN
       );
-    } else if (state.dataInputArr[key].name.value() == p2Name) {
+    } else if (state.dataInputArr[key].name.value() === p2Name) {
       p2[0] = p.map(
         state.dataInputArr[key].data.x.value(),
         xMin,
@@ -307,7 +309,7 @@ function drawSelectedPlanes(p, xMin, xMax, yMin, yMax, zMin, zMax) {
         WORLD_MAX,
         WORLD_MIN
       );
-    } else if (state.dataInputArr[key].name.value() == p3Name) {
+    } else if (state.dataInputArr[key].name.value() === p3Name) {
       p3[0] = p.map(
         state.dataInputArr[key].data.x.value(),
         xMin,
@@ -329,7 +331,8 @@ function drawSelectedPlanes(p, xMin, xMax, yMin, yMax, zMin, zMax) {
     const select2 = p.select("#select2-" + (i + 1)).value();
     const select3 = p.select("#select3-" + (i + 1)).value();
     const select4 = p.select("#select4-" + (i + 1)).value();
-    if (select2 == "" || select3 == "" || select4 == "") {
+    if (select2 === "" || select3 === "" || select4 === "") {
+      // oxlint-disable-next-line no-continue -- 未選択の組をスキップする早期continueで、if化するとこの後の描画ロジック全体が深くネストしてしまうため維持する
       continue;
     }
     let p1Min = select2.substr(0, select2.indexOf("m-"));
@@ -427,6 +430,7 @@ function drawSelectedPlanes(p, xMin, xMax, yMin, yMax, zMin, zMax) {
  * @param {*} p p5インスタンス
  */
 function drawAllSetPlanes(p) {
+  // oxlint-disable-next-line guard-for-in -- ALL_SET_DATAはstate.jsで定義された静的な定数オブジェクトのため、継承プロパティの混入はない
   for (const key in ALL_SET_DATA) {
     const { layers, coordinates, ranges } = ALL_SET_DATA[key];
     const p1 = coordinates[0];
@@ -522,14 +526,14 @@ function drawAllSetPlanes(p) {
 export function drawSimulation(p) {
   const coordinateData = calculateValue();
   let xMin = coordinateData.x.min;
-  if (xMin == Infinity) xMin = 0;
+  if (xMin === Infinity) xMin = 0;
   let xMax = coordinateData.x.max;
-  if (xMax == -Infinity) xMax = 0;
+  if (xMax === -Infinity) xMax = 0;
   const xLen = xMax - xMin;
   let yMin = coordinateData.y.min;
-  if (yMin == Infinity) yMin = 0;
+  if (yMin === Infinity) yMin = 0;
   let yMax = coordinateData.y.max;
-  if (yMax == -Infinity) yMax = 0;
+  if (yMax === -Infinity) yMax = 0;
   const yLen = yMax - yMin;
   const unitLen = p.max([xLen, yLen]);
   if (xLen <= yLen) {
@@ -544,12 +548,12 @@ export function drawSimulation(p) {
     yMax += addLenValue;
   }
   let zMin = coordinateData.z.min;
-  if (zMin == Infinity) zMin = 0;
+  if (zMin === Infinity) zMin = 0;
   // 緊急的な措置としての変数の代入
   // 今後軸ラベルの最小値と最大値をスライダーで変更できる仕様に変える必要がある
   zMin = Z_MIN_OVERRIDE;
   let zMax = coordinateData.z.max;
-  if (zMax == -Infinity) zMax = 0;
+  if (zMax === -Infinity) zMax = 0;
   backgroundSetting(p, xMin, xMax, yMin, yMax, zMin, zMax);
   drawDirMark(p, -600, -600);
 
@@ -563,7 +567,9 @@ export function drawSimulation(p) {
 
   state.rotateTime += ROTATION_INCREMENT_DEG;
   for (const key in state.dataInputArr) {
-    drawStrata(p, key, state.rotateTime, xMin, xMax, yMin, yMax, zMin, zMax);
+    if (Object.hasOwn(state.dataInputArr, key)) {
+      drawStrata(p, key, state.rotateTime, xMin, xMax, yMin, yMax, zMin, zMax);
+    }
   }
 
   drawSelectedPlanes(p, xMin, xMax, yMin, yMax, zMin, zMax);

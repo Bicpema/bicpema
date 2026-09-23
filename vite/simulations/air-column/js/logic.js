@@ -58,7 +58,7 @@ export function drawWave(p) {
 export function drawUIContext(p) {
   const pipeH = 100;
   const startX = (CANVAS_WIDTH - state.pipeL) / 2;
-  const { type, m_n, pipeL, pipeY } = state;
+  const { type, pipeL, pipeY } = state;
 
   const dimY = pipeY + pipeH;
   p.stroke(150);
