@@ -28,19 +28,26 @@ export function elementPositionInit(p) {
 }
 
 function updateDisplays() {
-  document.getElementById("mnDisplay").textContent = state.m_n;
-  document.getElementById("lDisplay").textContent = state.pipeL;
+  const mnDisplay = document.getElementById("mnDisplay");
+  const lDisplay = document.getElementById("lDisplay");
+  if (mnDisplay) mnDisplay.textContent = String(state.m_n);
+  if (lDisplay) lDisplay.textContent = String(state.pipeL);
 }
 
 export function setupControls(p) {
-  const typeSelect = document.getElementById("typeSelect");
+  const typeSelect = /** @type {HTMLSelectElement | null} */ (
+    document.getElementById("typeSelect")
+  );
   const mnPlusBtn = document.getElementById("mnPlusBtn");
   const mnMinusBtn = document.getElementById("mnMinusBtn");
   const lplusBtn = document.getElementById("lplusBtn");
   const lminusBtn = document.getElementById("lminusBtn");
 
+  if (!typeSelect || !mnPlusBtn || !mnMinusBtn || !lplusBtn || !lminusBtn)
+    return;
+
   typeSelect.addEventListener("change", () => {
-    state.type = typeSelect.value;
+    state.type = /** @type {"closed" | "open"} */ (typeSelect.value);
     if (state.type === "closed" && state.m_n % 2 === 0) {
       state.m_n = Math.max(MN_MIN, state.m_n - 1);
     }
@@ -81,6 +88,7 @@ export function setupControls(p) {
   });
 
   const playPauseButton = document.getElementById("playPauseButton");
+  if (!playPauseButton) return;
 
   bindToggleControls(p, {
     toggleSelector: "#playPauseButton",

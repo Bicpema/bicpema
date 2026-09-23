@@ -3,6 +3,7 @@
 import { state, STRATA_KINDS } from "./state.js";
 import { DOM } from "./class.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+import { getSelectElement } from "../../../js/bicpema-dom.js";
 
 const loadScreenshot = createLazyImporter(() => import("modern-screenshot"));
 
@@ -11,7 +12,9 @@ const loadScreenshot = createLazyImporter(() => import("modern-screenshot"));
  * modern-screenshotはボタン押下時に初めて動的importする。
  */
 export function onScreenshotClick() {
-  const button = document.getElementById("screenshotButton");
+  const button = /** @type {HTMLButtonElement | null} */ (
+    document.getElementById("screenshotButton")
+  );
   if (button) button.disabled = true;
   loadScreenshot()
     .then(({ domToPng }) => domToPng(document.body))
@@ -130,7 +133,7 @@ export function firstPlaceSelectFunction(p) {
   if (Object.keys(state.dataInputArr).length !== 0 && placeName !== "-") {
     const strataArr = state.dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = document.getElementById("select2-" + (i + 1));
+      const strataSelect = getSelectElement("select2-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -144,7 +147,7 @@ export function firstPlaceSelectFunction(p) {
     }
   } else {
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = document.getElementById("select2-" + (i + 1));
+      const strataSelect = getSelectElement("select2-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -170,7 +173,7 @@ export function secondPlaceSelectFunction(p) {
   if (Object.keys(state.dataInputArr).length !== 0 && placeName !== "-") {
     const strataArr = state.dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = document.getElementById("select3-" + (i + 1));
+      const strataSelect = getSelectElement("select3-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -184,7 +187,7 @@ export function secondPlaceSelectFunction(p) {
     }
   } else {
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = document.getElementById("select3-" + (i + 1));
+      const strataSelect = getSelectElement("select3-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -210,7 +213,7 @@ export function thirdPlaceSelectFunction(p) {
   if (Object.keys(state.dataInputArr).length !== 0 && placeName !== "-") {
     const strataArr = state.dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = document.getElementById("select4-" + (i + 1));
+      const strataSelect = getSelectElement("select4-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -224,7 +227,7 @@ export function thirdPlaceSelectFunction(p) {
     }
   } else {
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = document.getElementById("select4-" + (i + 1));
+      const strataSelect = getSelectElement("select4-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -251,9 +254,9 @@ export function placeRefreshFunction(p) {
   const secondPlaceSelect = p.select("#secondPlaceSelect");
   const thirdPlaceSelect = p.select("#thirdPlaceSelect");
 
-  const firstPlaceSelectDoc = document.getElementById("firstPlaceSelect");
-  const secondPlaceSelectDoc = document.getElementById("secondPlaceSelect");
-  const thirdPlaceSelectDoc = document.getElementById("thirdPlaceSelect");
+  const firstPlaceSelectDoc = getSelectElement("firstPlaceSelect");
+  const secondPlaceSelectDoc = getSelectElement("secondPlaceSelect");
+  const thirdPlaceSelectDoc = getSelectElement("thirdPlaceSelect");
 
   while (firstPlaceSelectDoc.childElementCount > 0) {
     firstPlaceSelectDoc.remove(0);
@@ -436,12 +439,12 @@ export function loadTestDataButtonFunction(p) {
     placeAddButtonFunction(p);
     const el = document.getElementById("placeNameInput" + (i + 1));
     const pa1 = el.children[0];
-    const pl = pa1.children[1];
+    const pl = /** @type {HTMLInputElement} */ (pa1.children[1]);
     pl.value = nameArr[i];
     const pa2 = el.children[1];
     const vl = pa2.children;
-    vl[1].value = placeArr[0][i];
-    vl[3].value = placeArr[1][i];
+    /** @type {HTMLInputElement} */ (vl[1]).value = String(placeArr[0][i]);
+    /** @type {HTMLInputElement} */ (vl[3]).value = String(placeArr[1][i]);
     state.dataInputArr["地点" + (i + 1)].layer = testData["地点" + (i + 1)];
   }
   placeNameInputFunction(p);
@@ -456,22 +459,22 @@ export function aSetButtonFunction(p) {
   while (document.getElementById("strataSelect").childElementCount !== 0) {
     strataRemoveButtonFunction();
   }
-  document.getElementById("firstPlaceSelect").options[1].selected = true;
-  document.getElementById("secondPlaceSelect").options[3].selected = true;
-  document.getElementById("thirdPlaceSelect").options[5].selected = true;
+  getSelectElement("firstPlaceSelect").options[1].selected = true;
+  getSelectElement("secondPlaceSelect").options[3].selected = true;
+  getSelectElement("thirdPlaceSelect").options[5].selected = true;
   firstPlaceSelectFunction(p);
   secondPlaceSelectFunction(p);
   thirdPlaceSelectFunction(p);
   for (let i = 0; i < 2; i++) strataAddButtonFunction(p);
-  document.getElementById("select1-1").options[6].selected = true;
-  document.getElementById("select1-2").options[2].selected = true;
+  getSelectElement("select1-1").options[6].selected = true;
+  getSelectElement("select1-2").options[2].selected = true;
   strataSelectFunction(p);
-  document.getElementById("select2-1").options[0].selected = true;
-  document.getElementById("select3-1").options[0].selected = true;
-  document.getElementById("select4-1").options[0].selected = true;
-  document.getElementById("select2-2").options[0].selected = true;
-  document.getElementById("select3-2").options[0].selected = true;
-  document.getElementById("select4-2").options[0].selected = true;
+  getSelectElement("select2-1").options[0].selected = true;
+  getSelectElement("select3-1").options[0].selected = true;
+  getSelectElement("select4-1").options[0].selected = true;
+  getSelectElement("select2-2").options[0].selected = true;
+  getSelectElement("select3-2").options[0].selected = true;
+  getSelectElement("select4-2").options[0].selected = true;
 }
 
 /**
@@ -483,22 +486,22 @@ export function bSetButtonFunction(p) {
   while (document.getElementById("strataSelect").childElementCount !== 0) {
     strataRemoveButtonFunction();
   }
-  document.getElementById("firstPlaceSelect").options[1].selected = true;
-  document.getElementById("secondPlaceSelect").options[5].selected = true;
-  document.getElementById("thirdPlaceSelect").options[7].selected = true;
+  getSelectElement("firstPlaceSelect").options[1].selected = true;
+  getSelectElement("secondPlaceSelect").options[5].selected = true;
+  getSelectElement("thirdPlaceSelect").options[7].selected = true;
   firstPlaceSelectFunction(p);
   secondPlaceSelectFunction(p);
   thirdPlaceSelectFunction(p);
   for (let i = 0; i < 2; i++) strataAddButtonFunction(p);
-  document.getElementById("select1-1").options[6].selected = true;
-  document.getElementById("select1-2").options[2].selected = true;
+  getSelectElement("select1-1").options[6].selected = true;
+  getSelectElement("select1-2").options[2].selected = true;
   strataSelectFunction(p);
-  document.getElementById("select2-1").options[0].selected = true;
-  document.getElementById("select3-1").options[0].selected = true;
-  document.getElementById("select4-1").options[0].selected = true;
-  document.getElementById("select2-2").options[0].selected = true;
-  document.getElementById("select3-2").options[0].selected = true;
-  document.getElementById("select4-2").options[0].selected = true;
+  getSelectElement("select2-1").options[0].selected = true;
+  getSelectElement("select3-1").options[0].selected = true;
+  getSelectElement("select4-1").options[0].selected = true;
+  getSelectElement("select2-2").options[0].selected = true;
+  getSelectElement("select3-2").options[0].selected = true;
+  getSelectElement("select4-2").options[0].selected = true;
 }
 
 /**
@@ -510,26 +513,26 @@ export function cSetButtonFunction(p) {
   while (document.getElementById("strataSelect").childElementCount !== 0) {
     strataRemoveButtonFunction();
   }
-  document.getElementById("firstPlaceSelect").options[1].selected = true;
-  document.getElementById("secondPlaceSelect").options[4].selected = true;
-  document.getElementById("thirdPlaceSelect").options[2].selected = true;
+  getSelectElement("firstPlaceSelect").options[1].selected = true;
+  getSelectElement("secondPlaceSelect").options[4].selected = true;
+  getSelectElement("thirdPlaceSelect").options[2].selected = true;
   firstPlaceSelectFunction(p);
   secondPlaceSelectFunction(p);
   thirdPlaceSelectFunction(p);
   for (let i = 0; i < 3; i++) strataAddButtonFunction(p);
-  document.getElementById("select1-1").options[6].selected = true;
-  document.getElementById("select1-2").options[5].selected = true;
-  document.getElementById("select1-3").options[2].selected = true;
+  getSelectElement("select1-1").options[6].selected = true;
+  getSelectElement("select1-2").options[5].selected = true;
+  getSelectElement("select1-3").options[2].selected = true;
   strataSelectFunction(p);
-  document.getElementById("select2-1").options[0].selected = true;
-  document.getElementById("select3-1").options[0].selected = true;
-  document.getElementById("select4-1").options[0].selected = true;
-  document.getElementById("select2-2").options[0].selected = true;
-  document.getElementById("select3-2").options[0].selected = true;
-  document.getElementById("select4-2").options[0].selected = true;
-  document.getElementById("select2-3").options[0].selected = true;
-  document.getElementById("select3-3").options[0].selected = true;
-  document.getElementById("select4-3").options[0].selected = true;
+  getSelectElement("select2-1").options[0].selected = true;
+  getSelectElement("select3-1").options[0].selected = true;
+  getSelectElement("select4-1").options[0].selected = true;
+  getSelectElement("select2-2").options[0].selected = true;
+  getSelectElement("select3-2").options[0].selected = true;
+  getSelectElement("select4-2").options[0].selected = true;
+  getSelectElement("select2-3").options[0].selected = true;
+  getSelectElement("select3-3").options[0].selected = true;
+  getSelectElement("select4-3").options[0].selected = true;
 }
 
 /**
@@ -541,26 +544,26 @@ export function dSetButtonFunction(p) {
   while (document.getElementById("strataSelect").childElementCount !== 0) {
     strataRemoveButtonFunction();
   }
-  document.getElementById("firstPlaceSelect").options[4].selected = true;
-  document.getElementById("secondPlaceSelect").options[6].selected = true;
-  document.getElementById("thirdPlaceSelect").options[2].selected = true;
+  getSelectElement("firstPlaceSelect").options[4].selected = true;
+  getSelectElement("secondPlaceSelect").options[6].selected = true;
+  getSelectElement("thirdPlaceSelect").options[2].selected = true;
   firstPlaceSelectFunction(p);
   secondPlaceSelectFunction(p);
   thirdPlaceSelectFunction(p);
   for (let i = 0; i < 3; i++) strataAddButtonFunction(p);
-  document.getElementById("select1-1").options[6].selected = true;
-  document.getElementById("select1-2").options[5].selected = true;
-  document.getElementById("select1-3").options[2].selected = true;
+  getSelectElement("select1-1").options[6].selected = true;
+  getSelectElement("select1-2").options[5].selected = true;
+  getSelectElement("select1-3").options[2].selected = true;
   strataSelectFunction(p);
-  document.getElementById("select2-1").options[0].selected = true;
-  document.getElementById("select3-1").options[0].selected = true;
-  document.getElementById("select4-1").options[0].selected = true;
-  document.getElementById("select2-2").options[0].selected = true;
-  document.getElementById("select3-2").options[0].selected = true;
-  document.getElementById("select4-2").options[0].selected = true;
-  document.getElementById("select2-3").options[0].selected = true;
-  document.getElementById("select3-3").options[0].selected = true;
-  document.getElementById("select4-3").options[0].selected = true;
+  getSelectElement("select2-1").options[0].selected = true;
+  getSelectElement("select3-1").options[0].selected = true;
+  getSelectElement("select4-1").options[0].selected = true;
+  getSelectElement("select2-2").options[0].selected = true;
+  getSelectElement("select3-2").options[0].selected = true;
+  getSelectElement("select4-2").options[0].selected = true;
+  getSelectElement("select2-3").options[0].selected = true;
+  getSelectElement("select3-3").options[0].selected = true;
+  getSelectElement("select4-3").options[0].selected = true;
 }
 
 /**
@@ -572,9 +575,9 @@ export function allSetButtonFunction(p) {
   while (document.getElementById("strataSelect").childElementCount !== 0) {
     strataRemoveButtonFunction();
   }
-  document.getElementById("firstPlaceSelect").options[0].selected = true;
-  document.getElementById("secondPlaceSelect").options[0].selected = true;
-  document.getElementById("thirdPlaceSelect").options[0].selected = true;
+  getSelectElement("firstPlaceSelect").options[0].selected = true;
+  getSelectElement("secondPlaceSelect").options[0].selected = true;
+  getSelectElement("thirdPlaceSelect").options[0].selected = true;
   firstPlaceSelectFunction(p);
   secondPlaceSelectFunction(p);
   thirdPlaceSelectFunction(p);
