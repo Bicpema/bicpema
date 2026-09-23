@@ -553,8 +553,8 @@ function afterColorCalculate(p) {
 
       state.E_3 = math.multiply(jhons(p, c), state.E_2);
       const relativeStrength = math.abs(
-        math.abs(math.multiply(state.E_3[0], state.E_3[0])) +
-          math.abs(math.multiply(state.E_3[1], state.E_3[1]))
+        Number(math.abs(math.multiply(state.E_3[0], state.E_3[0]))) +
+          Number(math.abs(math.multiply(state.E_3[1], state.E_3[1])))
       );
       state.osArr[i - WAVELENGTH_MIN] =
         relativeStrength *
@@ -666,8 +666,8 @@ function afterColorCalculate1(p) {
 
       state.E_3 = math.multiply(jhons(p, c), state.E_2);
       const relativeStrength = math.abs(
-        math.abs(math.multiply(state.E_3[0], state.E_3[0])) +
-          math.abs(math.multiply(state.E_3[1], state.E_3[1]))
+        Number(math.abs(math.multiply(state.E_3[0], state.E_3[0]))) +
+          Number(math.abs(math.multiply(state.E_3[1], state.E_3[1])))
       );
       state.osArr[i - WAVELENGTH_MIN] =
         relativeStrength *
@@ -872,8 +872,8 @@ function afterColorCalculates(p, binaryString) {
 
       state.E_3 = math.multiply(jhons(p, c), state.E_2);
       const relativeStrength = math.abs(
-        math.abs(math.multiply(state.E_3[0], state.E_3[0])) +
-          math.abs(math.multiply(state.E_3[1], state.E_3[1]))
+        Number(math.abs(math.multiply(state.E_3[0], state.E_3[0]))) +
+          Number(math.abs(math.multiply(state.E_3[1], state.E_3[1])))
       );
       state.osArr[i - WAVELENGTH_MIN] =
         relativeStrength *

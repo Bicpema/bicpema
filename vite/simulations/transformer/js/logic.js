@@ -3,6 +3,7 @@ import {
   computeSecondaryVoltage,
   computeSecondaryCurrentAmplitude
 } from "./physics.js";
+import { getCheckedRadioValue } from "../../../js/bicpema-dom.js";
 import {
   LABEL_FONT_SIZE,
   CURRENT_COLOR,
@@ -22,11 +23,11 @@ import {
  */
 export function drawSimulation(p) {
   // 設定パネルのラジオボタンからstate（位相・速度）を更新
-  const phaseRadio = document.querySelector('input[name="phase"]:checked');
-  if (phaseRadio) state.phase = phaseRadio.value === "true";
+  const phaseValue = getCheckedRadioValue("phase");
+  if (phaseValue !== null) state.phase = phaseValue === "true";
 
-  const speedRadio = document.querySelector('input[name="speed"]:checked');
-  if (speedRadio) state.omega = parseFloat(speedRadio.value);
+  const speedValue = getCheckedRadioValue("speed");
+  if (speedValue !== null) state.omega = parseFloat(speedValue);
 
   p.background(255);
 

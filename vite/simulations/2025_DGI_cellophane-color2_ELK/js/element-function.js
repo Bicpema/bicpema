@@ -11,7 +11,9 @@ const loadScreenshot = createLazyImporter(() => import("modern-screenshot"));
  * modern-screenshotはボタン押下時に初めて動的importする。
  */
 export function onScreenshotClick() {
-  const button = document.getElementById("screenshotButton");
+  const button = /** @type {HTMLButtonElement | null} */ (
+    document.getElementById("screenshotButton")
+  );
   if (button) button.disabled = true;
   loadScreenshot()
     .then(({ domToPng }) => domToPng(document.body))
@@ -22,6 +24,8 @@ export function onScreenshotClick() {
       a.click();
     })
     .catch((error) => {
+      // 失敗をユーザーへ通知するUIがないため、原因調査用にログのみ出力する。
+      // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
       console.error("スクリーンショットの取得に失敗しました。", error);
     })
     .finally(() => {
@@ -45,7 +49,7 @@ export function cellophaneAddButtonFunction(p) {
 export function cellophaneRemoveButtonFunction(p) {
   if (state.colabNum > 0) {
     const targetDiv = p.select("#cellophane-" + state.colabNum);
-    state.cellophaneArr.pop(-1);
+    state.cellophaneArr.pop();
     targetDiv.remove();
     state.colabNum -= 1;
   }
