@@ -73,11 +73,11 @@
 ## ブランチ運用方針
 
 - ブランチの種類とプレフィックスは [development-flow.md のブランチ戦略](docs/docs/development-flow.md#ブランチ戦略)（`feature/` / `fix/` / `chore/` 等）に従います。`docs/` ・`style/` ・`refactor/` ・`test/` ・`perf/` が必要な場合も、対応する[コミットメッセージ](#コミットメッセージ)のtypeに合わせて使用してください。
-- ブランチは `main` から、`<type>/<内容を表す簡潔な英語スラッグ>` の形式で作成します。対応するIssueがある場合は、スラッグにIssue番号を含めても構いません（例: `feat/593-typecheck-force-composition`）。日本語スラッグは使用しません。
+- ブランチは `main` から、`<type>/<内容を表す簡潔な日本語スラッグ>` の形式で作成します（例: `feature/シミュレーション結果一覧の追加`）。スラッグは体言止めの日本語とし、固有名詞・技術用語はそのまま英数字で構いません。ブランチ名にIssue番号は含めず、対応するIssueとの紐付けはコミットメッセージやPRの説明で行います。
 - 複数のブランチ・Issueを並行して扱う場合は、他の作業ディレクトリと衝突しないよう `git worktree` を使用します。worktreeはリポジトリ直下の `.claude/worktrees/` 配下に作成してください（`.gitignore` によりgit管理対象外です）。
 
     ```bash
-    git worktree add .claude/worktrees/<作業内容を表す英語の略称> -b <type>/<英語スラッグ> origin/main
+    git worktree add .claude/worktrees/<作業内容を表す英数字の略称> -b <type>/<日本語スラッグ> origin/main
     ```
 
     作業完了後は `git worktree remove <path>` で作業ディレクトリを削除してください。
