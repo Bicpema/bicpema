@@ -3,12 +3,10 @@
 import {
   state,
   V_W,
-  V_H,
   WALL_X,
   WALL_W,
   WALL_TOP,
   WALL_BOTTOM,
-  PX_PER_M,
   GRAPH_LEFT,
   GRAPH_RIGHT,
   GRAPH_TOP,

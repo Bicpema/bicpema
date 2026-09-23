@@ -2,7 +2,6 @@
 
 import {
   state,
-  V_W,
   PANEL_DIVIDER_X,
   CEILING_Y,
   ANCHOR_RADIUS,

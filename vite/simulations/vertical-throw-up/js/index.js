@@ -3,7 +3,6 @@ import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { state } from "./state.js";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
-import { Ball } from "./ball.js";
 import { elCreate, initValue, FPS } from "./init.js";
 import { CANVAS_VIRTUAL_WIDTH } from "./constants.js";
 

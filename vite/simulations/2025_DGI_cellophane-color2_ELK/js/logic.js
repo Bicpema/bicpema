@@ -576,9 +576,6 @@ function afterColorCalculate(p) {
         state.zLambda[i - WAVELENGTH_MIN];
     }
     state.Intensity_all_now = math.sum(state.osArr);
-    const sum_ls_xArrAfter = math.sum(ls_xArrAfter);
-    const sum_ls_yArrAfter = math.sum(ls_yArrAfter);
-    const sum_ls_zArrAfter = math.sum(ls_zArrAfter);
     for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
       state.speyBox[i - WAVELENGTH_MIN] =
         state.osArrOrigin[i - WAVELENGTH_MIN] *
@@ -599,17 +596,6 @@ function afterColorCalculate(p) {
     state.rAfter = toRGB(state.sRGB[0]);
     state.gAfter = toRGB(state.sRGB[1]);
     state.bAfter = toRGB(state.sRGB[2]);
-    let ratio;
-    if (state.rAfter >= state.gAfter && state.rAfter >= state.bAfter) {
-      ratio = state.xSumAfter / sum_ls_xArrAfter;
-    } else if (state.gAfter >= state.rAfter && state.gAfter >= state.bAfter) {
-      ratio = state.ySumAfter / sum_ls_yArrAfter;
-    } else if (state.bAfter >= state.rAfter && state.bAfter >= state.gAfter) {
-      ratio = state.zSumAfter / sum_ls_zArrAfter;
-    }
-    //rAfter *=ratio
-    //gAfter *=ratio
-    //bAfter *=ratio
   }
   // セロハンの組が0組の場合
   else {
@@ -728,26 +714,6 @@ function afterColorCalculate1(p) {
     state.rAfter1 = toRGB(state.sRGB[0]);
     state.gAfter1 = toRGB(state.sRGB[1]);
     state.bAfter1 = toRGB(state.sRGB[2]);
-    let ratio;
-    if (state.rAfter2 >= state.gAfter2 && state.rAfter2 >= state.bAfter2) {
-      ratio =
-        state.xSumAfter ** (1 / SRGB_GAMMA) /
-        state.sum_ls_xArrAfter ** (1 / SRGB_GAMMA);
-    } else if (
-      state.gAfter2 >= state.rAfter2 &&
-      state.gAfter2 >= state.bAfter2
-    ) {
-      ratio =
-        state.ySumAfter ** (1 / SRGB_GAMMA) /
-        state.sum_ls_yArrAfter ** (1 / SRGB_GAMMA);
-    } else if (
-      state.bAfter2 >= state.rAfter2 &&
-      state.bAfter2 >= state.gAfter2
-    ) {
-      ratio =
-        state.zSumAfter ** (1 / SRGB_GAMMA) /
-        state.sum_ls_zArrAfter ** (1 / SRGB_GAMMA);
-    }
   }
   // セロハンの組が0組の場合
   else {
@@ -861,8 +827,6 @@ function afterColorCalculates(p, binaryString) {
               r_theta(p, b),
               math.multiply(cello, math.multiply(mai_r_theta(p, b), state.E_2))
             );
-          } else {
-            state.E_2 = state.E_2;
           }
         }
       } else if (tape_sum > 1) {
@@ -888,8 +852,6 @@ function afterColorCalculates(p, binaryString) {
               r_theta(p, b),
               math.multiply(cello, math.multiply(mai_r_theta(p, b), state.E_2))
             ); //2024.6.21 ここでバグが生じる
-          } else {
-            state.E_2 = state.E_2;
           }
         }
       }
@@ -954,29 +916,6 @@ function afterColorCalculates(p, binaryString) {
     state.rAfter2 = toRGB(state.sRGB[0]);
     state.gAfter2 = toRGB(state.sRGB[1]);
     state.bAfter2 = toRGB(state.sRGB[2]);
-    let ratio;
-    if (state.rAfter2 >= state.gAfter2 && state.rAfter2 >= state.bAfter2) {
-      ratio =
-        state.xSumAfter ** (1 / SRGB_GAMMA) /
-        state.sum_ls_xArrAfter ** (1 / SRGB_GAMMA);
-    } else if (
-      state.gAfter2 >= state.rAfter2 &&
-      state.gAfter2 >= state.bAfter2
-    ) {
-      ratio =
-        state.ySumAfter ** (1 / SRGB_GAMMA) /
-        state.sum_ls_yArrAfter ** (1 / SRGB_GAMMA);
-    } else if (
-      state.bAfter2 >= state.rAfter2 &&
-      state.bAfter2 >= state.gAfter2
-    ) {
-      ratio =
-        state.zSumAfter ** (1 / SRGB_GAMMA) /
-        state.sum_ls_zArrAfter ** (1 / SRGB_GAMMA);
-    }
-    //rAfter2 *=ratio
-    //gAfter2 *=ratio
-    //bAfter2 *=ratio
   } else {
     if (state.polarizerSelect.value() == "平行ニコル配置") {
       state.rAfter2 = BLANK_IMAGE_GRAY_LEVEL;

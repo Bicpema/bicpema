@@ -82,22 +82,16 @@ const sketch = (p) => {
       objectAndVirtualImageDisplay(p, state.fImg);
       screenDisplay(p, state.fImg);
       focusDraw(p, state.fImg);
-      imgWidth = state.fImg.width;
-      imgHeight = state.fImg.height;
     } else if (objectSelect.value() == "LED") {
       opticalPathDisplay(p, state.ledImg);
       objectAndVirtualImageDisplay(p, state.ledImg);
       screenDisplay(p, state.ledImg);
       focusDraw(p, state.ledImg);
-      imgWidth = state.ledImg.width;
-      imgHeight = state.ledImg.height;
     } else if (objectSelect.value() == "ろうそく") {
       opticalPathDisplay(p, state.candleImg);
       objectAndVirtualImageDisplay(p, state.candleImg);
       screenDisplay(p, state.candleImg);
       focusDraw(p, state.candleImg);
-      imgWidth = state.candleImg.width;
-      imgHeight = state.candleImg.height;
     }
   };
 
@@ -155,15 +149,7 @@ function buttonSettings(p) {
 }
 
 //変数の設定
-let lensWidth,
-  lensHeight,
-  screenWidth,
-  screenHeight,
-  objectY,
-  blurValue,
-  imgWidth,
-  imgHeight,
-  pg;
+let lensWidth, lensHeight, screenWidth, screenHeight, objectY, blurValue, pg;
 
 //初期設定
 function initSettings(p) {
@@ -179,8 +165,6 @@ function initSettings(p) {
   state.ledImg.resize(0, p.height / 8);
   objectY = p.height / 2 - state.candleImg.height;
   blurValue = 0;
-  imgWidth = state.fImg.width;
-  imgHeight = state.fImg.height;
   if (pg) {
     // 作り直すとフィルター用に内部で保持されるWebGLレイヤーがDOMに残り続けるため、リサイズのみ行う
     pg.resizeCanvas(screenHeight, screenHeight / 2);

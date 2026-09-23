@@ -86,11 +86,6 @@ export function drawArrowWithLabel(p, fromX, fromY, toX, toY, col, label) {
   p.textSize(LABEL_FONT_SIZE);
   p.textAlign(p.CENTER, p.CENTER);
 
-  // テキスト背景
-  const tw = p.textWidth(label);
-  const th = 18;
-  const pad = 4;
-
   p.fill(col);
   p.text(label, tx, ty);
 }
