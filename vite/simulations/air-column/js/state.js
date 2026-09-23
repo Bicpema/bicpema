@@ -1,4 +1,5 @@
 export const state = {
+  /** @type {"closed" | "open"} */
   type: "closed",
   m_n: 1,
   pipeL: 400,

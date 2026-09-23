@@ -9,5 +9,6 @@ export const state = {
   running: false,
   reflectX: 0,
   front: 0,
-  mode: "free" // "free" or "fixed"
+  /** @type {"free" | "fixed"} */
+  mode: "free"
 };
