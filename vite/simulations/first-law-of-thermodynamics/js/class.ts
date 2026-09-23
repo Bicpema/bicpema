@@ -11,6 +11,12 @@ import {
 } from "./constants.js";
 
 export class Molecule {
+  x: number;
+  y: number;
+  z: number;
+  vx: number;
+  vy: number;
+
   /**
    * @param {p5} p - p5 インスタンス
    * @param {number} x - 初期X座標
@@ -18,7 +24,7 @@ export class Molecule {
    * @param {number} vx - X方向速度
    * @param {number} vy - Y方向速度
    */
-  constructor(p, x, y, vx, vy) {
+  constructor(p, x: number, y: number, vx: number, vy: number) {
     this.x = x;
     this.y = y;
     this.z = p.random();
