@@ -13,7 +13,7 @@ Bicpema は、物理や熱力学などの教育用インタラクティブシミ
 | ---------------- | ---------------------------------------------------------------- |
 | フロントエンド   | [Hugo](https://gohugo.io/) + [Vite](https://vite.dev/)           |
 | シミュレーション | [p5.js](https://p5js.org/)                                       |
-| UIフレームワーク | [Bootstrap 5](https://getbootstrap.com/)                         |
+| UIフレームワーク | [TailwindCSS](https://tailwindcss.com/)                          |
 | デプロイ先       | [Firebase Hosting](https://firebase.google.com/products/hosting) |
 | デプロイ URL     | <https://bicpema.com/>                                           |
 
