@@ -20,10 +20,10 @@ const DEFAULT_ARIA_LABELS = {
 /**
  * 要素にaria-labelが未設定の場合のみ既定値を設定する。
  * 既にaria-labelが指定されている要素（シミュレーション固有の文言）は上書きしない。
- * @param {*} element p.select()で取得したp5.Element（nullの場合は何もしない）
- * @param {string} label 既定のaria-label
+ * @param element p.select()で取得したp5.Element（nullの場合は何もしない）
+ * @param label 既定のaria-label
  */
-function ensureAriaLabel(element, label) {
+function ensureAriaLabel(element: any, label: string): void {
   const node = element?.elt;
   if (!node || node.hasAttribute("aria-label")) return;
   node.setAttribute("aria-label", label);
@@ -34,30 +34,41 @@ function ensureAriaLabel(element, label) {
  * p5.Element.mousePressed()は内部的に"mousedown"のみをバインドし、
  * キーボード操作（Tab移動 → Enter/Space）で発火する"click"イベントには
  * 反応しないため、あえて素のaddEventListenerを使用してキーボード操作にも対応する。
- * @param {*} element p.select()で取得したp5.Element（nullの場合は何もしない）
- * @param {() => void} handler クリック時の処理
+ * @param element p.select()で取得したp5.Element（nullの場合は何もしない）
+ * @param handler クリック時の処理
  */
-function bindClick(element, handler) {
+function bindClick(element: any, handler: () => void): void {
   element?.elt?.addEventListener("click", handler);
+}
+
+interface StartStopControlsOptions {
+  /** 再生ボタンのCSSセレクタ */
+  startSelector: string;
+  /** 停止ボタンのCSSセレクタ */
+  stopSelector: string;
+  /** リセットボタンのCSSセレクタ */
+  resetSelector: string;
+  /** 再生ボタン押下時の処理 */
+  onStart: () => void;
+  /** 停止ボタン押下時の処理 */
+  onStop: () => void;
+  /** リセットボタン押下時の処理 */
+  onReset: () => void;
+  /** 再生ボタンのaria-label（未指定時は既定値） */
+  startAriaLabel?: string;
+  /** 停止ボタンのaria-label（未指定時は既定値） */
+  stopAriaLabel?: string;
+  /** リセットボタンのaria-label（未指定時は既定値） */
+  resetAriaLabel?: string;
 }
 
 /**
  * start/stopボタンが分かれているシミュレーション向けの共通バインディング。
- * @param {*} p p5インスタンス
- * @param {object} options
- * @param {string} options.startSelector 再生ボタンのCSSセレクタ
- * @param {string} options.stopSelector 停止ボタンのCSSセレクタ
- * @param {string} options.resetSelector リセットボタンのCSSセレクタ
- * @param {() => void} options.onStart 再生ボタン押下時の処理
- * @param {() => void} options.onStop 停止ボタン押下時の処理
- * @param {() => void} options.onReset リセットボタン押下時の処理
- * @param {string} [options.startAriaLabel] 再生ボタンのaria-label（未指定時は既定値）
- * @param {string} [options.stopAriaLabel] 停止ボタンのaria-label（未指定時は既定値）
- * @param {string} [options.resetAriaLabel] リセットボタンのaria-label（未指定時は既定値）
- * @returns {{startButton: *, stopButton: *, resetButton: *}} p.select()で取得した各ボタン要素
+ * @param p p5インスタンス
+ * @returns p.select()で取得した各ボタン要素
  */
 export function bindStartStopControls(
-  p,
+  p: any,
   {
     startSelector,
     stopSelector,
@@ -68,8 +79,8 @@ export function bindStartStopControls(
     startAriaLabel,
     stopAriaLabel,
     resetAriaLabel
-  }
-) {
+  }: StartStopControlsOptions
+): { startButton: any; stopButton: any; resetButton: any } {
   const startButton = p.select(startSelector);
   const stopButton = p.select(stopSelector);
   const resetButton = p.select(resetSelector);
@@ -85,24 +96,34 @@ export function bindStartStopControls(
   return { startButton, stopButton, resetButton };
 }
 
+interface ToggleControlsOptions {
+  /** 再生/一時停止トグルボタンのCSSセレクタ */
+  toggleSelector: string;
+  /** リセットボタンのCSSセレクタ */
+  resetSelector: string;
+  /** トグルボタン押下時の処理 */
+  onToggle: () => void;
+  /** リセットボタン押下時の処理 */
+  onReset: () => void;
+  /**
+   * トグルボタンのaria-label。
+   * トグルボタンは開始/一時停止/再開などクリックのたびに表示テキストが変わり、
+   * それ自体がaccessible nameとして機能するため既定値は設定しない。
+   * アイコンのみでテキストが変化しない等、明示的に固定のaria-labelが必要な
+   * 場合にのみ指定すること。
+   */
+  toggleAriaLabel?: string;
+  /** リセットボタンのaria-label（未指定時は既定値） */
+  resetAriaLabel?: string;
+}
+
 /**
  * 1つのボタンで開始/一時停止をトグルするシミュレーション向けの共通バインディング。
- * @param {*} p p5インスタンス
- * @param {object} options
- * @param {string} options.toggleSelector 再生/一時停止トグルボタンのCSSセレクタ
- * @param {string} options.resetSelector リセットボタンのCSSセレクタ
- * @param {() => void} options.onToggle トグルボタン押下時の処理
- * @param {() => void} options.onReset リセットボタン押下時の処理
- * @param {string} [options.toggleAriaLabel] トグルボタンのaria-label。
- *   トグルボタンは開始/一時停止/再開などクリックのたびに表示テキストが変わり、
- *   それ自体がaccessible nameとして機能するため既定値は設定しない。
- *   アイコンのみでテキストが変化しない等、明示的に固定のaria-labelが必要な
- *   場合にのみ指定すること。
- * @param {string} [options.resetAriaLabel] リセットボタンのaria-label（未指定時は既定値）
- * @returns {{toggleButton: *, resetButton: *}} p.select()で取得した各ボタン要素
+ * @param p p5インスタンス
+ * @returns p.select()で取得した各ボタン要素
  */
 export function bindToggleControls(
-  p,
+  p: any,
   {
     toggleSelector,
     resetSelector,
@@ -110,8 +131,8 @@ export function bindToggleControls(
     onReset,
     toggleAriaLabel,
     resetAriaLabel
-  }
-) {
+  }: ToggleControlsOptions
+): { toggleButton: any; resetButton: any } {
   const toggleButton = p.select(toggleSelector);
   const resetButton = p.select(resetSelector);
 
