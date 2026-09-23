@@ -5,6 +5,7 @@ on:
     paths:
       - "vite/**"
       - "tsconfig.json"
+      - "tsconfig.strict.json"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/typecheck.yml"
@@ -14,6 +15,7 @@ on:
     paths:
       - "vite/**"
       - "tsconfig.json"
+      - "tsconfig.strict.json"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/typecheck.yml"
@@ -42,3 +44,6 @@ jobs:
 
       - name: 型チェック
         run: npm run typecheck
+
+      - name: 型チェック（strictNullChecks 段階適用分）
+        run: npm run typecheck:strict

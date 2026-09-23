@@ -10,6 +10,11 @@
     "noEmit": true,
     "strict": false,
     "noImplicitAny": false,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "useUnknownInCatchVariables": true,
     "skipLibCheck": true
   },
   "include": [

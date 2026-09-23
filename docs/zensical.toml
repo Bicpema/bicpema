@@ -52,6 +52,7 @@ nav = [
     { "ファイル構成（シミュレーション）" = "simulation/simulation-files.md" },
   ]},
   { "リリースフロー" = "release-flow.md" },
+  { "TypeScript strict化の方針" = "typescript-migration.md" },
   { "テスト方針" = [
     { "概要" = "testing/index.md" },
     { "ユニットテスト" = "testing/unit-test.md" },

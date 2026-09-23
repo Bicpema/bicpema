@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true
+  },
+  "include": ["vite/types/**/*.ts", "vite/_build/**/*.js", "vite/js/**/*.ts"]
+}
