@@ -99,7 +99,8 @@
     - 本リポジトリにはPRテンプレートの記入漏れを検知するCIは存在しないため、レビュー時に目視で確認してください。
 1. PRタイトルは[コミットメッセージ](#コミットメッセージ)と同様の `<type>: <変更内容の要約>` 形式にしてください。
 1. 関連Issueと情報を紐付けるため、PRにも以下のフィールドを設定してください。
-    - Labels・Milestoneは関連Issueと同じ値を設定します（例: `gh pr edit <番号> --add-label "<名前>" --milestone "<名前>"`）。
+    - Labels・Milestoneは関連Issueと同じ値を設定します。他Issue対応時の値を誤って引き継がないよう、設定前に必ず `gh issue view <Issue番号> --json labels,milestone` で対象Issueの現在の値を取得し、その値のみを設定してください（例: `gh pr edit <PR番号> --add-label "<名前>" --milestone "<名前>"`）。Issueにラベルが付いていない場合はPRにもラベルを付けず、Issueにマイルストーンが設定されていない場合はPRにもマイルストーンを設定しません。
+    - 設定後は `gh pr view <PR番号> --json labels,milestone` で実際の設定値を確認し、対象Issueの値と一致しない場合は `gh pr edit` で修正してください。
     - Priority・Effort（[Issue Fields](#priorityeffortの設定issue-fields-api)）はPull Requestには設定できません（GraphQL APIの`setIssueFieldValue`がPRのノードIDを解決できないため）。Issue側の値のみで管理します。
     - プロジェクトボードのStatusは、Issueがマージ・クローズに連動して自動更新されるため、通常は手動設定不要です。
 1. CIが全てグリーンであることを確認し、レビュー承認を得てからマージしてください。

@@ -35,7 +35,7 @@ Issue単位の作業を、[AGENTS.md](../../../AGENTS.md) の「ブランチ運�
     - シミュレーション全般: `npm run build` / `npm run check:template-compliance`
     - 記事: `npm run check:article-links`
 8. 変更をコミットし、worktree内から `origin` にpushする。
-9. [AGENTS.mdのPull Requestの作成手順](../../../AGENTS.md#pull-requestの作成手順)に従いPRを作成し、`Closes #<Issue番号>` でIssueと紐付ける。Labels・Milestoneは対応するIssueと同じ値を設定する。
+9. [AGENTS.mdのPull Requestの作成手順](../../../AGENTS.md#pull-requestの作成手順)に従いPRを作成し、`Closes #<Issue番号>` でIssueと紐付ける。Labels・Milestoneは、`gh issue view <Issue番号> --json labels,milestone` で取得した対応するIssueの現在の値のみを設定し（他Issue対応時の値を引き継がない）、PR作成後に `gh pr view <PR番号> --json labels,milestone` で一致を確認する。
 10. ユーザーに完了を報告し、後始末（worktree・ブランチ削除）を実施してよいか確認する。承認後、リポジトリルートに戻り以下を実施する。
     - `git worktree remove .claude/worktrees/issue<Issue番号>`
     - `git branch -d <ブランチ名>`（push済みでマージ待ちのブランチを誤って破棄しないよう、強制削除の `-D` は使用しない）
