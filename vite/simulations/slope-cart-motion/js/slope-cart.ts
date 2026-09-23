@@ -7,12 +7,25 @@ import { GRAVITY } from "./constants.js";
  * 斜面をくだる台車クラス
  */
 export class SlopeCart {
+  angleDeg: number;
+  angleRad: number;
+  slopeLengthM: number;
+  g: number;
+  accel: number;
+  time: number;
+  s: number;
+  v: number;
+  isAtBottom: boolean;
+  CART_W: number;
+  CART_H: number;
+  WHEEL_R: number;
+
   /**
    * @constructor
    * @param {number} angleDeg - 斜面の傾斜角 (度)
    * @param {number} slopeLengthM - 斜面の長さ (m)
    */
-  constructor(angleDeg, slopeLengthM) {
+  constructor(angleDeg: number, slopeLengthM: number) {
     this.angleDeg = angleDeg;
     this.angleRad = (angleDeg * Math.PI) / 180;
     this.slopeLengthM = slopeLengthM;

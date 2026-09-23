@@ -683,6 +683,11 @@ function rectMaterial(p, a, b, sort, w) {
  * 坂を滑る物体を表すクラス。
  */
 export class Material {
+  materialX: number;
+  materialY: number;
+  materialWeight: number;
+  sort: number;
+
   /**
    * @param {*} p p5インスタンス
    * @param {number} m_w 質量[kg]

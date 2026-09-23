@@ -25,5 +25,9 @@ export const state = {
   /** 記録間隔入力 */
   intervalInput: null,
   /** 読み込み済みフォント */
-  font: null
+  font: null,
+  /** v-tグラフの表示/非表示 */
+  graphVisible: false,
+  /** v-tグラフの記録データ点 */
+  vtData: []
 };

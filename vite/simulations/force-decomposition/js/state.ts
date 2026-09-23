@@ -7,5 +7,10 @@ export const state = {
   /** 力の向き（度, 0=右向き, 90=上向き） */
   forceAngle: 0,
   /** ドラッグ中かどうか */
-  isDragging: false
+  isDragging: false,
+  // --- DOM 要素（本シミュレーションでは未使用。設定UIなし） ---
+  magnitudeInput: null,
+  magnitudeValue: null,
+  angleInput: null,
+  angleValue: null
 };

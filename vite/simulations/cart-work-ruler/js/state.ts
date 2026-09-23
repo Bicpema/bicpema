@@ -16,6 +16,18 @@ export const state = {
   forceInput: null,
   resetButton: null,
   playPauseButton: null,
+  /** 情報パネルの DOM 要素参照 */
+  infoMassEl: null,
+  infoV0El: null,
+  infoFEl: null,
+  infoKe0El: null,
+  infoDEl: null,
+  infoWEl: null,
+  statusCriticalEl: null,
+  statusStoppedEl: null,
+  statusRunningEl: null,
+  statusKe0El: null,
+  statusKeEl: null,
 
   // --- シミュレーションパラメータ ---
   /** 台車の質量 (kg) */
