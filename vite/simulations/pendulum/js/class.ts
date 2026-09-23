@@ -1,4 +1,4 @@
-// class.jsはクラス管理専用のファイルです。
+// class.tsはクラス管理専用のファイルです。
 
 import { state } from "./state.js";
 import { computePendulumAngle } from "./physics.js";
@@ -8,11 +8,17 @@ import { PIVOT_Y } from "./constants.js";
  * 振り子のおもりを表すクラス。
  */
 export class Ball {
+  posx: number;
+  posy: number;
+  stringLength: number;
+  theta0: number;
+  theta: number;
+
   /**
    * @param {number} stringLength 振り子の長さ（表示ピクセル単位）
    * @param {number} theta0 振れ幅（初期角度、度）
    */
-  constructor(stringLength, theta0) {
+  constructor(stringLength: number, theta0: number) {
     this.posx = 0;
     this.posy = 0;
     this.stringLength = stringLength;

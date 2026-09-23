@@ -1,4 +1,4 @@
-// index.js はメインのメソッドを呼び出すためのエントリーポイントです。
+// index.ts はメインのメソッドを呼び出すためのエントリーポイントです。
 
 import p5 from "p5";
 import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";

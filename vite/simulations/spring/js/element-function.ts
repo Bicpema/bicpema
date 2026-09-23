@@ -1,4 +1,4 @@
-// element-function.jsは仮想DOMメソッド管理専用のファイルです。
+// element-function.tsは仮想DOMメソッド管理専用のファイルです。
 
 import { state } from "./state.js";
 import { initValue } from "./init.js";

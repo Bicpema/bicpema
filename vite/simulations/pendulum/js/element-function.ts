@@ -1,4 +1,4 @@
-// element-function.jsはイベントハンドラー専用のファイルです。
+// element-function.tsはイベントハンドラー専用のファイルです。
 
 import { state } from "./state.js";
 import { initValue } from "./init.js";

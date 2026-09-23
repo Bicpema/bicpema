@@ -1,4 +1,4 @@
-// class.js はクラス管理専用のファイルです。
+// class.ts はクラス管理専用のファイルです。
 
 import { PX_PER_M, MIN_SPRING_LENGTH, MAX_SPRING_LENGTH } from "./state.js";
 import { FORCE_ARROW_COLOR } from "./constants.js";
@@ -15,6 +15,17 @@ const SPRING_STRAIGHT_SEGMENT = 18;
  * 弾性力シミュレーションにおけるバネを表現する
  */
 export class Spring {
+  attachX: number;
+  attachY: number;
+  naturalLength: number;
+  k: number;
+  coilCount: number;
+  endX: number;
+  endY: number;
+  isDragging: boolean;
+  dragOffsetX: number;
+  hitR: number;
+
   /**
    * @constructor
    * @param {number} attachX バネの壁側端点 X座標（仮想座標）
@@ -23,7 +34,13 @@ export class Spring {
    * @param {number} k ばね定数 (N/m)
    * @param {number} coilCount コイルの数（偶数）
    */
-  constructor(attachX, attachY, naturalLength, k, coilCount = 12) {
+  constructor(
+    attachX: number,
+    attachY: number,
+    naturalLength: number,
+    k: number,
+    coilCount = 12
+  ) {
     this.attachX = attachX;
     this.attachY = attachY;
     this.naturalLength = naturalLength;
