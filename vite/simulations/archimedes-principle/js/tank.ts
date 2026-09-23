@@ -18,6 +18,12 @@ const WATER_LINE_SRC_Y_END = 312;
  * 水槽の描画と状態を保持する。
  */
 export class Tank {
+  cx: number;
+  bottomY: number;
+  w: number;
+  h: number;
+  d: number;
+
   /**
    * @param {number} cx 水槽中心X座標
    * @param {number} bottomY 水槽底面Y座標
@@ -25,7 +31,7 @@ export class Tank {
    * @param {number} h 水槽高さ
    * @param {number} d 水槽奥行き（未使用）
    */
-  constructor(cx, bottomY, w, h, d) {
+  constructor(cx: number, bottomY: number, w: number, h: number, d: number) {
     this.cx = cx;
     this.bottomY = bottomY;
     this.w = w;

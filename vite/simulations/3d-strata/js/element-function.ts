@@ -12,9 +12,9 @@ const loadScreenshot = createLazyImporter(() => import("modern-screenshot"));
  * modern-screenshotはボタン押下時に初めて動的importする。
  */
 export function onScreenshotClick() {
-  const button = /** @type {HTMLButtonElement | null} */ (
-    document.getElementById("screenshotButton")
-  );
+  const button = document.getElementById(
+    "screenshotButton"
+  ) as HTMLButtonElement | null;
   if (button) button.disabled = true;
   loadScreenshot()
     .then(({ domToPng }) => domToPng(document.body))
@@ -35,7 +35,7 @@ export function onScreenshotClick() {
 }
 
 /**
- * 地点データが入力された時に動く処理。
+ * 地点名の入力欄が編集されたときの処理。
  * @param {*} p p5インスタンス
  */
 export function placeNameInputFunction(p) {
@@ -53,13 +53,14 @@ export function placeNameInputFunction(p) {
     // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
     document.getElementById("placeDataInput" + (i + 1)).onclick = () => {
       window.open(
-        "/vite/simulations/3d-strata-csv/setWindow.html?" + placeName,
+        "/vite/simulations/3d-strata/childWindow.html?" +
+          encodeURIComponent(placeName),
         "window_name",
         "width=1000,height=500"
       );
     };
   }
-  // 平面データの設定を常に更新
+
   placeRefreshFunction(p);
   firstPlaceSelectFunction(p);
   secondPlaceSelectFunction(p);
@@ -89,11 +90,13 @@ export function placeAddButtonFunction(p) {
   // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   document.getElementById("placeDataInput" + newPlaceNum).onclick = () => {
     window.open(
-      "/vite/simulations/3d-strata-csv/setWindow.html?" + placeName,
+      "/vite/simulations/3d-strata/childWindow.html?" +
+        encodeURIComponent(placeName),
       "window_name",
       "width=1000,height=500"
     );
   };
+
   placeRefreshFunction(p);
 }
 
@@ -103,86 +106,14 @@ export function placeAddButtonFunction(p) {
  */
 export function placeRemoveButtonFunction(p) {
   const placeNum = Object.keys(state.dataInputArr).length;
+
   if (placeNum > 0) {
     p.select("#placeNameInput" + placeNum).remove();
     p.select("#placeDataInput" + placeNum).remove();
     delete state.dataInputArr["地点" + placeNum];
   }
+
   placeRefreshFunction(p);
-}
-
-/**
- * 平面を構成する地層の組を追加するボタンを押した時の処理。
- * @param {*} p p5インスタンス
- */
-export function strataAddButtonFunction(p) {
-  const nextTrNum =
-    document.getElementById("strataSelect").childElementCount + 1;
-  p.createElement("tr")
-    .parent("strataSelect")
-    .id("tr-" + nextTrNum);
-  p.createElement("th", nextTrNum + "組目")
-    .parent("tr-" + nextTrNum)
-    .class("border border-neutral-300 px-2 py-1 text-center")
-    .id("th-" + nextTrNum);
-  p.createElement("td")
-    .parent("tr-" + nextTrNum)
-    .class("border border-neutral-300 px-2 py-1")
-    .id("td1-" + nextTrNum);
-  const select1 = p
-    .createSelect()
-    .parent("td1-" + nextTrNum)
-    .class(
-      "block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-    )
-    .id("select1-" + nextTrNum);
-  document
-    .getElementById("select1-" + nextTrNum)
-    .addEventListener("change", () => strataSelectFunction(p));
-  for (let i = 0; i < STRATA_KINDS.length; i++) select1.option(STRATA_KINDS[i]);
-  p.createElement("td")
-    .parent("tr-" + nextTrNum)
-    .class("border border-neutral-300 px-2 py-1")
-    .id("td2-" + nextTrNum);
-  p.createSelect()
-    .parent("td2-" + nextTrNum)
-    .class(
-      "block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-    )
-    .id("select2-" + nextTrNum);
-  p.createElement("td")
-    .parent("tr-" + nextTrNum)
-    .class("border border-neutral-300 px-2 py-1")
-    .id("td3-" + nextTrNum);
-  p.createSelect()
-    .parent("td3-" + nextTrNum)
-    .class(
-      "block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-    )
-    .id("select3-" + nextTrNum);
-  p.createElement("td")
-    .parent("tr-" + nextTrNum)
-    .class("border border-neutral-300 px-2 py-1")
-    .id("td4-" + nextTrNum);
-  p.createSelect()
-    .parent("td4-" + nextTrNum)
-    .class(
-      "block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-    )
-    .id("select4-" + nextTrNum);
-  firstPlaceSelectFunction(p);
-  secondPlaceSelectFunction(p);
-  thirdPlaceSelectFunction(p);
-}
-
-/**
- * 平面を構成する地層の組を削除するボタンを押した時の処理。
- */
-export function strataRemoveButtonFunction() {
-  const strataSelect = document.getElementById("strataSelect");
-  if (strataSelect.childElementCount > 0) {
-    strataSelect.removeChild(strataSelect.lastChild);
-  }
 }
 
 /**
@@ -352,7 +283,7 @@ export function placeRefreshFunction(p) {
     secondPlaceSelect.option(placeName);
     thirdPlaceSelect.option(placeName);
   }
-  // placeRefreshFunctionは地点の追加・削除・名前入力のたびに呼び出されるため、
+  // placeRefreshFunctionは地点の追加・削除のたびに呼び出されるため、
   // addEventListenerで都度追加すると呼び出し回数分ハンドラが多重登録されてしまう。
   // 同一要素に対して常に単一のハンドラのみを保つよう、プロパティ代入で上書きする。
   // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
@@ -364,121 +295,293 @@ export function placeRefreshFunction(p) {
 }
 
 /**
- * スケール設定の「自動」「手動」ラジオボタンが変更された時の処理。
- */
-export function setRadioButtonFunction() {
-  const ele1 = /** @type {HTMLInputElement} */ (
-    document.getElementById("widthDirectionInput")
-  );
-  const ele2 = /** @type {HTMLInputElement} */ (
-    document.getElementById("depthDirectionMaxInput")
-  );
-  const ele3 = /** @type {HTMLInputElement} */ (
-    document.getElementById("depthDirectionMinInput")
-  );
-  if (state.setRadioButton.value() === "auto") {
-    ele1.value = "";
-    ele2.value = "";
-    ele3.value = "";
-    ele1.disabled = true;
-    ele2.disabled = true;
-    ele3.disabled = true;
-  } else if (state.setRadioButton.value() === "manual") {
-    ele1.value = String(state.xMax);
-    ele2.value = String(state.zMax);
-    ele3.value = String(state.zMin);
-    ele1.disabled = false;
-    ele2.disabled = false;
-    ele3.disabled = false;
-  }
-}
-
-/**
- * 単位（緯度・経度／メートル）のセレクトボックスが変更された時の処理。
- */
-export function unitSelectFunction() {
-  if (state.unitSelect.value() === "latlng") {
-    document.getElementById("setWidthParent").hidden = true;
-  } else if (state.unitSelect.value() === "meter") {
-    document.getElementById("setWidthParent").hidden = false;
-  }
-}
-
-/**
- * CSVファイルが選択された時の処理。
- * @param {import("p5").File} file p5.jsのファイルオブジェクト
+ * 平面を構成する地層の組を追加するボタンを押した時の処理。
  * @param {*} p p5インスタンス
  */
-export function strataFileInputFunction(file, p) {
-  if (file.type === "text") {
-    state.dataInputArr = {};
-    // FileReader を使ってバイナリデータを読み込む
-    const reader = new FileReader();
-    reader.readAsArrayBuffer(file.file); // ArrayBuffer で読み込む
+export function strataAddButtonFunction(p) {
+  const nextTrNum =
+    document.getElementById("strataSelect").childElementCount + 1;
+  p.createElement("tr")
+    .parent("strataSelect")
+    .id("tr-" + nextTrNum);
+  p.createElement("th", nextTrNum + "組目")
+    .parent("tr-" + nextTrNum)
+    .class("border border-neutral-300 px-2 py-1 text-center")
+    .id("th-" + nextTrNum);
+  p.createElement("td")
+    .parent("tr-" + nextTrNum)
+    .class("border border-neutral-300 px-2 py-1")
+    .id("td1-" + nextTrNum);
+  const select1 = p
+    .createSelect()
+    .parent("td1-" + nextTrNum)
+    .class(
+      "block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+    )
+    .id("select1-" + nextTrNum);
+  document
+    .getElementById("select1-" + nextTrNum)
+    .addEventListener("change", () => strataSelectFunction(p));
+  for (let i = 0; i < STRATA_KINDS.length; i++) select1.option(STRATA_KINDS[i]);
+  p.createElement("td")
+    .parent("tr-" + nextTrNum)
+    .class("border border-neutral-300 px-2 py-1")
+    .id("td2-" + nextTrNum);
+  p.createSelect()
+    .parent("td2-" + nextTrNum)
+    .class(
+      "block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+    )
+    .id("select2-" + nextTrNum);
+  p.createElement("td")
+    .parent("tr-" + nextTrNum)
+    .class("border border-neutral-300 px-2 py-1")
+    .id("td3-" + nextTrNum);
+  p.createSelect()
+    .parent("td3-" + nextTrNum)
+    .class(
+      "block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+    )
+    .id("select3-" + nextTrNum);
+  p.createElement("td")
+    .parent("tr-" + nextTrNum)
+    .class("border border-neutral-300 px-2 py-1")
+    .id("td4-" + nextTrNum);
+  p.createSelect()
+    .parent("td4-" + nextTrNum)
+    .class(
+      "block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+    )
+    .id("select4-" + nextTrNum);
+  firstPlaceSelectFunction(p);
+  secondPlaceSelectFunction(p);
+  thirdPlaceSelectFunction(p);
+}
 
-    reader.addEventListener("load", () => {
-      // UTF-8でデコード
-      const decoder = new TextDecoder("utf-8");
-      const csvText = decoder.decode(
-        /** @type {ArrayBuffer} */ (reader.result)
-      );
-
-      processCSV(csvText, p);
-    });
-  } else {
-    // ファイル形式が不正な場合にユーザーへ通知するUIがないため、原因調査用に
-    // ログのみ出力する。
-    // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
-    console.log("テキストファイルではありません");
+/**
+ * 平面を構成する地層の組を削除するボタンを押した時の処理。
+ */
+export function strataRemoveButtonFunction() {
+  const strataSelect = document.getElementById("strataSelect");
+  if (strataSelect.childElementCount > 0) {
+    strataSelect.removeChild(strataSelect.lastChild);
   }
 }
 
 /**
- * CSVテキストを解析し、地点・地層データとして読み込む。
- * @param {string} csvText CSVファイルの内容
+ * 地点データが未登録の場合に、動作確認用のテストデータを読み込む処理。
  * @param {*} p p5インスタンス
  */
-export function processCSV(csvText, p) {
-  // 改行コードを統一（\r を削除）
-  csvText = csvText.replace(/\r/g, "");
+export function loadTestDataButtonFunction(p) {
+  if (Object.keys(state.dataInputArr).length !== 0) return;
 
-  // CSV を行ごとに分割
-  const rows = csvText.split("\n").map((row) => row.split(","));
-
-  const dataRows = rows.slice(1); // 2行目以降のデータ
-
-  const nameArr = [];
-  const placeArr = [[], []];
-  const testData = {};
-  let placeNum = 0;
-  for (let i = 0; i < dataRows.length - 1; i++) {
-    const data = dataRows[i];
-    if (!nameArr.includes(data[0]) && data[0] !== "") {
-      placeNum++;
-      nameArr.push(data[0]);
-      placeArr[0].push(parseFloat(data[1]));
-      placeArr[1].push(parseFloat(data[2]));
-      testData["地点" + placeNum] = [];
-    }
-    testData["地点" + placeNum].push([
-      parseFloat(data[3]),
-      parseFloat(data[4]),
-      data[5]
-    ]);
-  }
+  const nameArr = [
+    "南白糸台小",
+    "警察学校",
+    "府中第六中",
+    "府中第四小",
+    "飛田給小",
+    "府中第二中",
+    "石原小"
+  ];
+  const placeArr = [
+    [
+      35.660552, 35.668404, 35.660752, 35.666669, 35.654647, 35.672779,
+      35.660607
+    ],
+    [
+      139.516632, 139.519548, 139.507364, 139.507854, 139.523045, 139.508945,
+      139.538435
+    ]
+  ];
+  const testData = {
+    // "砂岩層","泥岩層","れき岩層","石灰岩層","凝灰岩層・火山灰層","ローム層","その他の層"
+    // のいずれかから選択
+    地点1: [
+      [-36, -35, "その他の層"],
+      [-35, -34, "ローム層"],
+      [-34, -29, "れき岩層"],
+      [-29, -25, "砂岩層"]
+    ],
+    地点2: [
+      [-46, -44, "その他の層"],
+      [-44, -42, "ローム層"],
+      [-42, -37, "れき岩層"]
+    ],
+    地点3: [
+      [-39, -38, "その他の層"],
+      [-38, -35, "ローム層"],
+      [-35, -27, "れき岩層"]
+    ],
+    地点4: [
+      [-50, -49, "その他の層"],
+      [-49, -48, "ローム層"],
+      [-48, -44, "れき岩層"],
+      [-44, -41, "砂岩層"],
+      [-41, -37, "泥岩層"]
+    ],
+    地点5: [
+      [-35, -34, "その他の層"],
+      [-34, -28, "れき岩層"]
+    ],
+    地点6: [
+      [-49, -48, "その他の層"],
+      [-48, -45, "ローム層"],
+      [-45, -38, "れき岩層"]
+    ],
+    地点7: [
+      [-40, -39, "その他の層"],
+      [-39, -36, "ローム層"],
+      [-36, -32, "れき岩層"],
+      [-32, -28, "泥岩層"]
+    ]
+  };
   for (let i = 0; i < nameArr.length; i++) {
     placeAddButtonFunction(p);
     const el = document.getElementById("placeNameInput" + (i + 1));
     const pa1 = el.children[0];
-    const pl = /** @type {HTMLInputElement} */ (pa1.children[1]);
+    const pl = pa1.children[1] as HTMLInputElement;
     pl.value = nameArr[i];
     const pa2 = el.children[1];
     const vl = pa2.children;
-    /** @type {HTMLInputElement} */ (vl[1]).value = String(placeArr[0][i]);
-    /** @type {HTMLInputElement} */ (vl[3]).value = String(placeArr[1][i]);
+    (vl[1] as HTMLInputElement).value = String(placeArr[0][i]);
+    (vl[3] as HTMLInputElement).value = String(placeArr[1][i]);
     state.dataInputArr["地点" + (i + 1)].layer = testData["地点" + (i + 1)];
   }
   placeNameInputFunction(p);
+}
+
+/**
+ * Aセットボタンを押した時の処理。
+ * @param {*} p p5インスタンス
+ */
+export function aSetButtonFunction(p) {
+  state.allSetIs = false;
+  while (document.getElementById("strataSelect").childElementCount !== 0) {
+    strataRemoveButtonFunction();
+  }
+  getSelectElement("firstPlaceSelect").options[1].selected = true;
+  getSelectElement("secondPlaceSelect").options[3].selected = true;
+  getSelectElement("thirdPlaceSelect").options[5].selected = true;
+  firstPlaceSelectFunction(p);
+  secondPlaceSelectFunction(p);
+  thirdPlaceSelectFunction(p);
+  for (let i = 0; i < 2; i++) strataAddButtonFunction(p);
+  getSelectElement("select1-1").options[6].selected = true;
+  getSelectElement("select1-2").options[2].selected = true;
+  strataSelectFunction(p);
+  getSelectElement("select2-1").options[0].selected = true;
+  getSelectElement("select3-1").options[0].selected = true;
+  getSelectElement("select4-1").options[0].selected = true;
+  getSelectElement("select2-2").options[0].selected = true;
+  getSelectElement("select3-2").options[0].selected = true;
+  getSelectElement("select4-2").options[0].selected = true;
+}
+
+/**
+ * Bセットボタンを押した時の処理。
+ * @param {*} p p5インスタンス
+ */
+export function bSetButtonFunction(p) {
+  state.allSetIs = false;
+  while (document.getElementById("strataSelect").childElementCount !== 0) {
+    strataRemoveButtonFunction();
+  }
+  getSelectElement("firstPlaceSelect").options[1].selected = true;
+  getSelectElement("secondPlaceSelect").options[5].selected = true;
+  getSelectElement("thirdPlaceSelect").options[7].selected = true;
+  firstPlaceSelectFunction(p);
+  secondPlaceSelectFunction(p);
+  thirdPlaceSelectFunction(p);
+  for (let i = 0; i < 2; i++) strataAddButtonFunction(p);
+  getSelectElement("select1-1").options[6].selected = true;
+  getSelectElement("select1-2").options[2].selected = true;
+  strataSelectFunction(p);
+  getSelectElement("select2-1").options[0].selected = true;
+  getSelectElement("select3-1").options[0].selected = true;
+  getSelectElement("select4-1").options[0].selected = true;
+  getSelectElement("select2-2").options[0].selected = true;
+  getSelectElement("select3-2").options[0].selected = true;
+  getSelectElement("select4-2").options[0].selected = true;
+}
+
+/**
+ * Cセットボタンを押した時の処理。
+ * @param {*} p p5インスタンス
+ */
+export function cSetButtonFunction(p) {
+  state.allSetIs = false;
+  while (document.getElementById("strataSelect").childElementCount !== 0) {
+    strataRemoveButtonFunction();
+  }
+  getSelectElement("firstPlaceSelect").options[1].selected = true;
+  getSelectElement("secondPlaceSelect").options[4].selected = true;
+  getSelectElement("thirdPlaceSelect").options[2].selected = true;
+  firstPlaceSelectFunction(p);
+  secondPlaceSelectFunction(p);
+  thirdPlaceSelectFunction(p);
+  for (let i = 0; i < 3; i++) strataAddButtonFunction(p);
+  getSelectElement("select1-1").options[6].selected = true;
+  getSelectElement("select1-2").options[5].selected = true;
+  getSelectElement("select1-3").options[2].selected = true;
+  strataSelectFunction(p);
+  getSelectElement("select2-1").options[0].selected = true;
+  getSelectElement("select3-1").options[0].selected = true;
+  getSelectElement("select4-1").options[0].selected = true;
+  getSelectElement("select2-2").options[0].selected = true;
+  getSelectElement("select3-2").options[0].selected = true;
+  getSelectElement("select4-2").options[0].selected = true;
+  getSelectElement("select2-3").options[0].selected = true;
+  getSelectElement("select3-3").options[0].selected = true;
+  getSelectElement("select4-3").options[0].selected = true;
+}
+
+/**
+ * Dセットボタンを押した時の処理。
+ * @param {*} p p5インスタンス
+ */
+export function dSetButtonFunction(p) {
+  state.allSetIs = false;
+  while (document.getElementById("strataSelect").childElementCount !== 0) {
+    strataRemoveButtonFunction();
+  }
+  getSelectElement("firstPlaceSelect").options[4].selected = true;
+  getSelectElement("secondPlaceSelect").options[6].selected = true;
+  getSelectElement("thirdPlaceSelect").options[2].selected = true;
+  firstPlaceSelectFunction(p);
+  secondPlaceSelectFunction(p);
+  thirdPlaceSelectFunction(p);
+  for (let i = 0; i < 3; i++) strataAddButtonFunction(p);
+  getSelectElement("select1-1").options[6].selected = true;
+  getSelectElement("select1-2").options[5].selected = true;
+  getSelectElement("select1-3").options[2].selected = true;
+  strataSelectFunction(p);
+  getSelectElement("select2-1").options[0].selected = true;
+  getSelectElement("select3-1").options[0].selected = true;
+  getSelectElement("select4-1").options[0].selected = true;
+  getSelectElement("select2-2").options[0].selected = true;
+  getSelectElement("select3-2").options[0].selected = true;
+  getSelectElement("select4-2").options[0].selected = true;
+  getSelectElement("select2-3").options[0].selected = true;
+  getSelectElement("select3-3").options[0].selected = true;
+  getSelectElement("select4-3").options[0].selected = true;
+}
+
+/**
+ * 「全体」ボタンを押した時の処理。
+ * @param {*} p p5インスタンス
+ */
+export function allSetButtonFunction(p) {
+  state.allSetIs = true;
+  while (document.getElementById("strataSelect").childElementCount !== 0) {
+    strataRemoveButtonFunction();
+  }
+  getSelectElement("firstPlaceSelect").options[0].selected = true;
+  getSelectElement("secondPlaceSelect").options[0].selected = true;
+  getSelectElement("thirdPlaceSelect").options[0].selected = true;
+  firstPlaceSelectFunction(p);
+  secondPlaceSelectFunction(p);
+  thirdPlaceSelectFunction(p);
 }
 
 /**
@@ -512,7 +615,5 @@ export function loadLayers(placeName) {
       arrKey = key;
     }
   }
-  // 子ウィンドウ表示中に親側で該当の地点が削除・リセットされている場合など、
-  // arrKeyに対応するデータが存在しないことがあるため、その場合は空配列を返す。
-  return state.dataInputArr[arrKey]?.layer ?? [];
+  return state.dataInputArr[arrKey].layer;
 }

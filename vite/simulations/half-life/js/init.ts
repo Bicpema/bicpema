@@ -25,7 +25,9 @@ export function settingInit(p) {
 export function elementSelectInit(p) {
   state.atomPlusBtn = document.getElementById("atomPlusBtn");
   state.atomMinusBtn = document.getElementById("atomMinusBtn");
-  state.materialRadios = document.querySelectorAll('input[name="material"]');
+  state.materialRadios = document.querySelectorAll<HTMLInputElement>(
+    'input[name="material"]'
+  );
   initCollapse({
     toggleSelectors: "#settingsButton",
     targetSelector: "#settingsPanel"
