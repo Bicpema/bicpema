@@ -5,8 +5,7 @@ import { getCanvasElement } from "../../../js/bicpema-dom.js";
 const loadChart = createLazyImporter(() =>
   import("chart.js/auto").then((module) => module.default)
 );
-/** @type {typeof import("chart.js").Chart | null} */
-let Chart = null;
+let Chart: typeof import("chart.js").Chart | null = null;
 // 読み込み失敗後に毎フレーム再試行しないためのフラグ。
 let chartLoadFailed = false;
 
@@ -22,6 +21,8 @@ const AXIS_MAX_MARGIN_RATIO = 1.1;
  * v-tグラフとy-tグラフを同時に表示
  */
 export class BallGraph {
+  chart: InstanceType<typeof import("chart.js").Chart> | null;
+
   constructor() {
     this.chart = null;
   }
@@ -89,8 +90,7 @@ export class BallGraph {
       ]
     };
 
-    /** @type {import("chart.js").ChartOptions<"scatter">} */
-    const options = {
+    const options: import("chart.js").ChartOptions<"scatter"> = {
       plugins: {
         title: {
           display: true,
