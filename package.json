@@ -12,6 +12,8 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "verify:runtime": "node scripts/verify-simulation-runtime.js",
+    "pretest:e2e": "npm run build",
+    "test:e2e": "playwright test",
     "benchmark:performance": "node scripts/benchmark-simulation-performance.js",
     "check:article-links": "node scripts/check-article-simulation-links.js",
     "check:template-compliance": "node scripts/check-simulation-template-compliance.js",
@@ -19,6 +21,7 @@
     "lint:md": "markdownlint-cli2 \"**/*.md\""
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^26.4.1",
     "@types/p5": "^1.7.7",

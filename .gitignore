@@ -18,3 +18,7 @@ docs/site
 docs/.cache
 
 .claude/worktrees/
+
+playwright-report/
+test-results/
+blob-report/
