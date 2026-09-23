@@ -27,7 +27,7 @@ export function getSimulationSlugs(simulationsDir) {
   return readdirSync(simulationsDir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name)
-    .sort();
+    .toSorted();
 }
 
 /**
@@ -137,7 +137,7 @@ export function checkSimulationTemplateCompliance({
   const violations = [...allIssuesBySlug.entries()]
     .filter(([slug]) => !allowedSet.has(slug))
     .map(([slug, issues]) => ({ slug, issues }))
-    .sort((a, b) => a.slug.localeCompare(b.slug));
+    .toSorted((a, b) => a.slug.localeCompare(b.slug));
 
   // 許容リストに載っているのに、実在しない/既に問題が解消されているslugは
   // 許容リストの記載漏れ・掃除忘れとして検出する。

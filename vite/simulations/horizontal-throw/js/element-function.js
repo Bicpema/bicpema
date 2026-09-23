@@ -11,7 +11,7 @@ import {
  */
 export function onHeightChange() {
   let newHeight = parseFloat(state.heightInput.value());
-  if (isNaN(newHeight) || newHeight < MIN_HEIGHT_INPUT) {
+  if (Number.isNaN(newHeight) || newHeight < MIN_HEIGHT_INPUT) {
     newHeight = MIN_HEIGHT_INPUT;
     state.heightInput.value(MIN_HEIGHT_INPUT);
   } else if (newHeight > MAX_HEIGHT_INPUT) {
@@ -28,7 +28,7 @@ export function onHeightChange() {
  */
 export function onVelocityChange() {
   let newVelocity = parseFloat(state.velocityInput.value());
-  if (isNaN(newVelocity) || newVelocity < MIN_VELOCITY_INPUT) {
+  if (Number.isNaN(newVelocity) || newVelocity < MIN_VELOCITY_INPUT) {
     newVelocity = MIN_VELOCITY_INPUT;
     state.velocityInput.value(MIN_VELOCITY_INPUT);
   } else if (newVelocity > MAX_VELOCITY_INPUT) {

@@ -20,6 +20,7 @@ function updateControlLabels() {
 export function elementPositionInit(p) {
   const currentSlider = document.getElementById("currentSlider");
   if (currentSlider) {
+    // oxlint-disable-next-line unicorn/prefer-add-event-listener -- 呼び出しのたびに再実行されるため、代入で単一ハンドラのみを保つ
     currentSlider.oninput = updateControlLabels;
   }
 

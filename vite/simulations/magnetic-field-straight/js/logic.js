@@ -17,8 +17,8 @@ function drawWire(p, currentVal) {
   p.noStroke();
   if (p.abs(currentVal) > CURRENT_THRESHOLD) {
     p.fill("#FF8C00");
-    let speed = currentVal;
-    let yOffset = (state.t * speed) % ARROW_SPACING;
+    const speed = currentVal;
+    const yOffset = (state.t * speed) % ARROW_SPACING;
     for (let i = -6; i < 6; i++) {
       p.push();
       p.translate(0, i * ARROW_SPACING + yOffset, 0);
@@ -53,7 +53,7 @@ function drawFlowArrow(p, r, currentVal, arrowSize = 6, color = null) {
   const z = r * p.sin(t);
   p.push();
   p.translate(x, 0, z);
-  let directionOffset = currentVal >= 0 ? p.PI / 2 : -p.PI / 2;
+  const directionOffset = currentVal >= 0 ? p.PI / 2 : -p.PI / 2;
   p.rotateY(-t + directionOffset);
   p.noStroke();
   if (color) {

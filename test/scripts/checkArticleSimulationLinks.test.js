@@ -26,7 +26,7 @@ describe("getSimulationSlugs", () => {
 describe("getArticleEntries", () => {
   it("index.mdを持つディレクトリのみを記事として取得する", () => {
     const entries = getArticleEntries(postsDir);
-    const articleDirs = entries.map((entry) => entry.articleDir).sort();
+    const articleDirs = entries.map((entry) => entry.articleDir).toSorted();
 
     expect(articleDirs).toEqual(["記事あ", "記事い"]);
   });
@@ -78,7 +78,7 @@ describe("checkArticleSimulationLinks", () => {
       allowedArticlelessSlugs: ["sim-a", "sim-does-not-exist"]
     });
 
-    expect(result.staleAllowlistSlugs.sort()).toEqual([
+    expect(result.staleAllowlistSlugs.toSorted()).toEqual([
       "sim-a",
       "sim-does-not-exist"
     ]);

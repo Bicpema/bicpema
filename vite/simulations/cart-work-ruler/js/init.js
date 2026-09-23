@@ -76,6 +76,7 @@ export function initValue(p) {
   const ke0 = 0.5 * state.mass_kg * state.v0_ms * state.v0_ms;
   if (state.infoKe0El) state.infoKe0El.html(ke0.toFixed(3) + " J");
   if (state.infoDEl) state.infoDEl.html(state.penetration_m.toFixed(3) + " m");
-  if (state.infoWEl)
+  if (state.infoWEl) {
     state.infoWEl.html((state.force_N * state.penetration_m).toFixed(3) + " J");
+  }
 }

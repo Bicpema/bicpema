@@ -4,7 +4,7 @@ import p5 from "p5";
 import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
-import { state, V_W, V_H } from "./state.js";
+import { state, V_W } from "./state.js";
 import { elCreate, initValue } from "./init.js";
 import { drawSimulation } from "./logic.js";
 

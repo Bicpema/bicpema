@@ -5,7 +5,6 @@ import "../../../css/tailwind.css";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import {
-  FPS,
   settingInit,
   elementSelectInit,
   elementPositionInit,

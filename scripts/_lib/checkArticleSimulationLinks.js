@@ -16,7 +16,7 @@ export function getSimulationSlugs(simulationsDir) {
   return readdirSync(simulationsDir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name)
-    .sort();
+    .toSorted();
 }
 
 /**
@@ -89,7 +89,7 @@ export function checkArticleSimulationLinks({
   const allowedSet = new Set(allowedArticlelessSlugs);
   const missingArticleSlugs = [...simulationSlugs]
     .filter((slug) => !linkedSlugCounts.has(slug) && !allowedSet.has(slug))
-    .sort();
+    .toSorted();
 
   // 許容リストに載っているのに、実在しない/既に記事からリンクされているslugは
   // 許容リストの記載漏れ・掃除忘れとして検出する。

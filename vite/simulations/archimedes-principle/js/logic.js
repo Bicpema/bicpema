@@ -1,5 +1,5 @@
 import { state } from "./state.js";
-import { BASE_W, BASE_H, TANK_BOTTOM_Y, CYL_H } from "./init.js";
+import { BASE_W, BASE_H, TANK_BOTTOM_Y } from "./init.js";
 
 /** シミュレーション内で使用する水面Y座標（基準座標系） */
 const WATER_SURFACE_Y = 175;

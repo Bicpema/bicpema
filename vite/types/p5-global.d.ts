@@ -14,4 +14,5 @@ declare module "p5" {
   }
 }
 
+// oxlint-disable-next-line unicorn/require-module-specifiers -- declare globalを含むこのファイルをモジュール化するためのTypeScriptの定番の書き方
 export {};

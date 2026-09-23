@@ -2,6 +2,7 @@
 
 import { state, FPS } from "./state.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+import { getCanvasElement } from "../../../js/bicpema-dom.js";
 
 const loadChart = createLazyImporter(() =>
   import("chart.js/auto").then((module) => module.default)
@@ -48,7 +49,8 @@ export async function initCharts() {
   if (state.chart2) {
     state.chart2.destroy();
   }
-  const ctx1 = document.getElementById("chart1").getContext("2d");
+  const ctx1 = getCanvasElement("chart1");
+  if (!ctx1) return;
   state.chart1 = new Chart(ctx1, {
     type: "line",
     data: {
@@ -66,7 +68,8 @@ export async function initCharts() {
       animation: false
     }
   });
-  const ctx2 = document.getElementById("chart2").getContext("2d");
+  const ctx2 = getCanvasElement("chart2");
+  if (!ctx2) return;
   state.chart2 = new Chart(ctx2, {
     type: "line",
     data: {

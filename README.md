@@ -102,6 +102,27 @@ hugo new series/sample-series/_index.md
 ソースコード  
 <https://github.com/tomowang/hugo-theme-tailwind/blob/main/exampleSite/content/post/markdown-syntax/index.md?plain=1>
 
+記事中で数式（KaTeX）を使う場合は、フロントマターに以下のいずれかを設定して有効化する。
+
+```yaml
+math: true # または katex: true
+```
+
+全記事で一括有効化する場合は`config/_default/params.toml`の`math`を`true`にする。
+
+記法はインライン`\( ... \)`、ブロック`$$ ... $$`を使用する（参照: [KaTeX Supported Functions](https://katex.org/docs/supported.html)）。
+インラインの`\( ... \)`はMarkdownのエスケープ処理で`\`が消えてしまうため、Markdown本文中では`\\( ... \\)`と2重バックスラッシュで記述すること（ブロックの`$$ ... $$`はそのままでよい）。
+
+```markdown
+インラインの例: \\( E = mc^2 \\)
+
+ブロックの例:
+
+$$
+\mathbf{T}_1 + \mathbf{T}_2 + \mathbf{W} = \mathbf{0}
+$$
+```
+
 記事とシミュレーションのリンク整合性（記事内のリンク切れ、対応する記事のないシミュレーション）をチェックする
 
 ```bash

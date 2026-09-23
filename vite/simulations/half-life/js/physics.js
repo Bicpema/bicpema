@@ -6,7 +6,7 @@
  * @returns {number} 残存割合 (0〜1)
  */
 export function computeDecayFraction(halfLife, t) {
-  return Math.pow(0.5, t / halfLife);
+  return 0.5 ** (t / halfLife);
 }
 
 /**

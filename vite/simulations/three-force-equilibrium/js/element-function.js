@@ -2,7 +2,6 @@
 
 import {
   state,
-  V_W,
   PANEL_DIVIDER_X,
   CEILING_Y,
   ANCHOR_RADIUS,
@@ -51,7 +50,6 @@ export function startDrag(vmx, vmy) {
     state.dragging = "anchorB";
     state.dragOffsetX = anchorB.x - vmx;
     state.dragOffsetY = anchorB.y - vmy;
-    return;
   }
 }
 
@@ -91,7 +89,7 @@ export function stopDrag() {
  * 重さスライダーが変更されたときの処理。
  */
 export function onWeightChange() {
-  const w = parseInt(state.weightInput.value());
+  const w = parseInt(state.weightInput.value(), 10);
   state.weight = w;
   state.weightDisplay.html(`${w}`);
 }

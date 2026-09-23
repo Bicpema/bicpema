@@ -34,20 +34,23 @@ function parseArgs(argv) {
   };
   for (const arg of argv) {
     const separatorIndex = arg.indexOf("=");
-    if (separatorIndex === -1) continue;
-    const key = arg.slice(0, separatorIndex);
-    const value = arg.slice(separatorIndex + 1);
-    if (key === "--filter") {
-      options.filter = value
-        .split(",")
-        .map((s) => s.trim())
-        .filter((s) => s.length > 0);
+    if (separatorIndex !== -1) {
+      const key = arg.slice(0, separatorIndex);
+      const value = arg.slice(separatorIndex + 1);
+      if (key === "--filter") {
+        options.filter = value
+          .split(",")
+          .map((s) => s.trim())
+          .filter((s) => s.length > 0);
+      }
+      if (key === "--duration") {
+        options.duration = Number(value) || options.duration;
+      }
+      if (key === "--device-scale") {
+        options.deviceScale = Number(value) || options.deviceScale;
+      }
+      if (key === "--base-url") options.baseUrl = value;
     }
-    if (key === "--duration")
-      options.duration = Number(value) || options.duration;
-    if (key === "--device-scale")
-      options.deviceScale = Number(value) || options.deviceScale;
-    if (key === "--base-url") options.baseUrl = value;
   }
   return options;
 }
@@ -58,7 +61,7 @@ function listSimulationNames() {
       const dir = join(simulationsDir, name);
       return statSync(dir).isDirectory() && existsSync(join(dir, "index.html"));
     })
-    .sort();
+    .toSorted();
 }
 
 function findFreePort() {
@@ -96,21 +99,23 @@ async function benchmarkSimulation(browser, baseUrl, name, options) {
   await page.waitForTimeout(1000);
 
   // requestAnimationFrameのコールバック頻度から実効frameRateを求める。
-  const frameCountPromise = page.evaluate((duration) => {
-    return new Promise((resolvePromise) => {
-      let count = 0;
-      const start = performance.now();
-      function tick() {
-        count++;
-        if (performance.now() - start < duration) {
-          requestAnimationFrame(tick);
-        } else {
-          resolvePromise(count);
+  const frameCountPromise = page.evaluate(
+    (duration) =>
+      new Promise((resolvePromise) => {
+        let count = 0;
+        const start = performance.now();
+        function tick() {
+          count++;
+          if (performance.now() - start < duration) {
+            requestAnimationFrame(tick);
+          } else {
+            resolvePromise(count);
+          }
         }
-      }
-      requestAnimationFrame(tick);
-    });
-  }, options.duration);
+        requestAnimationFrame(tick);
+      }),
+    options.duration
+  );
 
   // 同じ期間、JSヒープ使用量をサンプリングしてばらつき（アロケーション量の目安）を見る。
   const heapSamples = [];
@@ -169,7 +174,7 @@ async function main() {
     return;
   }
 
-  let names = options.filter ?? listSimulationNames();
+  const names = options.filter ?? listSimulationNames();
   if (names.length === 0) {
     console.error("計測対象のシミュレーションが見つかりませんでした。");
     process.exitCode = 1;
@@ -197,6 +202,7 @@ async function main() {
 
   try {
     for (const name of names) {
+      // oxlint-disable-next-line no-await-in-loop -- 計測値が他シミュレーションの負荷に影響されないよう、意図的に直列実行している
       const result = await benchmarkSimulation(browser, baseUrl, name, options);
       console.log(`■ ${result.name}`);
       // requestAnimationFrameベースの計測のため、p5のframeRate()による間引きが

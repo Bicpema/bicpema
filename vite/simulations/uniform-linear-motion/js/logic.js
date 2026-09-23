@@ -46,7 +46,7 @@ export function drawScale(p, x, y, w, h) {
   p.stroke(0);
   p.strokeWeight(1);
   for (let i = 0; i <= w; i += SCALE_MINOR_TICK_INTERVAL) {
-    if (i % PX_PER_DISTANCE_UNIT == 0) {
+    if (i % PX_PER_DISTANCE_UNIT === 0) {
       p.line(i, y - h, i, y - SCALE_MAJOR_TICK_LINE_END_OFFSET);
       p.text(i / PX_PER_DISTANCE_UNIT, i, y - SCALE_LABEL_OFFSET);
     } else {
@@ -62,8 +62,11 @@ export function drawScale(p, x, y, w, h) {
  */
 export function graphDraw(p) {
   if (!Chart) return;
-  let yellowCarData, redCarData;
-  let title, verticalAxisLabel, yMax;
+  let yellowCarData;
+  let redCarData;
+  let title;
+  let verticalAxisLabel;
+  let yMax;
 
   const yellowInput = p.select("#yellowCarSpeedInput");
   const redInput = p.select("#redCarSpeedInput");
@@ -154,7 +157,7 @@ export function graphDraw(p) {
 
   state.graphChart = new Chart(ctx, {
     type: "scatter",
-    data: data,
-    options: options
+    data,
+    options
   });
 }

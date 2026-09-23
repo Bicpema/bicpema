@@ -34,7 +34,7 @@ export function onSpeedInputChange() {
   const speedInput = document.getElementById("speedInput");
   if (!(speedInput instanceof HTMLInputElement)) return;
   const value = parseFloat(speedInput.value);
-  if (!isNaN(value)) {
+  if (!Number.isNaN(value)) {
     state.speedValue = Math.max(0, Math.min(1000, value));
     speedInput.value = String(state.speedValue);
   }
