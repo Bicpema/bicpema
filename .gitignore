@@ -16,3 +16,5 @@ nohup.out
 
 docs/site
 docs/.cache
+
+.claude/worktrees/
