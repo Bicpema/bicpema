@@ -20,12 +20,24 @@ import {
  * 自由落下運動をする物体を表現
  */
 export class Ball {
+  initialHeight: number;
+  initialVelocity: number;
+  height: number;
+  velocity: number;
+  time: number;
+  g: number;
+  dragCoefficient: number;
+  radius: number;
+  isMoving: boolean;
+  graphDataInterval: number;
+  lastGraphUpdate: number;
+
   /**
    * @constructor
    * @param {number} initialHeight 初期高さ (m)
    * @param {number} [dragCoefficient] 空気抵抗係数（質量1kgあたり）
    */
-  constructor(initialHeight, dragCoefficient = 0) {
+  constructor(initialHeight: number, dragCoefficient: number = 0) {
     this.initialHeight = initialHeight;
     this.initialVelocity = 0;
     this.height = initialHeight;
@@ -85,7 +97,11 @@ export class Ball {
    * @param {p5.Image} [options.ballImage] ボール画像
    * @param {p5.Image} [options.groundImage] 地面画像
    */
-  display(p, canvasHeight, options = {}) {
+  display(
+    p,
+    canvasHeight: number,
+    options: { ballImage?: p5.Image; groundImage?: p5.Image } = {}
+  ) {
     const { ballImage, groundImage } = options;
 
     const ballX = CANVAS_VIRTUAL_WIDTH / 2;
