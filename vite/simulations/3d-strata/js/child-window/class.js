@@ -83,7 +83,7 @@ export class TR {
       );
       state.trNum -= 1;
       state.idArr.splice(
-        state.idArr.findIndex((idIndex) => idIndex == String(num)),
+        state.idArr.findIndex((idIndex) => idIndex === String(num)),
         1
       );
       for (let i = 0; i < state.idArr.length; i++) {

@@ -134,11 +134,13 @@ export function drawGrid(p) {
 
   // 中心(ORIGIN)を起点に外側へグリッド線を引く
   for (let x = ORIGIN_X; x <= V_W; x += GRID_STEP) p.line(x, 0, x, V_H);
-  for (let x = ORIGIN_X - GRID_STEP; x >= 0; x -= GRID_STEP)
+  for (let x = ORIGIN_X - GRID_STEP; x >= 0; x -= GRID_STEP) {
     p.line(x, 0, x, V_H);
+  }
   for (let y = ORIGIN_Y; y <= V_H; y += GRID_STEP) p.line(0, y, V_W, y);
-  for (let y = ORIGIN_Y - GRID_STEP; y >= 0; y -= GRID_STEP)
+  for (let y = ORIGIN_Y - GRID_STEP; y >= 0; y -= GRID_STEP) {
     p.line(0, y, V_W, y);
+  }
 
   // X/Y 軸（黒色矢印、両方向）
   const axisColor = p.color(0);

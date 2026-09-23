@@ -158,8 +158,8 @@ export class MotionGraph {
 
     this.chart = new Chart(ctx, {
       type: "scatter",
-      data: data,
-      options: options
+      data,
+      options
     });
   }
 

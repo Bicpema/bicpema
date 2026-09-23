@@ -147,11 +147,11 @@ function placeLabelsAlongNormals(labels, minDistance, bounds) {
         const dx = points[b].x - points[a].x;
         const dy = points[b].y - points[a].y;
         const dist = Math.hypot(dx, dy) || 0.001;
-        if (dist >= minDistance) continue;
-
-        const push = (minDistance - dist) * 0.55;
-        offsets[a] = Math.min(normalized[a].maxOffset, offsets[a] + push);
-        offsets[b] = Math.min(normalized[b].maxOffset, offsets[b] + push);
+        if (dist < minDistance) {
+          const push = (minDistance - dist) * 0.55;
+          offsets[a] = Math.min(normalized[a].maxOffset, offsets[a] + push);
+          offsets[b] = Math.min(normalized[b].maxOffset, offsets[b] + push);
+        }
       }
     }
   }

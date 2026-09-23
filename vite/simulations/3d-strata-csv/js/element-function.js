@@ -39,7 +39,7 @@ export function placeNameInputFunction(p) {
   for (let i = 0; i < placeNum; i++) {
     const place = "地点" + (i + 1);
     let placeName = state.dataInputArr[place].name.value();
-    if (placeName == "") {
+    if (placeName === "") {
       placeName = place;
       state.dataInputArr[place].edit.html("地点" + (i + 1) + "のデータを編集");
     } else {
@@ -195,7 +195,7 @@ export function firstPlaceSelectFunction(p) {
     }
   }
   const trNum = document.getElementById("strataSelect").childElementCount;
-  if (Object.keys(state.dataInputArr).length !== 0 && placeName != "-") {
+  if (Object.keys(state.dataInputArr).length !== 0 && placeName !== "-") {
     const strataArr = state.dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
       const strataSelect = document.getElementById("select2-" + (i + 1));
@@ -205,7 +205,7 @@ export function firstPlaceSelectFunction(p) {
       const strataKind = p.select("#select1-" + (i + 1)).value();
       const element = p.select("#select2-" + (i + 1));
       for (let j = 0; j < strataArr.length; j++) {
-        if (strataKind == strataArr[j][2]) {
+        if (strataKind === strataArr[j][2]) {
           element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
         }
       }
@@ -230,12 +230,12 @@ export function secondPlaceSelectFunction(p) {
   secondPlaceName.innerHTML = secondPlaceSelect.value();
   let placeName = secondPlaceName.innerHTML;
   for (const key in state.dataInputArr) {
-    if (state.dataInputArr[key].name.value() == placeName) {
+    if (state.dataInputArr[key].name.value() === placeName) {
       placeName = key;
     }
   }
   const trNum = document.getElementById("strataSelect").childElementCount;
-  if (Object.keys(state.dataInputArr).length !== 0 && placeName != "-") {
+  if (Object.keys(state.dataInputArr).length !== 0 && placeName !== "-") {
     const strataArr = state.dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
       const strataSelect = document.getElementById("select3-" + (i + 1));
@@ -245,7 +245,7 @@ export function secondPlaceSelectFunction(p) {
       const strataKind = p.select("#select1-" + (i + 1)).value();
       const element = p.select("#select3-" + (i + 1));
       for (let j = 0; j < strataArr.length; j++) {
-        if (strataKind == strataArr[j][2]) {
+        if (strataKind === strataArr[j][2]) {
           element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
         }
       }
@@ -270,12 +270,12 @@ export function thirdPlaceSelectFunction(p) {
   thirdPlaceName.innerHTML = thirdPlaceSelect.value();
   let placeName = thirdPlaceName.innerHTML;
   for (const key in state.dataInputArr) {
-    if (state.dataInputArr[key].name.value() == placeName) {
+    if (state.dataInputArr[key].name.value() === placeName) {
       placeName = key;
     }
   }
   const trNum = document.getElementById("strataSelect").childElementCount;
-  if (Object.keys(state.dataInputArr).length !== 0 && placeName != "-") {
+  if (Object.keys(state.dataInputArr).length !== 0 && placeName !== "-") {
     const strataArr = state.dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
       const strataSelect = document.getElementById("select4-" + (i + 1));
@@ -285,7 +285,7 @@ export function thirdPlaceSelectFunction(p) {
       const strataKind = p.select("#select1-" + (i + 1)).value();
       const element = p.select("#select4-" + (i + 1));
       for (let j = 0; j < strataArr.length; j++) {
-        if (strataKind == strataArr[j][2]) {
+        if (strataKind === strataArr[j][2]) {
           element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
         }
       }
@@ -473,10 +473,12 @@ export function processCSV(csvText, p) {
 export function submit(arr) {
   const [name, dataArr] = arr;
   for (const key in state.dataInputArr) {
-    let placeName = state.dataInputArr[key].name.value();
-    if (placeName === "") placeName = key;
-    if (placeName === name) {
-      state.dataInputArr[key].layer = dataArr;
+    if (Object.hasOwn(state.dataInputArr, key)) {
+      let placeName = state.dataInputArr[key].name.value();
+      if (placeName === "") placeName = key;
+      if (placeName === name) {
+        state.dataInputArr[key].layer = dataArr;
+      }
     }
   }
 }

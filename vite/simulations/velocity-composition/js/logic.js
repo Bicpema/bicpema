@@ -61,7 +61,9 @@ export function drawArrowWithLabel(p, fromX, fromY, toX, toY, col, label) {
   drawArrow(p, fromX, fromY, toX, toY, col);
   p.noStroke();
   p.textSize(15);
-  let tx, ty, hAlign;
+  let tx;
+  let ty;
+  let hAlign;
   if (Math.abs(toX - fromX) < 2) {
     hAlign = p.LEFT;
     tx = fromX + 5;

@@ -1,26 +1,303 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
+  // eslint-config-airbnb-base (https://github.com/airbnb/javascript) に
+  // できる限り追従する形でルールを選定している。
+  "plugins": ["import"],
   "rules": {
-    "no-unused-vars": [
-      "error",
-      {
-        "args": "none"
-      }
-    ],
+    // airbnbはargs: "after-used"だが、p5のインスタンスモードでは呼び出し側の形に合わせて
+    // 未使用のpを受け取るだけの引数が多く、ノイズになるためargs: "none"に変更している。
+    "no-unused-vars": ["error", { "args": "none" }],
     "no-undef": "error",
     "no-shadow": "error",
     "no-await-in-loop": "error",
-    "unicorn/prefer-add-event-listener": "error",
-    "unicorn/no-array-sort": "error",
-    "unicorn/consistent-function-scoping": "error",
-    "unicorn/require-module-specifiers": "error",
+    "array-callback-return": ["error", { "allowImplicit": true }],
+    "arrow-body-style": [
+      "error",
+      "as-needed",
+      { "requireReturnForObjectLiteral": false }
+    ],
+    "block-scoped-var": "error",
+    "class-methods-use-this": ["error", { "exceptMethods": [] }],
+    "constructor-super": "error",
+    "curly": ["error", "multi-line"],
+    "default-case": ["error", { "commentPattern": "^no default$" }],
+    "default-case-last": "error",
+    "default-param-last": "error",
+    "eqeqeq": ["error", "always", { "null": "ignore" }],
+    "for-direction": "error",
+    "getter-return": ["error", { "allowImplicit": true }],
+    "grouped-accessor-pairs": "error",
+    "guard-for-in": "error",
+    "import/export": "error",
+    "import/first": "error",
+    "import/named": "error",
+    "import/newline-after-import": "error",
+    "import/no-absolute-path": "error",
+    "import/no-amd": "error",
+    "import/no-duplicates": "error",
+    "import/no-dynamic-require": "error",
+    "import/no-mutable-exports": "error",
+    "import/no-named-as-default": "error",
+    "import/no-named-as-default-member": "error",
+    "import/no-named-default": "error",
+    "import/no-self-import": "error",
+    "import/no-webpack-loader-syntax": "error",
+    "max-classes-per-file": ["error", 1],
+    "no-array-constructor": "error",
+    "no-async-promise-executor": "error",
+    "no-bitwise": "error",
+    "no-caller": "error",
+    "no-case-declarations": "error",
+    "no-class-assign": "error",
+    "no-compare-neg-zero": "error",
+    "no-cond-assign": ["error", "always"],
+    "no-const-assign": "error",
+    "no-constant-condition": "warn",
+    "no-constructor-return": "error",
+    "no-continue": "error",
+    "no-control-regex": "error",
+    "no-debugger": "error",
+    "no-delete-var": "error",
+    "no-dupe-class-members": "error",
+    "no-dupe-else-if": "error",
+    "no-dupe-keys": "error",
+    "no-duplicate-case": "error",
+    "no-else-return": ["error", { "allowElseIf": false }],
+    "no-empty": "error",
+    "no-empty-character-class": "error",
+    "no-empty-function": [
+      "error",
+      { "allow": ["arrowFunctions", "functions", "methods"] }
+    ],
+    "no-empty-pattern": "error",
+    "no-eval": "error",
+    "no-ex-assign": "error",
+    "no-extend-native": "error",
+    "no-extra-bind": "error",
+    "no-extra-boolean-cast": "error",
+    "no-extra-label": "error",
+    "no-fallthrough": "error",
+    "no-func-assign": "error",
+    "no-global-assign": ["error", { "exceptions": [] }],
+    "no-implied-eval": "error",
+    "no-import-assign": "error",
+    "no-inner-declarations": "error",
+    "no-invalid-regexp": "error",
+    "no-irregular-whitespace": "error",
+    "no-iterator": "error",
+    "no-label-var": "error",
+    "no-labels": ["error", { "allowLoop": false, "allowSwitch": false }],
+    "no-lone-blocks": "error",
+    "no-lonely-if": "error",
+    "no-loop-func": "error",
+    "no-loss-of-precision": "error",
+    "no-misleading-character-class": "error",
+    "no-multi-assign": ["error"],
+    "no-multi-str": "error",
+    "no-nested-ternary": "error",
+    "no-new-func": "error",
+    "no-new-wrappers": "error",
+    "no-nonoctal-decimal-escape": "error",
+    "no-obj-calls": "error",
+    "no-promise-executor-return": "error",
+    "no-proto": "error",
+    "no-prototype-builtins": "error",
+    "no-redeclare": "error",
+    "no-regex-spaces": "error",
+    "no-restricted-exports": [
+      "error",
+      { "restrictedNamedExports": ["default", "then"] }
+    ],
+    "no-restricted-globals": [
+      "error",
+      {
+        "name": "isFinite",
+        "message": "Use Number.isFinite instead https://github.com/airbnb/javascript#standard-library--isfinite"
+      },
+      {
+        "name": "isNaN",
+        "message": "Use Number.isNaN instead https://github.com/airbnb/javascript#standard-library--isnan"
+      }
+    ],
+    "no-restricted-properties": [
+      "error",
+      {
+        "object": "arguments",
+        "property": "callee",
+        "message": "arguments.callee is deprecated"
+      },
+      {
+        "object": "global",
+        "property": "isFinite",
+        "message": "Please use Number.isFinite instead"
+      },
+      {
+        "object": "self",
+        "property": "isFinite",
+        "message": "Please use Number.isFinite instead"
+      },
+      {
+        "object": "window",
+        "property": "isFinite",
+        "message": "Please use Number.isFinite instead"
+      },
+      {
+        "object": "global",
+        "property": "isNaN",
+        "message": "Please use Number.isNaN instead"
+      },
+      {
+        "object": "self",
+        "property": "isNaN",
+        "message": "Please use Number.isNaN instead"
+      },
+      {
+        "object": "window",
+        "property": "isNaN",
+        "message": "Please use Number.isNaN instead"
+      },
+      {
+        "property": "__defineGetter__",
+        "message": "Please use Object.defineProperty instead."
+      },
+      {
+        "property": "__defineSetter__",
+        "message": "Please use Object.defineProperty instead."
+      },
+      {
+        "object": "Math",
+        "property": "pow",
+        "message": "Use the exponentiation operator (**) instead."
+      }
+    ],
+    "no-return-assign": ["error", "always"],
+    "no-script-url": "error",
+    "no-self-assign": ["error", { "props": true }],
+    "no-self-compare": "error",
+    "no-sequences": "error",
+    "no-setter-return": "error",
+    "no-shadow-restricted-names": "error",
+    "no-sparse-arrays": "error",
+    "no-template-curly-in-string": "error",
+    "no-this-before-super": "error",
+    "no-throw-literal": "error",
+    "no-unexpected-multiline": "error",
+    "no-unneeded-ternary": ["error", { "defaultAssignment": false }],
+    "no-unreachable": "error",
+    "no-unreachable-loop": ["error", { "ignore": [] }],
+    "no-unsafe-finally": "error",
+    "no-unsafe-negation": "error",
+    "no-unsafe-optional-chaining": [
+      "error",
+      { "disallowArithmeticOperators": true }
+    ],
+    "no-unused-expressions": [
+      "error",
+      {
+        "allowShortCircuit": false,
+        "allowTernary": false,
+        "allowTaggedTemplates": false
+      }
+    ],
+    "no-unused-labels": "error",
+    "no-useless-backreference": "error",
+    "no-useless-catch": "error",
+    "no-useless-computed-key": "error",
+    "no-useless-concat": "error",
+    "no-useless-constructor": "error",
+    "no-useless-escape": "error",
+    "no-useless-rename": [
+      "error",
+      {
+        "ignoreDestructuring": false,
+        "ignoreImport": false,
+        "ignoreExport": false
+      }
+    ],
+    "no-useless-return": "error",
+    "no-var": "error",
+    "no-void": "error",
+    "no-with": "error",
+    "object-shorthand": [
+      "error",
+      "always",
+      { "ignoreConstructors": false, "avoidQuotes": true }
+    ],
+    "one-var": ["error", "never"],
+    "operator-assignment": ["error", "always"],
+    "prefer-arrow-callback": [
+      "error",
+      { "allowNamedFunctions": false, "allowUnboundThis": true }
+    ],
+    "prefer-const": [
+      "error",
+      { "destructuring": "any", "ignoreReadBeforeAssign": true }
+    ],
+    "prefer-exponentiation-operator": "error",
+    "prefer-numeric-literals": "error",
+    "prefer-object-spread": "error",
+    "prefer-promise-reject-errors": ["error", { "allowEmptyReject": true }],
+    "prefer-regex-literals": ["error", { "disallowRedundantWrapping": true }],
+    "prefer-rest-params": "error",
+    "prefer-spread": "error",
+    "radix": "error",
+    "require-yield": "error",
+    "symbol-description": "error",
+    "unicode-bom": ["error", "never"],
+    "use-isnan": "error",
+    "valid-typeof": ["error", { "requireStringLiterals": true }],
+    "vars-on-top": "error",
+    "yoda": "error",
+    // airbnbに合わせてwarnのまま。scripts/配下はCLIツールの出力として正当なため
+    // overridesで無効化する。
+    "no-console": "warn",
+    "no-alert": "warn",
+    "func-names": "warn",
+    // `new Array(n).fill(v)`は定番の書き方のため対象外にする。
     "unicorn/no-new-array": "off",
-    "unicorn/no-empty-file": "off"
+    // templatesのひな形など、意図的にコメントだけのファイルがあるため対象外にする。
+    "unicorn/no-empty-file": "off",
+    // p5.jsのインスタンスモード（AGENTS.md）では`new p5(sketch)`のように、
+    // 戻り値を使わないnew呼び出しが必須の書き方になるため対象外にする。
+    "no-new": "off",
+    // `new p5(...)`など、ライブラリ側のコンストラクタ名が小文字のケースを誤検知するため対象外にする。
+    "new-cap": "off",
+    // `_draw()`のような先頭アンダースコアを「private相当」を示す命名として
+    // 既存コード全体で意図的に使っているため対象外にする。
+    "no-underscore-dangle": "off",
+    // このプロジェクトはVite上のブラウザネイティブESMを前提としており、
+    // importには拡張子を明示するのが規約（scripts/check-simulation-template-compliance.jsで別途検査）。
+    // airbnbの既定（拡張子を省略する）とは方針が逆になるため対象外にする。
+    "import/extensions": "off",
+    // 単一exportの場合でも名前付きexportに統一する既存の規約のため対象外にする。
+    "import/prefer-default-export": "off",
+    // init.js/element-function.js間などで、初期化処理とイベントハンドラーが
+    // 互いを参照する意図的な循環importが複数のシミュレーションに存在し、
+    // ESMの遅延評価で安全に動作するため対象外にする。
+    "import/no-cycle": "off"
   },
+  // suspicious/perfカテゴリの導入時に見送ったairbnbルール（#635参照）:
+  // no-plusplus(244件): `i++`を`i += 1`に置き換える範囲が広すぎるため見送り
+  // prefer-template(349件): 文字列結合をテンプレートリテラルに置き換える範囲が広すぎるため見送り
+  // no-use-before-define(258件): 関数の定義順を大幅に入れ替える必要があるため見送り
+  // no-param-reassign(222件): 引数のプロパティ変更を含めると影響範囲が広いため見送り
+  // prefer-destructuring(36件): 書き換えの妥当性を1件ずつ確認する必要があるため見送り
+  "overrides": [
+    {
+      "files": ["scripts/**"],
+      "rules": { "no-console": "off" }
+    },
+    {
+      // WaterParticle/Boat/Personの3クラスをまとめた小さなファイルのため対象外にする。
+      "files": ["vite/simulations/velocity-composition/js/boat.js"],
+      "rules": { "max-classes-per-file": "off" }
+    }
+  ],
   "ignorePatterns": [
     "static/**",
     "public/**",
     "themes/**",
+    "templates/**",
     "test/**/fixtures/**"
   ],
   "env": {

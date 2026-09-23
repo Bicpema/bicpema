@@ -55,20 +55,21 @@ function parseArgs(argv) {
     // 値側に "=" を含む場合（例: --base-url=http://host/?a=b）があるため、
     // 最初の "=" のみでキーと値に分割する。
     const separatorIndex = arg.indexOf("=");
-    if (separatorIndex === -1) continue;
-    const key = arg.slice(0, separatorIndex);
-    const value = arg.slice(separatorIndex + 1);
-    if (key === "--filter") options.filter = value;
-    if (key === "--concurrency") {
-      options.concurrency = parseIntWithMin(value, options.concurrency, 1);
+    if (separatorIndex !== -1) {
+      const key = arg.slice(0, separatorIndex);
+      const value = arg.slice(separatorIndex + 1);
+      if (key === "--filter") options.filter = value;
+      if (key === "--concurrency") {
+        options.concurrency = parseIntWithMin(value, options.concurrency, 1);
+      }
+      if (key === "--timeout") {
+        options.timeout = parseIntWithMin(value, options.timeout, 1);
+      }
+      if (key === "--settle") {
+        options.settle = parseIntWithMin(value, options.settle, 0);
+      }
+      if (key === "--base-url") options.baseUrl = value;
     }
-    if (key === "--timeout") {
-      options.timeout = parseIntWithMin(value, options.timeout, 1);
-    }
-    if (key === "--settle") {
-      options.settle = parseIntWithMin(value, options.settle, 0);
-    }
-    if (key === "--base-url") options.baseUrl = value;
   }
   return options;
 }

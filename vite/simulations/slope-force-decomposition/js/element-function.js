@@ -4,8 +4,9 @@ import { state } from "./state.js";
 export function onSlopeAngleChange() {
   if (!state.slopeAngleInput) return;
   state.slopeAngle = parseFloat(state.slopeAngleInput.value());
-  if (state.slopeAngleValue)
+  if (state.slopeAngleValue) {
     state.slopeAngleValue.html(`${state.slopeAngle.toFixed(0)}°`);
+  }
 }
 
 /** 質量スライダーの変更ハンドラー */

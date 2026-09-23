@@ -32,7 +32,7 @@ export function onPlayPause() {
  * 設定を適用してシミュレーションをリセットする
  */
 export function applySettings() {
-  const newAngle = parseInt(state.angleInput.value());
+  const newAngle = parseInt(state.angleInput.value(), 10);
   const newInterval = parseFloat(state.intervalInput.value());
 
   if (newAngle >= 0 && newAngle <= 30) {

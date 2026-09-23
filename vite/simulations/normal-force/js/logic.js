@@ -7,7 +7,7 @@ import { state } from "./state.js";
  * @param {*} p p5インスタンス
  */
 export function calculate(p) {
-  if (state.clickedCount == true) {
+  if (state.clickedCount === true) {
     state.count++;
   }
   state.material.materialY =

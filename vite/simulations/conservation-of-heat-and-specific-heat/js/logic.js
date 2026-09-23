@@ -37,17 +37,17 @@ const BALL_Y_SMALL = 457;
 
 function getContactState() {
   const el = document.querySelector('input[name="contact"]:checked');
-  return el ? parseInt(el.value) : 1;
+  return el ? parseInt(el.value, 10) : 1;
 }
 
 function getMaterialA() {
   const el = document.querySelector('input[name="materialA"]:checked');
-  return el ? parseInt(el.value) : 0;
+  return el ? parseInt(el.value, 10) : 0;
 }
 
 function getMassA() {
   const el = document.querySelector('input[name="massA"]:checked');
-  return el ? parseInt(el.value) : 1;
+  return el ? parseInt(el.value, 10) : 1;
 }
 
 function getMaterialGradient(p, x, y, r, type) {

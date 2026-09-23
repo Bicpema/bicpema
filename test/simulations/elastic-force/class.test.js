@@ -44,7 +44,8 @@ describe("Spring", () => {
   it("ばね定数が大きいほど同じ変位に対する弾性力が大きくなる", () => {
     const soft = new Spring(100, 200, 200, 10);
     const stiff = new Spring(100, 200, 200, 100);
-    soft.endX = stiff.endX = 100 + 200 + PX_PER_M * 0.1;
+    soft.endX = 100 + 200 + PX_PER_M * 0.1;
+    stiff.endX = 100 + 200 + PX_PER_M * 0.1;
 
     expect(stiff.forceMagnitude).toBeGreaterThan(soft.forceMagnitude);
   });
