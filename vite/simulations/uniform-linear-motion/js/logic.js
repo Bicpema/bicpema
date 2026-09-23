@@ -27,6 +27,7 @@ loadChart()
   .catch((error) => {
     // 失敗時はgraphDrawの`if (!Chart) return;`ガードによりグラフ描画のみが
     // スキップされ続けるため、ここではログ出力のみ行いunhandled rejectionを防ぐ。
+    // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
     console.error("Chart.jsの読み込みに失敗しました。", error);
   });
 
