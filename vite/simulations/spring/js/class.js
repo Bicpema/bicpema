@@ -31,10 +31,10 @@ export class Spring {
   constructor(k, w, c, a, n) {
     this.posx = 0;
     this.posy = 0;
-    this.konstant = k;
-    this.weight = w;
-    this.combination = c;
-    this.amplitude = a;
+    this.konstant = Number(k);
+    this.weight = Number(w);
+    this.combination = Number(c);
+    this.amplitude = Number(a);
     this.number = n;
   }
 
