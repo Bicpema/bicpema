@@ -16,12 +16,14 @@
     "check:article-links": "node scripts/check-article-simulation-links.js",
     "check:template-compliance": "node scripts/check-simulation-template-compliance.js",
     "lint": "oxlint",
-    "lint:md": "markdownlint-cli2 \"**/*.md\""
+    "lint:md": "markdownlint-cli2 \"**/*.md\"",
+    "lint:spell": "cspell \"**\" --no-progress"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^26.4.1",
     "@types/p5": "^1.7.7",
+    "cspell": "^10.3.3",
     "markdownlint-cli2": "^0.23.2",
     "oxlint": "^1.85.0",
     "playwright": "^1.62.1",
