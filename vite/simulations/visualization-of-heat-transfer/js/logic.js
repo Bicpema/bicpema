@@ -47,7 +47,7 @@ export function drawSimulation(p) {
 }
 
 function updateTemperature() {
-  let contactState = parseInt(getCheckedRadioValue("contact") ?? "1");
+  const contactState = parseInt(getCheckedRadioValue("contact") ?? "1", 10);
   if (contactState === 0) {
     state.t++;
     state.Thot = computeTemperatureAtTime(
@@ -78,9 +78,9 @@ function rightArea(p) {
 }
 
 function drawBlock(p, x, y, w, h, T) {
-  let coldCol = p.color(0, 120, 255, 120);
-  let hotCol = p.color(255, 80, 0, 120);
-  let tcol = p.constrain((T - state.Tmin) / (state.Tmax - state.Tmin), 0, 1);
+  const coldCol = p.color(0, 120, 255, 120);
+  const hotCol = p.color(255, 80, 0, 120);
+  const tcol = p.constrain((T - state.Tmin) / (state.Tmax - state.Tmin), 0, 1);
   p.fill(p.lerpColor(coldCol, hotCol, tcol));
   p.stroke(0);
   p.rect(x, y, w, h);
@@ -92,16 +92,16 @@ function drawBlock(p, x, y, w, h, T) {
 }
 
 function drawMolecules(p, x, y, w, h, T) {
-  let dx = w / state.cols;
-  let dy = h / state.rows;
+  const dx = w / state.cols;
+  const dy = h / state.rows;
   let amp = MOLECULE_JITTER_SCALE * p.sqrt(p.max(T, 0));
   amp = p.constrain(amp, 0, MOLECULE_JITTER_MAX);
   p.fill(255);
   p.stroke(0);
   for (let j = 0; j < state.rows; j++) {
     for (let i = 0; i < state.cols; i++) {
-      let cx = x + (i + 0.5) * dx;
-      let cy = y + (j + 0.5) * dy;
+      const cx = x + (i + 0.5) * dx;
+      const cy = y + (j + 0.5) * dy;
       p.ellipse(
         cx + p.random(-amp, amp),
         cy + p.random(-amp, amp),
@@ -188,7 +188,12 @@ function drawGraph(p) {
     p.stroke(...HOT_COLOR);
     p.beginShape();
     for (let tt = 0; tt <= state.tMax; tt++) {
-      let T = computeTemperatureAtTime(state.Teq, state.Thot0, state.heatK, tt);
+      const T = computeTemperatureAtTime(
+        state.Teq,
+        state.Thot0,
+        state.heatK,
+        tt
+      );
       p.vertex(tx(tt), ty(T));
     }
     p.endShape();
@@ -197,7 +202,7 @@ function drawGraph(p) {
     p.stroke(...COLD_COLOR);
     p.beginShape();
     for (let tt = 0; tt <= state.tMax; tt++) {
-      let T = computeTemperatureAtTime(
+      const T = computeTemperatureAtTime(
         state.Teq,
         state.Tcold0,
         state.heatK,
@@ -214,12 +219,12 @@ function drawGraph(p) {
     p.strokeWeight(5);
     p.point(tx(t_now), ty(state.Thot));
     p.push();
-    let labelA = p.nf(state.Thot, 1, 2) + " K";
+    const labelA = p.nf(state.Thot, 1, 2) + " K";
     p.textSize(LABEL_FONT_SIZE);
-    let twA = p.textWidth(labelA);
-    let thA = LABEL_HEIGHT;
-    let lxA = p.constrain(tx(t_now) + 6, GX + 3, GX + GW - twA - 3);
-    let lyA = p.constrain(ty(state.Thot) - 6, GY + thA + 3, GY + GH - 3);
+    const twA = p.textWidth(labelA);
+    const thA = LABEL_HEIGHT;
+    const lxA = p.constrain(tx(t_now) + 6, GX + 3, GX + GW - twA - 3);
+    const lyA = p.constrain(ty(state.Thot) - 6, GY + thA + 3, GY + GH - 3);
     p.noStroke();
     p.fill(255, 220);
     p.rect(lxA - 3, lyA - thA, twA + 6, thA, 3);
@@ -232,12 +237,12 @@ function drawGraph(p) {
     p.strokeWeight(5);
     p.point(tx(t_now), ty(state.Tcold));
     p.push();
-    let labelB = p.nf(state.Tcold, 1, 2) + " K";
+    const labelB = p.nf(state.Tcold, 1, 2) + " K";
     p.textSize(LABEL_FONT_SIZE);
-    let twB = p.textWidth(labelB);
-    let thB = LABEL_HEIGHT;
-    let lxB = p.constrain(tx(t_now) + 6, GX + 3, GX + GW - twB - 3);
-    let lyB = p.constrain(ty(state.Tcold) + 20, GY + thB + 3, GY + GH - 3);
+    const twB = p.textWidth(labelB);
+    const thB = LABEL_HEIGHT;
+    const lxB = p.constrain(tx(t_now) + 6, GX + 3, GX + GW - twB - 3);
+    const lyB = p.constrain(ty(state.Tcold) + 20, GY + thB + 3, GY + GH - 3);
     p.noStroke();
     p.fill(255, 220);
     p.rect(lxB - 3, lyB - thB, twB + 6, thB, 3);

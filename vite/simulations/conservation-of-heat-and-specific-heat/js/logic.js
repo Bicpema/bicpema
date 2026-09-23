@@ -38,17 +38,17 @@ const BALL_Y_SMALL = 457;
 
 function getContactState() {
   const value = getCheckedRadioValue("contact");
-  return value !== null ? parseInt(value) : 1;
+  return value !== null ? parseInt(value, 10) : 1;
 }
 
 function getMaterialA() {
   const value = getCheckedRadioValue("materialA");
-  return value !== null ? parseInt(value) : 0;
+  return value !== null ? parseInt(value, 10) : 0;
 }
 
 function getMassA() {
   const value = getCheckedRadioValue("massA");
-  return value !== null ? parseInt(value) : 1;
+  return value !== null ? parseInt(value, 10) : 1;
 }
 
 function getMaterialGradient(p, x, y, r, type) {

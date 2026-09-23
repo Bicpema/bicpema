@@ -50,17 +50,19 @@ function calculateValue(p) {
     const longitudeArr = [];
     const depthArr = [];
     for (const key in state.dataInputArr) {
-      const value = state.dataInputArr[key];
-      const data = value.data;
-      // input要素のvalue()は文字列を返すため、min/max比較が文字列比較になる
-      // （例: "9" > "10"）のを避けるためNumber()で数値に正規化する。
-      const latitude = data.y.value();
-      latitudeArr.push(latitude !== "" ? Number(latitude) : 0);
-      const longitude = data.x.value();
-      longitudeArr.push(longitude !== "" ? Number(longitude) : 0);
-      const layer = value.layer;
-      for (let i = 0; i < layer.length; i++) {
-        depthArr.push(layer[i][0], layer[i][1]);
+      if (Object.hasOwn(state.dataInputArr, key)) {
+        const value = state.dataInputArr[key];
+        const data = value.data;
+        // input要素のvalue()は文字列を返すため、min/max比較が文字列比較になる
+        // （例: "9" > "10"）のを避けるためNumber()で数値に正規化する。
+        const latitude = data.y.value();
+        latitudeArr.push(latitude !== "" ? Number(latitude) : 0);
+        const longitude = data.x.value();
+        longitudeArr.push(longitude !== "" ? Number(longitude) : 0);
+        const layer = value.layer;
+        for (let i = 0; i < layer.length; i++) {
+          depthArr.push(layer[i][0], layer[i][1]);
+        }
       }
     }
     ({ min: state.xMin, max: state.xMax } =
@@ -171,7 +173,8 @@ function backgroundSetting(p, xMin, xMax, yMin, yMax, zMin, zMax) {
     }
   }
 
-  let xLabel, yLabel;
+  let xLabel;
+  let yLabel;
   if (state.unitSelect.value() === "latlng") {
     xLabel = "経度";
     yLabel = "緯度";
@@ -316,7 +319,7 @@ function connectStrata(p, xMin, xMax, yMin, yMax, zMin, zMax) {
   const p1Name = p.select("#firstPlaceSelect").value();
   const p2Name = p.select("#secondPlaceSelect").value();
   const p3Name = p.select("#thirdPlaceSelect").value();
-  if (p1Name == "-" || p2Name == "-" || p3Name == "-") return;
+  if (p1Name === "-" || p2Name === "-" || p3Name === "-") return;
 
   const p1 = [0, 0];
   const p2 = [0, 0];
@@ -345,6 +348,7 @@ function connectStrata(p, xMin, xMax, yMin, yMax, zMin, zMax) {
     const select3 = p.select("#select3-" + (i + 1)).value();
     const select4 = p.select("#select4-" + (i + 1)).value();
     if (select2 === "" || select3 === "" || select4 === "") {
+      // oxlint-disable-next-line no-continue -- 未選択の組をスキップする早期continueで、if化するとこの後の描画ロジック全体が深くネストしてしまうため維持する
       continue;
     }
     let p1Min = select2.substr(0, select2.indexOf("m-"));
@@ -471,7 +475,9 @@ export function drawSimulation(p) {
 
   // それぞれの地点のボーリングデータの描画
   for (const key in state.dataInputArr) {
-    drawStrata(p, key, state.rotateTime, xMin, xMax, yMin, yMax, zMin, zMax);
+    if (Object.hasOwn(state.dataInputArr, key)) {
+      drawStrata(p, key, state.rotateTime, xMin, xMax, yMin, yMax, zMin, zMax);
+    }
   }
 
   // それぞれの地層をつなぐ

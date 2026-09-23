@@ -3,7 +3,7 @@
     "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "lib": ["ES2022", "DOM"],
+    "lib": ["ES2025", "DOM"],
     "types": ["node", "p5"],
     "allowJs": true,
     "checkJs": true,
@@ -30,8 +30,13 @@
     "vite/simulations/specific-heat-and-heat-capacity/**/*.js",
     "vite/simulations/visualization-of-heat-transfer/**/*.js",
     "vite/simulations/*/js/**/*.ts",
-    "templates/**/*.ts",
     "test/**/*.js"
   ],
-  "exclude": ["node_modules", "static", "public"]
+  "exclude": [
+    "node_modules",
+    "static",
+    "public",
+    "templates",
+    "test/**/fixtures"
+  ]
 }

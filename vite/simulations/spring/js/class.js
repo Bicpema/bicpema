@@ -56,12 +56,12 @@ export class Spring {
     this.posx = x;
     this.posy = y + p.height / 4;
     let d;
-    if (this.number == 1) {
+    if (this.number === 1) {
       d = 0;
     } else {
       d = p.height / 2;
     }
-    if (this.combination == 1) {
+    if (this.combination === 1) {
       p.line(p.width / 4 / 2, d, p.width / 4 / 2, MOUNT_LINE_LENGTH + d);
       p.image(
         state.springImage,
@@ -77,7 +77,7 @@ export class Spring {
         this.posy - state.ballImage.height / 2 + d
       );
     }
-    if (this.combination == 2) {
+    if (this.combination === 2) {
       p.line(p.width / 4 / 2, d, p.width / 4 / 2, MOUNT_LINE_LENGTH + d);
       p.line(
         p.width / 4 / 4,
@@ -136,7 +136,7 @@ export class Spring {
         this.posy - state.ballImage.height / 2 + d
       );
     }
-    if (this.combination == 3) {
+    if (this.combination === 3) {
       p.line(p.width / 4 / 2, d, p.width / 4 / 2, MOUNT_LINE_LENGTH + d);
       p.image(
         state.springImage,

@@ -11,7 +11,7 @@ import { computeSlideDisplacement } from "./physics.js";
  * @param {string} n 矢印の向き（"gravity" | "vertical" | "horizontal" | "normal"）
  */
 function arrow(p, a, b, n) {
-  if (n == "gravity") {
+  if (n === "gravity") {
     p.triangle(
       a,
       b,
@@ -20,7 +20,7 @@ function arrow(p, a, b, n) {
       a + state.minimumUnit / 2,
       b - state.minimumUnit / 2
     );
-  } else if (n == "vertical") {
+  } else if (n === "vertical") {
     p.triangle(
       a,
       b,
@@ -41,7 +41,7 @@ function arrow(p, a, b, n) {
           (-p.cos(p.radians(state.slopeAngleButton.value())) +
             p.sin(p.radians(state.slopeAngleButton.value())))
     );
-  } else if (n == "horizontal") {
+  } else if (n === "horizontal") {
     p.triangle(
       a,
       b,
@@ -62,7 +62,7 @@ function arrow(p, a, b, n) {
           (p.cos(p.radians(state.slopeAngleButton.value())) +
             p.sin(p.radians(state.slopeAngleButton.value())))
     );
-  } else if (n == "normal") {
+  } else if (n === "normal") {
     p.triangle(
       a,
       b,
@@ -131,7 +131,7 @@ function rectMaterial(p, a, b, sort, w) {
   );
   p.fill(0);
   const ARROW_LENGTH = w * state.gravityButton.value();
-  if (sort == 1) {
+  if (sort === 1) {
     dashedLine(
       p,
       a +
@@ -345,7 +345,7 @@ function rectMaterial(p, a, b, sort, w) {
       "horizontal"
     );
   }
-  if (sort == 2) {
+  if (sort === 2) {
     dashedLine(
       p,
       a +
@@ -561,7 +561,7 @@ function rectMaterial(p, a, b, sort, w) {
       1
     );
   }
-  if (sort == 3) {
+  if (sort === 3) {
     p.line(
       a +
         (state.materialWidth *
@@ -702,7 +702,7 @@ export class Material {
    * @param {*} p p5インスタンス
    */
   _draw(p) {
-    if (state.clickedCount == true) {
+    if (state.clickedCount === true) {
       const { dx, dy } = computeSlideDisplacement(
         state.gravityButton.value(),
         state.slopeAngleButton.value(),

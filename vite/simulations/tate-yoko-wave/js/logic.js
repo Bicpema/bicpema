@@ -27,8 +27,8 @@ function drawArrow(p, x1, y1, x2, y2) {
   p.stroke(...ARROW_COLOR);
   p.strokeWeight(2);
   p.line(x1, y1, x2, y2);
-  let angle = p.atan2(y2 - y1, x2 - x1);
-  let s = 8;
+  const angle = p.atan2(y2 - y1, x2 - x1);
+  const s = 8;
   p.push();
   p.translate(x2, y2);
   p.rotate(angle);
@@ -61,23 +61,23 @@ function drawLongitudinal(p) {
   p.push();
   p.translate(0, p.height / 3);
   drawAxis(p, "縦波");
-  for (let pt of state.particles) {
-    let dx = displacement(p, pt.x0);
-    let x = pt.x0 + dx;
+  for (const pt of state.particles) {
+    const dx = displacement(p, pt.x0);
+    const x = pt.x0 + dx;
     p.stroke(180);
     p.line(x, -50, x, 50);
     p.fill(...WAVE_COLOR);
     p.noStroke();
     p.circle(x, 0, PARTICLE_SIZE);
   }
-  let fp = state.particles[state.focusIndex];
-  let fdx = displacement(p, fp.x0);
-  let xNow = fp.x0 + fdx;
+  const fp = state.particles[state.focusIndex];
+  const fdx = displacement(p, fp.x0);
+  const xNow = fp.x0 + fdx;
   p.fill(...FOCUS_ORIGIN_COLOR);
   p.circle(fp.x0, 0, FOCUS_PARTICLE_SIZE);
   p.fill(...WAVE_COLOR);
   p.circle(xNow, 0, FOCUS_PARTICLE_SIZE);
-  let arrivalTime = computeArrivalTime(
+  const arrivalTime = computeArrivalTime(
     state.k,
     state.omega,
     fp.x0,
@@ -96,26 +96,26 @@ function drawConvertedTransverse(p) {
   p.strokeWeight(1);
   p.beginShape();
   for (let x = state.xStart; x < p.width - WAVE_ORIGIN_X; x++) {
-    let dy = displacement(p, x);
+    const dy = displacement(p, x);
     p.vertex(x, -dy);
   }
   p.endShape();
-  for (let pt of state.particles) {
-    let dy = displacement(p, pt.x0);
+  for (const pt of state.particles) {
+    const dy = displacement(p, pt.x0);
     p.fill(...WAVE_COLOR);
     p.noStroke();
     p.circle(pt.x0, -dy, PARTICLE_SIZE);
     p.stroke(...WAVE_COLOR, 100);
     p.line(pt.x0, 0, pt.x0, -dy);
   }
-  let fp = state.particles[state.focusIndex];
-  let fdy = displacement(p, fp.x0);
+  const fp = state.particles[state.focusIndex];
+  const fdy = displacement(p, fp.x0);
   p.noStroke();
   p.fill(...FOCUS_ORIGIN_COLOR);
   p.circle(fp.x0, 0, FOCUS_PARTICLE_SIZE);
   p.fill(...WAVE_COLOR);
   p.circle(fp.x0, -fdy, FOCUS_PARTICLE_SIZE);
-  let arrivalTime = computeArrivalTime(
+  const arrivalTime = computeArrivalTime(
     state.k,
     state.omega,
     fp.x0,
@@ -127,7 +127,7 @@ function drawConvertedTransverse(p) {
 
 export function drawSimulation(p) {
   const speedSlider = document.getElementById("speedSlider");
-  if (speedSlider) p.frameRate(parseInt(speedSlider.value));
+  if (speedSlider) p.frameRate(parseInt(speedSlider.value, 10));
   p.background(255);
   if (state.running) state.t += 1;
   drawLongitudinal(p);

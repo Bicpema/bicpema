@@ -147,11 +147,11 @@ function placeLabelsAlongNormals(labels, minDistance, bounds) {
         const dx = points[b].x - points[a].x;
         const dy = points[b].y - points[a].y;
         const dist = Math.hypot(dx, dy) || 0.001;
-        if (dist >= minDistance) continue;
-
-        const push = (minDistance - dist) * 0.55;
-        offsets[a] = Math.min(normalized[a].maxOffset, offsets[a] + push);
-        offsets[b] = Math.min(normalized[b].maxOffset, offsets[b] + push);
+        if (dist < minDistance) {
+          const push = (minDistance - dist) * 0.55;
+          offsets[a] = Math.min(normalized[a].maxOffset, offsets[a] + push);
+          offsets[b] = Math.min(normalized[b].maxOffset, offsets[b] + push);
+        }
       }
     }
   }
@@ -500,7 +500,7 @@ function drawPhysicsPanel(p) {
  * 右パネルに力のベクトル図（閉じた三角形）を描画する。
  */
 function drawForceTrianglePanel(p) {
-  const { ring, anchorA, anchorB, T1, T2, weight: W, isEquilibrium } = state;
+  const { ring, anchorA, T1, T2, weight: W, isEquilibrium } = state;
 
   // 背景
   p.fill(255, 253, 242);
@@ -556,7 +556,6 @@ function drawForceTrianglePanel(p) {
   // ────────────────────────────────────────
 
   const d1 = Math.hypot(anchorA.x - ring.x, anchorA.y - ring.y);
-  const d2 = Math.hypot(anchorB.x - ring.x, anchorB.y - ring.y);
   const u1x = (anchorA.x - ring.x) / d1;
   const u1y = (anchorA.y - ring.y) / d1;
 
