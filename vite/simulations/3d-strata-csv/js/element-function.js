@@ -25,6 +25,8 @@ export function onScreenshotClick() {
       a.click();
     })
     .catch((error) => {
+      // 失敗をユーザーへ通知するUIがないため、原因調査用にログのみ出力する。
+      // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
       console.error("スクリーンショットの取得に失敗しました。", error);
     })
     .finally(() => {
@@ -424,6 +426,9 @@ export function strataFileInputFunction(file, p) {
       processCSV(csvText, p);
     });
   } else {
+    // ファイル形式が不正な場合にユーザーへ通知するUIがないため、原因調査用に
+    // ログのみ出力する。
+    // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
     console.log("テキストファイルではありません");
   }
 }

@@ -73,6 +73,8 @@ const sketch = (p) => {
     createSliderandRadio(p);
     uiInit();
     beforeColorCalculate(p).catch((error) => {
+      // 失敗をユーザーへ通知するUIがないため、原因調査用にログのみ出力する。
+      // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
       console.error("色計算の初期化に失敗しました。", error);
     });
   };
@@ -99,6 +101,8 @@ const sketch = (p) => {
     initValue(p);
     p.camera(0, 0, CAMERA_DISTANCE, 0, 0, 0, 0, 1, 0);
     beforeColorCalculate(p).catch((error) => {
+      // 失敗をユーザーへ通知するUIがないため、原因調査用にログのみ出力する。
+      // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
       console.error("色計算の再初期化に失敗しました。", error);
     });
   };

@@ -26,6 +26,9 @@ export function loadOpenerLayers(p) {
 
   // 親ウィンドウがない場合の処理
   if (!window.opener || window.opener.closed) {
+    // 子ウィンドウを単独で開いた場合のエラー表示のため、専用UIを持たないこの
+    // 簡易通知にはalertを用いる。
+    // oxlint-disable-next-line no-alert -- 上記コメントの理由により意図的な使用
     window.alert("親ウィンドウがありません。");
     return;
   }

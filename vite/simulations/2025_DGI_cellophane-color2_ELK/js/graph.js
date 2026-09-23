@@ -2,6 +2,7 @@
 
 import { state } from "./state.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+import { getCanvasElement } from "../../../js/bicpema-dom.js";
 import {
   WAVELENGTH_MIN,
   WAVELENGTH_MAX,
@@ -31,6 +32,7 @@ loadChart()
   .catch((error) => {
     // 失敗時はdrawGraphの`if (!Chart) return;`ガードによりグラフ描画のみが
     // スキップされ続けるため、ここではログ出力のみ行いunhandled rejectionを防ぐ。
+    // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
     console.error("Chart.jsの読み込みに失敗しました。", error);
   });
 
@@ -98,6 +100,7 @@ export function drawGraph() {
   };
 
   // グラフの表示設定
+  /** @type {import("chart.js").ChartOptions<"scatter">} */
   const mainOptions = {
     plugins: {
       legend: {
@@ -156,6 +159,7 @@ export function drawGraph() {
     }
   };
 
+  /** @type {import("chart.js").ChartConfiguration<"scatter">} */
   const mainChartsetup = {
     type: "scatter",
     data: mainData,
@@ -164,6 +168,6 @@ export function drawGraph() {
 
   // canvasにグラフを描画
   // Chart.Scatter() で散布図になる
-  const mainCtx = document.getElementById("mainSpectrumGraph");
+  const mainCtx = getCanvasElement("mainSpectrumGraph");
   state.mainChartObj = new Chart(mainCtx, mainChartsetup);
 }

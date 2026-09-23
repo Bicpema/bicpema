@@ -25,6 +25,8 @@ export function onScreenshotClick() {
       a.click();
     })
     .catch((error) => {
+      // 失敗をユーザーへ通知するUIがないため、原因調査用にログのみ出力する。
+      // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
       console.error("スクリーンショットの取得に失敗しました。", error);
     })
     .finally(() => {
@@ -49,7 +51,7 @@ export function placeNameInputFunction(p) {
       state.dataInputArr[place].edit.html(placeName + "のデータを編集");
     }
     // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
-    document.getElementById("placeDataInput" + (i + 1)).onclick = function () {
+    document.getElementById("placeDataInput" + (i + 1)).onclick = () => {
       window.open(
         "/vite/simulations/3d-strata/childWindow.html?" +
           encodeURIComponent(placeName),
@@ -86,15 +88,14 @@ export function placeAddButtonFunction(p) {
   state.dataInputArr[placeName].edit = newDom.placeDataInput;
 
   // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
-  document.getElementById("placeDataInput" + newPlaceNum).onclick =
-    function () {
-      window.open(
-        "/vite/simulations/3d-strata/childWindow.html?" +
-          encodeURIComponent(placeName),
-        "window_name",
-        "width=1000,height=500"
-      );
-    };
+  document.getElementById("placeDataInput" + newPlaceNum).onclick = () => {
+    window.open(
+      "/vite/simulations/3d-strata/childWindow.html?" +
+        encodeURIComponent(placeName),
+      "window_name",
+      "width=1000,height=500"
+    );
+  };
 
   placeRefreshFunction(p);
 }

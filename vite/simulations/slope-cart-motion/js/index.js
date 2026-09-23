@@ -31,6 +31,8 @@ const sketch = (p) => {
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/simpleTrolley.png?alt=media&token=f614f2c8-188e-4d34-807c-d48ffd21d95c",
       () => {},
       (err) => {
+        // 失敗をユーザーへ通知するUIがないため、原因調査用にログのみ出力する。
+        // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
         console.warn("cart image load failed", err);
       }
     );
@@ -38,6 +40,8 @@ const sketch = (p) => {
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810",
       () => {},
       (err) => {
+        // 失敗をユーザーへ通知するUIがないため、原因調査用にログのみ出力する。
+        // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
         console.warn("ground image load failed", err);
       }
     );

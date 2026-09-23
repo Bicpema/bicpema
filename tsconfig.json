@@ -24,14 +24,6 @@
     "static",
     "public",
     "templates",
-    "test/**/fixtures",
-    "vite/simulations/2025_DGI_cellophane-color2_ELK",
-    "vite/simulations/cellophane",
-    "vite/simulations/cellophane-color-2D_animation",
-    "vite/simulations/cellophane_display",
-    "vite/simulations/lens",
-    "vite/simulations/magnetic-field-straight",
-    "vite/simulations/refraction",
-    "vite/simulations/transformer"
+    "test/**/fixtures"
   ]
 }

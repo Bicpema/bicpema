@@ -33,6 +33,8 @@ export function updateGraph() {
       })
       .catch((error) => {
         chartLoadFailed = true;
+        // 失敗をユーザーへ通知するUIがないため、原因調査用にログのみ出力する。
+        // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
         console.error("Chart.jsの読み込みに失敗しました。", error);
       });
     return;
