@@ -26,8 +26,8 @@ export async function initGraph() {
     );
     return;
   }
-  const ctx = /** @type {HTMLCanvasElement} */ (
-    document.getElementById("graphChart")
+  const ctx = (
+    document.getElementById("graphChart") as HTMLCanvasElement
   ).getContext("2d");
 
   state.graphChart = new Chart(ctx, {
@@ -112,8 +112,8 @@ export async function initCmfGraph() {
     );
     return;
   }
-  const ctx = /** @type {HTMLCanvasElement} */ (
-    document.getElementById("cmfGraphChart")
+  const ctx = (
+    document.getElementById("cmfGraphChart") as HTMLCanvasElement
   ).getContext("2d");
 
   state.cmfGraphChart = new Chart(ctx, {

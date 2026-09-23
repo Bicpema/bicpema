@@ -46,7 +46,20 @@ export function createRays() {
 
 /** 光線のクラス */
 export class Ray {
-  constructor(z, color) {
+  posx: number;
+  posy: number;
+  posz: number;
+  t: number;
+  x: boolean;
+  y: boolean;
+  z: boolean;
+  clr: string;
+  w: number;
+  opd: number;
+  wl: number;
+  magnification: number;
+
+  constructor(z: number, color: string) {
     this.posx = 0;
     this.posy = 0;
     this.posz = z;
