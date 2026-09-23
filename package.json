@@ -15,6 +15,7 @@
     "benchmark:performance": "node scripts/benchmark-simulation-performance.js",
     "check:article-links": "node scripts/check-article-simulation-links.js",
     "check:template-compliance": "node scripts/check-simulation-template-compliance.js",
+    "lint": "oxlint",
     "lint:md": "markdownlint-cli2 \"**/*.md\""
   },
   "devDependencies": {
@@ -22,6 +23,7 @@
     "@types/node": "^26.4.1",
     "@types/p5": "^1.7.7",
     "markdownlint-cli2": "^0.23.2",
+    "oxlint": "^1.85.0",
     "playwright": "^1.62.1",
     "prettier": "3.8.1",
     "sass": "^1.92.1",

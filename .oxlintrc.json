@@ -1,0 +1,25 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "rules": {
+    "no-unused-vars": [
+      "error",
+      {
+        "args": "none"
+      }
+    ],
+    "no-undef": "error",
+    "unicorn/no-new-array": "off",
+    "unicorn/no-empty-file": "off"
+  },
+  "ignorePatterns": [
+    "static/**",
+    "public/**",
+    "themes/**",
+    "test/**/fixtures/**"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2024": true
+  }
+}
