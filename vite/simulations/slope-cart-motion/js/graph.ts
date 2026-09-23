@@ -12,8 +12,7 @@ import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
 const loadChart = createLazyImporter(() =>
   import("chart.js/auto").then((module) => module.default)
 );
-/** @type {typeof import("chart.js").Chart | null} */
-let Chart = null;
+let Chart: typeof import("chart.js").Chart | null = null;
 // 読み込み失敗後に毎フレーム再試行しないためのフラグ。
 let chartLoadFailed = false;
 
@@ -40,9 +39,9 @@ export function updateGraph() {
     return;
   }
 
-  const ctx = /** @type {HTMLCanvasElement | null} */ (
-    document.getElementById("graphCanvas")
-  );
+  const ctx = document.getElementById(
+    "graphCanvas"
+  ) as HTMLCanvasElement | null;
   if (!ctx) return;
 
   // 既存グラフを破棄
@@ -88,8 +87,7 @@ export function updateGraph() {
 
   const vMax = state.cart.accel * maxT * 1.1;
 
-  /** @type {import("chart.js").ChartOptions<"scatter">} */
-  const options = {
+  const options: import("chart.js").ChartOptions<"scatter"> = {
     plugins: {
       title: {
         display: true,

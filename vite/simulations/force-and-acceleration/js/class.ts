@@ -11,12 +11,30 @@ import {
  * 力と加速度の関係を示す台車
  */
 export class Cart {
+  initialX: number;
+  x: number;
+  mass: number;
+  velocity: number;
+  force: number;
+  acceleration: number;
+  maxForce: number;
+  maxAcceleration: number;
+  massAtMaxForce: number;
+  massAtMaxAcceleration: number;
+  WHEEL_R: number;
+  BODY_W: number;
+  BODY_H: number;
+  BOX_W: number;
+  BOX_H: number;
+  groundOffset: number;
+  _displayW?: number;
+
   /**
    * @constructor
    * @param {number} x 台車の中心x座標（論理ピクセル）
    * @param {number} mass 質量 (kg)
    */
-  constructor(x, mass) {
+  constructor(x: number, mass: number) {
     this.initialX = x;
     this.x = x;
     this.mass = mass;
