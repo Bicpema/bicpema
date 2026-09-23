@@ -4,5 +4,19 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true
   },
-  "include": ["vite/types/**/*.ts", "vite/_build/**/*.js", "vite/js/**/*.ts"]
+  "include": [
+    "vite/types/**/*.ts",
+    "vite/_build/**/*.js",
+    "vite/js/**/*.ts",
+    "vite/simulations/conservation-of-heat-and-specific-heat/**/*.ts",
+    "vite/simulations/first-law-of-thermodynamics/**/*.ts",
+    "vite/simulations/heat-engine/**/*.ts",
+    "vite/simulations/specific-heat-and-heat-capacity/**/*.ts",
+    "vite/simulations/visualization-of-heat-transfer/**/*.ts",
+    "test/simulations/conservation-of-heat-and-specific-heat/**/*.js",
+    "test/simulations/first-law-of-thermodynamics/**/*.js",
+    "test/simulations/heat-engine/**/*.js",
+    "test/simulations/specific-heat-and-heat-capacity/**/*.js",
+    "test/simulations/visualization-of-heat-transfer/**/*.js"
+  ]
 }
