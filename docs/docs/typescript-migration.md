@@ -2,6 +2,17 @@
 
 [Issue #424](https://github.com/Bicpema/bicpema/issues/424) で提起された、`vite/simulations/` 配下のシミュレーション実装および `templates/js/` のTypeScript化について、方式（`.ts`化 or JSDoc + `checkJs`）と、関連Issue（#409 / #425 / #304）との役割分担を決定する。
 
+## 完了状況（2026-09-24時点）
+
+[#652](https://github.com/Bicpema/bicpema/issues/652)（および子Issue #653〜#660）により、`vite/simulations/` 配下の全シミュレーション実装ファイルの`.ts`リネームが完了した。
+
+- `vite/simulations/` 配下に`*.js`ファイルは0件、`*.ts`ファイルのみとなっている。
+- `tsconfig.json` の `include` は `vite/simulations/**/*.ts` を対象とし、`npm run typecheck` / `npm run build` / `npm test` / `npm run check:template-compliance` がすべて成功する。
+- `templates/js/` も [#510](https://github.com/Bicpema/bicpema/issues/510) で`.ts`化済みで、`new_simulation.py`が生成するひな形は`.ts`ベースになっている。
+- これにより[#424](https://github.com/Bicpema/bicpema/issues/424)の完了条件を満たしたため、本Issueをクローズする。
+
+以下は方式決定当時（#509）の記録として残す。
+
 ## 現状（[PR #425](https://github.com/Bicpema/bicpema/pull/425) で導入済み）
 
 Issue #424 作成時点では `tsconfig.json` が未導入という前提だったが、その後 #409（シミュレーションの型チェックとロジックテストを導入する）に対応した #425 で、以下がすでに導入されている。
@@ -31,23 +42,24 @@ p5.jsのグローバルモード記法（`function setup()` を直接定義し `
 
 ### 2. 関連Issueとの役割分担
 
-| Issue / PR                                                                                                   | 状態            | 役割                                                                                                                                                                                                                       |
-| ------------------------------------------------------------------------------------------------------------ | --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [#409](https://github.com/Bicpema/bicpema/issues/409) シミュレーションの型チェックとロジックテストを導入する | Closed          | 型チェック・単体テスト導入の要件定義                                                                                                                                                                                       |
-| [#425](https://github.com/Bicpema/bicpema/pull/425)（#409をClose）                                           | Merged          | 実装。`tsconfig.json`・`@types/p5`・Vitest・CI（`.github/workflows/test.yml`）を導入し、`free-fall` を型チェック対象の最初の実例として追加（暫定的にJSDoc + `checkJs`で導入したが、基盤自体は`.ts`化後もそのまま利用する） |
-| [#304](https://github.com/Bicpema/bicpema/issues/304) 単体テストを追加する                                   | Closed          | 各シミュレーションへの**単体テスト**（Vitest）の展開。`.ts`化（`tsconfig.json`の`include`拡張）とは別軸で、[サブIssue](https://github.com/Bicpema/bicpema/issues/427)群として実施済み                                      |
-| [#424](https://github.com/Bicpema/bicpema/issues/424) p5.jsシミュレーションをTypeScript化する                | Open（親Issue） | TypeScript化の方針決定・展開全体を追跡する親Issue                                                                                                                                                                          |
-| **#509（本Issue）**                                                                                          | -               | TypeScript化の方式（`.ts`化）と、関連Issueとの役割分担の決定                                                                                                                                                               |
-| [#510](https://github.com/Bicpema/bicpema/issues/510)                                                        | Open            | `templates/js/` の`.ts`化、`tsconfig.json`の`include`への追加                                                                                                                                                              |
-| [#511](https://github.com/Bicpema/bicpema/issues/511)                                                        | Open            | 既存シミュレーションを`.ts`へ段階的にリネームし、`tsconfig.json`の`include`に追加                                                                                                                                          |
-| [#512](https://github.com/Bicpema/bicpema/issues/512)                                                        | Open            | p5.jsの記述スタイル（インスタンスモード/グローバルモード）統一。`.ts`化の前提条件                                                                                                                                          |
+| Issue / PR                                                                                                   | 状態   | 役割                                                                                                                                                                                                                       |
+| ------------------------------------------------------------------------------------------------------------ | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [#409](https://github.com/Bicpema/bicpema/issues/409) シミュレーションの型チェックとロジックテストを導入する | Closed | 型チェック・単体テスト導入の要件定義                                                                                                                                                                                       |
+| [#425](https://github.com/Bicpema/bicpema/pull/425)（#409をClose）                                           | Merged | 実装。`tsconfig.json`・`@types/p5`・Vitest・CI（`.github/workflows/test.yml`）を導入し、`free-fall` を型チェック対象の最初の実例として追加（暫定的にJSDoc + `checkJs`で導入したが、基盤自体は`.ts`化後もそのまま利用する） |
+| [#304](https://github.com/Bicpema/bicpema/issues/304) 単体テストを追加する                                   | Closed | 各シミュレーションへの**単体テスト**（Vitest）の展開。`.ts`化（`tsconfig.json`の`include`拡張）とは別軸で、[サブIssue](https://github.com/Bicpema/bicpema/issues/427)群として実施済み                                      |
+| [#424](https://github.com/Bicpema/bicpema/issues/424) p5.jsシミュレーションをTypeScript化する                | Closed | TypeScript化の方針決定・展開全体を追跡する親Issue                                                                                                                                                                          |
+| **#509（本Issue）**                                                                                          | Closed | TypeScript化の方式（`.ts`化）と、関連Issueとの役割分担の決定                                                                                                                                                               |
+| [#510](https://github.com/Bicpema/bicpema/issues/510)                                                        | Closed | `templates/js/` の`.ts`化、`tsconfig.json`の`include`への追加                                                                                                                                                              |
+| [#511](https://github.com/Bicpema/bicpema/issues/511)                                                        | Closed | 既存シミュレーションを`.ts`へ段階的にリネームし、`tsconfig.json`の`include`に追加                                                                                                                                          |
+| [#512](https://github.com/Bicpema/bicpema/issues/512)                                                        | Closed | p5.jsの記述スタイル（インスタンスモード/グローバルモード）統一。`.ts`化の前提条件                                                                                                                                          |
+| [#652](https://github.com/Bicpema/bicpema/issues/652)（#511の残スコープを引き継ぐ）                          | Closed | `vite/simulations/`配下の未リネームファイルの`.ts`化を完了し、`tsconfig.json`の`include`を`.ts`拡張子ベースに更新                                                                                                          |
 
 - **型チェック/`.ts`化**（`tsconfig.json`の`include`拡張）と、**単体テスト**（Vitestによるロジックのテストコード追加）は独立した軸であり、同じシミュレーションに対して両方を段階的に進めてよい。片方が完了していないともう片方に着手できない、という依存関係はない。
 - 単体テストの書き方・対象範囲は [テスト方針](./testing/index.md) を参照。
 
-## 今後の進め方
+## 今後の進め方（完了済み）
 
 1. `templates/js/` を`.ts`化し、`tsconfig.json`の`include`に加える（#510）。以降 `new_simulation.py` が生成するひな形は`.ts`ベースになる。
 2. p5.jsの記述スタイルをインスタンスモードに統一する（#512）。グローバルモードのまま`.ts`化すると型チェックとの相性問題が出やすいため、対象シミュレーションは統一後にリネームする。
-3. 既存シミュレーションをテーマ・ディレクトリ単位などで分類し、`.ts`へリネームして`tsconfig.json`の`include`に段階的に追加する（#511、`free-fall`を含む）。
-4. 全シミュレーションが`.ts`化され`tsconfig.json`の`include`対象になり `npm run typecheck` を通過した時点で、#424をクローズする。
+3. 既存シミュレーションをテーマ・ディレクトリ単位などで分類し、`.ts`へリネームして`tsconfig.json`の`include`に段階的に追加する（#511、#652、`free-fall`を含む）。
+4. 全シミュレーションが`.ts`化され`tsconfig.json`の`include`対象になり `npm run typecheck` を通過した時点で、#424をクローズする。→ 完了（[完了状況](#完了状況2026-09-24時点)を参照）。

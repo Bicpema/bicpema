@@ -15,8 +15,7 @@
   "include": [
     "vite/types/**/*.ts",
     "vite/_build/**/*.js",
-    "vite/simulations/**/*.js",
-    "vite/simulations/*/js/**/*.ts",
+    "vite/simulations/**/*.ts",
     "test/**/*.js"
   ],
   "exclude": [
