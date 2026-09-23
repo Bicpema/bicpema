@@ -14,6 +14,13 @@ import { state } from "./state.js";
  * 川は左向きに流れる（イメージの矢印 ← に対応）。
  */
 export class WaterParticle {
+  p: p5;
+  x: number;
+  y: number;
+  waveWidth: number;
+  alpha: number;
+  speedFactor: number;
+
   /**
    * @param {p5} p p5インスタンス
    * @param {number} x 初期X座標
@@ -93,6 +100,11 @@ function drawBoatBody(p) {
  *   v_合: 岸から見た合成速度 ＝ v_川 ＋ v_船
  */
 export class Boat {
+  boatSpeed: number;
+  riverSpeed: number;
+  x: number;
+  isMoving: boolean;
+
   /**
    * @param {number} boatSpeed 船の速度（水に対して、左向き正）
    * @param {number} riverSpeed 川の速度（左向き、≥0）
@@ -187,6 +199,9 @@ export class Boat {
  * 河岸に立って船を観察する人を表現する。
  */
 export class Person {
+  x: number;
+  y: number;
+
   /**
    * @param {number} x X座標
    * @param {number} y Y座標（足元）

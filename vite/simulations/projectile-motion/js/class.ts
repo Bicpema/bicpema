@@ -8,6 +8,18 @@ import { computeDragProjectilePosition } from "./physics.js";
  * 斜方投射されるボールを表すクラス。
  */
 export class Ball {
+  posx: number;
+  posy: number;
+  speed: number;
+  theta: number;
+  weight: number;
+  konstant: number;
+  number: 1 | 2;
+  posx0: number;
+  posy0: number;
+  gravity: number;
+  fps: number;
+
   constructor(x, y, s, t, w, y0, k, n) {
     this.posx = x;
     this.posy = y;

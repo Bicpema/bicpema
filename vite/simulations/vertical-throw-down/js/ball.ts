@@ -23,6 +23,17 @@ import {
  * 鉛直投げ下ろし運動をする物体を表現
  */
 export class Ball {
+  initialHeight: number;
+  initialVelocity: number;
+  height: number;
+  velocity: number;
+  time: number;
+  g: number;
+  radius: number;
+  isMoving: boolean;
+  graphDataInterval: number;
+  lastGraphUpdate: number;
+
   /**
    * @constructor
    * @param {number} initialHeight 初期高さ (m)

@@ -7,6 +7,11 @@ import { TRAIN_HALF_W } from "./constants.js";
  * 電車の物理状態（速度・位置）を管理する。
  */
 export class Train {
+  startX: number;
+  x: number;
+  velocity: number;
+  trackOffset: number;
+
   /**
    * @constructor
    * @param {number} startX 初期表示x座標（仮想ピクセル）

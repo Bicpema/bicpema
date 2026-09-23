@@ -30,6 +30,9 @@ const Y_AXIS_MAX_MARGIN_RATIO = 1.2;
  * チャートインスタンスを使い回してデータのみ更新する
  */
 export class BallGraph {
+  vtChart: InstanceType<typeof import("chart.js").Chart> | null;
+  ytChart: InstanceType<typeof import("chart.js").Chart> | null;
+
   constructor() {
     this.vtChart = null;
     this.ytChart = null;
