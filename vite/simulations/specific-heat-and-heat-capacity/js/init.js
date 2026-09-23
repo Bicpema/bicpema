@@ -64,8 +64,8 @@ export function elCreate(p) {
  * @param {*} p p5インスタンス
  */
 export function initValue(p) {
-  state.materialA = parseInt(state.materialSelectA.value());
-  state.materialB = parseInt(state.materialSelectB.value());
-  state.massA = parseInt(state.massSelectA.value());
-  state.massB = parseInt(state.massSelectB.value());
+  state.materialA = parseInt(state.materialSelectA.value(), 10);
+  state.materialB = parseInt(state.materialSelectB.value(), 10);
+  state.massA = parseInt(state.massSelectA.value(), 10);
+  state.massB = parseInt(state.massSelectB.value(), 10);
 }

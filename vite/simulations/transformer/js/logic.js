@@ -272,7 +272,7 @@ function oscillo1(p) {
   p.strokeWeight(WAVEFORM_STROKE_WEIGHT);
   p.beginShape();
   for (let x = 0; x <= w; x++) {
-    let y = h / 2 + V1 * p.sin(state.waveK * x - state.omega * state.t);
+    const y = h / 2 + V1 * p.sin(state.waveK * x - state.omega * state.t);
     p.vertex(x, y);
   }
   p.endShape();
@@ -288,7 +288,7 @@ function oscillo2(p) {
   const h = OSCILLO_HEIGHT; // 描画領域の高さ
   const V1 = h / 10; // グリッド幅 = 一次電圧の最大振幅
   // 変圧比による二次電圧の振幅 V2 = V1 × (N2 / N1)
-  let V2 = computeSecondaryVoltage(V1, state.count1 + 1, state.count2 + 1);
+  const V2 = computeSecondaryVoltage(V1, state.count1 + 1, state.count2 + 1);
   p.textSize(LABEL_FONT_SIZE);
   p.textAlign(p.CENTER, p.BOTTOM);
   p.text("二次電圧", 100, -10);

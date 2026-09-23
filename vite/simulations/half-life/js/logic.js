@@ -136,7 +136,7 @@ function drawHalfLifeGuides(p, pad, w, bY, tY) {
     if (i === 0) {
       p.text("1", pad - 5, y);
     } else {
-      p.text("1/" + Math.pow(2, i), pad - 5, y);
+      p.text("1/" + 2 ** i, pad - 5, y);
     }
   }
 }

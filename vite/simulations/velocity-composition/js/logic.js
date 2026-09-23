@@ -61,7 +61,9 @@ export function drawArrowWithLabel(p, fromX, fromY, toX, toY, col, label) {
   drawArrow(p, fromX, fromY, toX, toY, col);
   p.noStroke();
   p.textSize(15);
-  let tx, ty, hAlign;
+  let tx;
+  let ty;
+  let hAlign;
   if (Math.abs(toX - fromX) < 2) {
     hAlign = p.LEFT;
     tx = fromX + 5;
@@ -146,13 +148,23 @@ export function drawLegend(p) {
   p.textAlign(p.LEFT, p.CENTER);
 
   p.fill(...RIVER_COLOR);
-  p.text("━━ v川: 川の速度（常に左向き）", lx, ly + lineH * 0);
+  p.text("━━ v川: 川の速度（常に左向き）", lx, ly);
 
   p.fill(...BOAT_COLOR);
   p.text("━━ v船: 船の速度（水に対して）", lx, ly + lineH * 1);
 
   p.fill(...COMPOSITE_COLOR);
   p.text("━━ v合: 岸から観測した合成速度", lx, ly + lineH * 2);
+}
+
+/**
+ * 速度の値から、向きを表す矢印文字を返す。
+ * @param {number} v 速度
+ * @returns {string} 向きを表す文字列
+ */
+function dirChar(v) {
+  if (Math.abs(v) < 0.05) return "（静止）";
+  return v > 0 ? "←" : "→";
 }
 
 /**
@@ -175,11 +187,6 @@ export function drawInfoPanel(p) {
 
   p.textSize(14);
   p.textAlign(p.LEFT, p.CENTER);
-
-  const dirChar = (v) => {
-    if (Math.abs(v) < 0.05) return "（静止）";
-    return v > 0 ? "←" : "→";
-  };
 
   const cs = state.boat.compositeSpeed;
 

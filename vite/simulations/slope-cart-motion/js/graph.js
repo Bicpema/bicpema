@@ -127,7 +127,7 @@ export function updateGraph() {
 
   state.graphChart = new Chart(ctx, {
     type: "scatter",
-    data: data,
-    options: options
+    data,
+    options
   });
 }

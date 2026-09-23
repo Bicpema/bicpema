@@ -6,7 +6,7 @@ import { state } from "./state.js";
  * ばね定数スライダーの値が変更されたときの処理
  */
 export function onSpringConstantChange() {
-  const k = parseInt(state.springConstantInput.value());
+  const k = parseInt(state.springConstantInput.value(), 10);
   state.springConstantDisplay.html(`${k} N/m`);
   for (const spring of state.springs) {
     spring.updateK(k);

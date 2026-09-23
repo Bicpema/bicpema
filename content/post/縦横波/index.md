@@ -20,8 +20,17 @@ aliases: []
 
 ### 主要な物理法則・公式
 
-y(x,t)=A sin(kx-ωt) (横波)
-Δx(x,t)=A sin(kx-ωt) (縦波)
+横波:
+
+$$
+y(x,t) = A\sin(kx-\omega t)
+$$
+
+縦波:
+
+$$
+\Delta x(x,t) = A\sin(kx-\omega t)
+$$
 
 ## 対象
 

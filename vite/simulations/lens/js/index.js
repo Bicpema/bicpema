@@ -77,27 +77,21 @@ const sketch = (p) => {
     gridDraw(p);
     lensDraw(p);
     baseDraw(p);
-    if (objectSelect.value() == "F") {
+    if (objectSelect.value() === "F") {
       opticalPathDisplay(p, state.fImg);
       objectAndVirtualImageDisplay(p, state.fImg);
       screenDisplay(p, state.fImg);
       focusDraw(p, state.fImg);
-      imgWidth = state.fImg.width;
-      imgHeight = state.fImg.height;
-    } else if (objectSelect.value() == "LED") {
+    } else if (objectSelect.value() === "LED") {
       opticalPathDisplay(p, state.ledImg);
       objectAndVirtualImageDisplay(p, state.ledImg);
       screenDisplay(p, state.ledImg);
       focusDraw(p, state.ledImg);
-      imgWidth = state.ledImg.width;
-      imgHeight = state.ledImg.height;
-    } else if (objectSelect.value() == "ろうそく") {
+    } else if (objectSelect.value() === "ろうそく") {
       opticalPathDisplay(p, state.candleImg);
       objectAndVirtualImageDisplay(p, state.candleImg);
       screenDisplay(p, state.candleImg);
       focusDraw(p, state.candleImg);
-      imgWidth = state.candleImg.width;
-      imgHeight = state.candleImg.height;
     }
   };
 
@@ -111,7 +105,11 @@ const sketch = (p) => {
 new p5(sketch);
 
 //ボタン
-let objectXSlider, screenXSlider, focusLengthSlider, lensSelect, objectSelect;
+let objectXSlider;
+let screenXSlider;
+let focusLengthSlider;
+let lensSelect;
+let objectSelect;
 
 //ボタンの生成
 function buttonCreation(p) {
@@ -119,18 +117,20 @@ function buttonCreation(p) {
   screenXSlider = p.createSlider(0, (4 * p.width) / 10, (4 * p.width) / 10);
   focusLengthSlider = p.createSlider(0, (4 * p.width) / 10, (2 * p.width) / 10);
   lensSelect = p.createSelect();
-  let lensOptionArr = [
+  const lensOptionArr = [
     "凸レンズ",
     "凹レンズ",
     "半分の凸レンズ",
     "縞々のスリットの凸レンズ"
   ];
-  for (let i = 0; i < lensOptionArr.length; i++)
+  for (let i = 0; i < lensOptionArr.length; i++) {
     lensSelect.option(lensOptionArr[i]);
+  }
   objectSelect = p.createSelect();
-  let objectOptionArr = ["F", "LED", "ろうそく"];
-  for (let i = 0; i < objectOptionArr.length; i++)
+  const objectOptionArr = ["F", "LED", "ろうそく"];
+  for (let i = 0; i < objectOptionArr.length; i++) {
     objectSelect.option(objectOptionArr[i]);
+  }
 }
 //ボタンの初期設定
 function buttonSettings(p) {
@@ -155,15 +155,13 @@ function buttonSettings(p) {
 }
 
 //変数の設定
-let lensWidth,
-  lensHeight,
-  screenWidth,
-  screenHeight,
-  objectY,
-  blurValue,
-  imgWidth,
-  imgHeight,
-  pg;
+let lensWidth;
+let lensHeight;
+let screenWidth;
+let screenHeight;
+let objectY;
+let blurValue;
+let pg;
 
 //初期設定
 function initSettings(p) {
@@ -179,8 +177,6 @@ function initSettings(p) {
   state.ledImg.resize(0, p.height / 8);
   objectY = p.height / 2 - state.candleImg.height;
   blurValue = 0;
-  imgWidth = state.fImg.width;
-  imgHeight = state.fImg.height;
   if (pg) {
     // 作り直すとフィルター用に内部で保持されるWebGLレイヤーがDOMに残り続けるため、リサイズのみ行う
     pg.resizeCanvas(screenHeight, screenHeight / 2);
@@ -223,7 +219,7 @@ function gridDraw(p) {
 
   //水平方向の方眼
   for (let i = 0; i <= 75; i++) {
-    if (i % 5 == 0) {
+    if (i % 5 === 0) {
       p.noStroke();
       p.text(
         WORKBENCH_LENGTH_CM - i / 5,
@@ -256,7 +252,7 @@ function gridDraw(p) {
 
   //垂直方向の方眼
   for (let i = 0; i <= 20; i++) {
-    if (i % 5 == 0) {
+    if (i % 5 === 0) {
       p.noStroke();
       p.text(
         i / 5,
@@ -280,25 +276,25 @@ function gridDraw(p) {
 
 //レンズの描画
 function lensDraw(p) {
-  if (lensSelect.value() == "凸レンズ") {
+  if (lensSelect.value() === "凸レンズ") {
     p.image(
       state.convexLensImg,
       p.width / 2 - lensWidth / 2,
       p.height / 2 - lensHeight / 2
     );
-  } else if (lensSelect.value() == "凹レンズ") {
+  } else if (lensSelect.value() === "凹レンズ") {
     p.image(
       state.concaveLensImg,
       p.width / 2 - lensWidth / 2,
       p.height / 2 - lensHeight / 2
     );
-  } else if (lensSelect.value() == "半分の凸レンズ") {
+  } else if (lensSelect.value() === "半分の凸レンズ") {
     p.image(
       state.convexLensImg,
       p.width / 2 - lensWidth / 2,
       p.height / 2 - lensHeight / 2
     );
-  } else if (lensSelect.value() == "縞々のスリットの凸レンズ") {
+  } else if (lensSelect.value() === "縞々のスリットの凸レンズ") {
     p.image(
       state.convexLensImg,
       p.width / 2 - lensWidth / 2,
@@ -335,14 +331,14 @@ function dashedLine(p, aX, aY, bX, bY) {
 //光線の描画
 function opticalPathDisplay(p, img) {
   //変数の設定
-  let a = (4 * p.width) / 10 - objectXSlider.value(),
-    b,
-    m,
-    theta_1,
-    theta_2;
+  const a = (4 * p.width) / 10 - objectXSlider.value();
+  let b;
+  let m;
+  let theta_1;
+  let theta_2;
 
   //凸レンズの場合
-  if (lensSelect.value() == "凸レンズ") {
+  if (lensSelect.value() === "凸レンズ") {
     if (a > (4 * p.width) / 10 - focusLengthSlider.value()) {
       b =
         (a * ((4 * p.width) / 10 - focusLengthSlider.value())) /
@@ -362,7 +358,7 @@ function opticalPathDisplay(p, img) {
         p.width - state.headImg.width,
         objectY + (p.width / 2 - state.headImg.width) * p.tan(theta_1)
       );
-      let theta_3 = p.atan((img.height / 2 + img.height * m) / b);
+      const theta_3 = p.atan((img.height / 2 + img.height * m) / b);
       p.line(
         objectXSlider.value() + p.width / 10,
         objectY,
@@ -383,7 +379,7 @@ function opticalPathDisplay(p, img) {
         p.width - state.headImg.width,
         objectY + (a + p.width / 2 - state.headImg.width) * p.tan(theta_2)
       );
-      let theta_4 = p.atan((img.height * m - img.height / 2) / b);
+      const theta_4 = p.atan((img.height * m - img.height / 2) / b);
       p.line(
         objectXSlider.value() + p.width / 10,
         objectY,
@@ -460,7 +456,7 @@ function opticalPathDisplay(p, img) {
   }
 
   //凹レンズの場合
-  if (lensSelect.value() == "凹レンズ") {
+  if (lensSelect.value() === "凹レンズ") {
     b =
       (a * ((4 * p.width) / 10 - focusLengthSlider.value())) /
       (a + ((4 * p.width) / 10 - focusLengthSlider.value()));
@@ -516,7 +512,7 @@ function opticalPathDisplay(p, img) {
         (p.width / 2 - state.headImg.width) * p.tan(theta_2) -
         img.height * m
     );
-    let theta_3 = p.atan(img.height / a);
+    const theta_3 = p.atan(img.height / a);
     p.line(
       objectXSlider.value() + p.width / 10,
       objectY,
@@ -526,7 +522,7 @@ function opticalPathDisplay(p, img) {
   }
 
   //半分の凸レンズの場合
-  if (lensSelect.value() == "半分の凸レンズ") {
+  if (lensSelect.value() === "半分の凸レンズ") {
     if (a > focusLengthSlider.value()) {
       b =
         (a * ((4 * p.width) / 10 - focusLengthSlider.value())) /
@@ -546,7 +542,7 @@ function opticalPathDisplay(p, img) {
         p.width - state.headImg.width,
         objectY + (p.width / 2 - state.headImg.width) * p.tan(theta_1)
       );
-      let theta_3 = p.atan((img.height / 2 + img.height * m) / b);
+      const theta_3 = p.atan((img.height / 2 + img.height * m) / b);
       p.line(
         objectXSlider.value() + p.width / 10,
         objectY,
@@ -634,7 +630,7 @@ function opticalPathDisplay(p, img) {
   }
 
   //縞々のスリットを入れた凸レンズの場合
-  if (lensSelect.value() == "縞々のスリットの凸レンズ") {
+  if (lensSelect.value() === "縞々のスリットの凸レンズ") {
     if (a > (4 * p.width) / 10 - focusLengthSlider.value()) {
       b =
         (a * ((4 * p.width) / 10 - focusLengthSlider.value())) /
@@ -648,7 +644,7 @@ function opticalPathDisplay(p, img) {
         p.width / 2,
         objectY
       );
-      let theta_3 = p.atan((img.height / 2 + img.height * m) / b);
+      const theta_3 = p.atan((img.height / 2 + img.height * m) / b);
       p.line(
         objectXSlider.value() + p.width / 10,
         objectY,
@@ -669,7 +665,7 @@ function opticalPathDisplay(p, img) {
         p.width / 2,
         p.height / 2
       );
-      let theta_4 = p.atan((img.height * m - img.height / 2) / b);
+      const theta_4 = p.atan((img.height * m - img.height / 2) / b);
       p.line(
         objectXSlider.value() + p.width / 10,
         objectY,
@@ -777,7 +773,7 @@ function opticalPathDisplay(p, img) {
 //物体と虚像の描画
 function objectAndVirtualImageDisplay(p, img) {
   //変数の設定
-  let a = (4 * p.width) / 10 - objectXSlider.value();
+  const a = (4 * p.width) / 10 - objectXSlider.value();
   let b;
   let m;
 
@@ -811,7 +807,7 @@ function objectAndVirtualImageDisplay(p, img) {
   //虚像の描画
 
   //凸レンズの場合
-  if (lensSelect.value() == "凸レンズ") {
+  if (lensSelect.value() === "凸レンズ") {
     if (a <= (4 * p.width) / 10 - focusLengthSlider.value()) {
       b = computeConvexLensImageDistance(
         a,
@@ -852,7 +848,7 @@ function objectAndVirtualImageDisplay(p, img) {
   }
 
   //凹レンズの場合
-  if (lensSelect.value() == "凹レンズ") {
+  if (lensSelect.value() === "凹レンズ") {
     b = computeConcaveLensImageDistance(
       a,
       (4 * p.width) / 10 - focusLengthSlider.value()
@@ -891,7 +887,7 @@ function objectAndVirtualImageDisplay(p, img) {
   }
 
   //半分の凸レンズの場合
-  if (lensSelect.value() == "半分の凸レンズ") {
+  if (lensSelect.value() === "半分の凸レンズ") {
     if (a <= (4 * p.width) / 10 - focusLengthSlider.value()) {
       b =
         (a * ((4 * p.width) / 10 - focusLengthSlider.value())) /
@@ -931,7 +927,7 @@ function objectAndVirtualImageDisplay(p, img) {
   }
 
   //縞々の凸レンズの場合
-  if (lensSelect.value() == "縞々のスリットの凸レンズ") {
+  if (lensSelect.value() === "縞々のスリットの凸レンズ") {
     if (a <= (4 * p.width) / 10 - focusLengthSlider.value()) {
       b =
         (a * ((4 * p.width) / 10 - focusLengthSlider.value())) /
@@ -973,11 +969,11 @@ function objectAndVirtualImageDisplay(p, img) {
 
 //スクリーンの描画
 function screenDisplay(p, img) {
-  let a = (4 * p.width) / 10 - objectXSlider.value();
-  let b =
+  const a = (4 * p.width) / 10 - objectXSlider.value();
+  const b =
     (a * ((4 * p.width) / 10 - focusLengthSlider.value())) /
     (a - ((4 * p.width) / 10 - focusLengthSlider.value()));
-  let m = b / a;
+  const m = b / a;
   p.fill(255);
   p.noStroke();
   p.text(
@@ -993,7 +989,7 @@ function screenDisplay(p, img) {
     (3 * p.height) / 4 + (1.5 * p.width) / 75
   );
   p.stroke(255);
-  if (lensSelect.value() != "凹レンズ") {
+  if (lensSelect.value() !== "凹レンズ") {
     if (a > (4 * p.width) / 10 - focusLengthSlider.value()) {
       blurValue = p.map(
         p.abs(b - screenXSlider.value()),
@@ -1010,10 +1006,10 @@ function screenDisplay(p, img) {
       pg.push();
       pg.translate(screenHeight / 2 - (img.width * m) / 2, 0);
       pg.scale(-1, -1);
-      if (lensSelect.value() == "半分の凸レンズ") {
+      if (lensSelect.value() === "半分の凸レンズ") {
         pg.tint(255, TINT_ALPHA_NORMAL);
       }
-      if (lensSelect.value() == "縞々のスリットの凸レンズ") {
+      if (lensSelect.value() === "縞々のスリットの凸レンズ") {
         pg.tint(255, TINT_ALPHA_DIM);
         if (
           p.height / 2 + img.height * m <
@@ -1099,7 +1095,7 @@ function screenDisplay(p, img) {
       p.strokeWeight(1);
       p.fill(255);
       for (let i = 0; i <= screenHeight / 2 / (p.height / (4 * 20)); i++) {
-        if (i % 5 == 0) {
+        if (i % 5 === 0) {
           p.stroke(255, 255);
           p.line(
             screenXSlider.value() +

@@ -56,6 +56,35 @@ export class WaterParticle {
 }
 
 /**
+ * 船体を描画する。this（船の状態）に依存しないため、Boatのメソッドではなくモジュール関数として定義する。
+ * @param {p5} p p5インスタンス
+ */
+function drawBoatBody(p) {
+  p.fill(139, 90, 43);
+  p.stroke(100, 60, 20);
+  p.strokeWeight(2);
+  p.beginShape();
+  p.vertex(-52, -10);
+  p.vertex(52, -10);
+  p.vertex(36, 16);
+  p.vertex(-36, 16);
+  p.endShape(p.CLOSE);
+
+  p.fill(225, 225, 235);
+  p.stroke(170, 170, 180);
+  p.strokeWeight(1);
+  p.rect(-21, -30, 42, 22, 3);
+
+  p.stroke(80, 80, 80);
+  p.strokeWeight(2);
+  p.line(6, -30, 6, -58);
+
+  p.fill(200, 50, 50);
+  p.noStroke();
+  p.triangle(6, -58, 6, -44, 28, -51);
+}
+
+/**
  * 川を進む船を表現する。
  *
  * 速度の定義（左向き正）:
@@ -98,38 +127,9 @@ export class Boat {
   draw(p) {
     p.push();
     p.translate(this.x, BOAT_Y);
-    this._drawBody(p);
+    drawBoatBody(p);
     this._drawArrows(p);
     p.pop();
-  }
-
-  /**
-   * 船体を描画する。
-   * @param {p5} p p5インスタンス
-   */
-  _drawBody(p) {
-    p.fill(139, 90, 43);
-    p.stroke(100, 60, 20);
-    p.strokeWeight(2);
-    p.beginShape();
-    p.vertex(-52, -10);
-    p.vertex(52, -10);
-    p.vertex(36, 16);
-    p.vertex(-36, 16);
-    p.endShape(p.CLOSE);
-
-    p.fill(225, 225, 235);
-    p.stroke(170, 170, 180);
-    p.strokeWeight(1);
-    p.rect(-21, -30, 42, 22, 3);
-
-    p.stroke(80, 80, 80);
-    p.strokeWeight(2);
-    p.line(6, -30, 6, -58);
-
-    p.fill(200, 50, 50);
-    p.noStroke();
-    p.triangle(6, -58, 6, -44, 28, -51);
   }
 
   /**

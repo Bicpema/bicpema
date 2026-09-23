@@ -44,6 +44,7 @@ export function elInit(p) {
   );
   // resizeSimulation()からも呼ばれるため、addEventListenerでの多重登録を避け
   // 上書き型のonclickでハンドラを設定する
+  // oxlint-disable-next-line unicorn/prefer-add-event-listener -- 呼び出しのたびに再実行されるため、代入で単一ハンドラのみを保つ
   document.getElementById("screenshotButton").onclick = onScreenshotClick;
   initModal({
     openSelectors: ".settings-modal-open",

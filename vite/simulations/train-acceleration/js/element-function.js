@@ -50,7 +50,7 @@ export const onAccelerationChange = () => {
   );
   if (!input) return;
   const val = parseFloat(input.value);
-  if (!isNaN(val)) {
+  if (!Number.isNaN(val)) {
     state.acceleration = val;
   }
 };

@@ -18,19 +18,23 @@ aliases: []
 
 巻線比に応じて二次側電圧が変化します。理想変圧器では次の関係が成り立ちます。
 
-<p align="center">
-    V<sub>2</sub>/V<sub>1</sub> = N<sub>2</sub>/N<sub>1</sub>
-</p>
+$$
+\frac{V_2}{V_1} = \frac{N_2}{N_1}
+$$
 
-<p align="center">
-    I<sub>2</sub>/I<sub>1</sub> = N<sub>1</sub>/N<sub>2</sub>
-</p>
+$$
+\frac{I_2}{I_1} = \frac{N_1}{N_2}
+$$
 
 ### 主要な物理法則・公式
 
-<p align="center">V<sub>2</sub>/V<sub>1</sub> = N<sub>2</sub>/N<sub>1</sub></p>
+$$
+\frac{V_2}{V_1} = \frac{N_2}{N_1}
+$$
 
-<p align="center">I<sub>2</sub>/I<sub>1</sub> = N<sub>1</sub>/N<sub>2</sub></p>
+$$
+\frac{I_2}{I_1} = \frac{N_1}{N_2}
+$$
 
 ## 対象
 
