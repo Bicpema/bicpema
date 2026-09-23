@@ -1,7 +1,6 @@
 import { resolve } from "node:path";
 import { globSync } from "tinyglobby";
 import { defineConfig } from "vite";
-import { viteStaticCopy } from "vite-plugin-static-copy";
 import tailwindcss from "@tailwindcss/vite";
 import { getHtmlInputsRecursively } from "./vite/_build/getHtmlInputsRecursively";
 
@@ -28,16 +27,6 @@ export default defineConfig({
   },
   plugins: [
     tailwindcss(),
-    // simulationsディレクトリを静的ファイルとしてコピーする
-    viteStaticCopy({
-      targets: [
-        {
-          src: resolve(root, "simulations"),
-          dest: outDir,
-          overwrite: false
-        }
-      ]
-    }),
     // vite-ignoreをしているファイルに差分があった際も再ビルドする
     // https://stackoverflow.com/questions/63373804/rollup-watch-include-directory/63548394
     {
