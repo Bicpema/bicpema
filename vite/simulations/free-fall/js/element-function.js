@@ -16,7 +16,7 @@ const DRAG_COEFFICIENT_MAX = 2;
  * @returns {number} クランプ後の高さ
  */
 export function clampHeight(newHeight) {
-  if (isNaN(newHeight) || newHeight < MIN_HEIGHT_INPUT) {
+  if (Number.isNaN(newHeight) || newHeight < MIN_HEIGHT_INPUT) {
     state.heightInput.value(MIN_HEIGHT_INPUT);
     return MIN_HEIGHT_INPUT;
   }
@@ -33,7 +33,10 @@ export function clampHeight(newHeight) {
  * @returns {number} クランプ後の空気抵抗係数
  */
 export function clampDragCoefficient(newDragCoefficient) {
-  if (isNaN(newDragCoefficient) || newDragCoefficient < DRAG_COEFFICIENT_MIN) {
+  if (
+    Number.isNaN(newDragCoefficient) ||
+    newDragCoefficient < DRAG_COEFFICIENT_MIN
+  ) {
     state.dragCoefficientInput.value(DRAG_COEFFICIENT_MIN);
     return DRAG_COEFFICIENT_MIN;
   }

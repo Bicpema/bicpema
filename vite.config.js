@@ -44,7 +44,7 @@ export default defineConfig({
       name: "watch-external",
       async buildStart() {
         const files = await globSync("vite/**/*");
-        for (let file of files) {
+        for (const file of files) {
           this.addWatchFile(file);
         }
       }

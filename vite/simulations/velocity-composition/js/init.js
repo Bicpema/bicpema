@@ -20,10 +20,12 @@ export function elCreate(p) {
   state.boatSpeedValue = p.select("#boatSpeedValue");
   state.riverSpeedValue = p.select("#riverSpeedValue");
 
-  if (state.boatSpeedInput)
+  if (state.boatSpeedInput) {
     state.boatSpeedInput.input(() => onBoatSpeedChange());
-  if (state.riverSpeedInput)
+  }
+  if (state.riverSpeedInput) {
     state.riverSpeedInput.input(() => onRiverSpeedChange());
+  }
 
   const { toggleButton, resetButton } = bindToggleControls(p, {
     toggleSelector: "#playPauseButton",

@@ -10,12 +10,12 @@ export class Cellophane {
    */
   constructor(p, n) {
     this.number = n;
-    let parentDiv = p
+    const parentDiv = p
       .createDiv()
       .parent("#cellophaneColabNum")
       .id("cellophane-" + this.number)
       .class("mb-1 pb-1");
-    let inputGroup = p.createDiv().parent(parentDiv).class("flex");
+    const inputGroup = p.createDiv().parent(parentDiv).class("flex");
     p.createSpan(this.number + "組目の枚数")
       .parent(inputGroup)
       .class(

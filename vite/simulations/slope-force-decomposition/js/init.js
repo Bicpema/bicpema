@@ -18,8 +18,9 @@ export function elCreate(p) {
     modalSelector: "#settingsModal",
     closeSelectors: "#closeModal"
   });
-  if (state.slopeAngleInput)
+  if (state.slopeAngleInput) {
     state.slopeAngleInput.input(() => onSlopeAngleChange());
+  }
   if (state.massInput) state.massInput.input(() => onMassChange());
 }
 
@@ -42,8 +43,9 @@ export function initValue(p) {
  */
 export function syncUIFromState() {
   if (state.slopeAngleInput) state.slopeAngleInput.value(state.slopeAngle);
-  if (state.slopeAngleValue)
+  if (state.slopeAngleValue) {
     state.slopeAngleValue.html(`${state.slopeAngle.toFixed(0)}°`);
+  }
   if (state.massInput) state.massInput.value(state.mass);
   if (state.massValue) state.massValue.html(`${state.mass.toFixed(0)} kg`);
 }

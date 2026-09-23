@@ -23,6 +23,7 @@ export function elementPositionInit(p) {
 
   const modeBtn = document.getElementById("modeBtn");
   if (modeBtn) {
+    // oxlint-disable-next-line unicorn/prefer-add-event-listener -- 呼び出しのたびに再実行されるため、代入で単一ハンドラのみを保つ
     modeBtn.onclick = () => toggleMode(modeBtn);
   }
 }

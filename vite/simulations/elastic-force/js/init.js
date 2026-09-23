@@ -32,6 +32,6 @@ export function elCreate(p) {
  * @param {*} p - p5 インスタンス。
  */
 export function initValue(p) {
-  const k = parseInt(state.springConstantInput.value());
+  const k = parseInt(state.springConstantInput.value(), 10);
   state.springs = [new Spring(ATTACH_X, SPRING_Y, NATURAL_LENGTH, k)];
 }

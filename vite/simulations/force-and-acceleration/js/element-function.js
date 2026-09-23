@@ -8,7 +8,7 @@ import { MIN_MASS_INPUT, MAX_MASS_INPUT } from "./constants.js";
  */
 export function onMassChange() {
   let m = parseFloat(state.massInput.value());
-  if (isNaN(m) || m < MIN_MASS_INPUT) {
+  if (Number.isNaN(m) || m < MIN_MASS_INPUT) {
     m = MIN_MASS_INPUT;
     state.massInput.value(MIN_MASS_INPUT);
   } else if (m > MAX_MASS_INPUT) {

@@ -214,7 +214,7 @@ export function onMousePressed(p) {
       p.mouseX <
         p.width -
           ((MODE_TAB_COUNT - i - 1) * p.width) / MODE_TAB_WIDTH_DIVISOR &&
-      0 < p.mouseY &&
+      p.mouseY > 0 &&
       p.mouseY < p.height / MODE_TAB_HEIGHT_DIVISOR
     ) {
       state.simulationMode = modes[i];

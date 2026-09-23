@@ -6,7 +6,7 @@ import { MIN_INITIAL_VELOCITY, MAX_INITIAL_VELOCITY } from "./constants.js";
  */
 export function onVelocityChange() {
   let newVelocity = parseFloat(state.velocityInput.value());
-  if (isNaN(newVelocity) || newVelocity < MIN_INITIAL_VELOCITY) {
+  if (Number.isNaN(newVelocity) || newVelocity < MIN_INITIAL_VELOCITY) {
     newVelocity = MIN_INITIAL_VELOCITY;
     state.velocityInput.value(MIN_INITIAL_VELOCITY);
   } else if (newVelocity > MAX_INITIAL_VELOCITY) {

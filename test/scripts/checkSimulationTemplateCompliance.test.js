@@ -91,7 +91,7 @@ describe("checkSimulationTemplateCompliance", () => {
       allowedNonCompliantSlugs: ["compliant-sim", "sim-does-not-exist"]
     });
 
-    expect(result.staleAllowlistSlugs.sort()).toEqual([
+    expect(result.staleAllowlistSlugs.toSorted()).toEqual([
       "compliant-sim",
       "sim-does-not-exist"
     ]);
