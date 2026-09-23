@@ -8,7 +8,6 @@ image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/
 categories: ["電磁気"]
 series: ["電磁気学基礎"]
 aliases: []
-math: true
 ---
 
 ## シミュレーションのリンク

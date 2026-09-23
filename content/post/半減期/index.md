@@ -8,7 +8,6 @@ image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/
 categories: ["原子物理"]
 series: ["原子物理入門"]
 aliases: []
-math: true
 ---
 
 ## シミュレーションのリンク

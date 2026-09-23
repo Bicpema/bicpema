@@ -8,7 +8,6 @@ image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/
 categories: ["波動"]
 series: ["波動と音"]
 aliases: []
-math: true
 ---
 
 ## シミュレーションのリンク

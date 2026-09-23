@@ -8,7 +8,6 @@ image: "thumbnail.png"
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []
-math: true
 ---
 
 ## シミュレーションのリンク

@@ -8,7 +8,6 @@ tags: ["物理", "熱", "高校", "比熱", "熱量"]
 categories: ["熱"]
 series: ["熱力学基礎"]
 aliases: []
-math: true
 ---
 
 ## シミュレーションのリンク

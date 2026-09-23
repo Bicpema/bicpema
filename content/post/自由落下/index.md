@@ -8,7 +8,6 @@ tags: ["物理", "力学", "高校", "自由落下"]
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []
-math: true
 ---
 
 ## シミュレーションのリンク

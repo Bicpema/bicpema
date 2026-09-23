@@ -8,7 +8,6 @@ image: "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/
 categories: ["力学"]
 series: ["力学入門"]
 aliases: []
-math: true
 ---
 
 ## シミュレーションのリンク

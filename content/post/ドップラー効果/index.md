@@ -8,7 +8,6 @@ tags: ["物理", "波動", "大学", "ドップラー効果"]
 categories: ["波動"]
 series: ["波動と音"]
 aliases: []
-math: true
 ---
 
 ## シミュレーションのリンク

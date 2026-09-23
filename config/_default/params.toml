@@ -12,7 +12,7 @@ showAuthor = true
 
 # 全記事でKaTeXによる数式表示を有効化する場合はtrueにする。
 # 記事単位で有効化する場合はフロントマターに `math: true`（または `katex: true`）を設定する。
-math = false
+math = true
 
 [author]
   name = "kenji"
