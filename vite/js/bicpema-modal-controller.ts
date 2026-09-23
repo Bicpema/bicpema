@@ -1,3 +1,17 @@
+interface InitModalOptions {
+  /** モーダルを開く要素のCSSセレクタ（複数要素にマッチしてよい） */
+  openSelectors: string;
+  /** モーダル本体のCSSセレクタ（単一要素） */
+  modalSelector: string;
+  /** モーダルを閉じる要素のCSSセレクタ（複数要素にマッチしてよい） */
+  closeSelectors: string;
+  /**
+   * 閉じるボタン・背景クリック・Escapeキーのいずれでモーダルが
+   * 閉じられた場合にも呼び出されるコールバック（設定値の反映など、閉じる操作に紐づく処理を行いたい場合に指定する）
+   */
+  onClose?: () => void;
+}
+
 /**
  * initModal
  *
@@ -5,24 +19,17 @@
  * TailwindCSSへの移行に伴い、新規ライブラリを追加せず素のJSで
  * モーダルの開閉を行うための共通ユーティリティ。
  * モーダル要素はTailwindの"hidden"クラスで表示/非表示を切り替える想定。
- *
- * @param {object} options
- * @param {string} options.openSelectors モーダルを開く要素のCSSセレクタ（複数要素にマッチしてよい）
- * @param {string} options.modalSelector モーダル本体のCSSセレクタ（単一要素）
- * @param {string} options.closeSelectors モーダルを閉じる要素のCSSセレクタ（複数要素にマッチしてよい）
- * @param {() => void} [options.onClose] 閉じるボタン・背景クリック・Escapeキーのいずれでモーダルが
- *   閉じられた場合にも呼び出されるコールバック（設定値の反映など、閉じる操作に紐づく処理を行いたい場合に指定する）
  */
 export function initModal({
   openSelectors,
   modalSelector,
   closeSelectors,
   onClose
-}) {
+}: InitModalOptions): void {
   const modal = document.querySelector(modalSelector);
   if (!modal) return;
 
-  const setModalVisibility = (isHidden) => {
+  const setModalVisibility = (isHidden: boolean) => {
     modal.classList.toggle("hidden", isHidden);
     modal.setAttribute("aria-hidden", String(isHidden));
   };
@@ -49,18 +56,24 @@ export function initModal({
   });
 }
 
+interface InitCollapseOptions {
+  /** トグルする要素のCSSセレクタ（複数要素にマッチしてよい） */
+  toggleSelectors: string;
+  /** 表示/非表示を切り替える対象のCSSセレクタ（単一要素） */
+  targetSelector: string;
+}
+
 /**
  * initCollapse
  *
  * Bootstrap JSのcollapse（data-bs-toggle="collapse"等）の代替。
  * 1つのトグル要素のクリックで、対象要素の表示/非表示（Tailwindの
  * "hidden"クラス）を切り替える。開閉アニメーションは行わない。
- *
- * @param {object} options
- * @param {string} options.toggleSelectors トグルする要素のCSSセレクタ（複数要素にマッチしてよい）
- * @param {string} options.targetSelector 表示/非表示を切り替える対象のCSSセレクタ（単一要素）
  */
-export function initCollapse({ toggleSelectors, targetSelector }) {
+export function initCollapse({
+  toggleSelectors,
+  targetSelector
+}: InitCollapseOptions): void {
   const target = document.querySelector(targetSelector);
   if (!target) return;
 
@@ -83,6 +96,21 @@ export function initCollapse({ toggleSelectors, targetSelector }) {
 }
 
 /**
+ * タブ要素のhref属性（例: "#paneId"）から対象のペイン要素を取得する。
+ * @param tab タブ（トリガー）要素
+ */
+function getPane(tab: Element): HTMLElement | null {
+  const paneSelector = tab.getAttribute("href");
+  if (!paneSelector?.startsWith("#")) return null;
+  return document.querySelector(paneSelector);
+}
+
+interface InitTabsOptions {
+  /** タブ（トリガー）要素のCSSセレクタ（複数要素にマッチしてよい、各要素はhref="#paneId"を持つ） */
+  tabSelector: string;
+}
+
+/**
  * initTabs
  *
  * Bootstrap JSのタブ（data-bs-toggle="tab"等）の代替。
@@ -90,17 +118,8 @@ export function initCollapse({ toggleSelectors, targetSelector }) {
  * 特定し、クリックされたタブとそれに対応するペインのみを表示する。
  * タブの見た目（active状態）は呼び出し側のCSSで
  * ".nav-link" / ".nav-link.active" を定義しておく想定。
- *
- * @param {object} options
- * @param {string} options.tabSelector タブ（トリガー）要素のCSSセレクタ（複数要素にマッチしてよい、各要素はhref="#paneId"を持つ）
  */
-function getPane(tab) {
-  const paneSelector = tab.getAttribute("href");
-  if (!paneSelector?.startsWith("#")) return null;
-  return document.querySelector(paneSelector);
-}
-
-export function initTabs({ tabSelector }) {
+export function initTabs({ tabSelector }: InitTabsOptions): void {
   const tabs = Array.from(document.querySelectorAll(tabSelector));
   if (tabs.length === 0) return;
 
@@ -108,7 +127,7 @@ export function initTabs({ tabSelector }) {
     tab.closest(".nav-tabs")?.setAttribute("role", "tablist");
   });
 
-  const activate = (activeTab) => {
+  const activate = (activeTab: Element) => {
     tabs.forEach((tab) => {
       const pane = getPane(tab);
       const isActive = tab === activeTab;
@@ -143,6 +162,15 @@ export function initTabs({ tabSelector }) {
   activate(tabs.find((tab) => tab.classList.contains("active")) ?? tabs[0]);
 }
 
+interface InitOffcanvasOptions {
+  /** 開く要素のCSSセレクタ（複数要素にマッチしてよい） */
+  openSelectors: string;
+  /** 対象要素のCSSセレクタ（単一要素） */
+  offcanvasSelector: string;
+  /** 閉じる要素のCSSセレクタ（複数要素にマッチしてよい） */
+  closeSelectors: string;
+}
+
 /**
  * initOffcanvas
  *
@@ -150,22 +178,17 @@ export function initTabs({ tabSelector }) {
  * 対象要素に"is-open"クラスを付け外しすることで表示/非表示を
  * 切り替える。スライドイン等の見た目は呼び出し側のCSSで
  * ".offcanvas" / ".offcanvas.is-open" を定義しておく想定。
- *
- * @param {object} options
- * @param {string} options.openSelectors 開く要素のCSSセレクタ（複数要素にマッチしてよい）
- * @param {string} options.offcanvasSelector 対象要素のCSSセレクタ（単一要素）
- * @param {string} options.closeSelectors 閉じる要素のCSSセレクタ（複数要素にマッチしてよい）
  */
 export function initOffcanvas({
   openSelectors,
   offcanvasSelector,
   closeSelectors
-}) {
+}: InitOffcanvasOptions): void {
   const panel = document.querySelector(offcanvasSelector);
   if (!panel) return;
 
   const toggles = document.querySelectorAll(openSelectors);
-  const syncOpenState = (isOpen) => {
+  const syncOpenState = (isOpen: boolean) => {
     panel.classList.toggle("is-open", isOpen);
     panel.setAttribute("aria-hidden", String(!isOpen));
     toggles.forEach((toggle) => {
