@@ -1,4 +1,4 @@
-// logic.jsはシミュレーションの描画処理と物理更新専用のファイルです。
+// logic.tsはシミュレーションの描画処理と物理更新専用のファイルです。
 
 import { state } from "./state.js";
 import { FPS, TIME_LABEL_X, TIME_LABEL_Y } from "./constants.js";

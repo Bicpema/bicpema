@@ -1,4 +1,4 @@
-// state.js はシミュレーションの共有可変状態を管理するファイルです。
+// state.ts はシミュレーションの共有可変状態を管理するファイルです。
 
 export const MEDIUM_QUANTITY = 100;
 

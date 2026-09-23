@@ -1,4 +1,4 @@
-// class.js は Ball クラス管理専用のファイルです。
+// class.ts は Ball クラス管理専用のファイルです。
 
 import { state } from "./state.js";
 import { computePendulumWaveAngle } from "./physics.js";
@@ -8,11 +8,17 @@ import { PIVOT_Y } from "./constants.js";
  * 振り子の波を構成する1つのおもりを表すクラス。
  */
 export class Ball {
+  posx: number;
+  posy: number;
+  theta: number;
+  length: number;
+  theta0: number;
+
   /**
    * @param {number} length 振り子の長さ（データ上の単位）
    * @param {number} theta0 振れ幅（初期角度、ラジアン）
    */
-  constructor(length, theta0) {
+  constructor(length: number, theta0: number) {
     this.posx = 0;
     this.posy = 0;
     this.theta = 0;
