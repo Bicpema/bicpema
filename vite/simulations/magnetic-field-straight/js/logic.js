@@ -8,7 +8,9 @@ import { CURRENT_THRESHOLD, ARROW_SPACING } from "./constants.js";
 let lastCurrentVal = null;
 
 function getCurrentVal() {
-  const currentSlider = document.getElementById("currentSlider");
+  const currentSlider = /** @type {HTMLInputElement | null} */ (
+    document.getElementById("currentSlider")
+  );
   return currentSlider ? parseFloat(currentSlider.value) : 1;
 }
 
@@ -76,7 +78,9 @@ function drawFieldLines(p, currentVal) {
   const rMin = radii[0];
 
   // determine maximum current from slider to normalize color/weight scale
-  const slider = document.getElementById("currentSlider");
+  const slider = /** @type {HTMLInputElement | null} */ (
+    document.getElementById("currentSlider")
+  );
   const maxCurrent = slider
     ? Math.max(
         Math.abs(parseFloat(slider.min)),

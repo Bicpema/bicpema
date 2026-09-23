@@ -24,7 +24,9 @@ export async function initGraph() {
     );
     return;
   }
-  const ctx = document.getElementById("graphChart").getContext("2d");
+  const ctx = /** @type {HTMLCanvasElement} */ (
+    document.getElementById("graphChart")
+  ).getContext("2d");
 
   state.graphChart = new Chart(ctx, {
     type: "line",
@@ -106,7 +108,9 @@ export async function initCmfGraph() {
     );
     return;
   }
-  const ctx = document.getElementById("cmfGraphChart").getContext("2d");
+  const ctx = /** @type {HTMLCanvasElement} */ (
+    document.getElementById("cmfGraphChart")
+  ).getContext("2d");
 
   state.cmfGraphChart = new Chart(ctx, {
     type: "line",

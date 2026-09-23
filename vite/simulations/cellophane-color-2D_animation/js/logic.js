@@ -3,6 +3,7 @@
 import { state } from "./state.js";
 import { computePhaseRetardation } from "./physics.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+import { getCanvasElement } from "../../../js/bicpema-dom.js";
 import {
   FPS,
   WAVELENGTH_MIN,
@@ -365,12 +366,7 @@ export function colabNum2_normal(p) {
         //その枚数で生み出せる全ての色を生成(2角目以降)
         let binaryString = "";
         binaryString = i.toString(2).padStart(state.colabNum, "0"); // colabNum=2 //00,01,10,11
-        afterColorCalculates(
-          p,
-          binaryString,
-          state.tape_angle_cal,
-          state.tape_number_cal
-        );
+        afterColorCalculates(p, binaryString);
         state.rAftera[i] = state.rAfter2;
         state.gAftera[i] = state.gAfter2;
         state.bAftera[i] = state.bAfter2;
@@ -649,8 +645,8 @@ export function afterColorCalculate(p) {
 
       state.E_3 = math.multiply(jhons(p, c), state.E_2);
       const relativeStrength = math.abs(
-        math.abs(math.multiply(state.E_3[0], state.E_3[0])) +
-          math.abs(math.multiply(state.E_3[1], state.E_3[1]))
+        Number(math.abs(math.multiply(state.E_3[0], state.E_3[0]))) +
+          Number(math.abs(math.multiply(state.E_3[1], state.E_3[1])))
       );
       state.osArr[i - WAVELENGTH_MIN] =
         relativeStrength *
@@ -758,8 +754,8 @@ export function afterColorCalculate1(p) {
 
       state.E_3 = math.multiply(jhons(p, state.c), state.E_2);
       const relativeStrength = math.abs(
-        math.abs(math.multiply(state.E_3[0], state.E_3[0])) +
-          math.abs(math.multiply(state.E_3[1], state.E_3[1]))
+        Number(math.abs(math.multiply(state.E_3[0], state.E_3[0]))) +
+          Number(math.abs(math.multiply(state.E_3[1], state.E_3[1])))
       );
       state.osArr[i - WAVELENGTH_MIN] =
         relativeStrength *
@@ -965,8 +961,8 @@ export function afterColorCalculates(p, binaryString) {
 
       state.E_3 = math.multiply(jhons(p, c), state.E_2);
       const relativeStrength = math.abs(
-        math.abs(math.multiply(state.E_3[0], state.E_3[0])) +
-          math.abs(math.multiply(state.E_3[1], state.E_3[1]))
+        Number(math.abs(math.multiply(state.E_3[0], state.E_3[0]))) +
+          Number(math.abs(math.multiply(state.E_3[1], state.E_3[1])))
       );
       state.osArr[i - WAVELENGTH_MIN] =
         relativeStrength *
@@ -1254,6 +1250,7 @@ export function drawGraph() {
   };
 
   //グラフの表示設定
+  /** @type {import("chart.js").ChartOptions<"scatter">} */
   const mainOptions = {
     plugins: {
       legend: {
@@ -1312,6 +1309,7 @@ export function drawGraph() {
     }
   };
 
+  /** @type {import("chart.js").ChartConfiguration<"scatter">} */
   const mainChartsetup = {
     type: "scatter",
     data: mainData,
@@ -1320,7 +1318,7 @@ export function drawGraph() {
 
   //canvasにグラフを描画
   //Chart.Scatter() で散布図になる
-  const mainCtx = document.getElementById("mainSpectrumGraph");
+  const mainCtx = getCanvasElement("mainSpectrumGraph");
   state.mainChartObj = new Chart(mainCtx, mainChartsetup);
 }
 
@@ -1366,6 +1364,7 @@ export function drawGraph2_1(x1, y1) {
   };
 
   // グラフのオプション設定
+  /** @type {import("chart.js").ChartOptions<"scatter">} */
   const mainOptions = {
     plugins: {
       legend: { labels: { font: { size: GRAPH_LABEL_FONT_SIZE } } },
@@ -1404,13 +1403,14 @@ export function drawGraph2_1(x1, y1) {
     }
   };
 
+  /** @type {import("chart.js").ChartConfiguration<"scatter">} */
   const mainChartsetup = {
     type: "scatter",
     data: mainData,
     options: mainOptions
   };
 
-  const mainCtx = document.getElementById("mainSpectrumGraph0");
+  const mainCtx = getCanvasElement("mainSpectrumGraph0");
   state.mainChartObj = new Chart(mainCtx, mainChartsetup);
 }
 
@@ -1461,6 +1461,7 @@ export function drawGraph2() {
   };
 
   // グラフのオプション設定
+  /** @type {import("chart.js").ChartOptions<"scatter">} */
   const mainOptions = {
     plugins: {
       legend: { labels: { font: { size: GRAPH_LABEL_FONT_SIZE } } },
@@ -1499,12 +1500,13 @@ export function drawGraph2() {
     }
   };
 
+  /** @type {import("chart.js").ChartConfiguration<"scatter">} */
   const mainChartsetup = {
     type: "scatter",
     data: mainData,
     options: mainOptions
   };
 
-  const mainCtx = document.getElementById("mainSpectrumGraph0");
+  const mainCtx = getCanvasElement("mainSpectrumGraph0");
   state.mainChartObj = new Chart(mainCtx, mainChartsetup);
 }

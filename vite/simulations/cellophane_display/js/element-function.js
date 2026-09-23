@@ -11,7 +11,9 @@ const loadScreenshot = createLazyImporter(() => import("modern-screenshot"));
  * modern-screenshotはボタン押下時に初めて動的importする。
  */
 export function onScreenshotClick() {
-  const button = document.getElementById("screenshotButton");
+  const button = /** @type {HTMLButtonElement | null} */ (
+    document.getElementById("screenshotButton")
+  );
   if (button) button.disabled = true;
   loadScreenshot()
     .then(({ domToPng }) => domToPng(document.body))
