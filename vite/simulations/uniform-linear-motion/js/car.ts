@@ -9,6 +9,13 @@ import {
  * 車オブジェクト
  */
 export class CAR {
+  posx: number;
+  posy: number;
+  img: p5.Image;
+  speed: number;
+  xarr: { x: number; y: number }[];
+  varr: { x: number; y: number }[];
+
   /**
    * @constructor
    * @param {number} x x方向の座標

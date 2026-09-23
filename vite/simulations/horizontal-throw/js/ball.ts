@@ -40,6 +40,19 @@ import {
  * 水平投射運動をする物体を表現 (WebGL 3D)
  */
 export class Ball {
+  initialHeight: number;
+  initialVelocity: number;
+  x: number;
+  height: number;
+  vx: number;
+  vy: number;
+  time: number;
+  g: number;
+  isMoving: boolean;
+  trail: { x: number; y: number }[];
+  ghosts: { x: number; height: number }[];
+  _lastGhostTime: number;
+
   /**
    * @constructor
    * @param {number} initialHeight 初期の高さ (m)

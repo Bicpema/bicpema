@@ -22,6 +22,8 @@ const AXIS_MAX_MARGIN_RATIO = 1.1;
  * x-tグラフとv-tグラフを描画するクラス
  */
 export class MotionGraph {
+  chart: InstanceType<typeof import("chart.js").Chart> | null;
+
   constructor() {
     this.chart = null;
   }

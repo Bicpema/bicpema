@@ -18,6 +18,16 @@ import {
  * 等加速度直線運動をする車オブジェクト
  */
 export class Car {
+  initialVelocity: number;
+  acceleration: number;
+  velocity: number;
+  position: number;
+  time: number;
+  isMoving: boolean;
+  lastGraphUpdate: number;
+  lastMarkerTime: number;
+  markers: { t: number; px: number }[];
+
   /**
    * @constructor
    * @param {number} initialVelocity 初速度 (m/s)
@@ -95,7 +105,15 @@ export class Car {
    * @param {p5.Image} [options.groundImage] 地面画像
    * @param {boolean} [options.showMarkers] 等時間マーカーを表示するか
    */
-  display(p, vH, options = {}) {
+  display(
+    p,
+    vH,
+    options: {
+      carImage?: p5.Image;
+      groundImage?: p5.Image;
+      showMarkers?: boolean;
+    } = {}
+  ) {
     const { carImage, groundImage, showMarkers = true } = options;
 
     const groundY = vH * GROUND_Y_RATIO;

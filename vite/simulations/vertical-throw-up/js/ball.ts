@@ -18,6 +18,16 @@ import {
  * 鉛直投げ上げ運動をする物体を表現
  */
 export class Ball {
+  initialVelocity: number;
+  height: number;
+  velocity: number;
+  time: number;
+  g: number;
+  radius: number;
+  isMoving: boolean;
+  maxHeight: number;
+  history: { t: number; y: number; v: number }[];
+
   /**
    * @constructor
    * @param {number} initialVelocity 初速度 (m/s) - 上向きを正とする
