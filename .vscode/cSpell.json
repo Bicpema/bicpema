@@ -1,16 +1,3 @@
 {
-  "words": [
-    "Bicpema",
-    "getjson",
-    "kenji",
-    "Lastmod",
-    "peaceiris",
-    "popperjs",
-    "pycache",
-    "venv",
-    "vite",
-    "withdeploy",
-    "zensical"
-  ],
-  "ignorePaths": ["**/themes/**"]
+  "import": ["../cspell.json"]
 }
