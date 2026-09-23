@@ -188,7 +188,6 @@ function drawGrid(p) {
 function drawAxes(p, ox, oy) {
   const axisColor = p.color(0);
   const axisWeight = 2;
-  const axisHeadSize = 10;
   drawArrow(p, ox, oy, V_W - 10, oy, axisColor, axisWeight);
   drawArrow(p, ox, oy, 10, oy, axisColor, axisWeight);
   drawArrow(p, ox, oy, ox, 10, axisColor, axisWeight);

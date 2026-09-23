@@ -146,7 +146,7 @@ export function drawLegend(p) {
   p.textAlign(p.LEFT, p.CENTER);
 
   p.fill(...RIVER_COLOR);
-  p.text("━━ v川: 川の速度（常に左向き）", lx, ly + lineH * 0);
+  p.text("━━ v川: 川の速度（常に左向き）", lx, ly);
 
   p.fill(...BOAT_COLOR);
   p.text("━━ v船: 船の速度（水に対して）", lx, ly + lineH * 1);
