@@ -3,6 +3,10 @@
 import { state } from "./state.js";
 import { computeThermodynamicState } from "./physics.js";
 import { PISTON_INIT_X, DT_UNIT, DV_UNIT } from "./constants.js";
+import {
+  getCheckedRadioValue,
+  setCheckedRadioByValue
+} from "../../../js/bicpema-dom.js";
 
 /**
  * リセットボタンがクリックされたときの処理。
@@ -15,19 +19,16 @@ export function onResetButtonClick() {
   state.T = state.T0;
   state.pistonX_target = PISTON_INIT_X;
 
-  const qRadios = document.querySelectorAll('input[name="qValue"]');
-  qRadios.forEach((r) => {
-    r.checked = r.value === "0";
-  });
+  setCheckedRadioByValue("qValue", "0");
 }
 
 /**
  * Q選択ラジオボタンが変更されたときの処理。
  */
 export function onQRadioChange() {
-  const selected = document.querySelector('input[name="qValue"]:checked');
-  if (!selected) return;
-  const step = parseInt(selected.value, 10);
+  const selected = getCheckedRadioValue("qValue");
+  if (selected === null) return;
+  const step = parseInt(selected, 10);
 
   const { Q, W, dU, T, pistonXTarget } = computeThermodynamicState(
     step,

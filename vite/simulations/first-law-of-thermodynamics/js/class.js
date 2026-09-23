@@ -12,7 +12,7 @@ import {
 
 export class Molecule {
   /**
-   * @param {object} p - p5 インスタンス
+   * @param {p5} p - p5 インスタンス
    * @param {number} x - 初期X座標
    * @param {number} y - 初期Y座標
    * @param {number} vx - X方向速度
@@ -43,6 +43,9 @@ export class Molecule {
     if (this.y < Y_MIN || this.y > Y_MAX) this.vy *= -1;
   }
 
+  /**
+   * @param {p5} p - p5 インスタンス
+   */
   draw(p) {
     const T = state.T;
     const size = p.lerp(7, 13, this.z);
