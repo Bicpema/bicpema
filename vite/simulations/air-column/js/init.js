@@ -43,8 +43,9 @@ export function setupControls(p) {
   const lplusBtn = document.getElementById("lplusBtn");
   const lminusBtn = document.getElementById("lminusBtn");
 
-  if (!typeSelect || !mnPlusBtn || !mnMinusBtn || !lplusBtn || !lminusBtn)
+  if (!typeSelect || !mnPlusBtn || !mnMinusBtn || !lplusBtn || !lminusBtn) {
     return;
+  }
 
   typeSelect.addEventListener("change", () => {
     state.type = /** @type {"closed" | "open"} */ (typeSelect.value);
