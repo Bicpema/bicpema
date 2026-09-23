@@ -1,4 +1,4 @@
-// init.jsは初期処理専用のファイルです。
+// init.tsは初期処理専用のファイルです。
 
 import { state } from "./state.js";
 import { Ball } from "./class.js";

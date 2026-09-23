@@ -1,4 +1,4 @@
-// class.js はSpringクラス管理専用のファイルです。
+// class.ts はSpringクラス管理専用のファイルです。
 
 import { state, FPS } from "./state.js";
 import {
@@ -21,6 +21,14 @@ const PARALLEL_MOUNT_GAP = 2 * BRACKET_ATTACH_OFFSET;
  * ばね振り子（単独・直列・並列の組み合わせ）を表すクラス。
  */
 export class Spring {
+  posx: number;
+  posy: number;
+  konstant: number;
+  weight: number;
+  combination: number;
+  amplitude: number;
+  number: 1 | 2;
+
   /**
    * @param {number|string} k ばね定数
    * @param {number|string} w 質量
@@ -28,7 +36,13 @@ export class Spring {
    * @param {number|string} a 振幅
    * @param {1|2} n 上下どちらのばねか
    */
-  constructor(k, w, c, a, n) {
+  constructor(
+    k: number | string,
+    w: number | string,
+    c: number | string,
+    a: number | string,
+    n: 1 | 2
+  ) {
     this.posx = 0;
     this.posy = 0;
     this.konstant = Number(k);

@@ -1,4 +1,4 @@
-// init.js は初期処理専用のファイルです。
+// init.ts は初期処理専用のファイルです。
 
 import { state, SPRING_Y, ATTACH_X, NATURAL_LENGTH } from "./state.js";
 import { Spring } from "./class.js";
