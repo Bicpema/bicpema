@@ -156,6 +156,16 @@ export function drawLegend(p) {
 }
 
 /**
+ * 速度の値から、向きを表す矢印文字を返す。
+ * @param {number} v 速度
+ * @returns {string} 向きを表す文字列
+ */
+function dirChar(v) {
+  if (Math.abs(v) < 0.05) return "（静止）";
+  return v > 0 ? "←" : "→";
+}
+
+/**
  * 右下に速度情報パネルを描画する。
  * v_合 = v_川 + v_船 の関係を視覚的に確認できる。
  * @param {p5} p p5インスタンス
@@ -175,11 +185,6 @@ export function drawInfoPanel(p) {
 
   p.textSize(14);
   p.textAlign(p.LEFT, p.CENTER);
-
-  const dirChar = (v) => {
-    if (Math.abs(v) < 0.05) return "（静止）";
-    return v > 0 ? "←" : "→";
-  };
 
   const cs = state.boat.compositeSpeed;
 

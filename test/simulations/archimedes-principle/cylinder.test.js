@@ -1,6 +1,14 @@
 import { describe, it, expect } from "vitest";
 import { Cylinder } from "../../../vite/simulations/archimedes-principle/js/cylinder.js";
 
+/** cylinderの物理更新を500ステップ分進め、静止状態まで収束させる。 */
+function settle(cylinder) {
+  for (let i = 0; i < 500; i++) {
+    cylinder.update(100, 1000);
+  }
+  return cylinder;
+}
+
 describe("Cylinder.getSubmergedFraction", () => {
   it("完全に水面より上にあるときは0を返す", () => {
     // 円柱底面(cy)が水面より上（bottomY <= waterSurfaceY）
@@ -63,13 +71,6 @@ describe("Cylinder.update (アルキメデスの原理)", () => {
 
   it("密度が水と等しい物体は、開始位置や速度によらず水面と物体上面が一致する位置(140)に収束して静止する（#340）", () => {
     // waterSurfaceY=100, h=40 のとき、水面と物体上面が一致する位置は cy=140
-    function settle(cylinder) {
-      for (let i = 0; i < 500; i++) {
-        cylinder.update(100, 1000);
-      }
-      return cylinder;
-    }
-
     const fromAbove = settle(new Cylinder(0, 60, 20, 40, 1.0));
     expect(fromAbove.cy).toBe(140);
     expect(fromAbove.vy).toBe(0);

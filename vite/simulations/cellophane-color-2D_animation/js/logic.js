@@ -614,21 +614,24 @@ export function afterColorCalculate(p) {
         for (let n = 2; n <= state.colabNum; n++) {
           let otherCellophaneNum = p.select("#numInput-" + n);
           let otheropdInput = p.select("#opdInput");
-          let delta = computePhaseRetardation(
+          let loopDelta = computePhaseRetardation(
             state.dArr[i - WAVELENGTH_MIN],
             otherCellophaneNum.value(),
             otheropdInput.value(),
             l
           );
-          let cello = [
+          let loopCello = [
             [1, 0],
-            [0, math.exp(math.complex(0, -delta))]
+            [0, math.exp(math.complex(0, -loopDelta))]
           ];
           let targetAngle = p.select("#rotateInput-" + n);
           let b = p.radians(targetAngle.value() - referenceAngle.value());
           state.E_2 = math.multiply(
             r_theta(p, b),
-            math.multiply(cello, math.multiply(mai_r_theta(p, b), state.E_2))
+            math.multiply(
+              loopCello,
+              math.multiply(mai_r_theta(p, b), state.E_2)
+            )
           );
         }
       }
@@ -901,22 +904,25 @@ export function afterColorCalculates(p, binaryString) {
           let n = j + 1;
           let otherCellophaneNum = p.select("#numInput-" + n);
           let otheropdInput = p.select("#opdInput");
-          let delta = computePhaseRetardation(
+          let loopDelta = computePhaseRetardation(
             state.dArr[i - WAVELENGTH_MIN],
             otherCellophaneNum.value(),
             otheropdInput.value(),
             l
           );
-          let cello = [
+          let loopCello = [
             [1, 0],
-            [0, math.exp(math.complex(0, -delta))]
+            [0, math.exp(math.complex(0, -loopDelta))]
           ];
           let targetAngle = p.select("#rotateInput-" + n);
           let b = p.radians(targetAngle.value() - referenceAngle.value());
           if (bit[j] == 0) {
             state.E_2 = math.multiply(
               r_theta(p, b),
-              math.multiply(cello, math.multiply(mai_r_theta(p, b), state.E_2))
+              math.multiply(
+                loopCello,
+                math.multiply(mai_r_theta(p, b), state.E_2)
+              )
             );
           }
         }
@@ -926,22 +932,25 @@ export function afterColorCalculates(p, binaryString) {
           let num = k + 1;
           let otherCellophaneNum = p.select("#numInput-" + num);
           let otheropdInput = p.select("#opdInput");
-          let delta = computePhaseRetardation(
+          let loopDelta = computePhaseRetardation(
             state.dArr[i - WAVELENGTH_MIN],
             otherCellophaneNum.value(),
             otheropdInput.value(),
             l
           );
-          let cello = [
+          let loopCello = [
             [1, 0],
-            [0, math.exp(math.complex(0, -delta))]
+            [0, math.exp(math.complex(0, -loopDelta))]
           ];
           let targetAngle = p.select("#rotateInput-" + num);
           let b = p.radians(targetAngle.value() - referenceAngle.value());
           if (bit[k] == 0) {
             state.E_2 = math.multiply(
               r_theta(p, b),
-              math.multiply(cello, math.multiply(mai_r_theta(p, b), state.E_2))
+              math.multiply(
+                loopCello,
+                math.multiply(mai_r_theta(p, b), state.E_2)
+              )
             ); //2024.6.21 ここでバグが生じる
           }
         }

@@ -45,6 +45,7 @@ export function placeNameInputFunction(p) {
     } else {
       state.dataInputArr[place].edit.html(placeName + "のデータを編集");
     }
+    // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
     document.getElementById("placeDataInput" + (i + 1)).onclick = function () {
       window.open(
         "/vite/simulations/3d-strata/childWindow.html?" +
@@ -81,6 +82,7 @@ export function placeAddButtonFunction(p) {
   state.dataInputArr[placeName].data.y = newDom.yInput;
   state.dataInputArr[placeName].edit = newDom.placeDataInput;
 
+  // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   document.getElementById("placeDataInput" + newPlaceNum).onclick =
     function () {
       window.open(
@@ -280,8 +282,11 @@ export function placeRefreshFunction(p) {
   // placeRefreshFunctionは地点の追加・削除のたびに呼び出されるため、
   // addEventListenerで都度追加すると呼び出し回数分ハンドラが多重登録されてしまう。
   // 同一要素に対して常に単一のハンドラのみを保つよう、プロパティ代入で上書きする。
+  // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   firstPlaceSelectDoc.onchange = () => firstPlaceSelectFunction(p);
+  // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   secondPlaceSelectDoc.onchange = () => secondPlaceSelectFunction(p);
+  // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   thirdPlaceSelectDoc.onchange = () => thirdPlaceSelectFunction(p);
 }
 

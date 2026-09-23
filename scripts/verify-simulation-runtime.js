@@ -82,7 +82,7 @@ function listSimulationNames() {
       const dir = join(simulationsDir, name);
       return statSync(dir).isDirectory() && existsSync(join(dir, "index.html"));
     })
-    .sort();
+    .toSorted();
 }
 
 /**

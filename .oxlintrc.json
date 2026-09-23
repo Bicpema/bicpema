@@ -8,6 +8,12 @@
       }
     ],
     "no-undef": "error",
+    "no-shadow": "error",
+    "no-await-in-loop": "error",
+    "unicorn/prefer-add-event-listener": "error",
+    "unicorn/no-array-sort": "error",
+    "unicorn/consistent-function-scoping": "error",
+    "unicorn/require-module-specifiers": "error",
     "unicorn/no-new-array": "off",
     "unicorn/no-empty-file": "off"
   },

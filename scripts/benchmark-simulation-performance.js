@@ -58,7 +58,7 @@ function listSimulationNames() {
       const dir = join(simulationsDir, name);
       return statSync(dir).isDirectory() && existsSync(join(dir, "index.html"));
     })
-    .sort();
+    .toSorted();
 }
 
 function findFreePort() {
@@ -197,6 +197,7 @@ async function main() {
 
   try {
     for (const name of names) {
+      // oxlint-disable-next-line no-await-in-loop -- 計測値が他シミュレーションの負荷に影響されないよう、意図的に直列実行している
       const result = await benchmarkSimulation(browser, baseUrl, name, options);
       console.log(`■ ${result.name}`);
       // requestAnimationFrameベースの計測のため、p5のframeRate()による間引きが

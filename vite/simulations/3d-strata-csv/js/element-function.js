@@ -45,6 +45,7 @@ export function placeNameInputFunction(p) {
     } else {
       state.dataInputArr[place].edit.html(placeName + "のデータを編集");
     }
+    // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
     document.getElementById("placeDataInput" + (i + 1)).onclick = () => {
       window.open(
         "/vite/simulations/3d-strata-csv/setWindow.html?" + placeName,
@@ -80,6 +81,7 @@ export function placeAddButtonFunction(p) {
   state.dataInputArr[placeName].data.y = newDom.yInput;
   state.dataInputArr[placeName].edit = newDom.placeDataInput;
 
+  // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   document.getElementById("placeDataInput" + newPlaceNum).onclick = () => {
     window.open(
       "/vite/simulations/3d-strata-csv/setWindow.html?" + placeName,
@@ -348,8 +350,11 @@ export function placeRefreshFunction(p) {
   // placeRefreshFunctionは地点の追加・削除・名前入力のたびに呼び出されるため、
   // addEventListenerで都度追加すると呼び出し回数分ハンドラが多重登録されてしまう。
   // 同一要素に対して常に単一のハンドラのみを保つよう、プロパティ代入で上書きする。
+  // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   firstPlaceSelectDoc.onchange = () => firstPlaceSelectFunction(p);
+  // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   secondPlaceSelectDoc.onchange = () => secondPlaceSelectFunction(p);
+  // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   thirdPlaceSelectDoc.onchange = () => thirdPlaceSelectFunction(p);
 }
 
@@ -400,13 +405,13 @@ export function strataFileInputFunction(file, p) {
     const reader = new FileReader();
     reader.readAsArrayBuffer(file.file); // ArrayBuffer で読み込む
 
-    reader.onload = function () {
+    reader.addEventListener("load", () => {
       // UTF-8でデコード
       const decoder = new TextDecoder("utf-8");
       const csvText = decoder.decode(reader.result);
 
       processCSV(csvText, p);
-    };
+    });
   } else {
     console.log("テキストファイルではありません");
   }
