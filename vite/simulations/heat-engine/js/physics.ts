@@ -12,7 +12,7 @@ import { PISTON_Y_TOP, PISTON_Y_MID, PISTON_Y_BOTTOM } from "./constants.js";
  * @param {number} duration 各段階の所要フレーム数
  * @returns {number} ピストンのY座標
  */
-export function computePistonY(stage, t, duration) {
+export function computePistonY(stage: number, t: number, duration: number) {
   const ratio = t / duration;
   if (stage === 0) return lerp(PISTON_Y_TOP, PISTON_Y_MID, ratio);
   if (stage === 1) return lerp(PISTON_Y_MID, PISTON_Y_BOTTOM, ratio);
@@ -26,7 +26,7 @@ export function computePistonY(stage, t, duration) {
  * @param {number} stage 現在の段階
  * @returns {number} 次の段階
  */
-export function advanceStage(stage) {
+export function advanceStage(stage: number) {
   return (stage + 1) % 4;
 }
 
@@ -37,6 +37,6 @@ export function advanceStage(stage) {
  * @param {number} t 補間係数 (0〜1)
  * @returns {number}
  */
-function lerp(a, b, t) {
+function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
 }

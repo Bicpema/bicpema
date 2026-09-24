@@ -7,6 +7,11 @@
  * @param {number} t 経過時間
  * @returns {number} 時刻tでの温度
  */
-export function computeTemperatureAtTime(teq, t0, k, t) {
+export function computeTemperatureAtTime(
+  teq: number,
+  t0: number,
+  k: number,
+  t: number
+) {
   return teq + (t0 - teq) * Math.exp(-k * t);
 }

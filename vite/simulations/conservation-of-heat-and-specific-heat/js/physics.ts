@@ -7,7 +7,12 @@
  * @param {number} tcold0 低温側の初期温度
  * @returns {number} 熱平衡温度
  */
-export function computeEquilibriumTemperature(cHot, cCold, thot0, tcold0) {
+export function computeEquilibriumTemperature(
+  cHot: number,
+  cCold: number,
+  thot0: number,
+  tcold0: number
+) {
   return (cHot * thot0 + cCold * tcold0) / (cHot + cCold);
 }
 
@@ -20,6 +25,11 @@ export function computeEquilibriumTemperature(cHot, cCold, thot0, tcold0) {
  * @param {number} t 経過時間
  * @returns {number} 時刻tでの温度
  */
-export function computeTemperatureAtTime(teq, t0, kEff, t) {
+export function computeTemperatureAtTime(
+  teq: number,
+  t0: number,
+  kEff: number,
+  t: number
+) {
   return teq + (t0 - teq) * Math.exp(-kEff * t);
 }

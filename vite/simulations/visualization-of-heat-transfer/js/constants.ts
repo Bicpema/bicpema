@@ -5,9 +5,9 @@ export const LABEL_FONT_SIZE = 12;
 /** グラフ上の現在値ラベルの背景の高さ */
 export const LABEL_HEIGHT = 14;
 /** 高温側を表す色（凡例・曲線・現在点で共通） */
-export const HOT_COLOR = [255, 0, 0];
+export const HOT_COLOR: [number, number, number] = [255, 0, 0];
 /** 低温側を表す色（凡例・曲線・現在点で共通） */
-export const COLD_COLOR = [0, 0, 255];
+export const COLD_COLOR: [number, number, number] = [0, 0, 255];
 /** 分子の揺れ幅の温度に対するスケール係数 */
 export const MOLECULE_JITTER_SCALE = 0.3;
 /** 分子の揺れ幅の最大値 */

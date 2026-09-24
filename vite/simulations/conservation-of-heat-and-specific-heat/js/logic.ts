@@ -8,9 +8,9 @@ import { getCheckedRadioValue } from "../../../js/bicpema-dom.js";
 /** 冷却の緩和係数の係数 G（k_eff = G / C_hot） */
 const COOLING_RATE_CONSTANT = 1.8;
 /** 高温側を表す色（凡例・曲線・現在点で共通） */
-const HOT_COLOR = [255, 0, 0];
+const HOT_COLOR: [number, number, number] = [255, 0, 0];
 /** 低温側を表す色（凡例・曲線・現在点で共通） */
-const COLD_COLOR = [0, 0, 255];
+const COLD_COLOR: [number, number, number] = [0, 0, 255];
 /** 見出しテキストのフォントサイズ */
 const HEADER_FONT_SIZE = 32;
 /** グラフの凡例・軸ラベルのフォントサイズ */
@@ -51,7 +51,13 @@ function getMassA() {
   return value !== null ? parseInt(value, 10) : 1;
 }
 
-function getMaterialGradient(p, x, y, r, type) {
+function getMaterialGradient(
+  p: p5,
+  x: number,
+  y: number,
+  r: number,
+  type: number
+) {
   const ctx = p.drawingContext;
   const g = ctx.createRadialGradient(
     x - r * 0.3,
@@ -80,7 +86,7 @@ function getMaterialGradient(p, x, y, r, type) {
   return g;
 }
 
-function ballDraw(p) {
+function ballDraw(p: p5) {
   const contactState = getContactState();
   const checkcolorA = getMaterialA();
   const checkMassA = getMassA();
@@ -121,20 +127,20 @@ function ballDraw(p) {
   }
 }
 
-function drawContainer(p) {
+function drawContainer(p: p5) {
   const contactState = getContactState();
   p.push();
   p.scale(1.7);
   if (contactState === 1) {
-    p.image(state.boxImg, 390, 53);
+    p.image(state.boxImg!, 390, 53);
     ballDraw(p); // ballDraw pops this push internally
   } else {
-    p.image(state.boxImg, 186, 53);
+    p.image(state.boxImg!, 186, 53);
     ballDraw(p);
   }
 }
 
-function showPara(p) {
+function showPara(p: p5) {
   p.push();
   p.textSize(HEADER_FONT_SIZE);
   p.stroke(0);
@@ -157,7 +163,7 @@ function showPara(p) {
   }
 }
 
-function updateTemperature(p) {
+function updateTemperature(p: p5) {
   const contactState = getContactState();
 
   if (contactState === 0) {
@@ -198,7 +204,7 @@ function updateTemperature(p) {
   }
 }
 
-function drawGraph(p) {
+function drawGraph(p: p5) {
   p.push();
   p.scale(0.65);
   p.translate(900, 200);
@@ -337,15 +343,15 @@ function drawGraph(p) {
   p.pop();
 }
 
-function tx(p, t) {
+function tx(p: p5, t: number) {
   return p.map(t, 0, state.tMax, state.gx, state.gx + state.gw);
 }
 
-function ty(p, T) {
+function ty(p: p5, T: number) {
   return p.map(T, state.Tmin, state.Tmax, state.gy + state.gh, state.gy);
 }
 
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   drawContainer(p);
   updateTemperature(p);
   // drawButton(p);

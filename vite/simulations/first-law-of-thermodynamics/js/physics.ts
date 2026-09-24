@@ -14,9 +14,9 @@ import { DT_UNIT, DV_UNIT } from "./constants.js";
  * @returns {{Q: number, W: number, dU: number, T: number, pistonXTarget: number}}
  */
 export function computeThermodynamicState(
-  step,
-  t0,
-  pistonInitX,
+  step: number,
+  t0: number,
+  pistonInitX: number,
   dtUnit = DT_UNIT,
   dvUnit = DV_UNIT
 ) {
@@ -36,6 +36,6 @@ export function computeThermodynamicState(
  * @param {number} zFactor 分子ごとのばらつき係数
  * @returns {number} 分子の移動速度
  */
-export function computeMoleculeSpeed(temperature, zFactor) {
+export function computeMoleculeSpeed(temperature: number, zFactor: number) {
   return Math.sqrt(temperature * temperature * temperature) * (0.6 + zFactor);
 }

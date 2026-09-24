@@ -8,7 +8,7 @@ import "../../../css/tailwind.css";
 
 const canvasController = new BicpemaCanvasController();
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   p.preload = () => {
     state.img_flame = p.loadImage(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/flame.png?alt=media&token=1e8a3133-f779-47fd-9236-489515c0cbb6"

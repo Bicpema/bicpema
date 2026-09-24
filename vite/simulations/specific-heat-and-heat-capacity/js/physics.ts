@@ -6,6 +6,10 @@
  * @param {number} specificHeat 比熱 c (J/(g・K))
  * @returns {number} 温度変化 ΔT (K)
  */
-export function computeTemperatureChange(heat, mass, specificHeat) {
+export function computeTemperatureChange(
+  heat: number,
+  mass: number,
+  specificHeat: number
+) {
   return heat / (mass * specificHeat);
 }
