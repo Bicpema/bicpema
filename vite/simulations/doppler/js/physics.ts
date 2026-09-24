@@ -8,6 +8,11 @@ import { ORIGIN_X } from "./constants.js";
  * @param {number} [offset=ORIGIN_X] 初期位置オフセット
  * @returns {number} 音源のx座標
  */
-export function computeSourcePosition(speed, count, fps, offset = ORIGIN_X) {
+export function computeSourcePosition(
+  speed: number,
+  count: number,
+  fps: number,
+  offset = ORIGIN_X
+) {
   return (speed * count) / fps + offset;
 }

@@ -13,7 +13,7 @@ import { ReflectedWave } from "./reflected-wave.js";
  * シミュレーションを描画する。
  * @param {*} p - p5 インスタンス。
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   if (!state.mediums || !state.stopper || !state.button) return;
 
   p.background(100);
@@ -43,7 +43,7 @@ export function drawSimulation(p) {
  * ボタンの処理を行う。
  * @param {*} p - p5 インスタンス。
  */
-function buttonFunction(p) {
+function buttonFunction(p: p5) {
   if (!state.button) return;
   if (p.mouseIsPressed) {
     if (
@@ -88,7 +88,7 @@ function buttonFunction(p) {
  * ストッパーの処理を行う。
  * @param {*} p - p5 インスタンス。
  */
-function stopperFunction(p) {
+function stopperFunction(p: p5) {
   if (!state.stopper) return;
   if (
     state.stopperX > p.width - CONTENT_X_OFFSET - state.stopper.width &&
@@ -123,7 +123,7 @@ function stopperFunction(p) {
  * 画像の処理を行う。
  * @param {*} p - p5 インスタンス。
  */
-function imageFunction(p) {
+function imageFunction(p: p5) {
   if (!state.button || !state.stopper) return;
   p.tint(255);
   if (

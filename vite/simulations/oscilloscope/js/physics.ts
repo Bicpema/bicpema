@@ -5,7 +5,11 @@
  * @param {number} canvasWidth キャンバス幅
  * @returns {number} x座標
  */
-export function mapIndexToX(index, sampleCount, canvasWidth) {
+export function mapIndexToX(
+  index: number,
+  sampleCount: number,
+  canvasWidth: number
+) {
   return (index / sampleCount) * canvasWidth;
 }
 
@@ -15,7 +19,7 @@ export function mapIndexToX(index, sampleCount, canvasWidth) {
  * @param {number} canvasHeight キャンバス高さ
  * @returns {number} y座標
  */
-export function mapWaveformValueToY(value, canvasHeight) {
+export function mapWaveformValueToY(value: number, canvasHeight: number) {
   return ((value + 1) / 2) * canvasHeight;
 }
 
@@ -29,6 +33,6 @@ const SPECTRUM_BOTTOM_MARGIN = 5;
  * @param {number} canvasHeight キャンバス高さ
  * @returns {number} y座標
  */
-export function mapSpectrumValueToY(value, canvasHeight) {
+export function mapSpectrumValueToY(value: number, canvasHeight: number) {
   return (canvasHeight - SPECTRUM_BOTTOM_MARGIN) * (1 - value / 255);
 }

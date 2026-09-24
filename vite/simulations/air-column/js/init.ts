@@ -21,7 +21,7 @@ const INITIAL_M_N = 1;
 /** 管の長さの初期値 */
 const INITIAL_PIPE_L = 400;
 
-export function elementPositionInit(p) {
+export function elementPositionInit(p: p5) {
   if (state.waveLayer) state.waveLayer.remove();
   state.waveLayer = p.createGraphics(p.width, p.height);
   updateWaveLayer(p);
@@ -34,7 +34,7 @@ function updateDisplays() {
   if (lDisplay) lDisplay.textContent = String(state.pipeL);
 }
 
-export function setupControls(p) {
+export function setupControls(p: p5) {
   const typeSelect = document.getElementById(
     "typeSelect"
   ) as HTMLSelectElement | null;

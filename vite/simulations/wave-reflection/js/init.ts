@@ -1,7 +1,7 @@
 import { state } from "./state.js";
 import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 
-export function settingInit(p) {
+export function settingInit(p: p5) {
   const wavelength = 200;
   state.A = wavelength / 4;
   state.k = p.TWO_PI / wavelength;
@@ -9,7 +9,7 @@ export function settingInit(p) {
   state.v = state.omega / state.k;
 }
 
-export function elementSelectInit(p) {
+export function elementSelectInit(p: p5) {
   const { toggleButton } = bindToggleControls(p, {
     toggleSelector: "#moveBtn",
     resetSelector: "#resetBtn",
@@ -18,7 +18,7 @@ export function elementSelectInit(p) {
   });
 }
 
-export function elementPositionInit(p) {
+export function elementPositionInit(p: p5) {
   state.reflectX = p.width / 2;
 
   const modeBtn = document.getElementById("modeBtn");
@@ -28,13 +28,13 @@ export function elementPositionInit(p) {
   }
 }
 
-export function valueInit(p) {
+export function valueInit(p: p5) {
   state.t = 0;
   state.front = 0;
   state.running = false;
 }
 
-function toggleMove(moveBtn) {
+function toggleMove(moveBtn: HTMLElement | null | undefined) {
   state.running = !state.running;
   if (!moveBtn) return;
   if (!state.running) {
@@ -48,7 +48,7 @@ function toggleMove(moveBtn) {
   }
 }
 
-function toggleMode(modeBtn) {
+function toggleMode(modeBtn: HTMLElement) {
   state.mode = state.mode === "free" ? "fixed" : "free";
   if (state.mode === "free") {
     modeBtn.textContent = "自由端";
@@ -73,7 +73,7 @@ function toggleMode(modeBtn) {
   }
 }
 
-function resetSim(moveBtn) {
+function resetSim(moveBtn: HTMLElement | null | undefined) {
   state.t = 0;
   state.front = 0;
   state.running = false;

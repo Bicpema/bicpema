@@ -9,7 +9,7 @@ import {
 
 const stubP = {
   sin: Math.sin,
-  radians: (deg) => (deg * Math.PI) / 180,
+  radians: (/** @type {number} */ deg) => (deg * Math.PI) / 180,
   height: 200,
   width: 1000,
   strokeWeight: () => {},

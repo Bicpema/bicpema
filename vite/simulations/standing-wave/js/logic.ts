@@ -7,7 +7,7 @@ import {
 } from "./physics.js";
 import { GRID_LINES_PER_WAVELENGTH } from "./constants.js";
 
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   p.background(211, 237, 244);
   p.push();
   p.translate(state.margin, state.margin);
@@ -32,7 +32,7 @@ export function drawSimulation(p) {
   }
 }
 
-function drawGrid(p) {
+function drawGrid(p: p5) {
   p.stroke(200);
   p.strokeWeight(1);
   const yCenter = state.innerH / 2;
@@ -53,7 +53,7 @@ function drawGrid(p) {
   }
 }
 
-function drawXAxis(p) {
+function drawXAxis(p: p5) {
   const yAxis = state.innerH / 2;
   p.stroke(0);
   p.strokeWeight(2);
@@ -75,7 +75,7 @@ function drawXAxis(p) {
   p.text("x", state.innerW - 5, yAxis + 20);
 }
 
-function drawRightWave(p) {
+function drawRightWave(p: p5) {
   p.stroke(255, 0, 0);
   p.strokeWeight(2);
   p.noFill();
@@ -95,7 +95,7 @@ function drawRightWave(p) {
   p.endShape();
 }
 
-function drawLeftWave(p) {
+function drawLeftWave(p: p5) {
   p.stroke(0, 0, 255);
   p.strokeWeight(2);
   p.noFill();
@@ -115,7 +115,7 @@ function drawLeftWave(p) {
   p.endShape();
 }
 
-function drawStandingWave(p) {
+function drawStandingWave(p: p5) {
   p.stroke(0, 180, 0);
   p.strokeWeight(2);
   p.noFill();

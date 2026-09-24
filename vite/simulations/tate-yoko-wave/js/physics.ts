@@ -10,7 +10,14 @@
  * @param {number} t 経過時間
  * @returns {number} 変位
  */
-export function computeWaveDisplacement(amplitude, k, omega, x0, xStart, t) {
+export function computeWaveDisplacement(
+  amplitude: number,
+  k: number,
+  omega: number,
+  x0: number,
+  xStart: number,
+  t: number
+) {
   if (t <= computeArrivalTime(k, omega, x0, xStart)) return 0;
   return -amplitude * Math.sin(k * (x0 - xStart) - omega * t);
 }
@@ -23,7 +30,12 @@ export function computeWaveDisplacement(amplitude, k, omega, x0, xStart, t) {
  * @param {number} xStart 波源の位置
  * @returns {number} 到達時刻
  */
-export function computeArrivalTime(k, omega, x0, xStart) {
+export function computeArrivalTime(
+  k: number,
+  omega: number,
+  x0: number,
+  xStart: number
+) {
   const v = omega / k;
   return (x0 - xStart) / v;
 }

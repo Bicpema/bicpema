@@ -2,7 +2,7 @@ import { state } from "./state.js";
 import { MARGIN, WAVELENGTH, PERIOD_FRAMES } from "./constants.js";
 import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 
-export function settingInit(p) {
+export function settingInit(p: p5) {
   state.wavelength = WAVELENGTH;
   state.k = p.TWO_PI / state.wavelength;
   state.omega = p.TWO_PI / PERIOD_FRAMES;
@@ -10,7 +10,7 @@ export function settingInit(p) {
   state.A = state.wavelength / 5;
 }
 
-export function elementSelectInit(p) {
+export function elementSelectInit(p: p5) {
   const { toggleButton } = bindToggleControls(p, {
     toggleSelector: "#moveBtn",
     resetSelector: "#resetBtn",
@@ -19,20 +19,20 @@ export function elementSelectInit(p) {
   });
 }
 
-export function elementPositionInit(p) {
+export function elementPositionInit(p: p5) {
   state.margin = MARGIN;
   state.innerW = p.width - state.margin * 2;
   state.innerH = p.height - state.margin * 2;
 }
 
-export function valueInit(p) {
+export function valueInit(p: p5) {
   state.t = 0;
   state.rightFront = 0;
   state.leftFront = state.innerW;
   state.running = false;
 }
 
-function toggleMove(moveBtn) {
+function toggleMove(moveBtn: HTMLElement | null | undefined) {
   state.running = !state.running;
   if (!moveBtn) return;
   if (!state.running) {
@@ -46,7 +46,7 @@ function toggleMove(moveBtn) {
   }
 }
 
-function resetSim(moveBtn) {
+function resetSim(moveBtn: HTMLElement | null | undefined) {
   state.t = 0;
   state.rightFront = 0;
   state.leftFront = state.innerW;

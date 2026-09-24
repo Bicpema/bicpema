@@ -35,6 +35,10 @@ function setMockDom(element) {
   });
 }
 
+/**
+ * @param {"document" | "HTMLInputElement"} name
+ * @param {PropertyDescriptor | undefined} descriptor
+ */
 function restoreGlobal(name, descriptor) {
   if (descriptor) {
     Object.defineProperty(globalThis, name, descriptor);

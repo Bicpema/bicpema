@@ -11,7 +11,7 @@ import {
   ARROW_COLOR
 } from "./constants.js";
 
-function displacement(p, x0) {
+function displacement(p: p5, x0: number) {
   return computeWaveDisplacement(
     state.A,
     state.k,
@@ -22,7 +22,7 @@ function displacement(p, x0) {
   );
 }
 
-function drawArrow(p, x1, y1, x2, y2) {
+function drawArrow(p: p5, x1: number, y1: number, x2: number, y2: number) {
   if (p.dist(x1, y1, x2, y2) < 1) return;
   p.stroke(...ARROW_COLOR);
   p.strokeWeight(2);
@@ -38,7 +38,7 @@ function drawArrow(p, x1, y1, x2, y2) {
   p.pop();
 }
 
-function drawAxis(p, title) {
+function drawAxis(p: p5, title: string) {
   p.stroke(0);
   p.strokeWeight(1);
   p.line(AXIS_RIGHT_MARGIN, 0, p.width - AXIS_RIGHT_MARGIN, 0);
@@ -57,7 +57,7 @@ function drawAxis(p, title) {
   p.text(title, WAVE_ORIGIN_X, -60);
 }
 
-function drawLongitudinal(p) {
+function drawLongitudinal(p: p5) {
   p.push();
   p.translate(0, p.height / 3);
   drawAxis(p, "縦波");
@@ -87,7 +87,7 @@ function drawLongitudinal(p) {
   p.pop();
 }
 
-function drawConvertedTransverse(p) {
+function drawConvertedTransverse(p: p5) {
   p.push();
   p.translate(0, (p.height * 2) / 3);
   drawAxis(p, "横波");
@@ -125,7 +125,7 @@ function drawConvertedTransverse(p) {
   p.pop();
 }
 
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   const speedSlider = document.getElementById(
     "speedSlider"
   ) as HTMLInputElement | null;

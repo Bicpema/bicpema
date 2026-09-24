@@ -14,8 +14,8 @@ import { drawOscilloscope, updateAudioData } from "./logic.js";
 
 const canvasController = new BicpemaCanvasController();
 
-const sketch = (p) => {
-  let elements;
+const sketch = (p: p5) => {
+  let elements: ReturnType<typeof elementSelectInit>;
 
   p.setup = () => {
     canvasController.fullScreen(p);

@@ -3,7 +3,9 @@ import { SOUND } from "../../../vite/simulations/doppler/js/class.js";
 import { state } from "../../../vite/simulations/doppler/js/state.js";
 import { FPS } from "../../../vite/simulations/doppler/js/constants.js";
 
-const stubP = { noFill: () => {}, ellipse: () => {} };
+const stubP = /** @type {p5} */ (
+  /** @type {unknown} */ ({ noFill: () => {}, ellipse: () => {} })
+);
 
 beforeEach(() => {
   state.clickedCount = false;

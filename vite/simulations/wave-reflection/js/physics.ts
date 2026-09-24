@@ -7,7 +7,13 @@
  * @param {number} t 時刻
  * @returns {number} 変位
  */
-export function computeIncidentDisplacement(amplitude, k, x, omega, t) {
+export function computeIncidentDisplacement(
+  amplitude: number,
+  k: number,
+  x: number,
+  omega: number,
+  t: number
+) {
   return amplitude * Math.sin(k * x - omega * t);
 }
 
@@ -24,13 +30,13 @@ export function computeIncidentDisplacement(amplitude, k, x, omega, t) {
  * @returns {number} 変位
  */
 export function computeReflectedDisplacement(
-  amplitude,
-  k,
-  mirrorOrigin,
-  x,
-  omega,
-  t,
-  mode
+  amplitude: number,
+  k: number,
+  mirrorOrigin: number,
+  x: number,
+  omega: number,
+  t: number,
+  mode: "fixed" | "free"
 ) {
   const y = amplitude * Math.sin(k * (mirrorOrigin - x) - omega * t);
   return mode === "fixed" ? -y : y;
@@ -48,13 +54,13 @@ export function computeReflectedDisplacement(
  * @returns {number} 変位
  */
 export function computeCombinedDisplacement(
-  amplitude,
-  k,
-  x,
-  omega,
-  t,
-  mirrorOrigin,
-  mode
+  amplitude: number,
+  k: number,
+  x: number,
+  omega: number,
+  t: number,
+  mirrorOrigin: number,
+  mode: "fixed" | "free"
 ) {
   const yIncident = computeIncidentDisplacement(amplitude, k, x, omega, t);
   const yReflected = computeReflectedDisplacement(
@@ -76,6 +82,6 @@ export function computeCombinedDisplacement(
  * @param {number} maxFront 先端位置の上限
  * @returns {number} 波の先端位置
  */
-export function computeWaveFront(v, t, maxFront) {
+export function computeWaveFront(v: number, t: number, maxFront: number) {
   return Math.min(v * t, maxFront);
 }

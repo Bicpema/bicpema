@@ -18,7 +18,7 @@ import { computeSourcePosition } from "./physics.js";
  * シミュレーションを描画する。
  * @param {*} p - p5 インスタンス。
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   p.scale(p.width / 1000);
   p.background(255);
   drawBackground(p);
@@ -50,7 +50,7 @@ export function drawSimulation(p) {
  * 背景グリッドを描画する。
  * @param {*} p - p5 インスタンス。
  */
-function drawBackground(p) {
+function drawBackground(p: p5) {
   p.stroke(0, 100);
   for (let i = 0; i < W - ORIGIN_X; i += GRID_STEP) {
     if (i % MAJOR_GRID_INTERVAL === 0) {
