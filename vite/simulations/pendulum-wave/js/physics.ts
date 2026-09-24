@@ -12,10 +12,10 @@ import { FPS, LENGTH_TO_METER_FACTOR } from "./constants.js";
  * @returns {number} 現在の振れ角 (ラジアン)
  */
 export function computePendulumWaveAngle(
-  theta0,
-  length,
-  gravity,
-  count,
+  theta0: number,
+  length: number,
+  gravity: number,
+  count: number,
   fps = FPS
 ) {
   const lengthM = length * LENGTH_TO_METER_FACTOR;

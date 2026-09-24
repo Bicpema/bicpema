@@ -36,7 +36,7 @@ const GY = 130;
 const GW = 277;
 const GH = 266;
 
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   p.background(255);
 
   updateTemperature();
@@ -67,17 +67,24 @@ function updateTemperature() {
   }
 }
 
-function leftArea(p) {
+function leftArea(p: p5) {
   drawBlock(p, L_BLK_X, L_BLK_TOP_Y, BLK_W, BLK_H, state.Thot0);
   drawBlock(p, L_BLK_X, L_BLK_BOT_Y, BLK_W, BLK_H, state.Tcold0);
 }
 
-function rightArea(p) {
+function rightArea(p: p5) {
   drawBlock(p, R_BLK_X, R_BLK_TOP_Y, BLK_W, BLK_H, state.Thot);
   drawBlock(p, R_BLK_X, R_BLK_BOT_Y, BLK_W, BLK_H, state.Tcold);
 }
 
-function drawBlock(p, x, y, w, h, T) {
+function drawBlock(
+  p: p5,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  T: number
+) {
   const coldCol = p.color(0, 120, 255, 120);
   const hotCol = p.color(255, 80, 0, 120);
   const tcol = p.constrain((T - state.Tmin) / (state.Tmax - state.Tmin), 0, 1);
@@ -91,7 +98,14 @@ function drawBlock(p, x, y, w, h, T) {
   p.text(`${T.toFixed(1)} K`, x + 6, y + 14);
 }
 
-function drawMolecules(p, x, y, w, h, T) {
+function drawMolecules(
+  p: p5,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  T: number
+) {
   const dx = w / state.cols;
   const dy = h / state.rows;
   let amp = MOLECULE_JITTER_SCALE * p.sqrt(p.max(T, 0));
@@ -111,16 +125,16 @@ function drawMolecules(p, x, y, w, h, T) {
   }
 }
 
-function middleArrow(p) {
+function middleArrow(p: p5) {
   p.fill(255, 0, 0, 120);
   p.noStroke();
   p.rect(275, 270, 69, 22);
   p.triangle(378, 281, 344, 253, 344, 309);
 }
 
-function drawGraph(p) {
-  const tx = (t) => p.map(t, 0, state.tMax, GX, GX + GW);
-  const ty = (T) => p.map(T, state.Tmin, state.Tmax, GY + GH, GY);
+function drawGraph(p: p5) {
+  const tx = (t: number) => p.map(t, 0, state.tMax, GX, GX + GW);
+  const ty = (T: number) => p.map(T, state.Tmin, state.Tmax, GY + GH, GY);
 
   p.push();
 

@@ -1,6 +1,6 @@
 export const state = {
-  /** @type {"closed" | "open"} */
-  type: "closed",
+  /** 管の種類 */
+  type: "closed" as "closed" | "open",
   m_n: 1,
   pipeL: 400,
   pipeY: 200,

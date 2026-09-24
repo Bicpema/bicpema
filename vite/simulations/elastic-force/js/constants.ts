@@ -2,12 +2,10 @@
 
 /**
  * フックの法則の直線（F = kx）と、その式ラベルの色
- * @type {readonly [number, number, number]}
  */
-export const HOOKE_LINE_COLOR = [70, 130, 200];
+export const HOOKE_LINE_COLOR: [number, number, number] = [70, 130, 200];
 
 /**
  * 弾性力ラベル・矢印の色
- * @type {readonly [number, number, number]}
  */
-export const FORCE_ARROW_COLOR = [200, 30, 30];
+export const FORCE_ARROW_COLOR: [number, number, number] = [200, 30, 30];

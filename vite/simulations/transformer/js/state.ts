@@ -1,9 +1,26 @@
+import type p5 from "p5";
 import { TURNS_MIN, TURNS_MAX } from "./constants.js";
 
 /**
  * シミュレーション全体で共有するグローバル状態オブジェクト。
  */
-export const state = {
+export const state: {
+  img1: p5.Image | null;
+  img2: p5.Image | null;
+  img3: p5.Image | null;
+  count1: number;
+  count2: number;
+  waveK: number;
+  omega: number;
+  t: number;
+  phase: boolean;
+  topY1: number;
+  topY2: number;
+  minCount: number;
+  maxCount: number;
+  angle: number;
+  isRunning: boolean;
+} = {
   img1: null, // 変圧器コア画像
   img2: null, // コイル横線画像
   img3: null, // コイル曲がり部画像

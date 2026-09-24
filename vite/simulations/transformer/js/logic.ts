@@ -1,3 +1,4 @@
+import type p5 from "p5";
 import { state } from "./state.js";
 import {
   computeSecondaryVoltage,
@@ -21,7 +22,7 @@ import {
  * UIの状態をstateに反映したのち、各パーツを描画する。
  * @param {*} p p5インスタンス。
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   // 設定パネルのラジオボタンからstate（位相・速度）を更新
   const phaseValue = getCheckedRadioValue("phase");
   if (phaseValue !== null) state.phase = phaseValue === "true";
@@ -42,7 +43,7 @@ export function drawSimulation(p) {
   // 変圧器本体（コア画像・磁力線・一次/二次コイル）
   p.push();
   p.translate(308, 0);
-  p.image(state.img1, 0, 50, 396, 376);
+  p.image(state.img1!, 0, 50, 396, 376);
   magline(p);
   coil1(p);
   coil2(p);
@@ -71,7 +72,7 @@ export function drawSimulation(p) {
  * 電流の符号に応じて矢印の向きを反転させる。
  * @param {*} p p5インスタンス。
  */
-function magline(p) {
+function magline(p: p5) {
   // 磁力線の楕円ループ（コア断面を模した丸角矩形）
   p.rectMode(p.CENTER);
   p.noFill();
@@ -128,7 +129,7 @@ function magline(p) {
  * state.count1 の値に応じて巻き線の本数が変化する。
  * @param {*} p p5インスタンス。
  */
-function coil1(p) {
+function coil1(p: p5) {
   const x = 0; // コイル左端のX座標
   const w = 91; // 横巻き線（img2）の幅
   const h = 5; // 巻き線1本の高さ
@@ -140,24 +141,24 @@ function coil1(p) {
   const d = p.sin(-state.angle) * w2;
 
   // 最上端と最下端の接続端線を描画
-  p.image(state.img2, x - 77, y - h - d, 78, h);
-  p.image(state.img2, x - 77, y + state.count1 * h, w + 77, h);
+  p.image(state.img2!, x - 77, y - h - d, 78, h);
+  p.image(state.img2!, x - 77, y + state.count1 * h, w + 77, h);
 
   // 最下端の曲がり部を描画
   p.push();
   p.translate(x2, y + state.count1 * h);
   p.rotate(state.angle);
-  p.image(state.img3, 0, 0, w2, h);
+  p.image(state.img3!, 0, 0, w2, h);
   p.pop();
 
   // 各巻き線（横線＋曲がり部）をループで描画
   for (let i = 0; i < state.count1; i++) {
     state.topY1 = y + i * h;
-    p.image(state.img2, x, state.topY1, w, h);
+    p.image(state.img2!, x, state.topY1, w, h);
     p.push();
     p.translate(x2, state.topY1);
     p.rotate(state.angle);
-    p.image(state.img3, 0, 0, w2, h);
+    p.image(state.img3!, 0, 0, w2, h);
     p.pop();
   }
 
@@ -178,7 +179,7 @@ function coil1(p) {
  * state.phase（同位相/逆位相）によって端線の接続方向が変化する。
  * @param {*} p p5インスタンス。
  */
-function coil2(p) {
+function coil2(p: p5) {
   const x = 260; // コイル左端のX座標
   const w = 87; // 横巻き線（img2）の幅
   const h = 5; // 巻き線1本の高さ
@@ -192,24 +193,24 @@ function coil2(p) {
   // 各巻き線（横線＋曲がり部）をループで描画
   for (let i = 0; i < state.count2; i++) {
     state.topY2 = y + i * h;
-    p.image(state.img2, x, state.topY2, w, h);
+    p.image(state.img2!, x, state.topY2, w, h);
     p.push();
     p.translate(x2, state.topY2);
     p.rotate(state.angle);
-    p.image(state.img3, 0, 0, w2, h);
+    p.image(state.img3!, 0, 0, w2, h);
     p.pop();
   }
 
   // 同位相：端線を最下端から引き出して上端に接続
   if (state.phase) {
-    p.image(state.img2, x, y + state.count2 * h, w, h);
+    p.image(state.img2!, x, y + state.count2 * h, w, h);
     p.push();
     p.translate(x2, y + state.count2 * h);
     p.rotate(state.angle);
-    p.image(state.img3, 0, 0, w2, h);
+    p.image(state.img3!, 0, 0, w2, h);
     p.pop();
-    p.image(state.img3, x + w, y + state.count2 * h, w + 30, h);
-    p.image(state.img3, x + 135, y - h - d, w * 2 - 135 + 30, h);
+    p.image(state.img3!, x + w, y + state.count2 * h, w + 30, h);
+    p.image(state.img3!, x + 135, y - h - d, w * 2 - 135 + 30, h);
     // 二次電流矢印とラベルを最上端に描画
     p.push();
     p.translate(x2 + 82, y - h - d);
@@ -224,14 +225,14 @@ function coil2(p) {
 
   // 逆位相：端線を最上端から引き出して下端に接続
   if (!state.phase) {
-    p.image(state.img2, x, y - h, w, h);
+    p.image(state.img2!, x, y - h, w, h);
     p.push();
     p.translate(x2, y - h);
     p.rotate(state.angle);
-    p.image(state.img3, 0, 0, w2, h);
+    p.image(state.img3!, 0, 0, w2, h);
     p.pop();
-    p.image(state.img3, x + 135, y + state.count2 * h, w * 2 - 135 + 30, h);
-    p.image(state.img3, x + w, y - h, w + 30, h);
+    p.image(state.img3!, x + 135, y + state.count2 * h, w * 2 - 135 + 30, h);
+    p.image(state.img3!, x + w, y - h, w + 30, h);
     // 二次電流矢印とラベルを最上端に描画
     p.push();
     p.translate(x2 + 82, y - h);
@@ -250,7 +251,7 @@ function coil2(p) {
  * 振幅は固定（V1）で、一次電圧の基準波形を表す。
  * @param {*} p p5インスタンス。
  */
-function oscillo1(p) {
+function oscillo1(p: p5) {
   const w = OSCILLO_WIDTH; // 描画領域の幅
   const h = OSCILLO_HEIGHT; // 描画領域の高さ
   const V1 = h / 10; // グリッド幅 = 最大振幅
@@ -284,7 +285,7 @@ function oscillo1(p) {
  * 振幅は変圧比 (N2/N1) × V1 で決まり、逆位相のときは符号を反転する。
  * @param {*} p p5インスタンス。
  */
-function oscillo2(p) {
+function oscillo2(p: p5) {
   const w = OSCILLO_WIDTH; // 描画領域の幅
   const h = OSCILLO_HEIGHT; // 描画領域の高さ
   const V1 = h / 10; // グリッド幅 = 一次電圧の最大振幅
@@ -325,7 +326,7 @@ function oscillo2(p) {
  * Iの符号（正負）が矢印の向きを決める。
  * @param {*} p p5インスタンス。
  */
-function current1(p) {
+function current1(p: p5) {
   p.push();
   p.noStroke();
   p.fill(...CURRENT_COLOR);
@@ -346,7 +347,7 @@ function current1(p) {
  * 逆位相のときは電流の向きが反転する。
  * @param {*} p p5インスタンス。
  */
-function current2(p) {
+function current2(p: p5) {
   p.push();
   p.noStroke();
   p.fill(...CURRENT_COLOR);

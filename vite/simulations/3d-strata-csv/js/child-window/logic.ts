@@ -2,13 +2,14 @@
 // このファイルでは、入力された地層データを親ウィンドウ（index.html）へ
 // window.opener経由でリアルタイムに反映する処理を行います。
 
+import type p5 from "p5";
 import { state } from "./state.js";
 
 /**
  * 入力中の地層データを親ウィンドウに送信し、平面データの選択肢を更新する。
  * @param {*} p p5インスタンス
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   // 取得した地層データの配列
   const strataData: string[][] = [];
 

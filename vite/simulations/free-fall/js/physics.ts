@@ -14,7 +14,15 @@ const DRAG_EPSILON = 1e-6;
  * @param {number} params.k 空気抵抗係数（質量1kgあたり）
  * @returns {{distanceFallen: number, velocity: number}} 落下距離と速度
  */
-export function computeDragFreeFall({ t, gravity, k }) {
+export function computeDragFreeFall({
+  t,
+  gravity,
+  k
+}: {
+  t: number;
+  gravity: number;
+  k: number;
+}) {
   if (!Number.isFinite(k) || k < DRAG_EPSILON) {
     const velocity = gravity * t;
     const distanceFallen = 0.5 * gravity * t * t;

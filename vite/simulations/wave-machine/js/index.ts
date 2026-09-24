@@ -8,7 +8,7 @@ import { state } from "./state.js";
 import { settingInit, elementSelectInit, valueInit } from "./init.js";
 import { drawSimulation } from "./logic.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({
     fixedAspectRatio: false
   });

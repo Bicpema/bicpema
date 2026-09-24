@@ -7,7 +7,7 @@ import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.j
 import { settingInit, elCreate, initValue } from "./init.js";
 import { drawSimulation } from "./logic.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({ heightRatio: 0.9 });
 
   p.setup = () => {

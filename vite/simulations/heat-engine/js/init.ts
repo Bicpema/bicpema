@@ -16,7 +16,7 @@ function onReset() {
   state.playButton.html("一時停止");
 }
 
-export function elementPositionInit(p) {
+export function elementPositionInit(p: p5) {
   state.pistonY = PISTON_Y_TOP;
 
   const { toggleButton } = bindToggleControls(p, {

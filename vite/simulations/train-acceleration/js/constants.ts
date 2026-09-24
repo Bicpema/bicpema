@@ -15,7 +15,7 @@ export const TRAIN_HALF_W = 100;
 /** 電車描画時の線の太さ (px)。車体外枠・車輪外枠に使用 */
 export const TRAIN_STROKE_WEIGHT = 2;
 /** 電車の車体色 [R, G, B]。v-tグラフの線色にも使用し、両者の色を一致させる */
-export const TRAIN_BODY_COLOR_RGB = [30, 100, 200];
+export const TRAIN_BODY_COLOR_RGB = [30, 100, 200] as const;
 
 /** 前照灯・尾灯の車体端からの水平オフセット (px) */
 export const TRAIN_LIGHT_OFFSET_X = 6;

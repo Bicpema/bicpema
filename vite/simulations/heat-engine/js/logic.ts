@@ -6,7 +6,7 @@ import {
   STAGE_DURATION_FRAMES
 } from "./constants.js";
 
-export function drawChamber(p) {
+export function drawChamber(p: p5) {
   const gw = 250;
   const gh = 400;
   const gx = 375;
@@ -109,7 +109,7 @@ export function drawChamber(p) {
   if (state.stage === 3) p.text("④ ①に戻る（繰り返し）", 20, 20);
 }
 
-export function animateCycle(p) {
+export function animateCycle(p: p5) {
   if (!state.isPlaying) return;
   state.t++;
   if (state.t <= STAGE_DURATION_FRAMES) {

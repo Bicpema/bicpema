@@ -1,3 +1,4 @@
+import type p5 from "p5";
 import { state } from "./state.js";
 import {
   computeMagneticFieldStrength,
@@ -14,7 +15,7 @@ function getCurrentVal() {
   return currentSlider ? parseFloat(currentSlider.value) : 1;
 }
 
-function drawWire(p, currentVal) {
+function drawWire(p: p5, currentVal: number) {
   p.push();
   p.noStroke();
   if (p.abs(currentVal) > CURRENT_THRESHOLD) {
@@ -39,7 +40,7 @@ function drawWire(p, currentVal) {
   p.pop();
 }
 
-function drawCircle(p, R) {
+function drawCircle(p: p5, R: number) {
   p.beginShape();
   for (let theta = 0; theta <= p.TWO_PI; theta += 0.05) {
     p.vertex(R * p.cos(theta), 0, R * p.sin(theta));
@@ -47,7 +48,13 @@ function drawCircle(p, R) {
   p.endShape(p.CLOSE);
 }
 
-function drawFlowArrow(p, r, currentVal, arrowSize = 6, color = null) {
+function drawFlowArrow(
+  p: p5,
+  r: number,
+  currentVal: number,
+  arrowSize = 6,
+  color: p5.Color | null = null
+) {
   // Arrow indicates direction; size reflects relative field strength at that radius
   const direction = currentVal >= 0 ? 1 : -1;
   const t = (state.t * 0.02 * direction) % p.TWO_PI;
@@ -68,7 +75,7 @@ function drawFlowArrow(p, r, currentVal, arrowSize = 6, color = null) {
   p.pop();
 }
 
-function drawFieldLines(p, currentVal) {
+function drawFieldLines(p: p5, currentVal: number) {
   const absI = p.abs(currentVal);
   if (absI <= 0.01) {
     return;
@@ -111,7 +118,7 @@ function drawFieldLines(p, currentVal) {
   }
 }
 
-function updateInfoPanel(currentVal) {
+function updateInfoPanel(currentVal: number) {
   const fieldDirectionLabel = document.getElementById("fieldDirectionLabel");
   if (fieldDirectionLabel) {
     const direction = computeFieldDirection(currentVal);
@@ -133,7 +140,7 @@ function updateInfoPanel(currentVal) {
   }
 }
 
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   p.background(240);
   p.orbitControl();
   const currentVal = getCurrentVal();

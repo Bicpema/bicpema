@@ -89,7 +89,16 @@ export function calcEquilibrium() {
  * @param {number} sw 線幅（px）
  * @param {number} hs 矢頭サイズ（px）
  */
-function drawArrow(p, x1, y1, x2, y2, col, sw = 3, hs = 11) {
+function drawArrow(
+  p: p5,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  col: readonly [number, number, number],
+  sw = 3,
+  hs = 11
+) {
   const dx = x2 - x1;
   const dy = y2 - y1;
   const len = Math.hypot(dx, dy);
@@ -123,7 +132,18 @@ function drawArrow(p, x1, y1, x2, y2, col, sw = 3, hs = 11) {
  * @param {{minX:number,maxX:number,minY:number,maxY:number}} bounds
  * @returns {{x:number,y:number}[]}
  */
-function placeLabelsAlongNormals(labels, minDistance, bounds) {
+function placeLabelsAlongNormals(
+  labels: {
+    anchorX: number;
+    anchorY: number;
+    dirX: number;
+    dirY: number;
+    baseOffset: number;
+    maxOffset?: number;
+  }[],
+  minDistance: number,
+  bounds: { minX: number; maxX: number; minY: number; maxY: number }
+) {
   const iterations = 8;
   const offsets = labels.map((label) => label.baseOffset);
   const normalized = labels.map((label) => {
@@ -171,7 +191,14 @@ function placeLabelsAlongNormals(labels, minDistance, bounds) {
 /**
  * 線分の2つの法線候補から、基準点（cx, cy）から遠ざかる向きを選ぶ。
  */
-function outwardNormalForSegment(x1, y1, x2, y2, cx, cy) {
+function outwardNormalForSegment(
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  cx: number,
+  cy: number
+) {
   const dx = x2 - x1;
   const dy = y2 - y1;
   const len = Math.hypot(dx, dy) || 1;
@@ -193,7 +220,7 @@ function outwardNormalForSegment(x1, y1, x2, y2, cx, cy) {
 /**
  * 天井（斜めハッチングつき）を描画する。
  */
-function drawCeiling(p) {
+function drawCeiling(p: p5) {
   p.fill(85, 85, 95);
   p.noStroke();
   p.rect(0, 0, PANEL_DIVIDER_X, CEILING_Y);
@@ -219,7 +246,13 @@ function drawCeiling(p) {
  * @param {number[]} col [R, G, B]
  * @param {string} label ラベル文字（"A" or "B"）
  */
-function drawAnchor(p, x, y, col, label) {
+function drawAnchor(
+  p: p5,
+  x: number,
+  y: number,
+  col: readonly [number, number, number],
+  label: string
+) {
   // 天井からのロッド
   p.stroke(col[0], col[1], col[2]);
   p.strokeWeight(3);
@@ -242,7 +275,7 @@ function drawAnchor(p, x, y, col, label) {
 /**
  * 重りを描画する（四角形＋W表示＋N値ラベル）。
  */
-function drawWeight(p) {
+function drawWeight(p: p5) {
   const { ring, weight: W } = state;
   const wCX = ring.x;
   const wTop = ring.y + WEIGHT_HANG_LENGTH;
@@ -270,7 +303,7 @@ function drawWeight(p) {
 /**
  * リング（中心結合点）を描画する。
  */
-function drawRing(p) {
+function drawRing(p: p5) {
   const { ring } = state;
   p.fill(RING_COLOR[0], RING_COLOR[1], RING_COLOR[2]);
   p.stroke(170, 110, 15);
@@ -281,7 +314,7 @@ function drawRing(p) {
 /**
  * 力の矢印と数値ラベルを描画する（釣り合い成立時のみ）。
  */
-function drawForceArrows(p) {
+function drawForceArrows(p: p5) {
   const { ring, anchorA, anchorB, T1, T2, weight: W } = state;
 
   const d1 = Math.hypot(anchorA.x - ring.x, anchorA.y - ring.y);
@@ -361,7 +394,7 @@ function drawForceArrows(p) {
 /**
  * 角度情報を図中（リング付近）と左下に表示する。
  */
-function drawAngleLabels(p) {
+function drawAngleLabels(p: p5) {
   const { ring, anchorA, anchorB } = state;
 
   // 各糸の鉛直からの傾き角（°）
@@ -379,7 +412,12 @@ function drawAngleLabels(p) {
   /**
    * 2角度間の短い側の弧をポリラインで描画する。
    */
-  const drawAngleArc = (radius, from, to, col) => {
+  const drawAngleArc = (
+    radius: number,
+    from: number,
+    to: number,
+    col: readonly [number, number, number]
+  ) => {
     let delta = to - from;
     while (delta > Math.PI) delta -= Math.PI * 2;
     while (delta < -Math.PI) delta += Math.PI * 2;
@@ -431,7 +469,7 @@ function drawAngleLabels(p) {
 /**
  * 左パネル全体を描画する。
  */
-function drawPhysicsPanel(p) {
+function drawPhysicsPanel(p: p5) {
   const { ring, anchorA, anchorB, isEquilibrium } = state;
 
   // 背景
@@ -499,7 +537,7 @@ function drawPhysicsPanel(p) {
 /**
  * 右パネルに力のベクトル図（閉じた三角形）を描画する。
  */
-function drawForceTrianglePanel(p) {
+function drawForceTrianglePanel(p: p5) {
   const { ring, anchorA, T1, T2, weight: W, isEquilibrium } = state;
 
   // 背景
@@ -682,7 +720,7 @@ function drawForceTrianglePanel(p) {
 /**
  * 左右パネルの区切り線を描画する。
  */
-function drawDivider(p) {
+function drawDivider(p: p5) {
   p.stroke(180);
   p.strokeWeight(1.5);
   p.drawingContext.setLineDash([8, 8]);
@@ -700,7 +738,7 @@ function drawDivider(p) {
  * @param {number} vmx 仮想 X
  * @param {number} vmy 仮想 Y
  */
-function updateCursor(p, vmx, vmy) {
+function updateCursor(p: p5, vmx: number, vmy: number) {
   const { anchorA, anchorB, ring } = state;
   const isOverAnchorA =
     Math.hypot(vmx - anchorA.x, vmy - anchorA.y) <=
@@ -726,7 +764,7 @@ function updateCursor(p, vmx, vmy) {
  * シミュレーション全体を描画する。
  * @param {*} p p5 インスタンス
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   p.background(220);
   p.scale(p.width / V_W);
 

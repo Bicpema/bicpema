@@ -4,7 +4,7 @@ import { bindStartStopControls } from "../../../js/bicpema-controls-controller.j
 
 export const FPS = 30;
 
-export function settingInit(p) {
+export function settingInit(p: p5) {
   p.frameRate(FPS);
   p.textFont("sans-serif");
 }
@@ -25,7 +25,10 @@ export function valueInit() {
   state.spectrum = [];
 }
 
-export function setupControls(p, elements) {
+export function setupControls(
+  p: p5,
+  elements: ReturnType<typeof elementSelectInit>
+) {
   bindStartStopControls(p, {
     startSelector: "#startButton",
     stopSelector: "#stopButton",
@@ -50,7 +53,7 @@ export function setupControls(p, elements) {
     startAriaLabel: "音の入力開始",
     resetAriaLabel: "再開"
   });
-  elements.modeSelect.addEventListener("change", (event) => {
-    state.displayMode = event.target.value;
+  elements.modeSelect!.addEventListener("change", (event: Event) => {
+    state.displayMode = (event.target as HTMLSelectElement).value;
   });
 }

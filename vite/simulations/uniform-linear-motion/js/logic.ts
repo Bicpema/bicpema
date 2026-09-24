@@ -39,7 +39,7 @@ loadChart()
  * @param {number} w スケールの幅
  * @param {number} h スケールの高さ
  */
-export function drawScale(p, x, y, w, h) {
+export function drawScale(p: p5, x: number, y: number, w: number, h: number) {
   p.fill(255);
   p.rect(x, y - h, w, h);
   p.fill(0);
@@ -60,7 +60,7 @@ export function drawScale(p, x, y, w, h) {
  * Chart.jsの読み込みが完了するまでは描画をスキップする。
  * @param {p5} p p5インスタンス
  */
-export function graphDraw(p) {
+export function graphDraw(p: p5) {
   if (!Chart) return;
   if (!state.YELLOW_CAR || !state.RED_CAR) return;
   let yellowCarData;

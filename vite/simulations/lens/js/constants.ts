@@ -12,18 +12,18 @@ export const MOUNT_WIDTH = 50;
 export const MOUNT_HEIGHT = 25;
 
 /** 方眼の目盛り線の色（半透明の白） */
-export const GRID_LINE_COLOR = [255, 100];
+export const GRID_LINE_COLOR = [255, 100] as const;
 /** 焦点マークの縦方向の半分の長さ */
 export const FOCUS_MARK_HALF_LENGTH = 30;
 
 /** 虚像・実像の枠線の色（青） */
-export const IMAGE_COLOR = [0, 0, 255];
+export const IMAGE_COLOR = [0, 0, 255] as const;
 /** 物体・結像位置を示す枠線の色（赤） */
-export const OBJECT_COLOR = [255, 0, 0];
+export const OBJECT_COLOR = [255, 0, 0] as const;
 /** スクリーン上のインジケーターの色（緑） */
-export const SCREEN_INDICATOR_COLOR = [0, 255, 0];
+export const SCREEN_INDICATOR_COLOR = [0, 255, 0] as const;
 /** スクリーンの目盛り線の色（暗めの半透明白） */
-export const SCREEN_TICK_COLOR = [255, 50];
+export const SCREEN_TICK_COLOR = [255, 50] as const;
 
 /** 半分の凸レンズ・縞々レンズの遮蔽部の色（グレー） */
 export const LENS_MOUNT_COLOR = 100;

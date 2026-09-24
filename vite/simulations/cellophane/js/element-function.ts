@@ -57,10 +57,10 @@ export function csvDataLoad() {
 export function waveRepresentationFunction() {
   if (state.waveRepresentation === "line") {
     state.waveRepresentation = "sphere";
-    swapButtonClass(state.waveRepresentationButton, BTN_DANGER, BTN_PRIMARY);
+    swapButtonClass(state.waveRepresentationButton!, BTN_DANGER, BTN_PRIMARY);
   } else {
     state.waveRepresentation = "line";
-    swapButtonClass(state.waveRepresentationButton, BTN_PRIMARY, BTN_DANGER);
+    swapButtonClass(state.waveRepresentationButton!, BTN_PRIMARY, BTN_DANGER);
   }
 }
 
@@ -84,11 +84,11 @@ export function cellophaneCountSliderFunction() {
 export function onPlayPause() {
   if (state.isRunning) {
     state.isRunning = false;
-    swapButtonClass(state.playPauseButton, BTN_DANGER, BTN_PRIMARY);
+    swapButtonClass(state.playPauseButton!, BTN_DANGER, BTN_PRIMARY);
     state.playPauseButton!.html("スタート");
   } else {
     state.isRunning = true;
-    swapButtonClass(state.playPauseButton, BTN_PRIMARY, BTN_DANGER);
+    swapButtonClass(state.playPauseButton!, BTN_PRIMARY, BTN_DANGER);
     state.playPauseButton!.html("ストップ");
   }
 }
@@ -97,9 +97,9 @@ export function onPlayPause() {
 export function rButtonFunction() {
   state.rIs = !state.rIs;
   if (state.rIs) {
-    swapButtonClass(state.rButton, BTN_SECONDARY, BTN_DANGER);
+    swapButtonClass(state.rButton!, BTN_SECONDARY, BTN_DANGER);
   } else {
-    swapButtonClass(state.rButton, BTN_DANGER, BTN_SECONDARY);
+    swapButtonClass(state.rButton!, BTN_DANGER, BTN_SECONDARY);
   }
 }
 
@@ -107,9 +107,9 @@ export function rButtonFunction() {
 export function gButtonFunction() {
   state.gIs = !state.gIs;
   if (state.gIs) {
-    swapButtonClass(state.gButton, BTN_SECONDARY, BTN_SUCCESS);
+    swapButtonClass(state.gButton!, BTN_SECONDARY, BTN_SUCCESS);
   } else {
-    swapButtonClass(state.gButton, BTN_SUCCESS, BTN_SECONDARY);
+    swapButtonClass(state.gButton!, BTN_SUCCESS, BTN_SECONDARY);
   }
 }
 
@@ -117,8 +117,8 @@ export function gButtonFunction() {
 export function bButtonFunction() {
   state.bIs = !state.bIs;
   if (state.bIs) {
-    swapButtonClass(state.bButton, BTN_SECONDARY, BTN_PRIMARY);
+    swapButtonClass(state.bButton!, BTN_SECONDARY, BTN_PRIMARY);
   } else {
-    swapButtonClass(state.bButton, BTN_PRIMARY, BTN_SECONDARY);
+    swapButtonClass(state.bButton!, BTN_PRIMARY, BTN_SECONDARY);
   }
 }

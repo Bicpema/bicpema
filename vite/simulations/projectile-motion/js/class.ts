@@ -20,7 +20,16 @@ export class Ball {
   gravity: number;
   fps: number;
 
-  constructor(x, y, s, t, w, y0, k, n) {
+  constructor(
+    x: number,
+    y: number,
+    s: number,
+    t: number,
+    w: number,
+    y0: number,
+    k: number,
+    n: 1 | 2
+  ) {
     this.posx = x;
     this.posy = y;
     this.speed = s;
@@ -38,7 +47,7 @@ export class Ball {
    * ボールの位置を更新し描画する。
    * @param {*} p p5インスタンス
    */
-  _draw(p) {
+  _draw(p: p5) {
     if (state.clickedCount === true) {
       if (
         this.posy >= groundLevel(p) - state.radi &&

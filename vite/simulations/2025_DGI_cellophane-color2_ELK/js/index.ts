@@ -28,7 +28,7 @@ const R_TABLE_URL =
 const WHITE_IMAGE_URL =
   "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2Fwhite.png?alt=media&token=038ee120-ec5e-4440-8130-3b764f11d25e";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({
     fixedAspectRatio: false,
     is3D: true,
@@ -36,12 +36,14 @@ const sketch = (p) => {
   });
   let isFirstDraw = true;
 
+  // p5.jsの型定義上、loadTable()の戻り値は`object`型となっているため、
+  // 実際の戻り値であるp5.Tableへ明示的にキャストする。
   p.preload = () => {
-    state.cmfTable = p.loadTable(CMF_TABLE_URL, "csv", "header"); // 等色関数のデータ
-    state.osTable = p.loadTable(OS_TABLE_URL, "csv", "header"); // 偏光板を一枚通したときの波長毎の強度分布 PC-最新
-    state.dTableOPP = p.loadTable(D_TABLE_OPP_URL, "csv", "header"); //光路差の分散特性(380nmで100に規格化)
-    state.dTable = p.loadTable(D_TABLE_URL, "csv", "header");
-    state.rTable = p.loadTable(R_TABLE_URL, "csv", "header"); //偏光板2枚目による強度補正分のdata
+    state.cmfTable = p.loadTable(CMF_TABLE_URL, "csv", "header") as p5.Table; // 等色関数のデータ
+    state.osTable = p.loadTable(OS_TABLE_URL, "csv", "header") as p5.Table; // 偏光板を一枚通したときの波長毎の強度分布 PC-最新
+    state.dTableOPP = p.loadTable(D_TABLE_OPP_URL, "csv", "header") as p5.Table; //光路差の分散特性(380nmで100に規格化)
+    state.dTable = p.loadTable(D_TABLE_URL, "csv", "header") as p5.Table;
+    state.rTable = p.loadTable(R_TABLE_URL, "csv", "header") as p5.Table; //偏光板2枚目による強度補正分のdata
     state.img = p.loadImage(WHITE_IMAGE_URL);
   };
 

@@ -8,7 +8,11 @@
  *   parallel: 斜面方向成分 mg*sinθ (N)
  *   perpendicular: 斜面垂直方向成分 mg*cosθ (N)
  */
-export function decomposeGravityOnSlope(mass, gravity, angleDeg) {
+export function decomposeGravityOnSlope(
+  mass: number,
+  gravity: number,
+  angleDeg: number
+) {
   const theta = (angleDeg * Math.PI) / 180;
   const mg = mass * gravity;
   return {

@@ -27,12 +27,12 @@ import {
  * @param {number} headSize 矢印の頭の大きさ
  */
 export function drawArrow(
-  p,
-  fromX,
-  fromY,
-  toX,
-  toY,
-  col,
+  p: p5,
+  fromX: number,
+  fromY: number,
+  toX: number,
+  toY: number,
+  col: p5.Color,
   weight = 3,
   headSize = 12
 ) {
@@ -65,7 +65,15 @@ export function drawArrow(
  * @param {p5.Color} col 矢印とラベルの色
  * @param {string} label 表示するテキスト
  */
-export function drawArrowWithLabel(p, fromX, fromY, toX, toY, col, label) {
+export function drawArrowWithLabel(
+  p: p5,
+  fromX: number,
+  fromY: number,
+  toX: number,
+  toY: number,
+  col: p5.Color,
+  label: string
+) {
   drawArrow(p, fromX, fromY, toX, toY, col);
 
   const dx = toX - fromX;
@@ -99,7 +107,14 @@ export function drawArrowWithLabel(p, fromX, fromY, toX, toY, col, label) {
  * @param {number} y2 終点Y
  * @param {p5.Color} col 色
  */
-export function drawDashedLine(p, x1, y1, x2, y2, col) {
+export function drawDashedLine(
+  p: p5,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  col: p5.Color
+) {
   const dashLen = 10;
   const gapLen = 6;
   const dx = x2 - x1;
@@ -128,7 +143,7 @@ export function drawDashedLine(p, x1, y1, x2, y2, col) {
  * グリッドを描画する。
  * @param {p5} p p5インスタンス
  */
-export function drawGrid(p) {
+export function drawGrid(p: p5) {
   p.strokeWeight(1);
   p.stroke(168, 206, 221);
 
@@ -208,7 +223,13 @@ export function drawGrid(p) {
  * @param {number} f2x F₂のX成分
  * @param {number} f2y F₂のY成分
  */
-export function drawInfoPanel(p, f1x, f1y, f2x, f2y) {
+export function drawInfoPanel(
+  p: p5,
+  f1x: number,
+  f1y: number,
+  f2x: number,
+  f2y: number
+) {
   const { x: frx, y: fry } = composeForces(f1x, f1y, f2x, f2y);
   const f1Mag = computeForceMagnitude(f1x, f1y, FORCE_SCALE);
   const f2Mag = computeForceMagnitude(f2x, f2y, FORCE_SCALE);
@@ -278,7 +299,7 @@ export function drawInfoPanel(p, f1x, f1y, f2x, f2y) {
  * シーン全体を描画する。
  * @param {p5} p p5インスタンス
  */
-export function drawScene(p) {
+export function drawScene(p: p5) {
   p.background(255, 255, 255);
   drawGrid(p);
 

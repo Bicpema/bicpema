@@ -18,7 +18,7 @@ export function updateAudioData() {
   }
 }
 
-export function drawOscilloscope(p) {
+export function drawOscilloscope(p: p5) {
   const scale = p.width / CANVAS_WIDTH;
   p.push();
   p.scale(scale);
@@ -29,7 +29,7 @@ export function drawOscilloscope(p) {
   p.pop();
 }
 
-function drawGrid(p) {
+function drawGrid(p: p5) {
   p.stroke(0, 55);
   p.strokeWeight(1.5);
   for (let x = 0; x <= CANVAS_WIDTH; x += GRID_SIZE) {
@@ -40,7 +40,7 @@ function drawGrid(p) {
   }
 }
 
-function drawMessage(p) {
+function drawMessage(p: p5) {
   p.noStroke();
   p.fill(0);
   p.textAlign(p.LEFT, p.TOP);
@@ -54,7 +54,7 @@ function drawMessage(p) {
   );
 }
 
-function drawSignal(p) {
+function drawSignal(p: p5) {
   const values =
     state.displayMode === "waveform" ? state.waveform : state.spectrum;
   if (!values.length) return;

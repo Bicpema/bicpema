@@ -8,7 +8,7 @@ import { state } from "./state.js";
 import { initValue, elCreate } from "./init.js";
 import { drawSimulation } from "./logic.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
   p.preload = () => {

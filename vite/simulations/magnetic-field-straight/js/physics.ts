@@ -7,7 +7,7 @@ import { CURRENT_THRESHOLD } from "./constants.js";
  * @param {number} radius 電流からの距離 r
  * @returns {number} 相対磁場強度
  */
-export function computeMagneticFieldStrength(current, radius) {
+export function computeMagneticFieldStrength(current: number, radius: number) {
   return Math.abs(current) / radius;
 }
 
@@ -16,7 +16,7 @@ export function computeMagneticFieldStrength(current, radius) {
  * @param {number} current 電流 I
  * @returns {"counterclockwise"|"clockwise"|"none"} 磁場の向き
  */
-export function computeFieldDirection(current) {
+export function computeFieldDirection(current: number) {
   if (current > CURRENT_THRESHOLD) return "counterclockwise";
   if (current < -CURRENT_THRESHOLD) return "clockwise";
   return "none";

@@ -5,7 +5,10 @@
  * @param {number} opdPerSheet セロハン1枚あたりの光路差 (nm)
  * @returns {number} 光路差 (nm)
  */
-export function computeOpticalPathDifference(sheetCount, opdPerSheet) {
+export function computeOpticalPathDifference(
+  sheetCount: number,
+  opdPerSheet: number
+) {
   return sheetCount * opdPerSheet;
 }
 
@@ -16,6 +19,6 @@ export function computeOpticalPathDifference(sheetCount, opdPerSheet) {
  * @param {number} wavelength 波長 λ (nm)
  * @returns {number} 透過率 (0〜1)
  */
-export function computeTransmittance(opd, wavelength) {
+export function computeTransmittance(opd: number, wavelength: number) {
   return 0.5 * (1 - Math.cos((opd / wavelength) * 2 * Math.PI));
 }

@@ -12,10 +12,10 @@ import { DEFAULT_FPS, LENGTH_TO_METER_DIVISOR } from "./constants.js";
  * @returns {number} 現在の振れ角 (ラジアン)
  */
 export function computePendulumAngle(
-  theta0Deg,
-  stringLengthPx,
-  gravity,
-  count,
+  theta0Deg: number,
+  stringLengthPx: number,
+  gravity: number,
+  count: number,
   fps = DEFAULT_FPS
 ) {
   const theta0 = (theta0Deg * Math.PI) / 180;

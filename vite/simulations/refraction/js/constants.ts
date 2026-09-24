@@ -54,15 +54,15 @@ export const MODE_TAB_WIDTH_DIVISOR = 8;
 export const MODE_TAB_HEIGHT_DIVISOR = 20;
 
 /** 入射角側の弧・ラベルの色（マゼンタ） */
-export const INCIDENT_ANGLE_COLOR = [255, 0, 255];
+export const INCIDENT_ANGLE_COLOR = [255, 0, 255] as const;
 /** 入射角の余角側の弧の色（シアン） */
-export const COMPLEMENT_ANGLE_COLOR = [0, 255, 255];
+export const COMPLEMENT_ANGLE_COLOR = [0, 255, 255] as const;
 /** 屈折角側の弧の色（緑） */
-export const REFRACTED_ANGLE_COLOR = [0, 255, 0];
+export const REFRACTED_ANGLE_COLOR = [0, 255, 0] as const;
 /** 光線の色（赤） */
 export const RAY_COLOR = [255, 0, 0] as const;
 /** 中心軸線の色（半透明の白） */
-export const AXIS_LINE_COLOR = [255, 100];
+export const AXIS_LINE_COLOR = [255, 100] as const;
 
 /** 角度を示す弧の直径（キャンバス高さに対する除数） */
 export const ANGLE_ARC_DIAMETER_DIVISOR = 10;

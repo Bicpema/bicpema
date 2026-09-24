@@ -36,7 +36,7 @@ type RadioElement = p5.Element & {
  * DOM要素の参照を取得する。
  * @param {*} p p5インスタンス
  */
-export function elCreate(p) {
+export function elCreate(p: p5) {
   state.polarizerSelect = p.select("#polarizerSelect");
   state.cellophaneAddButton = p.select("#cellophaneAddButton");
   state.cellophaneRemoveButton = p.select("#cellophaneRemoveButton");
@@ -47,7 +47,7 @@ export function elCreate(p) {
  * DOM要素にイベントを設定する。
  * @param {*} p p5インスタンス
  */
-export function elInit(p) {
+export function elInit(p: p5) {
   state.cellophaneAddButton!.mousePressed(() => cellophaneAddButtonFunction(p));
   state.cellophaneRemoveButton!.mousePressed(() =>
     cellophaneRemoveButtonFunction(p)
@@ -67,7 +67,7 @@ export function elInit(p) {
  * 初期値やシミュレーションの設定を行う。
  * @param {*} p p5インスタンス
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   // テーブルからそれぞれのデータを取得
   state.cmfRowNum = state.cmfTable!.getRowCount();
   state.waveLengthArr = state.cmfTable!.getColumn("wave-length");
@@ -138,7 +138,7 @@ export function createStartimg() {
  * スライダーやラジオボタンを作成する処理。
  * @param {*} p p5インスタンス
  */
-export function createSliderandRadio(p) {
+export function createSliderandRadio(p: p5) {
   state.slider = p.createSlider(
     TAPE_WIDTH_SLIDER_MIN,
     TAPE_WIDTH_SLIDER_MAX,
@@ -165,7 +165,7 @@ export function createSliderandRadio(p) {
  * シミュレーションの初回セットアップを行う。
  * @param {*} p p5インスタンス
  */
-export function setupSimulation(p) {
+export function setupSimulation(p: p5) {
   elCreate(p);
   elInit(p);
   initValue(p);
@@ -185,7 +185,7 @@ export function setupSimulation(p) {
  * セロハンの組を全て削除した上で初期値を設定し直す。
  * @param {*} p p5インスタンス
  */
-export function resizeSimulation(p) {
+export function resizeSimulation(p: p5) {
   elInit(p);
   // cellophaneRemoveButtonFunctionは呼ぶたびにstate.colabNum(組数)を1減らす。
   // state.cellophaneNum(総枚数)は更新されないため、colabNumを基準に

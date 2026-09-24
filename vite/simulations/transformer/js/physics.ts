@@ -7,9 +7,9 @@
  * @returns {number} 二次電圧の振幅 V2
  */
 export function computeSecondaryVoltage(
-  primaryVoltage,
-  primaryTurns,
-  secondaryTurns
+  primaryVoltage: number,
+  primaryTurns: number,
+  secondaryTurns: number
 ) {
   return primaryVoltage * (secondaryTurns / primaryTurns);
 }
@@ -24,10 +24,10 @@ export function computeSecondaryVoltage(
  * @returns {number} 二次電流の振幅 I2（符号付き）
  */
 export function computeSecondaryCurrentAmplitude(
-  primaryCurrentAmplitude,
-  primaryTurns,
-  secondaryTurns,
-  inPhase
+  primaryCurrentAmplitude: number,
+  primaryTurns: number,
+  secondaryTurns: number,
+  inPhase: boolean
 ) {
   const magnitude = primaryCurrentAmplitude * (primaryTurns / secondaryTurns);
   return inPhase ? magnitude : -magnitude;

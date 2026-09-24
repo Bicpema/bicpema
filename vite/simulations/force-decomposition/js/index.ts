@@ -12,7 +12,7 @@ import {
 } from "./logic.js";
 import { V_W, MAX_FORCE } from "./constants.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
   p.preload = () => {

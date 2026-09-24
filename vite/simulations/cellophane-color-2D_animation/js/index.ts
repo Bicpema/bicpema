@@ -18,7 +18,7 @@ import { FPS, CAMERA_DISTANCE } from "./constants.js";
 // FPSはdraw()から毎フレーム呼び出されるprenormal()内からsetup()側へ移設し、
 // 一度だけ設定するようにしている。
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({
     fixedAspectRatio: false,
     is3D: true,
@@ -27,32 +27,34 @@ const sketch = (p) => {
   let isFirstDraw = true;
 
   // 外部ファイルの読み込み
+  // p5.jsの型定義上、loadTable()の戻り値は`object`型となっているため、
+  // 実際の戻り値であるp5.Tableへ明示的にキャストする。
   p.preload = () => {
     state.cmfTable = p.loadTable(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fcmf.csv?alt=media&token=df4cb716-5da8-4640-822e-5107acbdb916",
       "csv",
       "header"
-    ); // 等色関数のデータ
+    ) as p5.Table; // 等色関数のデータ
     state.osTable = p.loadTable(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fos_PC2_new_6.18.csv?alt=media&token=0ba4f938-5669-456b-81dc-e4c62c66ce46",
       "csv",
       "header"
-    ); // 偏光板を一枚通したときの波長毎の強度分布 PC-最新
+    ) as p5.Table; // 偏光板を一枚通したときの波長毎の強度分布 PC-最新
     state.dTableOPP = p.loadTable(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fdata_d_100_film3.csv?alt=media&token=68edd450-dd93-4b8b-851f-28c1ffe14999.csv",
       "csv",
       "header"
-    ); //光路差の分散特性(380nmで100に規格化)
+    ) as p5.Table; //光路差の分散特性(380nmで100に規格化)
     state.dTable = p.loadTable(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fdata_d_100.csv?alt=media&token=eaf5a4d5-ab04-42fd-8245-eb4896a5eaf5",
       "csv",
       "header"
-    );
+    ) as p5.Table;
     state.rTable = p.loadTable(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2FR.csv?alt=media&token=203b2f68-a0c0-42c2-af5e-df5c240ea27d",
       "csv",
       "header"
-    ); //偏光板2枚目による強度補正分のdata
+    ) as p5.Table; //偏光板2枚目による強度補正分のdata
     state.img = p.loadImage(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2Fwhite.png?alt=media&token=038ee120-ec5e-4440-8130-3b764f11d25e"
     );

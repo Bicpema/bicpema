@@ -14,7 +14,7 @@ import {
   TICK_LABEL_FONT_SIZE
 } from "./constants.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
   p.preload = () => {

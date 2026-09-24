@@ -1,11 +1,20 @@
 // element-function.js は仮想DOMメソッド管理専用のファイルです。
 
+import type p5 from "p5";
 import { state, STRATA_KINDS } from "./state.js";
 import { DOM } from "./class.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
 import { getSelectElement } from "../../../js/bicpema-dom.js";
 
 const loadScreenshot = createLazyImporter(() => import("modern-screenshot"));
+
+/**
+ * p.select()・p.createSelect()が返すp5.Elementは、実際にはoption()メソッドを
+ * 持つが、@types/p5の型定義には含まれていないため、ここで補って扱う。
+ */
+type SelectElement = p5.Element & {
+  option(value: string, label?: string): unknown;
+};
 
 /**
  * `document.getElementById(id)` の戻り値を非null型として取得するヘルパー。
@@ -68,7 +77,7 @@ export function onScreenshotClick() {
  * 地点名の入力欄が編集されたときの処理。
  * @param {*} p p5インスタンス
  */
-export function placeNameInputFunction(p) {
+export function placeNameInputFunction(p: p5) {
   const placeNum = Object.keys(state.dataInputArr).length;
 
   for (let i = 0; i < placeNum; i++) {
@@ -101,7 +110,7 @@ export function placeNameInputFunction(p) {
  * 地点データの追加ボタンを押した時に動く処理。
  * @param {*} p p5インスタンス
  */
-export function placeAddButtonFunction(p) {
+export function placeAddButtonFunction(p: p5) {
   const placeNum = Object.keys(state.dataInputArr).length;
   const newPlaceNum = placeNum + 1;
   const newDom = new DOM(newPlaceNum, p);
@@ -134,12 +143,12 @@ export function placeAddButtonFunction(p) {
  * 地点データの削除ボタンを押した時に動く処理。
  * @param {*} p p5インスタンス
  */
-export function placeRemoveButtonFunction(p) {
+export function placeRemoveButtonFunction(p: p5) {
   const placeNum = Object.keys(state.dataInputArr).length;
 
   if (placeNum > 0) {
-    p.select("#placeNameInput" + placeNum).remove();
-    p.select("#placeDataInput" + placeNum).remove();
+    p.select("#placeNameInput" + placeNum)!.remove();
+    p.select("#placeDataInput" + placeNum)!.remove();
     delete state.dataInputArr["地点" + placeNum];
   }
 
@@ -150,10 +159,10 @@ export function placeRemoveButtonFunction(p) {
  * 平面を構成する１つ目の地点のデータに関連する処理。
  * @param {*} p p5インスタンス
  */
-export function firstPlaceSelectFunction(p) {
-  const firstPlaceSelect = p.select("#firstPlaceSelect");
+export function firstPlaceSelectFunction(p: p5) {
+  const firstPlaceSelect = p.select("#firstPlaceSelect")!;
   const firstPlaceName = requireElementById("firstPlaceName");
-  firstPlaceName.innerHTML = firstPlaceSelect.value();
+  firstPlaceName.innerHTML = String(firstPlaceSelect.value());
   let placeName = firstPlaceName.innerHTML;
   for (const key in state.dataInputArr) {
     if (state.dataInputArr[key].name.value() === placeName) {
@@ -168,8 +177,8 @@ export function firstPlaceSelectFunction(p) {
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
-      const strataKind = p.select("#select1-" + (i + 1)).value();
-      const element = p.select("#select2-" + (i + 1));
+      const strataKind = p.select("#select1-" + (i + 1))!.value();
+      const element = p.select("#select2-" + (i + 1)) as SelectElement;
       for (let j = 0; j < strataArr.length; j++) {
         if (strataKind === strataArr[j][2]) {
           element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
@@ -190,10 +199,10 @@ export function firstPlaceSelectFunction(p) {
  * 平面を構成する２つ目の地点のデータに関連する処理。
  * @param {*} p p5インスタンス
  */
-export function secondPlaceSelectFunction(p) {
-  const secondPlaceSelect = p.select("#secondPlaceSelect");
+export function secondPlaceSelectFunction(p: p5) {
+  const secondPlaceSelect = p.select("#secondPlaceSelect")!;
   const secondPlaceName = requireElementById("secondPlaceName");
-  secondPlaceName.innerHTML = secondPlaceSelect.value();
+  secondPlaceName.innerHTML = String(secondPlaceSelect.value());
   let placeName = secondPlaceName.innerHTML;
   for (const key in state.dataInputArr) {
     if (state.dataInputArr[key].name.value() === placeName) {
@@ -208,8 +217,8 @@ export function secondPlaceSelectFunction(p) {
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
-      const strataKind = p.select("#select1-" + (i + 1)).value();
-      const element = p.select("#select3-" + (i + 1));
+      const strataKind = p.select("#select1-" + (i + 1))!.value();
+      const element = p.select("#select3-" + (i + 1)) as SelectElement;
       for (let j = 0; j < strataArr.length; j++) {
         if (strataKind === strataArr[j][2]) {
           element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
@@ -230,10 +239,10 @@ export function secondPlaceSelectFunction(p) {
  * 平面を構成する３つ目の地点のデータに関連する処理。
  * @param {*} p p5インスタンス
  */
-export function thirdPlaceSelectFunction(p) {
-  const thirdPlaceSelect = p.select("#thirdPlaceSelect");
+export function thirdPlaceSelectFunction(p: p5) {
+  const thirdPlaceSelect = p.select("#thirdPlaceSelect")!;
   const thirdPlaceName = requireElementById("thirdPlaceName");
-  thirdPlaceName.innerHTML = thirdPlaceSelect.value();
+  thirdPlaceName.innerHTML = String(thirdPlaceSelect.value());
   let placeName = thirdPlaceName.innerHTML;
   for (const key in state.dataInputArr) {
     if (state.dataInputArr[key].name.value() === placeName) {
@@ -248,8 +257,8 @@ export function thirdPlaceSelectFunction(p) {
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
-      const strataKind = p.select("#select1-" + (i + 1)).value();
-      const element = p.select("#select4-" + (i + 1));
+      const strataKind = p.select("#select1-" + (i + 1))!.value();
+      const element = p.select("#select4-" + (i + 1)) as SelectElement;
       for (let j = 0; j < strataArr.length; j++) {
         if (strataKind === strataArr[j][2]) {
           element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
@@ -270,7 +279,7 @@ export function thirdPlaceSelectFunction(p) {
  * 平面を構成する地層の種類が変わったときの処理。
  * @param {*} p p5インスタンス
  */
-export function strataSelectFunction(p) {
+export function strataSelectFunction(p: p5) {
   firstPlaceSelectFunction(p);
   secondPlaceSelectFunction(p);
   thirdPlaceSelectFunction(p);
@@ -280,10 +289,10 @@ export function strataSelectFunction(p) {
  * 平面を構成する地点の選択肢を更新する処理。
  * @param {*} p p5インスタンス
  */
-export function placeRefreshFunction(p) {
-  const firstPlaceSelect = p.select("#firstPlaceSelect");
-  const secondPlaceSelect = p.select("#secondPlaceSelect");
-  const thirdPlaceSelect = p.select("#thirdPlaceSelect");
+export function placeRefreshFunction(p: p5) {
+  const firstPlaceSelect = p.select("#firstPlaceSelect") as SelectElement;
+  const secondPlaceSelect = p.select("#secondPlaceSelect") as SelectElement;
+  const thirdPlaceSelect = p.select("#thirdPlaceSelect") as SelectElement;
 
   const firstPlaceSelectDoc = requireSelectElement("firstPlaceSelect");
   const secondPlaceSelectDoc = requireSelectElement("secondPlaceSelect");
@@ -328,7 +337,7 @@ export function placeRefreshFunction(p) {
  * 平面を構成する地層の組を追加するボタンを押した時の処理。
  * @param {*} p p5インスタンス
  */
-export function strataAddButtonFunction(p) {
+export function strataAddButtonFunction(p: p5) {
   const nextTrNum = requireElementById("strataSelect").childElementCount + 1;
   p.createElement("tr")
     .parent("strataSelect")
@@ -347,7 +356,7 @@ export function strataAddButtonFunction(p) {
     .class(
       "block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
     )
-    .id("select1-" + nextTrNum);
+    .id("select1-" + nextTrNum) as SelectElement;
   requireElementById("select1-" + nextTrNum).addEventListener("change", () =>
     strataSelectFunction(p)
   );
@@ -401,7 +410,7 @@ export function strataRemoveButtonFunction() {
  * 地点データが未登録の場合に、動作確認用のテストデータを読み込む処理。
  * @param {*} p p5インスタンス
  */
-export function loadTestDataButtonFunction(p) {
+export function loadTestDataButtonFunction(p: p5) {
   if (Object.keys(state.dataInputArr).length !== 0) return;
 
   const nameArr = [
@@ -423,7 +432,7 @@ export function loadTestDataButtonFunction(p) {
       139.538435
     ]
   ];
-  const testData = {
+  const testData: Record<string, [number, number, string][]> = {
     // "砂岩層","泥岩層","れき岩層","石灰岩層","凝灰岩層・火山灰層","ローム層","その他の層"
     // のいずれかから選択
     地点1: [
@@ -484,7 +493,7 @@ export function loadTestDataButtonFunction(p) {
  * Aセットボタンを押した時の処理。
  * @param {*} p p5インスタンス
  */
-export function aSetButtonFunction(p) {
+export function aSetButtonFunction(p: p5) {
   state.allSetIs = false;
   while (requireElementById("strataSelect").childElementCount !== 0) {
     strataRemoveButtonFunction();
@@ -511,7 +520,7 @@ export function aSetButtonFunction(p) {
  * Bセットボタンを押した時の処理。
  * @param {*} p p5インスタンス
  */
-export function bSetButtonFunction(p) {
+export function bSetButtonFunction(p: p5) {
   state.allSetIs = false;
   while (requireElementById("strataSelect").childElementCount !== 0) {
     strataRemoveButtonFunction();
@@ -538,7 +547,7 @@ export function bSetButtonFunction(p) {
  * Cセットボタンを押した時の処理。
  * @param {*} p p5インスタンス
  */
-export function cSetButtonFunction(p) {
+export function cSetButtonFunction(p: p5) {
   state.allSetIs = false;
   while (requireElementById("strataSelect").childElementCount !== 0) {
     strataRemoveButtonFunction();
@@ -569,7 +578,7 @@ export function cSetButtonFunction(p) {
  * Dセットボタンを押した時の処理。
  * @param {*} p p5インスタンス
  */
-export function dSetButtonFunction(p) {
+export function dSetButtonFunction(p: p5) {
   state.allSetIs = false;
   while (requireElementById("strataSelect").childElementCount !== 0) {
     strataRemoveButtonFunction();
@@ -600,7 +609,7 @@ export function dSetButtonFunction(p) {
  * 「全体」ボタンを押した時の処理。
  * @param {*} p p5インスタンス
  */
-export function allSetButtonFunction(p) {
+export function allSetButtonFunction(p: p5) {
   state.allSetIs = true;
   while (requireElementById("strataSelect").childElementCount !== 0) {
     strataRemoveButtonFunction();
@@ -618,7 +627,7 @@ export function allSetButtonFunction(p) {
  * window.opener経由で子ウィンドウから直接呼び出されるため、windowへの公開が必要。
  * @param {[string, Array]} arr [地点名, 地層データ配列]
  */
-export function submit(arr) {
+export function submit(arr: [string, unknown[]]) {
   const [name, dataArr] = arr;
   for (const key in state.dataInputArr) {
     if (Object.hasOwn(state.dataInputArr, key)) {
@@ -637,7 +646,7 @@ export function submit(arr) {
  * @param {string} placeName 地点名
  * @returns {Array} 地層データ配列
  */
-export function loadLayers(placeName) {
+export function loadLayers(placeName: string) {
   let arrKey = placeName;
   for (const key in state.dataInputArr) {
     if (state.dataInputArr[key].name.value() === arrKey) {

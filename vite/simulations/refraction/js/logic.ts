@@ -1,5 +1,6 @@
 // logic.jsはシミュレーションの描画処理と物理更新専用のファイルです。
 
+import type p5 from "p5";
 import { state } from "./state.js";
 import { computeRefractionAngle, computeSnellRatio } from "./physics.js";
 import {
@@ -37,7 +38,7 @@ import {
  * シミュレーションの描画と物理更新を行う。
  * @param {*} p p5インスタンス
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   p.background(0);
   if (state.simulationMode === "animation") {
     animationRays(p);
@@ -71,7 +72,7 @@ export function drawSimulation(p) {
  * 右上の表示モード切り替えタブを描画する。
  * @param {*} p p5インスタンス
  */
-function drawModeTabs(p) {
+function drawModeTabs(p: p5) {
   p.noFill();
   p.stroke(255);
   p.push();
@@ -133,7 +134,7 @@ function drawModeTabs(p) {
  * 光源（レーザー光源）を描画する。
  * @param {*} p p5インスタンス
  */
-function lightResource(p) {
+function lightResource(p: p5) {
   p.strokeWeight(1);
   p.push();
   p.translate(p.width / 2, p.height / 2);
@@ -153,7 +154,7 @@ function lightResource(p) {
 // animation モード
 // ============================================================
 
-function animationCalculate(p) {
+function animationCalculate(p: p5) {
   state.theta1 = p.radians(state.lightRotateTheta);
   state.n12 = state.n2 / state.n1;
   state.theta2 = computeRefractionAngle(state.theta1, state.n12);
@@ -199,7 +200,7 @@ function animationCalculate(p) {
   }
 }
 
-function animationOperation(p) {
+function animationOperation(p: p5) {
   const { rotateRemocon, nRemocon } = state;
   if (!rotateRemocon || !nRemocon) return;
   if (p.mouseIsPressed) {
@@ -330,7 +331,7 @@ function animationOperation(p) {
   p.stroke(255);
 }
 
-function animationBackgroundSetting(p) {
+function animationBackgroundSetting(p: p5) {
   p.noFill();
   p.strokeWeight(5);
   p.stroke(255);
@@ -550,7 +551,7 @@ function animationBackgroundSetting(p) {
   p.line(0, p.height / 2, p.width, p.height / 2);
 }
 
-function animationRays(p) {
+function animationRays(p: p5) {
   const { pg, rotateRemocon, nRemocon } = state;
   if (!pg || !rotateRemocon || !nRemocon) return;
   const s = p.sq(
@@ -702,14 +703,14 @@ function animationRays(p) {
 // line モード
 // ============================================================
 
-function lineCalculate(p) {
+function lineCalculate(p: p5) {
   state.theta1 = p.radians(state.lightRotateTheta);
   state.n12 = state.n2 / state.n1;
   state.theta2 = computeRefractionAngle(state.theta1, state.n12);
   state.boundary = computeSnellRatio(state.theta1, state.n12);
 }
 
-function lineOperation(p) {
+function lineOperation(p: p5) {
   const { rotateRemocon, nRemocon } = state;
   if (!rotateRemocon || !nRemocon) return;
   if (p.mouseIsPressed) {
@@ -819,7 +820,7 @@ function lineOperation(p) {
   );
 }
 
-function lineBackgroundSetting(p) {
+function lineBackgroundSetting(p: p5) {
   p.noFill();
   p.strokeWeight(5);
   p.stroke(255);
@@ -1001,7 +1002,7 @@ function lineBackgroundSetting(p) {
   p.line(0, p.height / 2, p.width, p.height / 2);
 }
 
-function lineRays(p) {
+function lineRays(p: p5) {
   const s = p.sq(
     (state.n1 * p.cos(state.theta1) - state.n2 * p.cos(state.theta2)) /
       (state.n1 * p.cos(state.theta1) + state.n2 * p.cos(state.theta2))
@@ -1047,7 +1048,7 @@ function lineRays(p) {
 // animationMax モード
 // ============================================================
 
-function animationMaxCalculate(p) {
+function animationMaxCalculate(p: p5) {
   state.theta1 = p.radians(state.lightRotateTheta);
   state.n12 = state.n2 / state.n1;
   state.theta2 = computeRefractionAngle(state.theta1, state.n12);
@@ -1093,7 +1094,7 @@ function animationMaxCalculate(p) {
   }
 }
 
-function animationMaxOperation(p) {
+function animationMaxOperation(p: p5) {
   const { rotateRemocon, nRemocon } = state;
   if (!rotateRemocon || !nRemocon) return;
   if (p.mouseIsPressed) {
@@ -1224,7 +1225,7 @@ function animationMaxOperation(p) {
   p.stroke(255);
 }
 
-function animationMaxBackgroundSetting(p) {
+function animationMaxBackgroundSetting(p: p5) {
   p.noFill();
   p.strokeWeight(5);
   p.stroke(255);
@@ -1444,7 +1445,7 @@ function animationMaxBackgroundSetting(p) {
   p.line(0, p.height / 2, p.width, p.height / 2);
 }
 
-function animationMaxRays(p) {
+function animationMaxRays(p: p5) {
   const { pg, rotateRemocon, nRemocon } = state;
   if (!pg || !rotateRemocon || !nRemocon) return;
   // beginDraw() and endDraw() is not supported in p5.js, and or often not needed;
@@ -1583,14 +1584,14 @@ function animationMaxRays(p) {
 // lineMax モード
 // ============================================================
 
-function lineMaxCalculate(p) {
+function lineMaxCalculate(p: p5) {
   state.theta1 = p.radians(state.lightRotateTheta);
   state.n12 = state.n2 / state.n1;
   state.theta2 = computeRefractionAngle(state.theta1, state.n12);
   state.boundary = computeSnellRatio(state.theta1, state.n12);
 }
 
-function lineMaxOperation(p) {
+function lineMaxOperation(p: p5) {
   const { rotateRemocon, nRemocon } = state;
   if (!rotateRemocon || !nRemocon) return;
   if (p.mouseIsPressed) {
@@ -1700,7 +1701,7 @@ function lineMaxOperation(p) {
   );
 }
 
-function lineMaxBackgroundSetting(p) {
+function lineMaxBackgroundSetting(p: p5) {
   p.noFill();
   p.strokeWeight(5);
   p.stroke(255);
@@ -1882,7 +1883,7 @@ function lineMaxBackgroundSetting(p) {
   p.line(0, p.height / 2, p.width, p.height / 2);
 }
 
-function lineMaxRays(p) {
+function lineMaxRays(p: p5) {
   p.strokeWeight(5);
   p.stroke(...RAY_COLOR);
   p.line(

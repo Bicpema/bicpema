@@ -1,7 +1,10 @@
 import { describe, it, expect } from "vitest";
 import { Cylinder } from "../../../vite/simulations/archimedes-principle/js/cylinder.js";
 
-/** cylinderの物理更新を500ステップ分進め、静止状態まで収束させる。 */
+/**
+ * cylinderの物理更新を500ステップ分進め、静止状態まで収束させる。
+ * @param {Cylinder} cylinder
+ */
 function settle(cylinder) {
   for (let i = 0; i < 500; i++) {
     cylinder.update(100, 1000);

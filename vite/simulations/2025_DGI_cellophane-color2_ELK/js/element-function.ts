@@ -37,7 +37,7 @@ export function onScreenshotClick() {
  * セロハン追加ボタンを押したときの処理。
  * @param {*} p p5インスタンス
  */
-export function cellophaneAddButtonFunction(p) {
+export function cellophaneAddButtonFunction(p: p5) {
   state.colabNum += 1;
   state.cellophaneArr.push(new Cellophane(state.colabNum, p));
 }
@@ -46,9 +46,9 @@ export function cellophaneAddButtonFunction(p) {
  * セロハン削除ボタンを押したときの処理。
  * @param {*} p p5インスタンス
  */
-export function cellophaneRemoveButtonFunction(p) {
+export function cellophaneRemoveButtonFunction(p: p5) {
   if (state.colabNum > 0) {
-    const targetDiv = p.select("#cellophane-" + state.colabNum);
+    const targetDiv = p.select("#cellophane-" + state.colabNum)!;
     state.cellophaneArr.pop();
     targetDiv.remove();
     state.colabNum -= 1;
@@ -60,7 +60,7 @@ export function cellophaneRemoveButtonFunction(p) {
  * 最初からやり直すためのフラグをリセットする。
  * @param {*} p p5インスタンス
  */
-export function onKeyPressed(p) {
+export function onKeyPressed(p: p5) {
   if (p.keyCode === p.UP_ARROW) {
     state.BisDead = false;
     state.CisDead = false;

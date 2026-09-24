@@ -8,7 +8,7 @@ import { drawWave, drawUIContext, drawFormula } from "./logic.js";
 
 const canvasController = new BicpemaCanvasController();
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   p.setup = () => {
     canvasController.fullScreen(p);
     elementPositionInit(p);

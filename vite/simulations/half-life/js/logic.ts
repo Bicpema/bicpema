@@ -1,3 +1,4 @@
+import type p5 from "p5";
 import { state } from "./state.js";
 import { computeDecayFraction, computeRemainingCount } from "./physics.js";
 import {
@@ -20,7 +21,7 @@ export function initAtoms() {
  * シミュレーション全体を描画する。
  * @param {*} p p5インスタンス。
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   p.background(255);
 
   if (state.isRunning) {
@@ -73,7 +74,7 @@ export function drawSimulation(p) {
  * @param {number} bY グラフ下端のY座標。
  * @param {number} tY グラフ上端のY座標。
  */
-function drawAxes(p, pad, w, bY, tY) {
+function drawAxes(p: p5, pad: number, w: number, bY: number, tY: number) {
   p.stroke(0);
   p.strokeWeight(2);
   p.line(pad, bY, pad + w, bY);
@@ -115,7 +116,13 @@ function drawAxes(p, pad, w, bY, tY) {
  * @param {number} bY グラフ下端のY座標。
  * @param {number} tY グラフ上端のY座標。
  */
-function drawHalfLifeGuides(p, pad, w, bY, tY) {
+function drawHalfLifeGuides(
+  p: p5,
+  pad: number,
+  w: number,
+  bY: number,
+  tY: number
+) {
   for (let i = 0; i <= 4; i++) {
     const t_half = state.halfLife * i;
     const amount = computeRemainingCount(state.N0, state.halfLife, t_half);
@@ -149,7 +156,7 @@ function drawHalfLifeGuides(p, pad, w, bY, tY) {
  * @param {number} bY グラフ下端のY座標。
  * @param {number} tY グラフ上端のY座標。
  */
-function drawDecayCurve(p, pad, w, bY, tY) {
+function drawDecayCurve(p: p5, pad: number, w: number, bY: number, tY: number) {
   p.noFill();
   p.stroke(0);
   p.strokeWeight(3);
@@ -171,7 +178,13 @@ function drawDecayCurve(p, pad, w, bY, tY) {
  * @param {number} size グリッドの一辺のサイズ。
  * @param {number} decayRate 現在の崩壊率（0〜1）。
  */
-function drawAtomGrid(p, xStart, yStart, size, decayRate) {
+function drawAtomGrid(
+  p: p5,
+  xStart: number,
+  yStart: number,
+  size: number,
+  decayRate: number
+) {
   const cols = state.n;
   const spacing = size / cols;
   const atomSize = spacing;

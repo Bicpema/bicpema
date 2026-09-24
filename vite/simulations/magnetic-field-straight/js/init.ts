@@ -1,3 +1,4 @@
+import type p5 from "p5";
 import { state } from "./state.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
@@ -5,9 +6,9 @@ import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 /** 電流の強さの初期値（A） */
 const INITIAL_CURRENT = 1;
 
-export function settingInit(p) {}
+export function settingInit(p: p5) {}
 
-export function elementSelectInit(p) {}
+export function elementSelectInit(p: p5) {}
 
 function updateControlLabels() {
   const currentSlider = document.getElementById(
@@ -19,7 +20,7 @@ function updateControlLabels() {
   }
 }
 
-export function elementPositionInit(p) {
+export function elementPositionInit(p: p5) {
   const currentSlider = document.getElementById("currentSlider");
   if (currentSlider) {
     // oxlint-disable-next-line unicorn/prefer-add-event-listener -- 呼び出しのたびに再実行されるため、代入で単一ハンドラのみを保つ
@@ -29,7 +30,7 @@ export function elementPositionInit(p) {
   updateControlLabels();
 }
 
-export function valueInit(p) {
+export function valueInit(p: p5) {
   const playPauseButton = document.getElementById("playPauseButton");
   if (!playPauseButton) return;
 

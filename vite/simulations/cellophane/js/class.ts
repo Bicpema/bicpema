@@ -74,7 +74,7 @@ export class Ray {
     this.magnification = 1;
   }
 
-  _draw(p) {
+  _draw(p: p5) {
     const cellophaneCount = Number(state.cellophaneCountSlider!.value());
 
     if (this.clr === "r") {
@@ -150,7 +150,7 @@ export class Ray {
     }
   }
 
-  _drawAsLine(p) {
+  _drawAsLine(p: p5) {
     if (this.clr === "r") {
       p.stroke(...RED_COLOR);
       p.strokeWeight(state.rIs ? 1 : DIM_STROKE_WEIGHT);
@@ -184,7 +184,7 @@ export class Ray {
     p.pop();
   }
 
-  _drawAsSphere(p) {
+  _drawAsSphere(p: p5) {
     p.noStroke();
     if (this.clr === "r") {
       p.fill(...RED_COLOR, state.rIs ? FULL_OPACITY : DIM_OPACITY);

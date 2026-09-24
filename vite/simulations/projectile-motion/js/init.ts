@@ -40,7 +40,7 @@ export const FPS = 60;
  * 地面のy座標を計算する。
  * @param {*} p p5インスタンス
  */
-export function groundLevel(p) {
+export function groundLevel(p: p5) {
   return p.height * GROUND_LEVEL_RATIO;
 }
 
@@ -48,7 +48,7 @@ export function groundLevel(p) {
  * canvasの高さを計算する（setup・windowResized共通）。
  * @param {*} p p5インスタンス
  */
-export function updateUsableHeight(p) {
+export function updateUsableHeight(p: p5) {
   state.usableHeight = p.windowHeight - NAV_HEIGHT;
 }
 
@@ -56,7 +56,7 @@ export function updateUsableHeight(p) {
  * フルスクリーンのcanvasを生成する（初回セットアップ専用）。
  * @param {*} p p5インスタンス
  */
-export function fullScreen(p) {
+export function fullScreen(p: p5) {
   p.pixelDensity(Math.min(p.displayDensity(), MAX_PIXEL_DENSITY));
   updateUsableHeight(p);
   const p5Canvas = p.select("#p5Canvas");
@@ -64,35 +64,35 @@ export function fullScreen(p) {
     p.windowWidth,
     state.usableHeight * CANVAS_HEIGHT_RATIO
   );
-  canvas.parent(p5Canvas);
+  canvas.parent(p5Canvas!);
 }
 
 /**
  * 操作パネルの仮想DOM要素を生成する（初回セットアップ専用）。
  * @param {*} p p5インスタンス
  */
-export function elementSelectInit(p) {
-  state.backgroundDiv = p.createElement("div").parent(p.select("#p5Canvas"));
+export function elementSelectInit(p: p5) {
+  state.backgroundDiv = p.createElement("div").parent(p.select("#p5Canvas")!);
   state.startButton = p.createButton("スタート").id("startButton");
   state.stopButton = p.createButton("ストップ").id("stopButton");
   state.resetButton = p.createButton("リセット").id("resetButton");
   state.ballExpla1 = p.createElement("label", "赤玉");
   state.ballExpla2 = p.createElement("label", "青玉");
   state.speedExpla = p.createElement("label", "速度[m/s]");
-  state.speedButton1 = p.createInput(DEFAULT_SPEED, "number");
-  state.speedButton2 = p.createInput(DEFAULT_SPEED, "number");
+  state.speedButton1 = p.createInput(String(DEFAULT_SPEED), "number");
+  state.speedButton2 = p.createInput(String(DEFAULT_SPEED), "number");
   state.angleExpla = p.createElement("label", "角度[°]");
-  state.angleButton1 = p.createInput(DEFAULT_ANGLE_1, "number");
-  state.angleButton2 = p.createInput(DEFAULT_ANGLE_2, "number");
+  state.angleButton1 = p.createInput(String(DEFAULT_ANGLE_1), "number");
+  state.angleButton2 = p.createInput(String(DEFAULT_ANGLE_2), "number");
   state.weightExpla = p.createElement("label", "質量[kg]");
-  state.weightButton1 = p.createInput(DEFAULT_WEIGHT, "number");
-  state.weightButton2 = p.createInput(DEFAULT_WEIGHT, "number");
+  state.weightButton1 = p.createInput(String(DEFAULT_WEIGHT), "number");
+  state.weightButton2 = p.createInput(String(DEFAULT_WEIGHT), "number");
   state.heightExpla = p.createElement("label", "高さ[m]");
-  state.heightButton1 = p.createInput(0, "number");
-  state.heightButton2 = p.createInput(0, "number");
+  state.heightButton1 = p.createInput(String(0), "number");
+  state.heightButton2 = p.createInput(String(0), "number");
   state.konstantExpla = p.createElement("label", "空気抵抗係数");
-  state.konstantButton1 = p.createInput(0, "number");
-  state.konstantButton2 = p.createInput(0, "number");
+  state.konstantButton1 = p.createInput(String(0), "number");
+  state.konstantButton2 = p.createInput(String(0), "number");
 }
 
 /**
@@ -100,7 +100,7 @@ export function elementSelectInit(p) {
  * （リサイズ時にも呼ぶため、イベント登録や表示状態は変更しない）。
  * @param {*} p p5インスタンス
  */
-export function elementPositionInit(p) {
+export function elementPositionInit(p: p5) {
   state
     .backgroundDiv!.size(
       p.width,

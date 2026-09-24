@@ -5,17 +5,17 @@ import { V_W, V_H, RIVER_BOTTOM } from "./constants.js";
  * 川の速度(v川)を表す色
  * @type {readonly [number, number, number]}
  */
-const RIVER_COLOR = [255, 100, 100];
+const RIVER_COLOR = [255, 100, 100] as const;
 /**
  * 船の速度(v船)を表す色
  * @type {readonly [number, number, number]}
  */
-const BOAT_COLOR = [80, 240, 100];
+const BOAT_COLOR = [80, 240, 100] as const;
 /**
  * 合成速度(v合)を表す色
  * @type {readonly [number, number, number]}
  */
-const COMPOSITE_COLOR = [110, 170, 255];
+const COMPOSITE_COLOR = [110, 170, 255] as const;
 
 /**
  * 矢印を描画する。
@@ -26,7 +26,14 @@ const COMPOSITE_COLOR = [110, 170, 255];
  * @param {number} toY 終点のY座標
  * @param {p5.Color} col 矢印の色
  */
-export function drawArrow(p, fromX, fromY, toX, toY, col) {
+export function drawArrow(
+  p: p5,
+  fromX: number,
+  fromY: number,
+  toX: number,
+  toY: number,
+  col: p5.Color
+) {
   const headSize = 11;
   const dx = toX - fromX;
   const dy = toY - fromY;
@@ -57,7 +64,15 @@ export function drawArrow(p, fromX, fromY, toX, toY, col) {
  * @param {p5.Color} col 矢印とラベルの色
  * @param {string} label 表示するテキスト
  */
-export function drawArrowWithLabel(p, fromX, fromY, toX, toY, col, label) {
+export function drawArrowWithLabel(
+  p: p5,
+  fromX: number,
+  fromY: number,
+  toX: number,
+  toY: number,
+  col: p5.Color,
+  label: string
+) {
   drawArrow(p, fromX, fromY, toX, toY, col);
   p.noStroke();
   p.textSize(15);
@@ -98,7 +113,7 @@ export function drawArrowWithLabel(p, fromX, fromY, toX, toY, col, label) {
  * シーンの背景（川・岸・ラベル）を描画する。
  * @param {p5} p p5インスタンス
  */
-export function drawScene(p) {
+export function drawScene(p: p5) {
   p.background(28, 98, 165);
 
   p.fill(155, 125, 70);
@@ -135,7 +150,7 @@ export function drawScene(p) {
  * 速度矢印の色凡例を描画する。
  * @param {p5} p p5インスタンス
  */
-export function drawLegend(p) {
+export function drawLegend(p: p5) {
   const lx = 28;
   const ly = RIVER_BOTTOM - 108;
   const lineH = 24;
@@ -162,7 +177,7 @@ export function drawLegend(p) {
  * @param {number} v 速度
  * @returns {string} 向きを表す文字列
  */
-function dirChar(v) {
+function dirChar(v: number) {
   if (Math.abs(v) < 0.05) return "（静止）";
   return v > 0 ? "←" : "→";
 }
@@ -172,7 +187,7 @@ function dirChar(v) {
  * v_合 = v_川 + v_船 の関係を視覚的に確認できる。
  * @param {p5} p p5インスタンス
  */
-export function drawInfoPanel(p) {
+export function drawInfoPanel(p: p5) {
   if (!state.boat) return;
 
   const px = V_W - 16;

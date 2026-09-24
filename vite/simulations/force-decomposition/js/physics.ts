@@ -7,7 +7,7 @@
  * @param {number} angleDeg 角度 (度)
  * @returns {{x: number, y: number}} 水平成分・垂直成分（yは画面座標系）
  */
-export function decomposeForce(magnitude, angleDeg) {
+export function decomposeForce(magnitude: number, angleDeg: number) {
   const theta = (angleDeg * Math.PI) / 180;
   return {
     x: magnitude * Math.cos(theta),

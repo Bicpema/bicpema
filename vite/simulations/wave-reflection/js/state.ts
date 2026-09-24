@@ -9,6 +9,6 @@ export const state = {
   running: false,
   reflectX: 0,
   front: 0,
-  /** @type {"free" | "fixed"} */
-  mode: "free"
+  /** 反射の種類（自由端 / 固定端） */
+  mode: "free" as "free" | "fixed"
 };

@@ -7,7 +7,13 @@
  * @param {number} t 時刻
  * @returns {number} 変位
  */
-export function computeRightWaveDisplacement(amplitude, k, x, omega, t) {
+export function computeRightWaveDisplacement(
+  amplitude: number,
+  k: number,
+  x: number,
+  omega: number,
+  t: number
+) {
   return amplitude * Math.sin(k * x - omega * t);
 }
 
@@ -20,7 +26,13 @@ export function computeRightWaveDisplacement(amplitude, k, x, omega, t) {
  * @param {number} t 時刻
  * @returns {number} 変位
  */
-export function computeLeftWaveDisplacement(amplitude, k, x, omega, t) {
+export function computeLeftWaveDisplacement(
+  amplitude: number,
+  k: number,
+  x: number,
+  omega: number,
+  t: number
+) {
   return amplitude * Math.sin(k * x + omega * t);
 }
 
@@ -35,12 +47,12 @@ export function computeLeftWaveDisplacement(amplitude, k, x, omega, t) {
  * @returns {number} 変位
  */
 export function computeStandingWaveDisplacement(
-  amplitude,
-  k,
-  x,
-  omega,
-  t,
-  innerW
+  amplitude: number,
+  k: number,
+  x: number,
+  omega: number,
+  t: number,
+  innerW: number
 ) {
   const y1 = computeRightWaveDisplacement(amplitude, k, x, omega, t);
   const y2 = amplitude * Math.sin(k * (innerW - x) - omega * t);
@@ -54,7 +66,7 @@ export function computeStandingWaveDisplacement(
  * @param {number} innerW 描画領域の幅
  * @returns {{rightFront: number, leftFront: number}}
  */
-export function computeWaveFronts(v, t, innerW) {
+export function computeWaveFronts(v: number, t: number, innerW: number) {
   return {
     rightFront: Math.min(v * t, innerW),
     leftFront: Math.max(innerW - v * t, 0)

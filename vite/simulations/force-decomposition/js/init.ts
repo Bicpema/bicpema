@@ -5,7 +5,7 @@ import { FPS, LABEL_FONT_SIZE } from "./constants.js";
  * DOM要素を選択してstateに格納し、イベントリスナーを設定する。
  * @param {p5} _p p5インスタンス
  */
-export function elCreate(_p) {
+export function elCreate(_p: p5) {
   // 設定UIなし
 }
 
@@ -13,7 +13,7 @@ export function elCreate(_p) {
  * キャンバス設定と初期値を設定する。
  * @param {p5} p p5インスタンス
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   p.frameRate(FPS);
   p.textAlign(p.CENTER, p.CENTER);
   if (state.font) {

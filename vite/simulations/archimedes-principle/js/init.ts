@@ -1,3 +1,4 @@
+import type p5 from "p5";
 import { Tank } from "./tank.js";
 import { Cylinder } from "./cylinder.js";
 import { state } from "./state.js";
@@ -25,7 +26,7 @@ export const CYL_H = 100;
  * シミュレーションの初期値を設定する関数。
  * @param {*} [p] p5インスタンス（未使用だが呼び出し元との引数形式を揃えるために受け取る）。
  */
-export function initValue(p) {
+export function initValue(p?: p5) {
   state.waterSurfaceY = TANK_BOTTOM_Y - TANK_H * WATER_FILL_RATIO;
 
   state.tank = new Tank(TANK_CX, TANK_BOTTOM_Y, TANK_W, TANK_H, TANK_D);
@@ -51,7 +52,7 @@ export function initValue(p) {
  * UI要素のイベントリスナーを設定する関数。
  * @param {*} p p5インスタンス。
  */
-export function elCreate(p) {
+export function elCreate(p: p5) {
   const resetBtn = document.getElementById("resetButton");
   if (resetBtn) {
     resetBtn.addEventListener("click", () => {

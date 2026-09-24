@@ -87,7 +87,7 @@ export class Cart {
    * @param {number} dt 時間ステップ (s)
    * @param {number} pxPerMeter 1メートルあたりのピクセル数
    */
-  update(dt, pxPerMeter) {
+  update(dt: number, pxPerMeter: number) {
     this.acceleration = this.force / this.mass;
     this.velocity += this.acceleration * dt;
     if (this.velocity < 0) this.velocity = 0;
@@ -110,7 +110,7 @@ export class Cart {
    * @param {number} groundY 地面のy座標（論理ピクセル）
    * @param {*} cartImg 台車画像
    */
-  display(p, groundY, cartImg) {
+  display(p: p5, groundY: number, cartImg: p5.Image) {
     const imgH = this.WHEEL_R * 2 + this.BODY_H + this.BOX_H;
     const imgW = imgH * (cartImg.width / cartImg.height);
     this._displayW = imgW;

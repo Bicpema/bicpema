@@ -1,6 +1,7 @@
 // function.js - 描画処理専用のファイルです。
 
 import { state } from "./state.js";
+import type { SlopeCart } from "./slope-cart.js";
 
 // ============================================================
 // レイアウト定数（仮想座標系: 1000×562）
@@ -43,7 +44,7 @@ const TAPE_RX = TAPE_ORIGIN_X + SLOPE_LENGTH_M * PX_PER_M;
  * @param {number} angleDeg - 傾斜角 (度)
  * @returns {{x: number, y: number}}
  */
-function getSlopeLeft(angleDeg) {
+function getSlopeLeft(angleDeg: number) {
   const theta = (angleDeg * Math.PI) / 180;
   const lenPx = SLOPE_LENGTH_M * PX_PER_M;
   return {
@@ -58,7 +59,7 @@ function getSlopeLeft(angleDeg) {
  * @param {number} angleDeg - 傾斜角 (度)
  * @returns {{x: number, y: number}}
  */
-function getSlopeRight(angleDeg) {
+function getSlopeRight(angleDeg: number) {
   const theta = (angleDeg * Math.PI) / 180;
   const lenPx = SLOPE_LENGTH_M * PX_PER_M;
   return {
@@ -72,7 +73,7 @@ function getSlopeRight(angleDeg) {
  * @param {*} p - p5インスタンス
  * @param {number} angleDeg - 傾斜角 (度)
  */
-export function drawSlope(p, angleDeg) {
+export function drawSlope(p: p5, angleDeg: number) {
   const left = getSlopeLeft(angleDeg);
   const right = getSlopeRight(angleDeg);
 
@@ -105,7 +106,7 @@ export function drawSlope(p, angleDeg) {
  * @param {number} xStart - 開始x座標
  * @param {number} xEnd - 終了x座標
  */
-function drawGround(p, xStart, xEnd) {
+function drawGround(p: p5, xStart: number, xEnd: number) {
   if (!state.groundImage) {
     // フォールバック: 単純なライン
     p.stroke(110);
@@ -129,7 +130,7 @@ function drawGround(p, xStart, xEnd) {
  * @param {number} px - 支持台の中心x座標
  * @param {number} py - 支持台の頂点y座標
  */
-function drawSupportStructure(p, px, py) {
+function drawSupportStructure(p: p5, px: number, py: number) {
   p.stroke(70);
   p.strokeWeight(4);
 
@@ -149,7 +150,7 @@ function drawSupportStructure(p, px, py) {
  * @param {number} ty - 右端y座標
  * @param {number} angleDeg - 傾斜角 (度)
  */
-function drawStopper(p, tx, ty, angleDeg) {
+function drawStopper(p: p5, tx: number, ty: number, angleDeg: number) {
   const theta = (angleDeg * Math.PI) / 180;
   // 斜面法線方向（上側）: 左上→右下の斜面に対して上向き法線 = (sin(theta), -cos(theta))
   const nx = Math.sin(theta);
@@ -167,7 +168,7 @@ function drawStopper(p, tx, ty, angleDeg) {
  * @param {number} ry - 右端y座標
  * @param {number} angleDeg - 傾斜角 (度)
  */
-function drawDirectionArrow(p, rx, ry, angleDeg) {
+function drawDirectionArrow(p: p5, rx: number, ry: number, angleDeg: number) {
   const theta = (angleDeg * Math.PI) / 180;
   const dx = Math.cos(theta);
   const dy = Math.sin(theta);
@@ -196,7 +197,7 @@ function drawDirectionArrow(p, rx, ry, angleDeg) {
  * @param {import("./slope-cart.js").SlopeCart} cart - 台車オブジェクト
  * @param {number} angleDeg - 傾斜角 (度)
  */
-export function drawCartOnSlope(p, cart, angleDeg) {
+export function drawCartOnSlope(p: p5, cart: SlopeCart, angleDeg: number) {
   const theta = (angleDeg * Math.PI) / 180;
   const left = getSlopeLeft(angleDeg);
 
@@ -216,7 +217,7 @@ export function drawCartOnSlope(p, cart, angleDeg) {
 
   p.imageMode(p.CENTER);
   p.noStroke();
-  p.image(state.cartImage, 0, bodyCenterY + 18, cart.CART_W, cart.CART_H);
+  p.image(state.cartImage!, 0, bodyCenterY + 18, cart.CART_W, cart.CART_H);
 
   p.pop();
 }
@@ -227,7 +228,7 @@ export function drawCartOnSlope(p, cart, angleDeg) {
  * @param {number[]} marks - 各記録時刻における変位 (m) の配列
  * @param {number} recInterval - 記録間隔 (s)
  */
-export function drawRecordingTape(p, marks, recInterval) {
+export function drawRecordingTape(p: p5, marks: number[], recInterval: number) {
   // テープ背景
   p.fill(255);
   p.stroke(160);
@@ -283,7 +284,7 @@ export function drawRecordingTape(p, marks, recInterval) {
  * @param {*} p - p5インスタンス
  * @param {import("./slope-cart.js").SlopeCart} cart - 台車オブジェクト
  */
-export function drawInfoPanel(p, cart) {
+export function drawInfoPanel(p: p5, cart: SlopeCart) {
   const PANEL_W = 310;
   const PANEL_H = 152;
   const LEFT_X = 26;

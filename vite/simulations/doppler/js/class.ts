@@ -23,7 +23,7 @@ export class SOUND {
    * 音波を描画する。
    * @param {*} p p5 インスタンス。
    */
-  _draw(p) {
+  _draw(p: p5) {
     if (state.clickedCount === true) {
       this.radi += SOUND_SPEED / FPS;
     }

@@ -15,7 +15,7 @@ import { FPS, H, ORIGIN_X } from "./constants.js";
  * 初期設定を行う。
  * @param {*} p - p5 インスタンス。
  */
-export function settingInit(p) {
+export function settingInit(p: p5) {
   p.frameRate(FPS);
   p.textAlign(p.CENTER, p.CENTER);
   p.textSize(16);
@@ -25,7 +25,7 @@ export function settingInit(p) {
  * HTML ボタンのイベントリスナーを登録する。
  * @param {*} p - p5 インスタンス。
  */
-export function elCreate(p) {
+export function elCreate(p: p5) {
   bindStartStopControls(p, {
     startSelector: "#startButton",
     stopSelector: "#stopButton",
@@ -39,14 +39,14 @@ export function elCreate(p) {
     modalSelector: "#settingsModal",
     closeSelectors: "#closeModal"
   });
-  p.select("#speedInput").input(onSpeedInputChange);
+  p.select("#speedInput")!.input(onSpeedInputChange);
 }
 
 /**
  * 値の初期化を行う。
  * @param {*} p - p5 インスタンス。
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   state.posx = ORIGIN_X;
   state.posy = H / 2;
   state.count = 0;

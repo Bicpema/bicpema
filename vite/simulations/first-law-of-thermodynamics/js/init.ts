@@ -18,7 +18,7 @@ import {
  * 値の初期化を行う。
  * @param {p5} p - p5 インスタンス
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   state.pistonX = PISTON_INIT_X;
   state.pistonX_target = PISTON_INIT_X;
   state.gasWidth = PISTON_INIT_X - CYL_LEFT;
@@ -48,8 +48,8 @@ export function initValue(p) {
  * DOM 要素のイベントリスナーを設定する。
  * @param {p5} p - p5 インスタンス
  */
-export function elCreate(p) {
-  p.select("#resetButton").mousePressed(() => onResetButtonClick());
+export function elCreate(p: p5) {
+  p.select("#resetButton")!.mousePressed(() => onResetButtonClick());
 
   initModal({
     openSelectors: "#toggleModal",

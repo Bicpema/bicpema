@@ -5,7 +5,7 @@ import { state } from "./state.js";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 import { elCreate, initValue, FPS } from "./init.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
   p.preload = () => {

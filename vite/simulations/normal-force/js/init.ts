@@ -22,33 +22,33 @@ import { bindStartStopControls } from "../../../js/bicpema-controls-controller.j
 
 /**
  * 操作パネルの高さを求める。
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  */
-export function controlPanelHeight(p) {
+export function controlPanelHeight(p: p5) {
   return p.windowHeight / CONTROL_PANEL_HEIGHT_DIVISOR;
 }
 
 /**
  * 操作パネルのボタン1列分の幅を求める。
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  */
-export function buttonColumnWidth(p) {
+export function buttonColumnWidth(p: p5) {
   return p.windowWidth / BUTTON_COLUMN_DIVISOR;
 }
 
 /**
  * canvasの高さ（操作パネルの高さを差し引いた高さ）を求める。
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  */
-export function canvasHeight(p) {
+export function canvasHeight(p: p5) {
   return p.windowHeight - NAV_HEIGHT - controlPanelHeight(p);
 }
 
 /**
  * canvasを生成し、#p5Canvasに配置する。
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  */
-export function fullScreen(p) {
+export function fullScreen(p: p5) {
   p.pixelDensity(Math.min(p.displayDensity(), MAX_PIXEL_DENSITY));
   const p5Canvas = document.getElementById("p5Canvas");
   const canvas = p.createCanvas(p.windowWidth, canvasHeight(p));
@@ -57,9 +57,9 @@ export function fullScreen(p) {
 
 /**
  * canvasを現在のウィンドウサイズに合わせて再生成する。
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  */
-export function resizeScreen(p) {
+export function resizeScreen(p: p5) {
   p.resizeCanvas(p.windowWidth, canvasHeight(p));
 }
 
@@ -73,30 +73,38 @@ export function resizeScreen(p) {
  * @param {() => void} handlers.sortButtonAction3
  */
 export function buttonCreation(
-  p,
-  { sortButtonAction1, sortButtonAction2, sortButtonAction3 }
+  p: p5,
+  {
+    sortButtonAction1,
+    sortButtonAction2,
+    sortButtonAction3
+  }: {
+    sortButtonAction1: () => void;
+    sortButtonAction2: () => void;
+    sortButtonAction3: () => void;
+  }
 ) {
   state.backgroundDiv = p.createElement("div");
   state.startButton = p.createButton("スタート").id("startButton");
   state.stopButton = p.createButton("ストップ").id("stopButton");
   state.resetButton = p.createButton("リセット").id("resetButton");
   state.slopeAngleButtonLabel = p.createElement("label", "坂の角度[°]");
-  state.slopeAngleButton = p.createInput(DEFAULT_SLOPE_ANGLE, "number");
+  state.slopeAngleButton = p.createInput(String(DEFAULT_SLOPE_ANGLE), "number");
   state.weightButtonLabel = p.createElement("label", "質量[kg]");
-  state.weightButton = p.createInput(DEFAULT_WEIGHT, "number");
+  state.weightButton = p.createInput(String(DEFAULT_WEIGHT), "number");
   state.gravityButtonLabel = p.createElement("label", "重力加速度[m/s^2]");
-  state.gravityButton = p.createInput(DEFAULT_GRAVITY, "number");
-  state.sortButton1 = p.createButton(1).mousePressed(sortButtonAction1);
-  state.sortButton2 = p.createButton(2).mousePressed(sortButtonAction2);
-  state.sortButton3 = p.createButton(3).mousePressed(sortButtonAction3);
+  state.gravityButton = p.createInput(String(DEFAULT_GRAVITY), "number");
+  state.sortButton1 = p.createButton(String(1)).mousePressed(sortButtonAction1);
+  state.sortButton2 = p.createButton(String(2)).mousePressed(sortButtonAction2);
+  state.sortButton3 = p.createButton(String(3)).mousePressed(sortButtonAction3);
 }
 
 /**
  * 坂を滑る物体を生成する。
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  */
-export function materialSet(p) {
-  state.material = new Material(p, state.weightButton!.value(), 1);
+export function materialSet(p: p5) {
+  state.material = new Material(p, Number(state.weightButton!.value()), 1);
 }
 
 /**
@@ -109,8 +117,16 @@ export function materialSet(p) {
  * @param {(p: *) => void} handlers.resetButtonAction
  */
 export function buttonEvents(
-  p,
-  { onStartClick, onStopClick, resetButtonAction }
+  p: p5,
+  {
+    onStartClick,
+    onStopClick,
+    resetButtonAction
+  }: {
+    onStartClick: () => void;
+    onStopClick: () => void;
+    resetButtonAction: (p: p5) => void;
+  }
 ) {
   const { startButton, stopButton, resetButton } = bindStartStopControls(p, {
     startSelector: "#startButton",
@@ -130,7 +146,7 @@ export function buttonEvents(
  * イベント登録や表示状態は変更しない）。
  * @param {*} p p5インスタンス
  */
-export function buttonSettings(p) {
+export function buttonSettings(p: p5) {
   const controlTop = NAV_HEIGHT + p.height;
   const controlHeight = controlPanelHeight(p);
   const buttonWidth = buttonColumnWidth(p);
@@ -234,7 +250,7 @@ export function buttonSettings(p) {
  * シミュレーションの状態は変更しない）。
  * @param {*} p p5インスタンス
  */
-export function updateLayout(p) {
+export function updateLayout(p: p5) {
   state.slopeWidth = (2 * p.width) / 3;
   state.groundHeight = (9 * p.height) / 10;
   state.materialWidth = p.width / 12;
@@ -250,7 +266,7 @@ export function updateLayout(p) {
  * シミュレーションの初期設定を行う。
  * @param {*} p p5インスタンス
  */
-export function initSettings(p) {
+export function initSettings(p: p5) {
   state.count = 0;
   updateLayout(p);
   state.clickedCount = false;

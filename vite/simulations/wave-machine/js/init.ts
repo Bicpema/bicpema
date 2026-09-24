@@ -23,7 +23,7 @@ export const FPS = 60;
  * 初期設定を行う。
  * @param {*} p - p5 インスタンス。
  */
-export function settingInit(p) {
+export function settingInit(p: p5) {
   p.frameRate(FPS);
 }
 
@@ -31,7 +31,7 @@ export function settingInit(p) {
  * 要素の選択を初期化する。
  * @param {*} p - p5 インスタンス。
  */
-export function elementSelectInit(p) {
+export function elementSelectInit(p: p5) {
   state.decelerationButton = p.select("#decelerationButton");
   state.accelerationButton = p.select("#accelerationButton");
 
@@ -43,7 +43,7 @@ export function elementSelectInit(p) {
  * 値の初期化を行う。
  * @param {*} p - p5 インスタンス。
  */
-export function valueInit(p) {
+export function valueInit(p: p5) {
   if (!state.stopper || !state.button) return;
   state.stopper.resize(STOPPER_WIDTH, 0);
   state.button.resize(BUTTON_SIZE, BUTTON_SIZE);

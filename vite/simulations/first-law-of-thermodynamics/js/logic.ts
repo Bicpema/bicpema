@@ -18,7 +18,7 @@ import {
  * シミュレーションを描画する。
  * @param {p5} p - p5 インスタンス
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   p.push();
   p.scale(p.width / VIRTUAL_W);
 
@@ -52,7 +52,7 @@ export function drawSimulation(p) {
  * 下部 UI（熱量ラベルと結果テキスト）を描画する。
  * @param {p5} p - p5 インスタンス
  */
-function drawUI(p) {
+function drawUI(p: p5) {
   p.fill(255, 0, 0);
   p.noStroke();
   p.textSize(32);
@@ -70,7 +70,7 @@ function drawUI(p) {
  * シリンダーを3D風に描画する。
  * @param {p5} p - p5 インスタンス
  */
-function drawCylinder(p) {
+function drawCylinder(p: p5) {
   p.noStroke();
   p.fill(230);
   p.rect(CYL_LEFT, CYL_TOP, CYL_WIDTH, CYL_HEIGHT);
@@ -88,7 +88,7 @@ function drawCylinder(p) {
  * 気体を3D風に描画する。
  * @param {p5} p - p5 インスタンス
  */
-function drawGas(p) {
+function drawGas(p: p5) {
   const col = p.map(state.T, state.T0, state.T0 + 5 * DT_UNIT, 180, 255);
   p.noStroke();
   p.fill(col, 160, 120, 180);
@@ -101,7 +101,7 @@ function drawGas(p) {
  * ピストンを3D風に描画する。
  * @param {p5} p - p5 インスタンス
  */
-function drawPiston(p) {
+function drawPiston(p: p5) {
   p.fill(180);
   p.stroke(0);
   p.strokeWeight(1);
@@ -120,7 +120,7 @@ function drawPiston(p) {
  * 仕事・内部エネルギーの矢印を描画する。
  * @param {p5} p - p5 インスタンス
  */
-function drawArrows(p) {
+function drawArrows(p: p5) {
   p.strokeWeight(3);
 
   // 仕事の矢印（ピストン右向き）
@@ -157,7 +157,7 @@ function drawArrows(p) {
  * 熱力学第一法則の式を描画する。
  * @param {p5} p - p5 インスタンス
  */
-function drawFormula(p) {
+function drawFormula(p: p5) {
   p.fill(100, 200, 255, 100);
   p.noStroke();
   p.rect(0, 29, VIRTUAL_W, 49);
@@ -170,7 +170,7 @@ function drawFormula(p) {
  * 炎の画像を描画する（Q > 0 のとき）。
  * @param {p5} p - p5 インスタンス
  */
-function drawFlame(p) {
+function drawFlame(p: p5) {
   if (state.step > 0 && state.img_flame) {
     p.image(state.img_flame, 207, 329);
   }

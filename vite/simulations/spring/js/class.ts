@@ -1,5 +1,6 @@
 // class.ts はSpringクラス管理専用のファイルです。
 
+import p5 from "p5";
 import { state, FPS } from "./state.js";
 import {
   computeEffectiveSpringConstant,
@@ -56,7 +57,7 @@ export class Spring {
    * ばねとおもりを描画する。
    * @param {*} p p5インスタンス
    */
-  draw(p) {
+  draw(p: p5) {
     const springImage = state.springImage!;
     const ballImage = state.ballImage!;
     const s_konstant = computeEffectiveSpringConstant(

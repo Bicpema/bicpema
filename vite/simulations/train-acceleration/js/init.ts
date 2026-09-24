@@ -10,6 +10,7 @@ import {
 import { DEFAULT_ACCELERATION, TRAIN_START_X_DIVISOR } from "./constants.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
+import type { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 
 /** フレームレート */
 export const FPS = 60;
@@ -23,10 +24,10 @@ export const PX_PER_METER = 50;
  * @param {*} p p5インスタンス。
  * @param {*} canvasController BicpemaCanvasControllerインスタンス。
  */
-export function settingInit(p, canvasController) {
+export function settingInit(p: p5, canvasController: BicpemaCanvasController) {
   p.loadFont(
     "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
-    (f) => {
+    (f: p5.Font) => {
       state.font = f;
     },
     () => {}
@@ -41,7 +42,7 @@ export function settingInit(p, canvasController) {
  * DOM要素を取得し、イベントを設定する。
  * @param {*} p p5インスタンス。
  */
-export function elCreate(p) {
+export function elCreate(p: p5) {
   bindToggleControls(p, {
     toggleSelector: "#playPauseButton",
     resetSelector: "#resetButton",
@@ -53,20 +54,21 @@ export function elCreate(p) {
     modalSelector: "#settingsModal",
     closeSelectors: "#closeModal"
   });
-  p.select("#accelerationInput").input(onAccelerationChange);
+  p.select("#accelerationInput")!.input(onAccelerationChange);
 }
 
 /**
  * シミュレーション変数の初期化。
  * @param {*} p p5インスタンス。
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   state.isPlaying = false;
   state.elapsedTime = 0;
   state.lastGraphUpdate = 0;
   state.maxObservedVelocity = 0;
   state.acceleration =
-    parseFloat(p.select("#accelerationInput").value()) || DEFAULT_ACCELERATION;
+    parseFloat(String(p.select("#accelerationInput")!.value())) ||
+    DEFAULT_ACCELERATION;
   state.train = new Train(V_W / TRAIN_START_X_DIVISOR);
   state.vtData = [{ x: 0, y: 0 }];
 }

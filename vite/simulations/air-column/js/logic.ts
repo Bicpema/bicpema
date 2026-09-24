@@ -13,7 +13,7 @@ const PIPE_LINE_WEIGHT = 5;
 /** 補足テキストのフォントサイズ */
 const CAPTION_FONT_SIZE = 14;
 
-export function updateWaveLayer(p) {
+export function updateWaveLayer(p: p5) {
   if (!state.waveLayer) return;
   const waveLayer = state.waveLayer;
   const startX = (CANVAS_WIDTH - state.pipeL) / 2;
@@ -34,7 +34,7 @@ export function updateWaveLayer(p) {
   }
 }
 
-export function drawWave(p) {
+export function drawWave(p: p5) {
   const startX = (CANVAS_WIDTH - state.pipeL) / 2;
   const freqConst = computeFreqConst(state.type, state.m_n, state.pipeL);
   p.noFill();
@@ -57,7 +57,7 @@ export function drawWave(p) {
   }
 }
 
-export function drawUIContext(p) {
+export function drawUIContext(p: p5) {
   const pipeH = 100;
   const startX = (CANVAS_WIDTH - state.pipeL) / 2;
   const { type, pipeL, pipeY } = state;
@@ -113,7 +113,14 @@ export function drawUIContext(p) {
   }
 }
 
-function drawLabels(p, left, right, x, l, y) {
+function drawLabels(
+  p: p5,
+  left: string,
+  right: string,
+  x: number,
+  l: number,
+  y: number
+) {
   p.fill(0);
   p.noStroke();
   p.textSize(16);
@@ -122,7 +129,7 @@ function drawLabels(p, left, right, x, l, y) {
   p.text(right, x + l, y + 70);
 }
 
-export function drawFormula(p) {
+export function drawFormula(p: p5) {
   const { type, m_n } = state;
   const formulaY = 400;
   const centerX = 500;

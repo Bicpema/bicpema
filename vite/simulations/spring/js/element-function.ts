@@ -1,5 +1,6 @@
 // element-function.tsは仮想DOMメソッド管理専用のファイルです。
 
+import p5 from "p5";
 import { state } from "./state.js";
 import { initValue } from "./init.js";
 
@@ -15,6 +16,6 @@ export function moveButtonAction() {
  * リセットボタンが押されたときの処理。
  * @param {*} p p5インスタンス
  */
-export function resetButtonAction(p) {
+export function resetButtonAction(p: p5) {
   initValue(p);
 }

@@ -7,15 +7,15 @@ import {
 } from "./physics.js";
 
 /** 入射波を表す色（青） */
-const INCIDENT_COLOR = [0, 0, 255];
+const INCIDENT_COLOR = [0, 0, 255] as const;
 /** 反射波を表す色（赤） */
-const REFLECTED_COLOR = [255, 0, 0];
+const REFLECTED_COLOR = [255, 0, 0] as const;
 /** 合成波を表す色（緑） */
-const COMBINED_COLOR = [0, 160, 0];
+const COMBINED_COLOR = [0, 160, 0] as const;
 /** 未到達区間の波を示す破線パターン */
 const DASH_PATTERN = [6, 6];
 
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   p.background(255);
   drawGrid(p);
   drawReflectWall(p);
@@ -154,7 +154,7 @@ export function drawSimulation(p) {
   }
 }
 
-function drawGrid(p) {
+function drawGrid(p: p5) {
   p.stroke(142, 216, 236);
   p.strokeWeight(1);
   const wavelength = p.TWO_PI / state.k;
@@ -180,7 +180,7 @@ function drawGrid(p) {
   p.line(0, p.height / 2, p.width, p.height / 2);
 }
 
-function drawReflectWall(p) {
+function drawReflectWall(p: p5) {
   if (state.mode === "free") p.stroke(236, 193, 56);
   else p.stroke(0, 171, 158);
   p.strokeWeight(3);

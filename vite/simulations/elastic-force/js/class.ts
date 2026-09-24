@@ -1,5 +1,6 @@
 // class.ts はクラス管理専用のファイルです。
 
+import p5 from "p5";
 import { PX_PER_M, MIN_SPRING_LENGTH, MAX_SPRING_LENGTH } from "./state.js";
 import { FORCE_ARROW_COLOR } from "./constants.js";
 
@@ -91,7 +92,7 @@ export class Spring {
    * @param {*} p p5 インスタンス
    * @returns {number[]} [r, g, b]
    */
-  getSpringColor(p) {
+  getSpringColor(p: p5) {
     const dispM = this.displacement;
     const maxStretchM = (MAX_SPRING_LENGTH - this.naturalLength) / PX_PER_M;
     const maxCompressM = (this.naturalLength - MIN_SPRING_LENGTH) / PX_PER_M;
@@ -115,7 +116,7 @@ export class Spring {
    * @param {number} my マウスY（仮想座標）
    * @returns {boolean}
    */
-  isOverHandle(mx, my) {
+  isOverHandle(mx: number, my: number) {
     const dx = mx - this.endX;
     const dy = my - this.endY;
     return dx * dx + dy * dy <= this.hitR * this.hitR;
@@ -125,7 +126,7 @@ export class Spring {
    * ドラッグ開始
    * @param {number} mx マウスX（仮想座標）
    */
-  startDrag(mx) {
+  startDrag(mx: number) {
     this.isDragging = true;
     this.dragOffsetX = this.endX - mx;
   }
@@ -135,7 +136,7 @@ export class Spring {
    * @param {*} p p5 インスタンス
    * @param {number} mx マウスX（仮想座標）
    */
-  drag(p, mx) {
+  drag(p: p5, mx: number) {
     if (!this.isDragging) return;
     const minEndX = this.attachX + MIN_SPRING_LENGTH;
     const maxEndX = this.attachX + MAX_SPRING_LENGTH;
@@ -153,7 +154,7 @@ export class Spring {
    * 自然長位置を示す縦の点線を描画
    * @param {*} p p5 インスタンス
    */
-  drawNaturalLengthLine(p) {
+  drawNaturalLengthLine(p: p5) {
     const nx = this.attachX + this.naturalLength;
     const y = this.attachY;
     p.stroke(180);
@@ -173,7 +174,7 @@ export class Spring {
    * バネのコイル形状（ジグザグ）を描画
    * @param {*} p p5 インスタンス
    */
-  drawCoil(p) {
+  drawCoil(p: p5) {
     const x1 = this.attachX;
     const y = this.attachY;
     const x2 = this.endX;
@@ -214,7 +215,7 @@ export class Spring {
    * 変位と弾性力の数値・矢印を描画
    * @param {*} p p5 インスタンス
    */
-  drawForceInfo(p) {
+  drawForceInfo(p: p5) {
     const dispM = this.displacement;
     const dispCm = dispM * 100;
     const F = this.forceMagnitude;
@@ -260,7 +261,7 @@ export class Spring {
    * バネ全体を描画
    * @param {*} p p5 インスタンス
    */
-  display(p) {
+  display(p: p5) {
     this.drawNaturalLengthLine(p);
     this.drawCoil(p);
     this.drawForceInfo(p);
@@ -279,7 +280,7 @@ export class Spring {
    * ばね定数を更新
    * @param {number} newK 新しいばね定数 (N/m)
    */
-  updateK(newK) {
+  updateK(newK: number) {
     this.k = newK;
   }
 }

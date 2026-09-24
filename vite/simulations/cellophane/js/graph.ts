@@ -1,7 +1,13 @@
 // graph.jsはChart.jsを使ったグラフの初期化・更新を行うファイルです。
 
+import type { ChartDataset } from "chart.js";
 import { state } from "./state.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
+
+// Chart.jsの型定義には`lineTension`（v2時代のオプション名。現行版では`tension`が
+// 対応するが、既存の実行時挙動を変えないためオプション名はそのまま維持する）が
+// 含まれていないため、余剰プロパティチェックを回避する目的でのみ型を拡張する。
+type LineDataset = ChartDataset<"line", number[]> & { lineTension?: number };
 
 // Chart.jsの動的importをモジュール読み込み時に開始する。p5のpreload()による
 // CSVの取得と並行して読み込まれるため、setup()到達時には解決済みになる想定。
@@ -30,7 +36,7 @@ export async function initGraph() {
     document.getElementById("graphChart") as HTMLCanvasElement
   ).getContext("2d");
 
-  state.graphChart = new Chart(ctx, {
+  state.graphChart = new Chart(ctx!, {
     type: "line",
     data: {
       labels: state.waveLength,
@@ -40,7 +46,7 @@ export async function initGraph() {
           data: state.lightSourceIntensity,
           borderColor: "rgba(0, 0, 0 ,1)",
           lineTension: 0.3
-        },
+        } as LineDataset,
         {
           label: "出射光",
           data: state.intensity[0],
@@ -48,7 +54,7 @@ export async function initGraph() {
           backgroundColor: "rgba(0,0,0,0.5)",
           borderColor: "rgba(0,0,0,1)",
           lineTension: 0.3
-        }
+        } as LineDataset
       ]
     },
     options: {
@@ -116,7 +122,7 @@ export async function initCmfGraph() {
     document.getElementById("cmfGraphChart") as HTMLCanvasElement
   ).getContext("2d");
 
-  state.cmfGraphChart = new Chart(ctx, {
+  state.cmfGraphChart = new Chart(ctx!, {
     type: "line",
     data: {
       labels: state.waveLength,

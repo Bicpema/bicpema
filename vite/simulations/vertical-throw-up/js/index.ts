@@ -6,7 +6,7 @@ import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.j
 import { elCreate, initValue, FPS } from "./init.js";
 import { CANVAS_VIRTUAL_WIDTH } from "./constants.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
   p.preload = () => {

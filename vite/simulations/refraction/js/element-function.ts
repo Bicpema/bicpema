@@ -3,6 +3,7 @@
 // クリック座標の当たり判定で操作するため、p5のmousePressedライフサイクルに対応する
 // ハンドラをここにまとめています。
 
+import type p5 from "p5";
 import { state } from "./state.js";
 import { computeRefractionAngle, computeSnellRatio } from "./physics.js";
 import {
@@ -26,7 +27,7 @@ import {
  * 回転リモコン・屈折率リモコン・表示モードタブの当たり判定を行い、状態を更新する。
  * @param {*} p p5インスタンス
  */
-export function onMousePressed(p) {
+export function onMousePressed(p: p5) {
   state.theta1 = p.radians(state.lightRotateTheta);
   state.theta2 = computeRefractionAngle(state.theta1, state.n12);
   state.n12 = state.n2 / state.n1;

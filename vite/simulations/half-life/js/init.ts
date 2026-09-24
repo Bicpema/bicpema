@@ -1,3 +1,4 @@
+import type p5 from "p5";
 import { initCollapse } from "../../../js/bicpema-modal-controller.js";
 import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 import { state } from "./state.js";
@@ -14,7 +15,7 @@ import {
  * p5のフレームレートなど基本設定を行う。
  * @param {*} p p5インスタンス。
  */
-export function settingInit(p) {
+export function settingInit(p: p5) {
   p.frameRate(FRAME_RATE);
 }
 
@@ -22,7 +23,7 @@ export function settingInit(p) {
  * HTML要素の参照を取得し、state に保持する。
  * @param {*} p p5インスタンス。
  */
-export function elementSelectInit(p) {
+export function elementSelectInit(p: p5) {
   state.atomPlusBtn = document.getElementById("atomPlusBtn");
   state.atomMinusBtn = document.getElementById("atomMinusBtn");
   state.materialRadios = document.querySelectorAll<HTMLInputElement>(
@@ -38,7 +39,7 @@ export function elementSelectInit(p) {
  * HTML要素の位置と大きさをキャンバス座標に合わせて動的に調整する。
  * @param {*} p p5インスタンス。
  */
-export function elementPositionInit(p) {
+export function elementPositionInit(p: p5) {
   const canvasEl = document.querySelector("#p5Canvas canvas");
   if (!canvasEl) return;
 
@@ -85,7 +86,7 @@ export function elementPositionInit(p) {
  * 初期値設定とイベントリスナーの登録を行う。
  * @param {*} p p5インスタンス。
  */
-export function valueInit(p) {
+export function valueInit(p: p5) {
   initAtoms();
 
   const { toggleButton, resetButton } = bindToggleControls(p, {

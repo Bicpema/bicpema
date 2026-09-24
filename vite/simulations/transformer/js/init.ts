@@ -1,3 +1,4 @@
+import type p5 from "p5";
 import { state } from "./state.js";
 import { TURNS_MIN, TURNS_MAX, TURNS_STEP } from "./constants.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
@@ -9,9 +10,9 @@ export const FPS = 60;
 /**
  * UI要素のイベントリスナーを設定する関数。
  * 設定パネルの各ボタンにクリックイベントを登録する。
- * @param {*} p p5インスタンス。
+ * @param {p5} p p5インスタンス。
  */
-export function elCreate(p) {
+export function elCreate(p: p5) {
   // 一次コイル：巻数を増やす（上限あり）
   const coil1PlusBtn = document.getElementById("coil1PlusBtn");
   if (coil1PlusBtn) {

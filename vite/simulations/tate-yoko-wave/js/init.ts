@@ -2,11 +2,11 @@ import { state } from "./state.js";
 import { WAVE_ORIGIN_X } from "./constants.js";
 import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 
-export function settingInit(p) {
+export function settingInit(p: p5) {
   state.k = p.TWO_PI / state.lambda;
 }
 
-export function elementSelectInit(p) {
+export function elementSelectInit(p: p5) {
   const { toggleButton } = bindToggleControls(p, {
     toggleSelector: "#moveBtn",
     resetSelector: "#resetBtn",
@@ -36,11 +36,11 @@ export function elementSelectInit(p) {
   });
 }
 
-export function elementPositionInit(p) {
+export function elementPositionInit(p: p5) {
   // リサイズに追従して再配置が必要な要素はない（ボタン等の初期化はelementSelectInitで実施済み）
 }
 
-export function valueInit(p) {
+export function valueInit(p: p5) {
   state.xStart = WAVE_ORIGIN_X;
   state.particles = [];
   for (let i = 0; i < state.N; i++) {

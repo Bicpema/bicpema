@@ -1,5 +1,6 @@
 // element-function.js は仮想DOMメソッド管理専用のファイルです。
 
+import type p5 from "p5";
 import { state } from "./state.js";
 import { TR } from "./class.js";
 
@@ -8,7 +9,7 @@ import { TR } from "./class.js";
  * @param {*} p p5インスタンス
  * @returns {number} 新しく生成したtr要素の累計番号
  */
-export function trAddButtonFunction(p) {
+export function trAddButtonFunction(p: p5) {
   state.trNum += 1;
   state.trSum += 1;
   const tr = new TR(state.trSum, p);
@@ -20,7 +21,7 @@ export function trAddButtonFunction(p) {
  * 親ウィンドウから入力済みの地層データを引き継ぎ、行を復元する。
  * @param {*} p p5インスタンス
  */
-export function loadOpenerLayers(p) {
+export function loadOpenerLayers(p: p5) {
   // 受け取った地点名入りURLから地点名を抽出
   let placeName = decodeURI(location.search);
   placeName = placeName.substring(1, placeName.length);

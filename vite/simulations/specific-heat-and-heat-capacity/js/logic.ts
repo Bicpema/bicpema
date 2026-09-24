@@ -11,7 +11,7 @@ const VW = 1200;
 /** ラベルテキストの共通フォントサイズ */
 const LABEL_FONT_SIZE = 26;
 /** フックバー・吊り下げ線の色 */
-const HOOK_COLOR = [181, 166, 66];
+const HOOK_COLOR: [number, number, number] = [181, 166, 66];
 /** フックバー・吊り下げ線のY座標 */
 const HOOK_Y = 70;
 /** フックバーの幅 */
@@ -31,15 +31,15 @@ const BALL_RADIUS_SMALL = 30;
 /** グラフ線を計算する際に加える熱量 Q */
 const HEAT_APPLIED = 5000;
 /** 物質Aのグラフ線・凡例の色 */
-const MATERIAL_A_COLOR = [255, 0, 0];
+const MATERIAL_A_COLOR: [number, number, number] = [255, 0, 0];
 /** 物質Bのグラフ線・凡例の色 */
-const MATERIAL_B_COLOR = [0, 0, 255, 150];
+const MATERIAL_B_COLOR: [number, number, number, number] = [0, 0, 255, 150];
 
 /**
  * シミュレーション全体を描画する。
  * @param {*} p p5インスタンス
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   const VH = VW * (p.height / p.width);
 
   p.push();
@@ -62,7 +62,7 @@ export function drawSimulation(p) {
  * @param {*} p
  * @param {number} VH 仮想キャンバス高さ
  */
-function drawBurner(p, VH) {
+function drawBurner(p: p5, VH: number) {
   if (!state.burnerImg) return;
   p.image(state.burnerImg, VW / 8, VH / 3);
   p.image(state.burnerImg, VW / 4.13, VH / 3);
@@ -73,7 +73,7 @@ function drawBurner(p, VH) {
  * @param {*} p
  * @param {number} VH
  */
-function drawGraphBackground(p, VH) {
+function drawGraphBackground(p: p5, VH: number) {
   p.push();
   p.noStroke();
   p.fill(185, 220, 255);
@@ -88,7 +88,7 @@ function drawGraphBackground(p, VH) {
  * @param {*} p
  * @param {number} VH
  */
-function drawObjectLabels(p, VH) {
+function drawObjectLabels(p: p5, VH: number) {
   p.push();
   p.noStroke();
   p.fill(0);
@@ -104,7 +104,7 @@ function drawObjectLabels(p, VH) {
  * @param {*} p
  * @param {number} VH
  */
-function drawHooksAndBalls(p, VH) {
+function drawHooksAndBalls(p: p5, VH: number) {
   p.push();
   p.fill(...HOOK_COLOR);
   p.stroke(...HOOK_COLOR);
@@ -135,7 +135,13 @@ function drawHooksAndBalls(p, VH) {
  * @param {number} r 半径（仮想px）
  * @param {number} type 物質タイプ（0-4）
  */
-function drawMaterialBall(p, x, y, r, type) {
+function drawMaterialBall(
+  p: p5,
+  x: number,
+  y: number,
+  r: number,
+  type: number
+) {
   const gradColors = [
     ["rgb(245,245,245)", "rgb(180,180,180)"], // アルミ
     ["rgb(200,200,200)", "rgb(80,80,80)"], // 鉄
@@ -167,7 +173,7 @@ function drawMaterialBall(p, x, y, r, type) {
  * @param {*} p
  * @param {number} VH
  */
-function drawGraphLines(p, VH) {
+function drawGraphLines(p: p5, VH: number) {
   const ysize = VW / 2.75; // グラフ内側高さ（px）
   const xsize = VW / 2.35; // グラフ内側幅（px）
   const gx0 = (VW / 2) * 1.05; // グラフ内側左端x
@@ -261,7 +267,7 @@ function drawGraphLines(p, VH) {
  * @param {*} p
  * @param {number} VH
  */
-function drawSpecificHeatLabels(p, VH) {
+function drawSpecificHeatLabels(p: p5, VH: number) {
   p.push();
   p.noStroke();
   p.fill(0);

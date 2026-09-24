@@ -39,7 +39,10 @@ export class Ball {
    * @param {number} initialHeight 初期高さ (m)
    * @param {number} initialVelocity 初速度 (m/s) - 下向きを正とする
    */
-  constructor(initialHeight, initialVelocity = DEFAULT_INITIAL_VELOCITY) {
+  constructor(
+    initialHeight: number,
+    initialVelocity: number = DEFAULT_INITIAL_VELOCITY
+  ) {
     this.initialHeight = initialHeight;
     this.initialVelocity = initialVelocity;
     this.height = initialHeight;
@@ -56,7 +59,7 @@ export class Ball {
    * 位置を更新
    * @param {number} dt 時間刻み (秒)
    */
-  update(dt) {
+  update(dt: number) {
     if (!this.isMoving) return;
 
     this.time += dt;
@@ -92,7 +95,7 @@ export class Ball {
    * @param {p5} p p5インスタンス
    * @param {number} canvasHeight キャンバスの高さ
    */
-  display(p, canvasHeight) {
+  display(p: p5, canvasHeight: number) {
     const ballY =
       canvasHeight - GROUND_HEIGHT - this.height * HEIGHT_SCALE - this.radius;
 
@@ -218,7 +221,7 @@ export class Ball {
    * @param {number} newHeight 新しい初期高さ
    * @param {number} [newInitialVelocity] 新しい初速度
    */
-  reset(newHeight, newInitialVelocity?: number) {
+  reset(newHeight: number, newInitialVelocity?: number) {
     this.initialHeight = newHeight;
     this.height = newHeight;
     if (newInitialVelocity !== undefined) {

@@ -14,11 +14,13 @@ import { state } from "../../../vite/simulations/free-fall/js/state.js";
 function createMockElement(initial) {
   let value = initial;
   return {
+    /** @param {number|string} [newValue] */
     value: (newValue) => {
       if (newValue === undefined) return value;
       value = newValue;
       return undefined;
     },
+    /** @param {string} text */
     html: (text) => {
       value = text;
       return undefined;

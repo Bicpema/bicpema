@@ -19,7 +19,7 @@ import {
   GROUND_FILL_Y_OFFSET
 } from "./constants.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({
     heightMode: "half"
   });

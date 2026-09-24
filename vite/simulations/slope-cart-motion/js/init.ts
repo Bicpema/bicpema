@@ -6,6 +6,7 @@ import { SLOPE_LENGTH_M } from "./function.js";
 import { onReset, onPlayPause, applySettings } from "./element-function.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
+import type { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
 
 /** フレームレート */
 export const FPS = 30;
@@ -15,7 +16,7 @@ export const FPS = 30;
  * @param {*} p - p5インスタンス
  * @param {*} canvasController - BicpemaCanvasControllerインスタンス
  */
-export function settingInit(p, canvasController) {
+export function settingInit(p: p5, canvasController: BicpemaCanvasController) {
   canvasController.fullScreen(p);
   p.frameRate(FPS);
   p.textAlign(p.CENTER, p.CENTER);
@@ -29,7 +30,7 @@ export function settingInit(p, canvasController) {
  * DOM要素の初期化（作成 + 参照取得）
  * @param {*} p - p5インスタンス
  */
-export function elementSelectInit(p) {
+export function elementSelectInit(p: p5) {
   // ボタン・入力の参照
   state.angleInput = p.select("#angleInput");
   state.intervalInput = p.select("#intervalInput");
@@ -56,7 +57,7 @@ export function elementSelectInit(p) {
  * DOM要素の位置・サイズを設定する（リサイズ時も呼ばれる）
  * @param {*} _p - p5インスタンス
  */
-export function elementPositionInit(_p) {
+export function elementPositionInit(_p: p5) {
   // グラフは CSS position:absolute で配置するため JS 側の設定不要
 }
 

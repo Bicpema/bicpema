@@ -1,5 +1,6 @@
 // init.jsは初期処理専用のファイルです。
 
+import type p5 from "p5";
 import {
   initModal,
   initCollapse,
@@ -33,7 +34,7 @@ const JA_FONT_URL =
  * DOM要素の参照を取得する。
  * @param {*} p p5インスタンス
  */
-export function elCreate(p) {
+export function elCreate(p: p5) {
   state.placeAddButton = p.select("#placeAddButton");
   state.placeRemoveButton = p.select("#placeRemoveButton");
   state.strataAddButton = p.select("#strataAddButton");
@@ -49,7 +50,7 @@ export function elCreate(p) {
  * DOM要素にイベントを設定する。
  * @param {*} p p5インスタンス
  */
-export function elInit(p) {
+export function elInit(p: p5) {
   state.placeAddButton.mousePressed(() => placeAddButtonFunction(p));
   state.placeRemoveButton.mousePressed(() => placeRemoveButtonFunction(p));
   state.strataAddButton.mousePressed(() => strataAddButtonFunction(p));
@@ -84,7 +85,7 @@ export function uiInit() {
  * カメラ位置などシミュレーションの初期値を設定する。
  * @param {*} p p5インスタンス
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   p.camera(CAMERA_EYE_X, CAMERA_EYE_Y, CAMERA_EYE_Z, 0, 0, 0, 0, 1, 0);
   state.allSetIs = false;
 }
@@ -93,10 +94,10 @@ export function initValue(p) {
  * 日本語フォントを非同期で読み込む（読み込み失敗してもシミュレーションは動作する）。
  * @param {*} p p5インスタンス
  */
-export function loadJapaneseFont(p) {
+export function loadJapaneseFont(p: p5) {
   p.loadFont(
     JA_FONT_URL,
-    (font) => {
+    (font: p5.Font) => {
       state.jaFont = font;
       p.textFont(state.jaFont);
       p.textSize(JA_FONT_SIZE);

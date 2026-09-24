@@ -1,5 +1,6 @@
 // logic.jsはシミュレーションの描画処理と物理更新専用のファイルです。
 
+import type p5 from "p5";
 import { state, STRATA_COLORS } from "./state.js";
 import { computeCoordinateBounds, computeSquareBounds } from "./physics.js";
 import { requireElementById } from "./element-function.js";
@@ -30,8 +31,8 @@ import {
  * @param {string} kind 地層の種類
  * @param {number} alpha 不透明度
  */
-function applyStrataFill(p, kind, alpha) {
-  const color = STRATA_COLORS[kind];
+function applyStrataFill(p: p5, kind: string, alpha: number) {
+  const color = (STRATA_COLORS as Record<string, number[]>)[kind];
   if (color) {
     p.fill(color[0], color[1], color[2], alpha);
   }
@@ -43,7 +44,7 @@ function applyStrataFill(p, kind, alpha) {
  * @param {*} p p5インスタンス
  * @returns {{x: {min:number,max:number}, y: {min:number,max:number}, z: {min:number,max:number}}}
  */
-function calculateValue(p) {
+function calculateValue(p: p5) {
   const setRadioButtonValue = state.setRadioButton.value();
   const unitSelectValue = state.unitSelect.value();
   if (setRadioButtonValue === "auto") {
@@ -85,19 +86,19 @@ function calculateValue(p) {
       yMax: state.yMax
     } = computeSquareBounds(state.xMin, state.xMax, state.yMin, state.yMax));
   } else if (setRadioButtonValue === "manual") {
-    const ele1 = p.select("#widthDirectionInput");
-    const ele2 = p.select("#depthDirectionMaxInput");
-    const ele3 = p.select("#depthDirectionMinInput");
+    const ele1 = p.select("#widthDirectionInput")!;
+    const ele2 = p.select("#depthDirectionMaxInput")!;
+    const ele3 = p.select("#depthDirectionMinInput")!;
     if (unitSelectValue === "meter") {
       // widthDirectionInputのvalue()は文字列を返すため、他の経路（auto時の
       // computeCoordinateBounds等）と型を揃えて数値として保持する。
       state.xMin = 0;
-      state.xMax = p.float(ele1.value());
+      state.xMax = p.float(ele1.value() as string);
       state.yMin = 0;
-      state.yMax = p.float(ele1.value());
+      state.yMax = p.float(ele1.value() as string);
     }
-    state.zMax = p.int(ele2.value());
-    state.zMin = p.int(ele3.value());
+    state.zMax = p.int(ele2.value() as string);
+    state.zMin = p.int(ele3.value() as string);
   }
   return {
     x: { min: state.xMin, max: state.xMax },
@@ -110,7 +111,15 @@ function calculateValue(p) {
  * 背景（座標軸・格子線・ラベル）を描画する。
  * @param {*} p p5インスタンス
  */
-function backgroundSetting(p, xMin, xMax, yMin, yMax, zMin, zMax) {
+function backgroundSetting(
+  p: p5,
+  xMin: number,
+  xMax: number,
+  yMin: number,
+  yMax: number,
+  zMin: number,
+  zMax: number
+) {
   p.background(BACKGROUND_COLOR);
   p.strokeWeight(AXIS_STROKE_WEIGHT);
   // x軸
@@ -134,7 +143,13 @@ function backgroundSetting(p, xMin, xMax, yMin, yMax, zMin, zMax) {
     if (x % GRID_LABEL_STEP === 0) {
       p.push();
       p.translate(WORLD_MIN, 0, WORLD_MAX);
-      let xMap = p.map(x, 0, WORLD_SIZE, p.float(xMin), p.float(xMax));
+      let xMap = p.map(
+        x,
+        0,
+        WORLD_SIZE,
+        p.float(xMin as unknown as string),
+        p.float(xMax as unknown as string)
+      );
       if (xMin === xMax) xMap = x / GRID_LABEL_STEP;
       if (state.jaFont) p.text(p.nf(xMap, 1, 4), x, -10);
       p.pop();
@@ -174,8 +189,8 @@ function backgroundSetting(p, xMin, xMax, yMin, yMax, zMin, zMax) {
     }
   }
 
-  let xLabel;
-  let yLabel;
+  let xLabel: string;
+  let yLabel: string;
   if (state.unitSelect.value() === "latlng") {
     xLabel = "経度";
     yLabel = "緯度";
@@ -198,7 +213,7 @@ function backgroundSetting(p, xMin, xMax, yMin, yMax, zMin, zMax) {
  * 方角を描画する。
  * @param {*} p p5インスタンス
  */
-function drawDirMark(p, x, y) {
+function drawDirMark(p: p5, x: number, y: number) {
   p.push();
   p.rotateX(p.PI / 2);
   p.strokeWeight(GRID_STROKE_WEIGHT);
@@ -220,7 +235,18 @@ function drawDirMark(p, x, y) {
  * ３点を結び平面を生成する。
  * @param {*} p p5インスタンス
  */
-function createPlane1(p, x1, z1, y1, x2, z2, y2, x3, z3, y3) {
+function createPlane1(
+  p: p5,
+  x1: number,
+  z1: number,
+  y1: number,
+  x2: number,
+  z2: number,
+  y2: number,
+  x3: number,
+  z3: number,
+  y3: number
+) {
   p.beginShape();
   p.vertex(x1, y1, z1);
   p.vertex(x2, y2, z2);
@@ -232,7 +258,21 @@ function createPlane1(p, x1, z1, y1, x2, z2, y2, x3, z3, y3) {
  * ４点を結び平面を生成する。
  * @param {*} p p5インスタンス
  */
-function createPlane2(p, x1, z1, y1, x2, z2, y2, x3, z3, y3, x4, z4, y4) {
+function createPlane2(
+  p: p5,
+  x1: number,
+  z1: number,
+  y1: number,
+  x2: number,
+  z2: number,
+  y2: number,
+  x3: number,
+  z3: number,
+  y3: number,
+  x4: number,
+  z4: number,
+  y4: number
+) {
   p.beginShape();
   p.vertex(x1, y1, z1);
   p.vertex(x2, y2, z2);
@@ -245,7 +285,17 @@ function createPlane2(p, x1, z1, y1, x2, z2, y2, x3, z3, y3, x4, z4, y4) {
  * 1地点分の地層の柱状図を描画する。
  * @param {*} p p5インスタンス
  */
-function drawStrata(p, key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
+function drawStrata(
+  p: p5,
+  key: string,
+  rotateTime: number,
+  xMin: number,
+  xMax: number,
+  yMin: number,
+  yMax: number,
+  zMin: number,
+  zMax: number
+) {
   let name = state.dataInputArr[key].name.value();
   if (name === "") name = key;
   const data = state.dataInputArr[key].data;
@@ -282,6 +332,9 @@ function drawStrata(p, key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
     p.pop();
     p.fill(0);
     p.push();
+    // 元実装がp.translate()を引数なしで呼び出しており、@types/p5の型定義では
+    // 許容されないが、挙動を変えないためそのまま呼び出しを維持する。
+    // @ts-expect-error 元実装の挙動を維持するため、意図的に引数なしで呼び出している
     p.translate();
     if (state.jaFont) {
       p.text(
@@ -315,11 +368,19 @@ function drawStrata(p, key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
  * 選択中の3地点を結ぶ平面（層ごとの直方体）を描画する。
  * @param {*} p p5インスタンス
  */
-function connectStrata(p, xMin, xMax, yMin, yMax, zMin, zMax) {
+function connectStrata(
+  p: p5,
+  xMin: number,
+  xMax: number,
+  yMin: number,
+  yMax: number,
+  zMin: number,
+  zMax: number
+) {
   const trNum = requireElementById("strataSelect").childElementCount;
-  const p1Name = p.select("#firstPlaceSelect").value();
-  const p2Name = p.select("#secondPlaceSelect").value();
-  const p3Name = p.select("#thirdPlaceSelect").value();
+  const p1Name = p.select("#firstPlaceSelect")!.value();
+  const p2Name = p.select("#secondPlaceSelect")!.value();
+  const p3Name = p.select("#thirdPlaceSelect")!.value();
   if (p1Name === "-" || p2Name === "-" || p3Name === "-") return;
 
   const p1 = [0, 0];
@@ -344,100 +405,100 @@ function connectStrata(p, xMin, xMax, yMin, yMax, zMin, zMax) {
     }
   }
   for (let i = 0; i < trNum; i++) {
-    const select1 = p.select("#select1-" + (i + 1)).value();
-    const select2 = p.select("#select2-" + (i + 1)).value();
-    const select3 = p.select("#select3-" + (i + 1)).value();
-    const select4 = p.select("#select4-" + (i + 1)).value();
+    const select1 = p.select("#select1-" + (i + 1))!.value();
+    const select2 = p.select("#select2-" + (i + 1))!.value() as string;
+    const select3 = p.select("#select3-" + (i + 1))!.value() as string;
+    const select4 = p.select("#select4-" + (i + 1))!.value() as string;
     if (select2 === "" || select3 === "" || select4 === "") {
       // oxlint-disable-next-line no-continue -- 未選択の組をスキップする早期continueで、if化するとこの後の描画ロジック全体が深くネストしてしまうため維持する
       continue;
     }
-    let p1Min = select2.substr(0, select2.indexOf("m-"));
-    let p1Max = select2.substr(select2.indexOf("m-") + 2);
-    p1Max = p1Max.substr(0, p1Max.indexOf("m"));
-    let p2Min = select3.substr(0, select3.indexOf("m-"));
-    let p2Max = select3.substr(select3.indexOf("m-") + 2);
-    p2Max = p2Max.substr(0, p2Max.indexOf("m"));
-    let p3Min = select4.substr(0, select4.indexOf("m-"));
-    let p3Max = select4.substr(select4.indexOf("m-") + 2);
-    p3Max = p3Max.substr(0, p3Max.indexOf("m"));
+    let p1Min: string | number = select2.substr(0, select2.indexOf("m-"));
+    let p1Max: string | number = select2.substr(select2.indexOf("m-") + 2);
+    p1Max = (p1Max as string).substr(0, (p1Max as string).indexOf("m"));
+    let p2Min: string | number = select3.substr(0, select3.indexOf("m-"));
+    let p2Max: string | number = select3.substr(select3.indexOf("m-") + 2);
+    p2Max = (p2Max as string).substr(0, (p2Max as string).indexOf("m"));
+    let p3Min: string | number = select4.substr(0, select4.indexOf("m-"));
+    let p3Max: string | number = select4.substr(select4.indexOf("m-") + 2);
+    p3Max = (p3Max as string).substr(0, (p3Max as string).indexOf("m"));
 
-    applyStrataFill(p, select1, STRATA_PLANE_ALPHA);
+    applyStrataFill(p, select1 as string, STRATA_PLANE_ALPHA);
 
-    p1Min = p.map(p1Min, zMin, zMax, 0, WORLD_MAX);
-    p1Max = p.map(p1Max, zMin, zMax, 0, WORLD_MAX);
-    p2Min = p.map(p2Min, zMin, zMax, 0, WORLD_MAX);
-    p2Max = p.map(p2Max, zMin, zMax, 0, WORLD_MAX);
-    p3Min = p.map(p3Min, zMin, zMax, 0, WORLD_MAX);
-    p3Max = p.map(p3Max, zMin, zMax, 0, WORLD_MAX);
+    p1Min = p.map(p1Min as unknown as number, zMin, zMax, 0, WORLD_MAX);
+    p1Max = p.map(p1Max as unknown as number, zMin, zMax, 0, WORLD_MAX);
+    p2Min = p.map(p2Min as unknown as number, zMin, zMax, 0, WORLD_MAX);
+    p2Max = p.map(p2Max as unknown as number, zMin, zMax, 0, WORLD_MAX);
+    p3Min = p.map(p3Min as unknown as number, zMin, zMax, 0, WORLD_MAX);
+    p3Max = p.map(p3Max as unknown as number, zMin, zMax, 0, WORLD_MAX);
     createPlane1(
       p,
       p1[0],
       p1[1],
-      p1Min,
+      p1Min as number,
       p2[0],
       p2[1],
-      p2Min,
+      p2Min as number,
       p3[0],
       p3[1],
-      p3Min
+      p3Min as number
     );
     createPlane1(
       p,
       p1[0],
       p1[1],
-      p1Max,
+      p1Max as number,
       p2[0],
       p2[1],
-      p2Max,
+      p2Max as number,
       p3[0],
       p3[1],
-      p3Max
+      p3Max as number
     );
     createPlane2(
       p,
       p1[0],
       p1[1],
-      p1Min,
+      p1Min as number,
       p2[0],
       p2[1],
-      p2Min,
+      p2Min as number,
       p2[0],
       p2[1],
-      p2Max,
+      p2Max as number,
       p1[0],
       p1[1],
-      p1Max
+      p1Max as number
     );
     createPlane2(
       p,
       p1[0],
       p1[1],
-      p1Min,
+      p1Min as number,
       p3[0],
       p3[1],
-      p3Min,
+      p3Min as number,
       p3[0],
       p3[1],
-      p3Max,
+      p3Max as number,
       p1[0],
       p1[1],
-      p1Max
+      p1Max as number
     );
     createPlane2(
       p,
       p2[0],
       p2[1],
-      p2Min,
+      p2Min as number,
       p3[0],
       p3[1],
-      p3Min,
+      p3Min as number,
       p3[0],
       p3[1],
-      p3Max,
+      p3Max as number,
       p2[0],
       p2[1],
-      p2Max
+      p2Max as number
     );
   }
 }
@@ -446,7 +507,7 @@ function connectStrata(p, xMin, xMax, yMin, yMax, zMin, zMax) {
  * シミュレーションの描画を行う。
  * @param {*} p p5インスタンス
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   p.background(255);
 
   // いずれかのモーダルを開いている時はオービットコントロールを無効化
@@ -459,12 +520,14 @@ export function drawSimulation(p) {
 
   // x方向・y方向、深さに応じてスケールを計算する
   const coordinateData = calculateValue(p);
-  const xMin = coordinateData.x.min;
-  const xMax = coordinateData.x.max;
-  const yMin = coordinateData.y.min;
-  const yMax = coordinateData.y.max;
-  const zMin = coordinateData.z.min;
-  const zMax = coordinateData.z.max;
+  // calculateValue()はauto/manualいずれの分岐でも必ずstate.xMin等に数値を
+  // 代入してから返すため、この時点でundefinedになることはない。
+  const xMin = coordinateData.x.min as number;
+  const xMax = coordinateData.x.max as number;
+  const yMin = coordinateData.y.min as number;
+  const yMax = coordinateData.y.max as number;
+  const zMin = coordinateData.z.min as number;
+  const zMax = coordinateData.z.max as number;
 
   // 計算したスケールを実際に適応
   backgroundSetting(p, xMin, xMax, yMin, yMax, zMin, zMax);

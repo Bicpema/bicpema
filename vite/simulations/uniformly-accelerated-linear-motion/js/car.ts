@@ -33,7 +33,7 @@ export class Car {
    * @param {number} initialVelocity 初速度 (m/s)
    * @param {number} acceleration 加速度 (m/s²)
    */
-  constructor(initialVelocity, acceleration) {
+  constructor(initialVelocity: number, acceleration: number) {
     this.initialVelocity = initialVelocity;
     this.acceleration = acceleration;
     this.velocity = initialVelocity;
@@ -50,7 +50,7 @@ export class Car {
    * 位置・速度を更新する
    * @param {number} dt 時間刻み (秒)
    */
-  update(dt) {
+  update(dt: number) {
     if (!this.isMoving) return;
 
     this.time += dt;
@@ -106,8 +106,8 @@ export class Car {
    * @param {boolean} [options.showMarkers] 等時間マーカーを表示するか
    */
   display(
-    p,
-    vH,
+    p: p5,
+    vH: number,
     options: {
       carImage?: p5.Image;
       groundImage?: p5.Image;
@@ -194,7 +194,7 @@ export class Car {
    * @param {number} newInitialVelocity 新しい初速度
    * @param {number} newAcceleration 新しい加速度
    */
-  reset(newInitialVelocity, newAcceleration) {
+  reset(newInitialVelocity: number, newAcceleration: number) {
     this.initialVelocity = newInitialVelocity;
     this.acceleration = newAcceleration;
     this.velocity = newInitialVelocity;

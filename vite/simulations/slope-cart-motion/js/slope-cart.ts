@@ -46,7 +46,7 @@ export class SlopeCart {
    * 台車の状態を dt 秒進める
    * @param {number} dt - 時間ステップ (s)
    */
-  update(dt) {
+  update(dt: number) {
     if (this.isAtBottom) return;
     this.time += dt;
     this.s = 0.5 * this.accel * this.time * this.time;
@@ -75,7 +75,7 @@ export class SlopeCart {
    * 斜面角度と物理量を再初期化する
    * @param {number} angleDeg - 新しい傾斜角 (度)
    */
-  setAngle(angleDeg) {
+  setAngle(angleDeg: number) {
     this.angleDeg = angleDeg;
     this.angleRad = (angleDeg * Math.PI) / 180;
     this.accel = this.g * Math.sin(this.angleRad);

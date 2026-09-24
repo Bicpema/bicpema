@@ -37,7 +37,7 @@ loadMath()
  * mathjsの読み込みが完了するまでは描画をスキップする。
  * @param {*} p p5インスタンス
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   if (!math) return;
   state.currentValue = state.optRadio!.value();
   state.radius = 111;
@@ -78,7 +78,7 @@ export function optChanged() {
  * checkboxによって実行される補助線の記述。
  * @param {*} p p5インスタンス
  */
-function checked(p) {
+function checked(p: p5) {
   // 基準線(0°)
   p.push();
   p.translate(0, 0, -60);
@@ -88,9 +88,9 @@ function checked(p) {
   for (let i = 0; i < state.colabNum; i++) {
     // colabNumが3の場合, 0,1,2 (1,2,3枚)
     const num = i + 1;
-    const rotateInput = p.select("#rotateInput-" + num);
+    const rotateInput = p.select("#rotateInput-" + num)!;
     p.push();
-    p.rotateZ((rotateInput.value() * p.PI) / 180);
+    p.rotateZ((Number(rotateInput.value()) * p.PI) / 180);
     p.stroke(0, 0, 0); //2024.6.14 透明度を50から20へ変更 (157, 204, 224, 0)
     p.push();
     p.translate(0, 0, -60);
@@ -104,16 +104,19 @@ function checked(p) {
  * normalにおける配列用意や画像の貼り付け, テープ幅の設定, 偏光板の表示など。
  * @param {*} p p5インスタンス
  */
-function prenormal(p) {
+function prenormal(p: p5) {
   state.tape_angle = new Array(state.colabNum).fill(0);
   state.tape_angle_cal = new Array(state.colabNum).fill(0); //配列の宣言(1枚目以降) 1,2,3,4,5..colabNum
   state.tape_number_cal = new Array(state.colabNum).fill(0);
 
   // テープ描画における条件設定(幅)
-  state.angle_1 = p.atan2(STAGE_HALF_SIZE, state.slider!.value());
-  state.angle_2 = p.PI - p.atan2(STAGE_HALF_SIZE, state.slider!.value());
-  state.angle_3 = p.PI + p.atan2(STAGE_HALF_SIZE, state.slider!.value());
-  state.angle_4 = 2 * p.PI - p.atan2(STAGE_HALF_SIZE, state.slider!.value());
+  state.angle_1 = p.atan2(STAGE_HALF_SIZE, Number(state.slider!.value()));
+  state.angle_2 =
+    p.PI - p.atan2(STAGE_HALF_SIZE, Number(state.slider!.value()));
+  state.angle_3 =
+    p.PI + p.atan2(STAGE_HALF_SIZE, Number(state.slider!.value()));
+  state.angle_4 =
+    2 * p.PI - p.atan2(STAGE_HALF_SIZE, Number(state.slider!.value()));
 
   // 回転の設定
   p.rotateY((180 * p.PI) / 180); //本来回転時はrotateY(rotateTime * PI / 180)
@@ -121,7 +124,7 @@ function prenormal(p) {
   p.background(state.rBefore, state.gBefore, state.bBefore);
   p.push();
   p.translate(-STAGE_HALF_SIZE, -STAGE_HALF_SIZE);
-  p.image(state.img, 0, 0);
+  p.image(state.img!, 0, 0);
   p.pop();
   state.img!.loadPixels();
 
@@ -154,21 +157,21 @@ function prenormal(p) {
  * normalにおける, 組数1での色計算と配色の処理。
  * @param {*} p p5インスタンス
  */
-function colabNum1_normal(p) {
+function colabNum1_normal(p: p5) {
   if (state.colabNum === 1) {
     let z = 0;
     const i = 0;
     const num = i + 1;
-    const numInput = p.select("#numInput-" + num);
-    const rotateInput = p.select("#rotateInput-" + num);
+    const numInput = p.select("#numInput-" + num)!;
+    const rotateInput = p.select("#rotateInput-" + num)!;
     createCellophane(
       p,
-      numInput.value(),
-      rotateInput.value(),
+      Number(numInput.value()),
+      Number(rotateInput.value()),
       z,
       state.angle_1
     );
-    z += parseInt(numInput.value(), 10);
+    z += parseInt(String(numInput.value()), 10);
     // tape1枚のみに色を塗る
     afterColorCalculate1(p);
     drawTape_1(
@@ -176,7 +179,7 @@ function colabNum1_normal(p) {
       state.rAfter1,
       state.gAfter1,
       state.bAfter1,
-      rotateInput.value()
+      Number(rotateInput.value())
     );
     state.img!.updatePixels();
   }
@@ -186,7 +189,7 @@ function colabNum1_normal(p) {
  * normalにおける, 組数2以上での色計算と配色の処理。
  * @param {*} p p5インスタンス
  */
-function colabNum2_normal(p) {
+function colabNum2_normal(p: p5) {
   if (state.colabNum >= 2) {
     if (state.count2 === 0) {
       for (let i = 0; i < state.img!.pixels.length; i += 4) {
@@ -215,11 +218,16 @@ function colabNum2_normal(p) {
     let check = 0;
     for (let n = 1; n <= state.colabNum; n++) {
       //1でなく2では..?
-      const numInputValue = parseInt(p.select("#numInput-" + n).value(), 10); // 数値型に変換
-      const rotateInputValue = parseFloat(
-        p.select("#rotateInput-" + n).value()
+      const numInputValue = parseInt(
+        String(p.select("#numInput-" + n)!.value()),
+        10
       ); // 数値型に変換
-      const optInputValue = parseFloat(p.select("#opdInput-" + n).value()); // 数値型に変換
+      const rotateInputValue = parseFloat(
+        String(p.select("#rotateInput-" + n)!.value())
+      ); // 数値型に変換
+      const optInputValue = parseFloat(
+        String(p.select("#opdInput-" + n)!.value())
+      ); // 数値型に変換
       const nowpolarizer = state.polarizerSelect!.value();
       if (numInputValue !== state.last_otherCellophaneNums[n - 2]) {
         check++;
@@ -304,17 +312,17 @@ function colabNum2_normal(p) {
         for (let i = 0; i < state.colabNum; i++) {
           //colabNumが3の場合, 0,1,2 (1,2,3枚)
           const num = i + 1;
-          const numInput = p.select("#numInput-" + num);
-          const rotateInput = p.select("#rotateInput-" + num);
+          const numInput = p.select("#numInput-" + num)!;
+          const rotateInput = p.select("#rotateInput-" + num)!;
           createCellophane(
             p,
-            numInput.value(),
-            rotateInput.value(),
+            Number(numInput.value()),
+            Number(rotateInput.value()),
             z,
             state.angle_1
           );
-          z += parseInt(numInput.value(), 10);
-          state.tape_angle[i] = rotateInput.value(); //テープの全角度を収納する
+          z += parseInt(String(numInput.value()), 10);
+          state.tape_angle[i] = Number(rotateInput.value()); //テープの全角度を収納する
         }
         drawTapes(
           p,
@@ -332,7 +340,14 @@ function colabNum2_normal(p) {
  * 偏光板を描画する処理。
  * @param {*} p p5インスタンス
  */
-function createPolarizer(p, size, x, y, z, pattern) {
+function createPolarizer(
+  p: p5,
+  size: number,
+  x: number,
+  y: number,
+  z: number,
+  pattern: 0 | 1
+) {
   p.push();
   p.translate(x, y, z);
   p.noFill();
@@ -355,7 +370,13 @@ function createPolarizer(p, size, x, y, z, pattern) {
  * セロハンを描画する処理。
  * @param {*} p p5インスタンス
  */
-function createCellophane(p, n, rAfter, a, angle_1) {
+function createCellophane(
+  p: p5,
+  n: number,
+  rAfter: number,
+  a: number,
+  angle_1: number
+) {
   p.push();
   p.rotateZ((rAfter * p.PI) / 180);
   p.fill(255, 255, 255, 0); //2024.6.14 透明度を50から20へ変更 (157, 204, 224, 0)
@@ -373,7 +394,7 @@ function createCellophane(p, n, rAfter, a, angle_1) {
 }
 
 /** 回転行列R(theta) */
-function r_theta(p, theta) {
+function r_theta(p: p5, theta: number) {
   return [
     [p.cos(theta), -p.sin(theta)],
     [p.sin(theta), p.cos(theta)]
@@ -381,7 +402,7 @@ function r_theta(p, theta) {
 }
 
 /** 回転行列R(-theta) */
-function mai_r_theta(p, theta) {
+function mai_r_theta(p: p5, theta: number) {
   return [
     [p.cos(theta), p.sin(theta)],
     [-p.sin(theta), p.cos(theta)]
@@ -389,7 +410,7 @@ function mai_r_theta(p, theta) {
 }
 
 /** ジョーンズマトリクス */
-function jhons(p, theta) {
+function jhons(p: p5, theta: number) {
   return [
     [p.sin(theta) ** 2, -p.sin(theta) * p.cos(theta)],
     [-p.sin(theta) * p.cos(theta), p.cos(theta) ** 2]
@@ -397,7 +418,7 @@ function jhons(p, theta) {
 }
 
 /** RGBへの変換 */
-function toRGB(a) {
+function toRGB(a: number) {
   if (a <= SRGB_LINEAR_THRESHOLD) {
     a *= SRGB_LINEAR_SCALE;
   } else {
@@ -412,11 +433,11 @@ function toRGB(a) {
  * セロハンの総数の数え上げをする処理。
  * @param {*} p p5インスタンス
  */
-function numInputFunction(p) {
+function numInputFunction(p: p5) {
   state.cellophaneNum = 0;
   for (let i = 0; i < state.colabNum; i++) {
     const num = i + 1;
-    const numInput = p.select("#numInput-" + num);
+    const numInput = p.select("#numInput-" + num)!;
     state.cellophaneNum += p.int(numInput.value());
   }
   return state.cellophaneNum;
@@ -427,7 +448,7 @@ function numInputFunction(p) {
  * mathjsが未読み込みの場合は読み込みを待ってから計算する。
  * @param {*} p p5インスタンス
  */
-export async function beforeColorCalculate(p) {
+export async function beforeColorCalculate(p: p5) {
   if (!math) {
     math = await loadMath();
   }
@@ -471,7 +492,7 @@ export async function beforeColorCalculate(p) {
   state.gBefore = toRGB(state.rgbBefore[1]);
   state.bBefore = toRGB(state.rgbBefore[2]);
   // 要素へのRGBの反映
-  const beforeColor = p.select("#beforeColor");
+  const beforeColor = p.select("#beforeColor")!;
   beforeColor.style(
     "background-color:rgb(" +
       p.str(state.rBefore) +
@@ -487,7 +508,7 @@ export async function beforeColorCalculate(p) {
  * セロハン及び二枚目の偏光板を透過した時の処理。
  * @param {*} p p5インスタンス
  */
-function afterColorCalculate(p) {
+function afterColorCalculate(p: p5) {
   // セロハンの組数が１枚以上ある場合
   if (state.colabNum >= 1) {
     const ls_xArrAfter: number[] = [];
@@ -495,10 +516,10 @@ function afterColorCalculate(p) {
     const ls_zArrAfter: number[] = [];
 
     // 計算には１組目のセロハンを基準とした相対角度を使う
-    const referenceAngle = p.select("#rotateInput-1");
-    const a = p.radians(-referenceAngle.value()); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
-    const firstCellophaneNum = p.select("#numInput-1"); // セロハン１組目の枚数
-    const firstopdInput = p.select("#opdInput-1"); // セロハン1組目の光路差
+    const referenceAngle = p.select("#rotateInput-1")!;
+    const a = p.radians(-Number(referenceAngle.value())); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
+    const firstCellophaneNum = p.select("#numInput-1")!; // セロハン１組目の枚数
+    const firstopdInput = p.select("#opdInput-1")!; // セロハン1組目の光路差
     state.E_1 = [[-p.sin(a)], [p.cos(a)]];
 
     // それぞれの波長毎に計算
@@ -506,8 +527,8 @@ function afterColorCalculate(p) {
       const l = i;
       const delta = computePhaseRetardation(
         state.dArr[i - WAVELENGTH_MIN],
-        firstCellophaneNum.value(),
-        firstopdInput.value(),
+        Number(firstCellophaneNum.value()),
+        Number(firstopdInput.value()),
         l
       );
       const cello = [
@@ -519,20 +540,22 @@ function afterColorCalculate(p) {
       // セロハンの組数が2組以上の場合、それぞれのセロハンに関する計算を再帰的に行う
       if (state.colabNum >= 2) {
         for (let n = 2; n <= state.colabNum; n++) {
-          const otherCellophaneNum = p.select("#numInput-" + n);
-          const otheropdInput = p.select("#opdInput-" + n);
+          const otherCellophaneNum = p.select("#numInput-" + n)!;
+          const otheropdInput = p.select("#opdInput-" + n)!;
           const loopDelta = computePhaseRetardation(
             state.dArr[i - WAVELENGTH_MIN],
-            otherCellophaneNum.value(),
-            otheropdInput.value(),
+            Number(otherCellophaneNum.value()),
+            Number(otheropdInput.value()),
             l
           );
           const loopCello = [
             [1, 0],
             [0, math!.exp(math!.complex(0, -loopDelta))]
           ];
-          const targetAngle = p.select("#rotateInput-" + n);
-          const b = p.radians(targetAngle.value() - referenceAngle.value());
+          const targetAngle = p.select("#rotateInput-" + n)!;
+          const b = p.radians(
+            Number(targetAngle.value()) - Number(referenceAngle.value())
+          );
           state.E_2 = math!.multiply(
             r_theta(p, b),
             math!.multiply(
@@ -545,12 +568,12 @@ function afterColorCalculate(p) {
 
       let c;
       if (state.polarizerSelect!.value() === "平行ニコル配置") {
-        c = p.radians(-referenceAngle.value());
+        c = p.radians(-Number(referenceAngle.value()));
       } else if (state.polarizerSelect!.value() === "直交ニコル配置") {
-        c = p.radians(-referenceAngle.value()) - p.radians(90);
+        c = p.radians(-Number(referenceAngle.value())) - p.radians(90);
       }
 
-      state.E_3 = math!.multiply(jhons(p, c), state.E_2);
+      state.E_3 = math!.multiply(jhons(p, c!), state.E_2);
       const relativeStrength = math!.abs(
         Number(math!.abs(math!.multiply(state.E_3[0], state.E_3[0]))) +
           Number(math!.abs(math!.multiply(state.E_3[1], state.E_3[1])))
@@ -616,7 +639,7 @@ function afterColorCalculate(p) {
   }
 
   // 色を要素に反映
-  const afterColor = p.select("#afterColor");
+  const afterColor = p.select("#afterColor")!;
   afterColor.style(
     "background-color:rgb(" +
       p.str(state.rAfter) +
@@ -632,14 +655,14 @@ function afterColorCalculate(p) {
  * セロハン及び二枚目の偏光板を透過した時の処理(セロハン1枚のみ)。
  * @param {*} p p5インスタンス
  */
-function afterColorCalculate1(p) {
+function afterColorCalculate1(p: p5) {
   // セロハンの組数が１枚以上ある場合
   if (state.colabNum >= 1) {
     // 計算には１組目のセロハンを基準とした相対角度を使う
-    const referenceAngle = p.select("#rotateInput-1");
-    const a = p.radians(-referenceAngle.value()); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
-    const firstCellophaneNum = p.select("#numInput-1"); // セロハン１組目の枚数
-    const firstopdInput = p.select("#opdInput-1"); // セロハン1組目の光路差
+    const referenceAngle = p.select("#rotateInput-1")!;
+    const a = p.radians(-Number(referenceAngle.value())); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
+    const firstCellophaneNum = p.select("#numInput-1")!; // セロハン１組目の枚数
+    const firstopdInput = p.select("#opdInput-1")!; // セロハン1組目の光路差
     state.E_1 = [[-p.sin(a)], [p.cos(a)]];
 
     // それぞれの波長毎に計算
@@ -647,8 +670,8 @@ function afterColorCalculate1(p) {
       const l = i;
       const delta = computePhaseRetardation(
         state.dArr[i - WAVELENGTH_MIN],
-        firstCellophaneNum.value(),
-        firstopdInput.value(),
+        Number(firstCellophaneNum.value()),
+        Number(firstopdInput.value()),
         l
       );
       const cello = [
@@ -658,12 +681,12 @@ function afterColorCalculate1(p) {
       state.E_2 = math!.multiply(cello, state.E_1);
       let c;
       if (state.polarizerSelect!.value() === "平行ニコル配置") {
-        c = p.radians(-referenceAngle.value());
+        c = p.radians(-Number(referenceAngle.value()));
       } else if (state.polarizerSelect!.value() === "直交ニコル配置") {
-        c = p.radians(-referenceAngle.value()) - p.radians(90);
+        c = p.radians(-Number(referenceAngle.value())) - p.radians(90);
       }
 
-      state.E_3 = math!.multiply(jhons(p, c), state.E_2);
+      state.E_3 = math!.multiply(jhons(p, c!), state.E_2);
       const relativeStrength = math!.abs(
         Number(math!.abs(math!.multiply(state.E_3[0], state.E_3[0]))) +
           Number(math!.abs(math!.multiply(state.E_3[1], state.E_3[1])))
@@ -737,7 +760,7 @@ function afterColorCalculate1(p) {
  * @param {*} p p5インスタンス
  * @param {string} binaryString 各セロハンの組を偏光板1枚目/2枚目のどちら側として扱うかを表す2進数文字列
  */
-function afterColorCalculates(p, binaryString) {
+function afterColorCalculates(p: p5, binaryString: string) {
   let bi = 0;
   let tape_sum = 0;
   let numStart = 0;
@@ -756,7 +779,7 @@ function afterColorCalculates(p, binaryString) {
     //colabNum2: 00,01
     // 計算には１組目のセロハンを基準とした相対角度を使う
     referenceAngle = p.select("#rotateInput-1");
-    a = p.radians(-referenceAngle.value()); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
+    a = p.radians(-Number(referenceAngle!.value())); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
     firstCellophaneNum = p.select("#numInput-1"); // セロハン１組目の枚数
     state.E_1 = [[-p.sin(a)], [p.cos(a)]];
     numStart = 1;
@@ -781,7 +804,7 @@ function afterColorCalculates(p, binaryString) {
     if (numStart !== 0) {
       const numS = numStart + 1;
       referenceAngle = p.select("#rotateInput-" + numS);
-      a = p.radians(-referenceAngle.value()); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
+      a = p.radians(-Number(referenceAngle!.value())); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
       firstCellophaneNum = p.select("#numInput-" + numS); // セロハン１組目の枚数
       state.E_1 = [[-p.sin(a)], [p.cos(a)]];
     }
@@ -794,8 +817,8 @@ function afterColorCalculates(p, binaryString) {
       const firstopdInput = p.select("#opdInput-1"); // セロハン1組目の光路差
       const delta = computePhaseRetardation(
         state.dArr[i - WAVELENGTH_MIN],
-        firstCellophaneNum.value(),
-        firstopdInput.value(),
+        Number(firstCellophaneNum!.value()),
+        Number(firstopdInput!.value()),
         l
       ); //2024.6.22 firstCellophaneの値をvalueで数値化しないとだめだった!
       const cello = [
@@ -812,8 +835,8 @@ function afterColorCalculates(p, binaryString) {
           const otheropdInput = p.select("#opdInput-" + n);
           const loopDelta = computePhaseRetardation(
             state.dArr[i - WAVELENGTH_MIN],
-            otherCellophaneNum.value(),
-            otheropdInput.value(),
+            Number(otherCellophaneNum!.value()),
+            Number(otheropdInput!.value()),
             l
           );
           const loopCello = [
@@ -821,7 +844,9 @@ function afterColorCalculates(p, binaryString) {
             [0, math!.exp(math!.complex(0, -loopDelta))]
           ];
           const targetAngle = p.select("#rotateInput-" + n);
-          const b = p.radians(targetAngle.value() - referenceAngle.value());
+          const b = p.radians(
+            Number(targetAngle!.value()) - Number(referenceAngle!.value())
+          );
           if (bit[j] === 0) {
             state.E_2 = math!.multiply(
               r_theta(p, b),
@@ -840,8 +865,8 @@ function afterColorCalculates(p, binaryString) {
           const otheropdInput = p.select("#opdInput-" + num);
           const loopDelta = computePhaseRetardation(
             state.dArr[i - WAVELENGTH_MIN],
-            otherCellophaneNum.value(),
-            otheropdInput.value(),
+            Number(otherCellophaneNum!.value()),
+            Number(otheropdInput!.value()),
             l
           );
           const loopCello = [
@@ -849,7 +874,9 @@ function afterColorCalculates(p, binaryString) {
             [0, math!.exp(math!.complex(0, -loopDelta))]
           ];
           const targetAngle = p.select("#rotateInput-" + num);
-          const b = p.radians(targetAngle.value() - referenceAngle.value()); //2024.6.21 いや,こっちでダメ?!
+          const b = p.radians(
+            Number(targetAngle!.value()) - Number(referenceAngle!.value())
+          ); //2024.6.21 いや,こっちでダメ?!
           if (bit[k] === 0) {
             state.E_2 = math!.multiply(
               r_theta(p, b),
@@ -864,12 +891,12 @@ function afterColorCalculates(p, binaryString) {
 
       let c;
       if (state.polarizerSelect!.value() === "平行ニコル配置") {
-        c = p.radians(-referenceAngle.value());
+        c = p.radians(-Number(referenceAngle!.value()));
       } else if (state.polarizerSelect!.value() === "直交ニコル配置") {
-        c = p.radians(-referenceAngle.value()) - p.radians(90);
+        c = p.radians(-Number(referenceAngle!.value())) - p.radians(90);
       }
 
-      state.E_3 = math!.multiply(jhons(p, c), state.E_2);
+      state.E_3 = math!.multiply(jhons(p, c!), state.E_2);
       const relativeStrength = math!.abs(
         Number(math!.abs(math!.multiply(state.E_3[0], state.E_3[0]))) +
           Number(math!.abs(math!.multiply(state.E_3[1], state.E_3[1])))
@@ -943,7 +970,13 @@ function afterColorCalculates(p, binaryString) {
  * @param {number} bAfter1 セロハン1枚透過時のB
  * @param {number} rotateInput テープの回転角(度)
  */
-function drawTape_1(p, rAfter1, gAfter1, bAfter1, rotateInput) {
+function drawTape_1(
+  p: p5,
+  rAfter1: number,
+  gAfter1: number,
+  bAfter1: number,
+  rotateInput: number
+) {
   state.tape_angle_get = ((rotateInput - 90) * p.PI) / 180;
   getrectPoint(p, state.tape_angle_get);
   for (let i = 0; i < state.img!.pixels.length; i += 4) {
@@ -971,7 +1004,13 @@ function drawTape_1(p, rAfter1, gAfter1, bAfter1, rotateInput) {
  * @param {number[]} gAftera 生成しうる全ての色のG配列
  * @param {number[]} bAftera 生成しうる全ての色のB配列
  */
-function drawTapes(p, tape_angle, rAftera, gAftera, bAftera) {
+function drawTapes(
+  p: p5,
+  tape_angle: number[],
+  rAftera: number[],
+  gAftera: number[],
+  bAftera: number[]
+) {
   if (!state.DrawisDead) {
     state.drawT++;
     if (state.drawCount === 0) {
@@ -1027,7 +1066,7 @@ function drawTapes(p, tape_angle, rAftera, gAftera, bAftera) {
  * @param {*} p p5インスタンス
  * @param {number} tape_angle テープの回転角(ラジアン)
  */
-function getrectPoint(p, tape_angle) {
+function getrectPoint(p: p5, tape_angle: number) {
   p.push();
   p.translate(-STAGE_HALF_SIZE, -STAGE_HALF_SIZE);
   const sinValues = [
@@ -1066,7 +1105,7 @@ function getrectPoint(p, tape_angle) {
  * そのピクセルが，tapeの内部にあるために変更を求められるかを判定する。
  * @param {number} i pixels配列のRGBA4要素単位のインデックス
  */
-function checkA(i) {
+function checkA(i: number) {
   const x = i % state.img!.width;
   const y = (i - x) / state.img!.width;
   const P0 = { x, y };
@@ -1089,7 +1128,11 @@ function checkA(i) {
 /**
  * tape内部にあることを判定する外積計算。
  */
-function crossProduct(P, A, B) {
+function crossProduct(
+  P: { x: number; y: number },
+  A: { x: number; y: number },
+  B: { x: number; y: number }
+) {
   const AB = { x: B.x - A.x, y: B.y - A.y };
   const AP = { x: P.x - A.x, y: P.y - A.y };
   return AB.x * AP.y - AB.y * AP.x;

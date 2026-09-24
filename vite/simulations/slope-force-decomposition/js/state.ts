@@ -1,5 +1,14 @@
 /** シミュレーションの共有状態 */
-export const state = {
+export const state: {
+  font: p5.Font | null;
+  slopeAngle: number;
+  mass: number;
+  groundImg: p5.Image | null;
+  slopeAngleInput: p5.Element | null;
+  slopeAngleValue: p5.Element | null;
+  massInput: p5.Element | null;
+  massValue: p5.Element | null;
+} = {
   /** フォント */
   font: null,
   /** 斜面の角度（度） */
@@ -7,10 +16,10 @@ export const state = {
   /** 斜面モードの質量（kg） */
   mass: 10,
   /** 地面テクスチャ画像（読み込み完了・失敗までnull） */
-  groundImg: null as p5.Image | null,
+  groundImg: null,
   /** UI要素（p.select()で取得するまではnull） */
-  slopeAngleInput: null as p5.Element | null,
-  slopeAngleValue: null as p5.Element | null,
-  massInput: null as p5.Element | null,
-  massValue: null as p5.Element | null
+  slopeAngleInput: null,
+  slopeAngleValue: null,
+  massInput: null,
+  massValue: null
 };

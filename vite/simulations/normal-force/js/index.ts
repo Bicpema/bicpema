@@ -23,7 +23,7 @@ import {
 } from "./element-function.js";
 import { drawSimulation } from "./logic.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   let isFirstDraw = true;
 
   p.setup = () => {

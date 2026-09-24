@@ -1,5 +1,6 @@
 // class.tsはクラス管理専用のファイルです。
 
+import p5 from "p5";
 import { state } from "./state.js";
 import { computePendulumAngle } from "./physics.js";
 import { PIVOT_Y } from "./constants.js";
@@ -36,7 +37,7 @@ export class Ball {
    * @param {*} p p5インスタンス
    * @param {number} n 支点のオフセットx座標
    */
-  calculate(p, n) {
+  calculate(p: p5, n: number) {
     this.posx = n + p.width / 6 + this.stringLength * p.sin(this.theta);
     this.posy = PIVOT_Y + this.stringLength * p.cos(this.theta);
     this.theta = computePendulumAngle(
@@ -52,10 +53,10 @@ export class Ball {
    * @param {*} p p5インスタンス
    * @param {number} n 支点のオフセットx座標
    */
-  display(p, n) {
+  display(p: p5, n: number) {
     p.line(this.posx, this.posy, n + p.width / 6, PIVOT_Y);
     p.image(
-      state.weightImage,
+      state.weightImage!,
       this.posx - state.radi,
       this.posy - state.radi,
       state.radi * 2,

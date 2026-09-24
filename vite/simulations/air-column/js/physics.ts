@@ -6,7 +6,11 @@
  * @param {number} pipeL 管の長さ
  * @returns {number} 波数に相当する定数
  */
-export function computeFreqConst(type, mn, pipeL) {
+export function computeFreqConst(
+  type: "closed" | "open",
+  mn: number,
+  pipeL: number
+) {
   return type === "closed"
     ? (mn * Math.PI) / (2 * pipeL)
     : (mn * Math.PI) / pipeL;
@@ -22,10 +26,10 @@ export function computeFreqConst(type, mn, pipeL) {
  * @returns {number} 変位
  */
 export function computeStandingWaveDisplacement(
-  amplitude,
-  freqConst,
-  x,
-  timeSinValue
+  amplitude: number,
+  freqConst: number,
+  x: number,
+  timeSinValue: number
 ) {
   return amplitude * Math.cos(x * freqConst) * timeSinValue;
 }

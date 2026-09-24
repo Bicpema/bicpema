@@ -8,7 +8,7 @@ import type { Cellophane } from "./class.js";
  * @types/p5の型定義には createRadio() の戻り値に `option` / `selected`
  * メソッドが含まれないため、実際に存在するこれらのメソッドを補った型。
  */
-type RadioElement = p5.Element & {
+export type RadioElement = p5.Element & {
   option: (value: string, label?: string) => p5.Element;
   selected: (value?: string) => string | p5.Element;
 };

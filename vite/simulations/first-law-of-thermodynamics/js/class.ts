@@ -24,7 +24,7 @@ export class Molecule {
    * @param {number} vx - X方向速度
    * @param {number} vy - Y方向速度
    */
-  constructor(p, x: number, y: number, vx: number, vy: number) {
+  constructor(p: p5, x: number, y: number, vx: number, vy: number) {
     this.x = x;
     this.y = y;
     this.z = p.random();
@@ -52,7 +52,7 @@ export class Molecule {
   /**
    * @param {p5} p - p5 インスタンス
    */
-  draw(p) {
+  draw(p: p5) {
     const T = state.T;
     const size = p.lerp(7, 13, this.z);
     const c = p.map(T, state.T0, state.T0 + 5 * DT_UNIT, 120, 255);

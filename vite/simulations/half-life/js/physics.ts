@@ -5,7 +5,7 @@
  * @param {number} t 経過時間（halfLifeと同じ単位）
  * @returns {number} 残存割合 (0〜1)
  */
-export function computeDecayFraction(halfLife, t) {
+export function computeDecayFraction(halfLife: number, t: number) {
   return 0.5 ** (t / halfLife);
 }
 
@@ -16,6 +16,6 @@ export function computeDecayFraction(halfLife, t) {
  * @param {number} t 経過時間（halfLifeと同じ単位）
  * @returns {number} 残存個数
  */
-export function computeRemainingCount(n0, halfLife, t) {
+export function computeRemainingCount(n0: number, halfLife: number, t: number) {
   return n0 * computeDecayFraction(halfLife, t);
 }

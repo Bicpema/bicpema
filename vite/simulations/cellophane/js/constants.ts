@@ -48,7 +48,7 @@ export const WAVELENGTH_B = 450;
  * @param {number} wavelength 対象の光の波長 (nm)
  * @returns {number} その光の1フレーム当たりの回転角速度（度）
  */
-export function computeAngularVelocity(wavelength) {
+export function computeAngularVelocity(wavelength: number) {
   return (ANGULAR_VELOCITY_R * WAVELENGTH_R) / wavelength;
 }
 
@@ -68,17 +68,17 @@ export const DIM_STROKE_WEIGHT = 0.1;
  * 赤色光の表示色
  * @type {readonly [number, number, number]}
  */
-export const RED_COLOR = [255, 0, 0];
+export const RED_COLOR = [255, 0, 0] as const;
 /**
  * 緑色光の表示色
  * @type {readonly [number, number, number]}
  */
-export const GREEN_COLOR = [0, 255, 0];
+export const GREEN_COLOR = [0, 255, 0] as const;
 /**
  * 青色光の表示色
  * @type {readonly [number, number, number]}
  */
-export const BLUE_COLOR = [0, 0, 255];
+export const BLUE_COLOR = [0, 0, 255] as const;
 
 // ボタンの色をJS側で動的に切り替えるため、Bootstrapのbtn-*相当の
 // スタイルをTailwindユーティリティクラスの文字列として定義しておく。
@@ -104,7 +104,11 @@ export const BTN_SUCCESS =
  * @param {string} fromClassNames 取り除くBTN_*定数
  * @param {string} toClassNames 付け加えるBTN_*定数
  */
-export function swapButtonClass(element, fromClassNames, toClassNames) {
+export function swapButtonClass(
+  element: p5.Element,
+  fromClassNames: string,
+  toClassNames: string
+) {
   element.elt.classList.remove(...fromClassNames.split(" "));
   element.elt.classList.add(...toClassNames.split(" "));
 }

@@ -9,9 +9,9 @@ import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
 
 /**
  * UI要素の生成とイベントリスナーの設定を担当する関数。
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  */
-export function elCreate(p) {
+export function elCreate(p: p5) {
   state.massInput = p.select("#massInput");
   state.velocityInput = p.select("#velocityInput");
   state.forceInput = p.select("#forceInput");
@@ -47,12 +47,13 @@ export function elCreate(p) {
 
 /**
  * パラメータと状態を初期化する
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   p.frameRate(FPS);
   p.textAlign(p.CENTER, p.CENTER);
-  p.textFont(state.font);
+  // preload()でロード済みのため呼び出し時点でnullになりえない
+  p.textFont(state.font!);
   p.textSize(16);
 
   // elCreate()で取得済みのため呼び出し時点でnullになりえない
