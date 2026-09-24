@@ -9,8 +9,8 @@ import { resetSimulationState } from "./logic.js";
 export function onStartClick() {
   state.clickedCount = true;
   state.resetCount = false;
-  state.startButton.hide();
-  state.stopButton.show();
+  state.startButton!.hide();
+  state.stopButton!.show();
 }
 
 /**
@@ -18,8 +18,8 @@ export function onStartClick() {
  */
 export function onStopClick() {
   state.clickedCount = false;
-  state.startButton.show();
-  state.stopButton.hide();
+  state.startButton!.show();
+  state.stopButton!.hide();
 }
 
 /**
@@ -30,6 +30,6 @@ export function onResetButtonClick(p) {
   resetSimulationState(p);
   state.clickedCount = false;
   state.resetCount = true;
-  state.startButton.show();
-  state.stopButton.hide();
+  state.startButton!.show();
+  state.stopButton!.hide();
 }

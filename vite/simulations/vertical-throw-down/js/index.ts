@@ -40,14 +40,17 @@ const sketch = (p) => {
     }
 
     p.background(255);
-    const wasMoving = state.ball.isMoving;
-    state.ball.update(1 / FPS);
-    p.scale(p.width / 1000);
-    state.ball.display(p, (1000 * p.height) / p.width);
+    const { ball, graph } = state;
+    if (ball) {
+      const wasMoving = ball.isMoving;
+      ball.update(1 / FPS);
+      p.scale(p.width / 1000);
+      ball.display(p, (1000 * p.height) / p.width);
 
-    // 動いているときは毎フレーム更新、停止した瞬間も1回更新
-    if (wasMoving) {
-      state.graph.updateGraph();
+      // 動いているときは毎フレーム更新、停止した瞬間も1回更新
+      if (wasMoving && graph) {
+        graph.updateGraph();
+      }
     }
   };
 
