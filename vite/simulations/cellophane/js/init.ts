@@ -28,13 +28,13 @@ export function elCreate(p) {
   state.incidentColor = p.select("#incidentColor");
   state.transmittedColor = p.select("#transmittedColor");
 
-  state.waveRepresentationButton.mousePressed(() =>
+  state.waveRepresentationButton!.mousePressed(() =>
     waveRepresentationFunction()
   );
-  state.cellophaneCountSlider.input(() => cellophaneCountSliderFunction());
-  state.rButton.mousePressed(() => rButtonFunction());
-  state.gButton.mousePressed(() => gButtonFunction());
-  state.bButton.mousePressed(() => bButtonFunction());
+  state.cellophaneCountSlider!.input(() => cellophaneCountSliderFunction());
+  state.rButton!.mousePressed(() => rButtonFunction());
+  state.gButton!.mousePressed(() => gButtonFunction());
+  state.bButton!.mousePressed(() => bButtonFunction());
 
   const { toggleButton } = bindToggleControls(p, {
     toggleSelector: "#playPauseButton",

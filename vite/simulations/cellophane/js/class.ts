@@ -75,7 +75,7 @@ export class Ray {
   }
 
   _draw(p) {
-    const cellophaneCount = state.cellophaneCountSlider.value();
+    const cellophaneCount = Number(state.cellophaneCountSlider!.value());
 
     if (this.clr === "r") {
       this.wl = WAVELENGTH_R;

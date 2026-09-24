@@ -38,8 +38,8 @@ export function onScreenshotClick() {
  * @param {*} p p5インスタンス
  */
 export function cellophaneAddButtonFunction(p) {
-  state.colabNum += 1;
-  state.cellophaneArr.push(new Cellophane(p, state.colabNum));
+  state.colabNum! += 1;
+  state.cellophaneArr.push(new Cellophane(p, state.colabNum!));
 }
 
 /**
@@ -47,10 +47,10 @@ export function cellophaneAddButtonFunction(p) {
  * @param {*} p p5インスタンス
  */
 export function cellophaneRemoveButtonFunction(p) {
-  if (state.colabNum > 0) {
+  if (state.colabNum! > 0) {
     const targetDiv = p.select("#cellophane-" + state.colabNum);
     state.cellophaneArr.pop();
     targetDiv.remove();
-    state.colabNum -= 1;
+    state.colabNum! -= 1;
   }
 }

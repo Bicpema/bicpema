@@ -16,9 +16,10 @@ import {
  * 入射光・出射光の色見本の背景色を、現在のセロハンの枚数に合わせて更新する。
  */
 export function updateColorSwatches() {
-  state.incidentColor.style("background", INCIDENT_LIGHT_CSS_COLOR);
-  const rgbForCount = state.rgb[state.cellophaneCountSlider.value() - 1];
-  state.transmittedColor.style(
+  state.incidentColor!.style("background", INCIDENT_LIGHT_CSS_COLOR);
+  const rgbForCount =
+    state.rgb[Number(state.cellophaneCountSlider!.value()) - 1];
+  state.transmittedColor!.style(
     "background",
     `rgb(${rgbForCount[0]},${rgbForCount[1]},${rgbForCount[2]})`
   );
@@ -28,24 +29,24 @@ export function updateColorSwatches() {
  * csvファイル内のデータを配列に格納する。
  */
 export function csvDataLoad() {
-  const rowCount = state.spectrumSheet.getRowCount();
+  const rowCount = state.spectrumSheet!.getRowCount();
   for (let i = 0; i < 10; i++) {
     state.intensity[i] = [];
     state.rgb[i] = [];
     for (let j = 1; j < rowCount; j++) {
-      state.intensity[i][j] = state.spectrumSheet.getNum(j, i) / 1000;
+      state.intensity[i][j] = state.spectrumSheet!.getNum(j, i) / 1000;
     }
     for (let j = 0; j < 3; j++) {
-      state.rgb[i][j] = state.rgbSheet.getNum(i + 1, j + 1);
+      state.rgb[i][j] = state.rgbSheet!.getNum(i + 1, j + 1);
     }
   }
   for (let i = 1; i < rowCount; i++) {
-    state.waveLength[i] = state.cmfSheet.getNum(i, 0);
-    state.cmfr[i] = state.cmfSheet.getNum(i, 1);
-    state.cmfg[i] = state.cmfSheet.getNum(i, 2);
-    state.cmfb[i] = state.cmfSheet.getNum(i, 3);
+    state.waveLength[i] = state.cmfSheet!.getNum(i, 0);
+    state.cmfr[i] = state.cmfSheet!.getNum(i, 1);
+    state.cmfg[i] = state.cmfSheet!.getNum(i, 2);
+    state.cmfb[i] = state.cmfSheet!.getNum(i, 3);
     state.lightSourceIntensity[i] =
-      state.lightSourceSpectrumSheet.getNum(i, 1) / 1000;
+      state.lightSourceSpectrumSheet!.getNum(i, 1) / 1000;
   }
 }
 
@@ -69,7 +70,9 @@ export function waveRepresentationFunction() {
  */
 export function cellophaneCountSliderFunction() {
   createRays();
-  state.cellophaneCountValue.html(state.cellophaneCountSlider.value());
+  state.cellophaneCountValue!.html(
+    String(state.cellophaneCountSlider!.value())
+  );
   updateColorSwatches();
   updateGraph();
 }
@@ -82,11 +85,11 @@ export function onPlayPause() {
   if (state.isRunning) {
     state.isRunning = false;
     swapButtonClass(state.playPauseButton, BTN_DANGER, BTN_PRIMARY);
-    state.playPauseButton.html("スタート");
+    state.playPauseButton!.html("スタート");
   } else {
     state.isRunning = true;
     swapButtonClass(state.playPauseButton, BTN_PRIMARY, BTN_DANGER);
-    state.playPauseButton.html("ストップ");
+    state.playPauseButton!.html("ストップ");
   }
 }
 
