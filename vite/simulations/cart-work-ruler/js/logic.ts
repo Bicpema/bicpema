@@ -67,29 +67,31 @@ const CART_CONTACT_X = RULER_INIT_LEFT - CART_W;
 
 /**
  * 地面を描画する
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  */
-function drawGround(p) {
+function drawGround(p: p5) {
   p.imageMode(p.CORNER);
-  p.image(state.groundImage, 0, GROUND_Y, V_W, V_H - GROUND_Y);
+  // preload()でロード済みのため呼び出し時点でnullになりえない
+  p.image(state.groundImage!, 0, GROUND_Y, V_W, V_H - GROUND_Y);
 }
 
 /**
  * 台車を描画する
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  * @param {number} cartLeftX 台車の左端x座標（仮想座標）
  */
-function drawCart(p, cartLeftX) {
+function drawCart(p: p5, cartLeftX: number) {
   p.imageMode(p.CORNER);
-  p.image(state.cartImage, cartLeftX, GROUND_Y - CART_H + 3, CART_W, CART_H);
+  // preload()でロード済みのため呼び出し時点でnullになりえない
+  p.image(state.cartImage!, cartLeftX, GROUND_Y - CART_H + 3, CART_W, CART_H);
 }
 
 /**
  * 定規を描画する
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  * @param {number} leftX 定規の左端x座標（仮想座標）
  */
-function drawRuler(p, leftX) {
+function drawRuler(p: p5, leftX: number) {
   if (leftX >= BOOK_LEFT_X) return;
 
   const topY = RULER_CENTER_Y - RULER_THICK / 2 + 30;
@@ -127,9 +129,9 @@ function drawRuler(p, leftX) {
 
 /**
  * 本を描画する
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  */
-function drawBook(p) {
+function drawBook(p: p5) {
   if (state.bookImage && state.bookImage.width > 0) {
     p.imageMode(p.CORNER);
     p.image(state.bookImage, BOOK_LEFT_X, BOOK_TOP_Y, BOOK_W, BOOK_H);
@@ -149,11 +151,11 @@ function drawBook(p) {
 
 /**
  * 速度の矢印を描画する
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  * @param {number} cartLeftX 台車の左端x座標
  * @param {number} v 現在の速度 (m/s)
  */
-function drawVelocityArrow(p, cartLeftX, v) {
+function drawVelocityArrow(p: p5, cartLeftX: number, v: number) {
   if (v <= 0.005) return;
 
   const arrowCenterX = cartLeftX + CART_W / 2;
@@ -178,10 +180,10 @@ function drawVelocityArrow(p, cartLeftX, v) {
 
 /**
  * 抵抗力の矢印を描画する（接触中のみ）
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  * @param {number} cartLeftX 台車の左端x座標
  */
-function drawForceArrow(p, cartLeftX) {
+function drawForceArrow(p: p5, cartLeftX: number) {
   const arrowY = CART_BODY_TOP + CART_H / 2;
   const arrowEndX = cartLeftX + 8;
   const arrowStartX = arrowEndX + 80;
@@ -209,10 +211,10 @@ function drawForceArrow(p, cartLeftX) {
 
 /**
  * めり込み距離のディメンションラインを描画する
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  * @param {number} d めり込み距離 (m)
  */
-function drawPenetrationLine(p, d) {
+function drawPenetrationLine(p: p5, d: number) {
   if (d < 0.001) return;
 
   const dPx = d * PM;
@@ -264,10 +266,10 @@ function updateInfoPanelDOM() {
 
 /**
  * 情報パネルの状態別メッセージの表示・非表示を切り替える。
- * @param {*} el p5.Element
+ * @param {p5.Element | null} el p5.Element
  * @param {boolean} visible
  */
-function setStatusVisible(el, visible) {
+function setStatusVisible(el: p5.Element | null, visible: boolean) {
   if (!el) return;
   if (visible) {
     el.removeClass("hidden");
@@ -278,10 +280,10 @@ function setStatusVisible(el, visible) {
 
 /**
  * 物理状態を1フレーム分更新する。
- * @param {*} p p5インスタンス
+ * @param {p5} [p] p5インスタンス
  * @param {number} dt タイムステップ (s)
  */
-export function update(p, dt) {
+export function update(p: p5 | undefined, dt: number) {
   if (state.phase === "approach") {
     state.approachX_px += state.v0_ms * PM * dt;
     if (state.approachX_px + CART_W >= RULER_INIT_LEFT) {
@@ -322,10 +324,10 @@ export function update(p, dt) {
 
 /**
  * 1フレーム分の描画を行う。
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  */
-function drawScene(p) {
-  let cartLeftX;
+function drawScene(p: p5) {
+  let cartLeftX: number;
   if (state.phase === "idle") {
     cartLeftX = CART_START_X;
   } else if (state.phase === "approach") {
@@ -358,9 +360,9 @@ function drawScene(p) {
 
 /**
  * シミュレーションの描画と物理更新を行う。
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   p.scale(p.width / V_W);
   p.background(252);
 

@@ -10,12 +10,12 @@ const FPS = 30;
  * DOM 要素の取得とイベントリスナーの登録、基本設定を行う。
  * @param {*} p p5 インスタンス
  */
-export function elCreate(p) {
+export function elCreate(p: p5) {
   state.weightInput = p.select("#weightInput");
   state.weightDisplay = p.select("#weightDisplay");
 
   state.weightInput?.input(() => onWeightChange());
-  p.select("#resetButton").mousePressed(() => onReset());
+  p.select("#resetButton")?.mousePressed(() => onReset());
 
   initModal({
     openSelectors: "#toggleModal",
@@ -30,6 +30,6 @@ export function elCreate(p) {
  * シミュレーションの初期値を設定する。
  * @param {*} p p5 インスタンス
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   p.textFont("sans-serif");
 }

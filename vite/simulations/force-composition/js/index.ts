@@ -10,12 +10,12 @@ import { V_W, ORIGIN_X, ORIGIN_Y, GRID_STEP } from "./constants.js";
 
 const DRAG_THRESHOLD = 20;
 
-function getVirtualPos(clientX, clientY, p) {
+function getVirtualPos(clientX: number, clientY: number, p: p5) {
   const scale = p.width / V_W;
   return { vx: clientX / scale, vy: clientY / scale };
 }
 
-function tryStartDrag(vx, vy, p) {
+function tryStartDrag(vx: number, vy: number, p: p5) {
   const f1AbsX = ORIGIN_X + state.f1TipX;
   const f1AbsY = ORIGIN_Y + state.f1TipY;
   const f2AbsX = ORIGIN_X + state.f2TipX;
@@ -27,7 +27,7 @@ function tryStartDrag(vx, vy, p) {
   }
 }
 
-function applyDrag(vx, vy) {
+function applyDrag(vx: number, vy: number) {
   if (state.dragging === "f1") {
     const rx = Math.round((vx - ORIGIN_X) / GRID_STEP) * GRID_STEP;
     const ry = Math.round((vy - ORIGIN_Y) / GRID_STEP) * GRID_STEP;
@@ -45,7 +45,7 @@ function applyDrag(vx, vy) {
   }
 }
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
   p.preload = () => {
@@ -113,14 +113,18 @@ const sketch = (p) => {
 
   p.touchStarted = () => {
     if (p.touches.length === 0) return false;
-    const { vx, vy } = getVirtualPos(p.touches[0].x, p.touches[0].y, p);
+    // @types/p5ではtouches[]の要素はobject型のため、ドキュメント通りx/yプロパティを持つ座標として扱う
+    const touch = p.touches[0] as { x: number; y: number };
+    const { vx, vy } = getVirtualPos(touch.x, touch.y, p);
     tryStartDrag(vx, vy, p);
     return false;
   };
 
   p.touchMoved = () => {
     if (p.touches.length === 0) return false;
-    const { vx, vy } = getVirtualPos(p.touches[0].x, p.touches[0].y, p);
+    // @types/p5ではtouches[]の要素はobject型のため、ドキュメント通りx/yプロパティを持つ座標として扱う
+    const touch = p.touches[0] as { x: number; y: number };
+    const { vx, vy } = getVirtualPos(touch.x, touch.y, p);
     applyDrag(vx, vy);
     return false;
   };

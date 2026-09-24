@@ -24,7 +24,15 @@ import { decomposeForce } from "./physics.js";
  * @param {p5.Color} col 色
  * @param {number} [sw=3] strokeWeight
  */
-export function drawArrow(p, x1, y1, x2, y2, col, sw = 3) {
+export function drawArrow(
+  p: p5,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  col: p5.Color,
+  sw = 3
+) {
   const dx = x2 - x1;
   const dy = y2 - y1;
   const len = p.sqrt(dx * dx + dy * dy);
@@ -54,7 +62,14 @@ export function drawArrow(p, x1, y1, x2, y2, col, sw = 3) {
  * @param {number} y2
  * @param {p5.Color} col
  */
-function drawDashed(p, x1, y1, x2, y2, col) {
+function drawDashed(
+  p: p5,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  col: p5.Color
+) {
   const dx = x2 - x1;
   const dy = y2 - y1;
   const len = p.sqrt(dx * dx + dy * dy);
@@ -91,7 +106,14 @@ function drawDashed(p, x1, y1, x2, y2, col) {
  * @param {p5.Color} col テキスト色
  * @param {number} [sz=16] フォントサイズ
  */
-function drawLabel(p, text, x, y, col, sz = LABEL_FONT_SIZE) {
+function drawLabel(
+  p: p5,
+  text: string,
+  x: number,
+  y: number,
+  col: p5.Color,
+  sz = LABEL_FONT_SIZE
+) {
   p.textSize(sz);
   p.noStroke();
   p.fill(col);
@@ -105,7 +127,7 @@ function drawLabel(p, text, x, y, col, sz = LABEL_FONT_SIZE) {
  * XY分解モードのシーンを描画する。
  * @param {p5} p
  */
-export function drawXYScene(p) {
+export function drawXYScene(p: p5) {
   p.background(255, 255, 255);
   drawGrid(p);
   drawAxes(p, ORIGIN_X, ORIGIN_Y);
@@ -168,7 +190,7 @@ export function drawXYScene(p) {
  * グリッドを描画する。
  * @param {p5} p
  */
-function drawGrid(p) {
+function drawGrid(p: p5) {
   p.strokeWeight(1);
   p.stroke(168, 206, 221);
   for (let x = ORIGIN_X; x <= V_W; x += GRID_STEP) p.line(x, 0, x, V_H);
@@ -187,7 +209,7 @@ function drawGrid(p) {
  * @param {number} ox 原点X
  * @param {number} oy 原点Y
  */
-function drawAxes(p, ox, oy) {
+function drawAxes(p: p5, ox: number, oy: number) {
   const axisColor = p.color(0);
   const axisWeight = 2;
   drawArrow(p, ox, oy, V_W - 10, oy, axisColor, axisWeight);
@@ -216,7 +238,7 @@ function drawAxes(p, ox, oy) {
  * @param {number} θ ラジアン
  * @param {number} r 半径
  */
-function drawAngleArc(p, ox, oy, θ, r) {
+function drawAngleArc(p: p5, ox: number, oy: number, θ: number, r: number) {
   if (Math.abs(θ) < 0.02) return;
   p.noFill();
   p.stroke(80, 80, 80, 200);
@@ -240,7 +262,14 @@ function drawAngleArc(p, ox, oy, θ, r) {
  * @param {number} tipY 合力先端Y
  * @param {number} θ ラジアン
  */
-function drawXYLabels(p, Fx, Fy, tipX, tipY, θ) {
+function drawXYLabels(
+  p: p5,
+  Fx: number,
+  Fy: number,
+  tipX: number,
+  tipY: number,
+  θ: number
+) {
   // F ラベル（力の中点より少し外側）
   const midX = ORIGIN_X + Fx / 2 + 16 * Math.sin(θ);
   const midY = ORIGIN_Y + Fy / 2 - 16 * Math.cos(θ);
@@ -277,7 +306,7 @@ function drawXYLabels(p, Fx, Fy, tipX, tipY, θ) {
  * @param {number} Fx 仮想px
  * @param {number} Fy 仮想px（下正）
  */
-function drawXYInfoPanel(p, Fx, Fy) {
+function drawXYInfoPanel(p: p5, Fx: number, Fy: number) {
   const fxN = Fx / FORCE_SCALE;
   const fyN = -Fy / FORCE_SCALE; // 物理のy（上正）
   const fN = state.forceMag;
@@ -334,7 +363,7 @@ function drawXYInfoPanel(p, Fx, Fy) {
   p.textAlign(p.CENTER, p.CENTER);
 }
 
-function drawInteractionHint(p, tipX, tipY) {
+function drawInteractionHint(p: p5, tipX: number, tipY: number) {
   // 先端の円
   p.noFill();
   p.stroke(0, 0, 0, state.isDragging ? 180 : 80);
@@ -348,7 +377,7 @@ function drawInteractionHint(p, tipX, tipY) {
  * マウス/タッチ押下時の処理。
  * @param {p5} p
  */
-export function handlePress(p) {
+export function handlePress(p: p5) {
   const vx = (p.mouseX * V_W) / p.width;
   const vy = (p.mouseY * V_W) / p.width;
   const F = state.forceMag * FORCE_SCALE;
@@ -366,7 +395,7 @@ export function handlePress(p) {
  * @param {p5} p
  * @param {number} MAX_FORCE 力の最大値（N）
  */
-export function handleDrag(p, MAX_FORCE) {
+export function handleDrag(p: p5, MAX_FORCE: number) {
   if (!state.isDragging) return;
   const vx = (p.mouseX * V_W) / p.width;
   const vy = (p.mouseY * V_W) / p.width;

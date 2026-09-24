@@ -9,7 +9,7 @@ import { elCreate, initValue } from "./init.js";
 import { drawSimulation } from "./logic.js";
 import { startDrag, updateDrag, stopDrag } from "./element-function.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
   p.setup = () => {
@@ -19,7 +19,7 @@ const sketch = (p) => {
     // Firebase Storage が到達不能でもブロックしないよう setup 内で非同期読み込み
     p.loadFont(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
-      (f) => {
+      (f: p5.Font) => {
         state.font = f;
       },
       () => {
@@ -56,8 +56,10 @@ const sketch = (p) => {
 
   p.touchStarted = () => {
     if (p.touches.length > 0) {
-      const vmx = (p.touches[0].x / p.width) * V_W;
-      const vmy = (p.touches[0].y / p.width) * V_W;
+      // @types/p5ではtouches[]の要素はobject型のため、ドキュメント通りx/yプロパティを持つ座標として扱う
+      const touch = p.touches[0] as { x: number; y: number };
+      const vmx = (touch.x / p.width) * V_W;
+      const vmy = (touch.y / p.width) * V_W;
       startDrag(vmx, vmy);
     }
     return false;
@@ -65,8 +67,10 @@ const sketch = (p) => {
 
   p.touchMoved = () => {
     if (p.touches.length > 0 && state.dragging) {
-      const vmx = (p.touches[0].x / p.width) * V_W;
-      const vmy = (p.touches[0].y / p.width) * V_W;
+      // @types/p5ではtouches[]の要素はobject型のため、ドキュメント通りx/yプロパティを持つ座標として扱う
+      const touch = p.touches[0] as { x: number; y: number };
+      const vmx = (touch.x / p.width) * V_W;
+      const vmy = (touch.y / p.width) * V_W;
       updateDrag(vmx, vmy);
     }
     return false;

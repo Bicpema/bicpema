@@ -27,10 +27,10 @@ export const ARROW_SCALE = 3.0;
 // ────────────────────────────────────────────
 // カラー定義 [R, G, B]
 // ────────────────────────────────────────────
-export const T1_COLOR = [50, 110, 210]; // 糸1の張力（青）
-export const T2_COLOR = [200, 55, 55]; // 糸2の張力（赤）
-export const W_COLOR = [40, 160, 70]; // 重力（緑）
-export const RING_COLOR = [235, 160, 30]; // リング（オレンジ）
+export const T1_COLOR = [50, 110, 210] as const; // 糸1の張力（青）
+export const T2_COLOR = [200, 55, 55] as const; // 糸2の張力（赤）
+export const W_COLOR = [40, 160, 70] as const; // 重力（緑）
+export const RING_COLOR = [235, 160, 30] as const; // リング（オレンジ）
 
 // ────────────────────────────────────────────
 // 初期位置（リセット用）
@@ -43,7 +43,21 @@ export const INIT_WEIGHT = 20;
 // ────────────────────────────────────────────
 // 共有状態
 // ────────────────────────────────────────────
-export const state = {
+export const state: {
+  font: p5.Font | null;
+  anchorA: { x: number; y: number };
+  anchorB: { x: number; y: number };
+  ring: { x: number; y: number };
+  weight: number;
+  T1: number;
+  T2: number;
+  isEquilibrium: boolean;
+  dragging: "anchorA" | "anchorB" | "ring" | null;
+  dragOffsetX: number;
+  dragOffsetY: number;
+  weightInput: p5.Element | null;
+  weightDisplay: p5.Element | null;
+} = {
   /** 日本語フォント */
   font: null,
   /** アンカーA（左側の天井固定点） */
@@ -63,11 +77,11 @@ export const state = {
   isEquilibrium: false,
 
   /** ドラッグ中の要素（'anchorA' | 'anchorB' | 'ring' | null） */
-  dragging: null as "anchorA" | "anchorB" | "ring" | null,
+  dragging: null,
   dragOffsetX: 0,
   dragOffsetY: 0,
 
   /** DOM要素参照（p.select()で取得するまではnull） */
-  weightInput: null as p5.Element | null,
-  weightDisplay: null as p5.Element | null
+  weightInput: null,
+  weightDisplay: null
 };

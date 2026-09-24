@@ -24,7 +24,15 @@ import { decomposeGravityOnSlope } from "./physics.js";
  * @param {p5.Color} col 色
  * @param {number} [sw=3] strokeWeight
  */
-export function drawArrow(p, x1, y1, x2, y2, col, sw = 3) {
+export function drawArrow(
+  p: p5,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  col: p5.Color,
+  sw = 3
+) {
   const dx = x2 - x1;
   const dy = y2 - y1;
   const len = p.sqrt(dx * dx + dy * dy);
@@ -48,7 +56,14 @@ export function drawArrow(p, x1, y1, x2, y2, col, sw = 3) {
 /**
  * 点線を描画する。
  */
-function drawDashed(p, x1, y1, x2, y2, col) {
+function drawDashed(
+  p: p5,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  col: p5.Color
+) {
   const dx = x2 - x1;
   const dy = y2 - y1;
   const len = p.sqrt(dx * dx + dy * dy);
@@ -79,7 +94,14 @@ function drawDashed(p, x1, y1, x2, y2, col) {
 /**
  * ラベル付きテキストを描画する。
  */
-function drawLabel(p, text, x, y, col, sz = LABEL_FONT_SIZE) {
+function drawLabel(
+  p: p5,
+  text: string,
+  x: number,
+  y: number,
+  col: p5.Color,
+  sz = LABEL_FONT_SIZE
+) {
   p.textSize(sz);
   p.noStroke();
   p.fill(col);
@@ -93,7 +115,7 @@ function drawLabel(p, text, x, y, col, sz = LABEL_FONT_SIZE) {
  * 斜面分解のシーンを描画する。
  * @param {p5} p
  */
-export function drawSlopeScene(p) {
+export function drawSlopeScene(p: p5) {
   const θ = (state.slopeAngle * Math.PI) / 180;
   const { gravity: mg } = decomposeGravityOnSlope(
     state.mass,
@@ -120,7 +142,7 @@ export function drawSlopeScene(p) {
  * @param {number} oy オブジェクト原点Y
  * @param {number} θ 斜面角度（ラジアン）
  */
-function drawSlopeSurface(p, ox, oy, θ) {
+function drawSlopeSurface(p: p5, ox: number, oy: number, θ: number) {
   const cosT = Math.cos(θ);
   const sinT = Math.sin(θ);
   const len = 500;
@@ -173,7 +195,7 @@ function drawSlopeSurface(p, ox, oy, θ) {
  * @param {number} oy
  * @param {number} θ
  */
-function drawBlock(p, ox, oy, θ) {
+function drawBlock(p: p5, ox: number, oy: number, θ: number) {
   const bw = 52;
   const bh = BLOCK_HEIGHT;
   p.push();
@@ -195,7 +217,14 @@ function drawBlock(p, ox, oy, θ) {
  * @param {number} mg 重力の大きさ（N）
  * @param {number} sc スケール
  */
-function drawSlopeVectors(p, ox, oy, θ, mg, sc) {
+function drawSlopeVectors(
+  p: p5,
+  ox: number,
+  oy: number,
+  θ: number,
+  mg: number,
+  sc: number
+) {
   const cosT = Math.cos(θ);
   const sinT = Math.sin(θ);
   const bh = BLOCK_HEIGHT; // ブロック高さ
@@ -272,7 +301,13 @@ function drawSlopeVectors(p, ox, oy, θ, mg, sc) {
  * @param {number} θ
  * @param {number} sz マークのサイズ
  */
-function drawRightAngleMark(p, ox, oy, θ, sz) {
+function drawRightAngleMark(
+  p: p5,
+  ox: number,
+  oy: number,
+  θ: number,
+  sz: number
+) {
   const cosT = Math.cos(θ);
   const sinT = Math.sin(θ);
   // F_parallel 方向 (-cosT, sinT) に sz 進んだ点
@@ -299,7 +334,7 @@ function drawRightAngleMark(p, ox, oy, θ, sz) {
  * @param {p5} p
  * @param {number} mg N
  */
-function drawSlopeInfoPanel(p, mg) {
+function drawSlopeInfoPanel(p: p5, mg: number) {
   const panelW = 290;
   const panelH = 130;
   const panelX = V_W - panelW - 10;
@@ -345,7 +380,7 @@ function drawSlopeInfoPanel(p, mg) {
  * 左上に凡例を描画する。
  * @param {p5} p
  */
-function drawSlopeLegend(p) {
+function drawSlopeLegend(p: p5) {
   const lx = 16;
   const ly = 16;
   const panelW = 260;

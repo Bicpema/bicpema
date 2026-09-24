@@ -1,6 +1,13 @@
 import { GRID_STEP } from "./constants.js";
 
-export const state = {
+export const state: {
+  font: p5.Font | null;
+  f1TipX: number;
+  f1TipY: number;
+  f2TipX: number;
+  f2TipY: number;
+  dragging: "f1" | "f2" | null;
+} = {
   // --- ロードアセット ---
   font: null,
 

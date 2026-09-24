@@ -5,13 +5,13 @@ import { FPS, LABEL_FONT_SIZE } from "./constants.js";
  * DOM要素の初期化（現在は設定なし）。
  * @param {p5} _p p5インスタンス
  */
-export function elCreate(_p) {}
+export function elCreate(_p: p5) {}
 
 /**
  * キャンバス設定とシミュレーションの初期値を設定する。
  * @param {p5} p p5インスタンス
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   p.frameRate(FPS);
   p.textAlign(p.CENTER, p.CENTER);
   if (state.font) {

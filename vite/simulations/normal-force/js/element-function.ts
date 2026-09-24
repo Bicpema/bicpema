@@ -38,9 +38,9 @@ export function onStopClick() {
 
 /**
  * リセットボタンが押されたときの処理。
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  */
-export function resetButtonAction(p) {
+export function resetButtonAction(p: p5) {
   initSettings(p);
   materialSet(p);
   state.clickedCount = false;

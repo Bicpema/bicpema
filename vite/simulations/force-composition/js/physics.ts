@@ -6,7 +6,12 @@
  * @param {number} f2y F2のy成分
  * @returns {{x: number, y: number}} 合力ベクトル
  */
-export function composeForces(f1x, f1y, f2x, f2y) {
+export function composeForces(
+  f1x: number,
+  f1y: number,
+  f2x: number,
+  f2y: number
+) {
   return { x: f1x + f2x, y: f1y + f2y };
 }
 
@@ -17,7 +22,11 @@ export function composeForces(f1x, f1y, f2x, f2y) {
  * @param {number} forceScale スケール (px/N)
  * @returns {number} 力の大きさ (N)
  */
-export function computeForceMagnitude(x, y, forceScale) {
+export function computeForceMagnitude(
+  x: number,
+  y: number,
+  forceScale: number
+) {
   return Math.sqrt(x * x + y * y) / forceScale;
 }
 
@@ -28,6 +37,6 @@ export function computeForceMagnitude(x, y, forceScale) {
  * @param {number} y y成分（画面座標系、下向き正）
  * @returns {number} x軸正方向を0度とした角度 (度)
  */
-export function computeForceAngleDeg(x, y) {
+export function computeForceAngleDeg(x: number, y: number) {
   return (Math.atan2(-y, x) * 180) / Math.PI;
 }

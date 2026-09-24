@@ -22,7 +22,7 @@ import { DRAG_HIT_MARGIN } from "./constants.js";
  * @param {number} vmx 仮想座標系の X（mouseX / width * V_W）
  * @param {number} vmy 仮想座標系の Y（mouseY / width * V_W）
  */
-export function startDrag(vmx, vmy) {
+export function startDrag(vmx: number, vmy: number) {
   const { anchorA, anchorB, ring } = state;
 
   // リングを最優先にチェック（前面にある）
@@ -58,7 +58,7 @@ export function startDrag(vmx, vmy) {
  * @param {number} vmx 仮想座標系の X
  * @param {number} vmy 仮想座標系の Y
  */
-export function updateDrag(vmx, vmy) {
+export function updateDrag(vmx: number, vmy: number) {
   const nx = vmx + state.dragOffsetX;
   const ny = vmy + state.dragOffsetY;
 

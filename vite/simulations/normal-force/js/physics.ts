@@ -10,7 +10,12 @@
  * @param {number} [fps=60] フレームレート
  * @returns {{dx: number, dy: number}} このフレームで加算すべき水平・鉛直変位
  */
-export function computeSlideDisplacement(gravity, angleDeg, count, fps = 60) {
+export function computeSlideDisplacement(
+  gravity: number,
+  angleDeg: number,
+  count: number,
+  fps = 60
+) {
   const theta = (angleDeg * Math.PI) / 180;
   const t = count / fps;
   return {
