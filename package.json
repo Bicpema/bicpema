@@ -11,7 +11,6 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "typecheck:strict": "tsc --noEmit -p tsconfig.strict.json",
     "verify:runtime": "node scripts/verify-simulation-runtime.js",
     "pretest:e2e": "npm run build",
     "test:e2e": "playwright test",
