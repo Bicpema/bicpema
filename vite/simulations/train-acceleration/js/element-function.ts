@@ -8,6 +8,7 @@ import { updateChart } from "./graph.js";
  */
 const updatePlayPauseButton = () => {
   const btn = document.getElementById("playPauseButton");
+  if (!btn) return;
   if (state.isPlaying) {
     btn.innerHTML = "⏸ 一時停止";
     btn.classList.remove("btn-primary");
@@ -36,7 +37,7 @@ export const onReset = () => {
   state.elapsedTime = 0;
   state.lastGraphUpdate = 0;
   state.maxObservedVelocity = 0;
-  state.train.reset();
+  state.train!.reset();
   state.vtData = [{ x: 0, y: 0 }];
   updateChart();
 };

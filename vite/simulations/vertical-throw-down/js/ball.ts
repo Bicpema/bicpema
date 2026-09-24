@@ -218,7 +218,7 @@ export class Ball {
    * @param {number} newHeight 新しい初期高さ
    * @param {number} [newInitialVelocity] 新しい初速度
    */
-  reset(newHeight, newInitialVelocity = undefined) {
+  reset(newHeight, newInitialVelocity?: number) {
     this.initialHeight = newHeight;
     this.height = newHeight;
     if (newInitialVelocity !== undefined) {

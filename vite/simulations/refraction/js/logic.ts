@@ -200,22 +200,24 @@ function animationCalculate(p) {
 }
 
 function animationOperation(p) {
+  const { rotateRemocon, nRemocon } = state;
+  if (!rotateRemocon || !nRemocon) return;
   if (p.mouseIsPressed) {
     state.count++;
     if (
       p.dist(
         p.width -
-          state.rotateRemocon.width +
-          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+          rotateRemocon.width +
+          (REMOCON_HOTSPOT_X_NUMERATOR * rotateRemocon.width) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
-          state.rotateRemocon.height +
-          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.rotateRemocon.height) /
+          rotateRemocon.height +
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * rotateRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+        rotateRemocon.width / HIT_RADIUS_DIVISOR &&
       state.lightRotateTheta < ANGLE_LIMIT_DEG &&
       state.count > LONG_PRESS_ACTIVATE_FRAMES
     ) {
@@ -244,17 +246,17 @@ function animationOperation(p) {
     if (
       p.dist(
         p.width -
-          state.rotateRemocon.width +
-          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+          rotateRemocon.width +
+          (REMOCON_HOTSPOT_X_NUMERATOR * rotateRemocon.width) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
-          state.rotateRemocon.height +
-          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.rotateRemocon.height) /
+          rotateRemocon.height +
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * rotateRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+        rotateRemocon.width / HIT_RADIUS_DIVISOR &&
       state.lightRotateTheta > -ANGLE_LIMIT_DEG &&
       state.count > LONG_PRESS_ACTIVATE_FRAMES
     ) {
@@ -289,41 +291,41 @@ function animationOperation(p) {
   p.fill(255);
   p.noStroke();
   p.image(
-    state.rotateRemocon,
-    p.width - state.rotateRemocon.width,
-    p.height - state.rotateRemocon.height
+    rotateRemocon,
+    p.width - rotateRemocon.width,
+    p.height - rotateRemocon.height
   );
   p.text(
     p.nf(p.abs(state.lightRotateTheta), 1, 1) + "'",
     p.width -
-      state.rotateRemocon.width +
-      (REMOCON_LABEL_OFFSET_NUMERATOR * state.rotateRemocon.width) /
+      rotateRemocon.width +
+      (REMOCON_LABEL_OFFSET_NUMERATOR * rotateRemocon.width) /
         REMOCON_LABEL_OFFSET_DENOMINATOR,
     p.height -
-      state.rotateRemocon.height +
-      state.rotateRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
-    state.rotateRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
-    state.rotateRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
+      rotateRemocon.height +
+      rotateRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    rotateRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    rotateRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
-  p.image(state.nRemocon, 0, p.height / 2 - state.nRemocon.height);
+  p.image(nRemocon, 0, p.height / 2 - nRemocon.height);
   p.text(
     p.nf(state.n2, 1, 1) + "'",
-    (REMOCON_LABEL_OFFSET_NUMERATOR * state.nRemocon.width) /
+    (REMOCON_LABEL_OFFSET_NUMERATOR * nRemocon.width) /
       REMOCON_LABEL_OFFSET_DENOMINATOR,
     p.height / 2 -
-      state.nRemocon.height +
-      state.nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
-    state.nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
-    state.nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
+      nRemocon.height +
+      nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
-  p.image(state.nRemocon, 0, p.height / 2);
+  p.image(nRemocon, 0, p.height / 2);
   p.text(
     p.nf(state.n1, 1, 1) + "'",
-    (REMOCON_LABEL_OFFSET_NUMERATOR * state.nRemocon.width) /
+    (REMOCON_LABEL_OFFSET_NUMERATOR * nRemocon.width) /
       REMOCON_LABEL_OFFSET_DENOMINATOR,
-    p.height / 2 + state.nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
-    state.nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
-    state.nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
+    p.height / 2 + nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
   p.stroke(255);
 }
@@ -549,6 +551,8 @@ function animationBackgroundSetting(p) {
 }
 
 function animationRays(p) {
+  const { pg, rotateRemocon, nRemocon } = state;
+  if (!pg || !rotateRemocon || !nRemocon) return;
   const s = p.sq(
     (state.n1 * p.cos(state.theta1) - state.n2 * p.cos(state.theta2)) /
       (state.n1 * p.cos(state.theta1) + state.n2 * p.cos(state.theta2))
@@ -559,44 +563,44 @@ function animationRays(p) {
   );
   const strength = (s + pr) / 2;
   // beginDraw() and endDraw() is not supported in p5.js, and or often not needed;
-  state.pg.noStroke();
-  state.pg.fill(...RAY_COLOR);
+  pg.noStroke();
+  pg.fill(...RAY_COLOR);
   if (state.raysY < p.height / 2) {
-    state.pg.fill(...RAY_COLOR, 255 * (1 - strength));
+    pg.fill(...RAY_COLOR, 255 * (1 - strength));
   }
-  state.pg.ellipse(state.raysX, state.raysY, 5, 5);
+  pg.ellipse(state.raysX, state.raysY, 5, 5);
   if (state.boundary > -1 && state.boundary < 1 && state.raysY < p.height / 2) {
-    state.pg.fill(...RAY_COLOR, 255 * strength);
-    state.pg.ellipse(state.raysX2, state.raysY2, 5, 5);
+    pg.fill(...RAY_COLOR, 255 * strength);
+    pg.ellipse(state.raysX2, state.raysY2, 5, 5);
   }
   if (p.mouseIsPressed) {
     if (
       p.dist(
         p.width -
-          state.rotateRemocon.width +
-          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+          rotateRemocon.width +
+          (REMOCON_HOTSPOT_X_NUMERATOR * rotateRemocon.width) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
-          state.rotateRemocon.height +
-          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.rotateRemocon.height) /
+          rotateRemocon.height +
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * rotateRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / HIT_RADIUS_DIVISOR ||
+        rotateRemocon.width / HIT_RADIUS_DIVISOR ||
       p.dist(
         p.width -
-          state.rotateRemocon.width +
-          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+          rotateRemocon.width +
+          (REMOCON_HOTSPOT_X_NUMERATOR * rotateRemocon.width) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
-          state.rotateRemocon.height +
-          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.rotateRemocon.height) /
+          rotateRemocon.height +
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * rotateRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / HIT_RADIUS_DIVISOR
+        rotateRemocon.width / HIT_RADIUS_DIVISOR
     ) {
       state.raysX =
         p.width / 2 -
@@ -608,51 +612,51 @@ function animationRays(p) {
           p.cos(state.theta1);
       state.raysX2 = p.width / 2;
       state.raysY2 = p.height / 2;
-      state.pg.background(0);
+      pg.background(0);
     }
     if (
       p.dist(
-        (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+        (REMOCON_HOTSPOT_X_NUMERATOR * nRemocon.width) /
           REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height / 2 +
-          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.nRemocon.height) /
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * nRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.nRemocon.width / HIT_RADIUS_DIVISOR ||
+        nRemocon.width / HIT_RADIUS_DIVISOR ||
       p.dist(
-        (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+        (REMOCON_HOTSPOT_X_NUMERATOR * nRemocon.width) /
           REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height / 2 +
-          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.nRemocon.height) /
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * nRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.nRemocon.width / HIT_RADIUS_DIVISOR ||
+        nRemocon.width / HIT_RADIUS_DIVISOR ||
       p.dist(
-        (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+        (REMOCON_HOTSPOT_X_NUMERATOR * nRemocon.width) /
           REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height / 2 -
-          state.nRemocon.height +
-          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.nRemocon.height) /
+          nRemocon.height +
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * nRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.nRemocon.width / HIT_RADIUS_DIVISOR ||
+        nRemocon.width / HIT_RADIUS_DIVISOR ||
       p.dist(
-        (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+        (REMOCON_HOTSPOT_X_NUMERATOR * nRemocon.width) /
           REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height / 2 -
-          state.nRemocon.height +
-          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.nRemocon.height) /
+          nRemocon.height +
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * nRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.nRemocon.width / HIT_RADIUS_DIVISOR
+        nRemocon.width / HIT_RADIUS_DIVISOR
     ) {
       state.raysX =
         p.width / 2 -
@@ -664,7 +668,7 @@ function animationRays(p) {
           p.cos(state.theta1);
       state.raysX2 = p.width / 2;
       state.raysY2 = p.height / 2;
-      state.pg.background(0);
+      pg.background(0);
     }
     for (let i = 0; i < MODE_TAB_COUNT; i++) {
       if (
@@ -686,12 +690,12 @@ function animationRays(p) {
             p.cos(state.theta1);
         state.raysX2 = p.width / 2;
         state.raysY2 = p.height / 2;
-        state.pg.background(0);
+        pg.background(0);
       }
     }
   }
   // beginDraw() and endDraw() is not supported in p5.js, and or often not needed;
-  p.image(state.pg, 0, 0);
+  p.image(pg, 0, 0);
 }
 
 // ============================================================
@@ -706,22 +710,24 @@ function lineCalculate(p) {
 }
 
 function lineOperation(p) {
+  const { rotateRemocon, nRemocon } = state;
+  if (!rotateRemocon || !nRemocon) return;
   if (p.mouseIsPressed) {
     state.count++;
     if (
       p.dist(
         p.width -
-          state.rotateRemocon.width +
-          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+          rotateRemocon.width +
+          (REMOCON_HOTSPOT_X_NUMERATOR * rotateRemocon.width) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
-          state.rotateRemocon.height +
-          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.rotateRemocon.height) /
+          rotateRemocon.height +
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * rotateRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+        rotateRemocon.width / HIT_RADIUS_DIVISOR &&
       state.lightRotateTheta < ANGLE_LIMIT_DEG &&
       state.count > LONG_PRESS_ACTIVATE_FRAMES
     ) {
@@ -740,17 +746,17 @@ function lineOperation(p) {
     if (
       p.dist(
         p.width -
-          state.rotateRemocon.width +
-          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+          rotateRemocon.width +
+          (REMOCON_HOTSPOT_X_NUMERATOR * rotateRemocon.width) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
-          state.rotateRemocon.height +
-          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.rotateRemocon.height) /
+          rotateRemocon.height +
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * rotateRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+        rotateRemocon.width / HIT_RADIUS_DIVISOR &&
       state.lightRotateTheta > -ANGLE_LIMIT_DEG &&
       state.count > LONG_PRESS_ACTIVATE_FRAMES
     ) {
@@ -775,41 +781,41 @@ function lineOperation(p) {
   p.fill(255);
   p.noStroke();
   p.image(
-    state.rotateRemocon,
-    p.width - state.rotateRemocon.width,
-    p.height - state.rotateRemocon.height
+    rotateRemocon,
+    p.width - rotateRemocon.width,
+    p.height - rotateRemocon.height
   );
   p.text(
     p.nf(p.abs(state.lightRotateTheta), 1, 1) + "'",
     p.width -
-      state.rotateRemocon.width +
-      (REMOCON_LABEL_OFFSET_NUMERATOR * state.rotateRemocon.width) /
+      rotateRemocon.width +
+      (REMOCON_LABEL_OFFSET_NUMERATOR * rotateRemocon.width) /
         REMOCON_LABEL_OFFSET_DENOMINATOR,
     p.height -
-      state.rotateRemocon.height +
-      state.rotateRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
-    state.rotateRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
-    state.rotateRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
+      rotateRemocon.height +
+      rotateRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    rotateRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    rotateRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
-  p.image(state.nRemocon, 0, p.height / 2 - state.nRemocon.height);
+  p.image(nRemocon, 0, p.height / 2 - nRemocon.height);
   p.text(
     p.nf(state.n2, 1, 1) + "'",
-    (REMOCON_LABEL_OFFSET_NUMERATOR * state.nRemocon.width) /
+    (REMOCON_LABEL_OFFSET_NUMERATOR * nRemocon.width) /
       REMOCON_LABEL_OFFSET_DENOMINATOR,
     p.height / 2 -
-      state.nRemocon.height +
-      state.nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
-    state.nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
-    state.nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
+      nRemocon.height +
+      nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
-  p.image(state.nRemocon, 0, p.height / 2);
+  p.image(nRemocon, 0, p.height / 2);
   p.text(
     p.nf(state.n1, 1, 1) + "'",
-    (REMOCON_LABEL_OFFSET_NUMERATOR * state.nRemocon.width) /
+    (REMOCON_LABEL_OFFSET_NUMERATOR * nRemocon.width) /
       REMOCON_LABEL_OFFSET_DENOMINATOR,
-    p.height / 2 + state.nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
-    state.nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
-    state.nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
+    p.height / 2 + nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
 }
 
@@ -1088,22 +1094,24 @@ function animationMaxCalculate(p) {
 }
 
 function animationMaxOperation(p) {
+  const { rotateRemocon, nRemocon } = state;
+  if (!rotateRemocon || !nRemocon) return;
   if (p.mouseIsPressed) {
     state.count++;
     if (
       p.dist(
         p.width -
-          state.rotateRemocon.width +
-          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+          rotateRemocon.width +
+          (REMOCON_HOTSPOT_X_NUMERATOR * rotateRemocon.width) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
-          state.rotateRemocon.height +
-          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.rotateRemocon.height) /
+          rotateRemocon.height +
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * rotateRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+        rotateRemocon.width / HIT_RADIUS_DIVISOR &&
       state.lightRotateTheta < ANGLE_LIMIT_DEG &&
       state.count > LONG_PRESS_ACTIVATE_FRAMES
     ) {
@@ -1132,17 +1140,17 @@ function animationMaxOperation(p) {
     if (
       p.dist(
         p.width -
-          state.rotateRemocon.width +
-          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+          rotateRemocon.width +
+          (REMOCON_HOTSPOT_X_NUMERATOR * rotateRemocon.width) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
-          state.rotateRemocon.height +
-          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.rotateRemocon.height) /
+          rotateRemocon.height +
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * rotateRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+        rotateRemocon.width / HIT_RADIUS_DIVISOR &&
       state.lightRotateTheta > -ANGLE_LIMIT_DEG &&
       state.count > LONG_PRESS_ACTIVATE_FRAMES
     ) {
@@ -1176,42 +1184,42 @@ function animationMaxOperation(p) {
   }
   p.fill(255);
   p.image(
-    state.rotateRemocon,
-    p.width - state.rotateRemocon.width,
-    p.height - state.rotateRemocon.height
+    rotateRemocon,
+    p.width - rotateRemocon.width,
+    p.height - rotateRemocon.height
   );
   p.noStroke();
   p.text(
     p.nf(p.abs(state.lightRotateTheta), 1, 1) + "'",
     p.width -
-      state.rotateRemocon.width +
-      (REMOCON_LABEL_OFFSET_NUMERATOR * state.rotateRemocon.width) /
+      rotateRemocon.width +
+      (REMOCON_LABEL_OFFSET_NUMERATOR * rotateRemocon.width) /
         REMOCON_LABEL_OFFSET_DENOMINATOR,
     p.height -
-      state.rotateRemocon.height +
-      state.rotateRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
-    state.rotateRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
-    state.rotateRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
+      rotateRemocon.height +
+      rotateRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    rotateRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    rotateRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
-  p.image(state.nRemocon, 0, p.height / 2 - state.nRemocon.height);
+  p.image(nRemocon, 0, p.height / 2 - nRemocon.height);
   p.text(
     p.nf(state.n2, 1, 1) + "'",
-    (REMOCON_LABEL_OFFSET_NUMERATOR * state.nRemocon.width) /
+    (REMOCON_LABEL_OFFSET_NUMERATOR * nRemocon.width) /
       REMOCON_LABEL_OFFSET_DENOMINATOR,
     p.height / 2 -
-      state.nRemocon.height +
-      state.nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
-    state.nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
-    state.nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
+      nRemocon.height +
+      nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
-  p.image(state.nRemocon, 0, p.height / 2);
+  p.image(nRemocon, 0, p.height / 2);
   p.text(
     p.nf(state.n1, 1, 1) + "'",
-    (REMOCON_LABEL_OFFSET_NUMERATOR * state.nRemocon.width) /
+    (REMOCON_LABEL_OFFSET_NUMERATOR * nRemocon.width) /
       REMOCON_LABEL_OFFSET_DENOMINATOR,
-    p.height / 2 + state.nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
-    state.nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
-    state.nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
+    p.height / 2 + nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
   p.stroke(255);
 }
@@ -1437,41 +1445,43 @@ function animationMaxBackgroundSetting(p) {
 }
 
 function animationMaxRays(p) {
+  const { pg, rotateRemocon, nRemocon } = state;
+  if (!pg || !rotateRemocon || !nRemocon) return;
   // beginDraw() and endDraw() is not supported in p5.js, and or often not needed;
-  state.pg.noStroke();
-  state.pg.fill(...RAY_COLOR);
-  state.pg.ellipse(state.raysX, state.raysY, 5, 5);
+  pg.noStroke();
+  pg.fill(...RAY_COLOR);
+  pg.ellipse(state.raysX, state.raysY, 5, 5);
   if (state.boundary > -1 && state.boundary < 1 && state.raysY < p.height / 2) {
-    state.pg.ellipse(state.raysX2, state.raysY2, 5, 5);
+    pg.ellipse(state.raysX2, state.raysY2, 5, 5);
   }
   if (p.mouseIsPressed) {
     if (
       p.dist(
         p.width -
-          state.rotateRemocon.width +
-          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+          rotateRemocon.width +
+          (REMOCON_HOTSPOT_X_NUMERATOR * rotateRemocon.width) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
-          state.rotateRemocon.height +
-          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.rotateRemocon.height) /
+          rotateRemocon.height +
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * rotateRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / HIT_RADIUS_DIVISOR ||
+        rotateRemocon.width / HIT_RADIUS_DIVISOR ||
       p.dist(
         p.width -
-          state.rotateRemocon.width +
-          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+          rotateRemocon.width +
+          (REMOCON_HOTSPOT_X_NUMERATOR * rotateRemocon.width) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
-          state.rotateRemocon.height +
-          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.rotateRemocon.height) /
+          rotateRemocon.height +
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * rotateRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / HIT_RADIUS_DIVISOR
+        rotateRemocon.width / HIT_RADIUS_DIVISOR
     ) {
       state.raysX =
         p.width / 2 -
@@ -1483,51 +1493,51 @@ function animationMaxRays(p) {
           p.cos(state.theta1);
       state.raysX2 = p.width / 2;
       state.raysY2 = p.height / 2;
-      state.pg.background(0);
+      pg.background(0);
     }
     if (
       p.dist(
-        (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+        (REMOCON_HOTSPOT_X_NUMERATOR * nRemocon.width) /
           REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height / 2 +
-          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.nRemocon.height) /
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * nRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.nRemocon.width / HIT_RADIUS_DIVISOR ||
+        nRemocon.width / HIT_RADIUS_DIVISOR ||
       p.dist(
-        (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+        (REMOCON_HOTSPOT_X_NUMERATOR * nRemocon.width) /
           REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height / 2 +
-          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.nRemocon.height) /
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * nRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.nRemocon.width / HIT_RADIUS_DIVISOR ||
+        nRemocon.width / HIT_RADIUS_DIVISOR ||
       p.dist(
-        (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+        (REMOCON_HOTSPOT_X_NUMERATOR * nRemocon.width) /
           REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height / 2 -
-          state.nRemocon.height +
-          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.nRemocon.height) /
+          nRemocon.height +
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * nRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.nRemocon.width / HIT_RADIUS_DIVISOR ||
+        nRemocon.width / HIT_RADIUS_DIVISOR ||
       p.dist(
-        (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+        (REMOCON_HOTSPOT_X_NUMERATOR * nRemocon.width) /
           REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height / 2 -
-          state.nRemocon.height +
-          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.nRemocon.height) /
+          nRemocon.height +
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * nRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.nRemocon.width / HIT_RADIUS_DIVISOR
+        nRemocon.width / HIT_RADIUS_DIVISOR
     ) {
       state.raysX =
         p.width / 2 -
@@ -1539,7 +1549,7 @@ function animationMaxRays(p) {
           p.cos(state.theta1);
       state.raysX2 = p.width / 2;
       state.raysY2 = p.height / 2;
-      state.pg.background(0);
+      pg.background(0);
     }
     for (let i = 0; i < MODE_TAB_COUNT; i++) {
       if (
@@ -1561,12 +1571,12 @@ function animationMaxRays(p) {
             p.cos(state.theta1);
         state.raysX2 = p.width / 2;
         state.raysY2 = p.height / 2;
-        state.pg.background(0);
+        pg.background(0);
       }
     }
   }
   // beginDraw() and endDraw() is not supported in p5.js, and or often not needed;
-  p.image(state.pg, 0, 0);
+  p.image(pg, 0, 0);
 }
 
 // ============================================================
@@ -1581,22 +1591,24 @@ function lineMaxCalculate(p) {
 }
 
 function lineMaxOperation(p) {
+  const { rotateRemocon, nRemocon } = state;
+  if (!rotateRemocon || !nRemocon) return;
   if (p.mouseIsPressed) {
     state.count++;
     if (
       p.dist(
         p.width -
-          state.rotateRemocon.width +
-          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+          rotateRemocon.width +
+          (REMOCON_HOTSPOT_X_NUMERATOR * rotateRemocon.width) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
-          state.rotateRemocon.height +
-          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.rotateRemocon.height) /
+          rotateRemocon.height +
+          (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * rotateRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+        rotateRemocon.width / HIT_RADIUS_DIVISOR &&
       state.lightRotateTheta < ANGLE_LIMIT_DEG &&
       state.count > LONG_PRESS_ACTIVATE_FRAMES
     ) {
@@ -1615,17 +1627,17 @@ function lineMaxOperation(p) {
     if (
       p.dist(
         p.width -
-          state.rotateRemocon.width +
-          (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+          rotateRemocon.width +
+          (REMOCON_HOTSPOT_X_NUMERATOR * rotateRemocon.width) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.height -
-          state.rotateRemocon.height +
-          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.rotateRemocon.height) /
+          rotateRemocon.height +
+          (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * rotateRemocon.height) /
             REMOCON_HOTSPOT_RATIO_DENOMINATOR,
         p.mouseX,
         p.mouseY
       ) <
-        state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+        rotateRemocon.width / HIT_RADIUS_DIVISOR &&
       state.lightRotateTheta > -ANGLE_LIMIT_DEG &&
       state.count > LONG_PRESS_ACTIVATE_FRAMES
     ) {
@@ -1650,41 +1662,41 @@ function lineMaxOperation(p) {
   p.fill(255);
   p.noStroke();
   p.image(
-    state.rotateRemocon,
-    p.width - state.rotateRemocon.width,
-    p.height - state.rotateRemocon.height
+    rotateRemocon,
+    p.width - rotateRemocon.width,
+    p.height - rotateRemocon.height
   );
   p.text(
     p.nf(p.abs(state.lightRotateTheta), 1, 1) + "'",
     p.width -
-      state.rotateRemocon.width +
-      (REMOCON_LABEL_OFFSET_NUMERATOR * state.rotateRemocon.width) /
+      rotateRemocon.width +
+      (REMOCON_LABEL_OFFSET_NUMERATOR * rotateRemocon.width) /
         REMOCON_LABEL_OFFSET_DENOMINATOR,
     p.height -
-      state.rotateRemocon.height +
-      state.rotateRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
-    state.rotateRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
-    state.rotateRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
+      rotateRemocon.height +
+      rotateRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    rotateRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    rotateRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
-  p.image(state.nRemocon, 0, p.height / 2 - state.nRemocon.height);
+  p.image(nRemocon, 0, p.height / 2 - nRemocon.height);
   p.text(
     p.nf(state.n2, 1, 1) + "'",
-    (REMOCON_LABEL_OFFSET_NUMERATOR * state.nRemocon.width) /
+    (REMOCON_LABEL_OFFSET_NUMERATOR * nRemocon.width) /
       REMOCON_LABEL_OFFSET_DENOMINATOR,
     p.height / 2 -
-      state.nRemocon.height +
-      state.nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
-    state.nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
-    state.nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
+      nRemocon.height +
+      nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
-  p.image(state.nRemocon, 0, p.height / 2);
+  p.image(nRemocon, 0, p.height / 2);
   p.text(
     p.nf(state.n1, 1, 1) + "'",
-    (REMOCON_LABEL_OFFSET_NUMERATOR * state.nRemocon.width) /
+    (REMOCON_LABEL_OFFSET_NUMERATOR * nRemocon.width) /
       REMOCON_LABEL_OFFSET_DENOMINATOR,
-    p.height / 2 + state.nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
-    state.nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
-    state.nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
+    p.height / 2 + nRemocon.height / REMOCON_LABEL_Y_OFFSET_DIVISOR,
+    nRemocon.width / REMOCON_LABEL_WIDTH_DIVISOR,
+    nRemocon.height / REMOCON_LABEL_HEIGHT_DIVISOR
   );
 }
 

@@ -81,7 +81,7 @@ export async function initGraph() {
  */
 export function updateGraph() {
   if (!state.graphChart) return;
-  const index = state.cellophaneCountSlider.value() - 1;
+  const index = Number(state.cellophaneCountSlider!.value()) - 1;
 
   state.graphChart.data.datasets[1].label =
     "出射光（セロハンテープが" + (index + 1) + "枚の時）";

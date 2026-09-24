@@ -18,8 +18,7 @@ import { getCanvasElement } from "../../../js/bicpema-dom.js";
 const loadChart = createLazyImporter(() =>
   import("chart.js/auto").then((module) => module.default)
 );
-/** @type {typeof import("chart.js").Chart | null} */
-let Chart = null;
+let Chart: typeof import("chart.js").Chart | null = null;
 loadChart()
   .then((ChartCtor) => {
     Chart = ChartCtor;
@@ -63,6 +62,7 @@ export function drawScale(p, x, y, w, h) {
  */
 export function graphDraw(p) {
   if (!Chart) return;
+  if (!state.YELLOW_CAR || !state.RED_CAR) return;
   let yellowCarData;
   let redCarData;
   let title;
@@ -118,8 +118,7 @@ export function graphDraw(p) {
       }
     ]
   };
-  /** @type {import("chart.js").ChartOptions<"scatter">} */
-  const options = {
+  const options: import("chart.js").ChartOptions<"scatter"> = {
     plugins: {
       title: {
         display: true,

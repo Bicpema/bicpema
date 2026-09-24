@@ -95,7 +95,7 @@ const sketch = (p) => {
     // cellophaneRemoveButtonFunctionは呼ぶたびにstate.colabNum(組数)を1減らす。
     // state.cellophaneNum(総枚数)は更新されないため、colabNumを基準に
     // 組の数だけ削除する
-    while (state.colabNum > 0) {
+    while (state.colabNum! > 0) {
       cellophaneRemoveButtonFunction(p);
     }
     initValue(p);

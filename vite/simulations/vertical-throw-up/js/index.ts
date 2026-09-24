@@ -36,9 +36,14 @@ const sketch = (p) => {
     }
 
     p.background(255);
-    state.ball.update(1 / FPS);
+    const { ball } = state;
+    if (ball) {
+      ball.update(1 / FPS);
+    }
     p.scale(p.width / CANVAS_VIRTUAL_WIDTH);
-    state.ball.display(p, (CANVAS_VIRTUAL_WIDTH * p.height) / p.width);
+    if (ball) {
+      ball.display(p, (CANVAS_VIRTUAL_WIDTH * p.height) / p.width);
+    }
   };
 
   p.windowResized = () => {

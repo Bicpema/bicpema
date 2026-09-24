@@ -31,6 +31,8 @@ export function elementPositionInit(p) {
 
 export function valueInit(p) {
   const playPauseButton = document.getElementById("playPauseButton");
+  if (!playPauseButton) return;
+
   const currentSlider = document.getElementById(
     "currentSlider"
   ) as HTMLInputElement | null;
