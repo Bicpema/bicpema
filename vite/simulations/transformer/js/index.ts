@@ -9,7 +9,7 @@ import { drawSimulation } from "./logic.js";
 /** 仮想キャンバス幅。p.scale() でこの幅に合わせてスケーリングする。 */
 const V_W = 1000;
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   // 16:9 固定比率でキャンバスサイズを計算（設定UIはモーダル表示のため高さは考慮不要）
   const canvasController = new BicpemaCanvasController();
 

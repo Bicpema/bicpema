@@ -5,7 +5,7 @@
  * @param {number} n12 相対屈折率 (n2/n1)
  * @returns {number} sin(θ2) に相当する値
  */
-export function computeSnellRatio(theta1, n12) {
+export function computeSnellRatio(theta1: number, n12: number) {
   return Math.sin(theta1) / n12;
 }
 
@@ -16,6 +16,6 @@ export function computeSnellRatio(theta1, n12) {
  * @param {number} n12 相対屈折率 (n2/n1)
  * @returns {number} 屈折角 θ2 (ラジアン)
  */
-export function computeRefractionAngle(theta1, n12) {
+export function computeRefractionAngle(theta1: number, n12: number) {
   return Math.asin(computeSnellRatio(theta1, n12));
 }

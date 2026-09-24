@@ -1,5 +1,6 @@
 // init.jsは初期処理専用のファイルです。
 
+import type p5 from "p5";
 import { state } from "./state.js";
 import { computeRefractionAngle, computeSnellRatio } from "./physics.js";
 import {
@@ -11,18 +12,18 @@ import {
 
 /**
  * シミュレーションそのものの設定を行います。
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  */
-export function settingInit(p) {
+export function settingInit(p: p5) {
   p.textAlign(p.CENTER);
   p.textSize(p.width / 50);
 }
 
 /**
  * 初期値を設定します。
- * @param {*} p p5インスタンス
+ * @param {p5} p p5インスタンス
  */
-export function valueInit(p) {
+export function valueInit(p: p5) {
   state.lightRotateTheta = 0;
   state.pg = p.createGraphics(p.width, p.height);
   state.n1 = INITIAL_N1;
