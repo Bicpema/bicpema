@@ -17,6 +17,10 @@
     "test/simulations/first-law-of-thermodynamics/**/*.js",
     "test/simulations/heat-engine/**/*.js",
     "test/simulations/specific-heat-and-heat-capacity/**/*.js",
-    "test/simulations/visualization-of-heat-transfer/**/*.js"
+    "test/simulations/visualization-of-heat-transfer/**/*.js",
+    "vite/simulations/2025_DGI_cellophane-color2_ELK/js/**/*.ts",
+    "vite/simulations/cellophane/js/**/*.ts",
+    "vite/simulations/cellophane-color-2D_animation/js/**/*.ts",
+    "vite/simulations/cellophane_display/js/**/*.ts"
   ]
 }
