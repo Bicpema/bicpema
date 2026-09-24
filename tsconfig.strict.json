@@ -46,6 +46,12 @@
     "vite/simulations/archimedes-principle/**/*.ts",
     "vite/simulations/free-fall/**/*.ts",
     "vite/simulations/3d-strata/**/*.ts",
-    "vite/simulations/3d-strata-csv/**/*.ts"
+    "vite/simulations/3d-strata-csv/**/*.ts",
+    "vite/simulations/elastic-force/**/*.ts",
+    "vite/simulations/spring/**/*.ts",
+    "vite/simulations/pendulum/**/*.ts",
+    "test/simulations/elastic-force/**/*.js",
+    "test/simulations/spring/**/*.js",
+    "test/simulations/pendulum/**/*.js"
   ]
 }

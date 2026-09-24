@@ -57,16 +57,16 @@ export function drawSimulation(p) {
   if (state.clickedCount) state.count += 1;
   drawBackground(p);
 
-  state.leftPendulum.calculate(p, 0);
-  state.rightPendulum.calculate(p, p.width / 3);
-  state.leftPendulum.display(p, 0);
-  state.rightPendulum.display(p, p.width / 3);
+  state.leftPendulum!.calculate(p, 0);
+  state.rightPendulum!.calculate(p, p.width / 3);
+  state.leftPendulum!.display(p, 0);
+  state.rightPendulum!.display(p, p.width / 3);
 
-  state.leftPendulum.calculate(p, (2 * p.width) / 3);
-  state.rightPendulum.calculate(p, (2 * p.width) / 3);
+  state.leftPendulum!.calculate(p, (2 * p.width) / 3);
+  state.rightPendulum!.calculate(p, (2 * p.width) / 3);
   p.tint(255, AFTERIMAGE_ALPHA);
   p.stroke(0, AFTERIMAGE_ALPHA);
-  state.leftPendulum.display(p, (2 * p.width) / 3);
-  state.rightPendulum.display(p, (2 * p.width) / 3);
+  state.leftPendulum!.display(p, (2 * p.width) / 3);
+  state.rightPendulum!.display(p, (2 * p.width) / 3);
   p.tint(255);
 }

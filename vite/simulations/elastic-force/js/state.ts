@@ -1,5 +1,7 @@
 // state.ts はシミュレーションの共有可変状態を管理するファイルです。
 
+import type { Spring } from "./class.js";
+
 // 仮想キャンバスの寸法
 export const V_W = 1000;
 export const V_H = 562;
@@ -33,13 +35,18 @@ export const GRAPH_BOTTOM = 480;
 // x軸レンジ（cm単位、±GRAPH_X_RANGE cm）
 export const GRAPH_X_RANGE = 50;
 
-export const state = {
+export const state: {
   /** バネの配列 */
-  springs: [],
+  springs: Spring[];
   /** ばね定数スライダーの参照 */
-  springConstantInput: null,
+  springConstantInput: p5.Element | null;
   /** ばね定数表示ラベルの参照 */
-  springConstantDisplay: null,
+  springConstantDisplay: p5.Element | null;
   /** 壁（地面）画像 */
+  wallImg: p5.Image | null;
+} = {
+  springs: [],
+  springConstantInput: null,
+  springConstantDisplay: null,
   wallImg: null
 };

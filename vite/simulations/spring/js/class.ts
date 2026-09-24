@@ -57,6 +57,8 @@ export class Spring {
    * @param {*} p p5インスタンス
    */
   draw(p) {
+    const springImage = state.springImage!;
+    const ballImage = state.ballImage!;
     const s_konstant = computeEffectiveSpringConstant(
       this.konstant,
       this.combination
@@ -78,17 +80,17 @@ export class Spring {
     if (this.combination === 1) {
       p.line(p.width / 4 / 2, d, p.width / 4 / 2, MOUNT_LINE_LENGTH + d);
       p.image(
-        state.springImage,
-        p.width / 4 / 2 - state.springImage.width / 2,
+        springImage,
+        p.width / 4 / 2 - springImage.width / 2,
         MOUNT_LINE_LENGTH + d,
-        state.springImage.width,
-        this.posy - SINGLE_MOUNT_GAP - state.ballImage.height / 2
+        springImage.width,
+        this.posy - SINGLE_MOUNT_GAP - ballImage.height / 2
       );
       p.line(
         p.width / 4 / 2,
-        this.posy - MOUNT_LINE_LENGTH - state.ballImage.height / 2 + d,
+        this.posy - MOUNT_LINE_LENGTH - ballImage.height / 2 + d,
         p.width / 4 / 2,
-        this.posy - state.ballImage.height / 2 + d
+        this.posy - ballImage.height / 2 + d
       );
     }
     if (this.combination === 2) {
@@ -112,83 +114,83 @@ export class Spring {
         BRACKET_ATTACH_OFFSET + d
       );
       p.image(
-        state.springImage,
-        p.width / 4 / 4 - state.springImage.width / 2,
+        springImage,
+        p.width / 4 / 4 - springImage.width / 2,
         BRACKET_ATTACH_OFFSET + d,
-        state.springImage.width,
-        this.posy - PARALLEL_MOUNT_GAP - state.ballImage.height / 2
+        springImage.width,
+        this.posy - PARALLEL_MOUNT_GAP - ballImage.height / 2
       );
       p.image(
-        state.springImage,
-        (3 * (p.width / 4)) / 4 - state.springImage.width / 2,
+        springImage,
+        (3 * (p.width / 4)) / 4 - springImage.width / 2,
         BRACKET_ATTACH_OFFSET + d,
-        state.springImage.width,
-        this.posy - PARALLEL_MOUNT_GAP - state.ballImage.height / 2
+        springImage.width,
+        this.posy - PARALLEL_MOUNT_GAP - ballImage.height / 2
       );
       p.line(
         p.width / 4 / 4,
-        this.posy - BRACKET_ATTACH_OFFSET - state.ballImage.height / 2 + d,
+        this.posy - BRACKET_ATTACH_OFFSET - ballImage.height / 2 + d,
         p.width / 4 / 4,
-        this.posy - MOUNT_LINE_LENGTH - state.ballImage.height / 2 + d
+        this.posy - MOUNT_LINE_LENGTH - ballImage.height / 2 + d
       );
       p.line(
         (3 * (p.width / 4)) / 4,
-        this.posy - BRACKET_ATTACH_OFFSET - state.ballImage.height / 2 + d,
+        this.posy - BRACKET_ATTACH_OFFSET - ballImage.height / 2 + d,
         (3 * (p.width / 4)) / 4,
-        this.posy - MOUNT_LINE_LENGTH - state.ballImage.height / 2 + d
+        this.posy - MOUNT_LINE_LENGTH - ballImage.height / 2 + d
       );
       p.line(
         p.width / 4 / 4,
-        this.posy - MOUNT_LINE_LENGTH - state.ballImage.height / 2 + d,
+        this.posy - MOUNT_LINE_LENGTH - ballImage.height / 2 + d,
         (3 * (p.width / 4)) / 4,
-        this.posy - MOUNT_LINE_LENGTH - state.ballImage.height / 2 + d
+        this.posy - MOUNT_LINE_LENGTH - ballImage.height / 2 + d
       );
       p.line(
         p.width / 4 / 2,
-        this.posy - MOUNT_LINE_LENGTH - state.ballImage.height / 2 + d,
+        this.posy - MOUNT_LINE_LENGTH - ballImage.height / 2 + d,
         p.width / 4 / 2,
-        this.posy - state.ballImage.height / 2 + d
+        this.posy - ballImage.height / 2 + d
       );
     }
     if (this.combination === 3) {
       p.line(p.width / 4 / 2, d, p.width / 4 / 2, MOUNT_LINE_LENGTH + d);
       p.image(
-        state.springImage,
-        p.width / 4 / 2 - state.springImage.width / 2,
+        springImage,
+        p.width / 4 / 2 - springImage.width / 2,
         MOUNT_LINE_LENGTH + d,
-        state.springImage.width,
-        (this.posy - PARALLEL_MOUNT_GAP - state.ballImage.height / 2) / 2
+        springImage.width,
+        (this.posy - PARALLEL_MOUNT_GAP - ballImage.height / 2) / 2
       );
       p.line(
         p.width / 4 / 2,
-        (this.posy - PARALLEL_MOUNT_GAP - state.ballImage.height / 2) / 2 +
+        (this.posy - PARALLEL_MOUNT_GAP - ballImage.height / 2) / 2 +
           MOUNT_LINE_LENGTH +
           d,
         p.width / 4 / 2,
-        (this.posy - PARALLEL_MOUNT_GAP - state.ballImage.height / 2) / 2 +
+        (this.posy - PARALLEL_MOUNT_GAP - ballImage.height / 2) / 2 +
           SINGLE_MOUNT_GAP +
           d
       );
       p.image(
-        state.springImage,
-        p.width / 4 / 2 - state.springImage.width / 2,
-        (this.posy - PARALLEL_MOUNT_GAP - state.ballImage.height / 2) / 2 +
+        springImage,
+        p.width / 4 / 2 - springImage.width / 2,
+        (this.posy - PARALLEL_MOUNT_GAP - ballImage.height / 2) / 2 +
           SINGLE_MOUNT_GAP +
           d,
-        state.springImage.width,
-        (this.posy - PARALLEL_MOUNT_GAP - state.ballImage.height / 2) / 2
+        springImage.width,
+        (this.posy - PARALLEL_MOUNT_GAP - ballImage.height / 2) / 2
       );
       p.line(
         p.width / 4 / 2,
-        this.posy - MOUNT_LINE_LENGTH - state.ballImage.height / 2 + d,
+        this.posy - MOUNT_LINE_LENGTH - ballImage.height / 2 + d,
         p.width / 4 / 2,
-        this.posy - state.ballImage.height / 2 + d
+        this.posy - ballImage.height / 2 + d
       );
     }
     p.image(
-      state.ballImage,
-      p.width / 4 / 2 - state.ballImage.width / 2,
-      this.posy - state.ballImage.height / 2 + d
+      ballImage,
+      p.width / 4 / 2 - ballImage.width / 2,
+      this.posy - ballImage.height / 2 + d
     );
     p.noFill();
     p.ellipse(
@@ -204,9 +206,9 @@ export class Spring {
       this.posy + d
     );
     p.image(
-      state.ballImage,
-      p.width / 4 + p.width / 4 / 2 - state.ballImage.width / 2 + this.posx,
-      this.posy - state.ballImage.height / 2 + d
+      ballImage,
+      p.width / 4 + p.width / 4 / 2 - ballImage.width / 2 + this.posx,
+      this.posy - ballImage.height / 2 + d
     );
     p.stroke(0, 100);
   }
