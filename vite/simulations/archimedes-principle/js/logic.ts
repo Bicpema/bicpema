@@ -158,15 +158,17 @@ export function drawSimulation(p) {
 
   drawForceArrows(p);
 
-  drawInfoText(state.cylinder, WATER_SURFACE_Y);
+  const cylinder = state.cylinder;
+  if (!cylinder) return;
 
-  state.cylinder.update(WATER_SURFACE_Y, TANK_BOTTOM_Y);
+  drawInfoText(cylinder, WATER_SURFACE_Y);
 
-  if (state.cylinder.dragging) {
-    state.cylinder.cy =
-      p.mouseY / (p.height / BASE_H) + state.cylinder.dragOffsetY;
-    state.cylinder.cy = p.constrain(
-      state.cylinder.cy,
+  cylinder.update(WATER_SURFACE_Y, TANK_BOTTOM_Y);
+
+  if (cylinder.dragging) {
+    cylinder.cy = p.mouseY / (p.height / BASE_H) + cylinder.dragOffsetY;
+    cylinder.cy = p.constrain(
+      cylinder.cy,
       WATER_SURFACE_Y,
       TANK_BOTTOM_Y - DRAG_BOTTOM_MARGIN
     );

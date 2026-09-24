@@ -41,6 +41,11 @@
     "vite/simulations/lens/**/*.ts",
     "vite/simulations/refraction/**/*.ts",
     "vite/simulations/magnetic-field-straight/**/*.ts",
-    "vite/simulations/transformer/**/*.ts"
+    "vite/simulations/transformer/**/*.ts",
+    "vite/simulations/half-life/**/*.ts",
+    "vite/simulations/archimedes-principle/**/*.ts",
+    "vite/simulations/free-fall/**/*.ts",
+    "vite/simulations/3d-strata/**/*.ts",
+    "vite/simulations/3d-strata-csv/**/*.ts"
   ]
 }

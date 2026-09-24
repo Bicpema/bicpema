@@ -35,15 +35,17 @@ const sketch = (p) => {
     }
 
     p.background(255);
-    state.ball.update(1 / FPS);
+    const ball = state.ball;
+    if (!ball) return;
+    ball.update(1 / FPS);
     p.scale(p.width / 1000);
-    state.ball.display(p, (1000 * p.height) / p.width, {
+    ball.display(p, (1000 * p.height) / p.width, {
       ballImage: state.ballImage,
       groundImage: state.groundImage
     });
 
-    if (state.ball.isMoving && state.graphVisible) {
-      state.graph.updateGraph();
+    if (ball.isMoving && state.graphVisible) {
+      state.graph?.updateGraph();
     }
   };
 

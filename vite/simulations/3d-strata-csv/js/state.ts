@@ -22,7 +22,57 @@ export const STRATA_COLORS = {
   その他の層: [0, 0, 0]
 };
 
-export const state = {
+/**
+ * 地点1つ分のデータ。
+ * name/data.x/data.y/editは生成直後は空文字、DOM生成後はp5.Elementが入るため
+ * anyとしている。layerは[浅い方の深さ, 深い方の深さ, 岩層の種類]の配列。
+ */
+interface PlaceDataEntry {
+  name: any;
+  data: { x: any; y: any };
+  edit: any;
+  layer: any;
+}
+
+export const state: {
+  /** 日本語フォント（非同期読み込み、失敗時はnullのまま） */
+  jaFont: any;
+  /**
+   * 地点データの連想配列。
+   * {
+   *   地点N: {
+   *     name: 地点名入力欄(p5.Element),
+   *     data: { x: x方向入力欄(p5.Element), y: y方向入力欄(p5.Element) },
+   *     edit: データ編集リンク(p5.Element),
+   *     layer: [[浅い方の深さ, 深い方の深さ, 岩層の種類], ...],
+   *   },
+   *   ...
+   * }
+   */
+  dataInputArr: Record<string, PlaceDataEntry>;
+  /** 地層平面の回転演出用の累積角度 */
+  rotateTime: number;
+  /**
+   * x方向・y方向・深さの表示範囲。
+   * 「手動」設定時は直前の値を引き継ぐ仕様のため、draw()のたびに
+   * 作り直さずモジュール共有状態として保持する。
+   */
+  xMin: number | undefined;
+  xMax: number | undefined;
+  yMin: number | undefined;
+  yMax: number | undefined;
+  zMin: number | undefined;
+  zMax: number | undefined;
+  // DOM要素の参照（p5.Elementインスタンス）
+  buttonParent: any;
+  placeAddButton: any;
+  placeRemoveButton: any;
+  strataAddButton: any;
+  strataRemoveButton: any;
+  setRadioButton: any;
+  unitSelect: any;
+  strataFileInput: any;
+} = {
   /** 日本語フォント（非同期読み込み、失敗時はnullのまま） */
   jaFont: null,
 
