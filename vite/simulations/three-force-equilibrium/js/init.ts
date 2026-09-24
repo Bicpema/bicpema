@@ -14,7 +14,7 @@ export function elCreate(p) {
   state.weightInput = p.select("#weightInput");
   state.weightDisplay = p.select("#weightDisplay");
 
-  state.weightInput.input(() => onWeightChange());
+  state.weightInput?.input(() => onWeightChange());
   p.select("#resetButton").mousePressed(() => onReset());
 
   initModal({

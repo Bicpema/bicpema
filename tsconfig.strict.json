@@ -4,5 +4,17 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true
   },
-  "include": ["vite/types/**/*.ts", "vite/_build/**/*.js", "vite/js/**/*.ts"]
+  "include": [
+    "vite/types/**/*.ts",
+    "vite/_build/**/*.js",
+    "vite/js/**/*.ts",
+    "vite/simulations/force-composition/**/*.ts",
+    "vite/simulations/force-decomposition/**/*.ts",
+    "vite/simulations/force-and-acceleration/**/*.ts",
+    "vite/simulations/normal-force/**/*.ts",
+    "vite/simulations/three-force-equilibrium/**/*.ts",
+    "vite/simulations/slope-force-decomposition/**/*.ts",
+    "vite/simulations/slope-cart-motion/**/*.ts",
+    "vite/simulations/cart-work-ruler/**/*.ts"
+  ]
 }

@@ -52,7 +52,7 @@ export function fullScreen(p) {
   p.pixelDensity(Math.min(p.displayDensity(), MAX_PIXEL_DENSITY));
   const p5Canvas = document.getElementById("p5Canvas");
   const canvas = p.createCanvas(p.windowWidth, canvasHeight(p));
-  canvas.parent(p5Canvas);
+  if (p5Canvas) canvas.parent(p5Canvas);
 }
 
 /**
@@ -96,7 +96,7 @@ export function buttonCreation(
  * @param {*} p p5インスタンス
  */
 export function materialSet(p) {
-  state.material = new Material(p, state.weightButton.value(), 1);
+  state.material = new Material(p, state.weightButton!.value(), 1);
 }
 
 /**
@@ -134,95 +134,95 @@ export function buttonSettings(p) {
   const controlTop = NAV_HEIGHT + p.height;
   const controlHeight = controlPanelHeight(p);
   const buttonWidth = buttonColumnWidth(p);
-  state.backgroundDiv
-    .size(p.width, controlHeight)
+  state
+    .backgroundDiv!.size(p.width, controlHeight)
     .style("background-color", "white");
-  state.startButton
-    .size(buttonWidth, controlHeight)
+  state
+    .startButton!.size(buttonWidth, controlHeight)
     .position(0, controlTop)
     .addClass(
       "cursor-pointer rounded border border-blue-600 bg-white text-blue-600 hover:bg-blue-50"
     )
-    .parent(state.backgroundDiv);
-  state.stopButton
-    .size(buttonWidth, controlHeight)
+    .parent(state.backgroundDiv!);
+  state
+    .stopButton!.size(buttonWidth, controlHeight)
     .position(0, controlTop)
     .addClass(
       "cursor-pointer rounded border border-red-600 bg-white text-red-600 hover:bg-red-50"
     )
-    .parent(state.backgroundDiv);
-  state.resetButton
-    .size(buttonWidth, controlHeight)
+    .parent(state.backgroundDiv!);
+  state
+    .resetButton!.size(buttonWidth, controlHeight)
     .position(buttonWidth, controlTop)
     .addClass(
       "cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100"
     )
-    .parent(state.backgroundDiv);
-  state.slopeAngleButtonLabel
-    .size(buttonWidth, controlHeight)
+    .parent(state.backgroundDiv!);
+  state
+    .slopeAngleButtonLabel!.size(buttonWidth, controlHeight)
     .position(2 * buttonWidth, controlTop)
-    .parent(state.backgroundDiv)
+    .parent(state.backgroundDiv!)
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     );
-  state.slopeAngleButton
-    .size(buttonWidth, controlHeight)
+  state
+    .slopeAngleButton!.size(buttonWidth, controlHeight)
     .position(3 * buttonWidth, controlTop)
-    .parent(state.backgroundDiv)
+    .parent(state.backgroundDiv!)
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .attribute("min", SLOPE_ANGLE_MIN)
-    .attribute("max", SLOPE_ANGLE_MAX)
-    .attribute("step", INPUT_STEP);
-  state.weightButtonLabel
-    .size(buttonWidth, controlHeight)
+    .attribute("min", String(SLOPE_ANGLE_MIN))
+    .attribute("max", String(SLOPE_ANGLE_MAX))
+    .attribute("step", String(INPUT_STEP));
+  state
+    .weightButtonLabel!.size(buttonWidth, controlHeight)
     .position(4 * buttonWidth, controlTop)
-    .parent(state.backgroundDiv)
+    .parent(state.backgroundDiv!)
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     );
-  state.weightButton
-    .size(buttonWidth, controlHeight)
+  state
+    .weightButton!.size(buttonWidth, controlHeight)
     .position(5 * buttonWidth, controlTop)
-    .parent(state.backgroundDiv)
+    .parent(state.backgroundDiv!)
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .attribute("min", WEIGHT_MIN)
-    .attribute("max", WEIGHT_MAX)
-    .attribute("step", INPUT_STEP);
-  state.gravityButtonLabel
-    .size(buttonWidth, controlHeight)
+    .attribute("min", String(WEIGHT_MIN))
+    .attribute("max", String(WEIGHT_MAX))
+    .attribute("step", String(INPUT_STEP));
+  state
+    .gravityButtonLabel!.size(buttonWidth, controlHeight)
     .position(6 * buttonWidth, controlTop)
-    .parent(state.backgroundDiv)
+    .parent(state.backgroundDiv!)
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     );
-  state.gravityButton
-    .size(buttonWidth, controlHeight)
+  state
+    .gravityButton!.size(buttonWidth, controlHeight)
     .position(7 * buttonWidth, controlTop)
-    .parent(state.backgroundDiv)
+    .parent(state.backgroundDiv!)
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .attribute("min", GRAVITY_MIN)
-    .attribute("max", GRAVITY_MAX)
-    .attribute("step", INPUT_STEP);
-  state.sortButton1
-    .size(buttonWidth, controlHeight)
+    .attribute("min", String(GRAVITY_MIN))
+    .attribute("max", String(GRAVITY_MAX))
+    .attribute("step", String(INPUT_STEP));
+  state
+    .sortButton1!.size(buttonWidth, controlHeight)
     .position(p.width - 3 * buttonWidth, NAV_HEIGHT)
     .addClass(
       "cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100"
     );
-  state.sortButton2
-    .size(buttonWidth, controlHeight)
+  state
+    .sortButton2!.size(buttonWidth, controlHeight)
     .position(p.width - 2 * buttonWidth, NAV_HEIGHT)
     .addClass(
       "cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100"
     );
-  state.sortButton3
-    .size(buttonWidth, controlHeight)
+  state
+    .sortButton3!.size(buttonWidth, controlHeight)
     .position(p.width - buttonWidth, NAV_HEIGHT)
     .addClass(
       "cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100"

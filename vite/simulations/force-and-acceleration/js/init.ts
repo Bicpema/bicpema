@@ -35,8 +35,9 @@ export function elementSelectInit(p) {
  * @param {*} p p5インスタンス
  */
 export function elementPositionInit(p) {
-  state.massInput.input(onMassChange);
-  state.resetButton.mousePressed(onReset);
+  // elementSelectInit()で取得済みのため呼び出し時点でnullになりえない
+  state.massInput!.input(onMassChange);
+  state.resetButton!.mousePressed(onReset);
   if (state.clearMaxButton) state.clearMaxButton.mousePressed(onClearMax);
 
   initModal({
@@ -51,6 +52,6 @@ export function elementPositionInit(p) {
  * @param {*} p p5インスタンス
  */
 export function valueInit(p) {
-  const mass = parseFloat(state.massInput.value());
+  const mass = parseFloat(String(state.massInput!.value()));
   state.cart = new Cart(INITIAL_CART_X, mass);
 }

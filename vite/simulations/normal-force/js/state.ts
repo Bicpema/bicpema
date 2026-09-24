@@ -1,5 +1,7 @@
 // state.js はシミュレーションの共有可変状態を管理するファイルです。
 
+import type { Material } from "./class.js";
+
 /** ナビゲーションバーの高さ(px) */
 export const NAV_HEIGHT = 60;
 /**
@@ -27,32 +29,32 @@ export const GRAVITY_MAX = 20;
 
 /** シミュレーションの共有状態 */
 export const state = {
-  /** 操作パネルの背景div */
-  backgroundDiv: null,
-  /** スタートボタン */
-  startButton: null,
-  /** ストップボタン */
-  stopButton: null,
-  /** リセットボタン */
-  resetButton: null,
-  /** 坂の角度入力のラベル */
-  slopeAngleButtonLabel: null,
-  /** 坂の角度入力 */
-  slopeAngleButton: null,
-  /** 質量入力のラベル */
-  weightButtonLabel: null,
-  /** 質量入力 */
-  weightButton: null,
-  /** 重力加速度入力のラベル */
-  gravityButtonLabel: null,
-  /** 重力加速度入力 */
-  gravityButton: null,
-  /** 表示パターン切り替えボタン1 */
-  sortButton1: null,
-  /** 表示パターン切り替えボタン2 */
-  sortButton2: null,
-  /** 表示パターン切り替えボタン3 */
-  sortButton3: null,
+  /** 操作パネルの背景div（p.select()で取得するまではnull） */
+  backgroundDiv: null as p5.Element | null,
+  /** スタートボタン（p.select()で取得するまではnull） */
+  startButton: null as p5.Element | null,
+  /** ストップボタン（p.select()で取得するまではnull） */
+  stopButton: null as p5.Element | null,
+  /** リセットボタン（p.select()で取得するまではnull） */
+  resetButton: null as p5.Element | null,
+  /** 坂の角度入力のラベル（p.select()で取得するまではnull） */
+  slopeAngleButtonLabel: null as p5.Element | null,
+  /** 坂の角度入力（p.select()で取得するまではnull） */
+  slopeAngleButton: null as p5.Element | null,
+  /** 質量入力のラベル（p.select()で取得するまではnull） */
+  weightButtonLabel: null as p5.Element | null,
+  /** 質量入力（p.select()で取得するまではnull） */
+  weightButton: null as p5.Element | null,
+  /** 重力加速度入力のラベル（p.select()で取得するまではnull） */
+  gravityButtonLabel: null as p5.Element | null,
+  /** 重力加速度入力（p.select()で取得するまではnull） */
+  gravityButton: null as p5.Element | null,
+  /** 表示パターン切り替えボタン1（p.select()で取得するまではnull） */
+  sortButton1: null as p5.Element | null,
+  /** 表示パターン切り替えボタン2（p.select()で取得するまではnull） */
+  sortButton2: null as p5.Element | null,
+  /** 表示パターン切り替えボタン3（p.select()で取得するまではnull） */
+  sortButton3: null as p5.Element | null,
   /** 経過フレーム数（累積カウンタ） */
   count: 0,
   /** 坂の幅（px） */
@@ -71,6 +73,6 @@ export const state = {
   clickedCount: false,
   /** リセット直後かどうか */
   resetCount: true,
-  /** 坂を滑る物体 */
-  material: null
+  /** 坂を滑る物体（init()で生成するまでnull） */
+  material: null as Material | null
 };

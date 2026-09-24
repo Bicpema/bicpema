@@ -26,20 +26,20 @@ function arrow(p, a, b, n) {
       b,
       a +
         (state.minimumUnit / 2) *
-          (p.sin(p.radians(state.slopeAngleButton.value())) -
-            p.cos(p.radians(state.slopeAngleButton.value()))),
+          (p.sin(p.radians(state.slopeAngleButton!.value())) -
+            p.cos(p.radians(state.slopeAngleButton!.value()))),
       b -
         (state.minimumUnit / 2) *
-          (p.cos(p.radians(state.slopeAngleButton.value())) +
-            p.sin(p.radians(state.slopeAngleButton.value()))),
+          (p.cos(p.radians(state.slopeAngleButton!.value())) +
+            p.sin(p.radians(state.slopeAngleButton!.value()))),
       a +
         (state.minimumUnit / 2) *
-          (p.sin(p.radians(state.slopeAngleButton.value())) +
-            p.cos(p.radians(state.slopeAngleButton.value()))),
+          (p.sin(p.radians(state.slopeAngleButton!.value())) +
+            p.cos(p.radians(state.slopeAngleButton!.value()))),
       b +
         (state.minimumUnit / 2) *
-          (-p.cos(p.radians(state.slopeAngleButton.value())) +
-            p.sin(p.radians(state.slopeAngleButton.value())))
+          (-p.cos(p.radians(state.slopeAngleButton!.value())) +
+            p.sin(p.radians(state.slopeAngleButton!.value())))
     );
   } else if (n === "horizontal") {
     p.triangle(
@@ -47,20 +47,20 @@ function arrow(p, a, b, n) {
       b,
       a -
         (state.minimumUnit / 2) *
-          (p.sin(p.radians(state.slopeAngleButton.value())) +
-            p.cos(p.radians(state.slopeAngleButton.value()))),
+          (p.sin(p.radians(state.slopeAngleButton!.value())) +
+            p.cos(p.radians(state.slopeAngleButton!.value()))),
       b +
         (state.minimumUnit / 2) *
-          (p.cos(p.radians(state.slopeAngleButton.value())) -
-            p.sin(p.radians(state.slopeAngleButton.value()))),
+          (p.cos(p.radians(state.slopeAngleButton!.value())) -
+            p.sin(p.radians(state.slopeAngleButton!.value()))),
       a -
         (state.minimumUnit / 2) *
-          (-p.sin(p.radians(state.slopeAngleButton.value())) +
-            p.cos(p.radians(state.slopeAngleButton.value()))),
+          (-p.sin(p.radians(state.slopeAngleButton!.value())) +
+            p.cos(p.radians(state.slopeAngleButton!.value()))),
       b -
         (state.minimumUnit / 2) *
-          (p.cos(p.radians(state.slopeAngleButton.value())) +
-            p.sin(p.radians(state.slopeAngleButton.value())))
+          (p.cos(p.radians(state.slopeAngleButton!.value())) +
+            p.sin(p.radians(state.slopeAngleButton!.value())))
     );
   } else if (n === "normal") {
     p.triangle(
@@ -68,20 +68,20 @@ function arrow(p, a, b, n) {
       b,
       a -
         (state.minimumUnit / 2) *
-          (p.sin(p.radians(state.slopeAngleButton.value())) +
-            p.cos(p.radians(state.slopeAngleButton.value()))),
+          (p.sin(p.radians(state.slopeAngleButton!.value())) +
+            p.cos(p.radians(state.slopeAngleButton!.value()))),
       b +
         (state.minimumUnit / 2) *
-          (p.cos(p.radians(state.slopeAngleButton.value())) -
-            p.sin(p.radians(state.slopeAngleButton.value()))),
+          (p.cos(p.radians(state.slopeAngleButton!.value())) -
+            p.sin(p.radians(state.slopeAngleButton!.value()))),
       a +
         (state.minimumUnit / 2) *
-          (p.cos(p.radians(state.slopeAngleButton.value())) -
-            p.sin(p.radians(state.slopeAngleButton.value()))),
+          (p.cos(p.radians(state.slopeAngleButton!.value())) -
+            p.sin(p.radians(state.slopeAngleButton!.value()))),
       b +
         (state.minimumUnit / 2) *
-          (p.sin(p.radians(state.slopeAngleButton.value())) +
-            p.cos(p.radians(state.slopeAngleButton.value())))
+          (p.sin(p.radians(state.slopeAngleButton!.value())) +
+            p.cos(p.radians(state.slopeAngleButton!.value())))
     );
   }
 }
@@ -118,45 +118,47 @@ function rectMaterial(p, a, b, sort, w) {
   p.quad(
     a,
     b,
-    a + state.materialHeight * p.sin(p.radians(state.slopeAngleButton.value())),
-    b - state.materialHeight * p.cos(p.radians(state.slopeAngleButton.value())),
     a +
-      state.materialWidth * p.cos(p.radians(state.slopeAngleButton.value())) +
-      state.materialHeight * p.sin(p.radians(state.slopeAngleButton.value())),
+      state.materialHeight * p.sin(p.radians(state.slopeAngleButton!.value())),
+    b -
+      state.materialHeight * p.cos(p.radians(state.slopeAngleButton!.value())),
+    a +
+      state.materialWidth * p.cos(p.radians(state.slopeAngleButton!.value())) +
+      state.materialHeight * p.sin(p.radians(state.slopeAngleButton!.value())),
     b +
-      state.materialWidth * p.sin(p.radians(state.slopeAngleButton.value())) -
-      state.materialHeight * p.cos(p.radians(state.slopeAngleButton.value())),
-    a + state.materialWidth * p.cos(p.radians(state.slopeAngleButton.value())),
-    b + state.materialWidth * p.sin(p.radians(state.slopeAngleButton.value()))
+      state.materialWidth * p.sin(p.radians(state.slopeAngleButton!.value())) -
+      state.materialHeight * p.cos(p.radians(state.slopeAngleButton!.value())),
+    a + state.materialWidth * p.cos(p.radians(state.slopeAngleButton!.value())),
+    b + state.materialWidth * p.sin(p.radians(state.slopeAngleButton!.value()))
   );
   p.fill(0);
-  const ARROW_LENGTH = w * state.gravityButton.value();
+  const ARROW_LENGTH = w * Number(state.gravityButton!.value());
   if (sort === 1) {
     dashedLine(
       p,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
         ARROW_LENGTH,
       1
@@ -165,15 +167,15 @@ function rectMaterial(p, a, b, sort, w) {
       p,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
         ARROW_LENGTH,
       "gravity"
@@ -182,166 +184,166 @@ function rectMaterial(p, a, b, sort, w) {
       p,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
         ARROW_LENGTH,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2 -
         ARROW_LENGTH *
-          p.sin(p.radians(state.slopeAngleButton.value())) *
-          p.cos(p.radians(state.slopeAngleButton.value())),
+          p.sin(p.radians(state.slopeAngleButton!.value())) *
+          p.cos(p.radians(state.slopeAngleButton!.value())),
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
-        ARROW_LENGTH * p.sq(p.cos(p.radians(state.slopeAngleButton.value()))),
+        ARROW_LENGTH * p.sq(p.cos(p.radians(state.slopeAngleButton!.value()))),
       1
     );
     dashedLine(
       p,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
         ARROW_LENGTH,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2 +
         ARROW_LENGTH *
-          p.sin(p.radians(state.slopeAngleButton.value())) *
-          p.cos(p.radians(state.slopeAngleButton.value())),
+          p.sin(p.radians(state.slopeAngleButton!.value())) *
+          p.cos(p.radians(state.slopeAngleButton!.value())),
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
-        ARROW_LENGTH * p.sq(p.sin(p.radians(state.slopeAngleButton.value()))),
+        ARROW_LENGTH * p.sq(p.sin(p.radians(state.slopeAngleButton!.value()))),
       1
     );
     p.line(
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2 -
         ARROW_LENGTH *
-          p.sin(p.radians(state.slopeAngleButton.value())) *
-          p.cos(p.radians(state.slopeAngleButton.value())),
+          p.sin(p.radians(state.slopeAngleButton!.value())) *
+          p.cos(p.radians(state.slopeAngleButton!.value())),
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
-        ARROW_LENGTH * p.sq(p.cos(p.radians(state.slopeAngleButton.value())))
+        ARROW_LENGTH * p.sq(p.cos(p.radians(state.slopeAngleButton!.value())))
     );
     arrow(
       p,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2 -
         ARROW_LENGTH *
-          p.sin(p.radians(state.slopeAngleButton.value())) *
-          p.cos(p.radians(state.slopeAngleButton.value())),
+          p.sin(p.radians(state.slopeAngleButton!.value())) *
+          p.cos(p.radians(state.slopeAngleButton!.value())),
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
-        ARROW_LENGTH * p.sq(p.cos(p.radians(state.slopeAngleButton.value()))),
+        ARROW_LENGTH * p.sq(p.cos(p.radians(state.slopeAngleButton!.value()))),
       "vertical"
     );
     p.line(
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2 +
         ARROW_LENGTH *
-          p.sin(p.radians(state.slopeAngleButton.value())) *
-          p.cos(p.radians(state.slopeAngleButton.value())),
+          p.sin(p.radians(state.slopeAngleButton!.value())) *
+          p.cos(p.radians(state.slopeAngleButton!.value())),
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
-        ARROW_LENGTH * p.sq(p.sin(p.radians(state.slopeAngleButton.value())))
+        ARROW_LENGTH * p.sq(p.sin(p.radians(state.slopeAngleButton!.value())))
     );
     arrow(
       p,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2 +
         ARROW_LENGTH *
-          p.sin(p.radians(state.slopeAngleButton.value())) *
-          p.cos(p.radians(state.slopeAngleButton.value())),
+          p.sin(p.radians(state.slopeAngleButton!.value())) *
+          p.cos(p.radians(state.slopeAngleButton!.value())),
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
-        ARROW_LENGTH * p.sq(p.sin(p.radians(state.slopeAngleButton.value()))),
+        ARROW_LENGTH * p.sq(p.sin(p.radians(state.slopeAngleButton!.value()))),
       "horizontal"
     );
   }
@@ -350,130 +352,130 @@ function rectMaterial(p, a, b, sort, w) {
       p,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2 -
         ARROW_LENGTH *
-          p.sin(p.radians(state.slopeAngleButton.value())) *
-          p.cos(p.radians(state.slopeAngleButton.value())),
+          p.sin(p.radians(state.slopeAngleButton!.value())) *
+          p.cos(p.radians(state.slopeAngleButton!.value())),
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
-        ARROW_LENGTH * p.sq(p.cos(p.radians(state.slopeAngleButton.value()))),
+        ARROW_LENGTH * p.sq(p.cos(p.radians(state.slopeAngleButton!.value()))),
       1
     );
     dashedLine(
       p,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2 +
         ARROW_LENGTH *
-          p.sin(p.radians(state.slopeAngleButton.value())) *
-          p.cos(p.radians(state.slopeAngleButton.value())),
+          p.sin(p.radians(state.slopeAngleButton!.value())) *
+          p.cos(p.radians(state.slopeAngleButton!.value())),
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
-        ARROW_LENGTH * p.sq(p.sin(p.radians(state.slopeAngleButton.value()))),
+        ARROW_LENGTH * p.sq(p.sin(p.radians(state.slopeAngleButton!.value()))),
       1
     );
     arrow(
       p,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2 +
         ARROW_LENGTH *
-          p.sin(p.radians(state.slopeAngleButton.value())) *
-          p.cos(p.radians(state.slopeAngleButton.value())),
+          p.sin(p.radians(state.slopeAngleButton!.value())) *
+          p.cos(p.radians(state.slopeAngleButton!.value())),
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
-        ARROW_LENGTH * p.sq(p.sin(p.radians(state.slopeAngleButton.value()))),
+        ARROW_LENGTH * p.sq(p.sin(p.radians(state.slopeAngleButton!.value()))),
       "horizontal"
     );
     arrow(
       p,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2 -
         ARROW_LENGTH *
-          p.sin(p.radians(state.slopeAngleButton.value())) *
-          p.cos(p.radians(state.slopeAngleButton.value())),
+          p.sin(p.radians(state.slopeAngleButton!.value())) *
+          p.cos(p.radians(state.slopeAngleButton!.value())),
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
-        ARROW_LENGTH * p.sq(p.cos(p.radians(state.slopeAngleButton.value()))),
+        ARROW_LENGTH * p.sq(p.cos(p.radians(state.slopeAngleButton!.value()))),
       "vertical"
     );
     p.line(
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
         ARROW_LENGTH
     );
@@ -481,15 +483,15 @@ function rectMaterial(p, a, b, sort, w) {
       p,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
         ARROW_LENGTH,
       "gravity"
@@ -498,66 +500,66 @@ function rectMaterial(p, a, b, sort, w) {
       p,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
         ARROW_LENGTH,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2 -
         ARROW_LENGTH *
-          p.sin(p.radians(state.slopeAngleButton.value())) *
-          p.cos(p.radians(state.slopeAngleButton.value())),
+          p.sin(p.radians(state.slopeAngleButton!.value())) *
+          p.cos(p.radians(state.slopeAngleButton!.value())),
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
-        ARROW_LENGTH * p.sq(p.cos(p.radians(state.slopeAngleButton.value()))),
+        ARROW_LENGTH * p.sq(p.cos(p.radians(state.slopeAngleButton!.value()))),
       1
     );
     dashedLine(
       p,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
         ARROW_LENGTH,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2 +
         ARROW_LENGTH *
-          p.sin(p.radians(state.slopeAngleButton.value())) *
-          p.cos(p.radians(state.slopeAngleButton.value())),
+          p.sin(p.radians(state.slopeAngleButton!.value())) *
+          p.cos(p.radians(state.slopeAngleButton!.value())),
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
-        ARROW_LENGTH * p.sq(p.sin(p.radians(state.slopeAngleButton.value()))),
+        ARROW_LENGTH * p.sq(p.sin(p.radians(state.slopeAngleButton!.value()))),
       1
     );
   }
@@ -565,27 +567,27 @@ function rectMaterial(p, a, b, sort, w) {
     p.line(
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
         ARROW_LENGTH
     );
@@ -593,15 +595,15 @@ function rectMaterial(p, a, b, sort, w) {
       p,
       a +
         (state.materialWidth *
-          p.cos(p.radians(state.slopeAngleButton.value())) +
+          p.cos(p.radians(state.slopeAngleButton!.value())) +
           state.materialHeight *
-            p.sin(p.radians(state.slopeAngleButton.value()))) /
+            p.sin(p.radians(state.slopeAngleButton!.value()))) /
           2,
       b +
         (state.materialWidth *
-          p.sin(p.radians(state.slopeAngleButton.value())) -
+          p.sin(p.radians(state.slopeAngleButton!.value())) -
           state.materialHeight *
-            p.cos(p.radians(state.slopeAngleButton.value()))) /
+            p.cos(p.radians(state.slopeAngleButton!.value()))) /
           2 +
         ARROW_LENGTH,
       "gravity"
@@ -611,70 +613,70 @@ function rectMaterial(p, a, b, sort, w) {
   p.fill(255, 0, 0);
   p.line(
     a +
-      (state.materialWidth * p.cos(p.radians(state.slopeAngleButton.value())) +
+      (state.materialWidth * p.cos(p.radians(state.slopeAngleButton!.value())) +
         state.materialHeight *
-          p.sin(p.radians(state.slopeAngleButton.value()))) /
+          p.sin(p.radians(state.slopeAngleButton!.value()))) /
         2 -
       (state.materialHeight / 2) *
-        p.sin(p.radians(state.slopeAngleButton.value())) -
+        p.sin(p.radians(state.slopeAngleButton!.value())) -
       (state.minimumUnit / 2) *
-        p.cos(p.radians(state.slopeAngleButton.value())),
+        p.cos(p.radians(state.slopeAngleButton!.value())),
     b +
-      (state.materialWidth * p.sin(p.radians(state.slopeAngleButton.value())) -
+      (state.materialWidth * p.sin(p.radians(state.slopeAngleButton!.value())) -
         state.materialHeight *
-          p.cos(p.radians(state.slopeAngleButton.value()))) /
+          p.cos(p.radians(state.slopeAngleButton!.value()))) /
         2 +
       (state.materialHeight / 2) *
-        p.cos(p.radians(state.slopeAngleButton.value())) -
+        p.cos(p.radians(state.slopeAngleButton!.value())) -
       (state.minimumUnit / 2) *
-        p.sin(p.radians(state.slopeAngleButton.value())),
+        p.sin(p.radians(state.slopeAngleButton!.value())),
     a +
-      (state.materialWidth * p.cos(p.radians(state.slopeAngleButton.value())) +
+      (state.materialWidth * p.cos(p.radians(state.slopeAngleButton!.value())) +
         state.materialHeight *
-          p.sin(p.radians(state.slopeAngleButton.value()))) /
+          p.sin(p.radians(state.slopeAngleButton!.value()))) /
         2 -
       (state.materialHeight / 2) *
-        p.sin(p.radians(state.slopeAngleButton.value())) -
+        p.sin(p.radians(state.slopeAngleButton!.value())) -
       (state.minimumUnit / 2) *
-        p.cos(p.radians(state.slopeAngleButton.value())) +
+        p.cos(p.radians(state.slopeAngleButton!.value())) +
       ARROW_LENGTH *
-        p.cos(p.radians(state.slopeAngleButton.value())) *
-        p.sin(p.radians(state.slopeAngleButton.value())),
+        p.cos(p.radians(state.slopeAngleButton!.value())) *
+        p.sin(p.radians(state.slopeAngleButton!.value())),
     b +
-      (state.materialWidth * p.sin(p.radians(state.slopeAngleButton.value())) -
+      (state.materialWidth * p.sin(p.radians(state.slopeAngleButton!.value())) -
         state.materialHeight *
-          p.cos(p.radians(state.slopeAngleButton.value()))) /
+          p.cos(p.radians(state.slopeAngleButton!.value()))) /
         2 +
       (state.materialHeight / 2) *
-        p.cos(p.radians(state.slopeAngleButton.value())) -
+        p.cos(p.radians(state.slopeAngleButton!.value())) -
       (state.minimumUnit / 2) *
-        p.sin(p.radians(state.slopeAngleButton.value())) -
-      ARROW_LENGTH * p.sq(p.cos(p.radians(state.slopeAngleButton.value())))
+        p.sin(p.radians(state.slopeAngleButton!.value())) -
+      ARROW_LENGTH * p.sq(p.cos(p.radians(state.slopeAngleButton!.value())))
   );
   arrow(
     p,
     a +
-      (state.materialWidth * p.cos(p.radians(state.slopeAngleButton.value())) +
+      (state.materialWidth * p.cos(p.radians(state.slopeAngleButton!.value())) +
         state.materialHeight *
-          p.sin(p.radians(state.slopeAngleButton.value()))) /
+          p.sin(p.radians(state.slopeAngleButton!.value()))) /
         2 -
       (state.materialHeight / 2) *
-        p.sin(p.radians(state.slopeAngleButton.value())) -
+        p.sin(p.radians(state.slopeAngleButton!.value())) -
       (state.minimumUnit / 2) *
-        p.cos(p.radians(state.slopeAngleButton.value())) +
+        p.cos(p.radians(state.slopeAngleButton!.value())) +
       ARROW_LENGTH *
-        p.cos(p.radians(state.slopeAngleButton.value())) *
-        p.sin(p.radians(state.slopeAngleButton.value())),
+        p.cos(p.radians(state.slopeAngleButton!.value())) *
+        p.sin(p.radians(state.slopeAngleButton!.value())),
     b +
-      (state.materialWidth * p.sin(p.radians(state.slopeAngleButton.value())) -
+      (state.materialWidth * p.sin(p.radians(state.slopeAngleButton!.value())) -
         state.materialHeight *
-          p.cos(p.radians(state.slopeAngleButton.value()))) /
+          p.cos(p.radians(state.slopeAngleButton!.value()))) /
         2 +
       (state.materialHeight / 2) *
-        p.cos(p.radians(state.slopeAngleButton.value())) -
+        p.cos(p.radians(state.slopeAngleButton!.value())) -
       (state.minimumUnit / 2) *
-        p.sin(p.radians(state.slopeAngleButton.value())) -
-      ARROW_LENGTH * p.sq(p.cos(p.radians(state.slopeAngleButton.value()))),
+        p.sin(p.radians(state.slopeAngleButton!.value())) -
+      ARROW_LENGTH * p.sq(p.cos(p.radians(state.slopeAngleButton!.value()))),
     "normal"
   );
 }
@@ -697,7 +699,7 @@ export class Material {
     this.materialX = state.referencePoint;
     this.materialY =
       state.groundHeight -
-      state.slopeWidth * p.tan(p.radians(state.slopeAngleButton.value()));
+      state.slopeWidth * p.tan(p.radians(state.slopeAngleButton!.value()));
     this.materialWeight = m_w;
     this.sort = s;
   }
@@ -709,8 +711,8 @@ export class Material {
   _draw(p) {
     if (state.clickedCount === true) {
       const { dx, dy } = computeSlideDisplacement(
-        state.gravityButton.value(),
-        state.slopeAngleButton.value(),
+        state.gravityButton!.value(),
+        state.slopeAngleButton!.value(),
         state.count
       );
       this.materialX += dx;
@@ -720,15 +722,15 @@ export class Material {
       this.materialX >=
       state.referencePoint +
         state.slopeWidth -
-        state.materialWidth * p.cos(p.radians(state.slopeAngleButton.value()))
+        state.materialWidth * p.cos(p.radians(state.slopeAngleButton!.value()))
     ) {
       this.materialX =
         state.referencePoint +
         state.slopeWidth -
-        state.materialWidth * p.cos(p.radians(state.slopeAngleButton.value()));
+        state.materialWidth * p.cos(p.radians(state.slopeAngleButton!.value()));
       this.materialY =
         state.groundHeight -
-        state.materialWidth * p.sin(p.radians(state.slopeAngleButton.value()));
+        state.materialWidth * p.sin(p.radians(state.slopeAngleButton!.value()));
     }
     rectMaterial(
       p,

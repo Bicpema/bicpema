@@ -63,11 +63,11 @@ export const state = {
   isEquilibrium: false,
 
   /** ドラッグ中の要素（'anchorA' | 'anchorB' | 'ring' | null） */
-  dragging: null,
+  dragging: null as "anchorA" | "anchorB" | "ring" | null,
   dragOffsetX: 0,
   dragOffsetY: 0,
 
-  /** DOM要素参照 */
-  weightInput: null,
-  weightDisplay: null
+  /** DOM要素参照（p.select()で取得するまではnull） */
+  weightInput: null as p5.Element | null,
+  weightDisplay: null as p5.Element | null
 };

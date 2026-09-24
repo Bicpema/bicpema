@@ -16,7 +16,10 @@ beforeEach(() => {
   state.criticalExceeded = false;
   state.phase = "idle";
   state.isRunning = false;
-  state.playPauseButton = { html: () => {}, attribute: () => {} };
+  state.playPauseButton = /** @type {p5.Element} */ ({
+    html: () => {},
+    attribute: () => {}
+  });
 });
 
 describe("update (approach phase)", () => {
