@@ -17,15 +17,16 @@ export function onReset(p) {
 export function onPlayPause() {
   if (state.phase === "stopped") return;
 
+  // elCreate()でイベント登録済みのため呼び出し時点でnullになりえない
   if (state.phase === "idle") {
     state.phase = "approach";
     state.isRunning = true;
-    state.playPauseButton.html("⏸ 一時停止");
+    state.playPauseButton!.html("⏸ 一時停止");
   } else if (state.isRunning) {
     state.isRunning = false;
-    state.playPauseButton.html("▶ 再開");
+    state.playPauseButton!.html("▶ 再開");
   } else {
     state.isRunning = true;
-    state.playPauseButton.html("⏸ 一時停止");
+    state.playPauseButton!.html("⏸ 一時停止");
   }
 }

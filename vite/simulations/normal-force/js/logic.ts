@@ -10,10 +10,11 @@ export function calculate(p) {
   if (state.clickedCount === true) {
     state.count++;
   }
-  state.material.materialY =
+  // buttonCreation()/materialSet()で生成済みのため呼び出し時点でnullになりえない
+  state.material!.materialY =
     state.groundHeight -
-    ((5 * p.width) / 6 - state.material.materialX) *
-      p.tan(p.radians(state.slopeAngleButton.value()));
+    ((5 * p.width) / 6 - state.material!.materialX) *
+      p.tan(p.radians(state.slopeAngleButton!.value()));
 }
 
 /**
@@ -23,10 +24,11 @@ export function calculate(p) {
 export function slope(p) {
   p.fill(255);
   p.stroke(0);
+  // buttonCreation()で生成済みのため呼び出し時点でnullになりえない
   p.triangle(
     state.referencePoint,
     state.groundHeight -
-      state.slopeWidth * p.tan(p.radians(state.slopeAngleButton.value())),
+      state.slopeWidth * p.tan(p.radians(state.slopeAngleButton!.value())),
     state.referencePoint,
     state.groundHeight,
     state.referencePoint + state.slopeWidth,
@@ -35,7 +37,7 @@ export function slope(p) {
   p.fill(0);
   p.strokeWeight(2);
   p.text(
-    p.nf(state.slopeAngleButton.value(), 1, 1),
+    p.nf(state.slopeAngleButton!.value(), 1, 1),
     state.referencePoint + state.slopeWidth - state.slopeWidth / 10,
     state.groundHeight - 5
   );
@@ -47,7 +49,7 @@ export function slope(p) {
     state.slopeWidth / 10,
     state.slopeWidth / 10,
     p.PI,
-    p.PI + p.radians(state.slopeAngleButton.value())
+    p.PI + p.radians(state.slopeAngleButton!.value())
   );
   p.line(
     state.referencePoint + state.slopeWidth,
@@ -56,11 +58,11 @@ export function slope(p) {
       state.slopeWidth +
       2 *
         state.materialHeight *
-        p.sin(p.radians(state.slopeAngleButton.value())),
+        p.sin(p.radians(state.slopeAngleButton!.value())),
     state.groundHeight -
       2 *
         state.materialHeight *
-        p.cos(p.radians(state.slopeAngleButton.value()))
+        p.cos(p.radians(state.slopeAngleButton!.value()))
   );
 }
 
@@ -72,6 +74,6 @@ export function drawSimulation(p) {
   p.background(255);
   slope(p);
   calculate(p);
-  state.material.materialWeight = state.weightButton.value();
-  state.material._draw(p);
+  state.material!.materialWeight = Number(state.weightButton!.value());
+  state.material!._draw(p);
 }

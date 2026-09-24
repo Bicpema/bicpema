@@ -51,12 +51,12 @@ export function updateGraph() {
   }
 
   // 理論直線のデータ（v = a * t）
-  const maxT = Math.sqrt((2 * SLOPE_LENGTH_M) / state.cart.accel) + 0.1;
-  const theoreticalData = [];
+  const maxT = Math.sqrt((2 * SLOPE_LENGTH_M) / state.cart!.accel) + 0.1;
+  const theoreticalData: { x: number; y: number }[] = [];
   for (let t = 0; t <= maxT; t += 0.05) {
     theoreticalData.push({
       x: parseFloat(t.toFixed(3)),
-      y: parseFloat((state.cart.accel * t).toFixed(4))
+      y: parseFloat((state.cart!.accel * t).toFixed(4))
     });
   }
 
@@ -85,7 +85,7 @@ export function updateGraph() {
     ]
   };
 
-  const vMax = state.cart.accel * maxT * 1.1;
+  const vMax = state.cart!.accel * maxT * 1.1;
 
   const options: import("chart.js").ChartOptions<"scatter"> = {
     plugins: {

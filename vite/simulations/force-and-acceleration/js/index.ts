@@ -68,58 +68,61 @@ const sketch = (p) => {
     p.scale(p.width / W);
     p.background(255);
 
+    // valueInit()で生成済みのためnullになりえない
+    const cart = state.cart!;
+
     // マウス座標を論理座標に変換
     const logMX = p.mouseX * (W / p.width);
     const logMY = p.mouseY * (H / p.height);
 
     // 台車のバウンディングボックスでマウスオーバーを判定
-    const cartH = state.cart.WHEEL_R * 2 + state.cart.BODY_H + state.cart.BOX_H;
-    const cartW = state.cart._displayW || state.cart.BODY_W;
+    const cartH = cart.WHEEL_R * 2 + cart.BODY_H + cart.BOX_H;
+    const cartW = cart._displayW || cart.BODY_W;
     const isHovering =
-      logMX >= state.cart.x - cartW / 2 &&
-      logMX <= state.cart.x + cartW / 2 &&
+      logMX >= cart.x - cartW / 2 &&
+      logMX <= cart.x + cartW / 2 &&
       logMY >= GROUND_Y - cartH &&
       logMY <= GROUND_Y;
 
     // 台車の上からドラッグ中のみ力を加える
     if (state.isDraggingFromCart && p.mouseIsPressed) {
-      const drag = p.max(0, logMX - state.cart.displayRightEdge);
-      state.cart.force = drag * FORCE_SCALE;
+      const drag = p.max(0, logMX - cart.displayRightEdge);
+      cart.force = drag * FORCE_SCALE;
     } else {
-      state.cart.force = 0;
+      cart.force = 0;
     }
 
-    state.cart.update(1 / FPS, PIXELS_PER_METER);
+    cart.update(1 / FPS, PIXELS_PER_METER);
 
     // 台車が右端を越えたら自動リセット
-    if (state.cart.x > W + CART_RESET_MARGIN) {
-      state.cart.reset();
+    if (cart.x > W + CART_RESET_MARGIN) {
+      cart.reset();
     }
 
     // 地面・レールを描画
     drawTrack(p);
 
     // 台車を描画
-    state.cart.display(p, GROUND_Y, state.cartImg);
+    cart.display(p, GROUND_Y, state.cartImg);
 
     // 力の矢印を描画
-    const arrowY = GROUND_Y - state.cart.WHEEL_R * 2 - state.cart.BODY_H / 2;
-    if (state.cart.force > 0) {
-      drawForceArrow(p, state.cart.displayRightEdge, arrowY, logMX);
+    const arrowY = GROUND_Y - cart.WHEEL_R * 2 - cart.BODY_H / 2;
+    if (cart.force > 0) {
+      drawForceArrow(p, cart.displayRightEdge, arrowY, logMX);
     } else if (isHovering && !p.mouseIsPressed) {
-      drawDragHint(p, state.cart.displayRightEdge, arrowY);
+      drawDragHint(p, cart.displayRightEdge, arrowY);
     }
 
     // 情報パネルを描画
     drawInfoPanel(
       p,
-      state.cart.force,
-      state.cart.acceleration,
-      state.cart.mass,
-      state.cart.velocity,
-      state.cart.maxForce,
-      state.cart.maxAcceleration,
-      state.cart.massAtMaxAcceleration
+      cart.force,
+      cart.acceleration,
+      cart.mass,
+      cart.velocity,
+      cart.maxForce,
+      cart.maxAcceleration,
+      cart.massAtMaxAcceleration
     );
   };
 
@@ -129,13 +132,15 @@ const sketch = (p) => {
   };
 
   p.mousePressed = () => {
+    // valueInit()で生成済みのためnullになりえない
+    const cart = state.cart!;
     const logMX = p.mouseX * (W / p.width);
     const logMY = p.mouseY * (H / p.height);
-    const cartH = state.cart.WHEEL_R * 2 + state.cart.BODY_H + state.cart.BOX_H;
-    const cartW = state.cart._displayW || state.cart.BODY_W;
+    const cartH = cart.WHEEL_R * 2 + cart.BODY_H + cart.BOX_H;
+    const cartW = cart._displayW || cart.BODY_W;
     state.isDraggingFromCart =
-      logMX >= state.cart.x - cartW / 2 &&
-      logMX <= state.cart.x + cartW / 2 &&
+      logMX >= cart.x - cartW / 2 &&
+      logMX <= cart.x + cartW / 2 &&
       logMY >= GROUND_Y - cartH &&
       logMY <= GROUND_Y;
   };

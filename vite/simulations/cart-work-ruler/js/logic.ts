@@ -130,7 +130,7 @@ function drawRuler(p, leftX) {
  * @param {*} p p5インスタンス
  */
 function drawBook(p) {
-  if (state.bookImage?.width > 0) {
+  if (state.bookImage && state.bookImage.width > 0) {
     p.imageMode(p.CORNER);
     p.image(state.bookImage, BOOK_LEFT_X, BOOK_TOP_Y, BOOK_W, BOOK_H);
   } else {
@@ -298,8 +298,8 @@ export function update(p, dt) {
       state.velocity_ms = 0;
       state.phase = "stopped";
       state.isRunning = false;
-      state.playPauseButton.html("終了");
-      state.playPauseButton.attribute("disabled", "");
+      state.playPauseButton!.html("終了");
+      state.playPauseButton!.attribute("disabled", "");
       state.criticalExceeded = false;
     } else {
       const vNew = state.velocity_ms - dv;
@@ -313,8 +313,8 @@ export function update(p, dt) {
       state.velocity_ms = 0;
       state.phase = "stopped";
       state.isRunning = false;
-      state.playPauseButton.html("終了");
-      state.playPauseButton.attribute("disabled", "");
+      state.playPauseButton!.html("終了");
+      state.playPauseButton!.attribute("disabled", "");
       state.criticalExceeded = true;
     }
   }

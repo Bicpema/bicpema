@@ -52,6 +52,14 @@
     "vite/simulations/pendulum/**/*.ts",
     "test/simulations/elastic-force/**/*.js",
     "test/simulations/spring/**/*.js",
-    "test/simulations/pendulum/**/*.js"
+    "test/simulations/pendulum/**/*.js",
+    "vite/simulations/force-composition/**/*.ts",
+    "vite/simulations/force-decomposition/**/*.ts",
+    "vite/simulations/force-and-acceleration/**/*.ts",
+    "vite/simulations/normal-force/**/*.ts",
+    "vite/simulations/three-force-equilibrium/**/*.ts",
+    "vite/simulations/slope-force-decomposition/**/*.ts",
+    "vite/simulations/slope-cart-motion/**/*.ts",
+    "vite/simulations/cart-work-ruler/**/*.ts"
   ]
 }

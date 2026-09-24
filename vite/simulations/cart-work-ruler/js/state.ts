@@ -3,31 +3,31 @@ export const state = {
   // --- ロードアセット ---
   /** フォント */
   font: null,
-  /** 本の画像 */
-  bookImage: null,
-  /** 台車の画像 */
-  cartImage: null,
-  /** 地面の画像 */
-  groundImage: null,
+  /** 本の画像（読み込み完了までnull） */
+  bookImage: null as p5.Image | null,
+  /** 台車の画像（読み込み完了までnull） */
+  cartImage: null as p5.Image | null,
+  /** 地面の画像（読み込み完了までnull） */
+  groundImage: null as p5.Image | null,
 
-  // --- DOM 要素 ---
-  massInput: null,
-  velocityInput: null,
-  forceInput: null,
-  resetButton: null,
-  playPauseButton: null,
+  // --- DOM 要素（p.select()で取得するまではnull） ---
+  massInput: null as p5.Element | null,
+  velocityInput: null as p5.Element | null,
+  forceInput: null as p5.Element | null,
+  resetButton: null as p5.Element | null,
+  playPauseButton: null as p5.Element | null,
   /** 情報パネルの DOM 要素参照 */
-  infoMassEl: null,
-  infoV0El: null,
-  infoFEl: null,
-  infoKe0El: null,
-  infoDEl: null,
-  infoWEl: null,
-  statusCriticalEl: null,
-  statusStoppedEl: null,
-  statusRunningEl: null,
-  statusKe0El: null,
-  statusKeEl: null,
+  infoMassEl: null as p5.Element | null,
+  infoV0El: null as p5.Element | null,
+  infoFEl: null as p5.Element | null,
+  infoKe0El: null as p5.Element | null,
+  infoDEl: null as p5.Element | null,
+  infoWEl: null as p5.Element | null,
+  statusCriticalEl: null as p5.Element | null,
+  statusStoppedEl: null as p5.Element | null,
+  statusRunningEl: null as p5.Element | null,
+  statusKe0El: null as p5.Element | null,
+  statusKeEl: null as p5.Element | null,
 
   // --- シミュレーションパラメータ ---
   /** 台車の質量 (kg) */

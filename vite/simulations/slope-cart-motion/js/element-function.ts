@@ -7,37 +7,38 @@ import { updateGraph } from "./graph.js";
  * リセットボタンが押されたときの処理
  */
 export function onReset() {
-  state.cart.reset();
+  // valueInit()で生成済み・elementSelectInit()でイベント登録済みのためnullになりえない
+  state.cart!.reset();
   state.tapeMarks = [];
   state.isPlaying = false;
-  state.playPauseButton.html("▶ 開始");
+  state.playPauseButton!.html("▶ 開始");
 }
 
 /**
  * 開始/一時停止ボタンが押されたときの処理
  */
 export function onPlayPause() {
-  if (state.cart.isAtBottom) {
+  if (state.cart!.isAtBottom) {
     // 下端に到達済みの場合はリセットして再開
     onReset();
     state.isPlaying = true;
-    state.playPauseButton.html("⏸ 停止");
+    state.playPauseButton!.html("⏸ 停止");
     return;
   }
   state.isPlaying = !state.isPlaying;
-  state.playPauseButton.html(state.isPlaying ? "⏸ 停止" : "▶ 再開");
+  state.playPauseButton!.html(state.isPlaying ? "⏸ 停止" : "▶ 再開");
 }
 
 /**
  * 設定を適用してシミュレーションをリセットする
  */
 export function applySettings() {
-  const newAngle = parseInt(state.angleInput.value(), 10);
-  const newInterval = parseFloat(state.intervalInput.value());
+  const newAngle = parseInt(String(state.angleInput!.value()), 10);
+  const newInterval = parseFloat(String(state.intervalInput!.value()));
 
   if (newAngle >= 0 && newAngle <= 30) {
     state.slopeDeg = newAngle;
-    state.cart.setAngle(newAngle);
+    state.cart!.setAngle(newAngle);
   }
   state.recInterval = newInterval;
   onReset();
@@ -50,6 +51,7 @@ export function onToggleGraph() {
   state.graphVisible = !state.graphVisible;
   const graphDiv = document.getElementById("graph");
   const toggleBtn = document.getElementById("graphToggleButton");
+  if (!graphDiv || !toggleBtn) return;
   if (state.graphVisible) {
     graphDiv.style.display = "block";
     toggleBtn.textContent = "v-tグラフを非表示";

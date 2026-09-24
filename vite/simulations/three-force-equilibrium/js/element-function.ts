@@ -89,9 +89,10 @@ export function stopDrag() {
  * 重さスライダーが変更されたときの処理。
  */
 export function onWeightChange() {
-  const w = parseInt(state.weightInput.value(), 10);
+  // elCreate()でイベント登録済みのため呼び出し時点でnullになりえない
+  const w = parseInt(state.weightInput!.value() as string, 10);
   state.weight = w;
-  state.weightDisplay.html(`${w}`);
+  state.weightDisplay!.html(`${w}`);
 }
 
 /**
@@ -102,7 +103,7 @@ export function onReset() {
   state.anchorB = { ...INIT_ANCHOR_B };
   state.ring = { ...INIT_RING };
   state.weight = INIT_WEIGHT;
-  state.weightInput.value(INIT_WEIGHT);
-  state.weightDisplay.html(`${INIT_WEIGHT}`);
+  state.weightInput!.value(INIT_WEIGHT);
+  state.weightDisplay!.html(`${INIT_WEIGHT}`);
   state.dragging = null;
 }

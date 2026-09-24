@@ -66,21 +66,22 @@ const sketch = (p) => {
     p.background(255);
 
     if (state.isPlaying) {
-      state.cart.update(1 / FPS);
+      // valueInit()で生成済みのためnullになりえない
+      state.cart!.update(1 / FPS);
 
       while (
         (state.tapeMarks.length + 1) * state.recInterval <=
-        state.cart.time
+        state.cart!.time
       ) {
         const t = (state.tapeMarks.length + 1) * state.recInterval;
-        const s = 0.5 * state.cart.accel * t * t;
-        if (s > state.cart.slopeLengthM) break;
+        const s = 0.5 * state.cart!.accel * t * t;
+        if (s > state.cart!.slopeLengthM) break;
         state.tapeMarks.push(s);
       }
 
-      if (state.cart.isAtBottom) {
+      if (state.cart!.isAtBottom) {
         state.isPlaying = false;
-        state.playPauseButton.html("▶ 開始");
+        state.playPauseButton!.html("▶ 開始");
       }
     }
 

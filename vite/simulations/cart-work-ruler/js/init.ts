@@ -55,9 +55,10 @@ export function initValue(p) {
   p.textFont(state.font);
   p.textSize(16);
 
-  state.mass_kg = parseFloat(state.massInput.value());
-  state.v0_ms = parseFloat(state.velocityInput.value());
-  state.force_N = parseFloat(state.forceInput.value());
+  // elCreate()で取得済みのため呼び出し時点でnullになりえない
+  state.mass_kg = parseFloat(String(state.massInput!.value()));
+  state.v0_ms = parseFloat(String(state.velocityInput!.value()));
+  state.force_N = parseFloat(String(state.forceInput!.value()));
 
   state.approachX_px = CART_START_X;
   state.velocity_ms = state.v0_ms;
@@ -66,8 +67,8 @@ export function initValue(p) {
   state.isRunning = false;
   state.criticalExceeded = false;
 
-  state.playPauseButton.html("▶ 開始");
-  state.playPauseButton.removeAttribute("disabled");
+  state.playPauseButton!.html("▶ 開始");
+  state.playPauseButton!.removeAttribute("disabled");
 
   // 情報パネルの初期値を更新
   if (state.infoMassEl) state.infoMassEl.html(state.mass_kg.toFixed(1) + " kg");

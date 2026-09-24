@@ -7,23 +7,24 @@ import { MIN_MASS_INPUT, MAX_MASS_INPUT } from "./constants.js";
  * 質量入力が変更されたときの処理
  */
 export function onMassChange() {
-  let m = parseFloat(state.massInput.value());
+  // elementSelectInit()で取得済みのため呼び出し時点でnullになりえない
+  let m = parseFloat(String(state.massInput!.value()));
   if (Number.isNaN(m) || m < MIN_MASS_INPUT) {
     m = MIN_MASS_INPUT;
-    state.massInput.value(MIN_MASS_INPUT);
+    state.massInput!.value(MIN_MASS_INPUT);
   } else if (m > MAX_MASS_INPUT) {
     m = MAX_MASS_INPUT;
-    state.massInput.value(MAX_MASS_INPUT);
+    state.massInput!.value(MAX_MASS_INPUT);
   }
-  state.cart.mass = m;
-  state.cart.reset();
+  state.cart!.mass = m;
+  state.cart!.reset();
 }
 
 /**
  * リセットボタンが押されたときの処理
  */
 export function onReset() {
-  state.cart.reset();
+  state.cart!.reset();
 }
 
 /**
