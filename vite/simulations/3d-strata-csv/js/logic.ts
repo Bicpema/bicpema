@@ -2,6 +2,7 @@
 
 import { state, STRATA_COLORS } from "./state.js";
 import { computeCoordinateBounds, computeSquareBounds } from "./physics.js";
+import { requireElementById } from "./element-function.js";
 import {
   WORLD_MIN,
   WORLD_MAX,
@@ -46,9 +47,9 @@ function calculateValue(p) {
   const setRadioButtonValue = state.setRadioButton.value();
   const unitSelectValue = state.unitSelect.value();
   if (setRadioButtonValue === "auto") {
-    const latitudeArr = [];
-    const longitudeArr = [];
-    const depthArr = [];
+    const latitudeArr: number[] = [];
+    const longitudeArr: number[] = [];
+    const depthArr: number[] = [];
     for (const key in state.dataInputArr) {
       if (Object.hasOwn(state.dataInputArr, key)) {
         const value = state.dataInputArr[key];
@@ -256,7 +257,7 @@ function drawStrata(p, key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
   y = p.map(y, yMin, yMax, WORLD_MAX, WORLD_MIN);
   const layer = state.dataInputArr[key].layer;
   p.noStroke();
-  const zArr = [];
+  const zArr: number[] = [];
   for (let i = 0; i < layer.length; i++) {
     const z = layer[i][0];
     zArr.push(z);
@@ -315,7 +316,7 @@ function drawStrata(p, key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
  * @param {*} p p5インスタンス
  */
 function connectStrata(p, xMin, xMax, yMin, yMax, zMin, zMax) {
-  const trNum = document.getElementById("strataSelect").childElementCount;
+  const trNum = requireElementById("strataSelect").childElementCount;
   const p1Name = p.select("#firstPlaceSelect").value();
   const p2Name = p.select("#secondPlaceSelect").value();
   const p3Name = p.select("#thirdPlaceSelect").value();
@@ -450,7 +451,7 @@ export function drawSimulation(p) {
 
   // いずれかのモーダルを開いている時はオービットコントロールを無効化
   const isAnyModalOpen = ["dataRegisterModal", "csvExampleModal"].some(
-    (id) => !document.getElementById(id).classList.contains("hidden")
+    (id) => !requireElementById(id).classList.contains("hidden")
   );
   if (!isAnyModalOpen) {
     p.orbitControl();

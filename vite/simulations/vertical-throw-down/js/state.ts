@@ -1,4 +1,24 @@
-export const state = {
+import type { Ball } from "./ball.js";
+import type { BallGraph } from "./graph.js";
+
+export const state: {
+  ball: Ball | null;
+  font: p5.Font | null;
+  ballImage: p5.Image | null;
+  groundImage: p5.Image | null;
+  tallBuildingImage: p5.Image | null;
+  heightInput: p5.Element | null;
+  initialVelocityInput: p5.Element | null;
+  resetButton: p5.Element | null;
+  playPauseButton: p5.Element | null;
+
+  /** グラフオブジェクト */
+  graph: BallGraph | null;
+  /** v-t グラフ用データ */
+  vtData: { x: number; y: number }[];
+  /** y-t グラフ用データ */
+  ytData: { x: number; y: number }[];
+} = {
   ball: null,
   font: null,
   ballImage: null,
@@ -9,10 +29,7 @@ export const state = {
   resetButton: null,
   playPauseButton: null,
 
-  /** グラフオブジェクト */
   graph: null,
-  /** v-t グラフ用データ */
   vtData: [],
-  /** y-t グラフ用データ */
   ytData: []
 };

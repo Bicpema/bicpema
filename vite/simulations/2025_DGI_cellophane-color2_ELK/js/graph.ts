@@ -1,5 +1,6 @@
 // graph.jsはグラフ描画専用のファイルです。
 
+import type { ChartConfiguration, ChartOptions } from "chart.js";
 import { state } from "./state.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
 import { getCanvasElement } from "../../../js/bicpema-dom.js";
@@ -23,8 +24,7 @@ const loadChart = createLazyImporter(() =>
     return ChartCtor;
   })
 );
-/** @type {typeof import("chart.js").Chart | null} */
-let Chart = null;
+let Chart: typeof import("chart.js").Chart | null = null;
 loadChart()
   .then((ChartCtor) => {
     Chart = ChartCtor;
@@ -100,8 +100,7 @@ export function drawGraph() {
   };
 
   // グラフの表示設定
-  /** @type {import("chart.js").ChartOptions<"scatter">} */
-  const mainOptions = {
+  const mainOptions: ChartOptions<"scatter"> = {
     plugins: {
       legend: {
         labels: {
@@ -159,8 +158,7 @@ export function drawGraph() {
     }
   };
 
-  /** @type {import("chart.js").ChartConfiguration<"scatter">} */
-  const mainChartsetup = {
+  const mainChartsetup: ChartConfiguration<"scatter"> = {
     type: "scatter",
     data: mainData,
     options: mainOptions
@@ -169,5 +167,5 @@ export function drawGraph() {
   // canvasにグラフを描画
   // Chart.Scatter() で散布図になる
   const mainCtx = getCanvasElement("mainSpectrumGraph");
-  state.mainChartObj = new Chart(mainCtx, mainChartsetup);
+  state.mainChartObj = new Chart(mainCtx!, mainChartsetup);
 }

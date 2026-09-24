@@ -22,7 +22,7 @@ export function updateBoatSpeedLabel(val) {
  */
 export function onBoatSpeedChange() {
   if (!state.boatSpeedInput || !state.boat) return;
-  const val = parseFloat(state.boatSpeedInput.value());
+  const val = parseFloat(String(state.boatSpeedInput.value()));
   updateBoatSpeedLabel(val);
   state.boat.boatSpeed = val;
 }
@@ -32,7 +32,7 @@ export function onBoatSpeedChange() {
  */
 export function onRiverSpeedChange() {
   if (!state.riverSpeedInput || !state.boat) return;
-  const val = parseFloat(state.riverSpeedInput.value());
+  const val = parseFloat(String(state.riverSpeedInput.value()));
   if (state.riverSpeedValue) state.riverSpeedValue.html(val.toFixed(1));
   state.boat.riverSpeed = val;
 }
@@ -42,8 +42,8 @@ export function onRiverSpeedChange() {
  */
 export function onReset() {
   if (!state.boatSpeedInput || !state.riverSpeedInput || !state.boat) return;
-  const boatSpeed = parseFloat(state.boatSpeedInput.value());
-  const riverSpeed = parseFloat(state.riverSpeedInput.value());
+  const boatSpeed = parseFloat(String(state.boatSpeedInput.value()));
+  const riverSpeed = parseFloat(String(state.riverSpeedInput.value()));
   state.boat.reset(boatSpeed, riverSpeed);
   if (state.playPauseButton) state.playPauseButton.html("開始");
 }

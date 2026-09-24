@@ -31,20 +31,23 @@ export function onMousePressed(p) {
   state.theta2 = computeRefractionAngle(state.theta1, state.n12);
   state.n12 = state.n2 / state.n1;
 
+  const { rotateRemocon, nRemocon } = state;
+  if (!rotateRemocon || !nRemocon) return;
+
   if (
     p.dist(
       p.width -
-        state.rotateRemocon.width +
-        (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+        rotateRemocon.width +
+        (REMOCON_HOTSPOT_X_NUMERATOR * rotateRemocon.width) /
           REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.height -
-        state.rotateRemocon.height +
-        (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.rotateRemocon.height) /
+        rotateRemocon.height +
+        (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * rotateRemocon.height) /
           REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.mouseX,
       p.mouseY
     ) <
-      state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+      rotateRemocon.width / HIT_RADIUS_DIVISOR &&
     state.lightRotateTheta < ANGLE_LIMIT_DEG
   ) {
     state.lightRotateTheta += ROTATE_STEP_DEG;
@@ -68,17 +71,17 @@ export function onMousePressed(p) {
   if (
     p.dist(
       p.width -
-        state.rotateRemocon.width +
-        (REMOCON_HOTSPOT_X_NUMERATOR * state.rotateRemocon.width) /
+        rotateRemocon.width +
+        (REMOCON_HOTSPOT_X_NUMERATOR * rotateRemocon.width) /
           REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.height -
-        state.rotateRemocon.height +
-        (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.rotateRemocon.height) /
+        rotateRemocon.height +
+        (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * rotateRemocon.height) /
           REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.mouseX,
       p.mouseY
     ) <
-      state.rotateRemocon.width / HIT_RADIUS_DIVISOR &&
+      rotateRemocon.width / HIT_RADIUS_DIVISOR &&
     state.lightRotateTheta > -ANGLE_LIMIT_DEG
   ) {
     state.lightRotateTheta -= ROTATE_STEP_DEG;
@@ -101,15 +104,15 @@ export function onMousePressed(p) {
   }
   if (
     p.dist(
-      (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+      (REMOCON_HOTSPOT_X_NUMERATOR * nRemocon.width) /
         REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.height / 2 +
-        (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.nRemocon.height) /
+        (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * nRemocon.height) /
           REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.mouseX,
       p.mouseY
     ) <
-    state.nRemocon.width / HIT_RADIUS_DIVISOR
+    nRemocon.width / HIT_RADIUS_DIVISOR
   ) {
     state.n1 += N_STEP;
     state.raysX =
@@ -125,15 +128,15 @@ export function onMousePressed(p) {
   }
   if (
     p.dist(
-      (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+      (REMOCON_HOTSPOT_X_NUMERATOR * nRemocon.width) /
         REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.height / 2 +
-        (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.nRemocon.height) /
+        (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * nRemocon.height) /
           REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.mouseX,
       p.mouseY
     ) <
-      state.nRemocon.width / HIT_RADIUS_DIVISOR &&
+      nRemocon.width / HIT_RADIUS_DIVISOR &&
     state.n1 > N_MIN
   ) {
     state.n1 -= N_STEP;
@@ -153,16 +156,16 @@ export function onMousePressed(p) {
   }
   if (
     p.dist(
-      (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+      (REMOCON_HOTSPOT_X_NUMERATOR * nRemocon.width) /
         REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.height / 2 -
-        state.nRemocon.height +
-        (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * state.nRemocon.height) /
+        nRemocon.height +
+        (REMOCON_HOTSPOT_TOP_Y_NUMERATOR * nRemocon.height) /
           REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.mouseX,
       p.mouseY
     ) <
-    state.nRemocon.width / HIT_RADIUS_DIVISOR
+    nRemocon.width / HIT_RADIUS_DIVISOR
   ) {
     state.n2 += N_STEP;
     state.raysX =
@@ -178,16 +181,16 @@ export function onMousePressed(p) {
   }
   if (
     p.dist(
-      (REMOCON_HOTSPOT_X_NUMERATOR * state.nRemocon.width) /
+      (REMOCON_HOTSPOT_X_NUMERATOR * nRemocon.width) /
         REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.height / 2 -
-        state.nRemocon.height +
-        (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * state.nRemocon.height) /
+        nRemocon.height +
+        (REMOCON_HOTSPOT_BOTTOM_Y_NUMERATOR * nRemocon.height) /
           REMOCON_HOTSPOT_RATIO_DENOMINATOR,
       p.mouseX,
       p.mouseY
     ) <
-      state.nRemocon.width / HIT_RADIUS_DIVISOR &&
+      nRemocon.width / HIT_RADIUS_DIVISOR &&
     state.n2 > N_MIN
   ) {
     state.n2 -= N_STEP;

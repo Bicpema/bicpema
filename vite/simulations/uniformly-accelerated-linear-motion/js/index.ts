@@ -36,21 +36,25 @@ const sketch = (p) => {
     }
 
     p.background(255);
-    state.car.update(1 / FPS);
+    const { car, graph } = state;
+    if (car) {
+      car.update(1 / FPS);
+    }
     p.scale(p.width / V_W);
 
     const vH = (V_W * p.height) / p.width;
-    const showMarkers =
-      state.showMarkersCheckBox && state.showMarkersCheckBox.checked();
+    const showMarkers = state.showMarkersCheckBox?.checked();
 
-    state.car.display(p, vH, {
-      carImage: state.carImage,
-      groundImage: state.groundImage,
-      showMarkers
-    });
+    if (car) {
+      car.display(p, vH, {
+        carImage: state.carImage ?? undefined,
+        groundImage: state.groundImage ?? undefined,
+        showMarkers
+      });
+    }
 
-    if (state.graphVisible) {
-      state.graph.updateGraph();
+    if (state.graphVisible && graph) {
+      graph.updateGraph();
     }
   };
 

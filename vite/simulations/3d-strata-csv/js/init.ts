@@ -85,7 +85,7 @@ export function elInit(p) {
 export function uiInit() {
   document
     .getElementById("screenshotButton")
-    .addEventListener("click", onScreenshotClick);
+    ?.addEventListener("click", onScreenshotClick);
   initModal({
     openSelectors: ".data-register-modal-open",
     modalSelector: "#dataRegisterModal",

@@ -18,8 +18,8 @@ import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
  * 画像の初期化を行う。
  */
 export function imgInit() {
-  state.YELLOW_CAR_IMG.resize(CAR_IMAGE_WIDTH, 0);
-  state.RED_CAR_IMAGE.resize(CAR_IMAGE_WIDTH, 0);
+  state.YELLOW_CAR_IMG!.resize(CAR_IMAGE_WIDTH, 0);
+  state.RED_CAR_IMAGE!.resize(CAR_IMAGE_WIDTH, 0);
 }
 
 /**
@@ -28,7 +28,7 @@ export function imgInit() {
  */
 function onReset(p) {
   state.isPlaying = true;
-  state.playButton.html("一時停止");
+  state.playButton!.html("一時停止");
   initValue(p);
 }
 
@@ -106,27 +106,30 @@ export function initValue(p) {
     carNum = Math.floor(CAR_TRAJECTORY_DISTANCE_THRESHOLD / minSpeed);
   }
 
-  state.YELLOW_CAR = new CAR(
+  const yellowCar = new CAR(
     0,
-    CANVAS_HEIGHT / 2 - state.YELLOW_CAR_IMG.height - ROAD_AREA_HEIGHT,
-    state.YELLOW_CAR_IMG,
+    CANVAS_HEIGHT / 2 - state.YELLOW_CAR_IMG!.height - ROAD_AREA_HEIGHT,
+    state.YELLOW_CAR_IMG!,
     YELLOW_CAR_SPEED,
     [],
     []
   );
-  state.RED_CAR = new CAR(
+  const redCar = new CAR(
     0,
-    CANVAS_HEIGHT - state.RED_CAR_IMAGE.height - ROAD_AREA_HEIGHT,
-    state.RED_CAR_IMAGE,
+    CANVAS_HEIGHT - state.RED_CAR_IMAGE!.height - ROAD_AREA_HEIGHT,
+    state.RED_CAR_IMAGE!,
     RED_CAR_SPEED,
     [],
     []
   );
 
   for (let i = 0; i <= carNum; i++) {
-    state.YELLOW_CAR.xarr.push({ x: i, y: state.YELLOW_CAR.speed * i });
-    state.RED_CAR.xarr.push({ x: i, y: state.RED_CAR.speed * i });
-    state.YELLOW_CAR.varr.push({ x: i, y: state.YELLOW_CAR.speed });
-    state.RED_CAR.varr.push({ x: i, y: state.RED_CAR.speed });
+    yellowCar.xarr.push({ x: i, y: yellowCar.speed * i });
+    redCar.xarr.push({ x: i, y: redCar.speed * i });
+    yellowCar.varr.push({ x: i, y: yellowCar.speed });
+    redCar.varr.push({ x: i, y: redCar.speed });
   }
+
+  state.YELLOW_CAR = yellowCar;
+  state.RED_CAR = redCar;
 }

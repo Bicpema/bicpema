@@ -111,13 +111,13 @@ export const updateChart = () => {
   // 末尾データのみ参照して x 上限を更新（配列全体の走査を避ける）
   const lastPoint = state.vtData[state.vtData.length - 1];
   const maxT = lastPoint ? lastPoint.x : 0;
-  state.graphChart.options.scales.x.max = Math.max(
+  state.graphChart.options.scales!.x!.max = Math.max(
     CHART_X_AXIS_MIN_MAX,
     Math.ceil(maxT / CHART_X_AXIS_ROUND_UNIT) * CHART_X_AXIS_ROUND_UNIT
   );
 
   // y軸上限は maxObservedVelocity を使用（減速中でも過去のピークを保持）
-  state.graphChart.options.scales.y.max = Math.max(
+  state.graphChart.options.scales!.y!.max = Math.max(
     CHART_Y_AXIS_MIN_MAX,
     Math.ceil(
       (state.maxObservedVelocity + CHART_Y_AXIS_VELOCITY_MARGIN) /

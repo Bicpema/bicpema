@@ -43,11 +43,11 @@ export function elCreate(p) {
   state.stopButton = stopButton;
   state.resetButton = resetButton;
 
-  state.gridButton.mousePressed(onGridClick);
-  state.leftAngleInput.input(onInputChange);
-  state.leftLengthInput.input(onInputChange);
-  state.rightAngleInput.input(onInputChange);
-  state.rightLengthInput.input(onInputChange);
+  state.gridButton!.mousePressed(onGridClick);
+  state.leftAngleInput!.input(onInputChange);
+  state.leftLengthInput!.input(onInputChange);
+  state.rightAngleInput!.input(onInputChange);
+  state.rightLengthInput!.input(onInputChange);
 
   initModal({
     openSelectors: ".settings-modal-open",
@@ -66,7 +66,7 @@ export function initValue(p) {
   state.gridIs = false;
   state.gravity = GRAVITY;
   state.count = 0;
-  state.weightImage.resize(p.width / WEIGHT_IMAGE_WIDTH_DIVISOR, 0);
+  state.weightImage!.resize(p.width / WEIGHT_IMAGE_WIDTH_DIVISOR, 0);
   state.leftPendulum = new Ball(INITIAL_STRING_LENGTH, INITIAL_LEFT_ANGLE_DEG);
   state.rightPendulum = new Ball(
     INITIAL_STRING_LENGTH,

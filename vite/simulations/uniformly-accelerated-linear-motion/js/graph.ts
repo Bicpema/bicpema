@@ -6,8 +6,7 @@ import { getCanvasElement } from "../../../js/bicpema-dom.js";
 const loadChart = createLazyImporter(() =>
   import("chart.js/auto").then((module) => module.default)
 );
-/** @type {typeof import("chart.js").Chart | null} */
-let Chart = null;
+let Chart: typeof import("chart.js").Chart | null = null;
 // 読み込み失敗後に毎フレーム再試行しないためのフラグ。
 let chartLoadFailed = false;
 
@@ -54,24 +53,23 @@ export class MotionGraph {
     const ctx = getCanvasElement("graphCanvas");
     if (!ctx) return;
 
+    const { car } = state;
+    if (!car) return;
+
     if (this.chart) {
       this.chart.destroy();
       this.chart = null;
     }
 
-    const maxTime = state.car.time > 0 ? state.car.time : 1;
+    const maxTime = car.time > 0 ? car.time : 1;
     const maxX =
       state.xtData.length > 0
         ? Math.max(...state.xtData.map((d) => d.y), 1)
         : 1;
     const maxV =
       state.vtData.length > 0
-        ? Math.max(
-            ...state.vtData.map((d) => d.y),
-            state.car.initialVelocity,
-            1
-          )
-        : Math.max(state.car.initialVelocity, 1);
+        ? Math.max(...state.vtData.map((d) => d.y), car.initialVelocity, 1)
+        : Math.max(car.initialVelocity, 1);
 
     const data = {
       datasets: [
@@ -100,8 +98,7 @@ export class MotionGraph {
       ]
     };
 
-    /** @type {import("chart.js").ChartOptions<"scatter">} */
-    const options = {
+    const options: import("chart.js").ChartOptions<"scatter"> = {
       plugins: {
         title: {
           display: true,
