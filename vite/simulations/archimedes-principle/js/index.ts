@@ -11,7 +11,7 @@ import {
   handleMouseReleased
 } from "./logic.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
   p.preload = () => {

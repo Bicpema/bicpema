@@ -1,3 +1,4 @@
+import type p5 from "p5";
 import { state } from "./state.js";
 
 /** 水槽画像の上端の余白（縁を含めて表示するための調整値） */
@@ -43,7 +44,7 @@ export class Tank {
    * 水槽を描画する。
    * @param {*} p p5インスタンス
    */
-  draw(p) {
+  draw(p: p5) {
     const halfW = this.w / 2;
     const imgX = this.cx - halfW;
     const imgY = this.bottomY - this.h;
@@ -66,7 +67,7 @@ export class Tank {
    * 円柱が水に沈み込んでいるように見せる。
    * @param {*} p p5インスタンス
    */
-  drawWaterSurfaceLine(p) {
+  drawWaterSurfaceLine(p: p5) {
     const img = state.tankImage;
     if (!img) return;
 

@@ -6,7 +6,7 @@ import { elCreate, elInit } from "./init.js";
 import { loadOpenerLayers } from "./element-function.js";
 import { drawSimulation } from "./logic.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   // html要素が全て読み込まれた後に、親ウィンドウから地層データを引き継ぐ
   window.addEventListener("load", () => {
     loadOpenerLayers(p);

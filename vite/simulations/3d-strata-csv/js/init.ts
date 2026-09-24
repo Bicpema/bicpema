@@ -1,5 +1,6 @@
 // init.jsは初期処理専用のファイルです。
 
+import type p5 from "p5";
 import {
   initModal,
   initOffcanvas,
@@ -34,19 +35,19 @@ const JA_FONT_URL =
  * DOM要素の参照を取得・生成する。
  * @param {*} p p5インスタンス
  */
-export function elCreate(p) {
+export function elCreate(p: p5) {
   state.buttonParent = p.select("#buttonParent");
   state.placeAddButton = p.select("#placeAddButton");
   state.placeRemoveButton = p.select("#placeRemoveButton");
   state.strataAddButton = p.select("#strataAddButton");
   state.strataRemoveButton = p.select("#strataRemoveButton");
 
-  const setRadioParent = p.select("#setRadioParent");
+  const setRadioParent = p.select("#setRadioParent")!;
   state.setRadioButton = p.createRadio().parent(setRadioParent);
 
   state.unitSelect = p.select("#unitSelect");
   state.strataFileInput = p
-    .createFileInput((file) => strataFileInputFunction(file, p))
+    .createFileInput((file: p5.File) => strataFileInputFunction(file, p))
     .class(
       "block text-sm text-neutral-700 file:mr-3 file:rounded-full file:border-0 file:bg-blue-600 file:px-3 file:py-2 file:text-white hover:file:bg-blue-500"
     );
@@ -56,7 +57,7 @@ export function elCreate(p) {
  * DOM要素の位置・イベントを設定する。
  * @param {*} p p5インスタンス
  */
-export function elInit(p) {
+export function elInit(p: p5) {
   state.buttonParent.position(UI_EDGE_MARGIN, HEADER_HEIGHT + UI_EDGE_MARGIN);
   state.buttonParent.elt.style.left = "auto";
   state.buttonParent.elt.style.right = `${UI_EDGE_MARGIN}px`;
@@ -108,7 +109,7 @@ export function uiInit() {
  * カメラ位置・フレームレートなどシミュレーションの初期値を設定する。
  * @param {*} p p5インスタンス
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   p.frameRate(FRAME_RATE);
   p.textAlign(p.CENTER);
   p.textSize(TEXT_SIZE);
@@ -120,10 +121,10 @@ export function initValue(p) {
  * 日本語フォントを非同期で読み込む（読み込み失敗してもシミュレーションは動作する）。
  * @param {*} p p5インスタンス
  */
-export function loadJapaneseFont(p) {
+export function loadJapaneseFont(p: p5) {
   p.loadFont(
     JA_FONT_URL,
-    (font) => {
+    (font: p5.Font) => {
       state.jaFont = font;
       p.textFont(state.jaFont);
     },

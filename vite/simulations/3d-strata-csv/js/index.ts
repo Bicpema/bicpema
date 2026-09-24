@@ -21,7 +21,7 @@ import {
   thirdPlaceSelectFunction
 } from "./element-function.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({
     fixedAspectRatio: false,
     is3D: true

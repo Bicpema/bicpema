@@ -4,7 +4,7 @@
  * @param {number[]} values 座標値の配列
  * @returns {{min: number, max: number}} 最小値・最大値
  */
-export function computeCoordinateBounds(values) {
+export function computeCoordinateBounds(values: number[]) {
   if (values.length === 0) {
     return { min: 0, max: 0 };
   }

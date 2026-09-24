@@ -1,3 +1,4 @@
+import type p5 from "p5";
 import { state } from "./state.js";
 
 /** 水の密度 (g/cm³) */
@@ -53,7 +54,7 @@ export class Cylinder {
    * @param {number} waterSurfaceY 水面のY座標（キャンバス座標）
    * @param {number} tankBottomY 水槽底面のY座標（キャンバス座標）
    */
-  update(waterSurfaceY, tankBottomY) {
+  update(waterSurfaceY: number, tankBottomY: number) {
     if (this.dragging) {
       return;
     }
@@ -113,7 +114,7 @@ export class Cylinder {
    * 円柱を描画する。
    * @param {*} p p5インスタンス
    */
-  draw(p) {
+  draw(p: p5) {
     const r = this.r;
     const h = this.h;
     const cylCx = this.cx;
@@ -132,7 +133,7 @@ export class Cylinder {
    * @param {number} waterSurfaceY 水面のY座標
    * @returns {number} 水中体積比（0〜1）
    */
-  getSubmergedFraction(waterSurfaceY) {
+  getSubmergedFraction(waterSurfaceY: number) {
     const topY = this.cy - this.h;
     const bottomY = this.cy;
     if (bottomY <= waterSurfaceY) {
@@ -150,7 +151,7 @@ export class Cylinder {
    * @param {number} my マウスY座標
    * @returns {boolean}
    */
-  isOver(mx, my) {
+  isOver(mx: number, my: number) {
     return (
       mx >= this.cx - this.r &&
       mx <= this.cx + this.r &&

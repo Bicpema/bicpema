@@ -1,5 +1,7 @@
+import type p5 from "p5";
 import { state } from "./state.js";
 import { BASE_W, BASE_H, TANK_BOTTOM_Y } from "./init.js";
+import type { Cylinder } from "./cylinder.js";
 
 /** シミュレーション内で使用する水面Y座標（基準座標系） */
 const WATER_SURFACE_Y = 175;
@@ -26,7 +28,7 @@ const DRAG_BOTTOM_MARGIN = 50;
  * @param {import("./cylinder.js").Cylinder} cylinder 円柱オブジェクト
  * @param {number} waterSurfaceY 水面のY座標
  */
-function drawInfoText(cylinder, waterSurfaceY) {
+function drawInfoText(cylinder: Cylinder, waterSurfaceY: number) {
   const subFrac = cylinder.getSubmergedFraction(waterSurfaceY);
   const pct = Math.round(subFrac * 100);
   const label = document.getElementById("submergedRatioLabel");
@@ -48,7 +50,18 @@ function drawInfoText(cylinder, waterSurfaceY) {
  * @param {number} ly ラベルY座標
  * @param {string} lAlignH 水平アライメント（p.LEFT / p.CENTER / p.RIGHT）
  */
-function drawArrow(p, x1, y1, x2, y2, col, label, lx, ly, lAlignH) {
+function drawArrow(
+  p: p5,
+  x1: number,
+  y1: number,
+  x2: number,
+  y2: number,
+  col: number[],
+  label: string,
+  lx: number,
+  ly: number,
+  lAlignH: p5.HORIZ_ALIGN
+) {
   const dx = x2 - x1;
   const dy = y2 - y1;
   const angle = Math.atan2(dy, dx);
@@ -91,7 +104,7 @@ function drawArrow(p, x1, y1, x2, y2, col, label, lx, ly, lAlignH) {
  *  2. 浮力（↑, 緑）: 水中体積比に比例
  * @param {*} p p5インスタンス
  */
-function drawForceArrows(p) {
+function drawForceArrows(p: p5) {
   const cylinder = state.cylinder;
   if (!cylinder) return;
 
@@ -140,7 +153,7 @@ function drawForceArrows(p) {
  * シミュレーション全体の描画と物理更新を行う関数。
  * @param {*} p p5インスタンス。
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   p.scale(p.width / BASE_W);
 
   p.background(255);
@@ -179,7 +192,7 @@ export function drawSimulation(p) {
  * マウス押下時の処理。
  * @param {*} p p5インスタンス。
  */
-export function handleMousePressed(p) {
+export function handleMousePressed(p: p5) {
   const scaleX = BASE_W / p.width;
   const scaleY = BASE_H / p.height;
   const mx = p.mouseX * scaleX;
@@ -196,7 +209,7 @@ export function handleMousePressed(p) {
  * マウスリリース時の処理。
  * @param {*} p p5インスタンス。
  */
-export function handleMouseReleased(p) {
+export function handleMouseReleased(p: p5) {
   if (state.cylinder && state.cylinder.dragging) {
     state.cylinder.dragging = false;
     state.cylinder.vy = 0;

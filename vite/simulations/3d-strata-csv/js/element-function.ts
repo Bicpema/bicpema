@@ -1,11 +1,20 @@
 // element-function.js は仮想DOMメソッド管理専用のファイルです。
 
+import type p5 from "p5";
 import { state, STRATA_KINDS } from "./state.js";
 import { DOM } from "./class.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
 import { getSelectElement } from "../../../js/bicpema-dom.js";
 
 const loadScreenshot = createLazyImporter(() => import("modern-screenshot"));
+
+/**
+ * p.select()・p.createSelect()が返すp5.Elementは、実際にはoption()メソッドを
+ * 持つが、@types/p5の型定義には含まれていないため、ここで補って扱う。
+ */
+type SelectElement = p5.Element & {
+  option(value: string, label?: string): unknown;
+};
 
 /**
  * `document.getElementById(id)` の戻り値を非null型として取得するヘルパー。
@@ -68,7 +77,7 @@ export function onScreenshotClick() {
  * 地点データが入力された時に動く処理。
  * @param {*} p p5インスタンス
  */
-export function placeNameInputFunction(p) {
+export function placeNameInputFunction(p: p5) {
   const placeNum = Object.keys(state.dataInputArr).length;
 
   for (let i = 0; i < placeNum; i++) {
@@ -100,7 +109,7 @@ export function placeNameInputFunction(p) {
  * 地点データの追加ボタンを押した時に動く処理。
  * @param {*} p p5インスタンス
  */
-export function placeAddButtonFunction(p) {
+export function placeAddButtonFunction(p: p5) {
   const placeNum = Object.keys(state.dataInputArr).length;
   const newPlaceNum = placeNum + 1;
   const newDom = new DOM(newPlaceNum, p);
@@ -131,11 +140,11 @@ export function placeAddButtonFunction(p) {
  * 地点データの削除ボタンを押した時に動く処理。
  * @param {*} p p5インスタンス
  */
-export function placeRemoveButtonFunction(p) {
+export function placeRemoveButtonFunction(p: p5) {
   const placeNum = Object.keys(state.dataInputArr).length;
   if (placeNum > 0) {
-    p.select("#placeNameInput" + placeNum).remove();
-    p.select("#placeDataInput" + placeNum).remove();
+    p.select("#placeNameInput" + placeNum)!.remove();
+    p.select("#placeDataInput" + placeNum)!.remove();
     delete state.dataInputArr["地点" + placeNum];
   }
   placeRefreshFunction(p);
@@ -145,7 +154,7 @@ export function placeRemoveButtonFunction(p) {
  * 平面を構成する地層の組を追加するボタンを押した時の処理。
  * @param {*} p p5インスタンス
  */
-export function strataAddButtonFunction(p) {
+export function strataAddButtonFunction(p: p5) {
   const nextTrNum = requireElementById("strataSelect").childElementCount + 1;
   p.createElement("tr")
     .parent("strataSelect")
@@ -164,7 +173,7 @@ export function strataAddButtonFunction(p) {
     .class(
       "block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
     )
-    .id("select1-" + nextTrNum);
+    .id("select1-" + nextTrNum) as SelectElement;
   requireElementById("select1-" + nextTrNum).addEventListener("change", () =>
     strataSelectFunction(p)
   );
@@ -218,10 +227,10 @@ export function strataRemoveButtonFunction() {
  * 平面を構成する１つ目の地点のデータに関連する処理。
  * @param {*} p p5インスタンス
  */
-export function firstPlaceSelectFunction(p) {
-  const firstPlaceSelect = p.select("#firstPlaceSelect");
+export function firstPlaceSelectFunction(p: p5) {
+  const firstPlaceSelect = p.select("#firstPlaceSelect")!;
   const firstPlaceName = requireElementById("firstPlaceName");
-  firstPlaceName.innerHTML = firstPlaceSelect.value();
+  firstPlaceName.innerHTML = String(firstPlaceSelect.value());
   let placeName = firstPlaceName.innerHTML;
   for (const key in state.dataInputArr) {
     if (state.dataInputArr[key].name.value() === placeName) {
@@ -236,8 +245,8 @@ export function firstPlaceSelectFunction(p) {
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
-      const strataKind = p.select("#select1-" + (i + 1)).value();
-      const element = p.select("#select2-" + (i + 1));
+      const strataKind = p.select("#select1-" + (i + 1))!.value();
+      const element = p.select("#select2-" + (i + 1)) as SelectElement;
       for (let j = 0; j < strataArr.length; j++) {
         if (strataKind === strataArr[j][2]) {
           element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
@@ -258,10 +267,10 @@ export function firstPlaceSelectFunction(p) {
  * 平面を構成する２つ目の地点のデータに関連する処理。
  * @param {*} p p5インスタンス
  */
-export function secondPlaceSelectFunction(p) {
-  const secondPlaceSelect = p.select("#secondPlaceSelect");
+export function secondPlaceSelectFunction(p: p5) {
+  const secondPlaceSelect = p.select("#secondPlaceSelect")!;
   const secondPlaceName = requireElementById("secondPlaceName");
-  secondPlaceName.innerHTML = secondPlaceSelect.value();
+  secondPlaceName.innerHTML = String(secondPlaceSelect.value());
   let placeName = secondPlaceName.innerHTML;
   for (const key in state.dataInputArr) {
     if (state.dataInputArr[key].name.value() === placeName) {
@@ -276,8 +285,8 @@ export function secondPlaceSelectFunction(p) {
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
-      const strataKind = p.select("#select1-" + (i + 1)).value();
-      const element = p.select("#select3-" + (i + 1));
+      const strataKind = p.select("#select1-" + (i + 1))!.value();
+      const element = p.select("#select3-" + (i + 1)) as SelectElement;
       for (let j = 0; j < strataArr.length; j++) {
         if (strataKind === strataArr[j][2]) {
           element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
@@ -298,10 +307,10 @@ export function secondPlaceSelectFunction(p) {
  * 平面を構成する３つ目の地点のデータに関連する処理。
  * @param {*} p p5インスタンス
  */
-export function thirdPlaceSelectFunction(p) {
-  const thirdPlaceSelect = p.select("#thirdPlaceSelect");
+export function thirdPlaceSelectFunction(p: p5) {
+  const thirdPlaceSelect = p.select("#thirdPlaceSelect")!;
   const thirdPlaceName = requireElementById("thirdPlaceName");
-  thirdPlaceName.innerHTML = thirdPlaceSelect.value();
+  thirdPlaceName.innerHTML = String(thirdPlaceSelect.value());
   let placeName = thirdPlaceName.innerHTML;
   for (const key in state.dataInputArr) {
     if (state.dataInputArr[key].name.value() === placeName) {
@@ -316,8 +325,8 @@ export function thirdPlaceSelectFunction(p) {
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
-      const strataKind = p.select("#select1-" + (i + 1)).value();
-      const element = p.select("#select4-" + (i + 1));
+      const strataKind = p.select("#select1-" + (i + 1))!.value();
+      const element = p.select("#select4-" + (i + 1)) as SelectElement;
       for (let j = 0; j < strataArr.length; j++) {
         if (strataKind === strataArr[j][2]) {
           element.option(strataArr[j][0] + "m-" + strataArr[j][1] + "m");
@@ -338,7 +347,7 @@ export function thirdPlaceSelectFunction(p) {
  * 平面を構成する地層の種類が変わったときの処理。
  * @param {*} p p5インスタンス
  */
-export function strataSelectFunction(p) {
+export function strataSelectFunction(p: p5) {
   firstPlaceSelectFunction(p);
   secondPlaceSelectFunction(p);
   thirdPlaceSelectFunction(p);
@@ -348,10 +357,10 @@ export function strataSelectFunction(p) {
  * 平面を構成する地点の選択肢を更新する処理。
  * @param {*} p p5インスタンス
  */
-export function placeRefreshFunction(p) {
-  const firstPlaceSelect = p.select("#firstPlaceSelect");
-  const secondPlaceSelect = p.select("#secondPlaceSelect");
-  const thirdPlaceSelect = p.select("#thirdPlaceSelect");
+export function placeRefreshFunction(p: p5) {
+  const firstPlaceSelect = p.select("#firstPlaceSelect") as SelectElement;
+  const secondPlaceSelect = p.select("#secondPlaceSelect") as SelectElement;
+  const thirdPlaceSelect = p.select("#thirdPlaceSelect") as SelectElement;
 
   const firstPlaceSelectDoc = requireSelectElement("firstPlaceSelect");
   const secondPlaceSelectDoc = requireSelectElement("secondPlaceSelect");
@@ -438,7 +447,7 @@ export function unitSelectFunction() {
  * @param {import("p5").File} file p5.jsのファイルオブジェクト
  * @param {*} p p5インスタンス
  */
-export function strataFileInputFunction(file, p) {
+export function strataFileInputFunction(file: p5.File, p: p5) {
   if (file.type === "text") {
     state.dataInputArr = {};
     // FileReader を使ってバイナリデータを読み込む
@@ -465,7 +474,7 @@ export function strataFileInputFunction(file, p) {
  * @param {string} csvText CSVファイルの内容
  * @param {*} p p5インスタンス
  */
-export function processCSV(csvText, p) {
+export function processCSV(csvText: string, p: p5) {
   // 改行コードを統一（\r を削除）
   csvText = csvText.replace(/\r/g, "");
 
@@ -513,7 +522,7 @@ export function processCSV(csvText, p) {
  * window.opener経由で子ウィンドウから直接呼び出されるため、windowへの公開が必要。
  * @param {[string, Array]} arr [地点名, 地層データ配列]
  */
-export function submit(arr) {
+export function submit(arr: [string, unknown[]]) {
   const [name, dataArr] = arr;
   for (const key in state.dataInputArr) {
     if (Object.hasOwn(state.dataInputArr, key)) {
@@ -532,7 +541,7 @@ export function submit(arr) {
  * @param {string} placeName 地点名
  * @returns {Array} 地層データ配列
  */
-export function loadLayers(placeName) {
+export function loadLayers(placeName: string) {
   let arrKey = placeName;
   for (const key in state.dataInputArr) {
     if (state.dataInputArr[key].name.value() === arrKey) {
