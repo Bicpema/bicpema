@@ -5,7 +5,7 @@ import {
 } from "./physics.js";
 import { CURRENT_THRESHOLD, ARROW_SPACING } from "./constants.js";
 
-let lastCurrentVal = null;
+let lastCurrentVal: number | null = null;
 
 function getCurrentVal() {
   const currentSlider = document.getElementById(
