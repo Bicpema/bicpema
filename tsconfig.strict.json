@@ -4,5 +4,13 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true
   },
-  "include": ["vite/types/**/*.ts", "vite/_build/**/*.js", "vite/js/**/*.ts"]
+  "include": [
+    "vite/types/**/*.ts",
+    "vite/_build/**/*.js",
+    "vite/js/**/*.ts",
+    "vite/simulations/lens/**/*.ts",
+    "vite/simulations/refraction/**/*.ts",
+    "vite/simulations/magnetic-field-straight/**/*.ts",
+    "vite/simulations/transformer/**/*.ts"
+  ]
 }

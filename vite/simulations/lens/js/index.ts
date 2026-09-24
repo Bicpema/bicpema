@@ -24,7 +24,14 @@ import {
   HEAD_TILT_ANGLE_RAD
 } from "./constants.js";
 
-const state = {
+const state: {
+  headImg: p5.Image | null;
+  convexLensImg: p5.Image | null;
+  concaveLensImg: p5.Image | null;
+  candleImg: p5.Image | null;
+  fImg: p5.Image | null;
+  ledImg: p5.Image | null;
+} = {
   headImg: null,
   convexLensImg: null,
   concaveLensImg: null,
@@ -165,17 +172,29 @@ let pg;
 
 //初期設定
 function initSettings(p) {
+  const { headImg, convexLensImg, concaveLensImg, candleImg, fImg, ledImg } =
+    state;
+  if (
+    !headImg ||
+    !convexLensImg ||
+    !concaveLensImg ||
+    !candleImg ||
+    !fImg ||
+    !ledImg
+  ) {
+    return;
+  }
   lensWidth = p.width / 48;
   lensHeight = 7 * lensWidth;
   screenWidth = lensWidth / 3;
   screenHeight = lensHeight;
-  state.headImg.resize(p.width / 10, 0);
-  state.convexLensImg.resize(lensWidth, lensHeight);
-  state.concaveLensImg.resize(lensWidth, lensHeight);
-  state.candleImg.resize(0, p.height / 8);
-  state.fImg.resize(0, p.height / 8);
-  state.ledImg.resize(0, p.height / 8);
-  objectY = p.height / 2 - state.candleImg.height;
+  headImg.resize(p.width / 10, 0);
+  convexLensImg.resize(lensWidth, lensHeight);
+  concaveLensImg.resize(lensWidth, lensHeight);
+  candleImg.resize(0, p.height / 8);
+  fImg.resize(0, p.height / 8);
+  ledImg.resize(0, p.height / 8);
+  objectY = p.height / 2 - candleImg.height;
   blurValue = 0;
   if (pg) {
     // 作り直すとフィルター用に内部で保持されるWebGLレイヤーがDOMに残り続けるため、リサイズのみ行う
@@ -330,6 +349,8 @@ function dashedLine(p, aX, aY, bX, bY) {
 
 //光線の描画
 function opticalPathDisplay(p, img) {
+  const { headImg } = state;
+  if (!headImg) return;
   //変数の設定
   const a = (4 * p.width) / 10 - objectXSlider.value();
   let b;
@@ -355,8 +376,8 @@ function opticalPathDisplay(p, img) {
       p.line(
         p.width / 2,
         objectY,
-        p.width - state.headImg.width,
-        objectY + (p.width / 2 - state.headImg.width) * p.tan(theta_1)
+        p.width - headImg.width,
+        objectY + (p.width / 2 - headImg.width) * p.tan(theta_1)
       );
       const theta_3 = p.atan((img.height / 2 + img.height * m) / b);
       p.line(
@@ -368,16 +389,16 @@ function opticalPathDisplay(p, img) {
       p.line(
         p.width / 2,
         objectY + img.height / 2,
-        p.width - state.headImg.width,
-        (p.width / 2 - state.headImg.width) * p.tan(theta_3) +
+        p.width - headImg.width,
+        (p.width / 2 - headImg.width) * p.tan(theta_3) +
           objectY +
           img.height / 2
       );
       p.line(
         objectXSlider.value() + p.width / 10,
         objectY,
-        p.width - state.headImg.width,
-        objectY + (a + p.width / 2 - state.headImg.width) * p.tan(theta_2)
+        p.width - headImg.width,
+        objectY + (a + p.width / 2 - headImg.width) * p.tan(theta_2)
       );
       const theta_4 = p.atan((img.height * m - img.height / 2) / b);
       p.line(
@@ -389,8 +410,8 @@ function opticalPathDisplay(p, img) {
       p.line(
         p.width / 2,
         p.height / 2 + img.height / 2,
-        p.width - state.headImg.width,
-        (p.width / 2 - state.headImg.width) * p.tan(theta_4) +
+        p.width - headImg.width,
+        (p.width / 2 - headImg.width) * p.tan(theta_4) +
           p.height / 2 +
           img.height / 2
       );
@@ -404,7 +425,7 @@ function opticalPathDisplay(p, img) {
         p.line(
           p.width / 2,
           p.height / 2 + img.height * m,
-          p.width - state.headImg.width,
+          p.width - headImg.width,
           p.height / 2 + img.height * m
         );
       }
@@ -420,17 +441,17 @@ function opticalPathDisplay(p, img) {
       theta_2 = p.atan(img.height / a);
       dashedLine(
         p,
-        state.headImg.width,
+        headImg.width,
         p.height / 2 -
-          (p.width / 2 - state.headImg.width) * p.tan(theta_1) -
+          (p.width / 2 - headImg.width) * p.tan(theta_1) -
           img.height,
         p.width / 2,
         objectY
       );
       dashedLine(
         p,
-        state.headImg.width,
-        p.height / 2 - (p.width / 2 - state.headImg.width) * p.tan(theta_2),
+        headImg.width,
+        p.height / 2 - (p.width / 2 - headImg.width) * p.tan(theta_2),
         objectXSlider.value() + p.width / 10,
         objectY
       );
@@ -443,14 +464,14 @@ function opticalPathDisplay(p, img) {
       p.line(
         p.width / 2,
         objectY,
-        p.width - state.headImg.width,
-        objectY + (p.width / 2 - state.headImg.width) * p.tan(theta_1)
+        p.width - headImg.width,
+        objectY + (p.width / 2 - headImg.width) * p.tan(theta_1)
       );
       p.line(
         objectXSlider.value() + p.width / 10,
         objectY,
-        p.width - state.headImg.width,
-        objectY + (a + p.width / 2 - state.headImg.width) * p.tan(theta_2)
+        p.width - headImg.width,
+        objectY + (a + p.width / 2 - headImg.width) * p.tan(theta_2)
       );
     }
   }
@@ -479,10 +500,8 @@ function opticalPathDisplay(p, img) {
     p.line(
       p.width / 2,
       objectY,
-      p.width - state.headImg.width,
-      p.height / 2 -
-        (p.width / 2 - state.headImg.width) * p.tan(theta_1) -
-        img.height
+      p.width - headImg.width,
+      p.height / 2 - (p.width / 2 - headImg.width) * p.tan(theta_1) - img.height
     );
     p.line(
       objectXSlider.value() + p.width / 10,
@@ -493,7 +512,7 @@ function opticalPathDisplay(p, img) {
     p.line(
       p.width / 2,
       p.height / 2 - img.height * m,
-      p.width - state.headImg.width,
+      p.width - headImg.width,
       p.height / 2 - img.height * m
     );
     dashedLine(
@@ -507,17 +526,17 @@ function opticalPathDisplay(p, img) {
       p,
       p.width / 2,
       p.height / 2 - img.height * m,
-      p.width - state.headImg.width,
+      p.width - headImg.width,
       p.height / 2 +
-        (p.width / 2 - state.headImg.width) * p.tan(theta_2) -
+        (p.width / 2 - headImg.width) * p.tan(theta_2) -
         img.height * m
     );
     const theta_3 = p.atan(img.height / a);
     p.line(
       objectXSlider.value() + p.width / 10,
       objectY,
-      p.width - state.headImg.width,
-      p.height / 2 + (p.width / 2 - state.headImg.width) * p.tan(theta_3)
+      p.width - headImg.width,
+      p.height / 2 + (p.width / 2 - headImg.width) * p.tan(theta_3)
     );
   }
 
@@ -539,8 +558,8 @@ function opticalPathDisplay(p, img) {
       p.line(
         p.width / 2,
         objectY,
-        p.width - state.headImg.width,
-        objectY + (p.width / 2 - state.headImg.width) * p.tan(theta_1)
+        p.width - headImg.width,
+        objectY + (p.width / 2 - headImg.width) * p.tan(theta_1)
       );
       const theta_3 = p.atan((img.height / 2 + img.height * m) / b);
       p.line(
@@ -552,16 +571,16 @@ function opticalPathDisplay(p, img) {
       p.line(
         p.width / 2,
         objectY + img.height / 2,
-        p.width - state.headImg.width,
-        (p.width / 2 - state.headImg.width) * p.tan(theta_3) +
+        p.width - headImg.width,
+        (p.width / 2 - headImg.width) * p.tan(theta_3) +
           objectY +
           img.height / 2
       );
       p.line(
         objectXSlider.value() + p.width / 10,
         objectY,
-        p.width - state.headImg.width,
-        objectY + (a + p.width / 2 - state.headImg.width) * p.tan(theta_2)
+        p.width - headImg.width,
+        objectY + (a + p.width / 2 - headImg.width) * p.tan(theta_2)
       );
       p.line(
         objectXSlider.value() + p.width / 10,
@@ -585,17 +604,17 @@ function opticalPathDisplay(p, img) {
       theta_2 = p.atan(img.height / a);
       dashedLine(
         p,
-        state.headImg.width,
+        headImg.width,
         p.height / 2 -
-          (p.width / 2 - state.headImg.width) * p.tan(theta_1) -
+          (p.width / 2 - headImg.width) * p.tan(theta_1) -
           img.height,
         p.width / 2,
         objectY
       );
       dashedLine(
         p,
-        state.headImg.width,
-        p.height / 2 - (p.width / 2 - state.headImg.width) * p.tan(theta_2),
+        headImg.width,
+        p.height / 2 - (p.width / 2 - headImg.width) * p.tan(theta_2),
         objectXSlider.value() + p.width / 10,
         objectY
       );
@@ -608,14 +627,14 @@ function opticalPathDisplay(p, img) {
       p.line(
         p.width / 2,
         objectY,
-        p.width - state.headImg.width,
-        objectY + (p.width / 2 - state.headImg.width) * p.tan(theta_1)
+        p.width - headImg.width,
+        objectY + (p.width / 2 - headImg.width) * p.tan(theta_1)
       );
       p.line(
         objectXSlider.value() + p.width / 10,
         objectY,
-        p.width - state.headImg.width,
-        objectY + (a + p.width / 2 - state.headImg.width) * p.tan(theta_2)
+        p.width - headImg.width,
+        objectY + (a + p.width / 2 - headImg.width) * p.tan(theta_2)
       );
     }
     p.fill(LENS_MOUNT_COLOR);
@@ -654,8 +673,8 @@ function opticalPathDisplay(p, img) {
       p.line(
         p.width / 2,
         objectY + img.height / 2,
-        p.width - state.headImg.width,
-        (p.width / 2 - state.headImg.width) * p.tan(theta_3) +
+        p.width - headImg.width,
+        (p.width / 2 - headImg.width) * p.tan(theta_3) +
           objectY +
           img.height / 2
       );
@@ -675,8 +694,8 @@ function opticalPathDisplay(p, img) {
       p.line(
         p.width / 2,
         p.height / 2 + img.height / 2,
-        p.width - state.headImg.width,
-        (p.width / 2 - state.headImg.width) * p.tan(theta_4) +
+        p.width - headImg.width,
+        (p.width / 2 - headImg.width) * p.tan(theta_4) +
           p.height / 2 +
           img.height / 2
       );
@@ -688,15 +707,16 @@ function opticalPathDisplay(p, img) {
           p.height / 2 + img.height * m
         );
         if (
-          p.height / 2 + img.height * m <
+          state.candleImg &&
+          (p.height / 2 + img.height * m <
             p.height / 2 + state.candleImg.height - lensHeight / 12 ||
-          p.height / 2 + img.height * m >
-            p.height / 2 + state.candleImg.height + lensHeight / 12
+            p.height / 2 + img.height * m >
+              p.height / 2 + state.candleImg.height + lensHeight / 12)
         ) {
           p.line(
             p.width / 2,
             p.height / 2 + img.height * m,
-            p.width - state.headImg.width,
+            p.width - headImg.width,
             p.height / 2 + img.height * m
           );
         }
@@ -713,17 +733,17 @@ function opticalPathDisplay(p, img) {
       theta_2 = p.atan(img.height / a);
       dashedLine(
         p,
-        state.headImg.width,
+        headImg.width,
         p.height / 2 -
-          (p.width / 2 - state.headImg.width) * p.tan(theta_1) -
+          (p.width / 2 - headImg.width) * p.tan(theta_1) -
           img.height,
         p.width / 2,
         objectY
       );
       dashedLine(
         p,
-        state.headImg.width,
-        p.height / 2 - (p.width / 2 - state.headImg.width) * p.tan(theta_2),
+        headImg.width,
+        p.height / 2 - (p.width / 2 - headImg.width) * p.tan(theta_2),
         objectXSlider.value() + p.width / 10,
         objectY
       );
@@ -736,14 +756,14 @@ function opticalPathDisplay(p, img) {
       p.line(
         p.width / 2,
         objectY,
-        p.width - state.headImg.width,
-        objectY + (p.width / 2 - state.headImg.width) * p.tan(theta_1)
+        p.width - headImg.width,
+        objectY + (p.width / 2 - headImg.width) * p.tan(theta_1)
       );
       p.line(
         objectXSlider.value() + p.width / 10,
         objectY,
-        p.width - state.headImg.width,
-        objectY + (a + p.width / 2 - state.headImg.width) * p.tan(theta_2)
+        p.width - headImg.width,
+        objectY + (a + p.width / 2 - headImg.width) * p.tan(theta_2)
       );
     }
     p.fill(LENS_MOUNT_COLOR);
@@ -754,24 +774,28 @@ function opticalPathDisplay(p, img) {
       lensWidth / 2,
       lensHeight / 6
     );
-    p.rect(
-      p.width / 2 - lensWidth / 2,
-      p.height / 2 - state.candleImg.height - lensHeight / 12,
-      lensWidth / 2,
-      lensHeight / 6
-    );
-    p.rect(
-      p.width / 2 - lensWidth / 2,
-      p.height / 2 + state.candleImg.height - lensHeight / 12,
-      lensWidth / 2,
-      lensHeight / 6
-    );
+    if (state.candleImg) {
+      p.rect(
+        p.width / 2 - lensWidth / 2,
+        p.height / 2 - state.candleImg.height - lensHeight / 12,
+        lensWidth / 2,
+        lensHeight / 6
+      );
+      p.rect(
+        p.width / 2 - lensWidth / 2,
+        p.height / 2 + state.candleImg.height - lensHeight / 12,
+        lensWidth / 2,
+        lensHeight / 6
+      );
+    }
     p.stroke(255);
   }
 }
 
 //物体と虚像の描画
 function objectAndVirtualImageDisplay(p, img) {
+  const { headImg } = state;
+  if (!headImg) return;
   //変数の設定
   const a = (4 * p.width) / 10 - objectXSlider.value();
   let b;
@@ -831,10 +855,10 @@ function objectAndVirtualImageDisplay(p, img) {
       p.stroke(255);
       p.push();
       p.translate(
-        p.width - state.headImg.width,
+        p.width - headImg.width,
         p.height / 2 -
           img.height +
-          (p.width / 2 - state.headImg.width) *
+          (p.width / 2 - headImg.width) *
             p.tan(
               p.atan(
                 img.height / ((4 * p.width) / 10 - focusLengthSlider.value())
@@ -842,7 +866,7 @@ function objectAndVirtualImageDisplay(p, img) {
             )
       );
       p.rotate(HEAD_TILT_ANGLE_RAD);
-      p.image(state.headImg, 0, 0);
+      p.image(headImg, 0, 0);
       p.pop();
     }
   }
@@ -871,9 +895,9 @@ function objectAndVirtualImageDisplay(p, img) {
     p.stroke(255);
     p.push();
     p.translate(
-      p.width - state.headImg.width,
+      p.width - headImg.width,
       p.height / 2 -
-        (p.width / 2 - state.headImg.width) *
+        (p.width / 2 - headImg.width) *
           p.tan(
             p.atan(
               img.height / ((4 * p.width) / 10 - focusLengthSlider.value())
@@ -882,7 +906,7 @@ function objectAndVirtualImageDisplay(p, img) {
         img.height
     );
     p.rotate(-HEAD_TILT_ANGLE_RAD);
-    p.image(state.headImg, 0, 0);
+    p.image(headImg, 0, 0);
     p.pop();
   }
 
@@ -910,10 +934,10 @@ function objectAndVirtualImageDisplay(p, img) {
       p.stroke(255);
       p.push();
       p.translate(
-        p.width - state.headImg.width,
+        p.width - headImg.width,
         p.height / 2 -
           img.height +
-          (p.width / 2 - state.headImg.width) *
+          (p.width / 2 - headImg.width) *
             p.tan(
               p.atan(
                 img.height / ((4 * p.width) / 10 - focusLengthSlider.value())
@@ -921,7 +945,7 @@ function objectAndVirtualImageDisplay(p, img) {
             )
       );
       p.rotate(HEAD_TILT_ANGLE_RAD);
-      p.image(state.headImg, 0, 0);
+      p.image(headImg, 0, 0);
       p.pop();
     }
   }
@@ -950,10 +974,10 @@ function objectAndVirtualImageDisplay(p, img) {
       p.stroke(255);
       p.push();
       p.translate(
-        p.width - state.headImg.width,
+        p.width - headImg.width,
         p.height / 2 -
           img.height +
-          (p.width / 2 - state.headImg.width) *
+          (p.width / 2 - headImg.width) *
             p.tan(
               p.atan(
                 img.height / ((4 * p.width) / 10 - focusLengthSlider.value())
@@ -961,7 +985,7 @@ function objectAndVirtualImageDisplay(p, img) {
             )
       );
       p.rotate(HEAD_TILT_ANGLE_RAD);
-      p.image(state.headImg, 0, 0);
+      p.image(headImg, 0, 0);
       p.pop();
     }
   }
@@ -1012,10 +1036,11 @@ function screenDisplay(p, img) {
       if (lensSelect.value() === "縞々のスリットの凸レンズ") {
         pg.tint(255, TINT_ALPHA_DIM);
         if (
-          p.height / 2 + img.height * m <
+          state.candleImg &&
+          (p.height / 2 + img.height * m <
             p.height / 2 + state.candleImg.height - lensHeight / 12 ||
-          p.height / 2 + img.height * m >
-            p.height / 2 + state.candleImg.height + lensHeight / 12
+            p.height / 2 + img.height * m >
+              p.height / 2 + state.candleImg.height + lensHeight / 12)
         ) {
           pg.tint(255, TINT_ALPHA_NORMAL);
         }
