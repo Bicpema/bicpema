@@ -81,7 +81,7 @@ export class Ball {
    * 位置を更新
    * @param {number} dt 時間刻み (秒)
    */
-  update(dt) {
+  update(dt: number) {
     if (!this.isMoving) return;
 
     this.time += dt;
@@ -112,7 +112,7 @@ export class Ball {
    * WebGL 3D で物体を描画
    * @param {p5} p p5インスタンス
    */
-  display(p) {
+  display(p: p5) {
     // --- スケール計算 (カメラ固定: 常に基準最大値で S を決定) ---
     const refMaxT = Math.sqrt((2 * CAM_REF_H) / this.g);
     const refMaxX_m = CAM_REF_V * refMaxT;
@@ -131,13 +131,13 @@ export class Ball {
 
     // 座標変換: 打ち出し点 (y=0) が台の上面
     // WebGL: 右=+x, 下=+y
-    const toBx = (xm) => xm * S;
+    const toBx = (xm: number) => xm * S;
     // 物理軌跡の y 座標 (地面 = h0_px)
-    const toByPhys = (ym) => (this.initialHeight - ym) * S;
+    const toByPhys = (ym: number) => (this.initialHeight - ym) * S;
     // 球の視覚的中心 y 座標 = 物理位置から BALL_R 分上にオフセット
     // → 台の上面 (y=0) に球の底が触れるときの球中心は y = -BALL_R
     // → 地面の上面 (y=h0_px) に球の底が触れるときの球中心は y = h0_px - BALL_R
-    const toBy = (ym) => toByPhys(ym) - BALL_R;
+    const toBy = (ym: number) => toByPhys(ym) - BALL_R;
 
     const bx = toBx(this.x);
     const by = toBy(this.height);
@@ -342,7 +342,7 @@ export class Ball {
   /**
    * リセット
    */
-  reset(newHeight, newVelocity) {
+  reset(newHeight: number, newVelocity: number) {
     this.initialHeight = newHeight;
     this.initialVelocity = newVelocity;
     this.x = 0;
@@ -372,7 +372,16 @@ export class Ball {
  * @param {number} x2,y2,z2 終点
  * @param {p5.Color} color
  */
-function drawArrow3D(p, x1, y1, z1, x2, y2, z2, color) {
+function drawArrow3D(
+  p: p5,
+  x1: number,
+  y1: number,
+  z1: number,
+  x2: number,
+  y2: number,
+  z2: number,
+  color: p5.Color
+) {
   const dx = x2 - x1;
   const dy = y2 - y1;
   const dz = z2 - z1;
@@ -403,7 +412,7 @@ function drawArrow3D(p, x1, y1, z1, x2, y2, z2, color) {
 /**
  * HUD テキスト (WebGL内でカメラ変換なしに描画)
  */
-function drawHUD(p, ball) {
+function drawHUD(p: p5, ball: Ball) {
   if (!state.font) return;
 
   p.push();

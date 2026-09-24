@@ -55,7 +55,7 @@ export class Ball {
    * 位置を更新
    * @param {number} dt 時間刻み (秒)
    */
-  update(dt) {
+  update(dt: number) {
     if (!this.isMoving) return;
 
     this.time += dt;
@@ -98,7 +98,7 @@ export class Ball {
    * @param {p5.Image} [options.groundImage] 地面画像
    */
   display(
-    p,
+    p: p5,
     canvasHeight: number,
     options: { ballImage?: p5.Image; groundImage?: p5.Image } = {}
   ) {
@@ -186,7 +186,7 @@ export class Ball {
    * @param {number} newHeight 新しい初期高さ
    * @param {number} [dragCoefficient] 新しい空気抵抗係数
    */
-  reset(newHeight, dragCoefficient = this.dragCoefficient) {
+  reset(newHeight: number, dragCoefficient: number = this.dragCoefficient) {
     this.initialHeight = newHeight;
     this.height = newHeight;
     this.initialVelocity = 0;

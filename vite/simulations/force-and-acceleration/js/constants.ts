@@ -34,7 +34,7 @@ export const CART_BOX_HEIGHT = 70;
 /** 力の矢印を表示する最小ドラッグ距離 (px)。これ未満では矢印を描画しない */
 export const MIN_ARROW_DRAG_DISTANCE = 5;
 /** 力の矢印の色 [R, G, B] */
-export const FORCE_ARROW_COLOR = [200, 40, 40];
+export const FORCE_ARROW_COLOR = [200, 40, 40] as const;
 /** ドラッグ操作ヒントの線・矢印の色（グレースケール） */
 export const DRAG_HINT_COLOR = 160;
 /** 情報パネル内の補足テキストの色（グレースケール） */

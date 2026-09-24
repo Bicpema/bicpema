@@ -26,7 +26,7 @@ export function imgInit() {
  * リセットボタンが押されたときの処理。
  * @param {p5} p p5インスタンス
  */
-function onReset(p) {
+function onReset(p: p5) {
   state.isPlaying = true;
   state.playButton!.html("一時停止");
   initValue(p);
@@ -36,14 +36,14 @@ function onReset(p) {
  * DOM要素の動的な生成とイベントリスナーの設定を行う。
  * @param {p5} p p5インスタンス
  */
-export function elCreate(p) {
+export function elCreate(p: p5) {
   initModal({
     openSelectors: ".settings-modal-open",
     modalSelector: "#modal",
     closeSelectors: ".modal-close"
   });
 
-  p.select("#graphButton").mousePressed(() => graphButtonFunction());
+  p.select("#graphButton")!.mousePressed(() => graphButtonFunction());
 
   const { toggleButton } = bindToggleControls(p, {
     toggleSelector: "#playButton",
@@ -53,17 +53,17 @@ export function elCreate(p) {
   });
   state.playButton = toggleButton;
 
-  p.select("#yellowCarSpeedInput").changed(() => initValue(p));
-  p.select("#redCarSpeedInput").changed(() => initValue(p));
+  p.select("#yellowCarSpeedInput")!.changed(() => initValue(p));
+  p.select("#redCarSpeedInput")!.changed(() => initValue(p));
 }
 
 /**
  * DOM要素の動的に変化する設定を行う。
  * @param {p5} p p5インスタンス
  */
-export function elSetting(p) {
-  const GRAPH = p.select("#graph");
-  const GRAPH_BUTTON_PARENT = p.select("#graphButtonParent");
+export function elSetting(p: p5) {
+  const GRAPH = p.select("#graph")!;
+  const GRAPH_BUTTON_PARENT = p.select("#graphButtonParent")!;
 
   if (p.width <= RESPONSIVE_BREAKPOINT) {
     GRAPH.position(
@@ -90,7 +90,7 @@ export function elSetting(p) {
  * 変数やオブジェクトの初期化を行う。
  * @param {p5} p p5インスタンス
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   const yellowInput = p.select("#yellowCarSpeedInput");
   const redInput = p.select("#redCarSpeedInput");
   if (!yellowInput || !redInput) return;

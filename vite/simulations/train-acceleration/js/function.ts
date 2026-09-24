@@ -24,7 +24,12 @@ import {
  * @param {number} trackOffset 線路スクロールオフセット（仮想ピクセル）
  * @param {number} vw 仮想キャンバス幅
  */
-export const drawTrack = (p, groundY, trackOffset, vw) => {
+export const drawTrack = (
+  p: p5,
+  groundY: number,
+  trackOffset: number,
+  vw: number
+) => {
   const TIE_SPACING = 40;
   const TIE_W = 30;
   const TIE_H = 8;
@@ -60,7 +65,7 @@ export const drawTrack = (p, groundY, trackOffset, vw) => {
  * @param {number} trainX 電車の中心x座標（仮想ピクセル）
  * @param {number} groundY 地面上部のy座標（仮想ピクセル）
  */
-export const drawTrain = (p, trainX, groundY) => {
+export const drawTrain = (p: p5, trainX: number, groundY: number) => {
   const BODY_W = TRAIN_HALF_W * 2;
   const BODY_H = 60;
   const WHEEL_R = 14;
@@ -151,7 +156,7 @@ export const drawTrain = (p, trainX, groundY) => {
  * @param {number} t 経過時間 (s)
  * @param {number} a 加速度 (m/s²)
  */
-export const drawInfoPanel = (p, v, t, a) => {
+export const drawInfoPanel = (p: p5, v: number, t: number, a: number) => {
   // パネル背景
   p.fill(0, 0, 0, 180);
   p.stroke(255, 255, 255, 60);

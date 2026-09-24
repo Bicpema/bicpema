@@ -26,7 +26,7 @@ export function onStopClick() {
  * リセットボタンがクリックされたときの処理。
  * @param {*} p p5インスタンス
  */
-export function onResetButtonClick(p) {
+export function onResetButtonClick(p: p5) {
   resetSimulationState(p);
   state.clickedCount = false;
   state.resetCount = true;

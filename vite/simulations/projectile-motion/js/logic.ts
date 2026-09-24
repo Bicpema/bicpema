@@ -9,7 +9,7 @@ import { Ball } from "./class.js";
  * （リサイズ時にも呼ぶため、シミュレーションの状態は変更しない）。
  * @param {*} p p5インスタンス
  */
-export function updateLayout(p) {
+export function updateLayout(p: p5) {
   state.radi = p.width / BALL_RADIUS_DIVISOR;
   if (state.pg) {
     state.pg.resizeCanvas(p.width, p.height);
@@ -25,7 +25,7 @@ export function updateLayout(p) {
  * （初回セットアップ・リセットボタン押下時に呼ぶ）。
  * @param {*} p p5インスタンス
  */
-export function resetSimulationState(p) {
+export function resetSimulationState(p: p5) {
   updateLayout(p);
   state.clickedCount = false;
   state.resetCount = true;
@@ -33,21 +33,21 @@ export function resetSimulationState(p) {
   state.b1 = new Ball(
     BALL_START_X,
     groundLevel(p) - state.radi - Number(state.heightButton1!.value()),
-    state.speedButton1!.value(),
-    state.angleButton1!.value(),
-    state.weightButton1!.value(),
+    Number(state.speedButton1!.value()),
+    Number(state.angleButton1!.value()),
+    Number(state.weightButton1!.value()),
     groundLevel(p) - state.radi - Number(state.heightButton1!.value()),
-    state.konstantButton1!.value(),
+    Number(state.konstantButton1!.value()),
     1
   );
   state.b2 = new Ball(
     BALL_START_X,
     groundLevel(p) - state.radi - Number(state.heightButton2!.value()),
-    state.speedButton2!.value(),
-    state.angleButton2!.value(),
-    state.weightButton2!.value(),
+    Number(state.speedButton2!.value()),
+    Number(state.angleButton2!.value()),
+    Number(state.weightButton2!.value()),
     groundLevel(p) - state.radi - Number(state.heightButton2!.value()),
-    state.konstantButton2!.value(),
+    Number(state.konstantButton2!.value()),
     2
   );
 }
@@ -56,7 +56,7 @@ export function resetSimulationState(p) {
  * シミュレーションの描画と物理更新を行う。
  * @param {*} p p5インスタンス
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   if (state.clickedCount === true) {
     state.count += 10;
   } else if (state.resetCount === true) {
@@ -85,7 +85,7 @@ export function drawSimulation(p) {
  * 背景・地面・グリッド・軌跡を描画する。
  * @param {*} p p5インスタンス
  */
-function backGround(p) {
+function backGround(p: p5) {
   p.background(255);
   if (state.clickedCount === true) {
     state.pg!.fill(255, 0, 0);
@@ -97,7 +97,7 @@ function backGround(p) {
     state.pg!.fill(255);
     state.pg!.rect(0, 0, p.width, p.height);
   }
-  p.image(state.pg, 0, 0);
+  p.image(state.pg!, 0, 0);
   p.stroke(0, 100);
   for (let i = 0; i < groundLevel(p); i += 10) {
     if (i % 100 === 0) {

@@ -14,7 +14,7 @@ import { bindToggleControls } from "../../../js/bicpema-controls-controller.js";
  * DOM要素を選択してstateに格納し、イベントリスナーを設定する。
  * @param {p5} p p5インスタンス
  */
-export function elCreate(p) {
+export function elCreate(p: p5) {
   state.boatSpeedInput = p.select("#boatSpeedInput");
   state.riverSpeedInput = p.select("#riverSpeedInput");
   state.boatSpeedValue = p.select("#boatSpeedValue");
@@ -47,7 +47,7 @@ export function elCreate(p) {
  * キャンバス設定とシミュレーションの初期値を設定する。
  * @param {p5} p p5インスタンス
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   p.frameRate(FPS);
   p.textAlign(p.CENTER, p.CENTER);
   if (state.font) {

@@ -26,7 +26,7 @@ export class WaterParticle {
    * @param {number} x 初期X座標
    * @param {number} y 初期Y座標
    */
-  constructor(p, x, y) {
+  constructor(p: p5, x: number, y: number) {
     this.p = p;
     this.x = x;
     this.y = y;
@@ -40,7 +40,7 @@ export class WaterParticle {
    * 川の速度（state.boat.riverSpeed）に連動してパーティクルの速さが変わる。
    * @param {number} dt 時間刻み（秒）
    */
-  update(dt) {
+  update(dt: number) {
     const riverSpeed = state.boat ? state.boat.riverSpeed : 3;
     const speed = riverSpeed * PX_PER_MPS * this.speedFactor;
     this.x -= speed * dt;
@@ -54,7 +54,7 @@ export class WaterParticle {
    * 水の波紋を描画する。
    * @param {p5} p p5インスタンス
    */
-  draw(p) {
+  draw(p: p5) {
     p.noFill();
     p.stroke(150, 210, 255, this.alpha);
     p.strokeWeight(1.8);
@@ -66,7 +66,7 @@ export class WaterParticle {
  * 船体を描画する。this（船の状態）に依存しないため、Boatのメソッドではなくモジュール関数として定義する。
  * @param {p5} p p5インスタンス
  */
-function drawBoatBody(p) {
+function drawBoatBody(p: p5) {
   p.fill(139, 90, 43);
   p.stroke(100, 60, 20);
   p.strokeWeight(2);
@@ -109,7 +109,7 @@ export class Boat {
    * @param {number} boatSpeed 船の速度（水に対して、左向き正）
    * @param {number} riverSpeed 川の速度（左向き、≥0）
    */
-  constructor(boatSpeed, riverSpeed) {
+  constructor(boatSpeed: number, riverSpeed: number) {
     this.boatSpeed = boatSpeed;
     this.riverSpeed = riverSpeed;
     this.x = V_W * 0.55;
@@ -125,7 +125,7 @@ export class Boat {
    * 座標を更新する。
    * @param {number} dt 時間刻み（秒）
    */
-  update(dt) {
+  update(dt: number) {
     if (!this.isMoving) return;
     this.x -= this.compositeSpeed * PX_PER_MPS * dt;
     if (this.x > V_W + BOAT_WRAP_MARGIN) this.x = -BOAT_WRAP_MARGIN;
@@ -136,7 +136,7 @@ export class Boat {
    * 船と速度ベクトルを描画する。
    * @param {p5} p p5インスタンス
    */
-  draw(p) {
+  draw(p: p5) {
     p.push();
     p.translate(this.x, BOAT_Y);
     drawBoatBody(p);
@@ -149,7 +149,7 @@ export class Boat {
    * dx < 0 = 左方向、dx > 0 = 右方向（スクリーン座標）
    * @param {p5} p p5インスタンス
    */
-  _drawArrows(p) {
+  _drawArrows(p: p5) {
     const S = 10;
     const y1 = -78;
     const y2 = -106;
@@ -187,7 +187,7 @@ export class Boat {
    * @param {number} boatSpeed 新しい船の速度
    * @param {number} riverSpeed 新しい川の速度
    */
-  reset(boatSpeed, riverSpeed) {
+  reset(boatSpeed: number, riverSpeed: number) {
     this.boatSpeed = boatSpeed;
     this.riverSpeed = riverSpeed;
     this.x = V_W * 0.55;
@@ -206,7 +206,7 @@ export class Person {
    * @param {number} x X座標
    * @param {number} y Y座標（足元）
    */
-  constructor(x, y) {
+  constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
   }
@@ -215,7 +215,7 @@ export class Person {
    * 人（スティックフィギュア）を描画する。
    * @param {p5} p p5インスタンス
    */
-  draw(p) {
+  draw(p: p5) {
     p.push();
     p.translate(this.x, this.y);
 

@@ -30,7 +30,7 @@ const H = CANVAS_HEIGHT;
 /** 地面のy座標（論理ピクセル） */
 const GROUND_Y = H - GROUND_HEIGHT;
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
   p.preload = () => {
@@ -50,7 +50,7 @@ const sketch = (p) => {
     // フォントを非同期で読み込む（失敗してもシミュレーションは動作する）
     p.loadFont(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
-      (f) => {
+      (f: p5.Font) => {
         state.font = f;
       },
       () => {}
@@ -103,7 +103,7 @@ const sketch = (p) => {
     drawTrack(p);
 
     // 台車を描画
-    cart.display(p, GROUND_Y, state.cartImg);
+    cart.display(p, GROUND_Y, state.cartImg!);
 
     // 力の矢印を描画
     const arrowY = GROUND_Y - cart.WHEEL_R * 2 - cart.BODY_H / 2;
@@ -154,8 +154,8 @@ const sketch = (p) => {
  * 地面とレールを描画する。
  * @param {*} p p5インスタンス
  */
-function drawTrack(p) {
-  p.image(state.groundImg, 0, GROUND_Y, W, H - GROUND_Y);
+function drawTrack(p: p5) {
+  p.image(state.groundImg!, 0, GROUND_Y, W, H - GROUND_Y);
 }
 
 /**
@@ -165,7 +165,7 @@ function drawTrack(p) {
  * @param {number} y  矢印のy座標
  * @param {number} x2 矢印の終点x（マウス位置）
  */
-function drawForceArrow(p, x1, y, x2) {
+function drawForceArrow(p: p5, x1: number, y: number, x2: number) {
   if (x2 <= x1 + MIN_ARROW_DRAG_DISTANCE) return;
 
   const arrowSize = 18;
@@ -199,7 +199,7 @@ function drawForceArrow(p, x1, y, x2) {
  * @param {number} x 台車の右端x
  * @param {number} y ヒントのy座標
  */
-function drawDragHint(p, x, y) {
+function drawDragHint(p: p5, x: number, y: number) {
   p.stroke(DRAG_HINT_COLOR);
   p.strokeWeight(2);
   p.drawingContext.setLineDash([8, 6]);
@@ -234,7 +234,16 @@ function drawDragHint(p, x, y) {
  * @param {number} m  質量 (kg)
  * @param {number} v  現在の速度 (m/s)
  */
-function drawInfoPanel(p, F, a, m, v, maxF, maxA, massAtMaxA) {
+function drawInfoPanel(
+  p: p5,
+  F: number,
+  a: number,
+  m: number,
+  v: number,
+  maxF: number,
+  maxA: number,
+  massAtMaxA: number
+) {
   p.fill(0, 0, 0, 180);
   p.stroke(255, 255, 255, 60);
   p.strokeWeight(1);

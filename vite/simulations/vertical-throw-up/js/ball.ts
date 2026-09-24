@@ -32,7 +32,7 @@ export class Ball {
    * @constructor
    * @param {number} initialVelocity 初速度 (m/s) - 上向きを正とする
    */
-  constructor(initialVelocity = DEFAULT_INITIAL_VELOCITY) {
+  constructor(initialVelocity: number = DEFAULT_INITIAL_VELOCITY) {
     this.initialVelocity = initialVelocity;
     this.height = 0;
     this.velocity = initialVelocity;
@@ -48,7 +48,7 @@ export class Ball {
    * 位置を更新
    * @param {number} dt 時間刻み (秒)
    */
-  update(dt) {
+  update(dt: number) {
     if (!this.isMoving) return;
 
     this.time += dt;
@@ -70,7 +70,7 @@ export class Ball {
    * @param {p5} p p5インスタンス
    * @param {number} canvasHeight キャンバスの高さ
    */
-  display(p, canvasHeight) {
+  display(p: p5, canvasHeight: number) {
     // 高さスケールを動的に計算（最高到達点がアニメーションエリアに収まるよう調整）
     const availableH =
       canvasHeight -
@@ -164,7 +164,7 @@ export class Ball {
    * @param {p5} p p5インスタンス
    * @param {number} canvasHeight キャンバスの高さ
    */
-  _drawGraphs(p, canvasHeight) {
+  _drawGraphs(p: p5, canvasHeight: number) {
     const maxTime = (2 * this.initialVelocity) / this.g;
     const v0 = this.initialVelocity;
 
@@ -216,20 +216,20 @@ export class Ball {
    * 汎用グラフ描画メソッド
    */
   _drawGraph(
-    p,
-    gx,
-    gy,
-    gw,
-    gh,
-    maxX,
-    minY,
-    maxY,
-    theoreticalFn,
-    history,
-    yKey,
-    title,
-    xLabel,
-    yLabel
+    p: p5,
+    gx: number,
+    gy: number,
+    gw: number,
+    gh: number,
+    maxX: number,
+    minY: number,
+    maxY: number,
+    theoreticalFn: (t: number) => number,
+    history: { t: number; y: number; v: number }[],
+    yKey: "y" | "v",
+    title: string,
+    xLabel: string,
+    yLabel: string
   ) {
     const padL = 52;
     const padR = 12;
@@ -241,8 +241,9 @@ export class Ball {
     const plotW = gw - padL - padR;
     const plotH = gh - padT - padB;
 
-    const mapX = (t) => plotX + (maxX > 0 ? (t / maxX) * plotW : 0);
-    const mapY = (v) => plotY + plotH - ((v - minY) / (maxY - minY)) * plotH;
+    const mapX = (t: number) => plotX + (maxX > 0 ? (t / maxX) * plotW : 0);
+    const mapY = (v: number) =>
+      plotY + plotH - ((v - minY) / (maxY - minY)) * plotH;
 
     // グラフ背景
     p.fill(245, 247, 250);
@@ -357,7 +358,7 @@ export class Ball {
    * リセット
    * @param {number} newVelocity 新しい初速度
    */
-  reset(newVelocity) {
+  reset(newVelocity: number) {
     this.initialVelocity = newVelocity;
     this.height = 0;
     this.velocity = newVelocity;

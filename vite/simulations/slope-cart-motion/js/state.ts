@@ -28,7 +28,7 @@ export const state = {
   /** 記録間隔入力（p.select()で取得するまではnull） */
   intervalInput: null as p5.Element | null,
   /** 読み込み済みフォント */
-  font: null,
+  font: null as p5.Font | null,
   /** v-tグラフの表示/非表示 */
   graphVisible: false,
   /** v-tグラフの記録データ点 */

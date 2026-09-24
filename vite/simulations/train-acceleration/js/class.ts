@@ -16,7 +16,7 @@ export class Train {
    * @constructor
    * @param {number} startX 初期表示x座標（仮想ピクセル）
    */
-  constructor(startX) {
+  constructor(startX: number) {
     this.startX = startX;
     this.x = startX;
     /** 速度 (m/s) — 0以上 */
@@ -33,7 +33,7 @@ export class Train {
    * @param {number} pxPerMeter 仮想ピクセル/メートル
    * @param {number} vw 仮想キャンバス幅（ラップ用）
    */
-  update(dt, acceleration, pxPerMeter, vw) {
+  update(dt: number, acceleration: number, pxPerMeter: number, vw: number) {
     this.velocity = Math.max(0, this.velocity + acceleration * dt);
     const dx = this.velocity * pxPerMeter * dt;
     this.x += dx;

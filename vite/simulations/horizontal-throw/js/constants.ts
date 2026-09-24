@@ -52,15 +52,15 @@ export const CAMERA_MARGIN_RATIO = 0.78;
 
 // 色 (同じ意味の色を複数箇所で使い回すため定数化) [R, G, B]
 /** メイン球 (放物線軌道) の色 @type {[number, number, number]} */
-export const MAIN_BALL_COLOR = [255, 215, 30];
+export const MAIN_BALL_COLOR = [255, 215, 30] as const;
 /** x方向の残像・ガイドラインの色 @type {[number, number, number]} */
-export const X_DIRECTION_COLOR = [50, 210, 80];
+export const X_DIRECTION_COLOR = [50, 210, 80] as const;
 /** x方向球・vx矢印の色 @type {[number, number, number]} */
-export const X_DIRECTION_BALL_COLOR = [50, 215, 85];
+export const X_DIRECTION_BALL_COLOR = [50, 215, 85] as const;
 /** y方向球・vy矢印の色 @type {[number, number, number]} */
-export const Y_DIRECTION_BALL_COLOR = [245, 205, 35];
+export const Y_DIRECTION_BALL_COLOR = [245, 205, 35] as const;
 /** x方向ラベルの色 (3D空間内ラベル・HUD共通) @type {[number, number, number]} */
-export const X_DIRECTION_LABEL_COLOR = [80, 220, 100];
+export const X_DIRECTION_LABEL_COLOR = [80, 220, 100] as const;
 
 // 不透明度 (同じ意味で複数箇所に使われるアルファ値, 0-255)
 /** ガイドライン (x/y方向の補助線) の不透明度 */

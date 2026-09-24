@@ -19,7 +19,7 @@ import {
 import { resetSimulationState, updateLayout, drawSimulation } from "./logic.js";
 import { bindStartStopControls } from "../../../js/bicpema-controls-controller.js";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   let isFirstDraw = true;
 
   p.setup = () => {

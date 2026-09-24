@@ -4,7 +4,7 @@ import { state } from "./state.js";
  * 船の速度スライダーの値に応じてラベルを更新する。
  * @param {number} val 船の速度（左向き正）
  */
-export function updateBoatSpeedLabel(val) {
+export function updateBoatSpeedLabel(val: number) {
   if (!state.boatSpeedValue) return;
   let labelText;
   if (Math.abs(val) < 0.05) {

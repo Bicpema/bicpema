@@ -24,6 +24,15 @@ export function computeDragProjectilePosition({
   gravity,
   posx0,
   posy0
+}: {
+  t: number;
+  speed: number;
+  angleDeg: number;
+  mass: number;
+  k: number;
+  gravity: number;
+  posx0: number;
+  posy0: number;
 }) {
   const theta = (angleDeg * Math.PI) / 180;
 

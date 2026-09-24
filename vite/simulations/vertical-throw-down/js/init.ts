@@ -16,7 +16,7 @@ export const FPS = 30;
  * DOM要素を選択してstateに格納し、イベントリスナーを設定する
  * @param {p5} p p5インスタンス
  */
-export function elCreate(p) {
+export function elCreate(p: p5) {
   state.heightInput = p.select("#heightInput");
   state.initialVelocityInput = p.select("#initialVelocityInput");
   state.heightInput!.input(() => onHeightChange());
@@ -42,10 +42,10 @@ export function elCreate(p) {
  * キャンバス設定とシミュレーションの初期値を設定する
  * @param {p5} p p5インスタンス
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   p.frameRate(FPS);
   p.textAlign(p.CENTER, p.CENTER);
-  p.textFont(state.font);
+  p.textFont(state.font!);
   p.textSize(16);
 
   const initialHeight = parseFloat(String(state.heightInput!.value()));
