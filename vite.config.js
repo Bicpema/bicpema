@@ -18,13 +18,6 @@ export default defineConfig({
     },
     chunkSizeWarningLimit: 1500
   },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        quietDeps: true
-      }
-    }
-  },
   plugins: [
     tailwindcss(),
     // vite-ignoreをしているファイルに差分があった際も再ビルドする

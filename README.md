@@ -162,8 +162,8 @@ bicpema
 ├── themes # Hugoのテーマ
 └── vite # SimulationsのHTML
     ├── _build # ビルドに使う関数
+    ├── css # 共通のCSSファイル
     ├── js # npmでインストールしたパッケージを使うためのファイル
-    ├── scss # npmでインストールしたパッケージを使うためのファイル
     └── simulations # シミュレーションのHTML, CSS, JS
 ```
 

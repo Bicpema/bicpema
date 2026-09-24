@@ -41,7 +41,6 @@ updates:
 | `chart.js`  | グラフ描画                   |
 | `mathjs`    | 数学演算ライブラリ           |
 | `vite`      | ビルドツール                 |
-| `sass`      | CSS プリプロセッサ           |
 | `prettier`  | コードフォーマッター         |
 
 ### GitHub Actions

@@ -8,9 +8,9 @@
 vite/
 ├── _build/
 │   └── getHtmlInputsRecursively.js  # ビルド用ユーティリティ
+├── css/
+│   └── (共通 CSS ファイル)
 ├── js/
-├── scss/
-│   └── (共通 SCSS ファイル)
 └── simulations/
     ├── {simulation-name}/           # 各シミュレーション（例: doppler）
     │   ├── index.html
