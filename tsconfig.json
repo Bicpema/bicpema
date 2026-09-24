@@ -18,11 +18,5 @@
     "vite/simulations/**/*.ts",
     "test/**/*.js"
   ],
-  "exclude": [
-    "node_modules",
-    "static",
-    "public",
-    "templates",
-    "test/**/fixtures"
-  ]
+  "exclude": ["node_modules", "static", "templates", "test/**/fixtures"]
 }
