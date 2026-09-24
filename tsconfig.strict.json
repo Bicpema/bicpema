@@ -4,5 +4,15 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true
   },
-  "include": ["vite/types/**/*.ts", "vite/_build/**/*.js", "vite/js/**/*.ts"]
+  "include": [
+    "vite/types/**/*.ts",
+    "vite/_build/**/*.js",
+    "vite/js/**/*.ts",
+    "vite/simulations/elastic-force/**/*.ts",
+    "vite/simulations/spring/**/*.ts",
+    "vite/simulations/pendulum/**/*.ts",
+    "test/simulations/elastic-force/**/*.js",
+    "test/simulations/spring/**/*.js",
+    "test/simulations/pendulum/**/*.js"
+  ]
 }

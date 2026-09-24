@@ -42,8 +42,8 @@ export function elCreate(p) {
   state.graph2 = p.createElement("div");
   state.graphCanvas1 = p.createElement("canvas");
   state.graphCanvas2 = p.createElement("canvas");
-  state.graphCanvas1.parent(state.graph1);
-  state.graphCanvas2.parent(state.graph2);
+  state.graphCanvas1!.parent(state.graph1!);
+  state.graphCanvas2!.parent(state.graph2!);
 }
 
 /**
@@ -51,8 +51,8 @@ export function elCreate(p) {
  * @param {*} p p5インスタンス
  */
 export function resizeImages(p) {
-  state.springImage.resize(p.width / 20, p.height / 4);
-  state.ballImage.resize(p.height / 15, 0);
+  state.springImage!.resize(p.width / 20, p.height / 4);
+  state.ballImage!.resize(p.height / 15, 0);
 }
 
 /**
@@ -60,14 +60,14 @@ export function resizeImages(p) {
  * @param {*} p p5インスタンス
  */
 export function layoutGraphs(p) {
-  state.graph1
-    .size(p.width / 2, p.height / 2)
+  state
+    .graph1!.size(p.width / 2, p.height / 2)
     .position(p.width / 2, NAV_HEIGHT);
-  state.graphCanvas1.id("chart1");
-  state.graph2
-    .size(p.width / 2, p.height / 2)
+  state.graphCanvas1!.id("chart1");
+  state
+    .graph2!.size(p.width / 2, p.height / 2)
     .position(p.width / 2, NAV_HEIGHT + p.height / 2);
-  state.graphCanvas2.id("chart2");
+  state.graphCanvas2!.id("chart2");
 }
 
 /**
@@ -83,17 +83,17 @@ export function initValue(p) {
   state.count = 0;
   p.frameRate(FPS);
   state.spring1 = new Spring(
-    state.konstantInput1.value(),
-    state.weightInput1.value(),
-    state.combiInput1.value(),
-    state.amplitudeInput1.value(),
+    state.konstantInput1!.value(),
+    state.weightInput1!.value(),
+    state.combiInput1!.value(),
+    state.amplitudeInput1!.value(),
     1
   );
   state.spring2 = new Spring(
-    state.konstantInput2.value(),
-    state.weightInput2.value(),
-    state.combiInput2.value(),
-    state.amplitudeInput2.value(),
+    state.konstantInput2!.value(),
+    state.weightInput2!.value(),
+    state.combiInput2!.value(),
+    state.amplitudeInput2!.value(),
     2
   );
   initCharts();

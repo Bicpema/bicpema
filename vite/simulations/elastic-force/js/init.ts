@@ -15,7 +15,7 @@ export function elCreate(p) {
   state.springConstantInput = p.select("#springConstantInput");
   state.springConstantDisplay = p.select("#springConstantDisplay");
 
-  state.springConstantInput.input(() => onSpringConstantChange());
+  state.springConstantInput!.input(() => onSpringConstantChange());
   p.select("#resetButton").mousePressed(() => onReset());
 
   initModal({
@@ -32,6 +32,6 @@ export function elCreate(p) {
  * @param {*} p - p5 インスタンス。
  */
 export function initValue(p) {
-  const k = parseInt(state.springConstantInput.value(), 10);
+  const k = parseInt(String(state.springConstantInput!.value()), 10);
   state.springs = [new Spring(ATTACH_X, SPRING_Y, NATURAL_LENGTH, k)];
 }

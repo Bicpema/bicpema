@@ -14,14 +14,14 @@ const loadChart = createLazyImporter(() =>
  */
 export function drawSimulation(p) {
   p.background(255);
-  state.spring1.draw(p);
-  state.spring2.draw(p);
+  state.spring1!.draw(p);
+  state.spring2!.draw(p);
   if (state.clickedCount === true) {
     state.count++;
     if (state.count % 6 === 0) {
       state.countData.push(state.count / FPS);
-      state.data1.push(p.height / 4 - state.spring1.posy);
-      state.data2.push(p.height / 4 - state.spring2.posy);
+      state.data1.push(p.height / 4 - state.spring1!.posy);
+      state.data2.push(p.height / 4 - state.spring2!.posy);
       updateCharts();
     }
   }
