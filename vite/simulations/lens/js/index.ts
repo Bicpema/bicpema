@@ -40,7 +40,24 @@ const state: {
   ledImg: null
 };
 
-const sketch = (p) => {
+/**
+ * p.createSelect()が返すp5.Elementは、実際にはoption()メソッドを
+ * 持つが、@types/p5の型定義には含まれていないため、ここで補って扱う。
+ */
+type SelectElement = p5.Element & {
+  option(value: string, label?: string): unknown;
+};
+
+/**
+ * p.createSlider()が返すp5.Elementの value() は @types/p5 上
+ * `string | number` だが、スライダーの値は実際には常に number である。
+ * 算術演算で使用するため、value() の戻り値を number に絞り込んで扱う。
+ */
+type SliderElement = Omit<p5.Element, "value"> & {
+  value(): number;
+};
+
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({
     fixedAspectRatio: false
   });
@@ -85,20 +102,20 @@ const sketch = (p) => {
     lensDraw(p);
     baseDraw(p);
     if (objectSelect.value() === "F") {
-      opticalPathDisplay(p, state.fImg);
-      objectAndVirtualImageDisplay(p, state.fImg);
-      screenDisplay(p, state.fImg);
-      focusDraw(p, state.fImg);
+      opticalPathDisplay(p, state.fImg!);
+      objectAndVirtualImageDisplay(p, state.fImg!);
+      screenDisplay(p, state.fImg!);
+      focusDraw(p, state.fImg!);
     } else if (objectSelect.value() === "LED") {
-      opticalPathDisplay(p, state.ledImg);
-      objectAndVirtualImageDisplay(p, state.ledImg);
-      screenDisplay(p, state.ledImg);
-      focusDraw(p, state.ledImg);
+      opticalPathDisplay(p, state.ledImg!);
+      objectAndVirtualImageDisplay(p, state.ledImg!);
+      screenDisplay(p, state.ledImg!);
+      focusDraw(p, state.ledImg!);
     } else if (objectSelect.value() === "ろうそく") {
-      opticalPathDisplay(p, state.candleImg);
-      objectAndVirtualImageDisplay(p, state.candleImg);
-      screenDisplay(p, state.candleImg);
-      focusDraw(p, state.candleImg);
+      opticalPathDisplay(p, state.candleImg!);
+      objectAndVirtualImageDisplay(p, state.candleImg!);
+      screenDisplay(p, state.candleImg!);
+      focusDraw(p, state.candleImg!);
     }
   };
 
@@ -112,18 +129,26 @@ const sketch = (p) => {
 new p5(sketch);
 
 //ボタン
-let objectXSlider;
-let screenXSlider;
-let focusLengthSlider;
-let lensSelect;
-let objectSelect;
+let objectXSlider: SliderElement;
+let screenXSlider: SliderElement;
+let focusLengthSlider: SliderElement;
+let lensSelect: SelectElement;
+let objectSelect: SelectElement;
 
 //ボタンの生成
-function buttonCreation(p) {
-  objectXSlider = p.createSlider(0, (4 * p.width) / 10, 0);
-  screenXSlider = p.createSlider(0, (4 * p.width) / 10, (4 * p.width) / 10);
-  focusLengthSlider = p.createSlider(0, (4 * p.width) / 10, (2 * p.width) / 10);
-  lensSelect = p.createSelect();
+function buttonCreation(p: p5) {
+  objectXSlider = p.createSlider(0, (4 * p.width) / 10, 0) as SliderElement;
+  screenXSlider = p.createSlider(
+    0,
+    (4 * p.width) / 10,
+    (4 * p.width) / 10
+  ) as SliderElement;
+  focusLengthSlider = p.createSlider(
+    0,
+    (4 * p.width) / 10,
+    (2 * p.width) / 10
+  ) as SliderElement;
+  lensSelect = p.createSelect() as SelectElement;
   const lensOptionArr = [
     "凸レンズ",
     "凹レンズ",
@@ -133,26 +158,26 @@ function buttonCreation(p) {
   for (let i = 0; i < lensOptionArr.length; i++) {
     lensSelect.option(lensOptionArr[i]);
   }
-  objectSelect = p.createSelect();
+  objectSelect = p.createSelect() as SelectElement;
   const objectOptionArr = ["F", "LED", "ろうそく"];
   for (let i = 0; i < objectOptionArr.length; i++) {
     objectSelect.option(objectOptionArr[i]);
   }
 }
 //ボタンの初期設定
-function buttonSettings(p) {
+function buttonSettings(p: p5) {
   objectXSlider
     .size((4 * p.width) / 10, 2)
     .position(p.width / 10, HEADER_HEIGHT + (3 * p.height) / 4)
-    .attribute("max", (4 * p.width) / 10);
+    .attribute("max", String((4 * p.width) / 10));
   screenXSlider
     .size((4 * p.width) / 10, 2)
     .position(p.width / 2, HEADER_HEIGHT + (3 * p.height) / 4)
-    .attribute("max", (4 * p.width) / 10);
+    .attribute("max", String((4 * p.width) / 10));
   focusLengthSlider
     .size((4 * p.width) / 10, 2)
     .position(p.width / 10, HEADER_HEIGHT + (6 * p.height) / 10)
-    .attribute("max", (4 * p.width) / 10);
+    .attribute("max", String((4 * p.width) / 10));
   lensSelect
     .size((4 * p.width) / 10, p.height / 16)
     .position(p.width / 10, p.windowHeight - p.height / 16);
@@ -162,16 +187,16 @@ function buttonSettings(p) {
 }
 
 //変数の設定
-let lensWidth;
-let lensHeight;
-let screenWidth;
-let screenHeight;
-let objectY;
-let blurValue;
-let pg;
+let lensWidth: number;
+let lensHeight: number;
+let screenWidth: number;
+let screenHeight: number;
+let objectY: number;
+let blurValue: number;
+let pg: p5.Graphics;
 
 //初期設定
-function initSettings(p) {
+function initSettings(p: p5) {
   const { headImg, convexLensImg, concaveLensImg, candleImg, fImg, ledImg } =
     state;
   if (
@@ -210,7 +235,7 @@ function initSettings(p) {
 }
 
 //方眼の描画
-function gridDraw(p) {
+function gridDraw(p: p5) {
   //背景色
   p.background(0);
 
@@ -294,28 +319,28 @@ function gridDraw(p) {
 }
 
 //レンズの描画
-function lensDraw(p) {
+function lensDraw(p: p5) {
   if (lensSelect.value() === "凸レンズ") {
     p.image(
-      state.convexLensImg,
+      state.convexLensImg!,
       p.width / 2 - lensWidth / 2,
       p.height / 2 - lensHeight / 2
     );
   } else if (lensSelect.value() === "凹レンズ") {
     p.image(
-      state.concaveLensImg,
+      state.concaveLensImg!,
       p.width / 2 - lensWidth / 2,
       p.height / 2 - lensHeight / 2
     );
   } else if (lensSelect.value() === "半分の凸レンズ") {
     p.image(
-      state.convexLensImg,
+      state.convexLensImg!,
       p.width / 2 - lensWidth / 2,
       p.height / 2 - lensHeight / 2
     );
   } else if (lensSelect.value() === "縞々のスリットの凸レンズ") {
     p.image(
-      state.convexLensImg,
+      state.convexLensImg!,
       p.width / 2 - lensWidth / 2,
       p.height / 2 - lensHeight / 2
     );
@@ -323,7 +348,7 @@ function lensDraw(p) {
 }
 
 //土台の描画
-function baseDraw(p) {
+function baseDraw(p: p5) {
   p.fill(0);
   p.rect(p.width / 10, (3 * p.height) / 4, (4 * p.width) / 5, p.height / 4);
   p.line(
@@ -341,14 +366,14 @@ function baseDraw(p) {
 }
 
 //点線の手続き
-function dashedLine(p, aX, aY, bX, bY) {
+function dashedLine(p: p5, aX: number, aY: number, bX: number, bY: number) {
   p.drawingContext.setLineDash([5, 5]);
   p.line(aX, aY, bX, bY);
   p.drawingContext.setLineDash([]);
 }
 
 //光線の描画
-function opticalPathDisplay(p, img) {
+function opticalPathDisplay(p: p5, img: p5.Image) {
   const { headImg } = state;
   if (!headImg) return;
   //変数の設定
@@ -793,7 +818,7 @@ function opticalPathDisplay(p, img) {
 }
 
 //物体と虚像の描画
-function objectAndVirtualImageDisplay(p, img) {
+function objectAndVirtualImageDisplay(p: p5, img: p5.Image) {
   const { headImg } = state;
   if (!headImg) return;
   //変数の設定
@@ -992,7 +1017,7 @@ function objectAndVirtualImageDisplay(p, img) {
 }
 
 //スクリーンの描画
-function screenDisplay(p, img) {
+function screenDisplay(p: p5, img: p5.Image) {
   const a = (4 * p.width) / 10 - objectXSlider.value();
   const b =
     (a * ((4 * p.width) / 10 - focusLengthSlider.value())) /
@@ -1189,7 +1214,7 @@ function screenDisplay(p, img) {
 }
 
 //焦点の描画
-function focusDraw(p, img) {
+function focusDraw(p: p5, img: p5.Image) {
   p.tint(255, 255);
   p.fill(255, 255);
   p.noStroke();

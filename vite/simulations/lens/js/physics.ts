@@ -5,7 +5,10 @@
  * @param {number} focalLength 焦点距離 f
  * @returns {number} レンズから像までの距離 b
  */
-export function computeConvexLensImageDistance(objectDistance, focalLength) {
+export function computeConvexLensImageDistance(
+  objectDistance: number,
+  focalLength: number
+) {
   return (objectDistance * focalLength) / (focalLength - objectDistance);
 }
 
@@ -15,7 +18,10 @@ export function computeConvexLensImageDistance(objectDistance, focalLength) {
  * @param {number} focalLength 焦点距離 f
  * @returns {number} レンズから像までの距離 b
  */
-export function computeConcaveLensImageDistance(objectDistance, focalLength) {
+export function computeConcaveLensImageDistance(
+  objectDistance: number,
+  focalLength: number
+) {
   return (objectDistance * focalLength) / (objectDistance + focalLength);
 }
 
@@ -25,6 +31,9 @@ export function computeConcaveLensImageDistance(objectDistance, focalLength) {
  * @param {number} objectDistance 物体までの距離 a
  * @returns {number} 倍率
  */
-export function computeMagnification(imageDistance, objectDistance) {
+export function computeMagnification(
+  imageDistance: number,
+  objectDistance: number
+) {
   return imageDistance / objectDistance;
 }
