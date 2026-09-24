@@ -2,10 +2,10 @@ import { resolve } from "node:path";
 import { globSync } from "tinyglobby";
 import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
-import { getHtmlInputsRecursively } from "./vite/_build/getHtmlInputsRecursively";
+import { getHtmlInputsRecursively } from "./vite/_build/getHtmlInputsRecursively.js";
 
-const root = resolve(__dirname, "vite");
-const outDir = resolve(__dirname, "static/vite");
+const root = resolve(import.meta.dirname, "vite");
+const outDir = resolve(import.meta.dirname, "static/vite");
 
 export default defineConfig({
   root,
@@ -13,7 +13,7 @@ export default defineConfig({
   build: {
     outDir,
     emptyOutDir: true,
-    rollupOptions: {
+    rolldownOptions: {
       input: getHtmlInputsRecursively(root)
     },
     chunkSizeWarningLimit: 1500
