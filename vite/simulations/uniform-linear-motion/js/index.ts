@@ -60,14 +60,17 @@ const sketch = (p) => {
       drawScale(p, 0, CANVAS_HEIGHT, CANVAS_WIDTH, ROAD_AREA_HEIGHT);
     }
 
-    if (state.isPlaying) {
-      state.RED_CAR.update();
-      state.YELLOW_CAR.update();
+    const { RED_CAR, YELLOW_CAR } = state;
+    if (RED_CAR && YELLOW_CAR) {
+      if (state.isPlaying) {
+        RED_CAR.update();
+        YELLOW_CAR.update();
+      }
+      RED_CAR.drawTrajectory(p);
+      YELLOW_CAR.drawTrajectory(p);
+      RED_CAR.drawCar(p);
+      YELLOW_CAR.drawCar(p);
     }
-    state.RED_CAR.drawTrajectory(p);
-    state.YELLOW_CAR.drawTrajectory(p);
-    state.RED_CAR.drawCar(p);
-    state.YELLOW_CAR.drawCar(p);
 
     graphDraw(p);
   };

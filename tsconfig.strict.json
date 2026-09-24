@@ -4,5 +4,25 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": true
   },
-  "include": ["vite/types/**/*.ts", "vite/_build/**/*.js", "vite/js/**/*.ts"]
+  "include": [
+    "vite/types/**/*.ts",
+    "vite/_build/**/*.js",
+    "vite/js/**/*.ts",
+    "vite/simulations/uniform-linear-motion/**/*.ts",
+    "vite/simulations/uniformly-accelerated-linear-motion/**/*.ts",
+    "vite/simulations/vertical-throw-up/**/*.ts",
+    "vite/simulations/vertical-throw-down/**/*.ts",
+    "vite/simulations/horizontal-throw/**/*.ts",
+    "vite/simulations/projectile-motion/**/*.ts",
+    "vite/simulations/train-acceleration/**/*.ts",
+    "vite/simulations/velocity-composition/**/*.ts",
+    "test/simulations/uniform-linear-motion/**/*.js",
+    "test/simulations/uniformly-accelerated-linear-motion/**/*.js",
+    "test/simulations/vertical-throw-up/**/*.js",
+    "test/simulations/vertical-throw-down/**/*.js",
+    "test/simulations/horizontal-throw/**/*.js",
+    "test/simulations/projectile-motion/**/*.js",
+    "test/simulations/train-acceleration/**/*.js",
+    "test/simulations/velocity-composition/**/*.js"
+  ]
 }

@@ -56,10 +56,10 @@ export function initValue(p) {
   p.textSize(16);
 
   const boatSpeed = state.boatSpeedInput
-    ? parseFloat(state.boatSpeedInput.value())
+    ? parseFloat(String(state.boatSpeedInput.value()))
     : 5;
   const riverSpeed = state.riverSpeedInput
-    ? parseFloat(state.riverSpeedInput.value())
+    ? parseFloat(String(state.riverSpeedInput.value()))
     : 3;
 
   state.boat = new Boat(boatSpeed, riverSpeed);

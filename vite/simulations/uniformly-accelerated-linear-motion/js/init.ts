@@ -41,8 +41,8 @@ export function initValue(p) {
   if (state.font) p.textFont(state.font);
   p.textSize(DEFAULT_TEXT_SIZE);
 
-  const v0 = parseFloat(state.initialVelocityInput.value());
-  const a = parseFloat(state.accelerationInput.value());
+  const v0 = parseFloat(String(state.initialVelocityInput!.value()));
+  const a = parseFloat(String(state.accelerationInput!.value()));
   state.car = new Car(v0, a);
   state.graph = new MotionGraph();
 }
