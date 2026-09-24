@@ -37,7 +37,7 @@ export function onScreenshotClick() {
  * 追加ボタンを押したときの処理。
  * @param {*} p p5インスタンス
  */
-export function cellophaneAddButtonFunction(p) {
+export function cellophaneAddButtonFunction(p: p5) {
   state.colabNum! += 1;
   state.cellophaneArr.push(new Cellophane(p, state.colabNum!));
 }
@@ -46,9 +46,9 @@ export function cellophaneAddButtonFunction(p) {
  * 削除ボタンを押したときの処理。
  * @param {*} p p5インスタンス
  */
-export function cellophaneRemoveButtonFunction(p) {
+export function cellophaneRemoveButtonFunction(p: p5) {
   if (state.colabNum! > 0) {
-    const targetDiv = p.select("#cellophane-" + state.colabNum);
+    const targetDiv = p.select("#cellophane-" + state.colabNum)!;
     state.cellophaneArr.pop();
     targetDiv.remove();
     state.colabNum! -= 1;

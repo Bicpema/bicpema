@@ -1,7 +1,7 @@
 // init.jsは初期処理専用のファイルです。
 
 import { initModal } from "../../../js/bicpema-modal-controller.js";
-import { state } from "./state.js";
+import { state, type RadioElement } from "./state.js";
 import {
   cellophaneAddButtonFunction,
   cellophaneRemoveButtonFunction,
@@ -26,7 +26,7 @@ const FPS = 60;
  * DOM要素の参照を取得する。
  * @param {*} p p5インスタンス
  */
-export function elCreate(p) {
+export function elCreate(p: p5) {
   state.polarizerSelect = p.select("#polarizerSelect");
   state.cellophaneAddButton = p.select("#cellophaneAddButton");
   state.cellophaneRemoveButton = p.select("#cellophaneRemoveButton");
@@ -36,7 +36,7 @@ export function elCreate(p) {
  * DOM要素にイベントを設定する。
  * @param {*} p p5インスタンス
  */
-export function elInit(p) {
+export function elInit(p: p5) {
   state.cellophaneAddButton!.mousePressed(() => cellophaneAddButtonFunction(p));
   state.cellophaneRemoveButton!.mousePressed(() =>
     cellophaneRemoveButtonFunction(p)
@@ -56,7 +56,7 @@ export function elInit(p) {
  * 初期値やシミュレーションの設定を行う。
  * @param {*} p p5インスタンス
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   // テーブルからそれぞれのデータを取得
   state.cmfRowNum = state.cmfTable!.getRowCount();
   const waveLengthRaw = state.cmfTable!.getColumn("wave-length") as string[];
@@ -127,7 +127,7 @@ export function createStartimg() {
  * スライダーやラジオボタンを作成する処理。
  * @param {*} p p5インスタンス
  */
-export function createSliderandRadio(p) {
+export function createSliderandRadio(p: p5) {
   state.slider = p.createSlider(
     TAPE_WIDTH_SLIDER_MIN,
     TAPE_WIDTH_SLIDER_MAX,
@@ -135,12 +135,12 @@ export function createSliderandRadio(p) {
   ); // テープの幅を決定するslider
   state.slider!.position(50, 100);
   state.lastSlider = state.slider!.value();
-  state.lineradio = p.createRadio();
+  state.lineradio = p.createRadio() as RadioElement;
   state.lineradio!.option("補助線あり");
   state.lineradio!.option("補助線なし");
   state.lineradio!.selected("補助線なし");
   state.lineradio!.position(400, 130);
-  state.optRadio = p.createRadio();
+  state.optRadio = p.createRadio() as RadioElement;
   state.optRadio!.option("セロハンテープ");
   state.optRadio!.option("OPPフィルム");
   state.optRadio!.position(400, 100);
@@ -152,7 +152,7 @@ export function createSliderandRadio(p) {
  * シミュレーションの初回セットアップを行う。
  * @param {*} p p5インスタンス
  */
-export function setupSimulation(p) {
+export function setupSimulation(p: p5) {
   elCreate(p);
   elInit(p);
   initValue(p);
@@ -172,7 +172,7 @@ export function setupSimulation(p) {
  * セロハンの組を全て削除した上で初期値を設定し直す。
  * @param {*} p p5インスタンス
  */
-export function resizeSimulation(p) {
+export function resizeSimulation(p: p5) {
   elInit(p);
   // cellophaneRemoveButtonFunctionは呼ぶたびにstate.colabNum(組数)を1減らす。
   // state.cellophaneNum(総枚数)は更新されないため、colabNumを基準に

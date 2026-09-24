@@ -8,10 +8,10 @@
  * @returns {number} 位相差 δ (ラジアン)
  */
 export function computePhaseRetardation(
-  dispersion,
-  sheetCount,
-  opd,
-  wavelength
+  dispersion: number,
+  sheetCount: number,
+  opd: number,
+  wavelength: number
 ) {
   return (dispersion * sheetCount * 2 * opd * Math.PI) / wavelength / 100;
 }

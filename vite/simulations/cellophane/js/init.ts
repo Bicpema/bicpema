@@ -18,7 +18,7 @@ import {
  * DOM要素の参照を取得し、イベントを設定する。
  * @param {*} p p5インスタンス
  */
-export function elCreate(p) {
+export function elCreate(p: p5) {
   state.waveRepresentationButton = p.select("#waveRepresentationButton");
   state.cellophaneCountSlider = p.select("#cellophaneCountSlider");
   state.cellophaneCountValue = p.select("#cellophaneCountValue");
@@ -60,7 +60,7 @@ export function uiInit() {
  * カメラ位置・フレームレート・光線の初期値を設定する。
  * @param {*} p p5インスタンス
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   createRays();
   p.camera(300, 0, 0, 0, 0, 0, 0, 1, 0);
   p.frameRate(FPS);

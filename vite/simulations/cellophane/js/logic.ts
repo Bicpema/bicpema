@@ -17,7 +17,14 @@ import {
  * @param {number} z z座標
  * @param {0 | 1} pattern 偏光板の向き（0: スタート寄り, 1: ゴール寄り）
  */
-function createPolarizer(p, size, x, y, z, pattern) {
+function createPolarizer(
+  p: p5,
+  size: number,
+  x: number,
+  y: number,
+  z: number,
+  pattern: 0 | 1
+) {
   p.push();
   p.translate(x, y, z);
   p.noFill();
@@ -42,7 +49,7 @@ function createPolarizer(p, size, x, y, z, pattern) {
  * 偏光板・光の進行軸・セロハンを描画する
  * @param {*} p p5インスタンス
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   // スタート寄りの偏光板
   createPolarizer(p, POLARIZER_SIZE, 0, 0, POLARIZER_Z, 0);
 

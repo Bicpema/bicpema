@@ -28,7 +28,7 @@ const R_TABLE_URL =
 const WHITE_IMAGE_URL =
   "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2Fwhite.png?alt=media&token=038ee120-ec5e-4440-8130-3b764f11d25e";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({
     fixedAspectRatio: false,
     is3D: true,

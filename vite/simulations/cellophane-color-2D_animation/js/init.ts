@@ -12,18 +12,18 @@ import {
  * DOM要素の生成
  * @param {*} p p5インスタンス
  */
-export function elCreate(p) {
-  state.polarizerSelect = p.select("#polarizerSelect");
-  state.cellophaneAddButton = p.select("#cellophaneAddButton");
-  state.cellophaneRemoveButton = p.select("#cellophaneRemoveButton");
-  state.opdInput = p.select("#opdInput");
+export function elCreate(p: p5) {
+  state.polarizerSelect = p.select("#polarizerSelect")!;
+  state.cellophaneAddButton = p.select("#cellophaneAddButton")!;
+  state.cellophaneRemoveButton = p.select("#cellophaneRemoveButton")!;
+  state.opdInput = p.select("#opdInput")!;
 }
 
 /**
  * DOM要素の設定
  * @param {*} p p5インスタンス
  */
-export function elInit(p) {
+export function elInit(p: p5) {
   state.cellophaneAddButton!.mousePressed(() => cellophaneAddButtonFunction(p));
   state.cellophaneRemoveButton!.mousePressed(() =>
     cellophaneRemoveButtonFunction(p)
@@ -48,7 +48,7 @@ export function uiInit() {
  * 初期値やシミュレーションの設定
  * @param {*} p p5インスタンス
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   // テーブルからそれぞれのデータを取得
   state.cmfRowNum = state.cmfTable!.getRowCount();
   state.waveLengthArr = state.cmfTable!.getColumn("wave-length");
