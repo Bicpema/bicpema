@@ -4,7 +4,7 @@ import { resolve } from "node:path";
 /**
  * 指定したディレクトリから再帰的にHTMLファイルを取得
  * @param {string} dir - 検索するディレクトリ
- * @returns {Object} - input設定用のオブジェクト
+ * @returns {Record<string, string>} - input設定用のオブジェクト
  */
 export const getHtmlInputsRecursively = (dir) => {
   const entries = readdirSync(dir, { withFileTypes: true });
@@ -22,5 +22,5 @@ export const getHtmlInputsRecursively = (dir) => {
       inputs[key] = fullPath;
     }
     return inputs;
-  }, {});
+  }, /** @type {Record<string, string>} */ ({}));
 };
