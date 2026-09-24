@@ -7,7 +7,7 @@ Bicpema の開発を始めるための環境構築手順を説明します。
 | ツール                                     | バージョン         | 用途                                     |
 | ------------------------------------------ | ------------------ | ---------------------------------------- |
 | [Hugo](https://gohugo.io/installation/)    | 最新版（extended） | 静的サイトジェネレーター                 |
-| [Node.js](https://nodejs.org/ja/download/) | 22.x               | JavaScript ランタイム                    |
+| [Node.js](https://nodejs.org/ja/download/) | 24.x               | JavaScript ランタイム                    |
 | npm                                        | 11.x               | パッケージマネージャー（Node.js と同梱） |
 | [Git](https://git-scm.com/)                | 最新版             | バージョン管理                           |
 
