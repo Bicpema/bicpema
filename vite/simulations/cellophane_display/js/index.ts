@@ -37,11 +37,11 @@ const sketch = (p) => {
   let isFirstDraw = true;
 
   p.preload = () => {
-    state.cmfTable = p.loadTable(CMF_TABLE_URL, "csv", "header"); // 等色関数のデータ
-    state.osTable = p.loadTable(OS_TABLE_URL, "csv", "header"); // 偏光板を一枚通したときの波長毎の強度分布 PC-最新
-    state.dTableOPP = p.loadTable(D_TABLE_OPP_URL, "csv", "header"); //光路差の分散特性(380nmで100に規格化)
-    state.dTable = p.loadTable(D_TABLE_URL, "csv", "header");
-    state.rTable = p.loadTable(R_TABLE_URL, "csv", "header"); //偏光板2枚目による強度補正分のdata
+    state.cmfTable = p.loadTable(CMF_TABLE_URL, "csv", "header") as p5.Table; // 等色関数のデータ
+    state.osTable = p.loadTable(OS_TABLE_URL, "csv", "header") as p5.Table; // 偏光板を一枚通したときの波長毎の強度分布 PC-最新
+    state.dTableOPP = p.loadTable(D_TABLE_OPP_URL, "csv", "header") as p5.Table; //光路差の分散特性(380nmで100に規格化)
+    state.dTable = p.loadTable(D_TABLE_URL, "csv", "header") as p5.Table;
+    state.rTable = p.loadTable(R_TABLE_URL, "csv", "header") as p5.Table; //偏光板2枚目による強度補正分のdata
     state.img = p.loadImage(WHITE_IMAGE_URL);
   };
 

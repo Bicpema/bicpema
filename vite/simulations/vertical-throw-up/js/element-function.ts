@@ -5,16 +5,16 @@ import { MIN_INITIAL_VELOCITY, MAX_INITIAL_VELOCITY } from "./constants.js";
  * 初速度入力の値が変更されたときの処理
  */
 export function onVelocityChange() {
-  let newVelocity = parseFloat(state.velocityInput.value());
+  let newVelocity = parseFloat(String(state.velocityInput!.value()));
   if (Number.isNaN(newVelocity) || newVelocity < MIN_INITIAL_VELOCITY) {
     newVelocity = MIN_INITIAL_VELOCITY;
-    state.velocityInput.value(MIN_INITIAL_VELOCITY);
+    state.velocityInput!.value(MIN_INITIAL_VELOCITY);
   } else if (newVelocity > MAX_INITIAL_VELOCITY) {
     newVelocity = MAX_INITIAL_VELOCITY;
-    state.velocityInput.value(MAX_INITIAL_VELOCITY);
+    state.velocityInput!.value(MAX_INITIAL_VELOCITY);
   }
-  if (!state.ball.isMoving) {
-    state.ball.reset(newVelocity);
+  if (!state.ball!.isMoving) {
+    state.ball!.reset(newVelocity);
   }
 }
 
@@ -22,23 +22,23 @@ export function onVelocityChange() {
  * リセットボタンが押されたときの処理
  */
 export function onReset() {
-  const newVelocity = parseFloat(state.velocityInput.value());
-  state.ball.reset(newVelocity);
-  state.playPauseButton.html("開始");
+  const newVelocity = parseFloat(String(state.velocityInput!.value()));
+  state.ball!.reset(newVelocity);
+  state.playPauseButton!.html("開始");
 }
 
 /**
  * 開始/一時停止ボタンが押されたときの処理
  */
 export function onPlayPause() {
-  if (state.ball.isMoving) {
-    state.ball.stop();
-    state.playPauseButton.html("再開");
+  if (state.ball!.isMoving) {
+    state.ball!.stop();
+    state.playPauseButton!.html("再開");
   } else {
-    if (state.ball.height <= 0 && state.ball.time > 0) {
-      state.ball.reset(parseFloat(state.velocityInput.value()));
+    if (state.ball!.height <= 0 && state.ball!.time > 0) {
+      state.ball!.reset(parseFloat(String(state.velocityInput!.value())));
     }
-    state.ball.start();
-    state.playPauseButton.html("一時停止");
+    state.ball!.start();
+    state.playPauseButton!.html("一時停止");
   }
 }

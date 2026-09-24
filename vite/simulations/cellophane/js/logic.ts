@@ -64,7 +64,7 @@ export function drawSimulation(p) {
   p.pop();
 
   // セロハンの描画
-  const cellophaneCount = state.cellophaneCountSlider.value();
+  const cellophaneCount = Number(state.cellophaneCountSlider!.value());
   p.fill(0, 255, 255, 15);
   p.strokeWeight(1);
   p.push();

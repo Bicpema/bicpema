@@ -5,8 +5,7 @@ import { getCanvasElement } from "../../../js/bicpema-dom.js";
 const loadChart = createLazyImporter(() =>
   import("chart.js/auto").then((module) => module.default)
 );
-/** @type {typeof import("chart.js").Chart | null} */
-let Chart = null;
+let Chart: typeof import("chart.js").Chart | null = null;
 // 読み込み失敗後に毎フレーム再試行してネットワークに負荷をかけないよう、
 // 一度失敗したら諦めるためのフラグ。
 let chartLoadFailed = false;
@@ -43,9 +42,12 @@ export class BallGraph {
    */
   _initVtChart() {
     const ctx = getCanvasElement("vtCanvas");
-    if (!ctx || this.vtChart) return;
+    if (!ctx || this.vtChart || !Chart) return;
 
-    const maxVelocity = state.ball.initialVelocity + 10;
+    const { ball } = state;
+    if (!ball) return;
+
+    const maxVelocity = ball.initialVelocity + 10;
     const maxTime = INITIAL_MAX_TIME;
 
     this.vtChart = new Chart(ctx, {
@@ -106,9 +108,12 @@ export class BallGraph {
 
   _initYtChart() {
     const ctx = getCanvasElement("ytCanvas");
-    if (!ctx || this.ytChart) return;
+    if (!ctx || this.ytChart || !Chart) return;
 
-    const maxHeight = state.ball.initialHeight;
+    const { ball } = state;
+    if (!ball) return;
+
+    const maxHeight = ball.initialHeight;
     const maxTime = INITIAL_MAX_TIME;
 
     this.ytChart = new Chart(ctx, {
@@ -188,25 +193,26 @@ export class BallGraph {
       return;
     }
 
+    const { ball } = state;
+    if (!ball) return;
+
     this._initVtChart();
     this._initYtChart();
 
     if (this.vtChart) {
       this.vtChart.data.datasets[0].data = state.vtData;
-      if (state.ball.time > 0) {
-        const tMax = state.ball.isMoving
-          ? parseFloat((state.ball.time + TIME_AXIS_MOVING_MARGIN).toFixed(1))
-          : parseFloat(
-              (state.ball.time * TIME_AXIS_STOPPED_MARGIN_RATIO).toFixed(2)
-            );
-        this.vtChart.options.scales.x.max = tMax;
+      if (ball.time > 0) {
+        const tMax = ball.isMoving
+          ? parseFloat((ball.time + TIME_AXIS_MOVING_MARGIN).toFixed(1))
+          : parseFloat((ball.time * TIME_AXIS_STOPPED_MARGIN_RATIO).toFixed(2));
+        this.vtChart.options.scales!.x!.max = tMax;
       }
       if (state.vtData.length > 0) {
         const maxV = Math.max(
           ...state.vtData.map((d) => d.y),
-          state.ball.initialVelocity + 1
+          ball.initialVelocity + 1
         );
-        this.vtChart.options.scales.y.max = parseFloat(
+        this.vtChart.options.scales!.y!.max = parseFloat(
           (maxV * Y_AXIS_MAX_MARGIN_RATIO).toFixed(1)
         );
       }
@@ -215,19 +221,17 @@ export class BallGraph {
 
     if (this.ytChart) {
       this.ytChart.data.datasets[0].data = state.ytData;
-      if (state.ball.time > 0) {
-        const tMax = state.ball.isMoving
-          ? parseFloat((state.ball.time + TIME_AXIS_MOVING_MARGIN).toFixed(1))
-          : parseFloat(
-              (state.ball.time * TIME_AXIS_STOPPED_MARGIN_RATIO).toFixed(2)
-            );
-        this.ytChart.options.scales.x.max = tMax;
+      if (ball.time > 0) {
+        const tMax = ball.isMoving
+          ? parseFloat((ball.time + TIME_AXIS_MOVING_MARGIN).toFixed(1))
+          : parseFloat((ball.time * TIME_AXIS_STOPPED_MARGIN_RATIO).toFixed(2));
+        this.ytChart.options.scales!.x!.max = tMax;
       }
       const maxY =
         state.ytData.length > 0
           ? Math.max(...state.ytData.map((d) => d.y), 1)
-          : state.ball.initialHeight;
-      this.ytChart.options.scales.y.max = parseFloat(
+          : ball.initialHeight;
+      this.ytChart.options.scales!.y!.max = parseFloat(
         (maxY * Y_AXIS_MAX_MARGIN_RATIO).toFixed(1)
       );
       this.ytChart.update("none");
