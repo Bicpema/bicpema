@@ -27,7 +27,6 @@ bicpema/
 ├── docs/                     # 開発者ドキュメント（Zensical）
 ├── i18n/                     # UI 文言の翻訳ファイル
 ├── layouts/                  # Hugo レイアウトのオーバーライド
-├── simulation-docs/          # 各シミュレーションの設計ドキュメント
 ├── static/                   # 静的ファイル（CSS, 画像, ビルド済みシミュレーション）
 │   └── vite/                 # Vite ビルド出力先
 ├── template/                 # シミュレーション雛形テンプレート
@@ -89,8 +88,3 @@ GitHub Release を自動作成し、正式リリース時はデプロイワー�
 ### `.github/dependabot.yml`
 
 npm と GitHub Actions の依存関係を週次で自動更新する Dependabot の設定です。
-
-### `simulation-docs/`
-
-各シミュレーションの設計ドキュメント（Markdown）を格納します。  
-シミュレーションの仕様・ロジック・画面設計などを記録しておく場所です。
