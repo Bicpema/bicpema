@@ -39,6 +39,8 @@
 2. 対応が完了したディレクトリ（および参照しているテストファイル）を [tsconfig.strict.json](../../tsconfig.strict.json) の `include` に追加する。
 3. `npm run typecheck:strict` がエラーなく通ることを確認してPRを作成する。
 
-## 最終対応
+## 最終対応（完了）
 
-全テーマの子Issueが完了し `tsconfig.strict.json` の `include` が全シミュレーションを網羅した時点で、`tsconfig.json` 本体に `strictNullChecks: true` / `strictPropertyInitialization: true` を統合し、[tsconfig.strict.json](../../tsconfig.strict.json) を削除します（`.ts` 化における `include` 段階拡張から一括統合への移行（[#652](https://github.com/Bicpema/bicpema/issues/652) → [#671](https://github.com/Bicpema/bicpema/issues/671)）と同様の進め方）。この最終対応は #667 側で直接行います。
+全テーマの子Issueが完了し `tsconfig.strict.json` の `include` が全シミュレーションを網羅したため、[#667](https://github.com/Bicpema/bicpema/issues/667) にて `tsconfig.json` 本体に `strictNullChecks: true` / `strictPropertyInitialization: true` を統合し、`tsconfig.strict.json` および `npm run typecheck:strict` を削除しました（`.ts` 化における `include` 段階拡張から一括統合への移行（[#652](https://github.com/Bicpema/bicpema/issues/652) → [#671](https://github.com/Bicpema/bicpema/issues/671)）と同様の進め方）。
+
+なお `noImplicitAny` は前述の通り保留のままであり、`tsconfig.json` の `strict` は引き続き `false`（`noImplicitAny: false` を明示）です。有効化の方針は別途検討します。

@@ -27,6 +27,15 @@ function createMockElement(initial) {
   };
 }
 
+/**
+ * beforeEach で必ず初期化される state.ball を非null型として取得する
+ * @returns {Ball}
+ */
+function getBall() {
+  if (!state.ball) throw new Error("state.ball is not initialized");
+  return state.ball;
+}
+
 beforeEach(() => {
   state.vtData = [];
   state.ytData = [];
@@ -43,7 +52,7 @@ describe("onHeightChange", () => {
     onHeightChange();
 
     expect(state.heightInput.value()).toBe(10);
-    expect(state.ball.height).toBe(10);
+    expect(getBall().height).toBe(10);
   });
 
   it("上限(100)を超える入力は100にクランプする", () => {
@@ -52,7 +61,7 @@ describe("onHeightChange", () => {
     onHeightChange();
 
     expect(state.heightInput.value()).toBe(100);
-    expect(state.ball.height).toBe(100);
+    expect(getBall().height).toBe(100);
   });
 
   it("範囲内の入力はそのままボールの高さに反映する", () => {
@@ -61,7 +70,7 @@ describe("onHeightChange", () => {
     onHeightChange();
 
     expect(state.heightInput.value()).toBe(42);
-    expect(state.ball.height).toBe(42);
+    expect(getBall().height).toBe(42);
   });
 
   it("数値でない入力は10にクランプする", () => {
@@ -73,30 +82,30 @@ describe("onHeightChange", () => {
   });
 
   it("運動中は高さを変更してもリセットしない", () => {
-    state.ball.start();
-    state.ball.update(1);
-    const heightBeforeChange = state.ball.height;
+    getBall().start();
+    getBall().update(1);
+    const heightBeforeChange = getBall().height;
     state.heightInput.value(80);
 
     onHeightChange();
 
-    expect(state.ball.height).toBe(heightBeforeChange);
+    expect(getBall().height).toBe(heightBeforeChange);
   });
 });
 
 describe("onReset", () => {
   it("入力欄の値でボールをリセットする", () => {
-    state.ball.start();
-    state.ball.update(1);
+    getBall().start();
+    getBall().update(1);
     state.heightInput.value(30);
     state.dragCoefficientInput.value(0.5);
 
     onReset();
 
-    expect(state.ball.initialHeight).toBe(30);
-    expect(state.ball.height).toBe(30);
-    expect(state.ball.dragCoefficient).toBe(0.5);
-    expect(state.ball.isMoving).toBe(false);
+    expect(getBall().initialHeight).toBe(30);
+    expect(getBall().height).toBe(30);
+    expect(getBall().dragCoefficient).toBe(0.5);
+    expect(getBall().isMoving).toBe(false);
   });
 
   it("開始/一時停止ボタンの表示を「▶ 開始」に戻す", () => {
@@ -111,8 +120,8 @@ describe("onReset", () => {
 
     onReset();
 
-    expect(state.ball.initialHeight).toBe(10);
-    expect(state.ball.dragCoefficient).toBe(0);
+    expect(getBall().initialHeight).toBe(10);
+    expect(getBall().dragCoefficient).toBe(0);
     expect(state.heightInput.value()).toBe(10);
     expect(state.dragCoefficientInput.value()).toBe(0);
   });
@@ -122,7 +131,7 @@ describe("onReset", () => {
 
     onReset();
 
-    expect(state.ball.dragCoefficient).toBe(2);
+    expect(getBall().dragCoefficient).toBe(2);
     expect(state.dragCoefficientInput.value()).toBe(2);
   });
 });
@@ -131,24 +140,24 @@ describe("onPlayPause", () => {
   it("停止中に呼ぶと運動を開始し、ボタン表示を「一時停止」にする", () => {
     onPlayPause();
 
-    expect(state.ball.isMoving).toBe(true);
+    expect(getBall().isMoving).toBe(true);
     expect(state.playPauseButton.text()).toBe("一時停止");
   });
 
   it("運動中に呼ぶと運動を停止し、ボタン表示を「再開」にする", () => {
-    state.ball.start();
+    getBall().start();
 
     onPlayPause();
 
-    expect(state.ball.isMoving).toBe(false);
+    expect(getBall().isMoving).toBe(false);
     expect(state.playPauseButton.text()).toBe("再開");
   });
 
   it("地面に到達している（高さ1以下）ときは開始しない", () => {
-    state.ball.height = 1;
+    getBall().height = 1;
 
     onPlayPause();
 
-    expect(state.ball.isMoving).toBe(false);
+    expect(getBall().isMoving).toBe(false);
   });
 });
