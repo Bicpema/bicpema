@@ -24,8 +24,8 @@ export function elCreate(p) {
  * @param {*} p p5インスタンス
  */
 export function elInit(p) {
-  state.cellophaneAddButton.mousePressed(() => cellophaneAddButtonFunction(p));
-  state.cellophaneRemoveButton.mousePressed(() =>
+  state.cellophaneAddButton!.mousePressed(() => cellophaneAddButtonFunction(p));
+  state.cellophaneRemoveButton!.mousePressed(() =>
     cellophaneRemoveButtonFunction(p)
   );
   initModal({
@@ -40,7 +40,7 @@ export function elInit(p) {
  */
 export function uiInit() {
   document
-    .getElementById("screenshotButton")
+    .getElementById("screenshotButton")!
     .addEventListener("click", onScreenshotClick);
 }
 
@@ -50,18 +50,20 @@ export function uiInit() {
  */
 export function initValue(p) {
   // テーブルからそれぞれのデータを取得
-  state.cmfRowNum = state.cmfTable.getRowCount();
-  state.waveLengthArr = state.cmfTable.getColumn("wave-length");
-  state.waveLengthArr = state.waveLengthArr.map((str) => parseInt(str, 10));
-  state.xLambda = state.cmfTable.getColumn("x(lambda)");
-  state.yLambda = state.cmfTable.getColumn("y(lambda)");
-  state.zLambda = state.cmfTable.getColumn("z(lambda)");
-  state.osRowNum = state.osTable.getRowCount();
-  state.osArr = state.osTable.getColumn("optical-strength");
-  state.osArrOrigin = state.osTable.getColumn("optical-strength");
-  state.dArr = state.dTable.getColumn("d");
-  state.dRowNum = state.dTable.getRowCount();
-  state.R_all = state.rTable.getColumn("optical-strength");
+  state.cmfRowNum = state.cmfTable!.getRowCount();
+  state.waveLengthArr = state.cmfTable!.getColumn("wave-length");
+  state.waveLengthArr = state.waveLengthArr.map((str) =>
+    parseInt(String(str), 10)
+  );
+  state.xLambda = state.cmfTable!.getColumn("x(lambda)");
+  state.yLambda = state.cmfTable!.getColumn("y(lambda)");
+  state.zLambda = state.cmfTable!.getColumn("z(lambda)");
+  state.osRowNum = state.osTable!.getRowCount();
+  state.osArr = state.osTable!.getColumn("optical-strength");
+  state.osArrOrigin = state.osTable!.getColumn("optical-strength");
+  state.dArr = state.dTable!.getColumn("d");
+  state.dRowNum = state.dTable!.getRowCount();
+  state.R_all = state.rTable!.getColumn("optical-strength");
 
   // xyzを格納する配列の初期化(windowResized経由での再呼び出し時に配列が
   // 肥大化しないよう、pushする前に空にリセットする)
@@ -94,15 +96,15 @@ export function initValue(p) {
     state.last_targetAngles[n - 1] = 1;
     state.last_opt[n - 1] = 1;
   }
-  state.last_polarizer = state.polarizerSelect.value();
-  state.last_opt1 = state.opdInput.value();
+  state.last_polarizer = state.polarizerSelect!.value();
+  state.last_opt1 = state.opdInput!.value();
   // クラスター分類の際のsetup
   p.colorMode(p.RGB, 255, 255, 255);
-  state.copyimg = state.img2.get();
+  state.copyimg = state.img2!.get();
   state.clusterCount = 0;
   state.clusterCount1 = 0;
   state.Cluster1isDead = false;
   state.changeisDead = false;
-  document.getElementById("mainSpectrumGraphParent").style.display = "block"; //On
-  document.getElementById("mainSpectrumGraphParent0").style.display = "none"; //OFf
+  document.getElementById("mainSpectrumGraphParent")!.style.display = "block"; //On
+  document.getElementById("mainSpectrumGraphParent0")!.style.display = "none"; //OFf
 }

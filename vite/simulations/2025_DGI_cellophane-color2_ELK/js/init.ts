@@ -37,14 +37,14 @@ export function elCreate(p) {
  * @param {*} p p5インスタンス
  */
 export function elInit(p) {
-  state.cellophaneAddButton.mousePressed(() => cellophaneAddButtonFunction(p));
-  state.cellophaneRemoveButton.mousePressed(() =>
+  state.cellophaneAddButton!.mousePressed(() => cellophaneAddButtonFunction(p));
+  state.cellophaneRemoveButton!.mousePressed(() =>
     cellophaneRemoveButtonFunction(p)
   );
   // resizeSimulation()からも呼ばれるため、addEventListenerでの多重登録を避け
   // 上書き型のonclickでハンドラを設定する
   // oxlint-disable-next-line unicorn/prefer-add-event-listener -- 呼び出しのたびに再実行されるため、代入で単一ハンドラのみを保つ
-  document.getElementById("screenshotButton").onclick = onScreenshotClick;
+  document.getElementById("screenshotButton")!.onclick = onScreenshotClick;
   initModal({
     openSelectors: ".settings-modal-open",
     modalSelector: "#settingModal",
@@ -58,18 +58,18 @@ export function elInit(p) {
  */
 export function initValue(p) {
   // テーブルからそれぞれのデータを取得
-  state.cmfRowNum = state.cmfTable.getRowCount();
-  state.waveLengthArr = state.cmfTable.getColumn("wave-length");
-  state.waveLengthArr = state.waveLengthArr.map((str) => parseInt(str, 10));
-  state.xLambda = state.cmfTable.getColumn("x(lambda)");
-  state.yLambda = state.cmfTable.getColumn("y(lambda)");
-  state.zLambda = state.cmfTable.getColumn("z(lambda)");
-  state.osRowNum = state.osTable.getRowCount();
-  state.osArr = state.osTable.getColumn("optical-strength");
-  state.osArrOrigin = state.osTable.getColumn("optical-strength");
-  state.dArr = state.dTable.getColumn("d");
-  state.dRowNum = state.dTable.getRowCount();
-  state.R_all = state.rTable.getColumn("optical-strength");
+  state.cmfRowNum = state.cmfTable!.getRowCount();
+  const waveLengthRaw = state.cmfTable!.getColumn("wave-length") as string[];
+  state.waveLengthArr = waveLengthRaw.map((str) => parseInt(str, 10));
+  state.xLambda = state.cmfTable!.getColumn("x(lambda)");
+  state.yLambda = state.cmfTable!.getColumn("y(lambda)");
+  state.zLambda = state.cmfTable!.getColumn("z(lambda)");
+  state.osRowNum = state.osTable!.getRowCount();
+  state.osArr = state.osTable!.getColumn("optical-strength");
+  state.osArrOrigin = state.osTable!.getColumn("optical-strength");
+  state.dArr = state.dTable!.getColumn("d");
+  state.dRowNum = state.dTable!.getRowCount();
+  state.R_all = state.rTable!.getColumn("optical-strength");
 
   // xyzを格納する配列の初期化(windowResized経由での再呼び出し時に配列が
   // 肥大化しないよう、pushする前に空にリセットする)
@@ -100,27 +100,27 @@ export function initValue(p) {
     state.last_targetAngles[n - 1] = 1;
     state.last_opt[n - 1] = 1;
   }
-  state.last_polarizer = state.polarizerSelect.value();
+  state.last_polarizer = state.polarizerSelect!.value();
   p.colorMode(p.RGB, 255, 255, 255);
-  document.getElementById("mainSpectrumGraphParent").style.display = "block"; //On
-  document.getElementById("mainSpectrumGraphParent0").style.display = "none"; //Off
+  document.getElementById("mainSpectrumGraphParent")!.style.display = "block"; //On
+  document.getElementById("mainSpectrumGraphParent0")!.style.display = "none"; //Off
 }
 
 /**
  * 白画像を定位置に配置し, pixelsの色を初期値にする処理。入力画像のサイズを設定する処理。
  */
 export function createStartimg() {
-  state.img.resize(STAGE_SIZE, STAGE_SIZE);
+  state.img!.resize(STAGE_SIZE, STAGE_SIZE);
   state.centerX = STAGE_HALF_SIZE;
   state.centerY = STAGE_HALF_SIZE;
-  state.img.loadPixels();
-  for (let i = 0; i < state.img.pixels.length; i += 4) {
-    state.img.pixels[i] = BLANK_IMAGE_GRAY_LEVEL;
-    state.img.pixels[i + 1] = BLANK_IMAGE_GRAY_LEVEL;
-    state.img.pixels[i + 2] = BLANK_IMAGE_GRAY_LEVEL;
-    state.img.pixels[i + 3] = 255;
+  state.img!.loadPixels();
+  for (let i = 0; i < state.img!.pixels.length; i += 4) {
+    state.img!.pixels[i] = BLANK_IMAGE_GRAY_LEVEL;
+    state.img!.pixels[i + 1] = BLANK_IMAGE_GRAY_LEVEL;
+    state.img!.pixels[i + 2] = BLANK_IMAGE_GRAY_LEVEL;
+    state.img!.pixels[i + 3] = 255;
   }
-  state.img.updatePixels();
+  state.img!.updatePixels();
 }
 
 /**
@@ -133,19 +133,19 @@ export function createSliderandRadio(p) {
     TAPE_WIDTH_SLIDER_MAX,
     TAPE_WIDTH_SLIDER_DEFAULT
   ); // テープの幅を決定するslider
-  state.slider.position(50, 100);
-  state.lastSlider = state.slider.value();
+  state.slider!.position(50, 100);
+  state.lastSlider = state.slider!.value();
   state.lineradio = p.createRadio();
-  state.lineradio.option("補助線あり");
-  state.lineradio.option("補助線なし");
-  state.lineradio.selected("補助線なし");
-  state.lineradio.position(400, 130);
+  state.lineradio!.option("補助線あり");
+  state.lineradio!.option("補助線なし");
+  state.lineradio!.selected("補助線なし");
+  state.lineradio!.position(400, 130);
   state.optRadio = p.createRadio();
-  state.optRadio.option("セロハンテープ");
-  state.optRadio.option("OPPフィルム");
-  state.optRadio.position(400, 100);
-  state.optRadio.selected("セロハンテープ");
-  state.preValue = state.optRadio.value();
+  state.optRadio!.option("セロハンテープ");
+  state.optRadio!.option("OPPフィルム");
+  state.optRadio!.position(400, 100);
+  state.optRadio!.selected("セロハンテープ");
+  state.preValue = state.optRadio!.value();
 }
 
 /**

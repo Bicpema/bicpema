@@ -18,8 +18,8 @@ export const FPS = 30;
 export function elCreate(p) {
   state.heightInput = p.select("#heightInput");
   state.velocityInput = p.select("#velocityInput");
-  state.heightInput.input(() => onHeightChange());
-  state.velocityInput.input(() => onVelocityChange());
+  state.heightInput!.input(() => onHeightChange());
+  state.velocityInput!.input(() => onVelocityChange());
 
   const { toggleButton, resetButton } = bindToggleControls(p, {
     toggleSelector: "#playPauseButton",
@@ -47,7 +47,7 @@ export function initValue(p) {
   p.textFont(state.font);
   p.textSize(16);
 
-  const initialHeight = parseFloat(state.heightInput.value());
-  const initialVelocity = parseFloat(state.velocityInput.value());
+  const initialHeight = parseFloat(String(state.heightInput!.value()));
+  const initialVelocity = parseFloat(String(state.velocityInput!.value()));
   state.ball = new Ball(initialHeight, initialVelocity);
 }

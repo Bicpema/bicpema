@@ -12,5 +12,5 @@ export function graphButtonFunction() {
  */
 export function onPlayPause() {
   state.isPlaying = !state.isPlaying;
-  state.playButton.html(state.isPlaying ? "一時停止" : "再開");
+  state.playButton!.html(state.isPlaying ? "一時停止" : "再開");
 }

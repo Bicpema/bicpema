@@ -101,11 +101,14 @@ export function elementSelectInit(p) {
  * @param {*} p p5インスタンス
  */
 export function elementPositionInit(p) {
-  state.backgroundDiv
-    .size(p.width, state.usableHeight * CONTROL_PANEL_HEIGHT_RATIO)
+  state
+    .backgroundDiv!.size(
+      p.width,
+      state.usableHeight * CONTROL_PANEL_HEIGHT_RATIO
+    )
     .style("background-color", "white");
-  state.startButton
-    .size(
+  state
+    .startButton!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight * CONTROL_PANEL_HEIGHT_RATIO
     )
@@ -113,9 +116,9 @@ export function elementPositionInit(p) {
     .addClass(
       "cursor-pointer rounded border border-blue-600 bg-white text-blue-600 hover:bg-blue-50"
     )
-    .parent(state.backgroundDiv);
-  state.stopButton
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .stopButton!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight * CONTROL_PANEL_HEIGHT_RATIO
     )
@@ -123,9 +126,9 @@ export function elementPositionInit(p) {
     .addClass(
       "cursor-pointer rounded border border-red-600 bg-white text-red-600 hover:bg-red-50"
     )
-    .parent(state.backgroundDiv);
-  state.resetButton
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .resetButton!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight * CONTROL_PANEL_HEIGHT_RATIO
     )
@@ -133,9 +136,9 @@ export function elementPositionInit(p) {
     .addClass(
       "cursor-pointer rounded border border-neutral-400 bg-white text-neutral-700 hover:bg-neutral-100"
     )
-    .parent(state.backgroundDiv);
-  state.ballExpla1
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .ballExpla1!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -146,9 +149,9 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .parent(state.backgroundDiv);
-  state.ballExpla2
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .ballExpla2!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -159,9 +162,9 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .parent(state.backgroundDiv);
-  state.speedExpla
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .speedExpla!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -169,9 +172,9 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .parent(state.backgroundDiv);
-  state.speedButton1
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .speedButton1!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -182,10 +185,10 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .attribute("step", SPEED_INPUT_STEP)
-    .parent(state.backgroundDiv);
-  state.speedButton2
-    .size(
+    .attribute("step", String(SPEED_INPUT_STEP))
+    .parent(state.backgroundDiv!);
+  state
+    .speedButton2!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -196,9 +199,9 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .parent(state.backgroundDiv);
-  state.angleExpla
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .angleExpla!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -206,9 +209,9 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .parent(state.backgroundDiv);
-  state.angleButton1
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .angleButton1!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -219,9 +222,9 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .parent(state.backgroundDiv);
-  state.angleButton2
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .angleButton2!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -232,9 +235,9 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .parent(state.backgroundDiv);
-  state.weightExpla
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .weightExpla!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -242,9 +245,9 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .parent(state.backgroundDiv);
-  state.weightButton1
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .weightButton1!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -255,9 +258,9 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .parent(state.backgroundDiv);
-  state.weightButton2
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .weightButton2!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -268,9 +271,9 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .parent(state.backgroundDiv);
-  state.heightExpla
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .heightExpla!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -278,9 +281,9 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .parent(state.backgroundDiv);
-  state.heightButton1
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .heightButton1!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -291,9 +294,9 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .parent(state.backgroundDiv);
-  state.heightButton2
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .heightButton2!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -304,9 +307,9 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .parent(state.backgroundDiv);
-  state.konstantExpla
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .konstantExpla!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -314,9 +317,9 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .parent(state.backgroundDiv);
-  state.konstantButton1
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .konstantButton1!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -327,9 +330,9 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .parent(state.backgroundDiv);
-  state.konstantButton2
-    .size(
+    .parent(state.backgroundDiv!);
+  state
+    .konstantButton2!.size(
       p.windowWidth / BUTTON_COLUMN_DIVISOR,
       state.usableHeight / CONTROL_ROW_DIVISOR
     )
@@ -340,5 +343,5 @@ export function elementPositionInit(p) {
     .addClass(
       "rounded border border-neutral-300 bg-neutral-50 text-neutral-900"
     )
-    .parent(state.backgroundDiv);
+    .parent(state.backgroundDiv!);
 }

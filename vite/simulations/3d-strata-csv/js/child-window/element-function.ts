@@ -36,8 +36,10 @@ export function loadOpenerLayers(p) {
 
   // 地点名はURL（親ウィンドウの入力欄）由来のため、innerHTMLではなくtextContentで
   // プレーンテキストとして表示し、DOM注入を防ぐ。
-  document.getElementById("placeName").textContent =
-    placeName + "のデータを編集";
+  const placeNameEl = document.getElementById("placeName");
+  if (placeNameEl) {
+    placeNameEl.textContent = placeName + "のデータを編集";
+  }
   document.title = placeName + "のデータを編集";
 
   // 入力済み地層データがあれば引き継ぎinputに入力

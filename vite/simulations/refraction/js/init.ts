@@ -43,8 +43,10 @@ export function valueInit(p) {
   state.raysSpeedX = state.raysSpeed * p.cos(state.theta1 + p.PI / 2);
   state.raysSpeedY = state.raysSpeed * p.sin(state.theta1 + p.PI / 2);
   state.count = 0;
-  state.rotateRemocon.resize(p.width / REMOCON_RESIZE_WIDTH_DIVISOR, 0);
-  state.nRemocon.resize(p.width / REMOCON_RESIZE_WIDTH_DIVISOR, 0);
+  const { rotateRemocon, nRemocon } = state;
+  if (!rotateRemocon || !nRemocon) return;
+  rotateRemocon.resize(p.width / REMOCON_RESIZE_WIDTH_DIVISOR, 0);
+  nRemocon.resize(p.width / REMOCON_RESIZE_WIDTH_DIVISOR, 0);
   state.boundary = computeSnellRatio(state.theta1, state.n12);
   state.simulationMode = "lineMax";
 }

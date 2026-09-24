@@ -60,9 +60,12 @@ export class BallGraph {
       this.chart = null;
     }
 
-    const maxTime = state.ball.time > 0 ? state.ball.time : 1;
+    const ball = state.ball;
+    if (!ball) return;
+
+    const maxTime = ball.time > 0 ? ball.time : 1;
     const maxVelocity = Math.max(...state.vtData.map((d) => d.y), 1);
-    const maxHeight = state.ball.initialHeight;
+    const maxHeight = ball.initialHeight;
 
     const data = {
       datasets: [

@@ -61,6 +61,8 @@ export function elCreate(p) {
   }
 
   const playPauseButton = document.getElementById("playPauseButton");
+  if (!playPauseButton) return;
+
   const phaseSameRadio = document.getElementById(
     "phaseSame"
   ) as HTMLInputElement | null;

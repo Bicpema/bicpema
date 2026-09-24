@@ -119,7 +119,49 @@ export const ALL_SET_DATA = {
   }
 };
 
-export const state = {
+/**
+ * 地点1つ分のデータ。
+ * name/data.x/data.y/editは生成直後は空文字、DOM生成後はp5.Elementが入るため
+ * anyとしている。layerは[浅い方の深さ, 深い方の深さ, 岩層の種類]の配列。
+ */
+interface PlaceDataEntry {
+  name: any;
+  data: { x: any; y: any };
+  edit: any;
+  layer: any;
+}
+
+export const state: {
+  /** 日本語フォント（非同期読み込み、失敗時はnullのまま） */
+  jaFont: any;
+  /**
+   * 地点データの連想配列。
+   * {
+   *   地点N: {
+   *     name: 地点名入力欄(p5.Element),
+   *     data: { x: 経度入力欄(p5.Element), y: 緯度入力欄(p5.Element) },
+   *     edit: データ編集リンク(p5.Element),
+   *     layer: [[浅い方の深さ, 深い方の深さ, 岩層の種類], ...],
+   *   },
+   *   ...
+   * }
+   */
+  dataInputArr: Record<string, PlaceDataEntry>;
+  /** 「全体」表示の判定 */
+  allSetIs: boolean;
+  /** 地層平面の回転演出用の累積角度 */
+  rotateTime: number;
+  // DOM要素の参照（p5.Elementインスタンス）
+  placeAddButton: any;
+  placeRemoveButton: any;
+  strataAddButton: any;
+  strataRemoveButton: any;
+  aSetButton: any;
+  bSetButton: any;
+  cSetButton: any;
+  dSetButton: any;
+  allSetButton: any;
+} = {
   /** 日本語フォント（非同期読み込み、失敗時はnullのまま） */
   jaFont: null,
 

@@ -60,7 +60,7 @@ export const COMPLEMENT_ANGLE_COLOR = [0, 255, 255];
 /** 屈折角側の弧の色（緑） */
 export const REFRACTED_ANGLE_COLOR = [0, 255, 0];
 /** 光線の色（赤） */
-export const RAY_COLOR = [255, 0, 0];
+export const RAY_COLOR = [255, 0, 0] as const;
 /** 中心軸線の色（半透明の白） */
 export const AXIS_LINE_COLOR = [255, 100];
 
