@@ -10,7 +10,7 @@ import { state } from "./state.js";
  */
 export function drawSimulation(p) {
   // 取得した地層データの配列
-  const strataData = [];
+  const strataData: string[][] = [];
 
   // input要素からvalueを取得
   for (let i = 0; i < state.trArr.length; i++) {
@@ -24,8 +24,8 @@ export function drawSimulation(p) {
   // ヘッダー部分のhtml要素から地点名を取得
   // element-function.jsのloadOpenerLayersでtextContentとして書き込んでいるため、
   // 読み出しもtextContentで統一する（innerHTMLだとHTMLエンティティ化された値になり得るため）。
-  let name = document.getElementById("placeName").textContent;
-  name = name.split("のデータを編集")[0];
+  const placeNameEl = document.getElementById("placeName");
+  const name = (placeNameEl?.textContent ?? "").split("のデータを編集")[0];
 
   // 地点名と地層データが格納された配列を生成し、親ウィンドウに送信
   window.opener.submit([name, strataData]);

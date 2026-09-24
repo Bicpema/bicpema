@@ -1,8 +1,21 @@
 // state.js は子ウィンドウ（地層データ編集画面）の共有可変状態を管理するファイルです。
 
+import type { TR } from "./class.js";
+
 export { STRATA_KINDS } from "../state.js";
 
-export const state = {
+export const state: {
+  /** 現在のtr要素の数 */
+  trNum: number;
+  /** tr要素の累計生成数 */
+  trSum: number;
+  /** 現在のtr要素のidの配列 */
+  idArr: string[];
+  /** 現在のtr要素（TRインスタンス）の配列 */
+  trArr: TR[];
+  /** 地層の追加ボタンのDOM要素の参照（p5.Elementインスタンス） */
+  trAddButton: any;
+} = {
   /** 現在のtr要素の数 */
   trNum: 0,
   /** tr要素の累計生成数 */

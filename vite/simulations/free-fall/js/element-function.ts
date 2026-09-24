@@ -52,8 +52,10 @@ export function clampDragCoefficient(newDragCoefficient) {
  */
 export function onHeightChange() {
   const newHeight = clampHeight(parseFloat(state.heightInput.value()));
-  if (!state.ball.isMoving) {
-    state.ball.reset(newHeight, state.ball.dragCoefficient);
+  const ball = state.ball;
+  if (!ball) return;
+  if (!ball.isMoving) {
+    ball.reset(newHeight, ball.dragCoefficient);
   }
 }
 
@@ -64,8 +66,10 @@ export function onDragCoefficientChange() {
   const newDragCoefficient = clampDragCoefficient(
     parseFloat(state.dragCoefficientInput.value())
   );
-  if (!state.ball.isMoving) {
-    state.ball.reset(state.ball.initialHeight, newDragCoefficient);
+  const ball = state.ball;
+  if (!ball) return;
+  if (!ball.isMoving) {
+    ball.reset(ball.initialHeight, newDragCoefficient);
   }
 }
 
@@ -77,6 +81,7 @@ export function onReset() {
   const newDragCoefficient = clampDragCoefficient(
     parseFloat(state.dragCoefficientInput.value())
   );
+  if (!state.ball) return;
   state.ball.reset(newHeight, newDragCoefficient);
   state.playPauseButton.html("▶ 開始");
 }
@@ -85,14 +90,16 @@ export function onReset() {
  * 開始/一時停止ボタンが押されたときの処理
  */
 export function onPlayPause() {
-  if (state.ball.isMoving) {
-    state.ball.stop();
+  const ball = state.ball;
+  if (!ball) return;
+  if (ball.isMoving) {
+    ball.stop();
     state.playPauseButton.html("再開");
   } else {
-    if (state.ball.height <= GROUND_LEVEL_HEIGHT) {
+    if (ball.height <= GROUND_LEVEL_HEIGHT) {
       return;
     }
-    state.ball.start();
+    ball.start();
     state.playPauseButton.html("一時停止");
   }
 }
@@ -107,7 +114,7 @@ export function onToggleGraph() {
     graphDiv.style.display = state.graphVisible ? "block" : "none";
   }
   if (state.graphVisible) {
-    state.graph.updateGraph();
+    state.graph?.updateGraph();
   }
   state.graphToggleButton.html(
     state.graphVisible ? "📊 グラフを非表示" : "📊 グラフを表示"

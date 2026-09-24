@@ -8,6 +8,36 @@ import { getSelectElement } from "../../../js/bicpema-dom.js";
 const loadScreenshot = createLazyImporter(() => import("modern-screenshot"));
 
 /**
+ * `document.getElementById(id)` の戻り値を非null型として取得するヘルパー。
+ * このシミュレーションのテンプレートに常に存在する静的なDOM要素を取得する
+ * 箇所でのみ使用する（存在しない場合は元の実装同様に例外が発生する）。
+ * @param {string} id 取得したい要素のid
+ * @returns {HTMLElement}
+ */
+export function requireElementById(id: string): HTMLElement {
+  const el = document.getElementById(id);
+  if (!el) {
+    throw new Error(`要素が見つかりません: #${id}`);
+  }
+  return el;
+}
+
+/**
+ * `getSelectElement(id)` の戻り値を非null型として取得するヘルパー。
+ * このシミュレーションのテンプレートに常に存在する静的な`<select>`要素を
+ * 取得する箇所でのみ使用する（存在しない場合は元の実装同様に例外が発生する）。
+ * @param {string} id 取得したいselect要素のid
+ * @returns {HTMLSelectElement}
+ */
+function requireSelectElement(id: string): HTMLSelectElement {
+  const el = getSelectElement(id);
+  if (!el) {
+    throw new Error(`select要素が見つかりません: #${id}`);
+  }
+  return el;
+}
+
+/**
  * スクリーンショットボタンが押されたときの処理。
  * modern-screenshotはボタン押下時に初めて動的importする。
  */
@@ -51,7 +81,7 @@ export function placeNameInputFunction(p) {
       state.dataInputArr[place].edit.html(placeName + "のデータを編集");
     }
     // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
-    document.getElementById("placeDataInput" + (i + 1)).onclick = () => {
+    requireElementById("placeDataInput" + (i + 1)).onclick = () => {
       window.open(
         "/vite/simulations/3d-strata/childWindow.html?" +
           encodeURIComponent(placeName),
@@ -88,7 +118,7 @@ export function placeAddButtonFunction(p) {
   state.dataInputArr[placeName].edit = newDom.placeDataInput;
 
   // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
-  document.getElementById("placeDataInput" + newPlaceNum).onclick = () => {
+  requireElementById("placeDataInput" + newPlaceNum).onclick = () => {
     window.open(
       "/vite/simulations/3d-strata/childWindow.html?" +
         encodeURIComponent(placeName),
@@ -122,7 +152,7 @@ export function placeRemoveButtonFunction(p) {
  */
 export function firstPlaceSelectFunction(p) {
   const firstPlaceSelect = p.select("#firstPlaceSelect");
-  const firstPlaceName = document.getElementById("firstPlaceName");
+  const firstPlaceName = requireElementById("firstPlaceName");
   firstPlaceName.innerHTML = firstPlaceSelect.value();
   let placeName = firstPlaceName.innerHTML;
   for (const key in state.dataInputArr) {
@@ -130,11 +160,11 @@ export function firstPlaceSelectFunction(p) {
       placeName = key;
     }
   }
-  const trNum = document.getElementById("strataSelect").childElementCount;
+  const trNum = requireElementById("strataSelect").childElementCount;
   if (Object.keys(state.dataInputArr).length !== 0 && placeName !== "-") {
     const strataArr = state.dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = getSelectElement("select2-" + (i + 1));
+      const strataSelect = requireSelectElement("select2-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -148,7 +178,7 @@ export function firstPlaceSelectFunction(p) {
     }
   } else {
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = getSelectElement("select2-" + (i + 1));
+      const strataSelect = requireSelectElement("select2-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -162,7 +192,7 @@ export function firstPlaceSelectFunction(p) {
  */
 export function secondPlaceSelectFunction(p) {
   const secondPlaceSelect = p.select("#secondPlaceSelect");
-  const secondPlaceName = document.getElementById("secondPlaceName");
+  const secondPlaceName = requireElementById("secondPlaceName");
   secondPlaceName.innerHTML = secondPlaceSelect.value();
   let placeName = secondPlaceName.innerHTML;
   for (const key in state.dataInputArr) {
@@ -170,11 +200,11 @@ export function secondPlaceSelectFunction(p) {
       placeName = key;
     }
   }
-  const trNum = document.getElementById("strataSelect").childElementCount;
+  const trNum = requireElementById("strataSelect").childElementCount;
   if (Object.keys(state.dataInputArr).length !== 0 && placeName !== "-") {
     const strataArr = state.dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = getSelectElement("select3-" + (i + 1));
+      const strataSelect = requireSelectElement("select3-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -188,7 +218,7 @@ export function secondPlaceSelectFunction(p) {
     }
   } else {
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = getSelectElement("select3-" + (i + 1));
+      const strataSelect = requireSelectElement("select3-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -202,7 +232,7 @@ export function secondPlaceSelectFunction(p) {
  */
 export function thirdPlaceSelectFunction(p) {
   const thirdPlaceSelect = p.select("#thirdPlaceSelect");
-  const thirdPlaceName = document.getElementById("thirdPlaceName");
+  const thirdPlaceName = requireElementById("thirdPlaceName");
   thirdPlaceName.innerHTML = thirdPlaceSelect.value();
   let placeName = thirdPlaceName.innerHTML;
   for (const key in state.dataInputArr) {
@@ -210,11 +240,11 @@ export function thirdPlaceSelectFunction(p) {
       placeName = key;
     }
   }
-  const trNum = document.getElementById("strataSelect").childElementCount;
+  const trNum = requireElementById("strataSelect").childElementCount;
   if (Object.keys(state.dataInputArr).length !== 0 && placeName !== "-") {
     const strataArr = state.dataInputArr[placeName].layer;
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = getSelectElement("select4-" + (i + 1));
+      const strataSelect = requireSelectElement("select4-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -228,7 +258,7 @@ export function thirdPlaceSelectFunction(p) {
     }
   } else {
     for (let i = 0; i < trNum; i++) {
-      const strataSelect = getSelectElement("select4-" + (i + 1));
+      const strataSelect = requireSelectElement("select4-" + (i + 1));
       while (strataSelect.childElementCount > 0) {
         strataSelect.remove(0);
       }
@@ -255,9 +285,9 @@ export function placeRefreshFunction(p) {
   const secondPlaceSelect = p.select("#secondPlaceSelect");
   const thirdPlaceSelect = p.select("#thirdPlaceSelect");
 
-  const firstPlaceSelectDoc = getSelectElement("firstPlaceSelect");
-  const secondPlaceSelectDoc = getSelectElement("secondPlaceSelect");
-  const thirdPlaceSelectDoc = getSelectElement("thirdPlaceSelect");
+  const firstPlaceSelectDoc = requireSelectElement("firstPlaceSelect");
+  const secondPlaceSelectDoc = requireSelectElement("secondPlaceSelect");
+  const thirdPlaceSelectDoc = requireSelectElement("thirdPlaceSelect");
 
   while (firstPlaceSelectDoc.childElementCount > 0) {
     firstPlaceSelectDoc.remove(0);
@@ -299,8 +329,7 @@ export function placeRefreshFunction(p) {
  * @param {*} p p5インスタンス
  */
 export function strataAddButtonFunction(p) {
-  const nextTrNum =
-    document.getElementById("strataSelect").childElementCount + 1;
+  const nextTrNum = requireElementById("strataSelect").childElementCount + 1;
   p.createElement("tr")
     .parent("strataSelect")
     .id("tr-" + nextTrNum);
@@ -319,9 +348,9 @@ export function strataAddButtonFunction(p) {
       "block w-full rounded border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
     )
     .id("select1-" + nextTrNum);
-  document
-    .getElementById("select1-" + nextTrNum)
-    .addEventListener("change", () => strataSelectFunction(p));
+  requireElementById("select1-" + nextTrNum).addEventListener("change", () =>
+    strataSelectFunction(p)
+  );
   for (let i = 0; i < STRATA_KINDS.length; i++) select1.option(STRATA_KINDS[i]);
   p.createElement("td")
     .parent("tr-" + nextTrNum)
@@ -362,8 +391,8 @@ export function strataAddButtonFunction(p) {
  * 平面を構成する地層の組を削除するボタンを押した時の処理。
  */
 export function strataRemoveButtonFunction() {
-  const strataSelect = document.getElementById("strataSelect");
-  if (strataSelect.childElementCount > 0) {
+  const strataSelect = requireElementById("strataSelect");
+  if (strataSelect.childElementCount > 0 && strataSelect.lastChild) {
     strataSelect.removeChild(strataSelect.lastChild);
   }
 }
@@ -438,7 +467,7 @@ export function loadTestDataButtonFunction(p) {
   };
   for (let i = 0; i < nameArr.length; i++) {
     placeAddButtonFunction(p);
-    const el = document.getElementById("placeNameInput" + (i + 1));
+    const el = requireElementById("placeNameInput" + (i + 1));
     const pa1 = el.children[0];
     const pl = pa1.children[1] as HTMLInputElement;
     pl.value = nameArr[i];
@@ -457,25 +486,25 @@ export function loadTestDataButtonFunction(p) {
  */
 export function aSetButtonFunction(p) {
   state.allSetIs = false;
-  while (document.getElementById("strataSelect").childElementCount !== 0) {
+  while (requireElementById("strataSelect").childElementCount !== 0) {
     strataRemoveButtonFunction();
   }
-  getSelectElement("firstPlaceSelect").options[1].selected = true;
-  getSelectElement("secondPlaceSelect").options[3].selected = true;
-  getSelectElement("thirdPlaceSelect").options[5].selected = true;
+  requireSelectElement("firstPlaceSelect").options[1].selected = true;
+  requireSelectElement("secondPlaceSelect").options[3].selected = true;
+  requireSelectElement("thirdPlaceSelect").options[5].selected = true;
   firstPlaceSelectFunction(p);
   secondPlaceSelectFunction(p);
   thirdPlaceSelectFunction(p);
   for (let i = 0; i < 2; i++) strataAddButtonFunction(p);
-  getSelectElement("select1-1").options[6].selected = true;
-  getSelectElement("select1-2").options[2].selected = true;
+  requireSelectElement("select1-1").options[6].selected = true;
+  requireSelectElement("select1-2").options[2].selected = true;
   strataSelectFunction(p);
-  getSelectElement("select2-1").options[0].selected = true;
-  getSelectElement("select3-1").options[0].selected = true;
-  getSelectElement("select4-1").options[0].selected = true;
-  getSelectElement("select2-2").options[0].selected = true;
-  getSelectElement("select3-2").options[0].selected = true;
-  getSelectElement("select4-2").options[0].selected = true;
+  requireSelectElement("select2-1").options[0].selected = true;
+  requireSelectElement("select3-1").options[0].selected = true;
+  requireSelectElement("select4-1").options[0].selected = true;
+  requireSelectElement("select2-2").options[0].selected = true;
+  requireSelectElement("select3-2").options[0].selected = true;
+  requireSelectElement("select4-2").options[0].selected = true;
 }
 
 /**
@@ -484,25 +513,25 @@ export function aSetButtonFunction(p) {
  */
 export function bSetButtonFunction(p) {
   state.allSetIs = false;
-  while (document.getElementById("strataSelect").childElementCount !== 0) {
+  while (requireElementById("strataSelect").childElementCount !== 0) {
     strataRemoveButtonFunction();
   }
-  getSelectElement("firstPlaceSelect").options[1].selected = true;
-  getSelectElement("secondPlaceSelect").options[5].selected = true;
-  getSelectElement("thirdPlaceSelect").options[7].selected = true;
+  requireSelectElement("firstPlaceSelect").options[1].selected = true;
+  requireSelectElement("secondPlaceSelect").options[5].selected = true;
+  requireSelectElement("thirdPlaceSelect").options[7].selected = true;
   firstPlaceSelectFunction(p);
   secondPlaceSelectFunction(p);
   thirdPlaceSelectFunction(p);
   for (let i = 0; i < 2; i++) strataAddButtonFunction(p);
-  getSelectElement("select1-1").options[6].selected = true;
-  getSelectElement("select1-2").options[2].selected = true;
+  requireSelectElement("select1-1").options[6].selected = true;
+  requireSelectElement("select1-2").options[2].selected = true;
   strataSelectFunction(p);
-  getSelectElement("select2-1").options[0].selected = true;
-  getSelectElement("select3-1").options[0].selected = true;
-  getSelectElement("select4-1").options[0].selected = true;
-  getSelectElement("select2-2").options[0].selected = true;
-  getSelectElement("select3-2").options[0].selected = true;
-  getSelectElement("select4-2").options[0].selected = true;
+  requireSelectElement("select2-1").options[0].selected = true;
+  requireSelectElement("select3-1").options[0].selected = true;
+  requireSelectElement("select4-1").options[0].selected = true;
+  requireSelectElement("select2-2").options[0].selected = true;
+  requireSelectElement("select3-2").options[0].selected = true;
+  requireSelectElement("select4-2").options[0].selected = true;
 }
 
 /**
@@ -511,29 +540,29 @@ export function bSetButtonFunction(p) {
  */
 export function cSetButtonFunction(p) {
   state.allSetIs = false;
-  while (document.getElementById("strataSelect").childElementCount !== 0) {
+  while (requireElementById("strataSelect").childElementCount !== 0) {
     strataRemoveButtonFunction();
   }
-  getSelectElement("firstPlaceSelect").options[1].selected = true;
-  getSelectElement("secondPlaceSelect").options[4].selected = true;
-  getSelectElement("thirdPlaceSelect").options[2].selected = true;
+  requireSelectElement("firstPlaceSelect").options[1].selected = true;
+  requireSelectElement("secondPlaceSelect").options[4].selected = true;
+  requireSelectElement("thirdPlaceSelect").options[2].selected = true;
   firstPlaceSelectFunction(p);
   secondPlaceSelectFunction(p);
   thirdPlaceSelectFunction(p);
   for (let i = 0; i < 3; i++) strataAddButtonFunction(p);
-  getSelectElement("select1-1").options[6].selected = true;
-  getSelectElement("select1-2").options[5].selected = true;
-  getSelectElement("select1-3").options[2].selected = true;
+  requireSelectElement("select1-1").options[6].selected = true;
+  requireSelectElement("select1-2").options[5].selected = true;
+  requireSelectElement("select1-3").options[2].selected = true;
   strataSelectFunction(p);
-  getSelectElement("select2-1").options[0].selected = true;
-  getSelectElement("select3-1").options[0].selected = true;
-  getSelectElement("select4-1").options[0].selected = true;
-  getSelectElement("select2-2").options[0].selected = true;
-  getSelectElement("select3-2").options[0].selected = true;
-  getSelectElement("select4-2").options[0].selected = true;
-  getSelectElement("select2-3").options[0].selected = true;
-  getSelectElement("select3-3").options[0].selected = true;
-  getSelectElement("select4-3").options[0].selected = true;
+  requireSelectElement("select2-1").options[0].selected = true;
+  requireSelectElement("select3-1").options[0].selected = true;
+  requireSelectElement("select4-1").options[0].selected = true;
+  requireSelectElement("select2-2").options[0].selected = true;
+  requireSelectElement("select3-2").options[0].selected = true;
+  requireSelectElement("select4-2").options[0].selected = true;
+  requireSelectElement("select2-3").options[0].selected = true;
+  requireSelectElement("select3-3").options[0].selected = true;
+  requireSelectElement("select4-3").options[0].selected = true;
 }
 
 /**
@@ -542,29 +571,29 @@ export function cSetButtonFunction(p) {
  */
 export function dSetButtonFunction(p) {
   state.allSetIs = false;
-  while (document.getElementById("strataSelect").childElementCount !== 0) {
+  while (requireElementById("strataSelect").childElementCount !== 0) {
     strataRemoveButtonFunction();
   }
-  getSelectElement("firstPlaceSelect").options[4].selected = true;
-  getSelectElement("secondPlaceSelect").options[6].selected = true;
-  getSelectElement("thirdPlaceSelect").options[2].selected = true;
+  requireSelectElement("firstPlaceSelect").options[4].selected = true;
+  requireSelectElement("secondPlaceSelect").options[6].selected = true;
+  requireSelectElement("thirdPlaceSelect").options[2].selected = true;
   firstPlaceSelectFunction(p);
   secondPlaceSelectFunction(p);
   thirdPlaceSelectFunction(p);
   for (let i = 0; i < 3; i++) strataAddButtonFunction(p);
-  getSelectElement("select1-1").options[6].selected = true;
-  getSelectElement("select1-2").options[5].selected = true;
-  getSelectElement("select1-3").options[2].selected = true;
+  requireSelectElement("select1-1").options[6].selected = true;
+  requireSelectElement("select1-2").options[5].selected = true;
+  requireSelectElement("select1-3").options[2].selected = true;
   strataSelectFunction(p);
-  getSelectElement("select2-1").options[0].selected = true;
-  getSelectElement("select3-1").options[0].selected = true;
-  getSelectElement("select4-1").options[0].selected = true;
-  getSelectElement("select2-2").options[0].selected = true;
-  getSelectElement("select3-2").options[0].selected = true;
-  getSelectElement("select4-2").options[0].selected = true;
-  getSelectElement("select2-3").options[0].selected = true;
-  getSelectElement("select3-3").options[0].selected = true;
-  getSelectElement("select4-3").options[0].selected = true;
+  requireSelectElement("select2-1").options[0].selected = true;
+  requireSelectElement("select3-1").options[0].selected = true;
+  requireSelectElement("select4-1").options[0].selected = true;
+  requireSelectElement("select2-2").options[0].selected = true;
+  requireSelectElement("select3-2").options[0].selected = true;
+  requireSelectElement("select4-2").options[0].selected = true;
+  requireSelectElement("select2-3").options[0].selected = true;
+  requireSelectElement("select3-3").options[0].selected = true;
+  requireSelectElement("select4-3").options[0].selected = true;
 }
 
 /**
@@ -573,12 +602,12 @@ export function dSetButtonFunction(p) {
  */
 export function allSetButtonFunction(p) {
   state.allSetIs = true;
-  while (document.getElementById("strataSelect").childElementCount !== 0) {
+  while (requireElementById("strataSelect").childElementCount !== 0) {
     strataRemoveButtonFunction();
   }
-  getSelectElement("firstPlaceSelect").options[0].selected = true;
-  getSelectElement("secondPlaceSelect").options[0].selected = true;
-  getSelectElement("thirdPlaceSelect").options[0].selected = true;
+  requireSelectElement("firstPlaceSelect").options[0].selected = true;
+  requireSelectElement("secondPlaceSelect").options[0].selected = true;
+  requireSelectElement("thirdPlaceSelect").options[0].selected = true;
   firstPlaceSelectFunction(p);
   secondPlaceSelectFunction(p);
   thirdPlaceSelectFunction(p);

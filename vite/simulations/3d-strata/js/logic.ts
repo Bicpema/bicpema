@@ -2,6 +2,7 @@
 
 import { state, STRATA_COLORS, ALL_SET_DATA } from "./state.js";
 import { computeCoordinateBounds } from "./physics.js";
+import { requireElementById } from "./element-function.js";
 import {
   WORLD_MIN,
   WORLD_MAX,
@@ -42,9 +43,9 @@ function applyStrataFill(p, kind, alpha) {
  * @returns {{x: {min:number,max:number}, y: {min:number,max:number}, z: {min:number,max:number}}}
  */
 function calculateValue() {
-  const latitudeArr = [];
-  const longitudeArr = [];
-  const depthArr = [];
+  const latitudeArr: number[] = [];
+  const longitudeArr: number[] = [];
+  const depthArr: number[] = [];
   for (const key in state.dataInputArr) {
     if (Object.hasOwn(state.dataInputArr, key)) {
       const value = state.dataInputArr[key];
@@ -209,7 +210,7 @@ function drawStrata(p, key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
   y = p.map(y, yMin, yMax, WORLD_MAX, WORLD_MIN);
   const layer = state.dataInputArr[key].layer;
   p.noStroke();
-  const zArr = [];
+  const zArr: number[] = [];
   for (let i = 0; i < layer.length; i++) {
     const z = layer[i][0];
     zArr.push(z);
@@ -269,7 +270,7 @@ function drawStrata(p, key, rotateTime, xMin, xMax, yMin, yMax, zMin, zMax) {
  * @param {*} p p5インスタンス
  */
 function drawSelectedPlanes(p, xMin, xMax, yMin, yMax, zMin, zMax) {
-  const trNum = document.getElementById("strataSelect").childElementCount;
+  const trNum = requireElementById("strataSelect").childElementCount;
   const p1Name = p.select("#firstPlaceSelect").value();
   const p2Name = p.select("#secondPlaceSelect").value();
   const p3Name = p.select("#thirdPlaceSelect").value();
@@ -558,9 +559,8 @@ export function drawSimulation(p) {
   drawDirMark(p, -600, -600);
 
   // データ登録モーダルを開いている時にオービットコントロールを無効化
-  const modalIs = document
-    .getElementById("dataRegisterModal")
-    .classList.contains("hidden");
+  const modalIs =
+    requireElementById("dataRegisterModal").classList.contains("hidden");
   if (modalIs) {
     p.orbitControl(2);
   }

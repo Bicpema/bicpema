@@ -17,6 +17,11 @@
     "test/simulations/first-law-of-thermodynamics/**/*.js",
     "test/simulations/heat-engine/**/*.js",
     "test/simulations/specific-heat-and-heat-capacity/**/*.js",
-    "test/simulations/visualization-of-heat-transfer/**/*.js"
+    "test/simulations/visualization-of-heat-transfer/**/*.js",
+    "vite/simulations/half-life/**/*.ts",
+    "vite/simulations/archimedes-principle/**/*.ts",
+    "vite/simulations/free-fall/**/*.ts",
+    "vite/simulations/3d-strata/**/*.ts",
+    "vite/simulations/3d-strata-csv/**/*.ts"
   ]
 }
