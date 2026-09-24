@@ -25,7 +25,7 @@ const sketch = (p) => {
 
     p.scale(p.width / 1000);
     p.background(255);
-    p.image(state.waveLayer, 0, 0);
+    if (state.waveLayer) p.image(state.waveLayer, 0, 0);
     drawUIContext(p);
     drawWave(p);
     drawFormula(p);

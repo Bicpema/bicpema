@@ -6,7 +6,7 @@ export const state = {
   pipeY: 200,
   Amp: 40,
   time: 0,
-  waveLayer: null,
+  waveLayer: null as p5.Graphics | null,
   /** シミュレーション実行中かどうか（再生/一時停止ボタンで切り替え） */
   isRunning: false
 };

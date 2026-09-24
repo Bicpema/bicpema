@@ -1,5 +1,9 @@
 // state.ts はシミュレーションの共有可変状態を管理するファイルです。
 
+import type { Medium } from "./medium.js";
+import type { IncidentWave } from "./incident-wave.js";
+import type { ReflectedWave } from "./reflected-wave.js";
+
 export const MEDIUM_QUANTITY = 100;
 
 /** 媒質配置トラックの左右合計マージン(px)（ボタン/ストッパー用の余白） */
@@ -18,11 +22,11 @@ export const STOPPER_WIDTH = 100;
 export const BUTTON_SIZE = 50;
 
 export const state = {
-  mediums: null,
+  mediums: null as Medium[] | null,
   /** 入射波の配列 */
-  incidentWaves: [],
+  incidentWaves: [] as IncidentWave[],
   /** 反射波の配列 */
-  reflectedWaves: [],
+  reflectedWaves: [] as ReflectedWave[],
   /** 波の速度 */
   speed: 1,
   /** 固定状態かどうか */
@@ -33,12 +37,12 @@ export const state = {
   stopperX: 0,
   /** ストッパーのY座標 */
   stopperY: 0,
-  /** ストッパーの参照 */
-  stopper: null,
-  /** ボタンの参照 */
-  button: null,
+  /** ストッパー画像の参照 */
+  stopper: null as p5.Image | null,
+  /** ボタン画像の参照 */
+  button: null as p5.Image | null,
   /** 減速ボタンの参照 */
-  decelerationButton: null,
+  decelerationButton: null as p5.Element | null,
   /** 加速ボタンの参照 */
-  accelerationButton: null
+  accelerationButton: null as p5.Element | null
 };

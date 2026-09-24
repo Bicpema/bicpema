@@ -95,8 +95,16 @@ describe("ReflectedWave", () => {
 describe("Medium", () => {
   it("入射波と反射波のうち自分のインデックスに対応する変位の合計が位置になる（波の重ね合わせ）", () => {
     const medium = new Medium(stubP, 0, 0, 0);
-    state.incidentWaves = [{ posy: 3 }, { posy: 5 }];
-    state.reflectedWaves = [{ posy: 2 }, { posy: 7 }];
+    const incident1 = new IncidentWave(stubP, 0, 0, 0, 0, false);
+    incident1.posy = 3;
+    const incident2 = new IncidentWave(stubP, 0, 0, 0, 0, false);
+    incident2.posy = 5;
+    const reflected1 = new ReflectedWave(stubP, 0, 0, 0, 0, false);
+    reflected1.posy = 2;
+    const reflected2 = new ReflectedWave(stubP, 0, 0, 0, 0, false);
+    reflected2.posy = 7;
+    state.incidentWaves = [incident1, incident2];
+    state.reflectedWaves = [reflected1, reflected2];
 
     medium.calculate();
 
@@ -107,8 +115,12 @@ describe("Medium", () => {
 
   it("対応する波が存在しなければ変位は0になる", () => {
     const medium = new Medium(stubP, 0, 0, MEDIUM_QUANTITY - 1);
-    state.incidentWaves = [{ posy: 3 }];
-    state.reflectedWaves = [{ posy: 2 }];
+    const incident = new IncidentWave(stubP, 0, 0, 0, 0, false);
+    incident.posy = 3;
+    const reflected = new ReflectedWave(stubP, 0, 0, 0, 0, false);
+    reflected.posy = 2;
+    state.incidentWaves = [incident];
+    state.reflectedWaves = [reflected];
 
     medium.calculate();
 

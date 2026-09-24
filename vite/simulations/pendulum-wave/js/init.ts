@@ -25,6 +25,7 @@ export function settingInit(p) {
  * @param {*} p p5インスタンス
  */
 export function valueInit(p) {
+  if (!state.weightImage || !state.pendulumData) return;
   state.weightImage.resize(p.width / WEIGHT_IMAGE_WIDTH_DIVISOR, 0);
 
   state.balls = [];
