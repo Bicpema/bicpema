@@ -1,5 +1,6 @@
 // element-function.tsはイベントハンドラー専用のファイルです。
 
+import p5 from "p5";
 import { state } from "./state.js";
 import { initValue } from "./init.js";
 import { LENGTH_INPUT_SCALE } from "./constants.js";
@@ -22,7 +23,7 @@ export function onStopClick() {
  * リセットボタンが押されたときの処理
  * @param {*} p p5インスタンス
  */
-export function onResetClick(p) {
+export function onResetClick(p: p5) {
   initValue(p);
 }
 

@@ -15,7 +15,7 @@ const WEIGHT_IMAGE_URL =
 const PENDULUM_DATA_URL =
   "https://dl.dropboxusercontent.com/s/a4mwnazwmgqmn87/pendulumData.csv";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({
     fixedAspectRatio: false
   });
@@ -23,7 +23,9 @@ const sketch = (p) => {
 
   p.preload = () => {
     state.weightImage = p.loadImage(WEIGHT_IMAGE_URL);
-    state.pendulumData = p.loadTable(PENDULUM_DATA_URL, "header");
+    // p5.jsの型定義上、loadTable()の戻り値は`object`型となっているため、
+    // 実際の戻り値であるp5.Tableへ明示的にキャストする。
+    state.pendulumData = p.loadTable(PENDULUM_DATA_URL, "header") as p5.Table;
   };
 
   p.setup = () => {

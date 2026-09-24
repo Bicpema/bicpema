@@ -1,5 +1,6 @@
 // class.ts は Ball クラス管理専用のファイルです。
 
+import p5 from "p5";
 import { state } from "./state.js";
 import { computePendulumWaveAngle } from "./physics.js";
 import { PIVOT_Y } from "./constants.js";
@@ -30,7 +31,7 @@ export class Ball {
    * 現在のフレームカウントに応じて位置を更新する。
    * @param {*} p p5インスタンス
    */
-  move(p) {
+  move(p: p5) {
     this.theta = computePendulumWaveAngle(
       this.theta0,
       this.length,
@@ -45,7 +46,7 @@ export class Ball {
    * 支点からの糸とおもりを描画する。
    * @param {*} p p5インスタンス
    */
-  display(p) {
+  display(p: p5) {
     p.line(p.width / 2, PIVOT_Y, this.posx, this.posy);
     if (!state.weightImage) return;
     p.image(

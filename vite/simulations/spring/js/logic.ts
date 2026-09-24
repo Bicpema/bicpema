@@ -1,5 +1,6 @@
 // logic.tsはシミュレーションの描画処理と物理更新専用のファイルです。
 
+import p5 from "p5";
 import { state, FPS } from "./state.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";
 import { getCanvasElement } from "../../../js/bicpema-dom.js";
@@ -12,7 +13,7 @@ const loadChart = createLazyImporter(() =>
  * シミュレーションの描画と物理更新を行う。
  * @param {*} p p5インスタンス
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   p.background(255);
   state.spring1!.draw(p);
   state.spring2!.draw(p);

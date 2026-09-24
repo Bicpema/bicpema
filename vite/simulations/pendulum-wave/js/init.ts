@@ -1,5 +1,6 @@
 // init.tsは初期処理専用のファイルです。
 
+import p5 from "p5";
 import { state } from "./state.js";
 import { Ball } from "./class.js";
 import {
@@ -15,7 +16,7 @@ import {
  * シミュレーションそのものの設定を行います。
  * @param {*} p p5インスタンス
  */
-export function settingInit(p) {
+export function settingInit(p: p5) {
   p.frameRate(FPS);
   p.textSize(p.width / GUIDE_TEXT_SIZE_DIVISOR);
 }
@@ -24,7 +25,7 @@ export function settingInit(p) {
  * 初期値を設定します。
  * @param {*} p p5インスタンス
  */
-export function valueInit(p) {
+export function valueInit(p: p5) {
   if (!state.weightImage || !state.pendulumData) return;
   state.weightImage.resize(p.width / WEIGHT_IMAGE_WIDTH_DIVISOR, 0);
 

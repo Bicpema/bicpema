@@ -13,7 +13,7 @@ const FONT_URL =
 const GROUND_IMG_URL =
   "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810";
 
-const sketch = (p) => {
+const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
   p.preload = () => {
@@ -24,7 +24,7 @@ const sketch = (p) => {
     canvasController.fullScreen(p);
     elCreate(p);
     initValue(p);
-    p.loadFont(FONT_URL, (f) => {
+    p.loadFont(FONT_URL, (f: p5.Font) => {
       p.textFont(f);
     });
   };

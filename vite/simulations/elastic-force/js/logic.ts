@@ -1,5 +1,6 @@
 // logic.ts はシミュレーションの描画ロジック専用のファイルです。
 
+import p5 from "p5";
 import {
   state,
   V_W,
@@ -19,7 +20,7 @@ import { HOOKE_LINE_COLOR } from "./constants.js";
  * 壁（地面画像を90°回転）を描画する
  * @param {*} p - p5 インスタンス。
  */
-function drawWall(p) {
+function drawWall(p: p5) {
   if (!state.wallImg) return;
 
   const wallH = WALL_BOTTOM - WALL_TOP;
@@ -41,7 +42,7 @@ function drawWall(p) {
  * 左右の区切り線を描画する
  * @param {*} p - p5 インスタンス。
  */
-function drawDivider(p) {
+function drawDivider(p: p5) {
   p.stroke(200);
   p.strokeWeight(1.5);
   p.drawingContext.setLineDash([6, 6]);
@@ -53,7 +54,7 @@ function drawDivider(p) {
  * フック則グラフを描画する
  * @param {*} p - p5 インスタンス。
  */
-function drawGraph(p) {
+function drawGraph(p: p5) {
   const spring = state.springs[0];
   if (!spring) return;
 
@@ -194,7 +195,7 @@ function drawGraph(p) {
  * シミュレーション全体を描画する。
  * @param {*} p - p5 インスタンス。
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   p.background(255);
   p.scale(p.width / V_W);
 

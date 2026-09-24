@@ -1,5 +1,6 @@
 // init.tsは初期処理専用のファイルです。
 
+import p5 from "p5";
 import { state } from "./state.js";
 import { Ball } from "./class.js";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
@@ -24,7 +25,7 @@ import {
  * 要素の選択とイベントハンドラーの設定を行う。
  * @param {*} p p5インスタンス
  */
-export function elCreate(p) {
+export function elCreate(p: p5) {
   state.gridButton = p.select("#gridButton");
   state.leftAngleInput = p.select("#leftAngleInput");
   state.leftLengthInput = p.select("#leftLengthInput");
@@ -60,7 +61,7 @@ export function elCreate(p) {
  * 初期値を設定する。
  * @param {*} p p5インスタンス
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   state.radi = p.width / BALL_RADIUS_DIVISOR;
   state.clickedCount = false;
   state.gridIs = false;

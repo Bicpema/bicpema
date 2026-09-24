@@ -1,5 +1,6 @@
 // logic.tsはシミュレーションの描画処理と物理更新専用のファイルです。
 
+import p5 from "p5";
 import { state } from "./state.js";
 import {
   GRID_STEP,
@@ -15,7 +16,7 @@ import {
  * 3分割された画面の枠線とグリッド線を描画する。
  * @param {*} p p5インスタンス
  */
-function drawBackground(p) {
+function drawBackground(p: p5) {
   for (let i = 0; i < 3; i++) {
     p.stroke(0, BACKGROUND_STROKE_ALPHA);
     if (state.gridIs) {
@@ -52,7 +53,7 @@ function drawBackground(p) {
  * シミュレーションの描画と物理更新を行う。
  * @param {*} p p5インスタンス
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   p.background(255);
   if (state.clickedCount) state.count += 1;
   drawBackground(p);

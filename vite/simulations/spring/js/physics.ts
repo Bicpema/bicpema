@@ -4,7 +4,10 @@
  * @param {number|string} combination 1: 単独, 2: 並列（2本）, 3: 直列（2本、同じkの場合）
  * @returns {number} 合成ばね定数
  */
-export function computeEffectiveSpringConstant(k, combination) {
+export function computeEffectiveSpringConstant(
+  k: number | string,
+  combination: number | string
+) {
   const springConstant = Number(k);
   const combinationType = Number(combination);
   if (combinationType === 1) return springConstant;
@@ -20,7 +23,12 @@ export function computeEffectiveSpringConstant(k, combination) {
  * @param {number} t 経過時間 (s)
  * @returns {{x: number, y: number}} 変位（原点からの相対位置）
  */
-export function computeSpringPosition(springConstant, mass, amplitude, t) {
+export function computeSpringPosition(
+  springConstant: number,
+  mass: number,
+  amplitude: number,
+  t: number
+) {
   const omega = Math.sqrt(springConstant / mass);
   return {
     x: amplitude * -Math.cos(omega * t + Math.PI / 2),

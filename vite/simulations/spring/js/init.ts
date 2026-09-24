@@ -1,5 +1,6 @@
 // init.tsは初期処理専用のファイルです。
 
+import p5 from "p5";
 import { state, FPS } from "./state.js";
 import { Spring } from "./class.js";
 import { initCharts } from "./logic.js";
@@ -14,7 +15,7 @@ const NAV_HEIGHT = 60;
  * DOM要素の生成とイベントリスナーの設定を行う。
  * @param {*} p p5インスタンス
  */
-export function elCreate(p) {
+export function elCreate(p: p5) {
   bindStartStopControls(p, {
     startSelector: "#startButton",
     stopSelector: "#stopButton",
@@ -50,7 +51,7 @@ export function elCreate(p) {
  * canvasサイズに依存する画像サイズを再計算する（リサイズ時にも呼ぶため、シミュレーションの状態は変更しない）。
  * @param {*} p p5インスタンス
  */
-export function resizeImages(p) {
+export function resizeImages(p: p5) {
   state.springImage!.resize(p.width / 20, p.height / 4);
   state.ballImage!.resize(p.height / 15, 0);
 }
@@ -59,7 +60,7 @@ export function resizeImages(p) {
  * グラフ用DOM要素のサイズ・位置を設定する。
  * @param {*} p p5インスタンス
  */
-export function layoutGraphs(p) {
+export function layoutGraphs(p: p5) {
   state
     .graph1!.size(p.width / 2, p.height / 2)
     .position(p.width / 2, NAV_HEIGHT);
@@ -74,7 +75,7 @@ export function layoutGraphs(p) {
  * シミュレーションの初期値を設定する。
  * @param {*} p p5インスタンス
  */
-export function initValue(p) {
+export function initValue(p: p5) {
   resizeImages(p);
   state.countData = [0];
   state.data1 = [];

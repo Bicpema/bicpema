@@ -1,5 +1,6 @@
 // logic.tsはシミュレーションの描画処理と物理更新専用のファイルです。
 
+import p5 from "p5";
 import { state } from "./state.js";
 import { FPS, TIME_LABEL_X, TIME_LABEL_Y } from "./constants.js";
 
@@ -7,7 +8,7 @@ import { FPS, TIME_LABEL_X, TIME_LABEL_Y } from "./constants.js";
  * シミュレーションの描画と物理更新を行う。
  * @param {*} p p5インスタンス
  */
-export function drawSimulation(p) {
+export function drawSimulation(p: p5) {
   p.background(255);
 
   for (let i = 0; i < state.balls.length; i++) {
