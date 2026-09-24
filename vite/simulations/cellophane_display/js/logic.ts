@@ -30,8 +30,7 @@ import {
 // mathjsの動的importをモジュール読み込み時に開始する。p5のpreload()による
 // CSV/画像の取得と並行して読み込まれるため、setup()到達時には解決済みになる想定。
 const loadMath = createLazyImporter(() => import("mathjs"));
-/** @type {typeof import("mathjs") | null} */
-let math = null;
+let math: typeof import("mathjs") | null = null;
 loadMath()
   .then((module) => {
     math = module;
@@ -48,12 +47,12 @@ loadMath()
  */
 export function drawSimulation(p) {
   if (!math) return;
-  state.currentValue = state.optRadio.value();
+  state.currentValue = state.optRadio!.value();
   state.radius = CELLOPHANE_RADIUS;
   prenormal(p);
   colabNum1_normal(p);
   colabNum2_normal(p);
-  if (state.lineradio.value() === "補助線あり") {
+  if (state.lineradio!.value() === "補助線あり") {
     checked(p);
   }
   afterColorCalculate(p);
@@ -67,15 +66,15 @@ export function drawSimulation(p) {
  * 光路差の分散特性(セロハンテープ/OPPフィルム)が切り替わったときの処理。
  */
 export function optChanged() {
-  if (state.optRadio.value() === "セロハンテープ") {
-    state.dArr = state.dTable.getColumn("d");
-    state.dRowNum = state.dTable.getRowCount();
-    state.preValue = state.optRadio.value();
+  if (state.optRadio!.value() === "セロハンテープ") {
+    state.dArr = state.dTable!.getColumn("d");
+    state.dRowNum = state.dTable!.getRowCount();
+    state.preValue = state.optRadio!.value();
   }
-  if (state.optRadio.value() === "OPPフィルム") {
-    state.dArr = state.dTableOPP.getColumn("d");
-    state.dRowNum = state.dTableOPP.getRowCount();
-    state.preValue = state.optRadio.value();
+  if (state.optRadio!.value() === "OPPフィルム") {
+    state.dArr = state.dTableOPP!.getColumn("d");
+    state.dRowNum = state.dTableOPP!.getRowCount();
+    state.preValue = state.optRadio!.value();
   }
 }
 
@@ -93,9 +92,9 @@ function checked(p) {
   for (let i = 0; i < state.colabNum; i++) {
     // colabNumが3の場合, 0,1,2 (1,2,3枚)
     const num = i + 1;
-    const rotateInput = p.select("#rotateInput-" + num);
+    const rotateInput = p.select("#rotateInput-" + num)!;
     p.push();
-    p.rotateZ((rotateInput.value() * p.PI) / 180);
+    p.rotateZ((Number(rotateInput.value()) * p.PI) / 180);
     p.stroke(0, 0, 0); //2024.6.14 透明度を50から20へ変更 (157, 204, 224, 0)
     p.push();
     p.translate(0, 0, GUIDE_LINE_Z_OFFSET);
@@ -115,10 +114,10 @@ function prenormal(p) {
   state.tape_number_cal = new Array(state.colabNum).fill(0);
 
   // テープ描画における条件設定(幅)
-  state.angle_1 = p.atan2(100, state.slider.value());
-  state.angle_2 = p.PI - p.atan2(100, state.slider.value());
-  state.angle_3 = p.PI + p.atan2(100, state.slider.value());
-  state.angle_4 = 2 * p.PI - p.atan2(100, state.slider.value());
+  state.angle_1 = p.atan2(100, Number(state.slider!.value()));
+  state.angle_2 = p.PI - p.atan2(100, Number(state.slider!.value()));
+  state.angle_3 = p.PI + p.atan2(100, Number(state.slider!.value()));
+  state.angle_4 = 2 * p.PI - p.atan2(100, Number(state.slider!.value()));
 
   // 回転の設定
   //rotateTime += 0.5
@@ -127,14 +126,14 @@ function prenormal(p) {
   p.background(state.rBefore, state.gBefore, state.bBefore);
   p.push();
   p.translate(-100, -100);
-  p.image(state.img, 0, 0);
+  p.image(state.img!, 0, 0);
   p.pop();
-  state.img.loadPixels();
+  state.img!.loadPixels();
 
   // 偏光板の描画
   createPolarizer(p, POLARIZER_SIZE, 0, 0, 0, 0);
   state.cellophaneNum = numInputFunction(p);
-  if (state.polarizerSelect.value() === "平行ニコル配置") {
+  if (state.polarizerSelect!.value() === "平行ニコル配置") {
     createPolarizer(
       p,
       POLARIZER_SIZE,
@@ -144,7 +143,7 @@ function prenormal(p) {
       0
     );
   }
-  if (state.polarizerSelect.value() === "直交ニコル配置") {
+  if (state.polarizerSelect!.value() === "直交ニコル配置") {
     createPolarizer(
       p,
       POLARIZER_SIZE,
@@ -165,8 +164,8 @@ function colabNum1_normal(p) {
     let z = 0;
     const i = 0;
     const num = i + 1;
-    const numInput = p.select("#numInput-" + num);
-    const rotateInput = p.select("#rotateInput-" + num);
+    const numInput = p.select("#numInput-" + num)!;
+    const rotateInput = p.select("#rotateInput-" + num)!;
     createCellophane(
       p,
       numInput.value(),
@@ -174,7 +173,7 @@ function colabNum1_normal(p) {
       z,
       state.angle_1
     );
-    z += parseInt(numInput.value(), 10);
+    z += parseInt(String(numInput.value()), 10);
     //tape1枚のみに色を塗る
     afterColorCalculate1(p);
     drawTape_1(
@@ -184,7 +183,7 @@ function colabNum1_normal(p) {
       state.bAfter1,
       rotateInput.value()
     );
-    state.img.updatePixels();
+    state.img!.updatePixels();
   }
 }
 
@@ -195,13 +194,13 @@ function colabNum1_normal(p) {
 function colabNum2_normal(p) {
   if (state.colabNum >= 2) {
     if (state.count2 === 0) {
-      for (let i = 0; i < state.img.pixels.length; i += 4) {
-        state.img.pixels[i] = INITIAL_PIXEL_COLOR[0];
-        state.img.pixels[i + 1] = INITIAL_PIXEL_COLOR[1];
-        state.img.pixels[i + 2] = INITIAL_PIXEL_COLOR[2];
-        state.img.pixels[i + 3] = INITIAL_PIXEL_COLOR[3]; //7.13までは80
+      for (let i = 0; i < state.img!.pixels.length; i += 4) {
+        state.img!.pixels[i] = INITIAL_PIXEL_COLOR[0];
+        state.img!.pixels[i + 1] = INITIAL_PIXEL_COLOR[1];
+        state.img!.pixels[i + 2] = INITIAL_PIXEL_COLOR[2];
+        state.img!.pixels[i + 3] = INITIAL_PIXEL_COLOR[3]; //7.13までは80
       }
-      state.img.updatePixels();
+      state.img!.updatePixels();
       state.count2 = 1;
     }
 
@@ -217,16 +216,19 @@ function colabNum2_normal(p) {
       state.lastValue = state.colabNum;
       state.calculate = 0;
     }
-    state.currentSlider = state.slider.value();
+    state.currentSlider = Number(state.slider!.value());
     let check = 0;
     for (let n = 1; n <= state.colabNum; n++) {
       //1でなく2では..?
-      const numInputValue = parseInt(p.select("#numInput-" + n).value(), 10); // 数値型に変換
-      const rotateInputValue = parseFloat(
-        p.select("#rotateInput-" + n).value()
+      const numInputValue = parseInt(
+        String(p.select("#numInput-" + n)!.value()),
+        10
       ); // 数値型に変換
-      const optInputValue = state.opdInput.value(); // 数値型に変換
-      const nowpolarizer = state.polarizerSelect.value();
+      const rotateInputValue = parseFloat(
+        String(p.select("#rotateInput-" + n)!.value())
+      ); // 数値型に変換
+      const optInputValue = state.opdInput!.value(); // 数値型に変換
+      const nowpolarizer = state.polarizerSelect!.value();
       if (numInputValue !== state.last_otherCellophaneNums[n - 1]) {
         check++;
         state.last_otherCellophaneNums[n - 1] = numInputValue;
@@ -284,16 +286,16 @@ function colabNum2_normal(p) {
         state.Bsize = BATCH_SIZE_INITIAL;
       }
       if (p.frameRate() < BATCH_FPS_THRESHOLD) {
-        state.Bsize = p.max(BATCH_SIZE_MIN, state.Bsize / 2); // フレームレートが低い場合、Bsizeを小さく
+        state.Bsize = p.max(BATCH_SIZE_MIN, state.Bsize! / 2); // フレームレートが低い場合、Bsizeを小さく
       } else {
         state.Bsize = p.min(
           BATCH_SIZE_MAX,
-          state.Bsize * BATCH_SIZE_GROWTH_FACTOR
+          state.Bsize! * BATCH_SIZE_GROWTH_FACTOR
         ); // フレームレートが高い場合、Bsizeを大きく
       }
 
-      const start = (state.Bdraw - 1) * state.Bsize;
-      const end = p.min(2 ** state.colabNum, start + state.Bsize);
+      const start = (state.Bdraw - 1) * state.Bsize!;
+      const end = p.min(2 ** state.colabNum, start + state.Bsize!);
       for (let i = start; i < end; i++) {
         //その枚数で生み出せる全ての色を生成(2角目以降)
         const binaryString = i.toString(2).padStart(state.colabNum, "0"); // colabNum=2 //00,01,10,11
@@ -313,8 +315,8 @@ function colabNum2_normal(p) {
         for (let i = 0; i < state.colabNum; i++) {
           //colabNumが3の場合, 0,1,2 (1,2,3枚)
           const num = i + 1;
-          const numInput = p.select("#numInput-" + num);
-          const rotateInput = p.select("#rotateInput-" + num);
+          const numInput = p.select("#numInput-" + num)!;
+          const rotateInput = p.select("#rotateInput-" + num)!;
           createCellophane(
             p,
             numInput.value(),
@@ -322,8 +324,8 @@ function colabNum2_normal(p) {
             z,
             state.angle_1
           );
-          z += parseInt(numInput.value(), 10);
-          state.tape_angle[i] = rotateInput.value(); //テープの全角度を収納する
+          z += parseInt(String(numInput.value()), 10);
+          state.tape_angle[i] = Number(rotateInput.value()); //テープの全角度を収納する
         }
         drawTapes(
           p,
@@ -332,7 +334,7 @@ function colabNum2_normal(p) {
           state.gAftera,
           state.bAftera
         );
-        state.img.updatePixels();
+        state.img!.updatePixels();
       }
     }
   }
@@ -426,7 +428,7 @@ function numInputFunction(p) {
   state.cellophaneNum = 0;
   for (let i = 0; i < state.colabNum; i++) {
     const num = i + 1;
-    const numInput = p.select("#numInput-" + num);
+    const numInput = p.select("#numInput-" + num)!;
     state.cellophaneNum += p.int(numInput.value());
   }
   return state.cellophaneNum;
@@ -489,14 +491,14 @@ export async function beforeColorCalculate(p) {
 function afterColorCalculate(p) {
   // セロハンの組数が１枚以上ある場合
   if (state.colabNum >= 1) {
-    const ls_xArrAfter = [];
-    const ls_yArrAfter = [];
-    const ls_zArrAfter = [];
+    const ls_xArrAfter: number[] = [];
+    const ls_yArrAfter: number[] = [];
+    const ls_zArrAfter: number[] = [];
 
     // 計算には１組目のセロハンを基準とした相対角度を使う
-    const referenceAngle = p.select("#rotateInput-1");
-    const a = p.radians(-referenceAngle.value()); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
-    const firstCellophaneNum = p.select("#numInput-1"); // セロハン１組目の枚数
+    const referenceAngle = p.select("#rotateInput-1")!;
+    const a = p.radians(-Number(referenceAngle.value())); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
+    const firstCellophaneNum = p.select("#numInput-1")!; // セロハン１組目の枚数
     state.E_1 = [[-p.sin(a)], [p.cos(a)]];
 
     // それぞれの波長毎に計算
@@ -505,54 +507,56 @@ function afterColorCalculate(p) {
       const delta = computePhaseRetardation(
         state.dArr[i - WAVELENGTH_MIN],
         firstCellophaneNum.value(),
-        state.opdInput.value(),
+        state.opdInput!.value(),
         l
       );
       const cello = [
         [1, 0],
-        [0, math.exp(math.complex(0, -delta))]
+        [0, math!.exp(math!.complex(0, -delta))]
       ];
-      state.E_2 = math.multiply(cello, state.E_1);
+      state.E_2 = math!.multiply(cello, state.E_1);
 
       // セロハンの組数が2組以上の場合、それぞれのセロハンに関する計算を再帰的に行う
       if (state.colabNum >= 2) {
         for (let n = 2; n <= state.colabNum; n++) {
-          const otherCellophaneNum = p.select("#numInput-" + n);
+          const otherCellophaneNum = p.select("#numInput-" + n)!;
           const loopDelta = computePhaseRetardation(
             state.dArr[i - WAVELENGTH_MIN],
             otherCellophaneNum.value(),
-            state.opdInput.value(),
+            state.opdInput!.value(),
             l
           );
           const loopCello = [
             [1, 0],
-            [0, math.exp(math.complex(0, -loopDelta))]
+            [0, math!.exp(math!.complex(0, -loopDelta))]
           ];
-          const targetAngle = p.select("#rotateInput-" + n);
-          const b = p.radians(targetAngle.value() - referenceAngle.value());
-          state.E_2 = math.multiply(
+          const targetAngle = p.select("#rotateInput-" + n)!;
+          const b = p.radians(
+            Number(targetAngle.value()) - Number(referenceAngle.value())
+          );
+          state.E_2 = math!.multiply(
             r_theta(p, b),
-            math.multiply(
+            math!.multiply(
               loopCello,
-              math.multiply(mai_r_theta(p, b), state.E_2)
+              math!.multiply(mai_r_theta(p, b), state.E_2)
             )
           );
         }
       }
 
       let c;
-      if (state.polarizerSelect.value() === "平行ニコル配置") {
-        c = p.radians(-referenceAngle.value());
-      } else if (state.polarizerSelect.value() === "直交ニコル配置") {
+      if (state.polarizerSelect!.value() === "平行ニコル配置") {
+        c = p.radians(-Number(referenceAngle.value()));
+      } else if (state.polarizerSelect!.value() === "直交ニコル配置") {
         c =
-          p.radians(-referenceAngle.value()) -
+          p.radians(-Number(referenceAngle.value())) -
           p.radians(CROSSED_POLARIZER_OFFSET_DEG);
       }
 
-      state.E_3 = math.multiply(jhons(p, c), state.E_2);
-      const relativeStrength = math.abs(
-        Number(math.abs(math.multiply(state.E_3[0], state.E_3[0]))) +
-          Number(math.abs(math.multiply(state.E_3[1], state.E_3[1])))
+      state.E_3 = math!.multiply(jhons(p, c), state.E_2);
+      const relativeStrength = math!.abs(
+        Number(math!.abs(math!.multiply(state.E_3[0], state.E_3[0]))) +
+          Number(math!.abs(math!.multiply(state.E_3[1], state.E_3[1])))
       );
       state.osArr[i - WAVELENGTH_MIN] =
         relativeStrength *
@@ -578,20 +582,20 @@ function afterColorCalculate(p) {
         state.R_all[i - WAVELENGTH_MIN] *
         state.zLambda[i - WAVELENGTH_MIN];
     }
-    state.Intensity_all_now = math.sum(state.osArr);
+    state.Intensity_all_now = math!.sum(state.osArr);
     for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
       state.speyBox[i - WAVELENGTH_MIN] =
         state.osArrOrigin[i - WAVELENGTH_MIN] *
         state.yLambda[i - WAVELENGTH_MIN] *
         state.R_all[i - WAVELENGTH_MIN];
     }
-    state.spey = math.sum(state.speyBox);
+    state.spey = math!.sum(state.speyBox);
     state.K = 1.0 / state.spey;
-    state.xSumAfter = math.sum(state.xArrAfter) * state.K;
-    state.ySumAfter = math.sum(state.yArrAfter) * state.K;
-    state.zSumAfter = math.sum(state.zArrAfter) * state.K;
+    state.xSumAfter = math!.sum(state.xArrAfter) * state.K;
+    state.ySumAfter = math!.sum(state.yArrAfter) * state.K;
+    state.zSumAfter = math!.sum(state.zArrAfter) * state.K;
     state.tosRGB = XYZ_TO_SRGB_MATRIX;
-    state.sRGB = math.multiply(state.tosRGB, [
+    state.sRGB = math!.multiply(state.tosRGB, [
       state.xSumAfter,
       state.ySumAfter,
       state.zSumAfter
@@ -601,11 +605,11 @@ function afterColorCalculate(p) {
     state.bAfter = toRGB(state.sRGB[2]);
   }
   // セロハンの組が0組の場合
-  else if (state.polarizerSelect.value() === "平行ニコル配置") {
+  else if (state.polarizerSelect!.value() === "平行ニコル配置") {
     state.rAfter = state.rBefore;
     state.gAfter = state.gBefore;
     state.bAfter = state.bBefore;
-  } else if (state.polarizerSelect.value() === "直交ニコル配置") {
+  } else if (state.polarizerSelect!.value() === "直交ニコル配置") {
     state.rAfter = 0;
     state.gAfter = 0;
     state.bAfter = 0;
@@ -623,9 +627,9 @@ function afterColorCalculate1(p) {
   // セロハンの組数が１枚以上ある場合
   if (state.colabNum >= 1) {
     // 計算には１組目のセロハンを基準とした相対角度を使う
-    const referenceAngle = p.select("#rotateInput-1");
-    const a = p.radians(-referenceAngle.value()); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
-    const firstCellophaneNum = p.select("#numInput-1"); // セロハン１組目の枚数
+    const referenceAngle = p.select("#rotateInput-1")!;
+    const a = p.radians(-Number(referenceAngle.value())); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
+    const firstCellophaneNum = p.select("#numInput-1")!; // セロハン１組目の枚数
     state.E_1 = [[-p.sin(a)], [p.cos(a)]];
 
     // それぞれの波長毎に計算
@@ -634,27 +638,27 @@ function afterColorCalculate1(p) {
       const delta = computePhaseRetardation(
         state.dArr[i - WAVELENGTH_MIN],
         firstCellophaneNum.value(),
-        state.opdInput.value(),
+        state.opdInput!.value(),
         l
       );
       const cello = [
         [1, 0],
-        [0, math.exp(math.complex(0, -delta))]
+        [0, math!.exp(math!.complex(0, -delta))]
       ];
-      state.E_2 = math.multiply(cello, state.E_1);
+      state.E_2 = math!.multiply(cello, state.E_1);
       let c;
-      if (state.polarizerSelect.value() === "平行ニコル配置") {
-        c = p.radians(-referenceAngle.value());
-      } else if (state.polarizerSelect.value() === "直交ニコル配置") {
+      if (state.polarizerSelect!.value() === "平行ニコル配置") {
+        c = p.radians(-Number(referenceAngle.value()));
+      } else if (state.polarizerSelect!.value() === "直交ニコル配置") {
         c =
-          p.radians(-referenceAngle.value()) -
+          p.radians(-Number(referenceAngle.value())) -
           p.radians(CROSSED_POLARIZER_OFFSET_DEG);
       }
 
-      state.E_3 = math.multiply(jhons(p, c), state.E_2);
-      const relativeStrength = math.abs(
-        Number(math.abs(math.multiply(state.E_3[0], state.E_3[0]))) +
-          Number(math.abs(math.multiply(state.E_3[1], state.E_3[1])))
+      state.E_3 = math!.multiply(jhons(p, c), state.E_2);
+      const relativeStrength = math!.abs(
+        Number(math!.abs(math!.multiply(state.E_3[0], state.E_3[0]))) +
+          Number(math!.abs(math!.multiply(state.E_3[1], state.E_3[1])))
       );
       state.osArr[i - WAVELENGTH_MIN] =
         relativeStrength *
@@ -680,23 +684,23 @@ function afterColorCalculate1(p) {
         state.R_all[i - WAVELENGTH_MIN] *
         state.zLambda[i - WAVELENGTH_MIN];
     }
-    state.Intensity_all_now = math.sum(state.osArr);
-    state.sum_ls_xArrAfter = math.sum(state.ls_xArrAfter);
-    state.sum_ls_yArrAfter = math.sum(state.ls_yArrAfter);
-    state.sum_ls_zArrAfter = math.sum(state.ls_zArrAfter);
+    state.Intensity_all_now = math!.sum(state.osArr);
+    state.sum_ls_xArrAfter = math!.sum(state.ls_xArrAfter);
+    state.sum_ls_yArrAfter = math!.sum(state.ls_yArrAfter);
+    state.sum_ls_zArrAfter = math!.sum(state.ls_zArrAfter);
     for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
       state.speyBox[i - WAVELENGTH_MIN] =
         state.osArrOrigin[i - WAVELENGTH_MIN] *
         state.yLambda[i - WAVELENGTH_MIN] *
         state.R_all[i - WAVELENGTH_MIN];
     }
-    state.spey = math.sum(state.speyBox);
+    state.spey = math!.sum(state.speyBox);
     state.K = 1.0 / state.spey;
-    state.xSumAfter = math.sum(state.xArrAfter) * state.K;
-    state.ySumAfter = math.sum(state.yArrAfter) * state.K;
-    state.zSumAfter = math.sum(state.zArrAfter) * state.K;
+    state.xSumAfter = math!.sum(state.xArrAfter) * state.K;
+    state.ySumAfter = math!.sum(state.yArrAfter) * state.K;
+    state.zSumAfter = math!.sum(state.zArrAfter) * state.K;
     state.tosRGB = XYZ_TO_SRGB_MATRIX;
-    state.sRGB = math.multiply(state.tosRGB, [
+    state.sRGB = math!.multiply(state.tosRGB, [
       state.xSumAfter,
       state.ySumAfter,
       state.zSumAfter
@@ -706,11 +710,11 @@ function afterColorCalculate1(p) {
     state.bAfter1 = toRGB(state.sRGB[2]);
   }
   // セロハンの組が0組の場合
-  else if (state.polarizerSelect.value() === "平行ニコル配置") {
+  else if (state.polarizerSelect!.value() === "平行ニコル配置") {
     state.rAfter1 = state.rBefore;
     state.gAfter1 = state.gBefore;
     state.bAfter1 = state.bBefore;
-  } else if (state.polarizerSelect.value() === "直交ニコル配置") {
+  } else if (state.polarizerSelect!.value() === "直交ニコル配置") {
     state.rAfter1 = 0;
     state.gAfter1 = 0;
     state.bAfter1 = 0;
@@ -743,9 +747,9 @@ function afterColorCalculates(p, binaryString) {
   if (bit[0] === 0) {
     //colabNum2: 00,01
     // 計算には１組目のセロハンを基準とした相対角度を使う
-    referenceAngle = p.select("#rotateInput-1");
-    a = p.radians(-referenceAngle.value()); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
-    firstCellophaneNum = p.select("#numInput-1"); // セロハン１組目の枚数
+    referenceAngle = p.select("#rotateInput-1")!;
+    a = p.radians(-Number(referenceAngle.value())); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
+    firstCellophaneNum = p.select("#numInput-1")!; // セロハン１組目の枚数
     state.E_1 = [[-p.sin(a)], [p.cos(a)]];
     numStart = 1;
   } else {
@@ -768,9 +772,9 @@ function afterColorCalculates(p, binaryString) {
     }
     if (numStart !== 0) {
       const numS = numStart + 1;
-      referenceAngle = p.select("#rotateInput-" + numS);
-      a = p.radians(-referenceAngle.value()); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
-      firstCellophaneNum = p.select("#numInput-" + numS); // セロハン１組目の枚数
+      referenceAngle = p.select("#rotateInput-" + numS)!;
+      a = p.radians(-Number(referenceAngle.value())); // 一組目のセロハンに対する偏光板一枚目の相対的な回転角
+      firstCellophaneNum = p.select("#numInput-" + numS)!; // セロハン１組目の枚数
       state.E_1 = [[-p.sin(a)], [p.cos(a)]];
     }
   }
@@ -782,38 +786,40 @@ function afterColorCalculates(p, binaryString) {
       const delta = computePhaseRetardation(
         state.dArr[i - WAVELENGTH_MIN],
         firstCellophaneNum.value(),
-        state.opdInput.value(),
+        state.opdInput!.value(),
         l
       ); //2024.6.22 firstCellophaneの値をvalueで数値化しないとだめだった!
       const cello = [
         [1, 0],
-        [0, math.exp(math.complex(0, -delta))]
+        [0, math!.exp(math!.complex(0, -delta))]
       ];
-      state.E_2 = math.multiply(cello, state.E_1);
+      state.E_2 = math!.multiply(cello, state.E_1);
 
       if (bit[0] === 0) {
         for (let j = 1; j < state.colabNum; j++) {
           //2角組目以降..
           const n = j + 1;
-          const otherCellophaneNum = p.select("#numInput-" + n);
+          const otherCellophaneNum = p.select("#numInput-" + n)!;
           const loopDelta = computePhaseRetardation(
             state.dArr[i - WAVELENGTH_MIN],
             otherCellophaneNum.value(),
-            state.opdInput.value(),
+            state.opdInput!.value(),
             l
           );
           const loopCello = [
             [1, 0],
-            [0, math.exp(math.complex(0, -loopDelta))]
+            [0, math!.exp(math!.complex(0, -loopDelta))]
           ];
-          const targetAngle = p.select("#rotateInput-" + n);
-          const b = p.radians(targetAngle.value() - referenceAngle.value());
+          const targetAngle = p.select("#rotateInput-" + n)!;
+          const b = p.radians(
+            Number(targetAngle.value()) - Number(referenceAngle.value())
+          );
           if (bit[j] === 0) {
-            state.E_2 = math.multiply(
+            state.E_2 = math!.multiply(
               r_theta(p, b),
-              math.multiply(
+              math!.multiply(
                 loopCello,
-                math.multiply(mai_r_theta(p, b), state.E_2)
+                math!.multiply(mai_r_theta(p, b), state.E_2)
               )
             );
           }
@@ -822,25 +828,27 @@ function afterColorCalculates(p, binaryString) {
         for (let k = numStart + 1; k < binaryString.length; k++) {
           //2024.6.19 n=numStartから+1?
           const num = k + 1;
-          const otherCellophaneNum = p.select("#numInput-" + num);
+          const otherCellophaneNum = p.select("#numInput-" + num)!;
           const loopDelta = computePhaseRetardation(
             state.dArr[i - WAVELENGTH_MIN],
             otherCellophaneNum.value(),
-            state.opdInput.value(),
+            state.opdInput!.value(),
             l
           );
           const loopCello = [
             [1, 0],
-            [0, math.exp(math.complex(0, -loopDelta))]
+            [0, math!.exp(math!.complex(0, -loopDelta))]
           ];
-          const targetAngle = p.select("#rotateInput-" + num);
-          const b = p.radians(targetAngle.value() - referenceAngle.value()); //2024.6.21 いや,こっちでダメ?!
+          const targetAngle = p.select("#rotateInput-" + num)!;
+          const b = p.radians(
+            Number(targetAngle.value()) - Number(referenceAngle.value())
+          ); //2024.6.21 いや,こっちでダメ?!
           if (bit[k] === 0) {
-            state.E_2 = math.multiply(
+            state.E_2 = math!.multiply(
               r_theta(p, b),
-              math.multiply(
+              math!.multiply(
                 loopCello,
-                math.multiply(mai_r_theta(p, b), state.E_2)
+                math!.multiply(mai_r_theta(p, b), state.E_2)
               )
             ); //2024.6.21 ここでバグが生じる
           }
@@ -848,18 +856,18 @@ function afterColorCalculates(p, binaryString) {
       }
 
       let c;
-      if (state.polarizerSelect.value() === "平行ニコル配置") {
-        c = p.radians(-referenceAngle.value());
-      } else if (state.polarizerSelect.value() === "直交ニコル配置") {
+      if (state.polarizerSelect!.value() === "平行ニコル配置") {
+        c = p.radians(-Number(referenceAngle.value()));
+      } else if (state.polarizerSelect!.value() === "直交ニコル配置") {
         c =
-          p.radians(-referenceAngle.value()) -
+          p.radians(-Number(referenceAngle.value())) -
           p.radians(CROSSED_POLARIZER_OFFSET_DEG);
       }
 
-      state.E_3 = math.multiply(jhons(p, c), state.E_2);
-      const relativeStrength = math.abs(
-        Number(math.abs(math.multiply(state.E_3[0], state.E_3[0]))) +
-          Number(math.abs(math.multiply(state.E_3[1], state.E_3[1])))
+      state.E_3 = math!.multiply(jhons(p, c), state.E_2);
+      const relativeStrength = math!.abs(
+        Number(math!.abs(math!.multiply(state.E_3[0], state.E_3[0]))) +
+          Number(math!.abs(math!.multiply(state.E_3[1], state.E_3[1])))
       );
       state.osArr[i - WAVELENGTH_MIN] =
         relativeStrength *
@@ -885,23 +893,23 @@ function afterColorCalculates(p, binaryString) {
         state.R_all[i - WAVELENGTH_MIN] *
         state.zLambda[i - WAVELENGTH_MIN];
     }
-    state.Intensity_all_now = math.sum(state.osArr);
-    state.sum_ls_xArrAfter = math.sum(state.ls_xArrAfter);
-    state.sum_ls_yArrAfter = math.sum(state.ls_yArrAfter);
-    state.sum_ls_zArrAfter = math.sum(state.ls_zArrAfter);
+    state.Intensity_all_now = math!.sum(state.osArr);
+    state.sum_ls_xArrAfter = math!.sum(state.ls_xArrAfter);
+    state.sum_ls_yArrAfter = math!.sum(state.ls_yArrAfter);
+    state.sum_ls_zArrAfter = math!.sum(state.ls_zArrAfter);
     for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
       state.speyBox[i - WAVELENGTH_MIN] =
         state.osArrOrigin[i - WAVELENGTH_MIN] *
         state.yLambda[i - WAVELENGTH_MIN] *
         state.R_all[i - WAVELENGTH_MIN];
     }
-    state.spey = math.sum(state.speyBox);
+    state.spey = math!.sum(state.speyBox);
     state.K = 1.0 / state.spey;
-    state.xSumAfter = math.sum(state.xArrAfter) * state.K;
-    state.ySumAfter = math.sum(state.yArrAfter) * state.K;
-    state.zSumAfter = math.sum(state.zArrAfter) * state.K;
+    state.xSumAfter = math!.sum(state.xArrAfter) * state.K;
+    state.ySumAfter = math!.sum(state.yArrAfter) * state.K;
+    state.zSumAfter = math!.sum(state.zArrAfter) * state.K;
     state.tosRGB = XYZ_TO_SRGB_MATRIX;
-    state.sRGB = math.multiply(state.tosRGB, [
+    state.sRGB = math!.multiply(state.tosRGB, [
       state.xSumAfter,
       state.ySumAfter,
       state.zSumAfter
@@ -909,11 +917,11 @@ function afterColorCalculates(p, binaryString) {
     state.rAfter2 = toRGB(state.sRGB[0]);
     state.gAfter2 = toRGB(state.sRGB[1]);
     state.bAfter2 = toRGB(state.sRGB[2]);
-  } else if (state.polarizerSelect.value() === "平行ニコル配置") {
+  } else if (state.polarizerSelect!.value() === "平行ニコル配置") {
     state.rAfter2 = DEFAULT_GRAY;
     state.gAfter2 = DEFAULT_GRAY;
     state.bAfter2 = DEFAULT_GRAY;
-  } else if (state.polarizerSelect.value() === "直交ニコル配置") {
+  } else if (state.polarizerSelect!.value() === "直交ニコル配置") {
     state.rAfter2 = 0;
     state.gAfter2 = 0;
     state.bAfter2 = 0;
@@ -933,19 +941,19 @@ function afterColorCalculates(p, binaryString) {
 function drawTape_1(p, rAfter1, gAfter1, bAfter1, rotateInput) {
   state.tape_angle_get = ((rotateInput - 90) * p.PI) / 180;
   getrectPoint(p, state.tape_angle_get);
-  for (let i = 0; i < state.img.pixels.length; i += 4) {
+  for (let i = 0; i < state.img!.pixels.length; i += 4) {
     if (checkA(i / 4)) {
-      state.img.pixels[i + 0] = rAfter1;
-      state.img.pixels[i + 1] = gAfter1;
-      state.img.pixels[i + 2] = bAfter1;
-    } else if (state.polarizerSelect.value() === "平行ニコル配置") {
-      state.img.pixels[i + 0] = DEFAULT_GRAY;
-      state.img.pixels[i + 1] = DEFAULT_GRAY;
-      state.img.pixels[i + 2] = DEFAULT_GRAY;
-    } else if (state.polarizerSelect.value() === "直交ニコル配置") {
-      state.img.pixels[i + 0] = 0;
-      state.img.pixels[i + 1] = 0;
-      state.img.pixels[i + 2] = 0;
+      state.img!.pixels[i + 0] = rAfter1;
+      state.img!.pixels[i + 1] = gAfter1;
+      state.img!.pixels[i + 2] = bAfter1;
+    } else if (state.polarizerSelect!.value() === "平行ニコル配置") {
+      state.img!.pixels[i + 0] = DEFAULT_GRAY;
+      state.img!.pixels[i + 1] = DEFAULT_GRAY;
+      state.img!.pixels[i + 2] = DEFAULT_GRAY;
+    } else if (state.polarizerSelect!.value() === "直交ニコル配置") {
+      state.img!.pixels[i + 0] = 0;
+      state.img!.pixels[i + 1] = 0;
+      state.img!.pixels[i + 2] = 0;
     }
   }
 }
@@ -962,22 +970,22 @@ function drawTapes(p, tape_angle, rAftera, gAftera, bAftera) {
   if (!state.DrawisDead) {
     state.drawT++;
     if (state.drawCount === 0) {
-      state.tape_array = new Array(state.img.pixels.length / 4).fill("");
-      state.tape_arraySum = new Array(state.img.pixels.length / 4).fill("");
+      state.tape_array = new Array(state.img!.pixels.length / 4).fill("");
+      state.tape_arraySum = new Array(state.img!.pixels.length / 4).fill("");
       state.drawCount++;
     }
-    state.drawSize = p.floor(state.img.height / state.colabNum);
+    state.drawSize = p.floor(state.img!.height / state.colabNum);
     const startYT = (state.drawT - 1) * state.drawSize;
-    const endYT = p.min(state.img.height, startYT + state.drawSize);
-    state.img.loadPixels();
+    const endYT = p.min(state.img!.height, startYT + state.drawSize);
+    state.img!.loadPixels();
     for (let t = 0; t < state.colabNum; t++) {
       //colabNumが3の場合 t=0,1,2
       state.tape_angle_get = ((tape_angle[t] - 90) * p.PI) / 180;
       getrectPoint(p, state.tape_angle_get);
 
       for (
-        let i = startYT * state.img.width;
-        i < endYT * state.img.width;
+        let i = startYT * state.img!.width;
+        i < endYT * state.img!.width;
         i++
       ) {
         if (checkA(i)) {
@@ -989,17 +997,21 @@ function drawTapes(p, tape_angle, rAftera, gAftera, bAftera) {
       }
     }
 
-    for (let i = startYT * state.img.width; i < endYT * state.img.width; i++) {
+    for (
+      let i = startYT * state.img!.width;
+      i < endYT * state.img!.width;
+      i++
+    ) {
       state.zz = parseInt(state.tape_arraySum[i], 2); //"0"又は"1"からなるバイナリ数を数字化
       const index = i * 4;
-      state.img.pixels[index] = rAftera[state.zz];
-      state.img.pixels[index + 1] = gAftera[state.zz];
-      state.img.pixels[index + 2] = bAftera[state.zz];
+      state.img!.pixels[index] = rAftera[state.zz];
+      state.img!.pixels[index + 1] = gAftera[state.zz];
+      state.img!.pixels[index + 2] = bAftera[state.zz];
     }
     if (state.drawT >= state.colabNum) {
       state.DrawisDead = true;
     }
-    state.img.updatePixels();
+    state.img!.updatePixels();
   } else {
     state.CisDead = true;
   }
@@ -1050,8 +1062,8 @@ function getrectPoint(p, tape_angle) {
  * @param {number} i pixels配列のRGBA4要素単位のインデックス
  */
 function checkA(i) {
-  const x = i % state.img.width;
-  const y = (i - x) / state.img.width;
+  const x = i % state.img!.width;
+  const y = (i - x) / state.img!.width;
   const P0 = { x, y };
   const P1 = { x: state.x1, y: state.y1 };
   const P2 = { x: state.x2, y: state.y2 };
