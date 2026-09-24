@@ -7,28 +7,30 @@ import {
 /** 仮想キャンバス幅 */
 const CANVAS_WIDTH = 1000;
 /** 定常波を表す色 */
-const WAVE_COLOR = [0, 100, 255];
+const WAVE_COLOR = [0, 100, 255] as const;
 /** 管の輪郭線の太さ */
 const PIPE_LINE_WEIGHT = 5;
 /** 補足テキストのフォントサイズ */
 const CAPTION_FONT_SIZE = 14;
 
 export function updateWaveLayer(p) {
+  if (!state.waveLayer) return;
+  const waveLayer = state.waveLayer;
   const startX = (CANVAS_WIDTH - state.pipeL) / 2;
-  state.waveLayer.clear();
-  state.waveLayer.stroke(...WAVE_COLOR, 100);
-  state.waveLayer.noFill();
+  waveLayer.clear();
+  waveLayer.stroke(...WAVE_COLOR, 100);
+  waveLayer.noFill();
   const freqConst = computeFreqConst(state.type, state.m_n, state.pipeL);
   const steps = 10;
   for (let i = 0; i < steps; i++) {
     const phase = p.map(i, 0, steps - 1, -p.HALF_PI, p.HALF_PI);
     const currentAmp = state.Amp * p.sin(phase);
-    state.waveLayer.beginShape();
+    waveLayer.beginShape();
     for (let x = 0; x <= state.pipeL; x++) {
       const yVal = computeStandingWaveDisplacement(currentAmp, freqConst, x, 1);
-      state.waveLayer.vertex(startX + x, state.pipeY + yVal);
+      waveLayer.vertex(startX + x, state.pipeY + yVal);
     }
-    state.waveLayer.endShape();
+    waveLayer.endShape();
   }
 }
 

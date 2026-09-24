@@ -9,7 +9,7 @@ const CANVAS_WIDTH = 1000;
 const GRID_SIZE = 50;
 
 export function updateAudioData() {
-  if (!state.audioStarted || state.paused) return;
+  if (!state.audioStarted || state.paused || !state.fft) return;
 
   if (state.displayMode === "waveform") {
     state.waveform = state.fft.waveform();

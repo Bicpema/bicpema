@@ -14,6 +14,8 @@ import { ReflectedWave } from "./reflected-wave.js";
  * @param {*} p - p5 インスタンス。
  */
 export function drawSimulation(p) {
+  if (!state.mediums || !state.stopper || !state.button) return;
+
   p.background(100);
 
   if (state.buttonClickedIs) {
@@ -42,6 +44,7 @@ export function drawSimulation(p) {
  * @param {*} p - p5 インスタンス。
  */
 function buttonFunction(p) {
+  if (!state.button) return;
   if (p.mouseIsPressed) {
     if (
       state.buttonClickedIs &&
@@ -86,6 +89,7 @@ function buttonFunction(p) {
  * @param {*} p - p5 インスタンス。
  */
 function stopperFunction(p) {
+  if (!state.stopper) return;
   if (
     state.stopperX > p.width - CONTENT_X_OFFSET - state.stopper.width &&
     state.stopperY > p.height / 2 - state.stopper.height / 4 &&
@@ -120,6 +124,7 @@ function stopperFunction(p) {
  * @param {*} p - p5 インスタンス。
  */
 function imageFunction(p) {
+  if (!state.button || !state.stopper) return;
   p.tint(255);
   if (
     p.mouseIsPressed &&

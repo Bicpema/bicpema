@@ -47,6 +47,7 @@ export class Ball {
    */
   display(p) {
     p.line(p.width / 2, PIVOT_Y, this.posx, this.posy);
+    if (!state.weightImage) return;
     p.image(
       state.weightImage,
       this.posx - state.weightImage.width / 2,

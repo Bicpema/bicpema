@@ -13,8 +13,8 @@ export const PARTICLE_SIZE = 5;
 export const FOCUS_PARTICLE_SIZE = 8;
 
 /** 波を表す色（赤） */
-export const WAVE_COLOR = [255, 0, 0];
+export const WAVE_COLOR = [255, 0, 0] as const;
 /** 注目粒子の変位前（原点）を表す色（青） */
-export const FOCUS_ORIGIN_COLOR = [0, 100, 255];
+export const FOCUS_ORIGIN_COLOR = [0, 100, 255] as const;
 /** 変位を示す矢印の色（緑） */
-export const ARROW_COLOR = [0, 200, 0];
+export const ARROW_COLOR = [0, 200, 0] as const;

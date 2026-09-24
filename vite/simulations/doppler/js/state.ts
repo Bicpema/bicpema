@@ -1,6 +1,7 @@
 // state.ts はシミュレーションの共有可変状態を管理するファイルです。
 
 import { ORIGIN_X, SOUND_SPEED } from "./constants.js";
+import type { SOUND } from "./class.js";
 
 export const state = {
   /** 音源の X 座標 */
@@ -10,7 +11,7 @@ export const state = {
   /** フレームカウント */
   count: 0,
   /** 音波オブジェクトの配列 */
-  sounds: [],
+  sounds: [] as SOUND[],
   /** シミュレーションが実行中かどうか */
   clickedCount: false,
   /** 音源の速度（m/s） */

@@ -35,8 +35,8 @@ export function elementSelectInit(p) {
   state.decelerationButton = p.select("#decelerationButton");
   state.accelerationButton = p.select("#accelerationButton");
 
-  state.decelerationButton.mousePressed(() => onDecelerationButtonClick());
-  state.accelerationButton.mousePressed(() => onAccelerationButtonClick());
+  state.decelerationButton?.mousePressed(() => onDecelerationButtonClick());
+  state.accelerationButton?.mousePressed(() => onAccelerationButtonClick());
 }
 
 /**
@@ -44,6 +44,7 @@ export function elementSelectInit(p) {
  * @param {*} p - p5 インスタンス。
  */
 export function valueInit(p) {
+  if (!state.stopper || !state.button) return;
   state.stopper.resize(STOPPER_WIDTH, 0);
   state.button.resize(BUTTON_SIZE, BUTTON_SIZE);
   state.buttonClickedIs = true;
