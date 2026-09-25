@@ -1,5 +1,6 @@
 // init.jsは初期処理専用のファイルです。
 
+import type p5 from "p5";
 import { initModal } from "../../../js/bicpema-modal-controller.js";
 import { state, type RadioElement } from "./state.js";
 import {

@@ -22,12 +22,15 @@ const sketch = (p: p5) => {
   });
   let isFirstDraw = true;
 
-  p.preload = () => {
-    state.rotateRemocon = p.loadImage(ROTATE_REMOCON_URL);
-    state.nRemocon = p.loadImage(N_REMOCON_URL);
-  };
-
-  p.setup = () => {
+  p.setup = async () => {
+    try {
+      [state.rotateRemocon, state.nRemocon] = await Promise.all([
+        p.loadImage(ROTATE_REMOCON_URL),
+        p.loadImage(N_REMOCON_URL)
+      ]);
+    } catch {
+      // 読み込み失敗時もシミュレーション自体は起動できるようにする
+    }
     canvasController.fullScreen(p);
     settingInit(p);
     valueInit(p);

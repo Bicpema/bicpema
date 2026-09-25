@@ -1,5 +1,7 @@
 // init.js は初期処理専用のファイルです。
 
+import type p5 from "p5";
+import { loadFontFromUrl } from "../../../js/bicpema-font.js";
 import { state } from "./state.js";
 import { Train } from "./class.js";
 import {
@@ -25,13 +27,14 @@ export const PX_PER_METER = 50;
  * @param {*} canvasController BicpemaCanvasControllerインスタンス。
  */
 export function settingInit(p: p5, canvasController: BicpemaCanvasController) {
-  p.loadFont(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
-    (f: p5.Font) => {
+  loadFontFromUrl(
+    p,
+    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
+  )
+    .then((f: p5.Font) => {
       state.font = f;
-    },
-    () => {}
-  );
+    })
+    .catch(() => {});
   canvasController.fullScreen(p);
   p.frameRate(FPS);
   p.textAlign(p.CENTER, p.CENTER);

@@ -1,3 +1,4 @@
+import type p5 from "p5";
 import { state } from "./state.js";
 import { FPS, LABEL_FONT_SIZE } from "./constants.js";
 import { onSlopeAngleChange, onMassChange } from "./element-function.js";

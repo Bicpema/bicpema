@@ -1,5 +1,6 @@
 // logic.jsは毎フレームの描画処理を定義するファイルです。
 
+import type p5 from "p5";
 import { state } from "./state.js";
 import {
   POLARIZER_SIZE,

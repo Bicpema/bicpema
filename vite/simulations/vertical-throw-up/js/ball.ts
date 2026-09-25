@@ -1,3 +1,4 @@
+import type p5 from "p5";
 import { state } from "./state.js";
 import {
   GRAVITY,
@@ -88,9 +89,11 @@ export class Ball {
       canvasHeight - GROUND_HEIGHT - this.maxHeight * heightScale;
     p.stroke(80);
     p.strokeWeight(1.5);
-    p.drawingContext.setLineDash(MAX_HEIGHT_LINE_DASH);
+    (p.drawingContext as CanvasRenderingContext2D).setLineDash(
+      MAX_HEIGHT_LINE_DASH
+    );
     p.line(BALL_X + 30, maxHeightY, BALL_X + 310, maxHeightY);
-    p.drawingContext.setLineDash([]);
+    (p.drawingContext as CanvasRenderingContext2D).setLineDash([]);
 
     // 最高到達点の高さテキスト
     p.fill(50);
@@ -278,9 +281,11 @@ export class Ball {
     if (minY < 0 && maxY > 0) {
       p.stroke(160);
       p.strokeWeight(1);
-      p.drawingContext.setLineDash(ZERO_LINE_DASH);
+      (p.drawingContext as CanvasRenderingContext2D).setLineDash(
+        ZERO_LINE_DASH
+      );
       p.line(plotX, mapY(0), plotX + plotW, mapY(0));
-      p.drawingContext.setLineDash([]);
+      (p.drawingContext as CanvasRenderingContext2D).setLineDash([]);
     }
 
     // 軸線

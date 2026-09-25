@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { loadFontFromUrl } from "../../../js/bicpema-font.js";
 import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { state } from "./state.js";
@@ -48,17 +49,13 @@ function applyDrag(vx: number, vy: number) {
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
-  p.preload = () => {
-    state.font = p.loadFont(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
-      () => {},
-      () => {
-        state.font = null;
-      }
-    );
-  };
-
-  p.setup = () => {
+  p.setup = async () => {
+    state.font = await loadFontFromUrl(
+      p,
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
+    )
+      // 失敗時もcatchでnullに解決し、setup本体の実行を妨げないようにする。
+      .catch(() => null);
     canvasController.fullScreen(p);
     elCreate(p);
     initValue(p);
@@ -111,28 +108,8 @@ const sketch = (p: p5) => {
     state.dragging = null;
   };
 
-  p.touchStarted = () => {
-    if (p.touches.length === 0) return false;
-    // @types/p5ではtouches[]の要素はobject型のため、ドキュメント通りx/yプロパティを持つ座標として扱う
-    const touch = p.touches[0] as { x: number; y: number };
-    const { vx, vy } = getVirtualPos(touch.x, touch.y, p);
-    tryStartDrag(vx, vy, p);
-    return false;
-  };
-
-  p.touchMoved = () => {
-    if (p.touches.length === 0) return false;
-    // @types/p5ではtouches[]の要素はobject型のため、ドキュメント通りx/yプロパティを持つ座標として扱う
-    const touch = p.touches[0] as { x: number; y: number };
-    const { vx, vy } = getVirtualPos(touch.x, touch.y, p);
-    applyDrag(vx, vy);
-    return false;
-  };
-
-  p.touchEnded = () => {
-    state.dragging = null;
-    return false;
-  };
+  // p5.js v2ではタッチ操作もmousePressed/mouseDragged/mouseReleasedに
+  // 統合されたため、専用のtouchStarted/touchMoved/touchEndedは不要。
 
   p.windowResized = () => {
     canvasController.resizeScreen(p);

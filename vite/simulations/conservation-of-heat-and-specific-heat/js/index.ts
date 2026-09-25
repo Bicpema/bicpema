@@ -14,13 +14,14 @@ import { drawSimulation } from "./logic.js";
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
-  p.preload = () => {
-    state.boxImg = p.loadImage(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/stirringVessel.png?alt=media&token=665a56ef-4ff2-487c-bc9d-3089b1609699"
-    );
-  };
-
-  p.setup = () => {
+  p.setup = async () => {
+    try {
+      state.boxImg = await p.loadImage(
+        "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/stirringVessel.png?alt=media&token=665a56ef-4ff2-487c-bc9d-3089b1609699"
+      );
+    } catch {
+      // 読み込み失敗時もシミュレーション自体は起動できるようにする
+    }
     canvasController.fullScreen(p);
     settingInit(p);
     elementSelectInit(p);

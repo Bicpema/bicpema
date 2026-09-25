@@ -159,9 +159,9 @@ export class Spring {
     const y = this.attachY;
     p.stroke(180);
     p.strokeWeight(1.5);
-    p.drawingContext.setLineDash([8, 8]);
+    (p.drawingContext as CanvasRenderingContext2D).setLineDash([8, 8]);
     p.line(nx, y - 35, nx, y + 35);
-    p.drawingContext.setLineDash([]);
+    (p.drawingContext as CanvasRenderingContext2D).setLineDash([]);
 
     p.fill(150);
     p.noStroke();
@@ -195,19 +195,19 @@ export class Spring {
     p.noFill();
 
     p.beginShape();
-    p.curveVertex(x1, y);
-    p.curveVertex(x1, y);
-    p.curveVertex(x1 + straightLen, y);
+    p.splineVertex(x1, y);
+    p.splineVertex(x1, y);
+    p.splineVertex(x1 + straightLen, y);
 
     for (let i = 0; i < halfCoils; i++) {
       const cx = x1 + straightLen + (i + 0.5) * segLen;
       const cy = y + (i % 2 === 0 ? -amplitude : amplitude);
-      p.curveVertex(cx, cy);
+      p.splineVertex(cx, cy);
     }
 
-    p.curveVertex(x2 - straightLen, y);
-    p.curveVertex(x2, y);
-    p.curveVertex(x2, y);
+    p.splineVertex(x2 - straightLen, y);
+    p.splineVertex(x2, y);
+    p.splineVertex(x2, y);
     p.endShape();
   }
 

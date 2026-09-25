@@ -45,9 +45,9 @@ function drawWall(p: p5) {
 function drawDivider(p: p5) {
   p.stroke(200);
   p.strokeWeight(1.5);
-  p.drawingContext.setLineDash([6, 6]);
+  (p.drawingContext as CanvasRenderingContext2D).setLineDash([6, 6]);
   p.line(510, GRAPH_TOP - 30, 510, GRAPH_BOTTOM + 30);
-  p.drawingContext.setLineDash([]);
+  (p.drawingContext as CanvasRenderingContext2D).setLineDash([]);
 }
 
 /**

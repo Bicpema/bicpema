@@ -1,5 +1,6 @@
 // class.ts は SOUND クラス管理専用のファイルです。
 
+import type p5 from "p5";
 import { state } from "./state.js";
 import { FPS, H, SOUND_SPEED } from "./constants.js";
 

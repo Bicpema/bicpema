@@ -1,5 +1,6 @@
 // logic.ts はシミュレーションの中心的なロジックを定義するファイルです。
 
+import type p5 from "p5";
 import {
   state,
   MEDIUM_QUANTITY,

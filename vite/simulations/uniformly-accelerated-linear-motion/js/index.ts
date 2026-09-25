@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { loadFontFromUrl } from "../../../js/bicpema-font.js";
 import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { state } from "./state.js";
@@ -9,19 +10,23 @@ import { V_W, FPS } from "./constants.js";
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
-  p.preload = () => {
-    state.font = p.loadFont(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
-    );
-    state.carImage = p.loadImage(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FyellowCar.png?alt=media&token=1fb005bb-7540-4b23-8c1c-330973d4d243"
-    );
-    state.groundImage = p.loadImage(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810"
-    );
-  };
-
-  p.setup = () => {
+  p.setup = async () => {
+    try {
+      [state.font, state.carImage, state.groundImage] = await Promise.all([
+        loadFontFromUrl(
+          p,
+          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
+        ),
+        p.loadImage(
+          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FyellowCar.png?alt=media&token=1fb005bb-7540-4b23-8c1c-330973d4d243"
+        ),
+        p.loadImage(
+          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810"
+        )
+      ]);
+    } catch {
+      // 読み込み失敗時もシミュレーション自体は起動できるようにする
+    }
     canvasController.fullScreen(p);
     elCreate(p);
     initValue(p);
@@ -43,7 +48,10 @@ const sketch = (p: p5) => {
     p.scale(p.width / V_W);
 
     const vH = (V_W * p.height) / p.width;
-    const showMarkers = state.showMarkersCheckBox?.checked();
+    // p5.jsの型定義にはcheckbox要素のchecked()が含まれないため、実行時に存在するメソッドとして補完する。
+    const showMarkers = (
+      state.showMarkersCheckBox as (p5.Element & { checked(): boolean }) | null
+    )?.checked();
 
     if (car) {
       car.display(p, vH, {

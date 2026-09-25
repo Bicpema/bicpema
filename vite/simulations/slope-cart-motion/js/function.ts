@@ -1,5 +1,6 @@
 // function.js - 描画処理専用のファイルです。
 
+import type p5 from "p5";
 import { state } from "./state.js";
 import type { SlopeCart } from "./slope-cart.js";
 
@@ -216,8 +217,17 @@ export function drawCartOnSlope(p: p5, cart: SlopeCart, angleDeg: number) {
   const bodyCenterY = bodyTop + cart.CART_H / 2;
 
   p.imageMode(p.CENTER);
-  p.noStroke();
-  p.image(state.cartImage!, 0, bodyCenterY + 18, cart.CART_W, cart.CART_H);
+  if (state.cartImage) {
+    p.noStroke();
+    p.image(state.cartImage, 0, bodyCenterY + 18, cart.CART_W, cart.CART_H);
+  } else {
+    // フォールバック: 単純な矩形
+    p.rectMode(p.CENTER);
+    p.fill(200);
+    p.stroke(110);
+    p.strokeWeight(2);
+    p.rect(0, bodyCenterY + 18, cart.CART_W, cart.CART_H);
+  }
 
   p.pop();
 }

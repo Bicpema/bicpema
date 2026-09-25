@@ -50,8 +50,10 @@ const sketch = (p: p5) => {
 };
 
 async function startSimulation() {
-  window.p5 = p5;
-  await import("p5/lib/addons/p5.sound.js");
+  // p5.sound(v2)はグローバルスコープのp5を参照して自身を登録するUMD形式のため、
+  // import前にwindow.p5へ明示的に代入する必要がある。
+  (window as unknown as { p5: typeof p5 }).p5 = p5;
+  await import("p5.sound");
   new p5(sketch);
 }
 

@@ -1,3 +1,5 @@
+import type p5 from "p5";
+
 // グローバル状態管理オブジェクト
 export const state: {
   font: p5.Font | null;
