@@ -1,6 +1,5 @@
 // state.ts はシミュレーションの共有可変状態を管理するファイルです。
 
-import type p5 from "p5";
 import { GRAVITY } from "./constants.js";
 import type { Ball } from "./class.js";
 

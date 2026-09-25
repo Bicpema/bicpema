@@ -17,19 +17,16 @@ import {
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
-  p.setup = async () => {
-    try {
-      [state.YELLOW_CAR_IMG, state.RED_CAR_IMAGE] = await Promise.all([
-        p.loadImage(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FyCar.png?alt=media&token=fa3ee043-5471-41d7-bb7f-93ac1eca46f1"
-        ),
-        p.loadImage(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FrCar.png?alt=media&token=7caf11af-6f62-4437-89b8-d5787c7accb8"
-        )
-      ]);
-    } catch {
-      // 読み込み失敗時もシミュレーション自体は起動できるようにする
-    }
+  p.preload = () => {
+    state.YELLOW_CAR_IMG = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FyCar.png?alt=media&token=fa3ee043-5471-41d7-bb7f-93ac1eca46f1"
+    );
+    state.RED_CAR_IMAGE = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FrCar.png?alt=media&token=7caf11af-6f62-4437-89b8-d5787c7accb8"
+    );
+  };
+
+  p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
     elSetting(p);
@@ -58,11 +55,7 @@ const sketch = (p: p5) => {
     p.rect(0, CANVAS_HEIGHT - ROAD_AREA_HEIGHT, CANVAS_WIDTH, ROAD_HEIGHT);
 
     const SCALE_CHECK_BOX = p.select("#scaleCheckBox");
-    // p5.jsの型定義にはcheckbox要素のchecked()が含まれないため、実行時に存在するメソッドとして補完する。
-    if (
-      SCALE_CHECK_BOX &&
-      (SCALE_CHECK_BOX as p5.Element & { checked(): boolean }).checked()
-    ) {
+    if (SCALE_CHECK_BOX && SCALE_CHECK_BOX.checked()) {
       drawScale(p, 0, CANVAS_HEIGHT / 2, CANVAS_WIDTH, ROAD_AREA_HEIGHT);
       drawScale(p, 0, CANVAS_HEIGHT, CANVAS_WIDTH, ROAD_AREA_HEIGHT);
     }

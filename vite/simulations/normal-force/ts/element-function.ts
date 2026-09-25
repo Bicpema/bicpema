@@ -1,6 +1,5 @@
 // element-function.jsは仮想DOMメソッド管理専用のファイルです。
 
-import type p5 from "p5";
 import { state } from "./state.js";
 import { initSettings, materialSet } from "./init.js";
 

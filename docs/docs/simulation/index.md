@@ -145,7 +145,7 @@ vite/simulations/{name}/
 - 再生・停止ボタンは左下に配置する
 - 設定表示ボタンは右上に配置する
 - 重いファイル（フォント、画像等）は [Firebase Storage](https://console.firebase.google.com/project/bicpema/storage) にアップロードし、URL で参照する
-- フォントは `setup()` 内で `vite/ts/bicpema-font.ts` の `loadFontFromUrl()` を使って非同期ロードし、Firebase Storage が到達不能でもスケッチ起動をブロックしないようにする（p5.js v2の `loadFont()` にURLを直接渡すとHEADリクエストが送られ、Firebase StorageではCORSエラーになるため）
+- フォントは `setup()` 内で `loadFont()` を使って非同期ロードし、Firebase Storage が到達不能でもスケッチ起動をブロックしないようにする
 
 ## パフォーマンス方針
 
@@ -172,7 +172,7 @@ vite/simulations/{name}/
 
 ### 毎フレームの生成物を避ける
 
-- 配列・オブジェクト・画像・フォント・`p.createGraphics()`によるオフスクリーンキャンバスなどは、可能な限り`setup()`で一度だけ生成し、`draw()`内での再生成は避けてください。画像・フォント等の非同期読み込みが必要な場合は`async setup()`内で`await`してください（p5.js v2では`preload()`は廃止されています）。
+- 配列・オブジェクト・画像・フォント・`p.createGraphics()`によるオフスクリーンキャンバスなどは、可能な限り`preload()`/`setup()`で一度だけ生成し、`draw()`内での再生成は避けてください。
 - リサイズなどキャンバスサイズに依存する生成物は、`windowResized`のタイミングでのみ再生成してください。
 
 ### 計測方法

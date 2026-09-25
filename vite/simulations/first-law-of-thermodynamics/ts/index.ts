@@ -11,14 +11,13 @@ import { drawSimulation } from "./logic.js";
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
-  p.setup = async () => {
-    try {
-      state.img_flame = await p.loadImage(
-        "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/flame.png?alt=media&token=1e8a3133-f779-47fd-9236-489515c0cbb6"
-      );
-    } catch {
-      // 読み込み失敗時もシミュレーション自体は起動できるようにする
-    }
+  p.preload = () => {
+    state.img_flame = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/flame.png?alt=media&token=1e8a3133-f779-47fd-9236-489515c0cbb6"
+    );
+  };
+
+  p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
     initValue(p);

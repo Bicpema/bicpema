@@ -1,6 +1,5 @@
 // init.js は初期処理専用のファイルです。
 
-import type p5 from "p5";
 import { state } from "./state.js";
 import { onWeightChange, onReset } from "./element-function.js";
 import { initModal } from "../../../ts/bicpema-modal-controller.js";

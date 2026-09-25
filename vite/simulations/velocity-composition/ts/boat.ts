@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import {
   RIVER_BOTTOM,
   BOAT_Y,

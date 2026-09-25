@@ -1,5 +1,3 @@
-import type p5 from "p5";
-
 // class.js はセロハンのDOMクラス管理専用のファイルです。
 
 /**

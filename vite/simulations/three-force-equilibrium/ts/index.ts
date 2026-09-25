@@ -1,7 +1,6 @@
 // index.js はメインのメソッドを呼び出すためのエントリーポイントです。
 
 import p5 from "p5";
-import { loadFontFromUrl } from "../../../ts/bicpema-font.js";
 import { hideLoadingSpinner } from "../../../ts/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { BicpemaCanvasController } from "../../../ts/bicpema-canvas-controller.js";
@@ -18,16 +17,15 @@ const sketch = (p: p5) => {
     elCreate(p);
     initValue(p);
     // Firebase Storage が到達不能でもブロックしないよう setup 内で非同期読み込み
-    loadFontFromUrl(
-      p,
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
-    )
-      .then((f: p5.Font) => {
+    p.loadFont(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
+      (f: p5.Font) => {
         state.font = f;
-      })
-      .catch(() => {
+      },
+      () => {
         state.font = null;
-      });
+      }
+    );
   };
 
   let isFirstDraw = true;
@@ -56,8 +54,32 @@ const sketch = (p: p5) => {
     stopDrag();
   };
 
-  // p5.js v2ではタッチ操作もmousePressed/mouseReleasedとmouseX/mouseYに
-  // 統合されたため、専用のtouchStarted/touchMoved/touchEndedは不要。
+  p.touchStarted = () => {
+    if (p.touches.length > 0) {
+      // @types/p5ではtouches[]の要素はobject型のため、ドキュメント通りx/yプロパティを持つ座標として扱う
+      const touch = p.touches[0] as { x: number; y: number };
+      const vmx = (touch.x / p.width) * V_W;
+      const vmy = (touch.y / p.width) * V_W;
+      startDrag(vmx, vmy);
+    }
+    return false;
+  };
+
+  p.touchMoved = () => {
+    if (p.touches.length > 0 && state.dragging) {
+      // @types/p5ではtouches[]の要素はobject型のため、ドキュメント通りx/yプロパティを持つ座標として扱う
+      const touch = p.touches[0] as { x: number; y: number };
+      const vmx = (touch.x / p.width) * V_W;
+      const vmy = (touch.y / p.width) * V_W;
+      updateDrag(vmx, vmy);
+    }
+    return false;
+  };
+
+  p.touchEnded = () => {
+    stopDrag();
+    return false;
+  };
 
   p.windowResized = () => {
     canvasController.resizeScreen(p);

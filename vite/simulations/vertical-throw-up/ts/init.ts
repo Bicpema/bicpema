@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import { state } from "./state.js";
 import { onVelocityChange, onReset, onPlayPause } from "./element-function.js";
 import { Ball } from "./ball.js";

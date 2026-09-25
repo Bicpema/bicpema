@@ -16,7 +16,7 @@ beforeEach(() => {
   state.criticalExceeded = false;
   state.phase = "idle";
   state.isRunning = false;
-  state.playPauseButton = /** @type {import("p5").default.Element} */ ({
+  state.playPauseButton = /** @type {p5.Element} */ ({
     html: () => {},
     attribute: () => {}
   });

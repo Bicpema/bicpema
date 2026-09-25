@@ -26,6 +26,7 @@
     "@playwright/test": "^1.63.0",
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^26.6.2",
+    "@types/p5": "^1.7.7",
     "cspell": "^10.3.3",
     "markdownlint-cli2": "^0.23.3",
     "oxlint": "^1.85.0",
@@ -40,7 +41,6 @@
     "chart.js": "^4.5.1",
     "mathjs": "^15.1.1",
     "modern-screenshot": "^4.7.0",
-    "p5": "2.3.2",
-    "p5.sound": "^0.4.1"
+    "p5": "^1.11.10"
   }
 }

@@ -1,10 +1,8 @@
 import { test, expect } from "@playwright/test";
 
 const PATH = "/vite/simulations/doppler/";
-// p5.jsが生成するメインキャンバス。p5.js v2ではsetup()実行前の読み込み表示用に
-// 内部でcanvasを生成することがあり連番idがずれるため、idではなく
-// BicpemaCanvasControllerが親付けする#p5Canvas配下のcanvasで特定する。
-const CANVAS = "#p5Canvas canvas:visible";
+// p5.jsが生成するメインキャンバスのid
+const CANVAS = "#defaultCanvas0";
 
 test.beforeEach(async ({ page }) => {
   await page.goto(PATH);

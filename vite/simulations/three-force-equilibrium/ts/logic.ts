@@ -1,6 +1,5 @@
 // logic.js はシミュレーションの描画ロジックと物理計算を管理するファイルです。
 
-import type p5 from "p5";
 import {
   state,
   V_W,
@@ -444,9 +443,9 @@ function drawAngleLabels(p: p5) {
   // 鉛直基準線（リングから上向き）
   p.stroke(120, 120, 120, 170);
   p.strokeWeight(1.5);
-  (p.drawingContext as CanvasRenderingContext2D).setLineDash([4, 4]);
+  p.drawingContext.setLineDash([4, 4]);
   p.line(ring.x, ring.y, ring.x, Math.max(CEILING_Y + 8, ring.y - 105));
-  (p.drawingContext as CanvasRenderingContext2D).setLineDash([]);
+  p.drawingContext.setLineDash([]);
 
   const mid1 = drawAngleArc(38, upAngle, a1, T1_COLOR);
   const mid2 = drawAngleArc(53, upAngle, a2, T2_COLOR);
@@ -724,9 +723,9 @@ function drawForceTrianglePanel(p: p5) {
 function drawDivider(p: p5) {
   p.stroke(180);
   p.strokeWeight(1.5);
-  (p.drawingContext as CanvasRenderingContext2D).setLineDash([8, 8]);
+  p.drawingContext.setLineDash([8, 8]);
   p.line(PANEL_DIVIDER_X, 0, PANEL_DIVIDER_X, V_H);
-  (p.drawingContext as CanvasRenderingContext2D).setLineDash([]);
+  p.drawingContext.setLineDash([]);
 }
 
 // ────────────────────────────────────────────

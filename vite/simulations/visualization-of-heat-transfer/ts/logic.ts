@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import { state } from "./state.js";
 import { resetState } from "./init.js";
 import { computeTemperatureAtTime } from "./physics.js";
@@ -191,11 +190,11 @@ function drawGraph(p: p5) {
 
   if (contactVal === "0") {
     // 平衡温度の破線
-    (p.drawingContext as CanvasRenderingContext2D).setLineDash([8, 6]);
+    p.drawingContext.setLineDash([8, 6]);
     p.strokeWeight(1);
     p.stroke(0);
     p.line(tx(0), ty(state.Teq), tx(state.tMax), ty(state.Teq));
-    (p.drawingContext as CanvasRenderingContext2D).setLineDash([]);
+    p.drawingContext.setLineDash([]);
 
     // 温度変化曲線（高温）
     p.noFill();

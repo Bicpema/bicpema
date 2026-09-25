@@ -1,5 +1,3 @@
-import type p5 from "p5";
-
 // constants.js は本シミュレーション内で共有する定数を管理するファイルです。
 
 /**

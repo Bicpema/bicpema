@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import { state } from "./state.js";
 import { PISTON_Y_TOP } from "./constants.js";
 import { bindToggleControls } from "../../../ts/bicpema-controls-controller.js";

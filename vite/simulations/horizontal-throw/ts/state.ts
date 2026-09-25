@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import type { Ball } from "./ball.js";
 
 export const state: {

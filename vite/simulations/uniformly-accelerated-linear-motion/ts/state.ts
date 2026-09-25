@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import type { Car } from "./car.js";
 import type { MotionGraph } from "./graph.js";
 

@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import { state } from "./state.js";
 import { BicpemaCanvasController } from "../../../ts/bicpema-canvas-controller.js";
 

@@ -1,6 +1,5 @@
 // class.jsは光線（Ray）クラスを定義するファイルです。
 
-import type p5 from "p5";
 import { state } from "./state.js";
 import {
   computeOpticalPathDifference,

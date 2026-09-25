@@ -1,7 +1,6 @@
 // index.ts はメインのメソッドを呼び出すためのエントリーポイントです。
 
 import p5 from "p5";
-import { loadFontFromUrl } from "../../../ts/bicpema-font.js";
 import { hideLoadingSpinner } from "../../../ts/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { BicpemaCanvasController } from "../../../ts/bicpema-canvas-controller.js";
@@ -17,20 +16,17 @@ const GROUND_IMG_URL =
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
-  p.setup = async () => {
-    try {
-      state.wallImg = await p.loadImage(GROUND_IMG_URL);
-    } catch {
-      // 読み込み失敗時もシミュレーション自体は起動できるようにする
-    }
+  p.preload = () => {
+    state.wallImg = p.loadImage(GROUND_IMG_URL);
+  };
+
+  p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
     initValue(p);
-    loadFontFromUrl(p, FONT_URL)
-      .then((f: p5.Font) => {
-        p.textFont(f);
-      })
-      .catch(() => {});
+    p.loadFont(FONT_URL, (f: p5.Font) => {
+      p.textFont(f);
+    });
   };
 
   let isFirstDraw = true;

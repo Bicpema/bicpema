@@ -60,7 +60,7 @@ function drawArrow(
   label: string,
   lx: number,
   ly: number,
-  lAlignH: "left" | "center" | "right"
+  lAlignH: p5.HORIZ_ALIGN
 ) {
   const dx = x2 - x1;
   const dy = y2 - y1;

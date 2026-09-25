@@ -18,32 +18,24 @@ const sketch = (p: p5) => {
     panelSelector: "#p5Canvas"
   });
 
-  p.setup = async () => {
-    try {
-      [
-        state.spectrumSheet,
-        state.rgbSheet,
-        state.cmfSheet,
-        state.lightSourceSpectrumSheet
-      ] = await Promise.all([
-        // p5.jsの型定義上、loadTable()の戻り値は`object`型となっているため、
-        // 実際の戻り値であるp5.Tableへ明示的にキャストする。
-        p.loadTable(
-          "https://dl.dropboxusercontent.com/s/vqd8bojsw5z5zxz/spectrumSheet.csv"
-        ) as Promise<p5.Table>,
-        p.loadTable(
-          "https://dl.dropboxusercontent.com/s/a2o8jwq7b7234ul/rgbSheet.csv"
-        ) as Promise<p5.Table>,
-        p.loadTable(
-          "https://dl.dropboxusercontent.com/s/t00y963w7hitfho/cmfSheet.csv"
-        ) as Promise<p5.Table>,
-        p.loadTable(
-          "https://dl.dropboxusercontent.com/s/bsoxh313yvv6wuv/lightSourceSpectrumSheet.csv"
-        ) as Promise<p5.Table>
-      ]);
-    } catch {
-      // 読み込み失敗時もシミュレーション自体は起動できるようにする
-    }
+  p.preload = () => {
+    // p5.jsの型定義上、loadTable()の戻り値は`object`型となっているため、
+    // 実際の戻り値であるp5.Tableへ明示的にキャストする。
+    state.spectrumSheet = p.loadTable(
+      "https://dl.dropboxusercontent.com/s/vqd8bojsw5z5zxz/spectrumSheet.csv"
+    ) as p5.Table;
+    state.rgbSheet = p.loadTable(
+      "https://dl.dropboxusercontent.com/s/a2o8jwq7b7234ul/rgbSheet.csv"
+    ) as p5.Table;
+    state.cmfSheet = p.loadTable(
+      "https://dl.dropboxusercontent.com/s/t00y963w7hitfho/cmfSheet.csv"
+    ) as p5.Table;
+    state.lightSourceSpectrumSheet = p.loadTable(
+      "https://dl.dropboxusercontent.com/s/bsoxh313yvv6wuv/lightSourceSpectrumSheet.csv"
+    ) as p5.Table;
+  };
+
+  p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
     initValue(p);

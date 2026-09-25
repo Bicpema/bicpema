@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import { state } from "./state.js";
 import {
   computeIncidentDisplacement,
@@ -42,7 +41,7 @@ export function drawSimulation(p: p5) {
 
   // 入射波（壁より右・点線）
   p.stroke(...INCIDENT_COLOR);
-  (p.drawingContext as CanvasRenderingContext2D).setLineDash(DASH_PATTERN);
+  p.drawingContext.setLineDash(DASH_PATTERN);
   p.beginShape();
   for (let x = 0; x < p.width; x++) {
     if (x >= state.reflectX && x <= state.front) {
@@ -57,7 +56,7 @@ export function drawSimulation(p: p5) {
     }
   }
   p.endShape();
-  (p.drawingContext as CanvasRenderingContext2D).setLineDash([]);
+  p.drawingContext.setLineDash([]);
 
   // 反射波（赤）
   if (state.front > state.reflectX) {
@@ -85,7 +84,7 @@ export function drawSimulation(p: p5) {
     // 固定端：壁より右の反射波（点線）
     if (state.mode === "fixed") {
       p.stroke(...REFLECTED_COLOR);
-      (p.drawingContext as CanvasRenderingContext2D).setLineDash(DASH_PATTERN);
+      p.drawingContext.setLineDash(DASH_PATTERN);
       p.beginShape();
       for (let x = 0; x < p.width; x++) {
         if (x >= state.reflectX && x <= state.front) {
@@ -102,7 +101,7 @@ export function drawSimulation(p: p5) {
         }
       }
       p.endShape();
-      (p.drawingContext as CanvasRenderingContext2D).setLineDash([]);
+      p.drawingContext.setLineDash([]);
     }
   }
 

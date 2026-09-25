@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import {
   MIN_CAR_SPEED,
   MAX_CAR_SPEED,

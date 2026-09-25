@@ -62,38 +62,28 @@ const sketch = (p: p5) => {
     fixedAspectRatio: false
   });
 
-  p.setup = async () => {
-    try {
-      [
-        state.headImg,
-        state.convexLensImg,
-        state.concaveLensImg,
-        state.candleImg,
-        state.fImg,
-        state.ledImg
-      ] = await Promise.all([
-        p.loadImage(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FheadImg.png?alt=media&token=60e35b0a-2592-4864-9576-b93f584fadf3"
-        ),
-        p.loadImage(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FconvexLensImg.png?alt=media&token=f1ead4c8-c3d6-48e5-9ce0-9d58472ddc4e"
-        ),
-        p.loadImage(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FconcaveLensImg.png?alt=media&token=532033e6-c0c0-42bd-9233-299598280f91"
-        ),
-        p.loadImage(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FcandleImg.png?alt=media&token=bd84d70f-cd4a-4982-ad30-14aa8fc3d623"
-        ),
-        p.loadImage(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FfImg.png?alt=media&token=11fe7f35-31c9-4c5e-900f-a5f36ecfd2bc"
-        ),
-        p.loadImage(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FledImg.png?alt=media&token=b8959687-c7c6-4734-907b-7aedd30bee0f"
-        )
-      ]);
-    } catch {
-      // 読み込み失敗時もシミュレーション自体は起動できるようにする
-    }
+  p.preload = () => {
+    state.headImg = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FheadImg.png?alt=media&token=60e35b0a-2592-4864-9576-b93f584fadf3"
+    );
+    state.convexLensImg = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FconvexLensImg.png?alt=media&token=f1ead4c8-c3d6-48e5-9ce0-9d58472ddc4e"
+    );
+    state.concaveLensImg = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FconcaveLensImg.png?alt=media&token=532033e6-c0c0-42bd-9233-299598280f91"
+    );
+    state.candleImg = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FcandleImg.png?alt=media&token=bd84d70f-cd4a-4982-ad30-14aa8fc3d623"
+    );
+    state.fImg = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FfImg.png?alt=media&token=11fe7f35-31c9-4c5e-900f-a5f36ecfd2bc"
+    );
+    state.ledImg = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FledImg.png?alt=media&token=b8959687-c7c6-4734-907b-7aedd30bee0f"
+    );
+  };
+
+  p.setup = () => {
     canvasController.fullScreen(p);
     buttonCreation(p);
     initSettings(p);
@@ -377,9 +367,9 @@ function baseDraw(p: p5) {
 
 //点線の手続き
 function dashedLine(p: p5, aX: number, aY: number, bX: number, bY: number) {
-  (p.drawingContext as CanvasRenderingContext2D).setLineDash([5, 5]);
+  p.drawingContext.setLineDash([5, 5]);
   p.line(aX, aY, bX, bY);
-  (p.drawingContext as CanvasRenderingContext2D).setLineDash([]);
+  p.drawingContext.setLineDash([]);
 }
 
 //光線の描画

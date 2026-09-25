@@ -9,22 +9,19 @@ import "../../../css/tailwind.css";
 const canvasController = new BicpemaCanvasController();
 
 const sketch = (p: p5) => {
-  p.setup = async () => {
-    try {
-      [state.img_flame, state.img_weight, state.img_ice] = await Promise.all([
-        p.loadImage(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/flame.png?alt=media&token=1e8a3133-f779-47fd-9236-489515c0cbb6"
-        ),
-        p.loadImage(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/weight.png?alt=media&token=89d6b90d-9d1e-4bf1-ae06-cb7a7b1d9b49"
-        ),
-        p.loadImage(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/ice.png?alt=media&token=df309c39-ef41-4c38-8dd4-c1fa27e0541d"
-        )
-      ]);
-    } catch {
-      // 読み込み失敗時もシミュレーション自体は起動できるようにする
-    }
+  p.preload = () => {
+    state.img_flame = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/flame.png?alt=media&token=1e8a3133-f779-47fd-9236-489515c0cbb6"
+    );
+    state.img_weight = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/weight.png?alt=media&token=89d6b90d-9d1e-4bf1-ae06-cb7a7b1d9b49"
+    );
+    state.img_ice = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/ice.png?alt=media&token=df309c39-ef41-4c38-8dd4-c1fa27e0541d"
+    );
+  };
+
+  p.setup = () => {
     canvasController.fullScreen(p);
     elementPositionInit(p);
     p.textFont("sans-serif");

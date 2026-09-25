@@ -36,28 +36,16 @@ const sketch = (p: p5) => {
   });
   let isFirstDraw = true;
 
-  p.setup = async () => {
-    try {
-      [
-        state.cmfTable, // 等色関数のデータ
-        state.osTable, // 偏光板を一枚通したときの波長毎の強度分布 PC-最新
-        state.dTableOPP, // 光路差の分散特性(380nmで100に規格化)
-        state.dTable,
-        state.rTable, // 偏光板2枚目による強度補正分のdata
-        state.img
-      ] = await Promise.all([
-        // p5.jsの型定義上、loadTable()の戻り値は`object`型となっているため、
-        // 実際の戻り値であるp5.Tableへ明示的にキャストする。
-        p.loadTable(CMF_TABLE_URL, ",", "header") as Promise<p5.Table>,
-        p.loadTable(OS_TABLE_URL, ",", "header") as Promise<p5.Table>,
-        p.loadTable(D_TABLE_OPP_URL, ",", "header") as Promise<p5.Table>,
-        p.loadTable(D_TABLE_URL, ",", "header") as Promise<p5.Table>,
-        p.loadTable(R_TABLE_URL, ",", "header") as Promise<p5.Table>,
-        p.loadImage(WHITE_IMAGE_URL)
-      ]);
-    } catch {
-      // 読み込み失敗時もシミュレーション自体は起動できるようにする
-    }
+  p.preload = () => {
+    state.cmfTable = p.loadTable(CMF_TABLE_URL, "csv", "header") as p5.Table; // 等色関数のデータ
+    state.osTable = p.loadTable(OS_TABLE_URL, "csv", "header") as p5.Table; // 偏光板を一枚通したときの波長毎の強度分布 PC-最新
+    state.dTableOPP = p.loadTable(D_TABLE_OPP_URL, "csv", "header") as p5.Table; //光路差の分散特性(380nmで100に規格化)
+    state.dTable = p.loadTable(D_TABLE_URL, "csv", "header") as p5.Table;
+    state.rTable = p.loadTable(R_TABLE_URL, "csv", "header") as p5.Table; //偏光板2枚目による強度補正分のdata
+    state.img = p.loadImage(WHITE_IMAGE_URL);
+  };
+
+  p.setup = () => {
     canvasController.fullScreen(p);
     setupSimulation(p);
   };

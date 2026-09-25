@@ -1,6 +1,5 @@
 // element-function.jsは仮想DOMメソッド管理専用のファイルです。
 
-import type p5 from "p5";
 import { state } from "./state.js";
 import { Cellophane } from "./class.js";
 import { createLazyImporter } from "../../../ts/bicpema-lazy-import.js";
@@ -62,7 +61,7 @@ export function cellophaneRemoveButtonFunction(p: p5) {
  * @param {*} p p5インスタンス
  */
 export function onKeyPressed(p: p5) {
-  if (p.code === p.UP_ARROW) {
+  if (p.keyCode === p.UP_ARROW) {
     state.BisDead = false;
     state.CisDead = false;
     state.Bcount = 0;

@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import { state } from "./state.js";
 import {
   computeFreqConst,
@@ -66,10 +65,10 @@ export function drawUIContext(p: p5) {
   const dimY = pipeY + pipeH;
   p.stroke(150);
   p.strokeWeight(1);
-  (p.drawingContext as CanvasRenderingContext2D).setLineDash([5, 5]);
+  p.drawingContext.setLineDash([5, 5]);
   p.line(startX, pipeY + pipeH / 2, startX, dimY + 10);
   p.line(startX + pipeL, pipeY + pipeH / 2, startX + pipeL, dimY + 10);
-  (p.drawingContext as CanvasRenderingContext2D).setLineDash([]);
+  p.drawingContext.setLineDash([]);
   p.stroke(0);
   p.line(startX, dimY, startX + pipeL, dimY);
   p.line(startX, dimY - 5, startX, dimY + 5);

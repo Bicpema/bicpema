@@ -1,5 +1,3 @@
-import type p5 from "p5";
-
 /** シミュレーションの共有状態 */
 export const state: {
   font: p5.Font | null;

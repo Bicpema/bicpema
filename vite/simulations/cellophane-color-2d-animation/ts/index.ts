@@ -26,56 +26,45 @@ const sketch = (p: p5) => {
   });
   let isFirstDraw = true;
 
+  // 外部ファイルの読み込み
+  // p5.jsの型定義上、loadTable()の戻り値は`object`型となっているため、
+  // 実際の戻り値であるp5.Tableへ明示的にキャストする。
+  p.preload = () => {
+    state.cmfTable = p.loadTable(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fcmf.csv?alt=media&token=df4cb716-5da8-4640-822e-5107acbdb916",
+      "csv",
+      "header"
+    ) as p5.Table; // 等色関数のデータ
+    state.osTable = p.loadTable(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fos_PC2_new_6.18.csv?alt=media&token=0ba4f938-5669-456b-81dc-e4c62c66ce46",
+      "csv",
+      "header"
+    ) as p5.Table; // 偏光板を一枚通したときの波長毎の強度分布 PC-最新
+    state.dTableOPP = p.loadTable(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fdata_d_100_film3.csv?alt=media&token=68edd450-dd93-4b8b-851f-28c1ffe14999.csv",
+      "csv",
+      "header"
+    ) as p5.Table; //光路差の分散特性(380nmで100に規格化)
+    state.dTable = p.loadTable(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fdata_d_100.csv?alt=media&token=eaf5a4d5-ab04-42fd-8245-eb4896a5eaf5",
+      "csv",
+      "header"
+    ) as p5.Table;
+    state.rTable = p.loadTable(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2FR.csv?alt=media&token=203b2f68-a0c0-42c2-af5e-df5c240ea27d",
+      "csv",
+      "header"
+    ) as p5.Table; //偏光板2枚目による強度補正分のdata
+    state.img = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2Fwhite.png?alt=media&token=038ee120-ec5e-4440-8130-3b764f11d25e"
+    );
+    state.img2 = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2FR.jpg?alt=media&token=9e82b742-fe5b-4332-af54-5796f92bd9ba"
+    );
+  };
+
   // ★ setup関数
-  p.setup = async () => {
-    try {
-      // 外部ファイルの読み込み
-      [
-        state.cmfTable, // 等色関数のデータ
-        state.osTable, // 偏光板を一枚通したときの波長毎の強度分布 PC-最新
-        state.dTableOPP, // 光路差の分散特性(380nmで100に規格化)
-        state.dTable,
-        state.rTable, // 偏光板2枚目による強度補正分のdata
-        state.img,
-        state.img2
-      ] = await Promise.all([
-        // p5.jsの型定義上、loadTable()の戻り値は`object`型となっているため、
-        // 実際の戻り値であるp5.Tableへ明示的にキャストする。
-        p.loadTable(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fcmf.csv?alt=media&token=df4cb716-5da8-4640-822e-5107acbdb916",
-          ",",
-          "header"
-        ) as Promise<p5.Table>,
-        p.loadTable(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fos_PC2_new_6.18.csv?alt=media&token=0ba4f938-5669-456b-81dc-e4c62c66ce46",
-          ",",
-          "header"
-        ) as Promise<p5.Table>,
-        p.loadTable(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fdata_d_100_film3.csv?alt=media&token=68edd450-dd93-4b8b-851f-28c1ffe14999.csv",
-          ",",
-          "header"
-        ) as Promise<p5.Table>,
-        p.loadTable(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fdata_d_100.csv?alt=media&token=eaf5a4d5-ab04-42fd-8245-eb4896a5eaf5",
-          ",",
-          "header"
-        ) as Promise<p5.Table>,
-        p.loadTable(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2FR.csv?alt=media&token=203b2f68-a0c0-42c2-af5e-df5c240ea27d",
-          ",",
-          "header"
-        ) as Promise<p5.Table>,
-        p.loadImage(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2Fwhite.png?alt=media&token=038ee120-ec5e-4440-8130-3b764f11d25e"
-        ),
-        p.loadImage(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2FR.jpg?alt=media&token=9e82b742-fe5b-4332-af54-5796f92bd9ba"
-        )
-      ]);
-    } catch {
-      // 読み込み失敗時もシミュレーション自体は起動できるようにする
-    }
+  p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
     elInit(p);
@@ -121,7 +110,7 @@ const sketch = (p: p5) => {
   };
 
   p.keyPressed = () => {
-    if (p.code === p.UP_ARROW) {
+    if (p.keyCode === p.UP_ARROW) {
       state.Cluster1isDead = false;
       state.BisDead = false;
       state.CisDead = false;

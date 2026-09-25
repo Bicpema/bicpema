@@ -21,15 +21,12 @@ const sketch = (p: p5) => {
   });
   let isFirstDraw = true;
 
-  p.setup = async () => {
-    try {
-      [state.springImage, state.ballImage] = await Promise.all([
-        p.loadImage(SPRING_IMAGE_URL),
-        p.loadImage(BALL_IMAGE_URL)
-      ]);
-    } catch {
-      // 読み込み失敗時もシミュレーション自体は起動できるようにする
-    }
+  p.preload = () => {
+    state.springImage = p.loadImage(SPRING_IMAGE_URL);
+    state.ballImage = p.loadImage(BALL_IMAGE_URL);
+  };
+
+  p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
     layoutGraphs(p);

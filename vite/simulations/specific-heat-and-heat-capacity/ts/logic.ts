@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import { state } from "./state.js";
 import { SPECIFIC_HEAT, SPECIFIC_HEAT_LABELS, MASS_VALUES } from "./init.js";
 import { computeTemperatureChange } from "./physics.js";
@@ -151,7 +150,7 @@ function drawMaterialBall(
     ["rgb(230,230,240)", "rgb(120,120,150)"] // 水銀
   ];
   const [c0, c1] = gradColors[type] ?? gradColors[0];
-  const g = (p.drawingContext as CanvasRenderingContext2D).createRadialGradient(
+  const g = p.drawingContext.createRadialGradient(
     x - r * 0.3,
     y - r * 0.3,
     r * 0.1,
@@ -164,7 +163,7 @@ function drawMaterialBall(
 
   p.push();
   p.noStroke();
-  (p.drawingContext as CanvasRenderingContext2D).fillStyle = g;
+  p.drawingContext.fillStyle = g;
   p.ellipse(x, y, r * 2, r * 2);
   p.pop();
 }
