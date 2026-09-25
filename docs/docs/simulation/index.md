@@ -49,7 +49,7 @@ vite/simulations/{name}/
 ├── index.html
 ├── css/
 │   └── style.css
-└── js/
+└── ts/
     ├── index.ts               # エントリーポイント（p5 スケッチの定義）
     ├── init.ts                # 初期化処理
     ├── state.ts               # 共有状態の管理
@@ -59,15 +59,15 @@ vite/simulations/{name}/
     └── graph.ts               # グラフ描画処理
 ```
 
-キャンバスサイズ制御（`BicpemaCanvasController`）やローディングスピナー制御は`vite/js/`配下の共通モジュールとして提供されており、各シミュレーションからimportして利用します。
+キャンバスサイズ制御（`BicpemaCanvasController`）やローディングスピナー制御は`vite/ts/`配下の共通モジュールとして提供されており、各シミュレーションからimportして利用します。
 
 `index.ts` の基本構造:
 
 ```ts
 import p5 from "p5";
 import "../../../css/tailwind.css";
-import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
-import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
+import { BicpemaCanvasController } from "../../../ts/bicpema-canvas-controller.js";
+import { hideLoadingSpinner } from "../../../ts/bicpema-loading-spinner.js";
 import {
     settingInit,
     elementSelectInit,
@@ -145,7 +145,7 @@ vite/simulations/{name}/
 - 再生・停止ボタンは左下に配置する
 - 設定表示ボタンは右上に配置する
 - 重いファイル（フォント、画像等）は [Firebase Storage](https://console.firebase.google.com/project/bicpema/storage) にアップロードし、URL で参照する
-- フォントは `setup()` 内で `vite/js/bicpema-font.ts` の `loadFontFromUrl()` を使って非同期ロードし、Firebase Storage が到達不能でもスケッチ起動をブロックしないようにする（p5.js v2の `loadFont()` にURLを直接渡すとHEADリクエストが送られ、Firebase StorageではCORSエラーになるため）
+- フォントは `setup()` 内で `vite/ts/bicpema-font.ts` の `loadFontFromUrl()` を使って非同期ロードし、Firebase Storage が到達不能でもスケッチ起動をブロックしないようにする（p5.js v2の `loadFont()` にURLを直接渡すとHEADリクエストが送られ、Firebase StorageではCORSエラーになるため）
 
 ## パフォーマンス方針
 
@@ -154,7 +154,7 @@ vite/simulations/{name}/
 ### frameRate
 
 - 動きが連続的な物理アニメーション（自由落下・振り子・波動など、ほとんどのシミュレーション）は **60fps** を標準とします。
-- 温度変化やグラフの推移など、変化がゆっくりで60fpsの滑らかさが不要な場合に限り、**20〜30fps** への引き下げを許容します。その場合は該当箇所にコメントで理由を残してください（例: `conservation-of-heat-and-specific-heat/js/init.js`）。
+- 温度変化やグラフの推移など、変化がゆっくりで60fpsの滑らかさが不要な場合に限り、**20〜30fps** への引き下げを許容します。その場合は該当箇所にコメントで理由を残してください（例: `conservation-of-heat-and-specific-heat/ts/init.ts`）。
 - `p.frameRate(...)` は **`setup()`内で一度だけ** 呼び出してください。`draw()`内で毎フレーム呼び出すと無駄な処理になるうえ、他の設定を意図せず上書きする原因になります。
 - フレームレートの値は他のロジックからも参照できるよう、マジックナンバーではなく`FPS`のような名前付き定数として定義してください。
 
@@ -167,7 +167,7 @@ vite/simulations/{name}/
 ### 一時停止・アイドル時の負荷削減
 
 - 一時停止中や、開始前の待機状態でも`draw()`は呼ばれ続けます。動きが止まっている間は物理演算や重い再描画を省略できないか検討してください。
-- 入力欄の値をライブ反映する目的などで、`draw()`内で状態を作り直す実装が散見されますが、`new`によるオブジェクトの再生成は避け、既存インスタンスのフィールド更新に留めてください（例: `projectile-motion/js/logic.js`の待機状態描画）。
+- 入力欄の値をライブ反映する目的などで、`draw()`内で状態を作り直す実装が散見されますが、`new`によるオブジェクトの再生成は避け、既存インスタンスのフィールド更新に留めてください（例: `projectile-motion/ts/logic.ts`の待機状態描画）。
 - 完全に静止させられる場面（グラフや説明パネルのみを表示する等）では`p.noLoop()` / `p.loop()`の利用も検討してください。
 
 ### 毎フレームの生成物を避ける

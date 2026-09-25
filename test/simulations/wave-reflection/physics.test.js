@@ -4,7 +4,7 @@ import {
   computeReflectedDisplacement,
   computeCombinedDisplacement,
   computeWaveFront
-} from "../../../vite/simulations/wave-reflection/js/physics.js";
+} from "../../../vite/simulations/wave-reflection/ts/physics.js";
 
 describe("computeIncidentDisplacement", () => {
   it("y = A sin(kx - ωt) の式に一致する", () => {

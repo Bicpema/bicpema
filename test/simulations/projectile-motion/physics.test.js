@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computeDragProjectilePosition } from "../../../vite/simulations/projectile-motion/js/physics.js";
+import { computeDragProjectilePosition } from "../../../vite/simulations/projectile-motion/ts/physics.js";
 
 describe("computeDragProjectilePosition", () => {
   it("t=0 では初期位置がそのまま返る（空気抵抗なし）", () => {

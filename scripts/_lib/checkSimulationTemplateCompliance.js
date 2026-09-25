@@ -5,17 +5,17 @@ import { join } from "node:path";
 // テンプレートの必須構成から外れていないかを検査する。
 //
 // 検査項目:
-// - エントリーポイント（js/index.js または js/index.ts）が存在し、
+// - エントリーポイント（ts/index.ts）が存在し、
 //   index.htmlから<script type="module">で読み込まれているか
 // - id="navBar" / id="p5Container" / id="p5Canvas" を持つ要素があるか
 // - BicpemaCanvasControllerを利用している場合、シミュレーション固有の
-//   複製ファイルではなく共通の vite/js/bicpema-canvas-controller.js を
+//   複製ファイルではなく共通の vite/ts/bicpema-canvas-controller.js を
 //   参照しているか（#79の再発防止）
 const CANVAS_CONTROLLER_IMPORT_PATTERN =
   /from\s+(["'])([^"']*bicpema-canvas-controller\.js)\1/;
 const CANONICAL_CANVAS_CONTROLLER_IMPORT_PATH =
-  "../../../js/bicpema-canvas-controller.js";
-const ENTRY_SCRIPT_CANDIDATES = ["js/index.ts", "js/index.js"];
+  "../../../ts/bicpema-canvas-controller.js";
+const ENTRY_SCRIPT_CANDIDATES = ["ts/index.ts"];
 const JS_FILE_EXTENSIONS = [".js", ".ts"];
 
 /**

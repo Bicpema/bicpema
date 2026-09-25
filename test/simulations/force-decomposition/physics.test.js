@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { decomposeForce } from "../../../vite/simulations/force-decomposition/js/physics.js";
+import { decomposeForce } from "../../../vite/simulations/force-decomposition/ts/physics.js";
 
 describe("decomposeForce", () => {
   it("0度では全て水平成分になる", () => {

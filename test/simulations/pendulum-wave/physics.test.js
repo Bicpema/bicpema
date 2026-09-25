@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computePendulumWaveAngle } from "../../../vite/simulations/pendulum-wave/js/physics.js";
+import { computePendulumWaveAngle } from "../../../vite/simulations/pendulum-wave/ts/physics.js";
 
 describe("computePendulumWaveAngle", () => {
   it("count=0では振れ角は0になる（sin(0)=0）", () => {

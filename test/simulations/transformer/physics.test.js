@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   computeSecondaryVoltage,
   computeSecondaryCurrentAmplitude
-} from "../../../vite/simulations/transformer/js/physics.js";
+} from "../../../vite/simulations/transformer/ts/physics.js";
 
 describe("computeSecondaryVoltage", () => {
   it("巻数が同じなら電圧も変化しない", () => {

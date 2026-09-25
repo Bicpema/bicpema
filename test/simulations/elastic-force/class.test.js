@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { Spring } from "../../../vite/simulations/elastic-force/js/class.js";
-import { PX_PER_M } from "../../../vite/simulations/elastic-force/js/state.js";
+import { Spring } from "../../../vite/simulations/elastic-force/ts/class.js";
+import { PX_PER_M } from "../../../vite/simulations/elastic-force/ts/state.js";
 
 describe("Spring", () => {
   it("初期状態では自然長のまま伸び縮みしていない", () => {

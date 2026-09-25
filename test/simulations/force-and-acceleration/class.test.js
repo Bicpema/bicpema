@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Cart } from "../../../vite/simulations/force-and-acceleration/js/class.js";
+import { Cart } from "../../../vite/simulations/force-and-acceleration/ts/class.js";
 
 describe("Cart", () => {
   it("初期状態は指定した位置・質量で静止している", () => {

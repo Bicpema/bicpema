@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   computeFreqConst,
   computeStandingWaveDisplacement
-} from "../../../vite/simulations/air-column/js/physics.js";
+} from "../../../vite/simulations/air-column/ts/physics.js";
 
 describe("computeFreqConst", () => {
   it("閉管では (m・π)/(2L) で計算される", () => {

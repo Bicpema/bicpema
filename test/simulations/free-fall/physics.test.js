@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computeDragFreeFall } from "../../../vite/simulations/free-fall/js/physics.js";
+import { computeDragFreeFall } from "../../../vite/simulations/free-fall/ts/physics.js";
 
 describe("computeDragFreeFall", () => {
   it("k が0のとき等加速度運動の式と一致する", () => {

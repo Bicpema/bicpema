@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { Boat } from "../../../vite/simulations/velocity-composition/js/boat.js";
-import { V_W } from "../../../vite/simulations/velocity-composition/js/constants.js";
+import { Boat } from "../../../vite/simulations/velocity-composition/ts/boat.js";
+import { V_W } from "../../../vite/simulations/velocity-composition/ts/constants.js";
 
 describe("Boat", () => {
   it("指定した船速・川速で初期化される", () => {
