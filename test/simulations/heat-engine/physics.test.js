@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   computePistonY,
   advanceStage
-} from "../../../vite/simulations/heat-engine/js/physics.js";
+} from "../../../vite/simulations/heat-engine/ts/physics.js";
 
 describe("computePistonY", () => {
   it("stage0の開始時(t=0)はピストンが160の位置にある", () => {

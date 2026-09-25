@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   computeEquilibriumTemperature,
   computeTemperatureAtTime
-} from "../../../vite/simulations/conservation-of-heat-and-specific-heat/js/physics.js";
+} from "../../../vite/simulations/conservation-of-heat-and-specific-heat/ts/physics.js";
 
 describe("computeEquilibriumTemperature", () => {
   it("熱容量が等しい場合は平衡温度が単純な平均になる", () => {

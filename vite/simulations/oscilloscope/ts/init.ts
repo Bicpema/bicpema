@@ -1,0 +1,66 @@
+import p5 from "p5";
+import { state, type P5AudioIn, type P5FFT } from "./state.js";
+import { bindStartStopControls } from "../../../ts/bicpema-controls-controller.js";
+
+export const FPS = 30;
+
+export function settingInit(p: p5) {
+  p.frameRate(FPS);
+  p.textFont("sans-serif");
+}
+
+export function elementSelectInit() {
+  return {
+    modeSelect: document.querySelector("#modeSelect")
+  };
+}
+
+export function elementPositionInit() {}
+
+export function valueInit() {
+  state.audioStarted = false;
+  state.paused = false;
+  state.displayMode = "waveform";
+  state.waveform = [];
+  state.spectrum = [];
+}
+
+export function setupControls(
+  p: p5,
+  elements: ReturnType<typeof elementSelectInit>
+) {
+  bindStartStopControls(p, {
+    startSelector: "#startButton",
+    stopSelector: "#stopButton",
+    resetSelector: "#restartButton",
+    onStart: () => {
+      // p5.sound(v2)はp5.js本体とは別パッケージで型定義が提供されておらず、
+      // userStartAudio/AudioIn/FFTはp5.sound側で実行時に追加されるAPIのため、
+      // ここでのみ型を補完してアクセスする。
+      const p5WithSound = p5 as unknown as {
+        AudioIn: new () => P5AudioIn;
+        FFT: new () => P5FFT;
+      };
+      (p as unknown as { userStartAudio(): void }).userStartAudio();
+      if (!state.mic) {
+        state.mic = new p5WithSound.AudioIn();
+        state.mic.start(() => {
+          state.audioStarted = true;
+        });
+        state.fft = new p5WithSound.FFT();
+        state.fft.setInput(state.mic);
+      }
+    },
+    onStop: () => {
+      state.paused = true;
+    },
+    onReset: () => {
+      state.paused = false;
+    },
+    startAriaLabel: "音の入力開始",
+    resetAriaLabel: "再開"
+  });
+  elements.modeSelect!.addEventListener("change", (event: Event) => {
+    state.displayMode = (event.target as HTMLSelectElement).value;
+  });
+}

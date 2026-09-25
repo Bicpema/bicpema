@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   computeThermodynamicState,
   computeMoleculeSpeed
-} from "../../../vite/simulations/first-law-of-thermodynamics/js/physics.js";
+} from "../../../vite/simulations/first-law-of-thermodynamics/ts/physics.js";
 
 describe("computeThermodynamicState", () => {
   it("step=0では熱量・仕事・内部エネルギー変化は全て0で、温度・ピストン位置は基準値のまま", () => {

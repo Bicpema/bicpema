@@ -55,7 +55,7 @@ Vite のビルド設定ファイルです。
 - ルートディレクトリ: `./vite`
 - 出力先: `static/vite`
 - ベースパス: `/vite`
-- `vite/simulations/` と `vite/js/` は静的ファイルとしてコピーされます
+- `vite/simulations/` と `vite/ts/` は静的ファイルとしてコピーされます
 
 ### `config/_default/hugo.toml`
 

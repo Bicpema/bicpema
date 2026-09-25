@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computePhaseRetardation } from "../../../vite/simulations/2025_DGI_cellophane-color2_ELK/js/physics.js";
+import { computePhaseRetardation } from "../../../vite/simulations/2025_DGI_cellophane-color2_ELK/ts/physics.js";
 
 describe("computePhaseRetardation", () => {
   it("枚数0または光路差0では位相差は0になる", () => {

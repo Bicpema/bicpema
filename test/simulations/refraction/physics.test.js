@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   computeSnellRatio,
   computeRefractionAngle
-} from "../../../vite/simulations/refraction/js/physics.js";
+} from "../../../vite/simulations/refraction/ts/physics.js";
 
 describe("computeSnellRatio", () => {
   it("入射角0では0を返す", () => {

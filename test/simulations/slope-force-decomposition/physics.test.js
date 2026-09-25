@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { decomposeGravityOnSlope } from "../../../vite/simulations/slope-force-decomposition/js/physics.js";
+import { decomposeGravityOnSlope } from "../../../vite/simulations/slope-force-decomposition/ts/physics.js";
 
 describe("decomposeGravityOnSlope", () => {
   it("重力の大きさは mg になる", () => {

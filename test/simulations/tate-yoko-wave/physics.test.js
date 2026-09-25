@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   computeWaveDisplacement,
   computeArrivalTime
-} from "../../../vite/simulations/tate-yoko-wave/js/physics.js";
+} from "../../../vite/simulations/tate-yoko-wave/ts/physics.js";
 
 describe("computeArrivalTime", () => {
   it("到達時刻は距離を波の速さ(v=ω/k)で割った値になる", () => {

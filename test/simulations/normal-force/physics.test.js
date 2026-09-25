@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computeSlideDisplacement } from "../../../vite/simulations/normal-force/js/physics.js";
+import { computeSlideDisplacement } from "../../../vite/simulations/normal-force/ts/physics.js";
 
 describe("computeSlideDisplacement", () => {
   it("count=0（経過時間0）では変位は0になる", () => {

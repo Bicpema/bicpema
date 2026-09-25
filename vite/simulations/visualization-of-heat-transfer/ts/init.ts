@@ -1,0 +1,27 @@
+import type p5 from "p5";
+import { state } from "./state.js";
+import { BicpemaCanvasController } from "../../../ts/bicpema-canvas-controller.js";
+
+export const canvasController = new BicpemaCanvasController();
+
+// 温度変化はゆっくりで60fpsの滑らかさが不要なため20fpsに抑えている。
+const FPS = 20;
+
+export function initSimulation(p: p5) {
+  canvasController.fullScreen(p);
+  p.frameRate(FPS);
+  resetState();
+}
+
+export function resetState() {
+  state.t = 0;
+  state.Thot = state.Thot0;
+  state.Tcold = state.Tcold0;
+  state.Teq =
+    (state.C_hot * state.Thot0 + state.C_cold * state.Tcold0) /
+    (state.C_hot + state.C_cold);
+}
+
+export function windowResized(p: p5) {
+  canvasController.resizeScreen(p);
+}

@@ -3,7 +3,7 @@ import {
   mapIndexToX,
   mapWaveformValueToY,
   mapSpectrumValueToY
-} from "../../../vite/simulations/oscilloscope/js/physics.js";
+} from "../../../vite/simulations/oscilloscope/ts/physics.js";
 
 describe("mapIndexToX", () => {
   it("先頭のサンプルはx=0にマッピングされる", () => {

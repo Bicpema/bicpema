@@ -10,18 +10,20 @@ vite/
 │   └── getHtmlInputsRecursively.js  # ビルド用ユーティリティ
 ├── css/
 │   └── (共通 CSS ファイル)
-├── js/
+├── ts/
+│   └── (共通 TypeScript モジュール。bicpema-canvas-controller.ts など)
+├── types/
+│   └── assets.d.ts                  # アセット読み込み用の型定義
 └── simulations/
     ├── {simulation-name}/           # 各シミュレーション（例: doppler）
     │   ├── index.html
     │   ├── css/
     │   │   └── style.css
-    │   └── js/
-    │       ├── index.js
-    │       ├── state.js
-    │       ├── init.js
-    │       ├── element-function.js
-    │       └── bicpema-canvas-controller.js
+    │   └── ts/
+    │       ├── index.ts
+    │       ├── state.ts
+    │       ├── init.ts
+    │       └── element-function.ts
     └── ...
 ```
 
@@ -38,7 +40,7 @@ vite/
 シミュレーションのエントリーポイントとなる HTML ファイルです。
 
 - `./css/style.css` を `<link>` タグで読み込む（`vite-ignore` 属性付き）
-- `./js/index.js` を `<script type="module">` で読み込む（`vite-ignore` 属性付き）
+- `./ts/index.ts` を `<script type="module">` で読み込む（`vite-ignore` 属性付き）
 - Bootstrap のコンポーネント（モーダル・スライダー等）を HTML に記述する
 
 ### `css/style.css`
@@ -48,14 +50,14 @@ vite/
 - `html, body { height: 100%; overflow: hidden; }` を設定してスクロールを禁止
 - `#p5Container` などキャンバスを配置する要素のサイズを設定
 
-### `js/index.js`
+### `ts/index.ts`
 
 シミュレーションのメインエントリーポイントです。
 
 - `p5` と `bootstrap` を ES モジュールとしてインポート
 - `const sketch = (p) => { p.setup = ...; p.draw = ...; }; new p5(sketch);` でスケッチを定義
 
-```js title="js/index.js の基本構造"
+```js title="ts/index.ts の基本構造"
 import p5 from "p5";
 import "bootstrap";
 import { initElements } from "./element-function.js";
@@ -78,28 +80,28 @@ const sketch = (p) => {
 new p5(sketch);
 ```
 
-### `js/state.js`
+### `ts/state.ts`
 
 シミュレーション全体で共有する状態（変数）を管理するファイルです。
 
-```js title="js/state.js の基本構造"
+```js title="ts/state.ts の基本構造"
 export const state = {
     isPlaying: true
     // その他のシミュレーション固有の状態
 };
 ```
 
-### `js/init.js`
+### `ts/init.ts`
 
 シミュレーションの初期化処理を担当します。  
 `p.setup()` や「リセット」ボタンのコールバックから呼ばれます。
 
-### `js/element-function.js`
+### `ts/element-function.ts`
 
 Bootstrap コンポーネント（スライダー・ボタン等）のイベントハンドラーを定義します。  
 `setup()` 内で `initElements(p)` を呼び出して登録します。
 
-### `js/bicpema-canvas-controller.js`
+### `vite/ts/bicpema-canvas-controller.ts`
 
 キャンバスのサイズ制御を担当するクラスです。
 
@@ -108,7 +110,7 @@ Bootstrap コンポーネント（スライダー・ボタン等）のイベン�
 - オプションの一覧は[シミュレーションの実装方法](./index.md#実装パターン)を参照
 
 ```js title="BicpemaCanvasController の使い方"
-import { BicpemaCanvasController } from "./bicpema-canvas-controller.js";
+import { BicpemaCanvasController } from "../../../ts/bicpema-canvas-controller.js";
 
 const controller = new BicpemaCanvasController({ fixedAspectRatio: true });
 

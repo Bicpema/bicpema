@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computeSourcePosition } from "../../../vite/simulations/doppler/js/physics.js";
+import { computeSourcePosition } from "../../../vite/simulations/doppler/ts/physics.js";
 
 describe("computeSourcePosition", () => {
   it("count=0では初期位置(offset)そのものになる", () => {

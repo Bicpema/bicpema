@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { Ball } from "../../../vite/simulations/free-fall/js/ball.js";
-import { state } from "../../../vite/simulations/free-fall/js/state.js";
+import { Ball } from "../../../vite/simulations/free-fall/ts/ball.js";
+import { state } from "../../../vite/simulations/free-fall/ts/state.js";
 
 beforeEach(() => {
   state.vtData = [];

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computeTemperatureChange } from "../../../vite/simulations/specific-heat-and-heat-capacity/js/physics.js";
+import { computeTemperatureChange } from "../../../vite/simulations/specific-heat-and-heat-capacity/ts/physics.js";
 
 describe("computeTemperatureChange", () => {
   it("Q = mcΔT の関係から温度変化 ΔT = Q/(mc) を計算する", () => {

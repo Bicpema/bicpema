@@ -1,0 +1,59 @@
+import type p5 from "p5";
+import { state } from "./state.js";
+import {
+  onHeightChange,
+  onInitialVelocityChange,
+  onReset,
+  onPlayPause
+} from "./element-function.js";
+import { Ball } from "./ball.js";
+import { BallGraph } from "./graph.js";
+import { initModal } from "../../../ts/bicpema-modal-controller.js";
+import { bindToggleControls } from "../../../ts/bicpema-controls-controller.js";
+
+export const FPS = 30;
+
+/**
+ * DOM要素を選択してstateに格納し、イベントリスナーを設定する
+ * @param {p5} p p5インスタンス
+ */
+export function elCreate(p: p5) {
+  state.heightInput = p.select("#heightInput");
+  state.initialVelocityInput = p.select("#initialVelocityInput");
+  state.heightInput!.input(() => onHeightChange());
+  state.initialVelocityInput!.input(() => onInitialVelocityChange());
+
+  const { toggleButton, resetButton } = bindToggleControls(p, {
+    toggleSelector: "#playPauseButton",
+    resetSelector: "#resetButton",
+    onToggle: onPlayPause,
+    onReset
+  });
+  state.playPauseButton = toggleButton;
+  state.resetButton = resetButton;
+
+  initModal({
+    openSelectors: "#toggleModal",
+    modalSelector: "#settingsModal",
+    closeSelectors: "#closeModal"
+  });
+}
+
+/**
+ * キャンバス設定とシミュレーションの初期値を設定する
+ * @param {p5} p p5インスタンス
+ */
+export function initValue(p: p5) {
+  p.frameRate(FPS);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.textFont(state.font!);
+  p.textSize(16);
+
+  const initialHeight = parseFloat(String(state.heightInput!.value()));
+  const initialVelocity = parseFloat(
+    String(state.initialVelocityInput!.value())
+  );
+  state.ball = new Ball(initialHeight, initialVelocity);
+  state.graph = new BallGraph();
+  state.graph.updateGraph();
+}

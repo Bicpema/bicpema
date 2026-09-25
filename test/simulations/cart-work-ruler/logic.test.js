@@ -3,8 +3,8 @@ import {
   update,
   PM,
   RULER_INIT_LENGTH
-} from "../../../vite/simulations/cart-work-ruler/js/logic.js";
-import { state } from "../../../vite/simulations/cart-work-ruler/js/state.js";
+} from "../../../vite/simulations/cart-work-ruler/ts/logic.js";
+import { state } from "../../../vite/simulations/cart-work-ruler/ts/state.js";
 
 beforeEach(() => {
   state.mass_kg = 0.5;

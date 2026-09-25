@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { CAR } from "../../../vite/simulations/uniform-linear-motion/js/car.js";
+import { CAR } from "../../../vite/simulations/uniform-linear-motion/ts/car.js";
 
 /**
  * テストでは画像を描画しないため、CARコンストラクタが要求する

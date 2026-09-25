@@ -14,7 +14,7 @@
   "include": [
     "vite/types/**/*.ts",
     "vite/_build/**/*.js",
-    "vite/js/**/*.ts",
+    "vite/ts/**/*.ts",
     "vite/simulations/**/*.ts",
     "test/**/*.js"
   ],
