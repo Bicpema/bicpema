@@ -6,12 +6,12 @@
 // 記事なしとする場合はここに追加する。記事を追加した場合はここから
 // 削除すること（削除し忘れは staleAllowlistSlugs としてチェックが検知する）。
 export const ARTICLELESS_SIMULATION_ALLOWLIST = [
-  "2025_DGI_cellophane-color2_ELK",
   "3d-strata",
   "3d-strata-csv",
   "cellophane",
-  "cellophane-color-2D_animation",
-  "cellophane_display",
+  "cellophane-color-2",
+  "cellophane-color-2d-animation",
+  "cellophane-display",
   "lens",
   "normal-force",
   "pendulum-wave",

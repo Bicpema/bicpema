@@ -4,6 +4,21 @@
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "redirects": [
       {
+        "source": "/vite/simulations/2025_DGI_cellophane-color2_ELK/:slug*",
+        "destination": "/vite/simulations/cellophane-color-2/:slug*",
+        "type": 301
+      },
+      {
+        "source": "/vite/simulations/cellophane-color-2D_animation/:slug*",
+        "destination": "/vite/simulations/cellophane-color-2d-animation/:slug*",
+        "type": 301
+      },
+      {
+        "source": "/vite/simulations/cellophane_display/:slug*",
+        "destination": "/vite/simulations/cellophane-display/:slug*",
+        "type": 301
+      },
+      {
         "source": "/simulations/:slug*",
         "destination": "/vite/simulations/:slug*",
         "type": 301
