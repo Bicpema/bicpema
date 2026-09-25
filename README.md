@@ -163,8 +163,8 @@ bicpema
 └── vite # SimulationsのHTML
     ├── _build # ビルドに使う関数
     ├── css # 共通のCSSファイル
-    ├── js # npmでインストールしたパッケージを使うためのファイル
-    └── simulations # シミュレーションのHTML, CSS, JS
+    ├── ts # 共通のTypeScriptファイル
+    └── simulations # シミュレーションのHTML, CSS, TS
 ```
 
 ## Others

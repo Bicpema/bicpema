@@ -3,9 +3,9 @@ import {
   onHeightChange,
   onReset,
   onPlayPause
-} from "../../../vite/simulations/free-fall/js/element-function.js";
-import { Ball } from "../../../vite/simulations/free-fall/js/ball.js";
-import { state } from "../../../vite/simulations/free-fall/js/state.js";
+} from "../../../vite/simulations/free-fall/ts/element-function.js";
+import { Ball } from "../../../vite/simulations/free-fall/ts/ball.js";
+import { state } from "../../../vite/simulations/free-fall/ts/state.js";
 
 /**
  * p5.Element の value()/html() を模した最小限のモック

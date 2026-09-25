@@ -25,14 +25,23 @@ bicpema/
 │   ├── series/               # シリーズページ
 │   └── tags/                 # タグページ
 ├── docs/                     # 開発者ドキュメント（Zensical）
+├── e2e/                      # Playwright E2E テスト
 ├── i18n/                     # UI 文言の翻訳ファイル
 ├── layouts/                  # Hugo レイアウトのオーバーライド
-├── scripts/                  # 開発用スクリプト（雛形生成・各種チェック）
+├── public/                   # Hugo ビルド出力先（生成物・git 管理外）
+├── resources/                # Hugo 生成キャッシュ（生成物・git 管理外）
+├── scripts/                  # 開発用スクリプト（雛形生成・各種チェック・ベンチマーク）
 ├── static/                   # 静的ファイル（CSS, 画像, ビルド済みシミュレーション）
-│   └── vite/                 # Vite ビルド出力先
-├── template/                 # シミュレーション雛形テンプレート
+│   └── vite/                 # Vite ビルド出力先（生成物・git 管理外）
+├── templates/                # シミュレーション雛形テンプレート
+├── test/                     # Vitest 単体テスト
 ├── themes/                   # Hugo テーマ（サブモジュール）
 ├── vite/                     # シミュレーションのソースコード
+│   ├── _build/               # ビルド設定
+│   ├── css/                  # 共通 CSS
+│   ├── js/                   # 共通 JavaScript
+│   ├── simulations/          # 各シミュレーション
+│   └── types/                # 型定義
 ├── .gitignore
 ├── .gitmodules               # Git サブモジュール設定（themes/）
 ├── .prettierignore
@@ -43,7 +52,10 @@ bicpema/
 ├── firebase.json             # Firebase Hosting 設定
 ├── package.json              # npm 設定・依存関係
 ├── package-lock.json
-└── vite.config.js            # Vite ビルド設定
+├── playwright.config.js      # Playwright 設定
+├── tsconfig.json             # TypeScript（型チェック）設定
+├── vite.config.js            # Vite ビルド設定
+└── vitest.config.js          # Vitest 設定
 ```
 
 ## 主要ファイルの説明
@@ -55,7 +67,7 @@ Vite のビルド設定ファイルです。
 - ルートディレクトリ: `./vite`
 - 出力先: `static/vite`
 - ベースパス: `/vite`
-- `vite/simulations/` と `vite/js/` は静的ファイルとしてコピーされます
+- `vite/simulations/` と `vite/ts/` は静的ファイルとしてコピーされます
 
 ### `config/_default/hugo.toml`
 

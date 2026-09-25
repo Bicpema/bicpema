@@ -1,5 +1,5 @@
 // vite/simulations/ 配下の各シミュレーションが、templates/の必須構成
-// （id="navBar" / id="p5Container" / id="p5Canvas"、js/index.(js|ts)を
+// （id="navBar" / id="p5Container" / id="p5Canvas"、ts/index.tsを
 // <script type="module">で読み込む構成、共通のBicpemaCanvasControllerの
 // 利用）から外れていないかを検査する。
 //
@@ -16,14 +16,14 @@ const rootDir = resolve(__dirname, "..");
 
 const ISSUE_DESCRIPTIONS = {
   "missing-index-html": "index.htmlが存在しません",
-  "missing-entry-script": "js/index.jsまたはjs/index.tsが存在しません",
+  "missing-entry-script": "ts/index.tsが存在しません",
   "entry-script-not-loaded-as-module":
     'エントリーポイントが<script type="module">で読み込まれていません',
   "missing-nav-bar": 'id="navBar"を持つ要素がありません',
   "missing-p5-container": 'id="p5Container"を持つ要素がありません',
   "missing-p5-canvas": 'id="p5Canvas"を持つ要素がありません',
   "non-canonical-canvas-controller":
-    "BicpemaCanvasControllerが共通ファイル（vite/js/bicpema-canvas-controller.js）以外から読み込まれています"
+    "BicpemaCanvasControllerが共通ファイル（vite/ts/bicpema-canvas-controller.js）以外から読み込まれています"
 };
 
 const result = checkSimulationTemplateCompliance({

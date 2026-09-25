@@ -1,0 +1,77 @@
+// init.js は初期処理専用のファイルです。
+
+import type p5 from "p5";
+import { loadFontFromUrl } from "../../../ts/bicpema-font.js";
+import { state } from "./state.js";
+import { Train } from "./class.js";
+import {
+  onPlayPause,
+  onReset,
+  onAccelerationChange
+} from "./element-function.js";
+import { DEFAULT_ACCELERATION, TRAIN_START_X_DIVISOR } from "./constants.js";
+import { initModal } from "../../../ts/bicpema-modal-controller.js";
+import { bindToggleControls } from "../../../ts/bicpema-controls-controller.js";
+import type { BicpemaCanvasController } from "../../../ts/bicpema-canvas-controller.js";
+
+/** フレームレート */
+export const FPS = 60;
+/** 仮想キャンバス幅 */
+export const V_W = 1000;
+/** 仮想ピクセル/メートル（1m = 50 仮想px） */
+export const PX_PER_METER = 50;
+
+/**
+ * キャンバスとp5.jsの基本設定を行う。
+ * @param {*} p p5インスタンス。
+ * @param {*} canvasController BicpemaCanvasControllerインスタンス。
+ */
+export function settingInit(p: p5, canvasController: BicpemaCanvasController) {
+  loadFontFromUrl(
+    p,
+    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
+  )
+    .then((f: p5.Font) => {
+      state.font = f;
+    })
+    .catch(() => {});
+  canvasController.fullScreen(p);
+  p.frameRate(FPS);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.textSize(16);
+}
+
+/**
+ * DOM要素を取得し、イベントを設定する。
+ * @param {*} p p5インスタンス。
+ */
+export function elCreate(p: p5) {
+  bindToggleControls(p, {
+    toggleSelector: "#playPauseButton",
+    resetSelector: "#resetButton",
+    onToggle: onPlayPause,
+    onReset
+  });
+  initModal({
+    openSelectors: "#toggleModal",
+    modalSelector: "#settingsModal",
+    closeSelectors: "#closeModal"
+  });
+  p.select("#accelerationInput")!.input(onAccelerationChange);
+}
+
+/**
+ * シミュレーション変数の初期化。
+ * @param {*} p p5インスタンス。
+ */
+export function initValue(p: p5) {
+  state.isPlaying = false;
+  state.elapsedTime = 0;
+  state.lastGraphUpdate = 0;
+  state.maxObservedVelocity = 0;
+  state.acceleration =
+    parseFloat(String(p.select("#accelerationInput")!.value())) ||
+    DEFAULT_ACCELERATION;
+  state.train = new Train(V_W / TRAIN_START_X_DIVISOR);
+  state.vtData = [{ x: 0, y: 0 }];
+}

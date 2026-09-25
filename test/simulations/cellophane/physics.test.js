@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   computeOpticalPathDifference,
   computeTransmittance
-} from "../../../vite/simulations/cellophane/js/physics.js";
+} from "../../../vite/simulations/cellophane/ts/physics.js";
 
 describe("computeOpticalPathDifference", () => {
   it("枚数0では光路差は0になる", () => {

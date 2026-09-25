@@ -3,7 +3,7 @@ import {
   computeConvexLensImageDistance,
   computeConcaveLensImageDistance,
   computeMagnification
-} from "../../../vite/simulations/lens/js/physics.js";
+} from "../../../vite/simulations/lens/ts/physics.js";
 
 describe("computeConvexLensImageDistance", () => {
   it("b = a*f / (f - a) の式に一致する", () => {

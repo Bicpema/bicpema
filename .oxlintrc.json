@@ -289,7 +289,7 @@
     },
     {
       // WaterParticle/Boat/Personの3クラスをまとめた小さなファイルのため対象外にする。
-      "files": ["vite/simulations/velocity-composition/js/boat.ts"],
+      "files": ["vite/simulations/velocity-composition/ts/boat.ts"],
       "rules": { "max-classes-per-file": "off" }
     }
   ],

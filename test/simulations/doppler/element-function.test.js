@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
-import { onSpeedInputChange } from "../../../vite/simulations/doppler/js/element-function.js";
-import { state } from "../../../vite/simulations/doppler/js/state.js";
+import { onSpeedInputChange } from "../../../vite/simulations/doppler/ts/element-function.js";
+import { state } from "../../../vite/simulations/doppler/ts/state.js";
 
 const originalDocumentDescriptor = Object.getOwnPropertyDescriptor(
   globalThis,

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { SOUND } from "../../../vite/simulations/doppler/js/class.js";
-import { state } from "../../../vite/simulations/doppler/js/state.js";
-import { FPS } from "../../../vite/simulations/doppler/js/constants.js";
+import { SOUND } from "../../../vite/simulations/doppler/ts/class.js";
+import { state } from "../../../vite/simulations/doppler/ts/state.js";
+import { FPS } from "../../../vite/simulations/doppler/ts/constants.js";
 
 /** @typedef {import("p5").default} p5 */
 

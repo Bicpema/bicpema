@@ -4,7 +4,7 @@ import {
   computeLeftWaveDisplacement,
   computeStandingWaveDisplacement,
   computeWaveFronts
-} from "../../../vite/simulations/standing-wave/js/physics.js";
+} from "../../../vite/simulations/standing-wave/ts/physics.js";
 
 describe("computeRightWaveDisplacement", () => {
   it("y = A sin(kx - ωt) の式に一致する", () => {

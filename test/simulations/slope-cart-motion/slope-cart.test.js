@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { SlopeCart } from "../../../vite/simulations/slope-cart-motion/js/slope-cart.js";
-import { PX_PER_M } from "../../../vite/simulations/slope-cart-motion/js/function.js";
+import { SlopeCart } from "../../../vite/simulations/slope-cart-motion/ts/slope-cart.js";
+import { PX_PER_M } from "../../../vite/simulations/slope-cart-motion/ts/function.js";
 
 describe("SlopeCart", () => {
   it("初期状態は指定した角度・斜面長で静止している", () => {

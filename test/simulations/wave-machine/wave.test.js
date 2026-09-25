@@ -1,11 +1,11 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { IncidentWave } from "../../../vite/simulations/wave-machine/js/incident-wave.js";
-import { ReflectedWave } from "../../../vite/simulations/wave-machine/js/reflected-wave.js";
-import { Medium } from "../../../vite/simulations/wave-machine/js/medium.js";
+import { IncidentWave } from "../../../vite/simulations/wave-machine/ts/incident-wave.js";
+import { ReflectedWave } from "../../../vite/simulations/wave-machine/ts/reflected-wave.js";
+import { Medium } from "../../../vite/simulations/wave-machine/ts/medium.js";
 import {
   state,
   MEDIUM_QUANTITY
-} from "../../../vite/simulations/wave-machine/js/state.js";
+} from "../../../vite/simulations/wave-machine/ts/state.js";
 
 const stubP = {
   sin: Math.sin,

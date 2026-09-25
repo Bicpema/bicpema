@@ -10,18 +10,18 @@
     "noEmit": true,
     "strict": true,
     "skipLibCheck": true,
-    // templates/js/*.ts は vite/simulations/<name>/js/ に配置される前提で
-    // "../../../js/..." を import するため、リポジトリの親ディレクトリと vite/ を
-    // 同一の仮想ルートとみなして vite/js/ に解決させる
+    // templates/ts/*.ts は vite/simulations/<name>/ts/ に配置される前提で
+    // "../../../ts/..." を import するため、リポジトリの親ディレクトリと vite/ を
+    // 同一の仮想ルートとみなして vite/ts/ に解決させる
     "rootDirs": ["..", "vite"]
   },
   "include": [
     "vite/types/**/*.ts",
     "vite/_build/**/*.js",
-    "vite/js/**/*.ts",
+    "vite/ts/**/*.ts",
     "vite/simulations/**/*.ts",
     "test/**/*.js",
-    "templates/js/**/*.ts"
+    "templates/ts/**/*.ts"
   ],
   "exclude": ["node_modules", "static", "test/**/fixtures", "test/e2e"]
 }

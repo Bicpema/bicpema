@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Cylinder } from "../../../vite/simulations/archimedes-principle/js/cylinder.js";
+import { Cylinder } from "../../../vite/simulations/archimedes-principle/ts/cylinder.js";
 
 /**
  * cylinderの物理更新を500ステップ分進め、静止状態まで収束させる。

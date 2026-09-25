@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   computeDecayFraction,
   computeRemainingCount
-} from "../../../vite/simulations/half-life/js/physics.js";
+} from "../../../vite/simulations/half-life/ts/physics.js";
 
 describe("computeDecayFraction", () => {
   it("t=0では残存割合1（崩壊していない）", () => {

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { Ball } from "../../../vite/simulations/vertical-throw-up/js/ball.js";
+import { Ball } from "../../../vite/simulations/vertical-throw-up/ts/ball.js";
 
 describe("Ball", () => {
   it("初期状態は高さ0・指定した初速度で静止している", () => {

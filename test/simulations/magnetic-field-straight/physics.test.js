@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   computeMagneticFieldStrength,
   computeFieldDirection
-} from "../../../vite/simulations/magnetic-field-straight/js/physics.js";
+} from "../../../vite/simulations/magnetic-field-straight/ts/physics.js";
 
 describe("computeMagneticFieldStrength", () => {
   it("電流0では磁場も0になる", () => {

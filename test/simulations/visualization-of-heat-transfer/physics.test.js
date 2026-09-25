@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computeTemperatureAtTime } from "../../../vite/simulations/visualization-of-heat-transfer/js/physics.js";
+import { computeTemperatureAtTime } from "../../../vite/simulations/visualization-of-heat-transfer/ts/physics.js";
 
 describe("computeTemperatureAtTime", () => {
   it("t=0では初期温度そのものになる", () => {

@@ -5,7 +5,7 @@ import {
   WAVELENGTH_R,
   WAVELENGTH_G,
   WAVELENGTH_B
-} from "../../../vite/simulations/cellophane/js/constants.js";
+} from "../../../vite/simulations/cellophane/ts/constants.js";
 
 describe("computeAngularVelocity", () => {
   it("赤色光の波長では基準の角速度ANGULAR_VELOCITY_Rと一致する", () => {
