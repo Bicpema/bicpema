@@ -22,7 +22,7 @@ def main():
     replace_list = {"title": "", "path": ""}
     template_path = "templates"
     base_path = "vite/simulations/"
-    p = re.compile("^[a-zA-Z0-9_-]+$")
+    p = re.compile("^[a-z0-9]+(-[a-z0-9]+)*$")
 
     title = get_input(
         "シミュレーションのタイトルを日本語で入力してください：",
@@ -32,8 +32,8 @@ def main():
     replace_list["title"] = title
 
     dir_name = get_input(
-        "シミュレーションのフォルダ名を半角英数字およびハイフン（-）で入力してください：",
-        "英数字およびハイフンで入力してください。",
+        "シミュレーションのフォルダ名を半角英小文字・数字およびハイフン（-）区切りで入力してください（例: doppler, projectile-motion）：",
+        "半角英小文字・数字をハイフン（-）で区切った形式で入力してください（大文字・アンダースコア・先頭末尾や連続のハイフンは不可）。",
         lambda x: p.fullmatch(x) and x != "",
     )
 
