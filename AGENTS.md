@@ -4,20 +4,33 @@
 
 ## フォルダー構成
 
+- `.claude/` : Claude Code・GitHub Copilot Coding Agent共通のスキル（`skills/`）・サブエージェント（`agents/`）定義を格納するフォルダー
 - `.github/` : GitHub関連の設定ファイルを格納するフォルダー
 - `.vscode/` : VSCode関連の設定ファイルを格納するフォルダー
 - `archetypes/` : コンテンツのアーキタイプ（テンプレート）を格納するフォルダー
 - `config/` : Hugoの設定ファイルを格納するフォルダー
 - `content/` : サイトのコンテンツ（記事やページ）を格納するフォルダー
+- `docs/` : 開発者ドキュメント（Zensical）を格納するフォルダー
+- `e2e/` : PlaywrightによるE2Eテストを格納するフォルダー
 - `i18n/` : 多言語対応の翻訳ファイルを格納するフォルダー
 - `layouts/` : サイトのレイアウトテンプレートを格納するフォルダー
+- `scripts/` : シミュレーションの雛形生成・検証・ベンチマーク用のスクリプトを格納するフォルダー
 - `static/` : CSS、JavaScript、画像などの静的ファイルを格納するフォルダー
-- `template/` : シミュレーションのテンプレートファイルを格納するフォルダー
+- `templates/` : シミュレーションの雛形テンプレートファイルを格納するフォルダー
+- `test/` : Vitestによる単体テストを格納するフォルダー
+- `themes/` : Hugoテーマ（git submodule）を格納するフォルダー
 - `vite/` : Viteを使用したフロントエンドのビルド設定やシミュレーションファイルを格納するフォルダー
     - `_build/` : Viteのビルド設定を格納するフォルダー
     - `css/` : 共通のCSSファイルを格納するフォルダー
     - `js/` : 共通のJavaScriptファイルを格納するフォルダー
     - `simulations/` : 各シミュレーションのファイルを格納するフォルダー
+    - `types/` : TypeScriptの型定義ファイルを格納するフォルダー
+
+以下はビルド時に生成されるフォルダーで、git管理対象外です（`.gitignore` 参照）。
+
+- `public/` : Hugoのビルド出力先
+- `resources/` : Hugoが生成するキャッシュ（`resources/_gen`）
+- `static/vite/` : Viteのビルド出力先
 
 ## シミュレーションの実装手順
 
