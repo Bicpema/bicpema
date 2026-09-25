@@ -27,6 +27,7 @@ bicpema/
 ├── docs/                     # 開発者ドキュメント（Zensical）
 ├── i18n/                     # UI 文言の翻訳ファイル
 ├── layouts/                  # Hugo レイアウトのオーバーライド
+├── scripts/                  # 開発用スクリプト（雛形生成・各種チェック）
 ├── static/                   # 静的ファイル（CSS, 画像, ビルド済みシミュレーション）
 │   └── vite/                 # Vite ビルド出力先
 ├── template/                 # シミュレーション雛形テンプレート
@@ -40,7 +41,6 @@ bicpema/
 ├── CLAUDE.md                  # Claude Code用のAGENTS.md参照
 ├── cors.json                 # Firebase Storage CORS 設定
 ├── firebase.json             # Firebase Hosting 設定
-├── new_simulation.py         # 新規シミュレーション雛形生成スクリプト
 ├── package.json              # npm 設定・依存関係
 ├── package-lock.json
 └── vite.config.js            # Vite ビルド設定
@@ -65,10 +65,10 @@ Hugo の基本設定ファイルです。サイトの URL、タイトル、使�
 
 Firebase Hosting の設定ファイルです。Hugo のビルド出力先（`public/`）をホスティングルートとして指定します。
 
-### `new_simulation.py`
+### `scripts/new-simulation.js`
 
-新規シミュレーションの雛形を生成する Python スクリプトです。  
-日本語名と英語名を入力すると `vite/simulations/` 配下にフォルダと基本テンプレートを生成します。
+新規シミュレーションの雛形を生成する Node.js スクリプトです。`npm run new:simulation` で実行します。  
+日本語名と英語名を入力すると `vite/simulations/` 配下にフォルダと基本テンプレートを生成します。命名規則のチェックと既存フォルダーとの重複チェックを行います。
 
 ### `.github/workflows/deploy.yml`
 

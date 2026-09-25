@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { computePhaseRetardation } from "../../../vite/simulations/cellophane-color-2D_animation/ts/physics.js";
+import { computePhaseRetardation } from "../../../vite/simulations/cellophane-color-2d-animation/ts/physics.js";
 
 describe("computePhaseRetardation", () => {
   it("枚数0または光路差0では位相差は0になる", () => {

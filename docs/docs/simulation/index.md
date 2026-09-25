@@ -4,7 +4,7 @@
 
 ```mermaid
 flowchart TD
-  A[new_simulation.py を実行] --> B[日本語名・英語名を入力]
+  A[npm run new:simulation を実行] --> B[日本語名・英語名を入力]
   B --> C[vite/simulations/シミュレーション名/ が生成される]
   C --> D[index.html / CSS / JS を実装]
   D --> E[hugo server + npm run dev で動作確認]
@@ -22,7 +22,7 @@ flowchart TD
 リポジトリルートで以下を実行します。
 
 ```bash
-python new_simulation.py
+npm run new:simulation
 ```
 
 対話形式で以下を入力します。
@@ -42,7 +42,7 @@ python new_simulation.py
 
 ### パターン A — ES モジュール + p5 インスタンスモード（標準）
 
-採用しているシミュレーションの標準構成です。新規シミュレーションは`new_simulation.py`が生成するひな形（`templates/`配下）がこの構成に沿っているため、そのまま実装を進めてください。
+採用しているシミュレーションの標準構成です。新規シミュレーションは`npm run new:simulation`が生成するひな形（`templates/`配下）がこの構成に沿っているため、そのまま実装を進めてください。
 
 ```txt
 vite/simulations/{name}/
