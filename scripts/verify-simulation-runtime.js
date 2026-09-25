@@ -120,7 +120,7 @@ async function verifySimulation(browser, baseUrl, name, options) {
   const consoleErrors = [];
 
   page.on("pageerror", (error) => {
-    errors.push(error.message);
+    errors.push(`${error.message}\n${error.stack ?? "(no stack)"}`);
   });
   page.on("console", (message) => {
     if (message.type() === "error") {
