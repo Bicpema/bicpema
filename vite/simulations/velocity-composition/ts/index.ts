@@ -1,5 +1,4 @@
 import p5 from "p5";
-import { loadFontFromUrl } from "../../../ts/bicpema-font.js";
 import { hideLoadingSpinner } from "../../../ts/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { state } from "./state.js";
@@ -11,13 +10,17 @@ import { FPS, V_W } from "./constants.js";
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
-  p.setup = async () => {
-    state.font = await loadFontFromUrl(
-      p,
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
-    )
-      // 失敗時もcatchでnullに解決し、setup本体の実行を妨げないようにする。
-      .catch(() => null);
+  p.preload = () => {
+    state.font = p.loadFont(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
+      () => {},
+      () => {
+        state.font = null;
+      }
+    );
+  };
+
+  p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
     initValue(p);

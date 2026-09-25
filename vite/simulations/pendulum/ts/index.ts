@@ -18,12 +18,11 @@ const sketch = (p: p5) => {
   });
   let isFirstDraw = true;
 
-  p.setup = async () => {
-    try {
-      state.weightImage = await p.loadImage(WEIGHT_IMAGE_URL);
-    } catch {
-      // 読み込み失敗時もシミュレーション自体は起動できるようにする
-    }
+  p.preload = () => {
+    state.weightImage = p.loadImage(WEIGHT_IMAGE_URL);
+  };
+
+  p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
     initValue(p);

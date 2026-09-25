@@ -1,6 +1,5 @@
 // class.js はMaterialクラス管理専用のファイルです。
 
-import type p5 from "p5";
 import { state } from "./state.js";
 import { computeSlideDisplacement } from "./physics.js";
 
@@ -111,9 +110,9 @@ function dashedLine(
 ) {
   p.stroke(0);
   p.strokeWeight(w);
-  (p.drawingContext as CanvasRenderingContext2D).setLineDash([10, 5, 2, 5]);
+  p.drawingContext.setLineDash([10, 5, 2, 5]);
   p.line(aX, aY, bX, bY);
-  (p.drawingContext as CanvasRenderingContext2D).setLineDash([]);
+  p.drawingContext.setLineDash([]);
   p.strokeWeight(5);
 }
 

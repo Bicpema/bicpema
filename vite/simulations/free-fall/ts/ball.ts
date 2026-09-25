@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import { state } from "./state.js";
 import { computeDragFreeFall } from "./physics.js";
 import {
@@ -114,14 +113,14 @@ export class Ball {
     // 目盛り線（初期高さ）
     p.stroke(0, 0, 0);
     p.strokeWeight(LINE_STROKE_WEIGHT);
-    (p.drawingContext as CanvasRenderingContext2D).setLineDash(SCALE_LINE_DASH);
+    p.drawingContext.setLineDash(SCALE_LINE_DASH);
     p.line(
       SCALE_LINE_MARGIN,
       initialBallY,
       CANVAS_VIRTUAL_WIDTH - SCALE_LINE_MARGIN,
       initialBallY
     );
-    (p.drawingContext as CanvasRenderingContext2D).setLineDash([]);
+    p.drawingContext.setLineDash([]);
 
     p.fill(0);
     p.noStroke();

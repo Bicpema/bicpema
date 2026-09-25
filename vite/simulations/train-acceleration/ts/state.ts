@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import type { Train } from "./class.js";
 import { DEFAULT_ACCELERATION } from "./constants.js";
 

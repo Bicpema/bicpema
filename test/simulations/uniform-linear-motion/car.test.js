@@ -4,7 +4,7 @@ import { CAR } from "../../../vite/simulations/uniform-linear-motion/ts/car.js";
 /**
  * テストでは画像を描画しないため、CARコンストラクタが要求する
  * p5.Image型を満たすダミー値として使用する。
- * @type {import("p5").default.Image}
+ * @type {p5.Image}
  */
 const mockImage = /** @type {any} */ (null);
 

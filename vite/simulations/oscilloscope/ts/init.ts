@@ -1,5 +1,5 @@
 import p5 from "p5";
-import { state, type P5AudioIn, type P5FFT } from "./state.js";
+import { state } from "./state.js";
 import { bindStartStopControls } from "../../../ts/bicpema-controls-controller.js";
 
 export const FPS = 30;
@@ -34,20 +34,13 @@ export function setupControls(
     stopSelector: "#stopButton",
     resetSelector: "#restartButton",
     onStart: () => {
-      // p5.sound(v2)はp5.js本体とは別パッケージで型定義が提供されておらず、
-      // userStartAudio/AudioIn/FFTはp5.sound側で実行時に追加されるAPIのため、
-      // ここでのみ型を補完してアクセスする。
-      const p5WithSound = p5 as unknown as {
-        AudioIn: new () => P5AudioIn;
-        FFT: new () => P5FFT;
-      };
-      (p as unknown as { userStartAudio(): void }).userStartAudio();
+      p.userStartAudio();
       if (!state.mic) {
-        state.mic = new p5WithSound.AudioIn();
+        state.mic = new p5.AudioIn();
         state.mic.start(() => {
           state.audioStarted = true;
         });
-        state.fft = new p5WithSound.FFT();
+        state.fft = new p5.FFT();
         state.fft.setInput(state.mic);
       }
     },

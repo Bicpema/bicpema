@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import { state } from "./state.js";
 
 // 温度変化はゆっくりであり、高フレームレートは不要なため低frameRateを採用する。

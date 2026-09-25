@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import { state } from "./state.js";
 import { updateWaveLayer } from "./logic.js";
 import { initModal } from "../../../ts/bicpema-modal-controller.js";

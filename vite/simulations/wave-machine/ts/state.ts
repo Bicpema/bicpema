@@ -1,6 +1,5 @@
 // state.ts はシミュレーションの共有可変状態を管理するファイルです。
 
-import type p5 from "p5";
 import type { Medium } from "./medium.js";
 import type { IncidentWave } from "./incident-wave.js";
 import type { ReflectedWave } from "./reflected-wave.js";

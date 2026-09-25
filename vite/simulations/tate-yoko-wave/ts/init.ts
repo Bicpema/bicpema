@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import { state } from "./state.js";
 import { WAVE_ORIGIN_X } from "./constants.js";
 import { bindToggleControls } from "../../../ts/bicpema-controls-controller.js";

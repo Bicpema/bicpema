@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import { state } from "./state.js";
 import { FPS, V_W, RIVER_BOTTOM } from "./constants.js";
 import { Boat, WaterParticle, Person } from "./boat.js";

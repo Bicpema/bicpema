@@ -15,10 +15,11 @@ const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
   let isFirstDraw = true;
 
-  p.setup = async () => {
-    // 画像・フォント等の非同期読み込みが必要な場合はここでawaitする。
-    // フォントは ../../../ts/bicpema-font.js の loadFontFromUrl() で読み込む。
-    // const font = await loadFontFromUrl(p, "...");
+  // p.preload = () => {
+  //   font = p.loadFont("...");
+  // };
+
+  p.setup = () => {
     canvasController.fullScreen(p);
     settingInit(p);
     elementSelectInit(p);

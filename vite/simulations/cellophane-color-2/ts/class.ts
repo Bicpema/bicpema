@@ -1,5 +1,3 @@
-import type p5 from "p5";
-
 // class.js はセロハンの組ごとの入力DOM要素を管理するCellophaneクラス管理専用のファイルです。
 
 /**

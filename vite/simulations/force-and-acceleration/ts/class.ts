@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import {
   CART_WHEEL_RADIUS,
   CART_BODY_WIDTH,

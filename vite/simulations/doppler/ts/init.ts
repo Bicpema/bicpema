@@ -1,6 +1,5 @@
 // init.ts は初期処理専用のファイルです。
 
-import type p5 from "p5";
 import { state } from "./state.js";
 import {
   startButtonFunction,

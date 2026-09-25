@@ -1,6 +1,5 @@
 // init.jsは初期処理専用のファイルです。
 
-import type p5 from "p5";
 import { state } from "./state.js";
 import { CART_START_X } from "./logic.js";
 import { FPS } from "./constants.js";

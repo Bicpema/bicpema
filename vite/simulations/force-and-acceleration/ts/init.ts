@@ -1,6 +1,5 @@
 // init.jsは初期処理専用のファイルです。
 
-import type p5 from "p5";
 import { state } from "./state.js";
 import { Cart } from "./class.js";
 import { onMassChange, onReset, onClearMax } from "./element-function.js";

@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import type { Cart } from "./class.js";
 
 // グローバル状態管理オブジェクト

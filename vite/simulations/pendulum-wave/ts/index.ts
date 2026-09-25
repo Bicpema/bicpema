@@ -21,17 +21,14 @@ const sketch = (p: p5) => {
   });
   let isFirstDraw = true;
 
-  p.setup = async () => {
-    try {
-      [state.weightImage, state.pendulumData] = await Promise.all([
-        p.loadImage(WEIGHT_IMAGE_URL),
-        // p5.jsの型定義上、loadTable()の戻り値はPromise<object>型となっているため、
-        // 実際の解決値であるp5.Tableへ明示的にキャストする。
-        p.loadTable(PENDULUM_DATA_URL, ",", "header") as Promise<p5.Table>
-      ]);
-    } catch {
-      // 読み込み失敗時もシミュレーション自体は起動できるようにする
-    }
+  p.preload = () => {
+    state.weightImage = p.loadImage(WEIGHT_IMAGE_URL);
+    // p5.jsの型定義上、loadTable()の戻り値は`object`型となっているため、
+    // 実際の戻り値であるp5.Tableへ明示的にキャストする。
+    state.pendulumData = p.loadTable(PENDULUM_DATA_URL, "header") as p5.Table;
+  };
+
+  p.setup = () => {
     canvasController.fullScreen(p);
     settingInit(p);
     valueInit(p);

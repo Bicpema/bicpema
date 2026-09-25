@@ -14,19 +14,16 @@ import {
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
-  p.setup = async () => {
-    try {
-      [state.tankImage, state.cylinderImage] = await Promise.all([
-        p.loadImage(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/waterTank.png?alt=media&token=54c843b3-9823-47b0-9a66-0ad3f947afd3"
-        ),
-        p.loadImage(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/buoyantObject.png?alt=media&token=102dab30-459c-4e10-a002-748b7d3598ce"
-        )
-      ]);
-    } catch {
-      // 読み込み失敗時もシミュレーション自体は起動できるようにする
-    }
+  p.preload = () => {
+    state.tankImage = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/waterTank.png?alt=media&token=54c843b3-9823-47b0-9a66-0ad3f947afd3"
+    );
+    state.cylinderImage = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/buoyantObject.png?alt=media&token=102dab30-459c-4e10-a002-748b7d3598ce"
+    );
+  };
+
+  p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
     initValue(p);

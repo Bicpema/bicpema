@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import type { Chart } from "chart.js";
 import type { CAR } from "./car.js";
 

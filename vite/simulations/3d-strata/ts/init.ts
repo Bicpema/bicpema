@@ -1,7 +1,6 @@
 // init.jsは初期処理専用のファイルです。
 
 import type p5 from "p5";
-import { loadFontFromUrl } from "../../../ts/bicpema-font.js";
 import {
   initModal,
   initCollapse,
@@ -96,18 +95,20 @@ export function initValue(p: p5) {
  * @param {*} p p5インスタンス
  */
 export function loadJapaneseFont(p: p5) {
-  loadFontFromUrl(p, JA_FONT_URL)
-    .then((font: p5.Font) => {
+  p.loadFont(
+    JA_FONT_URL,
+    (font: p5.Font) => {
       state.jaFont = font;
       p.textFont(state.jaFont);
       p.textSize(JA_FONT_SIZE);
       p.textAlign(p.CENTER);
-    })
-    .catch(() => {
+    },
+    () => {
       // 読み込み失敗をユーザーへ通知するUIがないため、原因調査用にログのみ出力する。
       // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
       console.warn(
         "Japanese font could not be loaded. Text labels will not be displayed."
       );
-    });
+    }
+  );
 }

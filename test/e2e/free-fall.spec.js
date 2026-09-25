@@ -1,11 +1,8 @@
 import { test, expect } from "@playwright/test";
 
 const PATH = "/vite/simulations/free-fall/";
-// p5.jsが生成するメインキャンバス（グラフ表示用の#graphCanvasと区別するため使用する）。
-// p5.js v2ではsetup()実行前の読み込み表示用に内部でcanvasを生成することがあり
-// 連番idがずれるため、idではなくBicpemaCanvasControllerが親付けする
-// #p5Canvas配下のcanvasで特定する。
-const CANVAS = "#p5Canvas canvas:visible";
+// p5.jsが生成するメインキャンバスのid（グラフ表示用の#graphCanvasと区別するため使用する）
+const CANVAS = "#defaultCanvas0";
 
 test.beforeEach(async ({ page }) => {
   await page.goto(PATH);

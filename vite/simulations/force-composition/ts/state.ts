@@ -1,4 +1,3 @@
-import type p5 from "p5";
 import { GRID_STEP } from "./constants.js";
 
 export const state: {
