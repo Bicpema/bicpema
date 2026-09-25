@@ -38,14 +38,15 @@ npm run dev
 
 ## 新規シミュレーションの追加
 
-`new_simulation.py` スクリプトを使って雛形を生成します。
+`npm run new:simulation`（`scripts/new-simulation.js`）を使って雛形を生成します。
 
 ```bash
-python new_simulation.py
+npm run new:simulation
 ```
 
 対話形式で日本語名と英語名（ハイフン区切り）を入力すると、`vite/simulations/` 配下に
 新しいシミュレーション用のフォルダと基本テンプレートが生成されます。
+命名規則に反する名前や、既存のシミュレーションと重複する名前を入力した場合は再入力を求められます。
 
 ## コードフォーマット
 
