@@ -1,3 +1,4 @@
+import type p5 from "p5";
 import { state } from "./state.js";
 import { Car } from "./car.js";
 import { MotionGraph } from "./graph.js";

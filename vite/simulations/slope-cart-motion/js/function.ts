@@ -1,5 +1,6 @@
 // function.js - 描画処理専用のファイルです。
 
+import type p5 from "p5";
 import { state } from "./state.js";
 import type { SlopeCart } from "./slope-cart.js";
 

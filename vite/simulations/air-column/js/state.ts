@@ -1,3 +1,5 @@
+import type p5 from "p5";
+
 export const state = {
   /** 管の種類 */
   type: "closed" as "closed" | "open",

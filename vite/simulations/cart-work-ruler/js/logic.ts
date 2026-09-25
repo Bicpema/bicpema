@@ -1,5 +1,6 @@
 // logic.jsはシミュレーションの描画処理と物理更新専用のファイルです。
 
+import type p5 from "p5";
 import { state } from "./state.js";
 import {
   FPS,

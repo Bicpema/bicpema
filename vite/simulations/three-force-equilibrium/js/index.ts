@@ -54,32 +54,8 @@ const sketch = (p: p5) => {
     stopDrag();
   };
 
-  p.touchStarted = () => {
-    if (p.touches.length > 0) {
-      // @types/p5ではtouches[]の要素はobject型のため、ドキュメント通りx/yプロパティを持つ座標として扱う
-      const touch = p.touches[0] as { x: number; y: number };
-      const vmx = (touch.x / p.width) * V_W;
-      const vmy = (touch.y / p.width) * V_W;
-      startDrag(vmx, vmy);
-    }
-    return false;
-  };
-
-  p.touchMoved = () => {
-    if (p.touches.length > 0 && state.dragging) {
-      // @types/p5ではtouches[]の要素はobject型のため、ドキュメント通りx/yプロパティを持つ座標として扱う
-      const touch = p.touches[0] as { x: number; y: number };
-      const vmx = (touch.x / p.width) * V_W;
-      const vmy = (touch.y / p.width) * V_W;
-      updateDrag(vmx, vmy);
-    }
-    return false;
-  };
-
-  p.touchEnded = () => {
-    stopDrag();
-    return false;
-  };
+  // p5.js v2ではタッチ操作もmousePressed/mouseReleasedとmouseX/mouseYに
+  // 統合されたため、専用のtouchStarted/touchMoved/touchEndedは不要。
 
   p.windowResized = () => {
     canvasController.resizeScreen(p);

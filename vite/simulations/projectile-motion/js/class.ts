@@ -1,5 +1,6 @@
 // class.js は Ball クラス管理専用のファイルです。
 
+import type p5 from "p5";
 import { state } from "./state.js";
 import { groundLevel, BALL_START_X, GRAVITY, FPS } from "./init.js";
 import { computeDragProjectilePosition } from "./physics.js";

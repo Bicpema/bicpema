@@ -3,6 +3,8 @@ import { SOUND } from "../../../vite/simulations/doppler/js/class.js";
 import { state } from "../../../vite/simulations/doppler/js/state.js";
 import { FPS } from "../../../vite/simulations/doppler/js/constants.js";
 
+/** @typedef {import("p5").default} p5 */
+
 const stubP = /** @type {p5} */ (
   /** @type {unknown} */ ({ noFill: () => {}, ellipse: () => {} })
 );

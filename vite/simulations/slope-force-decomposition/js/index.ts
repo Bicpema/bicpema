@@ -10,24 +10,28 @@ import { V_W } from "./constants.js";
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
-  p.preload = () => {
-    state.font = p.loadFont(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
-      () => {},
-      () => {
-        state.font = null;
-      }
-    );
-    state.groundImg = p.loadImage(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810",
-      () => {},
-      () => {
-        state.groundImg = null;
-      }
-    );
-  };
-
-  p.setup = () => {
+  p.setup = async () => {
+    [state.font, state.groundImg] = await Promise.all([
+      p
+        .loadFont(
+          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
+          () => {},
+          () => {
+            state.font = null;
+          }
+        )
+        // 失敗時もcatchでnullに解決し、他アセットの読み込みやsetup本体の実行を妨げないようにする。
+        .catch(() => null),
+      p
+        .loadImage(
+          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810",
+          () => {},
+          () => {
+            state.groundImg = null;
+          }
+        )
+        .catch(() => null)
+    ]);
     canvasController.fullScreen(p);
     elCreate(p);
     initValue(p);

@@ -1,3 +1,4 @@
+import type p5 from "p5";
 import { state } from "./state.js";
 import {
   computeEquilibriumTemperature,
@@ -58,7 +59,7 @@ function getMaterialGradient(
   r: number,
   type: number
 ) {
-  const ctx = p.drawingContext;
+  const ctx = p.drawingContext as CanvasRenderingContext2D;
   const g = ctx.createRadialGradient(
     x - r * 0.3,
     y - r * 0.3,
@@ -106,7 +107,7 @@ function ballDraw(p: p5) {
     const gradA = getMaterialGradient(p, 365, yA, rA, checkcolorA);
     p.push();
     p.noStroke();
-    p.drawingContext.fillStyle = gradA;
+    (p.drawingContext as CanvasRenderingContext2D).fillStyle = gradA;
     p.ellipse(365, yA, rA * 2, rA * 2);
     p.pop();
   } else {
@@ -121,7 +122,7 @@ function ballDraw(p: p5) {
     const gradA = getMaterialGradient(p, 448, yA, rA, checkcolorA);
     p.push();
     p.noStroke();
-    p.drawingContext.fillStyle = gradA;
+    (p.drawingContext as CanvasRenderingContext2D).fillStyle = gradA;
     p.ellipse(448, yA, rA * 2, rA * 2);
     p.pop();
   }
@@ -268,10 +269,10 @@ function drawGraph(p: p5) {
   p.strokeWeight(2);
 
   if (getContactState() === 0) {
-    p.drawingContext.setLineDash([8, 6]);
+    (p.drawingContext as CanvasRenderingContext2D).setLineDash([8, 6]);
     p.stroke(0);
     p.line(tx(p, 0), ty(p, state.Teq), tx(p, state.tMax), ty(p, state.Teq));
-    p.drawingContext.setLineDash([]);
+    (p.drawingContext as CanvasRenderingContext2D).setLineDash([]);
 
     p.noFill();
     p.strokeWeight(3);

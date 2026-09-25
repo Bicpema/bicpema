@@ -1,5 +1,6 @@
 // function.js はその他のメソッド管理専用のファイルです。
 
+import type p5 from "p5";
 import { state } from "./state.js";
 import {
   TRAIN_HALF_W,

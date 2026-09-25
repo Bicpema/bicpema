@@ -33,16 +33,19 @@ const GROUND_Y = H - GROUND_HEIGHT;
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
-  p.preload = () => {
-    state.groundImg = p.loadImage(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810"
-    );
-    state.cartImg = p.loadImage(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/simpleTrolley.png?alt=media&token=f614f2c8-188e-4d34-807c-d48ffd21d95c"
-    );
-  };
-
-  p.setup = () => {
+  p.setup = async () => {
+    try {
+      [state.groundImg, state.cartImg] = await Promise.all([
+        p.loadImage(
+          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810"
+        ),
+        p.loadImage(
+          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/simpleTrolley.png?alt=media&token=f614f2c8-188e-4d34-807c-d48ffd21d95c"
+        )
+      ]);
+    } catch {
+      // 読み込み失敗時もシミュレーション自体は起動できるようにする
+    }
     settingInit(p, canvasController);
     elementSelectInit(p);
     elementPositionInit(p);
@@ -202,9 +205,9 @@ function drawForceArrow(p: p5, x1: number, y: number, x2: number) {
 function drawDragHint(p: p5, x: number, y: number) {
   p.stroke(DRAG_HINT_COLOR);
   p.strokeWeight(2);
-  p.drawingContext.setLineDash([8, 6]);
+  (p.drawingContext as CanvasRenderingContext2D).setLineDash([8, 6]);
   p.line(x + 10, y, x + 160, y);
-  p.drawingContext.setLineDash([]);
+  (p.drawingContext as CanvasRenderingContext2D).setLineDash([]);
 
   p.fill(DRAG_HINT_COLOR);
   p.noStroke();

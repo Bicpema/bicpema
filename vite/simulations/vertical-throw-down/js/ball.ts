@@ -1,3 +1,4 @@
+import type p5 from "p5";
 import { state } from "./state.js";
 import {
   GRAVITY,
@@ -119,14 +120,16 @@ export class Ball {
         canvasHeight - GROUND_HEIGHT - this.initialHeight * HEIGHT_SCALE;
       p.stroke(0, 0, 0);
       p.strokeWeight(3);
-      p.drawingContext.setLineDash(SCALE_LINE_DASH);
+      (p.drawingContext as CanvasRenderingContext2D).setLineDash(
+        SCALE_LINE_DASH
+      );
       p.line(
         buildingX + buildingWidth,
         initialBallY,
         buildingX + 2 * buildingWidth,
         initialBallY
       );
-      p.drawingContext.setLineDash([]);
+      (p.drawingContext as CanvasRenderingContext2D).setLineDash([]);
 
       p.fill(0, 0, 0);
       p.noStroke();

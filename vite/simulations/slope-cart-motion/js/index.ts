@@ -23,31 +23,35 @@ import {
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
-  p.preload = () => {
-    state.font = p.loadFont(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
-    );
-    state.cartImage = p.loadImage(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/simpleTrolley.png?alt=media&token=f614f2c8-188e-4d34-807c-d48ffd21d95c",
-      () => {},
-      (err: Event) => {
-        // 失敗をユーザーへ通知するUIがないため、原因調査用にログのみ出力する。
-        // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
-        console.warn("cart image load failed", err);
-      }
-    );
-    state.groundImage = p.loadImage(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810",
-      () => {},
-      (err: Event) => {
-        // 失敗をユーザーへ通知するUIがないため、原因調査用にログのみ出力する。
-        // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
-        console.warn("ground image load failed", err);
-      }
-    );
-  };
-
-  p.setup = () => {
+  p.setup = async () => {
+    [state.font, state.cartImage, state.groundImage] = await Promise.all([
+      p.loadFont(
+        "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
+      ),
+      p
+        .loadImage(
+          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/simpleTrolley.png?alt=media&token=f614f2c8-188e-4d34-807c-d48ffd21d95c",
+          () => {},
+          (err: Event) => {
+            // 失敗をユーザーへ通知するUIがないため、原因調査用にログのみ出力する。
+            // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
+            console.warn("cart image load failed", err);
+          }
+        )
+        // 失敗時もcatchでnullに解決し、他アセットの読み込みやsetup本体の実行を妨げないようにする。
+        .catch(() => null),
+      p
+        .loadImage(
+          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810",
+          () => {},
+          (err: Event) => {
+            // 失敗をユーザーへ通知するUIがないため、原因調査用にログのみ出力する。
+            // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
+            console.warn("ground image load failed", err);
+          }
+        )
+        .catch(() => null)
+    ]);
     settingInit(p, canvasController);
     elementSelectInit(p);
     elementPositionInit(p);

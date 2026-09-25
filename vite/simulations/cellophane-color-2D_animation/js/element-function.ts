@@ -1,5 +1,6 @@
 // element-function.js は仮想DOMメソッド管理専用のファイルです。
 
+import type p5 from "p5";
 import { state } from "./state.js";
 import { Cellophane } from "./class.js";
 import { createLazyImporter } from "../../../js/bicpema-lazy-import.js";

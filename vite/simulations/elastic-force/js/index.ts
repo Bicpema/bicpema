@@ -16,11 +16,12 @@ const GROUND_IMG_URL =
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
-  p.preload = () => {
-    state.wallImg = p.loadImage(GROUND_IMG_URL);
-  };
-
-  p.setup = () => {
+  p.setup = async () => {
+    try {
+      state.wallImg = await p.loadImage(GROUND_IMG_URL);
+    } catch {
+      // 読み込み失敗時もシミュレーション自体は起動できるようにする
+    }
     canvasController.fullScreen(p);
     elCreate(p);
     initValue(p);

@@ -8,13 +8,14 @@ import { elCreate, initValue, FPS } from "./init.js";
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({ is3D: true });
 
-  p.preload = () => {
-    state.font = p.loadFont(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
-    );
-  };
-
-  p.setup = () => {
+  p.setup = async () => {
+    try {
+      state.font = await p.loadFont(
+        "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
+      );
+    } catch {
+      // 読み込み失敗時もシミュレーション自体は起動できるようにする
+    }
     canvasController.fullScreen(p);
     elCreate(p);
     initValue(p);

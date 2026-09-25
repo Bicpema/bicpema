@@ -452,7 +452,9 @@ export function strataFileInputFunction(file: p5.File, p: p5) {
     state.dataInputArr = {};
     // FileReader を使ってバイナリデータを読み込む
     const reader = new FileReader();
-    reader.readAsArrayBuffer(file.file); // ArrayBuffer で読み込む
+    // p5.jsの型定義ではp5.File.fileがp5.File型を指す自己参照になっており、
+    // 実際の値であるDOM File(Blobを実装)として明示的にキャストする。
+    reader.readAsArrayBuffer(file.file as unknown as Blob); // ArrayBuffer で読み込む
 
     reader.addEventListener("load", () => {
       // UTF-8でデコード
