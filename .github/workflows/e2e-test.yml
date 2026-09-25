@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - "vite/**"
-      - "e2e/**"
+      - "test/e2e/**"
       - "playwright.config.js"
       - "vite.config.js"
       - "package.json"
@@ -15,7 +15,7 @@ on:
       - main
     paths:
       - "vite/**"
-      - "e2e/**"
+      - "test/e2e/**"
       - "playwright.config.js"
       - "vite.config.js"
       - "package.json"
