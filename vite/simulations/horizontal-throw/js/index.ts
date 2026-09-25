@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { loadFontFromUrl } from "../../../js/bicpema-font.js";
 import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { state } from "./state.js";
@@ -10,7 +11,8 @@ const sketch = (p: p5) => {
 
   p.setup = async () => {
     try {
-      state.font = await p.loadFont(
+      state.font = await loadFontFromUrl(
+        p,
         "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
       );
     } catch {

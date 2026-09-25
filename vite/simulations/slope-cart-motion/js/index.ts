@@ -1,6 +1,7 @@
 // index.js - メインのメソッドを呼び出すためのファイルです。
 
 import p5 from "p5";
+import { loadFontFromUrl } from "../../../js/bicpema-font.js";
 import { hideLoadingSpinner } from "../../../js/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { BicpemaCanvasController } from "../../../js/bicpema-canvas-controller.js";
@@ -25,10 +26,10 @@ const sketch = (p: p5) => {
 
   p.setup = async () => {
     [state.font, state.cartImage, state.groundImage] = await Promise.all([
-      p
-        .loadFont(
-          "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
-        )
+      loadFontFromUrl(
+        p,
+        "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
+      )
         // 失敗時もcatchでnullに解決し、他アセットの読み込みやsetup本体の実行を妨げないようにする。
         .catch(() => null),
       p

@@ -145,7 +145,7 @@ vite/simulations/{name}/
 - 再生・停止ボタンは左下に配置する
 - 設定表示ボタンは右上に配置する
 - 重いファイル（フォント、画像等）は [Firebase Storage](https://console.firebase.google.com/project/bicpema/storage) にアップロードし、URL で参照する
-- フォントは `setup()` 内で `loadFont()` を使って非同期ロードし、Firebase Storage が到達不能でもスケッチ起動をブロックしないようにする
+- フォントは `setup()` 内で `vite/js/bicpema-font.ts` の `loadFontFromUrl()` を使って非同期ロードし、Firebase Storage が到達不能でもスケッチ起動をブロックしないようにする（p5.js v2の `loadFont()` にURLを直接渡すとHEADリクエストが送られ、Firebase StorageではCORSエラーになるため）
 
 ## パフォーマンス方針
 

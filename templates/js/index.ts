@@ -17,7 +17,8 @@ const sketch = (p: p5) => {
 
   p.setup = async () => {
     // 画像・フォント等の非同期読み込みが必要な場合はここでawaitする。
-    // const font = await p.loadFont("...");
+    // フォントは ../../../js/bicpema-font.js の loadFontFromUrl() で読み込む。
+    // const font = await loadFontFromUrl(p, "...");
     canvasController.fullScreen(p);
     settingInit(p);
     elementSelectInit(p);
