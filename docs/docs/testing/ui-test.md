@@ -12,7 +12,7 @@ UIテストには [Playwright](https://playwright.dev/) を使用します。
 - 設定パネル（スライダー・トグル等）が正しく動作すること
 - キャンバスのリサイズが正常に行われること
 
-テスト設定は [playwright.config.js](../../../playwright.config.js)、テストコードは `e2e/` 配下に配置します。
+テスト設定は [playwright.config.js](../../../playwright.config.js)、テストコードは `test/e2e/` 配下に配置します。
 
 ## 事前準備
 
@@ -39,14 +39,14 @@ npx playwright test --headed
 特定のシミュレーションのみテストする場合:
 
 ```bash
-npx playwright test e2e/doppler.spec.js
+npx playwright test test/e2e/doppler.spec.js
 ```
 
 ## テストの書き方
 
 シミュレーションのキャンバス要素は p5.js が自動生成する `#defaultCanvas0` というidを持ちます（グラフ描画用の別canvasと区別するため、`canvas` タグではなくこのidで指定します）。
 
-```js title="e2e/doppler.spec.js の例（抜粋）"
+```js title="test/e2e/doppler.spec.js の例（抜粋）"
 import { test, expect } from "@playwright/test";
 
 const CANVAS = "#defaultCanvas0";
@@ -73,7 +73,7 @@ test("スタートボタンの操作でシミュレーションが動き出す",
 });
 ```
 
-再生/一時停止をボタン1つでトグルするシミュレーション（例: `free-fall` の `#playPauseButton`）では、ボタンの表示テキストの変化（`▶ 開始` → `一時停止` → `再開`）で状態切り替えを検証できます。詳細は [e2e/free-fall.spec.js](../../../e2e/free-fall.spec.js)・[e2e/doppler.spec.js](../../../e2e/doppler.spec.js)・[e2e/spring.spec.js](../../../e2e/spring.spec.js) を参照してください。
+再生/一時停止をボタン1つでトグルするシミュレーション（例: `free-fall` の `#playPauseButton`）では、ボタンの表示テキストの変化（`▶ 開始` → `一時停止` → `再開`）で状態切り替えを検証できます。詳細は [test/e2e/free-fall.spec.js](../../../test/e2e/free-fall.spec.js)・[test/e2e/doppler.spec.js](../../../test/e2e/doppler.spec.js)・[test/e2e/spring.spec.js](../../../test/e2e/spring.spec.js) を参照してください。
 
 ## CI での実行
 

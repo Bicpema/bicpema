@@ -1,5 +1,6 @@
 // init.tsは初期処理専用のファイルです。
 
+import type p5 from "p5";
 import { initModal } from "../../../ts/bicpema-modal-controller.js";
 // 再生・一時停止・リセットボタンを使う場合は、以下から必要な関数をimportして
 // elementSelectInit()内でイベント登録・aria-labelの付与を行ってください。

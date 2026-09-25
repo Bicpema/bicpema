@@ -51,7 +51,6 @@
     "docs/.cache/**",
     "package-lock.json",
     "vite/simulations/**",
-    "test/**",
-    "e2e/**"
+    "test/**"
   ]
 }
