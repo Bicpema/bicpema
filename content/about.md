@@ -37,6 +37,7 @@ Bicpema のシミュレーションはブラウザで動作するため、イン
 
 ## 変更履歴
 
+- 2026-09-26: v1.2.0 公開（シミュレーションの操作UI統一・不具合修正、振り子の記事追加など：[詳細](https://github.com/Bicpema/bicpema/releases/tag/v1.2.0)）
 - 2026-09-01: v1.1.1 公開（軽微な改善：[詳細](https://github.com/Bicpema/bicpema/releases/tag/v1.1.1)）
 - 2026-08-25: v1.1.0 公開（オシロスコープの不具合修正など：[詳細](https://github.com/Bicpema/bicpema/releases/tag/v1.1.0)）
 - 2026-06-01: v1.0.6 公開（軽微なバグ修正：[詳細](https://github.com/Bicpema/bicpema/releases/tag/v1.0.6)）
