@@ -24,6 +24,7 @@ bicpema/
 │   ├── post/                 # 記事（各フォルダに index.md）
 │   ├── series/               # シリーズページ
 │   └── tags/                 # タグページ
+├── data/                     # Hugo データファイル・掲載URL一覧（published-urls.yaml）
 ├── docs/                     # 開発者ドキュメント（Zensical）
 ├── e2e/                      # Playwright E2E テスト
 ├── i18n/                     # UI 文言の翻訳ファイル
@@ -75,7 +76,12 @@ Hugo の基本設定ファイルです。サイトの URL、タイトル、使�
 
 ### `firebase.json`
 
-Firebase Hosting の設定ファイルです。Hugo のビルド出力先（`public/`）をホスティングルートとして指定します。
+Firebase Hosting の設定ファイルです。Hugo のビルド出力先（`public/`）をホスティングルートとして指定します。  
+`hosting.redirects` には、名称変更・移転したページの旧URLからのリダイレクトを定義します。外部に掲載されたURLを維持するため、URLを変更する場合は必ずリダイレクトを追加してください（[掲載URLの維持とリダイレクト](../development-flow.md#掲載urlの維持とリダイレクト)）。
+
+### `data/published-urls.yaml`
+
+教科書などの外部出版物に掲載されたURLの一覧です。`npm run check:published-urls`（`scripts/check-published-urls.js`）と CI の `check-published-urls.yml` で、各URLがビルド成果物からアクセス可能か検査します。
 
 ### `scripts/new-simulation.js`
 

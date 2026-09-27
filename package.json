@@ -18,6 +18,7 @@
     "benchmark:performance": "node scripts/benchmark-simulation-performance.js",
     "check:article-links": "node scripts/check-article-simulation-links.js",
     "check:template-compliance": "node scripts/check-simulation-template-compliance.js",
+    "check:published-urls": "node scripts/check-published-urls.js",
     "clean:worktrees": "node scripts/clean-worktrees.js",
     "lint": "oxlint",
     "lint:md": "markdownlint-cli2 \"**/*.md\"",
@@ -37,7 +38,8 @@
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "vite": "^8.3.0",
-    "vitest": "^5.0.2"
+    "vitest": "^5.0.2",
+    "yaml": "^2.9.1"
   },
   "dependencies": {
     "chart.js": "^4.5.1",
