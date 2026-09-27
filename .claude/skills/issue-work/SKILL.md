@@ -29,7 +29,7 @@ Issue単位の作業を、[AGENTS.md](../../../AGENTS.md) の「ブランチ運�
     - 記事の追加・修正、上記に当てはまらない変更: `general-purpose` エージェントまたは自身で対応する
 7. 実装後、変更範囲に応じたチェックが成功することを確認する（[package.json](../../../package.json) の `scripts` を参照）。
     - Markdown: `npm run lint:md` / `npm run format:check`
-    - YAML: `npm run lint:yaml` / `npm run format:check`
+    - YAML: `npm run lint:yaml`
     - JavaScript/TypeScript: `npm run lint` / `npm run typecheck` / `npm test`
     - シミュレーション全般: `npm run build` / `npm run check:template-compliance`
     - 記事: `npm run check:article-links`

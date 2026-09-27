@@ -1,5 +1,6 @@
+---
 # yamllint の設定（https://yamllint.readthedocs.io/en/stable/configuration.html）
-# 整形は Prettier に任せ、Prettier と衝突するルールは無効化・緩和する。
+# YAMLの整形は Prettier ではなく yamllint で検査する（.prettierignore 参照）。
 extends: default
 
 ignore: |
@@ -12,13 +13,6 @@ ignore: |
   .claude/worktrees/
 
 rules:
-  # Prettier は "---" を付与しないため不要とする
-  document-start: disable
-  # 行長は Prettier の printWidth に任せる（SHA固定の uses: 行は80文字を超える）
-  line-length: disable
-  # Prettier はコメント前の空白を1つに整形する
-  comments:
-    min-spaces-from-content: 1
-  # GitHub Actions の "on:" キーを誤検知しないよう、値のみを検査する
-  truthy:
-    check-keys: false
+  # SHA固定の uses: 行（例: `uses: <action>@<SHA40桁>  # vX.Y.Z`）が80文字を超えるため緩和する
+  line-length:
+    max: 100
