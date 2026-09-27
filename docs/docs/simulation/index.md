@@ -152,19 +152,22 @@ vite/simulations/{name}/
 
 シミュレーション間で共通のUIパーツは、`index.html` に `<bicpema-*>` タグで記述します。タグはビルド時に Vite プラグイン（`vite/_build/bicpemaComponents.js`）が共通のマークアップへ展開するため、DOM構造やスタイルを変更する場合は同ファイルを修正するだけで全シミュレーションに反映されます。
 
-| タグ                                                  | 展開後                                                                         | 属性（省略可）                                                                    |
-| ----------------------------------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
-| `<bicpema-nav-bar></bicpema-nav-bar>`                 | ページ上部のナビバー（`#navBar`）                                              | `title`: 表示するタイトル（省略時は `<title>` の内容）                            |
-| `<bicpema-loading-spinner></bicpema-loading-spinner>` | ローディングスピナー（`#loadingSpinner`）                                      | なし                                                                              |
-| `<bicpema-settings-button></bicpema-settings-button>` | 設定モーダルを開くボタン（`.settings-modal-open`）                             | `id`: ボタンのid、`class`: ラッパーの配置クラス（省略時は右上）                   |
-| `<bicpema-settings-modal>…</bicpema-settings-modal>`  | 設定モーダルの外枠（見出し・閉じるボタン）。タグの中身を設定項目として差し込む | `id`（既定: `simulationSettingModal`）、`title`（既定: `シミュレーションの設定`） |
+| タグ                                                  | 展開後                                                                         | 属性（省略可）                                                                                                          |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| `<bicpema-nav-bar></bicpema-nav-bar>`                 | ページ上部のナビバー（`#navBar`）                                              | `title`: 表示するタイトル（省略時は `<title>` の内容）                                                                  |
+| `<bicpema-loading-spinner></bicpema-loading-spinner>` | ローディングスピナー（`#loadingSpinner`）                                      | なし                                                                                                                    |
+| `<bicpema-settings-button></bicpema-settings-button>` | 設定モーダルを開くボタン（`.settings-modal-open`）                             | `id`: ボタンのid、`class`: ラッパーの配置クラス（省略時は右上）                                                         |
+| `<bicpema-settings-modal>…</bicpema-settings-modal>`  | 設定モーダルの外枠（見出し・閉じるボタン）。タグの中身を設定項目として差し込む | `id`（既定: `simulationSettingModal`）、`title`（既定: `シミュレーションの設定`）、`variant`、`panel-class`（下記参照） |
 
 - 閉じタグは省略できません。未知のタグ名や展開できないタグがあるとビルドエラーになります
 - HTMLコメント内のタグは展開されません（コメントアウトした利用例をそのまま残せます）
 - 開閉などの振る舞いは従来どおり `initModal()`（`vite/ts/bicpema-modal-controller.ts`）・`hideLoadingSpinner()`（`vite/ts/bicpema-loading-spinner.ts`）が担います
 - 実行時にJSで挿入せずビルド時に展開するのは、ローディングスピナーをJSバンドル読み込み前から表示し、`#navBar` の高さを `BicpemaCanvasController` の初期化前に確定させるためです
 - `npm run dev`（`vite build --watch`）の実行中に `vite/_build/bicpemaComponents.js` を変更した場合は、変更を反映するため `npm run dev` を再起動してください
-- ナビバー・ローディングスピナーを手書きしている場合、`npm run check:template-compliance` がエラーにします
+- `<bicpema-settings-modal>` の `variant` は `light`（既定。背景を暗くした白いモーダル）と `dark`（`.modal-panel` の暗色パネル。背景を暗くせず、設定を変えながらシミュレーションを見られる）から選びます
+- `<bicpema-settings-modal>` の `panel-class` にはパネルの幅を指定します。`light` では既定の `w-full max-w-lg` を置き換え、`dark` では `.modal-panel` の幅を上書きします（例: `panel-class="w-[340px] max-[576px]:w-[290px]"`）
+- 閉じるボタンは `id` を持たないため、`initModal()` の `closeSelectors` には `#<モーダルのid> .modal-close` を指定します
+- ナビバー・ローディングスピナー・設定ボタン（`.settings-modal-open` / `.btn-settings-modal-open`）・設定モーダル（`.modal-panel` / `.modal-close`）を手書きしている場合、`npm run check:template-compliance` がエラーにします。データ登録用など設定以外の目的のモーダルを手書きする場合は、`scripts/template-compliance-allowlist.js` の `NON_SETTINGS_MODAL_SLUGS` に追加してください
 
 ## パフォーマンス方針
 

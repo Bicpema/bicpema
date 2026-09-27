@@ -54,7 +54,7 @@ export function elCreate(p: p5) {
   initModal({
     openSelectors: "#toggleModal",
     modalSelector: "#settingsModal",
-    closeSelectors: "#closeModal"
+    closeSelectors: "#settingsModal .modal-close"
   });
 
   document.querySelectorAll('input[name="qValue"]').forEach((r) => {

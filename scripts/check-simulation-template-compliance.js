@@ -1,5 +1,6 @@
 // vite/simulations/ 配下の各シミュレーションが、templates/の必須構成
-// （<bicpema-nav-bar> / id="p5Container" / id="p5Canvas"、ts/index.tsを
+// （<bicpema-nav-bar> / id="p5Container" / id="p5Canvas"、設定ボタン・設定モーダルの
+// 共通コンポーネント利用、ts/index.tsを
 // <script type="module">で読み込む構成、共通のBicpemaCanvasControllerの
 // 利用）から外れていないかを検査する。
 //
@@ -9,7 +10,10 @@
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { checkSimulationTemplateCompliance } from "./_lib/checkSimulationTemplateCompliance.js";
-import { TEMPLATE_COMPLIANCE_ALLOWLIST } from "./template-compliance-allowlist.js";
+import {
+  NON_SETTINGS_MODAL_SLUGS,
+  TEMPLATE_COMPLIANCE_ALLOWLIST
+} from "./template-compliance-allowlist.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
@@ -25,6 +29,10 @@ const ISSUE_DESCRIPTIONS = {
     'ナビバー（id="navBar"）が手書きされています。<bicpema-nav-bar>を利用してください',
   "inline-loading-spinner":
     'ローディングスピナー（id="loadingSpinner"）が手書きされています。<bicpema-loading-spinner>を利用してください',
+  "inline-settings-button":
+    "設定ボタン（.settings-modal-open）が手書きされています。<bicpema-settings-button>を利用してください",
+  "inline-settings-modal":
+    "設定モーダル（.modal-panel / .modal-close）が手書きされています。<bicpema-settings-modal>を利用してください",
   "missing-p5-container": 'id="p5Container"を持つ要素がありません',
   "missing-p5-canvas": 'id="p5Canvas"を持つ要素がありません',
   "non-canonical-canvas-controller":
@@ -33,7 +41,8 @@ const ISSUE_DESCRIPTIONS = {
 
 const result = checkSimulationTemplateCompliance({
   simulationsDir: resolve(rootDir, "vite", "simulations"),
-  allowedNonCompliantSlugs: TEMPLATE_COMPLIANCE_ALLOWLIST
+  allowedNonCompliantSlugs: TEMPLATE_COMPLIANCE_ALLOWLIST,
+  nonSettingsModalSlugs: NON_SETTINGS_MODAL_SLUGS
 });
 
 let hasError = false;
@@ -60,6 +69,16 @@ if (result.staleAllowlistSlugs.length > 0) {
     "scripts/template-compliance-allowlist.js に不要なエントリがあります（シミュレーションが存在しないか、既にテンプレートへ準拠しています）:"
   );
   for (const slug of result.staleAllowlistSlugs) {
+    console.error(`  ${slug}`);
+  }
+}
+
+if (result.staleNonSettingsModalSlugs.length > 0) {
+  hasError = true;
+  console.error(
+    "scripts/template-compliance-allowlist.js のNON_SETTINGS_MODAL_SLUGSに不要なエントリがあります（シミュレーションが存在しないか、手書きのモーダルがありません）:"
+  );
+  for (const slug of result.staleNonSettingsModalSlugs) {
     console.error(`  ${slug}`);
   }
 }

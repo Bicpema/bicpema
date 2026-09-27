@@ -33,7 +33,7 @@ test("設定パネルの開閉ができる", async ({ page }) => {
   await page.locator("#settingsButton").click();
   await expect(modal).toBeVisible();
 
-  await page.locator("#closeModal").click();
+  await page.locator("#settingsModal .modal-close").click();
   await expect(modal).toBeHidden();
 });
 

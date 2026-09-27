@@ -51,7 +51,7 @@ export function elCreate(p: p5) {
 export function uiInit() {
   initModal({
     openSelectors: ".settings-modal-open",
-    modalSelector: "#settingsModal",
+    modalSelector: "#simulationSettingModal",
     closeSelectors: ".modal-close"
   });
 }

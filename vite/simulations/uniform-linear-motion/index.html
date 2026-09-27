@@ -42,101 +42,67 @@
         </button>
       </div>
 
-      <button
-        type="button"
-        class="settings-modal-open fixed top-[72px] right-4 z-[1100] btn-settings-modal-open"
-        id="modalButton"
-        aria-label="シミュレーションの設定"
-      >
-        ⚙ 設定
-      </button>
+      <bicpema-settings-button
+        class="fixed top-[72px] right-4 z-[1100]"
+      ></bicpema-settings-button>
 
-      <div
-        id="modal"
-        class="fixed inset-0 z-[1100] hidden flex items-center justify-center bg-black/50"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="modalLabel"
-        aria-hidden="true"
-        tabindex="-1"
-      >
-        <div class="w-full max-w-lg rounded bg-white p-4 text-neutral-900">
-          <div
-            class="mb-3 flex items-center justify-between border-b border-neutral-200 pb-2"
-          >
-            <h1 class="text-lg font-semibold" id="modalLabel">
-              シミュレーション設定
-            </h1>
-            <button
-              type="button"
-              class="modal-close modal-close-icon"
-              aria-label="Close"
+      <bicpema-settings-modal title="シミュレーション設定">
+        <div>
+          <div class="mb-4 flex items-center gap-2" id="scaleCheckBoxParent">
+            <input
+              class="h-4 w-4 accent-blue-600"
+              type="checkbox"
+              id="scaleCheckBox"
+              checked
+            />
+            <label class="text-sm" for="scaleCheckBox"
+              >スケールの表示・非表示</label
             >
-              &times;
-            </button>
           </div>
-          <div>
-            <div class="mb-4 flex items-center gap-2" id="scaleCheckBoxParent">
-              <input
-                class="h-4 w-4 accent-blue-600"
-                type="checkbox"
-                id="scaleCheckBox"
-                checked
-              />
-              <label class="text-sm" for="scaleCheckBox"
-                >スケールの表示・非表示</label
-              >
-            </div>
-            <div class="mb-3 mt-3 flex">
-              <span
-                class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
-                id="yellowCarSpeedLabel"
-                >黄色い車の速度</span
-              >
-              <input
-                type="number"
-                min="1"
-                max="20"
-                class="min-w-0 flex-1 border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-                placeholder="cm/s"
-                aria-describedby="yellowCarSpeedLabel"
-                id="yellowCarSpeedInput"
-                value="3"
-              />
-              <span
-                class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
-                >cm/s</span
-              >
-            </div>
-            <div class="mb-3 mt-3 flex">
-              <span
-                class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
-                id="redCarSpeedLabel"
-                >赤い車の速度</span
-              >
-              <input
-                type="number"
-                min="1"
-                max="20"
-                class="min-w-0 flex-1 border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
-                placeholder="cm/s"
-                aria-describedby="redCarSpeedLabel"
-                id="redCarSpeedInput"
-                value="2"
-              />
-              <span
-                class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
-                >cm/s</span
-              >
-            </div>
+          <div class="mb-3 mt-3 flex">
+            <span
+              class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+              id="yellowCarSpeedLabel"
+              >黄色い車の速度</span
+            >
+            <input
+              type="number"
+              min="1"
+              max="20"
+              class="min-w-0 flex-1 border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+              placeholder="cm/s"
+              aria-describedby="yellowCarSpeedLabel"
+              id="yellowCarSpeedInput"
+              value="3"
+            />
+            <span
+              class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+              >cm/s</span
+            >
           </div>
-          <div class="flex justify-end border-t border-neutral-200 pt-2">
-            <button type="button" class="modal-close modal-close-outline">
-              閉じる
-            </button>
+          <div class="mb-3 mt-3 flex">
+            <span
+              class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+              id="redCarSpeedLabel"
+              >赤い車の速度</span
+            >
+            <input
+              type="number"
+              min="1"
+              max="20"
+              class="min-w-0 flex-1 border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+              placeholder="cm/s"
+              aria-describedby="redCarSpeedLabel"
+              id="redCarSpeedInput"
+              value="2"
+            />
+            <span
+              class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700"
+              >cm/s</span
+            >
           </div>
         </div>
-      </div>
+      </bicpema-settings-modal>
     </div>
     <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
     <bicpema-loading-spinner></bicpema-loading-spinner>

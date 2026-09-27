@@ -27,7 +27,7 @@ test("スタートボタンの操作でシミュレーションが動き出す",
 });
 
 test("設定パネルの開閉ができる", async ({ page }) => {
-  const modal = page.locator("#settingModal");
+  const modal = page.locator("#simulationSettingModal");
   await expect(modal).toBeHidden();
 
   await page.locator(".settings-modal-open").click();

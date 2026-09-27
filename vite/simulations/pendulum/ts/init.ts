@@ -53,7 +53,7 @@ export function elCreate(p: p5) {
 
   initModal({
     openSelectors: ".settings-modal-open",
-    modalSelector: "#exampleModal",
+    modalSelector: "#simulationSettingModal",
     closeSelectors: ".modal-close"
   });
 }

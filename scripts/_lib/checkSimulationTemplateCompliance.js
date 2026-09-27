@@ -8,8 +8,8 @@ import { join } from "node:path";
 // - エントリーポイント（ts/index.ts）が存在し、
 //   index.htmlから<script type="module">で読み込まれているか
 // - ナビバー（<bicpema-nav-bar>）/ id="p5Container" / id="p5Canvas" を持つ要素があるか
-// - ナビバー・ローディングスピナーを共通コンポーネント（<bicpema-*>タグ）を
-//   使わずに手書きでコピーしていないか（#621の再発防止）
+// - ナビバー・ローディングスピナー・設定ボタン・設定モーダルを共通コンポーネント
+//   （<bicpema-*>タグ）を使わずに手書きでコピーしていないか（#621・#747の再発防止）
 // - BicpemaCanvasControllerを利用している場合、シミュレーション固有の
 //   複製ファイルではなく共通の vite/ts/bicpema-canvas-controller.js を
 //   参照しているか（#79の再発防止）
@@ -17,6 +17,13 @@ const CANVAS_CONTROLLER_IMPORT_PATTERN =
   /from\s+(["'])([^"']*bicpema-canvas-controller\.js)\1/;
 const CANONICAL_CANVAS_CONTROLLER_IMPORT_PATH =
   "../../../ts/bicpema-canvas-controller.js";
+// 設定ボタンのフック用クラス（.settings-modal-open）・見た目用クラス（.btn-settings-modal-open）
+const INLINE_SETTINGS_BUTTON_PATTERN =
+  /class="(?:[^"]*\s)?(?:btn-)?settings-modal-open(?:\s[^"]*)?"/;
+// 設定モーダルの外枠（暗色パネル・閉じるボタン）のクラス。
+// csv-example-modal-close のような別名クラスは対象外とする
+const INLINE_SETTINGS_MODAL_PATTERN =
+  /class="(?:[^"]*\s)?(?:modal-panel|modal-close)(?:\s[^"]*)?"/;
 const ENTRY_SCRIPT_CANDIDATES = ["ts/index.ts"];
 const JS_FILE_EXTENSIONS = [".js", ".ts"];
 
@@ -88,6 +95,12 @@ export function findSimulationTemplateIssues(simulationDir) {
     issues.push("missing-nav-bar");
   }
   if (/id="loadingSpinner"/.test(html)) issues.push("inline-loading-spinner");
+  if (INLINE_SETTINGS_BUTTON_PATTERN.test(html)) {
+    issues.push("inline-settings-button");
+  }
+  if (INLINE_SETTINGS_MODAL_PATTERN.test(html)) {
+    issues.push("inline-settings-modal");
+  }
   if (!/id="p5Container"/.test(html)) issues.push("missing-p5-container");
   if (!/id="p5Canvas"/.test(html)) issues.push("missing-p5-canvas");
 
@@ -121,21 +134,34 @@ export function findSimulationTemplateIssues(simulationDir) {
  * @param {object} options
  * @param {string} options.simulationsDir
  * @param {string[]} [options.allowedNonCompliantSlugs] 既知の非準拠として許容するslug
+ * @param {string[]} [options.nonSettingsModalSlugs] 設定以外の目的の
+ *   モーダル（データ登録用など）を手書きしており、inline-settings-modalを許容するslug
  * @returns {{
  *   violations: { slug: string, issues: string[] }[],
  *   staleAllowlistSlugs: string[],
+ *   staleNonSettingsModalSlugs: string[],
  * }}
  */
 export function checkSimulationTemplateCompliance({
   simulationsDir,
-  allowedNonCompliantSlugs = []
+  allowedNonCompliantSlugs = [],
+  nonSettingsModalSlugs = []
 }) {
   const slugs = getSimulationSlugs(simulationsDir);
   const allowedSet = new Set(allowedNonCompliantSlugs);
+  const nonSettingsModalSet = new Set(nonSettingsModalSlugs);
 
   const allIssuesBySlug = new Map();
+  /** @type {Set<string>} */
+  const inlineModalSlugs = new Set();
   for (const slug of slugs) {
-    const issues = findSimulationTemplateIssues(join(simulationsDir, slug));
+    let issues = findSimulationTemplateIssues(join(simulationsDir, slug));
+    if (issues.includes("inline-settings-modal")) {
+      inlineModalSlugs.add(slug);
+      if (nonSettingsModalSet.has(slug)) {
+        issues = issues.filter((issue) => issue !== "inline-settings-modal");
+      }
+    }
     if (issues.length > 0) {
       allIssuesBySlug.set(slug, issues);
     }
@@ -153,5 +179,10 @@ export function checkSimulationTemplateCompliance({
     (slug) => !slugSet.has(slug) || !allIssuesBySlug.has(slug)
   );
 
-  return { violations, staleAllowlistSlugs };
+  // 手書きのモーダルがなくなったslugは、許容リストの掃除忘れとして検出する
+  const staleNonSettingsModalSlugs = nonSettingsModalSlugs.filter(
+    (slug) => !inlineModalSlugs.has(slug)
+  );
+
+  return { violations, staleAllowlistSlugs, staleNonSettingsModalSlugs };
 }

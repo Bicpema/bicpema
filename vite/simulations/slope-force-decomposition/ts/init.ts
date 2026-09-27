@@ -16,7 +16,7 @@ export function elCreate(p: p5) {
   initModal({
     openSelectors: "#toggleModal",
     modalSelector: "#settingsModal",
-    closeSelectors: "#closeModal"
+    closeSelectors: "#settingsModal .modal-close"
   });
   if (state.slopeAngleInput) {
     state.slopeAngleInput.input(() => onSlopeAngleChange());

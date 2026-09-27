@@ -33,7 +33,7 @@ test("設定パネルの開閉ができる", async ({ page }) => {
   await page.locator("#toggleModal").click();
   await expect(modal).toBeVisible();
 
-  await page.locator("#closeModal").click();
+  await page.locator("#settingsModal .modal-close").click();
   await expect(modal).toBeHidden();
 });
 
@@ -44,7 +44,7 @@ test("高さ設定の変更でボールの表示位置が変わる", async ({ pa
   const before = await canvas.screenshot();
 
   await page.locator("#heightInput").fill("100");
-  await page.locator("#closeModal").click();
+  await page.locator("#settingsModal .modal-close").click();
   const after = await canvas.screenshot();
 
   expect(before.equals(after)).toBe(false);

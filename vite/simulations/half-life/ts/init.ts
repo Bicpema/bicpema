@@ -1,5 +1,5 @@
 import type p5 from "p5";
-import { initCollapse } from "../../../ts/bicpema-modal-controller.js";
+import { initModal } from "../../../ts/bicpema-modal-controller.js";
 import { bindToggleControls } from "../../../ts/bicpema-controls-controller.js";
 import { state } from "./state.js";
 import { initAtoms } from "./logic.js";
@@ -29,9 +29,10 @@ export function elementSelectInit(p: p5) {
   state.materialRadios = document.querySelectorAll<HTMLInputElement>(
     'input[name="material"]'
   );
-  initCollapse({
-    toggleSelectors: "#settingsButton",
-    targetSelector: "#settingsPanel"
+  initModal({
+    openSelectors: "#settingsButton",
+    modalSelector: "#simulationSettingModal",
+    closeSelectors: "#simulationSettingModal .modal-close"
   });
 }
 
@@ -66,19 +67,6 @@ export function elementPositionInit(p: p5) {
     settingsBtnWrapper.style.left = "auto";
     settingsBtnWrapper.style.bottom = "auto";
     settingsBtnWrapper.style.zIndex = "100";
-  }
-
-  // 設定パネル: 設定ボタンの下
-  const settingsPanel = document.getElementById("settingsPanel");
-  if (settingsPanel) {
-    const panelWidth = Math.min(280, rect.width * 0.35);
-    settingsPanel.style.position = "fixed";
-    settingsPanel.style.right = `${window.innerWidth - rect.right + margin}px`;
-    settingsPanel.style.top = `${rect.top + 50 + margin}px`;
-    settingsPanel.style.left = "auto";
-    settingsPanel.style.bottom = "auto";
-    settingsPanel.style.width = `${panelWidth}px`;
-    settingsPanel.style.zIndex = "99";
   }
 }
 

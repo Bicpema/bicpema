@@ -37,7 +37,7 @@ export function elCreate(p: p5) {
   initModal({
     openSelectors: "#settingsButton",
     modalSelector: "#settingsModal",
-    closeSelectors: "#closeModal"
+    closeSelectors: "#settingsModal .modal-close"
   });
   p.select("#speedInput")!.input(onSpeedInputChange);
 }

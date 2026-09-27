@@ -14,12 +14,14 @@
 //   <bicpema-loading-spinner></bicpema-loading-spinner>
 //   <bicpema-settings-button></bicpema-settings-button>
 //   <bicpema-settings-modal>...設定項目...</bicpema-settings-modal>
+//   <bicpema-settings-modal variant="dark" panel-class="w-[340px]">...</bicpema-settings-modal>
 //
 // ※ このファイルのクラス名はvite/css/tailwind.cssの@sourceで
 //   Tailwindの検出対象に含めている。
 
 const DEFAULT_SETTINGS_LABEL = "シミュレーションの設定";
 const DEFAULT_SETTINGS_MODAL_ID = "simulationSettingModal";
+const DEFAULT_LIGHT_PANEL_WIDTH_CLASS = "w-full max-w-lg";
 const DEFAULT_SETTINGS_BUTTON_POSITION_CLASS =
   "absolute top-5 right-5 z-[1000] max-[576px]:top-2.5 max-[576px]:right-2.5";
 
@@ -108,23 +110,42 @@ export function renderSettingsButton({
  * 設定モーダルの外枠（オーバーレイ・見出し・閉じるボタン）。
  * 設定項目はシミュレーション固有のため、bodyHtmlとして差し込む。
  * 開閉はinitModal()の`.modal-close`で行う。
- * @param {{ id?: string, title?: string, bodyHtml: string }} options
+ * @param {{
+ *   id?: string,
+ *   title?: string,
+ *   variant?: string,
+ *   panelClass?: string,
+ *   bodyHtml: string
+ * }} options
+ *   variant: "light"（既定。白背景）または"dark"（.modal-panelの暗色パネル）。
+ *   panelClass: パネルの幅を指定するクラス。lightでは既定の"w-full max-w-lg"を置き換え、
+ *   darkでは.modal-panelの幅（w-[350px]等）をユーティリティクラスで上書きする。
  * @returns {string}
  */
 export function renderSettingsModal({
   id = DEFAULT_SETTINGS_MODAL_ID,
   title = DEFAULT_SETTINGS_LABEL,
+  variant = "light",
+  panelClass,
   bodyHtml
 }) {
+  if (variant !== "light" && variant !== "dark") {
+    throw new Error(
+      `<bicpema-settings-modal>のvariantは"light"または"dark"を指定してください: ${variant}`
+    );
+  }
   const labelId = `${id}Label`;
-  return `<div
-      class="fixed inset-0 z-[1100] hidden flex items-center justify-center bg-black/50"
-      id="${escapeAttribute(id)}"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="${escapeAttribute(labelId)}"
-    >
-      <div class="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded bg-white p-4 text-neutral-900">
+  const widthClass = escapeAttribute(
+    panelClass ?? (variant === "dark" ? "" : DEFAULT_LIGHT_PANEL_WIDTH_CLASS)
+  );
+  const panel =
+    variant === "dark"
+      ? `<div class="${["modal-panel max-h-[85vh] overflow-y-auto", widthClass].filter(Boolean).join(" ")}">
+        <h1 class="mb-5 text-center text-lg font-semibold text-white" id="${escapeAttribute(labelId)}">${title}</h1>
+        ${bodyHtml.trim()}
+        <button type="button" class="modal-close modal-close-solid mt-2">閉じる</button>
+      </div>`
+      : `<div class="max-h-[85vh] ${widthClass} overflow-y-auto rounded bg-white p-4 text-neutral-900">
         <div class="mb-3 flex items-center justify-between border-b border-neutral-200 pb-2">
           <h1 class="text-lg font-semibold" id="${escapeAttribute(labelId)}">${title}</h1>
           <button type="button" class="modal-close modal-close-icon" aria-label="閉じる">&times;</button>
@@ -133,7 +154,17 @@ export function renderSettingsModal({
         <div class="flex justify-end border-t border-neutral-200 pt-2">
           <button type="button" class="modal-close modal-close-outline">閉じる</button>
         </div>
-      </div>
+      </div>`;
+  // 暗色パネルは設定を変えながらシミュレーションを見られるよう、背景を暗くしない
+  const overlayClass = variant === "dark" ? "" : " bg-black/50";
+  return `<div
+      class="fixed inset-0 z-[1100] hidden flex items-center justify-center${overlayClass}"
+      id="${escapeAttribute(id)}"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="${escapeAttribute(labelId)}"
+    >
+      ${panel}
     </div>`;
 }
 
@@ -185,6 +216,8 @@ function expandMasked(html, pageTitle) {
           return renderSettingsModal({
             id: attributes.id,
             title: attributes.title,
+            variant: attributes.variant,
+            panelClass: attributes["panel-class"],
             bodyHtml: innerHtml
           });
         default:
