@@ -46,6 +46,7 @@ description: "WORKFLOW SKILL — templates/ 配下のテンプレートを使っ
     - テンプレートが使っている Material Design の足場（MDC Web / Material Web Components）で UI コントロールを作る。
     - 配色、タイポグラフィ、余白などがデザインシステムに準拠していることを確認する。
     - 新しいコントロール（スライダー、ボタン、カードなど）が必要なら、テンプレート内の既存パターンに従って追加する。
+    - ボタン等のアイコンは `<svg>` をべた書きせず、`<bicpema-icon name="camera" size="20"></bicpema-icon>` のように共通コンポーネントで記述する（アイコン名は [Bootstrap Icons](https://icons.getbootstrap.com/) を参照）。アイコンのみのボタンには `aria-label` を付与する。詳細は [共通UIコンポーネント](../../../docs/docs/simulation/index.md#共通uiコンポーネント) を参照。
 
 6. **インタラクションを検証する**
     - ローカルでシミュレーションを動かす（例：`index.html` をブラウザで開く、または簡易サーバーを起動する）。

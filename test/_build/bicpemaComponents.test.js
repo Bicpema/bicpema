@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   expandBicpemaComponents,
   parseAttributes,
+  renderIcon,
   renderLoadingSpinner,
   renderNavBar,
   renderSettingsButton,
@@ -23,6 +24,42 @@ describe("parseAttributes", () => {
       id: "a",
       "data-x": "b c"
     });
+  });
+});
+
+describe("renderIcon", () => {
+  it("Bootstrap IconsのSVGを指定サイズ・追加クラス付きで返す", () => {
+    const svg = renderIcon({ name: "camera", size: "20", className: "pb-1" });
+
+    expect(svg).toMatch(/^<svg [^>]*>[\s\S]*<\/svg>$/);
+    expect(svg).toContain('width="20" height="20"');
+    expect(svg).toContain('class="bi bi-camera pb-1"');
+    expect(svg).toContain('viewBox="0 0 16 16"');
+    expect(svg).toContain('fill="currentColor"');
+    expect(svg).toContain("<path ");
+  });
+
+  it("装飾目的のためaria-hidden属性を付与する", () => {
+    expect(renderIcon({ name: "camera" })).toContain('aria-hidden="true"');
+  });
+
+  it("sizeを省略した場合は16pxにする", () => {
+    expect(renderIcon({ name: "camera" })).toContain('width="16" height="16"');
+  });
+
+  it("存在しないアイコン名はエラーにする", () => {
+    expect(() => renderIcon({ name: "no-such-icon" })).toThrow("no-such-icon");
+  });
+
+  it("パス区切りなどを含む不正な名前はエラーにする", () => {
+    expect(() => renderIcon({ name: "../package" })).toThrow("nameが不正です");
+  });
+
+  it("nameがない場合・sizeが整数でない場合はエラーにする", () => {
+    expect(() => renderIcon({ name: "" })).toThrow("name属性が必要です");
+    expect(() => renderIcon({ name: "camera", size: "20px" })).toThrow(
+      "sizeはpx単位の整数"
+    );
   });
 });
 
@@ -153,6 +190,33 @@ describe("expandBicpemaComponents", () => {
 
     expect(html).toContain("<!-- 質量 --><input />");
     expect(html).not.toContain("bicpema-settings-modal");
+  });
+
+  it("<bicpema-icon>をSVGアイコンへ展開する", () => {
+    const html = expandBicpemaComponents(
+      page(
+        '<button>撮影<bicpema-icon name="camera" size="20" class="pb-1"></bicpema-icon></button>'
+      )
+    );
+
+    expect(html).toContain(
+      `<button>撮影${renderIcon({ name: "camera", size: "20", className: "pb-1" })}</button>`
+    );
+    expect(html).not.toContain("bicpema-icon");
+  });
+
+  it("設定モーダルの中身に含まれる<bicpema-icon>も展開する", () => {
+    const html = expandBicpemaComponents(
+      page(
+        '<bicpema-settings-modal>\n<button><bicpema-icon\n  name="plus-circle"\n  size="20"\n></bicpema-icon>追加</button>\n</bicpema-settings-modal>'
+      )
+    );
+
+    expect(html).toContain(
+      `<button>${renderIcon({ name: "plus-circle", size: "20" })}追加</button>`
+    );
+    expect(html).toContain('id="simulationSettingModal"');
+    expect(html).not.toContain("bicpema-");
   });
 
   it("HTMLコメント内のタグは展開しない", () => {
