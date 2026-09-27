@@ -13,7 +13,7 @@
 - `docs/` : 開発者ドキュメント（Zensical）を格納するフォルダー
 - `i18n/` : 多言語対応の翻訳ファイルを格納するフォルダー
 - `layouts/` : サイトのレイアウトテンプレートを格納するフォルダー
-- `scripts/` : シミュレーションの雛形生成・検証・ベンチマーク用のスクリプトを格納するフォルダー
+- `scripts/` : シミュレーションの雛形生成・検証・ベンチマーク、開発環境の保守用のスクリプトを格納するフォルダー
 - `static/` : CSS、JavaScript、画像などの静的ファイルを格納するフォルダー
 - `templates/` : シミュレーションの雛形テンプレートファイルを格納するフォルダー
 - `test/` : テストを格納するフォルダー
@@ -98,6 +98,7 @@
 
 - `main` へのマージは必ずPull Request経由で行い、`main` への直接pushは行いません。CIのグリーンとレビュー承認を確認してからマージしてください。
 - マージ後、作業ブランチ（リモート・ローカルおよび使用したworktree）は速やかに削除してください。
+- worktreeの削除漏れは `npm run clean:worktrees` で確認してください。`.claude/worktrees/` 配下のworktreeのうち、対応するPRがマージ済みのものを一覧表示します。`npm run clean:worktrees -- --delete` を付けると、worktreeとローカルブランチを削除します。PRのマージ状態はGitHub CLI（`gh`）で取得します。マージ後に追加コミットがあるworktreeと、未コミットの変更が残るworktreeは削除しません。
 - 本リポジトリでは[スタックプルリクエスト](https://docs.github.com/en/pull-requests/how-tos/stacked-pull-requests)（`gh stack`）は採用していません。
 
 ## Pull Requestの作成手順

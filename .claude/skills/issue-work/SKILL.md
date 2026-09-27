@@ -37,7 +37,7 @@ Issue単位の作業を、[AGENTS.md](../../../AGENTS.md) の「ブランチ運�
 10. ユーザーに完了を報告し、後始末（worktree・ブランチ削除）を実施してよいか確認する。承認後、リポジトリルートに戻り以下を実施する。
     - `git worktree remove .claude/worktrees/issue<Issue番号>`
     - `git branch -d <ブランチ名>`（push済みでマージ待ちのブランチを誤って破棄しないよう、強制削除の `-D` は使用しない）
-11. `git worktree list` で後始末後の一覧を確認し、削除漏れがないことを報告する。
+11. `git worktree list` で後始末後の一覧を確認し、削除漏れがないことを報告する。あわせて `npm run clean:worktrees` を実行し、過去の作業で残ったマージ済みworktreeがあれば、ユーザーに確認したうえで `npm run clean:worktrees -- --delete` で削除する。
 
 ## 中断時の後始末
 
