@@ -126,8 +126,8 @@
 
 1. [Issues](https://github.com/Bicpema/bicpema/issues) から「New issue」をクリックし、目的に応じたテンプレートを選択します。
     - `general-template.md` — 汎用テンプレート（不具合報告も含む）
-    - `simulation-create-template.md` / `simulation-mentenance-template.md` — シミュレーションの新規作成／メンテナンス
-    - `article-create-template.md` / `article-mentenance-template copy.md` — 記事の新規作成／メンテナンス
+    - `simulation-create-template.md` / `simulation-maintenance-template.md` — シミュレーションの新規作成／メンテナンス
+    - `article-create-template.md` / `article-maintenance-template.md` — 記事の新規作成／メンテナンス
     - `copilot-issue.md` — GitHub Copilot Coding Agentへの依頼用
 1. 作成前に、既存の重複Issueがないか検索して確認してください。
 1. タイトルと内容を記入し、[development-flow.md のラベル一覧](docs/docs/development-flow.md#ラベル一覧)から適切なラベルを付与してください。
