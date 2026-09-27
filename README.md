@@ -167,6 +167,12 @@ bicpema
     └── simulations # シミュレーションのHTML, CSS, TS
 ```
 
+## License
+
+- ソースコードには[MIT License](./LICENSE)が適用される。
+- 記事・画像・シミュレーションの画面などのコンテンツには、公開サイトの[利用規約](https://bicpema.com/terms/)が適用される（授業・自習での利用や改変は自由、出版物・商用教材への掲載は要連絡）。規約の本文は[`content/terms.md`](./content/terms.md)で管理する。
+- サードパーティライブラリ・フォントのライセンスは[`content/licenses.md`](./content/licenses.md)を参照。
+
 ## Others
 
 - `main`ブランチにマージすると、GitHub Actionsで自動的にデプロイされる。

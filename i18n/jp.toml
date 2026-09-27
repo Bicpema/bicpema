@@ -23,6 +23,7 @@ powered_by = "Powered by {{ .Generator }} {{ .Heart }} {{ .Theme }}"
 copyright_with_since ="{{ .CopyrightSign }} {{ .SinceYear }} - {{ .CurrentYear }} {{ .Copyright }}"
 copyright_wo_since ="{{ .CopyrightSign }} {{ .CurrentYear }} {{ .Copyright }}"
 licenses = "ライセンス"
+terms = "利用規約"
 
 [paginator]
 newer_posts = "前へ"
