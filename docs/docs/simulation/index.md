@@ -141,11 +141,30 @@ vite/simulations/{name}/
 ## 実装上の注意
 
 - スクロールが発生しないよう、`html, body { overflow: hidden; height: 100%; }` を設定する
+- ナビバー・ローディングスピナー・設定ボタン・設定モーダルの外枠は、マークアップを手書きせず[共通UIコンポーネント](#共通uiコンポーネント)の `<bicpema-*>` タグで記述する
 - 設定モーダル・操作ボタン・フォーム部品などシミュレーション間で共通のUIパーツは、ユーティリティクラスを個別に並べる前に `vite/css/tailwind.css` の `@layer components`（`.modal-panel` / `.btn-settings-modal-open` / `.form-control` 等）に既存のコンポーネントクラスがないか確認し、再利用する
 - 再生・停止ボタンは左下に配置する
 - 設定表示ボタンは右上に配置する
 - 重いファイル（フォント、画像等）は [Firebase Storage](https://console.firebase.google.com/project/bicpema/storage) にアップロードし、URL で参照する
 - フォントは `setup()` 内で `loadFont()` を使って非同期ロードし、Firebase Storage が到達不能でもスケッチ起動をブロックしないようにする
+
+## 共通UIコンポーネント
+
+シミュレーション間で共通のUIパーツは、`index.html` に `<bicpema-*>` タグで記述します。タグはビルド時に Vite プラグイン（`vite/_build/bicpemaComponents.js`）が共通のマークアップへ展開するため、DOM構造やスタイルを変更する場合は同ファイルを修正するだけで全シミュレーションに反映されます。
+
+| タグ                                                  | 展開後                                                                         | 属性（省略可）                                                                    |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| `<bicpema-nav-bar></bicpema-nav-bar>`                 | ページ上部のナビバー（`#navBar`）                                              | `title`: 表示するタイトル（省略時は `<title>` の内容）                            |
+| `<bicpema-loading-spinner></bicpema-loading-spinner>` | ローディングスピナー（`#loadingSpinner`）                                      | なし                                                                              |
+| `<bicpema-settings-button></bicpema-settings-button>` | 設定モーダルを開くボタン（`.settings-modal-open`）                             | `id`: ボタンのid、`class`: ラッパーの配置クラス（省略時は右上）                   |
+| `<bicpema-settings-modal>…</bicpema-settings-modal>`  | 設定モーダルの外枠（見出し・閉じるボタン）。タグの中身を設定項目として差し込む | `id`（既定: `simulationSettingModal`）、`title`（既定: `シミュレーションの設定`） |
+
+- 閉じタグは省略できません。未知のタグ名や展開できないタグがあるとビルドエラーになります
+- HTMLコメント内のタグは展開されません（コメントアウトした利用例をそのまま残せます）
+- 開閉などの振る舞いは従来どおり `initModal()`（`vite/ts/bicpema-modal-controller.ts`）・`hideLoadingSpinner()`（`vite/ts/bicpema-loading-spinner.ts`）が担います
+- 実行時にJSで挿入せずビルド時に展開するのは、ローディングスピナーをJSバンドル読み込み前から表示し、`#navBar` の高さを `BicpemaCanvasController` の初期化前に確定させるためです
+- `npm run dev`（`vite build --watch`）の実行中に `vite/_build/bicpemaComponents.js` を変更した場合は、変更を反映するため `npm run dev` を再起動してください
+- ナビバー・ローディングスピナーを手書きしている場合、`npm run check:template-compliance` がエラーにします
 
 ## パフォーマンス方針
 

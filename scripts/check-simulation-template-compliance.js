@@ -1,5 +1,5 @@
 // vite/simulations/ 配下の各シミュレーションが、templates/の必須構成
-// （id="navBar" / id="p5Container" / id="p5Canvas"、ts/index.tsを
+// （<bicpema-nav-bar> / id="p5Container" / id="p5Canvas"、ts/index.tsを
 // <script type="module">で読み込む構成、共通のBicpemaCanvasControllerの
 // 利用）から外れていないかを検査する。
 //
@@ -20,7 +20,11 @@ const ISSUE_DESCRIPTIONS = {
   "missing-entry-script": "ts/index.tsが存在しません",
   "entry-script-not-loaded-as-module":
     'エントリーポイントが<script type="module">で読み込まれていません',
-  "missing-nav-bar": 'id="navBar"を持つ要素がありません',
+  "missing-nav-bar": "<bicpema-nav-bar>（ナビバー）がありません",
+  "inline-nav-bar":
+    'ナビバー（id="navBar"）が手書きされています。<bicpema-nav-bar>を利用してください',
+  "inline-loading-spinner":
+    'ローディングスピナー（id="loadingSpinner"）が手書きされています。<bicpema-loading-spinner>を利用してください',
   "missing-p5-container": 'id="p5Container"を持つ要素がありません',
   "missing-p5-canvas": 'id="p5Canvas"を持つ要素がありません',
   "non-canonical-canvas-controller":

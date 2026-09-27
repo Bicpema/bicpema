@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* 共通UIパーツ（<bicpema-*>タグ）のマークアップはビルド時に展開されるため、明示的に検出対象へ含める */
+@source "../_build/bicpemaComponents.js";
 
 @layer components {
   /*
