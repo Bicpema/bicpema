@@ -22,7 +22,8 @@
     "clean:worktrees": "node scripts/clean-worktrees.js",
     "lint": "oxlint",
     "lint:md": "markdownlint-cli2 \"**/*.md\"",
-    "lint:spell": "cspell \"**\" --no-progress"
+    "lint:spell": "cspell \"**\" --no-progress",
+    "lint:yaml": "yamllint --strict ."
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",

@@ -60,6 +60,12 @@ TOPページ
 npm run lint:md
 ```
 
+YAMLファイルのリントチェックを実行する（事前に `pip install -r requirements-dev.txt` で yamllint をインストールする）
+
+```bash
+npm run lint:yaml
+```
+
 ## Blog
 
 記事の追加
