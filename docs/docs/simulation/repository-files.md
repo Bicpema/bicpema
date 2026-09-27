@@ -55,20 +55,20 @@ bicpema/
 ├── package-lock.json
 ├── playwright.config.js      # Playwright 設定
 ├── tsconfig.json             # TypeScript（型チェック）設定
-├── vite.config.js            # Vite ビルド設定
-└── vitest.config.js          # Vitest 設定
+└── vite.config.js            # Vite ビルド設定・Vitest 設定
 ```
 
 ## 主要ファイルの説明
 
 ### `vite.config.js`
 
-Vite のビルド設定ファイルです。
+Vite のビルド設定と Vitest の設定（`test` キー）をまとめたファイルです。
 
 - ルートディレクトリ: `./vite`
 - 出力先: `static/vite`
 - ベースパス: `/vite`
 - `vite/simulations/` と `vite/ts/` は静的ファイルとしてコピーされます
+- Vitest の基準ディレクトリ（`test.root`）はリポジトリ直下で、`test/**/*.{test,spec}.{js,mjs}` を対象とし `test/e2e/` を除外します
 
 ### `config/_default/hugo.toml`
 

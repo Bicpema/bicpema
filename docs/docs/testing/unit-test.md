@@ -38,7 +38,7 @@ export function updateVelocity(p, state) {
 npm test
 ```
 
-`vitest.config.js` に従い、`test/**/*.{test,spec}.{js,mjs}` のパターンに一致するファイルが実行されます。
+`vite.config.js` の `test` キーの設定に従い、`test/**/*.{test,spec}.{js,mjs}` のパターンに一致するファイルが実行されます。
 
 ## テストファイルの配置
 

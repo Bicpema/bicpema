@@ -5,7 +5,7 @@ name: スクリプト・シミュレーションのユニットテスト（Vites
   pull_request:
     paths:
       - "vite/**"
-      - "vitest.config.js"
+      - "vite.config.js"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/unit-test.yml"
@@ -14,7 +14,7 @@ name: スクリプト・シミュレーションのユニットテスト（Vites
       - main
     paths:
       - "vite/**"
-      - "vitest.config.js"
+      - "vite.config.js"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/unit-test.yml"
