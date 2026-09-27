@@ -7,6 +7,7 @@ import { BicpemaCanvasController } from "../../../ts/bicpema-canvas-controller.j
 import { state } from "./state.js";
 import { elCreate, initValue } from "./init.js";
 import { drawSimulation } from "./logic.js";
+import { BALL_RADIUS_DIVISOR } from "./constants.js";
 
 /** おもりの画像URL */
 const WEIGHT_IMAGE_URL =
@@ -39,6 +40,7 @@ const sketch = (p: p5) => {
 
   p.windowResized = () => {
     canvasController.resizeScreen(p);
+    state.radi = p.width / BALL_RADIUS_DIVISOR;
   };
 };
 

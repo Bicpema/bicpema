@@ -16,6 +16,10 @@ export const state: {
   gravity: number;
   /** 経過フレーム数（累積カウンタ） */
   count: number;
+  /** 支点のY座標(px) */
+  pivotY: number;
+  /** 内部の長さ単位を表示ピクセルへ変換する倍率 */
+  displayScale: number;
   /** 左の振り子 */
   leftPendulum: Ball | null;
   /** 右の振り子 */
@@ -44,6 +48,8 @@ export const state: {
   gridIs: false,
   gravity: GRAVITY,
   count: 0,
+  pivotY: 0,
+  displayScale: 1,
   leftPendulum: null,
   rightPendulum: null,
 

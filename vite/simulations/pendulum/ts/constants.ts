@@ -4,8 +4,10 @@
 export const GRAVITY = 9.8;
 /** 振れ角計算のデフォルトフレームレート */
 export const DEFAULT_FPS = 60;
-/** 支点のY座標 */
-export const PIVOT_Y = 100;
+/** 支点のY座標 = キャンバスの高さ × この値 */
+export const PIVOT_Y_RATIO = 0.1;
+/** 下部の操作ボタンとおもりが重ならないようキャンバス下端に確保する余白(px) */
+export const CONTROLS_BOTTOM_MARGIN = 64;
 /** 長さ入力(m)を内部の長さ単位(px)に変換する係数 */
 export const LENGTH_INPUT_SCALE = 50;
 /** 内部の長さ単位(px)を物理計算用のメートルに変換する係数 */
@@ -19,7 +21,7 @@ export const INITIAL_STRING_LENGTH = 500;
 /** 左の振り子の初期の振れ角（度） */
 export const INITIAL_LEFT_ANGLE_DEG = 10;
 /** 右の振り子の初期の振れ角（度） */
-export const INITIAL_RIGHT_ANGLE_DEG = 15;
+export const INITIAL_RIGHT_ANGLE_DEG = 20;
 /** グリッド線の間隔(px) */
 export const GRID_STEP = 10;
 /** 太線を描画するグリッド間隔(px) */
