@@ -29,6 +29,26 @@
 4. レビューを受けて修正する
 5. `main` にマージすると自動デプロイが開始される
 
+## worktreeの後始末
+
+Issue単位の作業では `.claude/worktrees/` 配下に `git worktree` を作成します。マージ後は、使用したworktreeとローカルブランチを速やかに削除してください。
+
+削除漏れがないか定期的に確認するには、以下を実行します。
+
+```bash
+# マージ済みPRに対応するworktreeを一覧表示する（削除はしない）
+npm run clean:worktrees
+
+# 一覧表示された削除対象のworktreeとローカルブランチを削除する
+npm run clean:worktrees -- --delete
+```
+
+- マージ状態はGitHub CLI（`gh`）でPRを参照して判定します。squash mergeのため、`git branch --merged` では判定できません。
+- 以下のworktreeは削除せずスキップします。
+    - マージ済みPRのheadコミット以降に追加コミットがあるもの
+    - 未コミットの変更・未追跡ファイルが残っているもの
+- 実行時に `git worktree prune` も行い、手動で削除されたworktreeの管理情報を掃除します。
+
 ## コミットメッセージ
 
 特定の規約は設けていませんが、変更内容が分かりやすい日本語または英語のメッセージを推奨します。
