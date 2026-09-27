@@ -1,11 +1,44 @@
 +++
 title = "サードパーティライセンス"
-description = "Bicpemaのシミュレーションで利用しているサードパーティライブラリ・フォントのライセンス表記です。"
+description = "Bicpemaのサイト・シミュレーションで利用しているサードパーティのテーマ・ライブラリ・フォントのライセンス表記です。"
 date = "2026-09-27"
 author = "Bicpema Developer Team"
 +++
 
-Bicpemaのシミュレーションは、以下のサードパーティライブラリ・フォントを利用しています。各ライブラリの著作権は、それぞれの著作権者に帰属します。
+Bicpemaのサイト・シミュレーションは、以下のサードパーティのテーマ・ライブラリ・フォントを利用しています。各ライブラリの著作権は、それぞれの著作権者に帰属します。
+
+## hugo-theme-tailwind
+
+サイトのテーマには [hugo-theme-tailwind](https://github.com/tomowang/hugo-theme-tailwind) を利用しています。hugo-theme-tailwindには **MIT License** が適用されます。
+
+<details>
+<summary>ライセンス全文</summary>
+
+```text
+MIT License
+
+Copyright (c) [2023] [Xiaoliang Wang]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+</details>
 
 ## p5.js
 
