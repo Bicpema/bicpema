@@ -11,7 +11,8 @@ const INLINE_UI_PARTS_ISSUES = [
   "inline-nav-bar",
   "inline-loading-spinner",
   "inline-settings-button",
-  "inline-settings-modal"
+  "inline-settings-modal",
+  "inline-icon"
 ];
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -55,7 +56,7 @@ describe("findSimulationTemplateIssues", () => {
     ).toEqual(["non-canonical-canvas-controller"]);
   });
 
-  it("共通UIパーツを手書きしている場合はinline-nav-bar・inline-loading-spinner・inline-settings-button・inline-settings-modalを検出する", () => {
+  it("共通UIパーツを手書きしている場合はinline-nav-bar・inline-loading-spinner・inline-settings-button・inline-settings-modal・inline-iconを検出する", () => {
     expect(
       findSimulationTemplateIssues(resolve(simulationsDir, "inline-ui-parts"))
     ).toEqual(INLINE_UI_PARTS_ISSUES);
@@ -124,7 +125,8 @@ describe("checkSimulationTemplateCompliance", () => {
       issues: [
         "inline-nav-bar",
         "inline-loading-spinner",
-        "inline-settings-button"
+        "inline-settings-button",
+        "inline-icon"
       ]
     });
     expect(result.staleNonSettingsModalSlugs).toEqual([]);

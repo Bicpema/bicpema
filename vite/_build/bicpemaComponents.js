@@ -1,5 +1,5 @@
 // シミュレーション間で共通のUIパーツ（ナビバー・ローディングスピナー・
-// 設定ボタン・設定モーダルの外枠）を、各index.htmlに手書きでコピーする代わりに
+// 設定ボタン・設定モーダルの外枠・アイコン）を、各index.htmlに手書きでコピーする代わりに
 // `<bicpema-*>` タグとして記述し、ビルド時に共通マークアップへ展開する。
 // DOM構造やスタイルを変更する場合は、このファイルを修正するだけで
 // 全シミュレーションに反映される。
@@ -15,15 +15,32 @@
 //   <bicpema-settings-button></bicpema-settings-button>
 //   <bicpema-settings-modal>...設定項目...</bicpema-settings-modal>
 //   <bicpema-settings-modal variant="dark" panel-class="w-[340px]">...</bicpema-settings-modal>
+//   <bicpema-icon name="camera" size="20" class="pb-1"></bicpema-icon>
+//
+// タグの中身に含まれる<bicpema-*>タグ（設定モーダル内のアイコンなど）も展開する。
 //
 // ※ このファイルのクラス名はvite/css/tailwind.cssの@sourceで
 //   Tailwindの検出対象に含めている。
+
+import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import { dirname, join } from "node:path";
 
 const DEFAULT_SETTINGS_LABEL = "シミュレーションの設定";
 const DEFAULT_SETTINGS_MODAL_ID = "simulationSettingModal";
 const DEFAULT_LIGHT_PANEL_WIDTH_CLASS = "w-full max-w-lg";
 const DEFAULT_SETTINGS_BUTTON_POSITION_CLASS =
   "absolute top-5 right-5 z-[1000] max-[576px]:top-2.5 max-[576px]:right-2.5";
+const DEFAULT_ICON_SIZE = "16";
+const BOOTSTRAP_ICONS_DIR = join(
+  dirname(
+    createRequire(import.meta.url).resolve("bootstrap-icons/package.json")
+  ),
+  "icons"
+);
+
+/** @type {Map<string, { viewBox: string, innerSvg: string }>} */
+const iconCache = new Map();
 
 /**
  * 属性値として埋め込めるよう、HTMLの特殊文字をエスケープする。
@@ -169,6 +186,60 @@ export function renderSettingsModal({
 }
 
 /**
+ * Bootstrap Icons（node_modules/bootstrap-icons/icons/<name>.svg）を読み込み、
+ * viewBoxとSVGの中身（<path>等）を返す。
+ * @param {string} name
+ * @returns {{ viewBox: string, innerSvg: string }}
+ */
+function loadBootstrapIcon(name) {
+  const cached = iconCache.get(name);
+  if (cached) return cached;
+
+  // パス区切りなどを含む名前でアイコン集の外を読まないよう、名前の書式を制限する
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name)) {
+    throw new Error(`<bicpema-icon>のnameが不正です: ${name}`);
+  }
+  let svg;
+  try {
+    svg = readFileSync(join(BOOTSTRAP_ICONS_DIR, `${name}.svg`), "utf-8");
+  } catch {
+    throw new Error(
+      `<bicpema-icon>に存在しないアイコン名が指定されました（https://icons.getbootstrap.com/ で名前を確認してください）: ${name}`
+    );
+  }
+  const match = svg.match(/<svg\b[^>]*\bviewBox="([^"]*)"[^>]*>([\s\S]*)<\/svg>/);
+  if (!match) {
+    throw new Error(`アイコンのSVGを解釈できませんでした: ${name}.svg`);
+  }
+  const icon = { viewBox: match[1], innerSvg: match[2].trim() };
+  iconCache.set(name, icon);
+  return icon;
+}
+
+/**
+ * Bootstrap Iconsのアイコン（インラインSVG）。
+ * 装飾目的のため読み上げ対象から外す。アイコンのみのボタンでは、
+ * ボタン側にaria-labelを付与すること。
+ * @param {{ name: string, size?: string, className?: string }} options
+ *   name: アイコン名（例: "camera"）。size: 幅・高さ（px、既定は16）。
+ *   className: 追加するクラス（"pb-1"など）
+ * @returns {string}
+ */
+export function renderIcon({ name, size = DEFAULT_ICON_SIZE, className }) {
+  if (!name) {
+    throw new Error("<bicpema-icon>にはname属性が必要です");
+  }
+  if (!/^\d+$/.test(size)) {
+    throw new Error(
+      `<bicpema-icon>のsizeはpx単位の整数で指定してください: ${size}`
+    );
+  }
+  const { viewBox, innerSvg } = loadBootstrapIcon(name);
+  const classNames = ["bi", `bi-${name}`, className].filter(Boolean).join(" ");
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" fill="currentColor" class="${escapeAttribute(classNames)}" viewBox="${viewBox}" aria-hidden="true">${innerSvg}</svg>`;
+}
+
+/**
  * HTML内の`<bicpema-*>`タグを共通マークアップに展開する。
  * HTMLコメント内（コメントアウトされた利用例など）は展開しない。
  * 未知のタグ名は記述ミスとみなしてエラーにする。
@@ -198,10 +269,30 @@ export function expandBicpemaComponents(html) {
  * @returns {string}
  */
 function expandMasked(html, pageTitle) {
-  const expanded = html.replace(
+  const expanded = expandTags(html, pageTitle);
+
+  const unexpandedTag = expanded.match(/<\/?bicpema-[\w-]+/);
+  if (unexpandedTag) {
+    throw new Error(
+      `共通コンポーネントを展開できませんでした（閉じタグの有無・属性の書式を確認してください）: ${unexpandedTag[0]}`
+    );
+  }
+  return expanded;
+}
+
+/**
+ * `<bicpema-*>`タグを展開する。タグの中身は先に再帰的に展開するため、
+ * 設定モーダル内のアイコンのように入れ子になったタグも展開される。
+ * @param {string} html
+ * @param {string} pageTitle
+ * @returns {string}
+ */
+function expandTags(html, pageTitle) {
+  return html.replace(
     /<bicpema-([\w-]+)((?:\s+[\w-]+="[^"]*")*)\s*>([\s\S]*?)<\/bicpema-\1>/g,
-    (_match, name, attributesText, innerHtml) => {
+    (_match, name, attributesText, rawInnerHtml) => {
       const attributes = parseAttributes(attributesText);
+      const innerHtml = expandTags(rawInnerHtml, pageTitle);
       switch (name) {
         case "nav-bar":
           return renderNavBar({ title: attributes.title ?? pageTitle });
@@ -220,19 +311,17 @@ function expandMasked(html, pageTitle) {
             panelClass: attributes["panel-class"],
             bodyHtml: innerHtml
           });
+        case "icon":
+          return renderIcon({
+            name: attributes.name,
+            size: attributes.size,
+            className: attributes.class
+          });
         default:
           throw new Error(`未知の共通コンポーネントです: <bicpema-${name}>`);
       }
     }
   );
-
-  const unexpandedTag = expanded.match(/<\/?bicpema-[\w-]+/);
-  if (unexpandedTag) {
-    throw new Error(
-      `共通コンポーネントを展開できませんでした（閉じタグの有無・属性の書式を確認してください）: ${unexpandedTag[0]}`
-    );
-  }
-  return expanded;
 }
 
 /**

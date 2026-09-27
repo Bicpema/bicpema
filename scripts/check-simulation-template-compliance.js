@@ -33,6 +33,8 @@ const ISSUE_DESCRIPTIONS = {
     "設定ボタン（.settings-modal-open）が手書きされています。<bicpema-settings-button>を利用してください",
   "inline-settings-modal":
     "設定モーダル（.modal-panel / .modal-close）が手書きされています。<bicpema-settings-modal>を利用してください",
+  "inline-icon":
+    'SVGアイコン（class="bi bi-..."）がべた書きされています。<bicpema-icon>を利用してください',
   "missing-p5-container": 'id="p5Container"を持つ要素がありません',
   "missing-p5-canvas": 'id="p5Canvas"を持つ要素がありません',
   "non-canonical-canvas-controller":

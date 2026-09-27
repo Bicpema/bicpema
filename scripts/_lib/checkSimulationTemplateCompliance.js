@@ -10,9 +10,12 @@ import { join } from "node:path";
 // - ナビバー（<bicpema-nav-bar>）/ id="p5Container" / id="p5Canvas" を持つ要素があるか
 // - ナビバー・ローディングスピナー・設定ボタン・設定モーダルを共通コンポーネント
 //   （<bicpema-*>タグ）を使わずに手書きでコピーしていないか（#621・#747の再発防止）
+// - Bootstrap IconsのSVGアイコンを<bicpema-icon>を使わずにべた書きしていないか（#748の再発防止）
 // - BicpemaCanvasControllerを利用している場合、シミュレーション固有の
 //   複製ファイルではなく共通の vite/ts/bicpema-canvas-controller.js を
 //   参照しているか（#79の再発防止）
+// Bootstrap IconsのSVGは class="bi bi-<name>" を持つ
+const INLINE_ICON_PATTERN = /<svg\b[^>]*\bclass="(?:[^"]*\s)?bi(?:\s[^"]*)?"/;
 const CANVAS_CONTROLLER_IMPORT_PATTERN =
   /from\s+(["'])([^"']*bicpema-canvas-controller\.js)\1/;
 const CANONICAL_CANVAS_CONTROLLER_IMPORT_PATH =
@@ -101,6 +104,7 @@ export function findSimulationTemplateIssues(simulationDir) {
   if (INLINE_SETTINGS_MODAL_PATTERN.test(html)) {
     issues.push("inline-settings-modal");
   }
+  if (INLINE_ICON_PATTERN.test(html)) issues.push("inline-icon");
   if (!/id="p5Container"/.test(html)) issues.push("missing-p5-container");
   if (!/id="p5Canvas"/.test(html)) issues.push("missing-p5-canvas");
 
