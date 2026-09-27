@@ -77,12 +77,56 @@ npm run check:published-urls
 
 ## GitHub Actions
 
-| ワークフロー               | トリガー                                              | 処理                                                        |
-| -------------------------- | ----------------------------------------------------- | ----------------------------------------------------------- |
-| `deploy.yml`               | `workflow_dispatch` (手動) またはリリースタグ         | Vite ビルド → Hugo ビルド → Firebase Hosting へデプロイ     |
-| `create-release-note.yml`  | `v*.*.*` または `v*.*.*-Beta*` タグのプッシュ         | GitHub Release を自動作成し、正式リリース時はデプロイを起動 |
-| `check-published-urls.yml` | Pull Request、`main` へのプッシュ                     | Vite ビルド → Hugo ビルド → 掲載URLのリンク切れチェック     |
-| `yamllint.yml`             | YAMLファイル変更時のPull Request、`main` へのプッシュ | yamllint によるYAMLファイルのリントチェック                 |
+### 命名規則
+
+Actions画面やPRのチェック一覧で何を検査しているかを判別しやすくするため、`.github/workflows/` 配下のワークフローは以下の規則で命名します。
+
+| 対象                     | 規則                                                                                                         | 例                                                  |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------------- |
+| ファイル名               | 処理内容またはツール名を表す英小文字のケバブケース                                                           | `markdownlint.yml`、`check-published-urls.yml`      |
+| ワークフロー名（`name`） | 「対象 + 処理」の日本語。外部ツールで検査・テストする場合は末尾に全角括弧でツール名を付ける                  | `Markdownのリントチェック（markdownlint）`          |
+| ジョブID                 | ファイル名から拡張子を除いたものと同じにする。ジョブの `name` は指定せず、ワークフロー名で内容を表す         | `markdownlint`                                      |
+| ステップ名（`name`）     | 「対象 + 処理」の日本語とし、`actions/checkout` を含むすべてのステップに付ける。ツール名の括弧書きは付けない | `Node.jsのセットアップ`、`Markdownのリントチェック` |
+
+処理を表す語は以下に揃えます。
+
+- 検査して結果の合否のみを返すもの: `〜チェック`（例: `リントチェック`、`フォーマットチェック`、`型チェック`）
+- テストを実行するもの: `〜テスト`（例: `ユニットテスト`、`E2Eテスト`）
+- その他: `〜のビルド`、`〜のセットアップ`、`〜のインストール`、`〜へのデプロイ`、`〜の作成` など
+
+共通のステップは以下の名前に統一します。
+
+| ステップ                 | 名前                           |
+| ------------------------ | ------------------------------ |
+| `actions/checkout`       | `リポジトリのチェックアウト`   |
+| `actions/setup-node`     | `Node.jsのセットアップ`        |
+| `actions/setup-python`   | `Pythonのセットアップ`         |
+| `peaceiris/actions-hugo` | `Hugoのセットアップ`           |
+| `npm ci` / `pip install` | `依存パッケージのインストール` |
+| `npm run build`          | `Viteのビルド`                 |
+| `hugo --minify`          | `Hugoのビルド`                 |
+
+ワークフロー名・ジョブIDを変更する場合、リポジトリのルールセット（`bicpema-rule`）のRequired status checksに指定したチェック名も合わせて更新してください（現在は指定なし）。
+
+### ワークフロー一覧
+
+| ファイル                        | ワークフロー名                                         | トリガー                                                                | 処理                                                        |
+| ------------------------------- | ------------------------------------------------------ | ----------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `deploy.yml`                    | Firebase Hostingへのデプロイ                           | `workflow_dispatch` (手動) またはリリースタグ                           | Vite ビルド → Hugo ビルド → Firebase Hosting へデプロイ     |
+| `create-release-note.yml`       | リリースノートの作成                                   | `v*.*.*` または `v*.*.*-Beta*` タグのプッシュ                           | GitHub Release を自動作成し、正式リリース時はデプロイを起動 |
+| `build.yml`                     | シミュレーションのビルドチェック（Vite）               | `main` へのプッシュ（Vite関連ファイル変更時）                           | `npm run build`                                             |
+| `check-published-urls.yml`      | 掲載URLのリンク切れチェック                            | Pull Request、`main` へのプッシュ                                       | Vite ビルド → Hugo ビルド → 掲載URLのリンク切れチェック     |
+| `check-article-links.yml`       | 記事とシミュレーションのリンク整合性チェック           | 記事・シミュレーション変更時のPull Request、`main` へのプッシュ         | `npm run check:article-links`                               |
+| `check-template-compliance.yml` | シミュレーションのテンプレート準拠チェック             | テンプレート・シミュレーション変更時のPull Request、`main` へのプッシュ | `npm run check:template-compliance`                         |
+| `cspell.yml`                    | ドキュメント・コードのスペルチェック（cspell）         | 対象ファイル変更時のPull Request、`main` へのプッシュ                   | `npm run lint:spell`                                        |
+| `format.yml`                    | コードのフォーマットチェック（Prettier）               | Pull Request、`main` へのプッシュ                                       | `npm run format:check`                                      |
+| `markdownlint.yml`              | Markdownのリントチェック（markdownlint）               | Markdownファイル変更時のPull Request、`main` へのプッシュ               | `npm run lint:md`                                           |
+| `oxlint.yml`                    | TypeScript/JavaScriptのリントチェック（oxlint）        | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | `npm run lint`                                              |
+| `yamllint.yml`                  | YAMLのリントチェック（yamllint）                       | YAMLファイル変更時のPull Request、`main` へのプッシュ                   | yamllint によるYAMLファイルのリントチェック                 |
+| `typecheck.yml`                 | TypeScriptの型チェック（tsc）                          | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | `npm run typecheck`                                         |
+| `unit-test.yml`                 | スクリプト・シミュレーションのユニットテスト（Vitest） | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | `npm test`                                                  |
+| `e2e-test.yml`                  | シミュレーションのE2Eテスト（Playwright）              | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | `npm run test:e2e`                                          |
+| `verify-runtime.yml`            | シミュレーションの起動チェック（Playwright）           | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | Vite ビルド → `npm run verify:runtime`                      |
 
 ## ラベル一覧
 

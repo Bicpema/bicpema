@@ -83,4 +83,4 @@ npm run typecheck
 
 ## CI での実行
 
-`.github/workflows/test.yml` により、プルリクエスト作成時と `main` ブランチへのpush時に型チェック（`npm run typecheck`）・ユニットテスト（`npm test`）・ビルド確認（`npm run build`）が自動実行されます。
+`.github/workflows/` の `typecheck.yml`・`unit-test.yml` により、プルリクエスト作成時と `main` ブランチへのpush時に型チェック（`npm run typecheck`）・ユニットテスト（`npm test`）が自動実行されます。各ワークフローの一覧は[開発フローのGitHub Actions](../development-flow.md#github-actions)を参照してください。

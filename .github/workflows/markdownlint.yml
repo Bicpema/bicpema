@@ -1,5 +1,5 @@
 ---
-name: ドキュメントリント
+name: Markdownのリントチェック（markdownlint）
 
 "on":
   pull_request:
@@ -7,7 +7,7 @@ name: ドキュメントリント
       - "**/*.md"
       - ".markdownlint.json"
       - ".markdownlint-cli2.jsonc"
-      - ".github/workflows/lint.yml"
+      - ".github/workflows/markdownlint.yml"
   push:
     branches:
       - main
@@ -15,29 +15,30 @@ name: ドキュメントリント
       - "**/*.md"
       - ".markdownlint.json"
       - ".markdownlint-cli2.jsonc"
-      - ".github/workflows/lint.yml"
+      - ".github/workflows/markdownlint.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  lint-md:
+  markdownlint:
     permissions:
       contents: read
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+      - name: リポジトリのチェックアウト
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
-      - name: Setup Node.js
+      - name: Node.jsのセットアップ
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020  # v7.0.0
         with:
           node-version: "24"
           cache: "npm"
           cache-dependency-path: "package-lock.json"
 
-      - name: Install dependencies
+      - name: 依存パッケージのインストール
         run: npm ci
 
-      - name: Markdownリント
+      - name: Markdownのリントチェック
         run: npm run lint:md
