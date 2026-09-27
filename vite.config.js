@@ -16,7 +16,10 @@ export default defineConfig({
     rolldownOptions: {
       input: getHtmlInputsRecursively(root)
     },
-    chunkSizeWarningLimit: 1500
+    chunkSizeWarningLimit: 1500,
+    // バンドルしたサードパーティライブラリのライセンス一覧を出力する。
+    // 既定の出力先（.vite/license.md）はFirebase Hostingのignore対象（**/.*）となるため変更する。
+    license: { fileName: "third-party-licenses.md" }
   },
   plugins: [
     tailwindcss(),
