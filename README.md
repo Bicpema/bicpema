@@ -36,10 +36,10 @@ npm -v
 git clone --recursive git@github.com:Bicpema/bicpema.git
 ```
 
-npmパッケージをインストールする
+npmパッケージをインストールする（`package-lock.json`どおりの版を入れるため`npm ci`を使う。パッケージを追加・更新するとき以外は`npm install`を使わない）
 
 ```bash
-npm install
+npm ci
 ```
 
 Python製の開発ツール（yamllint）をインストールする
