@@ -18,7 +18,8 @@ import {
   WEIGHT_IMAGE_WIDTH_DIVISOR,
   INITIAL_STRING_LENGTH,
   INITIAL_LEFT_ANGLE_DEG,
-  INITIAL_RIGHT_ANGLE_DEG
+  INITIAL_RIGHT_ANGLE_DEG,
+  LENGTH_INPUT_SCALE
 } from "./constants.js";
 
 /**
@@ -73,4 +74,8 @@ export function initValue(p: p5) {
     INITIAL_STRING_LENGTH,
     INITIAL_RIGHT_ANGLE_DEG
   );
+  state.leftAngleInput!.value(INITIAL_LEFT_ANGLE_DEG);
+  state.leftLengthInput!.value(INITIAL_STRING_LENGTH / LENGTH_INPUT_SCALE);
+  state.rightAngleInput!.value(INITIAL_RIGHT_ANGLE_DEG);
+  state.rightLengthInput!.value(INITIAL_STRING_LENGTH / LENGTH_INPUT_SCALE);
 }

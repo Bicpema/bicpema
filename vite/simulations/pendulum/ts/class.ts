@@ -3,7 +3,6 @@
 import p5 from "p5";
 import { state } from "./state.js";
 import { computePendulumAngle } from "./physics.js";
-import { PIVOT_Y } from "./constants.js";
 
 /**
  * 振り子のおもりを表すクラス。
@@ -38,8 +37,9 @@ export class Ball {
    * @param {number} n 支点のオフセットx座標
    */
   calculate(p: p5, n: number) {
-    this.posx = n + p.width / 6 + this.stringLength * p.sin(this.theta);
-    this.posy = PIVOT_Y + this.stringLength * p.cos(this.theta);
+    const displayLength = this.stringLength * state.displayScale;
+    this.posx = n + p.width / 6 + displayLength * p.sin(this.theta);
+    this.posy = state.pivotY + displayLength * p.cos(this.theta);
     this.theta = computePendulumAngle(
       this.theta0,
       this.stringLength,
@@ -54,7 +54,7 @@ export class Ball {
    * @param {number} n 支点のオフセットx座標
    */
   display(p: p5, n: number) {
-    p.line(this.posx, this.posy, n + p.width / 6, PIVOT_Y);
+    p.line(this.posx, this.posy, n + p.width / 6, state.pivotY);
     p.image(
       state.weightImage!,
       this.posx - state.radi,

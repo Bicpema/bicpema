@@ -1,5 +1,8 @@
 import { describe, it, expect } from "vitest";
-import { computePendulumAngle } from "../../../vite/simulations/pendulum/ts/physics.js";
+import {
+  computePendulumAngle,
+  computeDisplayScale
+} from "../../../vite/simulations/pendulum/ts/physics.js";
 
 describe("computePendulumAngle", () => {
   it("count=0では振れ角は初期角度θ0そのものになる", () => {
@@ -56,5 +59,79 @@ describe("computePendulumAngle", () => {
       const angle = computePendulumAngle(theta0Deg, 500, 9.8, count);
       expect(Math.abs(angle)).toBeLessThanOrEqual(theta0Rad + 1e-9);
     }
+  });
+});
+
+describe("computeDisplayScale", () => {
+  const base = {
+    pivotY: 100,
+    halfPanelWidth: 300,
+    ballRadius: 20,
+    pendulums: [
+      { stringLength: 500, theta0: 10 },
+      { stringLength: 500, theta0: 20 }
+    ]
+  };
+
+  it("十分に高いキャンバスでは等倍（上限値）になる", () => {
+    expect(computeDisplayScale({ ...base, canvasHeight: 1200 })).toBe(1);
+  });
+
+  it("低いキャンバスでは最下点のおもりがキャンバス内に収まるよう縮小される", () => {
+    const canvasHeight = 400;
+    const pivotY = canvasHeight * 0.1;
+    const scale = computeDisplayScale({ ...base, canvasHeight, pivotY });
+
+    expect(scale).toBeLessThan(1);
+    const lowestBallBottom = pivotY + 500 * scale + base.ballRadius;
+    expect(lowestBallBottom).toBeLessThanOrEqual(canvasHeight);
+  });
+
+  it("振れ幅が大きい場合はおもりがパネルの横幅に収まるよう縮小される", () => {
+    const scale = computeDisplayScale({
+      ...base,
+      canvasHeight: 2000,
+      pendulums: [{ stringLength: 500, theta0: 60 }]
+    });
+    const extentX = 500 * scale * Math.sin(Math.PI / 3) + base.ballRadius;
+
+    expect(scale).toBeLessThan(1);
+    expect(extentX).toBeLessThanOrEqual(base.halfPanelWidth);
+  });
+
+  it("長い方の振り子に合わせて左右共通の倍率になる", () => {
+    const scale = computeDisplayScale({
+      ...base,
+      canvasHeight: 600,
+      pendulums: [
+        { stringLength: 250, theta0: 10 },
+        { stringLength: 1000, theta0: 10 }
+      ]
+    });
+
+    expect(100 + 1000 * scale + base.ballRadius).toBeLessThanOrEqual(600);
+  });
+
+  it("下端の余白を指定するとその分だけ上に収まる", () => {
+    const canvasHeight = 500;
+    const bottomMargin = 64;
+    const scale = computeDisplayScale({ ...base, canvasHeight, bottomMargin });
+
+    expect(100 + 500 * scale + base.ballRadius).toBeLessThanOrEqual(
+      canvasHeight - bottomMargin
+    );
+  });
+
+  it("紐の長さが0以下・非数の振り子は無視する", () => {
+    expect(
+      computeDisplayScale({
+        ...base,
+        canvasHeight: 1200,
+        pendulums: [
+          { stringLength: 0, theta0: 10 },
+          { stringLength: NaN, theta0: 10 }
+        ]
+      })
+    ).toBe(1);
   });
 });

@@ -23,3 +23,50 @@ export function computePendulumAngle(
   const omega = Math.sqrt(gravity / lengthM);
   return theta0 * Math.cos(omega * (count / fps));
 }
+
+/**
+ * 振り子全体がパネル内に収まるように、内部の長さ単位を表示ピクセルへ変換する倍率を計算する。
+ * 縦方向は最下点（θ=0）、横方向は最大振れ幅でのおもりの位置が収まるように求め、
+ * 画面が十分に大きい場合は等倍（maxScale）を上限とする。
+ *
+ * @param {object} params
+ * @param {number} params.canvasHeight キャンバスの高さ(px)
+ * @param {number} params.pivotY 支点のY座標(px)
+ * @param {number} params.halfPanelWidth 支点からパネル端までの水平距離(px)
+ * @param {number} params.ballRadius おもりの表示半径(px)
+ * @param {number} [params.bottomMargin=0] 操作ボタン等と重ならないよう下端に確保する余白(px)
+ * @param {{stringLength: number, theta0: number}[]} params.pendulums 紐の長さ（内部単位）と振れ幅（度）の一覧
+ * @param {number} [params.maxScale=1] 倍率の上限
+ * @returns {number} 表示倍率（px / 内部単位）
+ */
+export function computeDisplayScale({
+  canvasHeight,
+  pivotY,
+  halfPanelWidth,
+  ballRadius,
+  bottomMargin = 0,
+  pendulums,
+  maxScale = 1
+}: {
+  canvasHeight: number;
+  pivotY: number;
+  halfPanelWidth: number;
+  ballRadius: number;
+  bottomMargin?: number;
+  pendulums: { stringLength: number; theta0: number }[];
+  maxScale?: number;
+}) {
+  const availableY = canvasHeight - pivotY - bottomMargin - ballRadius * 2;
+  const availableX = halfPanelWidth - ballRadius * 2;
+  let scale = maxScale;
+  const validPendulums = pendulums.filter(
+    ({ stringLength }) => stringLength > 0
+  );
+  for (const { stringLength, theta0 } of validPendulums) {
+    const amplitude = Math.min(Math.abs(theta0), 90);
+    const extentX = stringLength * Math.sin((amplitude * Math.PI) / 180);
+    scale = Math.min(scale, availableY / stringLength);
+    if (extentX > 0) scale = Math.min(scale, availableX / extentX);
+  }
+  return Math.max(scale, 0);
+}
