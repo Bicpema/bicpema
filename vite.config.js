@@ -3,6 +3,7 @@ import { globSync } from "tinyglobby";
 import { defineConfig } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 import { getHtmlInputsRecursively } from "./vite/_build/getHtmlInputsRecursively.js";
+import { bicpemaComponentsPlugin } from "./vite/_build/bicpemaComponents.js";
 
 const root = resolve(import.meta.dirname, "vite");
 const outDir = resolve(import.meta.dirname, "static/vite");
@@ -23,6 +24,8 @@ export default defineConfig({
   },
   plugins: [
     tailwindcss(),
+    // index.htmlの<bicpema-*>タグを共通UIパーツのマークアップに展開する
+    bicpemaComponentsPlugin(),
     // vite-ignoreをしているファイルに差分があった際も再ビルドする
     // https://stackoverflow.com/questions/63373804/rollup-watch-include-directory/63548394
     {

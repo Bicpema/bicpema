@@ -1,0 +1,142 @@
+import { describe, it, expect } from "vitest";
+import {
+  expandBicpemaComponents,
+  parseAttributes,
+  renderLoadingSpinner,
+  renderNavBar,
+  renderSettingsButton,
+  renderSettingsModal
+} from "../../vite/_build/bicpemaComponents.js";
+
+/**
+ * 文字列をHTMLとして解釈できる最小限の形に整えるため、テスト用のページを組み立てる。
+ * @param {string} body
+ * @param {string} [title]
+ */
+function page(body, title = "振り子の実験") {
+  return `<html><head><title>${title}</title></head><body>${body}</body></html>`;
+}
+
+describe("parseAttributes", () => {
+  it("属性をオブジェクトに変換する", () => {
+    expect(parseAttributes(' id="a" data-x="b c"')).toEqual({
+      id: "a",
+      "data-x": "b c"
+    });
+  });
+});
+
+describe("expandBicpemaComponents", () => {
+  it("<bicpema-nav-bar>を<title>をタイトルにしたナビバーへ展開する", () => {
+    const html = expandBicpemaComponents(
+      page("<bicpema-nav-bar></bicpema-nav-bar>")
+    );
+
+    expect(html).toContain('id="navBar"');
+    expect(html).toContain(renderNavBar({ title: "振り子の実験" }));
+    expect(html).not.toContain("bicpema-nav-bar");
+  });
+
+  it("<bicpema-nav-bar>のtitle属性を<title>より優先する", () => {
+    const html = expandBicpemaComponents(
+      page('<bicpema-nav-bar title="短いタイトル"></bicpema-nav-bar>')
+    );
+
+    expect(html).toContain(renderNavBar({ title: "短いタイトル" }));
+  });
+
+  it("<bicpema-loading-spinner>をローディングスピナーへ展開する", () => {
+    const html = expandBicpemaComponents(
+      page("<bicpema-loading-spinner></bicpema-loading-spinner>")
+    );
+
+    expect(html).toContain(renderLoadingSpinner());
+    expect(html).toContain('id="loadingSpinner"');
+  });
+
+  it("<bicpema-settings-button>を.settings-modal-openを持つボタンへ展開する", () => {
+    const html = expandBicpemaComponents(
+      page(
+        '<bicpema-settings-button id="toggleModal" class="absolute bottom-0 m-3"></bicpema-settings-button>'
+      )
+    );
+
+    expect(html).toContain(
+      renderSettingsButton({
+        id: "toggleModal",
+        positionClass: "absolute bottom-0 m-3"
+      })
+    );
+    expect(html).toContain(
+      'class="settings-modal-open btn-settings-modal-open"'
+    );
+    expect(html).toContain('id="toggleModal"');
+  });
+
+  it("<bicpema-settings-modal>の中身を設定モーダルの外枠に差し込む", () => {
+    const html = expandBicpemaComponents(
+      page(
+        '<bicpema-settings-modal id="myModal" title="設定">\n<input id="massInput" />\n</bicpema-settings-modal>'
+      )
+    );
+
+    expect(html).toContain(
+      renderSettingsModal({
+        id: "myModal",
+        title: "設定",
+        bodyHtml: '<input id="massInput" />'
+      })
+    );
+    expect(html).toContain('aria-labelledby="myModalLabel"');
+    expect(html).toContain(
+      '<h1 class="text-lg font-semibold" id="myModalLabel">設定</h1>'
+    );
+  });
+
+  it("<bicpema-settings-modal>の属性を省略した場合は既定のid・見出しを使う", () => {
+    const html = expandBicpemaComponents(
+      page("<bicpema-settings-modal></bicpema-settings-modal>")
+    );
+
+    expect(html).toContain('id="simulationSettingModal"');
+    expect(html).toContain("シミュレーションの設定</h1>");
+  });
+
+  it("設定モーダルの中身に含まれるHTMLコメントは保持したまま展開する", () => {
+    const html = expandBicpemaComponents(
+      page(
+        "<bicpema-settings-modal><!-- 質量 --><input /></bicpema-settings-modal>"
+      )
+    );
+
+    expect(html).toContain("<!-- 質量 --><input />");
+    expect(html).not.toContain("bicpema-settings-modal");
+  });
+
+  it("HTMLコメント内のタグは展開しない", () => {
+    const body =
+      "<!-- <bicpema-settings-button></bicpema-settings-button> --><!-- <bicpema-*> -->";
+    expect(expandBicpemaComponents(page(body))).toBe(page(body));
+  });
+
+  it("<bicpema-*>タグがなければHTMLを変更しない", () => {
+    const html = page('<div id="p5Canvas"></div>');
+    expect(expandBicpemaComponents(html)).toBe(html);
+  });
+
+  it("未知のタグ名はエラーにする", () => {
+    expect(() =>
+      expandBicpemaComponents(page("<bicpema-navbar></bicpema-navbar>"))
+    ).toThrow("<bicpema-navbar>");
+  });
+
+  it("閉じタグがないタグはエラーにする", () => {
+    expect(() => expandBicpemaComponents(page("<bicpema-nav-bar />"))).toThrow(
+      "<bicpema-nav-bar"
+    );
+  });
+
+  it("属性値の特殊文字をエスケープする", () => {
+    expect(renderSettingsButton({ id: 'a"b' })).toContain('id="a&quot;b"');
+  });
+});

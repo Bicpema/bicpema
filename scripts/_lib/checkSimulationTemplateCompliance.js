@@ -7,7 +7,9 @@ import { join } from "node:path";
 // 検査項目:
 // - エントリーポイント（ts/index.ts）が存在し、
 //   index.htmlから<script type="module">で読み込まれているか
-// - id="navBar" / id="p5Container" / id="p5Canvas" を持つ要素があるか
+// - ナビバー（<bicpema-nav-bar>）/ id="p5Container" / id="p5Canvas" を持つ要素があるか
+// - ナビバー・ローディングスピナーを共通コンポーネント（<bicpema-*>タグ）を
+//   使わずに手書きでコピーしていないか（#621の再発防止）
 // - BicpemaCanvasControllerを利用している場合、シミュレーション固有の
 //   複製ファイルではなく共通の vite/ts/bicpema-canvas-controller.js を
 //   参照しているか（#79の再発防止）
@@ -80,7 +82,12 @@ export function findSimulationTemplateIssues(simulationDir) {
     }
   }
 
-  if (!/id="navBar"/.test(html)) issues.push("missing-nav-bar");
+  if (/id="navBar"/.test(html)) {
+    issues.push("inline-nav-bar");
+  } else if (!/<bicpema-nav-bar[\s>]/.test(html)) {
+    issues.push("missing-nav-bar");
+  }
+  if (/id="loadingSpinner"/.test(html)) issues.push("inline-loading-spinner");
   if (!/id="p5Container"/.test(html)) issues.push("missing-p5-container");
   if (!/id="p5Canvas"/.test(html)) issues.push("missing-p5-canvas");
 

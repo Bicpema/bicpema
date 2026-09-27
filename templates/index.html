@@ -10,17 +10,11 @@
     class="h-full overflow-hidden bg-neutral-900 p-0"
     oncontextmenu="return false;"
   >
-    <nav
-      class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
-      id="navBar"
-    >
-      <a
-        class="font-semibold text-white no-underline"
-        href="https://bicpema.com/"
-        >Bicpema</a
-      >
-      <span class="ml-3 font-light text-neutral-300">{% title %}</span>
-    </nav>
+    <!--
+      <bicpema-*> タグはビルド時に共通UIパーツのマークアップへ展開されます
+      （vite/_build/bicpemaComponents.js）。DOM構造やスタイルを直接書かず、タグを利用してください。
+    -->
+    <bicpema-nav-bar></bicpema-nav-bar>
 
     <div
       class="relative mt-[60px] h-[calc(100vh-60px)] w-full overflow-hidden p-0"
@@ -45,64 +39,22 @@
       -->
 
       <!-- 右上設定ボタン（必要に応じてコメントアウトを外して利用してください。開閉はts/init.tsのinitModal()で行います） -->
-      <!--
-      <div class="absolute right-0 mr-3" style="top: 4.2rem; z-index: 1100">
-        <button
-          type="button"
-          class="settings-modal-open rounded bg-blue-600 px-3 py-1.5 text-white hover:bg-blue-500"
-          aria-label="シミュレーションの設定"
-        >
-          シミュレーションの設定
-        </button>
-      </div>
-      -->
+      <!-- <bicpema-settings-button></bicpema-settings-button> -->
     </div>
 
     <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
-    <div
-      id="loadingSpinner"
-      class="fixed inset-0 z-[2000] flex items-center justify-center bg-neutral-900"
-      role="status"
-      aria-live="polite"
-      aria-label="読み込み中"
-    >
-      <div
-        class="h-12 w-12 animate-spin rounded-full border-4 border-neutral-600 border-t-blue-500"
-      ></div>
-    </div>
+    <bicpema-loading-spinner></bicpema-loading-spinner>
 
     <!--
       設定モーダル（必要に応じてコメントアウトを外して利用してください。開閉はts/init.tsのinitModal()で行います）。
+      タグの中身が設定項目としてモーダルの外枠（見出し・閉じるボタン）に差し込まれます。
       入力欄・ラベルには form-control / form-label を利用してください。
-    <div
-      class="fixed inset-0 z-[1100] hidden flex items-center justify-center bg-black/50"
-      id="simulationSettingModal"
-      role="dialog"
-      aria-modal="true"
-      aria-label="シミュレーションの設定"
-    >
-      <div class="w-full max-w-lg rounded bg-white p-4 text-neutral-900">
-        <div class="mb-3 flex items-center justify-between border-b border-neutral-200 pb-2">
-          <h1 class="text-lg font-semibold">シミュレーションの設定</h1>
-          <button
-            type="button"
-            class="modal-close modal-close-icon"
-            aria-label="Close"
-          >
-            &times;
-          </button>
-        </div>
-        <div class="mb-3">
-          <label for="exampleInput" class="form-label">項目名</label>
-          <input type="range" class="form-control" id="exampleInput" />
-        </div>
-        <div class="flex justify-end border-t border-neutral-200 pt-2">
-          <button type="button" class="modal-close modal-close-outline">
-            閉じる
-          </button>
-        </div>
+    <bicpema-settings-modal>
+      <div class="mb-3">
+        <label for="exampleInput" class="form-label">項目名</label>
+        <input type="range" class="form-control" id="exampleInput" />
       </div>
-    </div>
+    </bicpema-settings-modal>
     -->
 
     <!-- TailwindCSS・p5.js は index.ts の import で読み込まれます -->

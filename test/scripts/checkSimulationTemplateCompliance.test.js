@@ -20,6 +20,7 @@ describe("getSimulationSlugs", () => {
     expect(getSimulationSlugs(simulationsDir)).toEqual([
       "compliant-sim",
       "compliant-sim-single-quote-import",
+      "inline-ui-parts",
       "local-controller-copy",
       "missing-p5-canvas"
     ]);
@@ -47,6 +48,12 @@ describe("findSimulationTemplateIssues", () => {
     ).toEqual(["non-canonical-canvas-controller"]);
   });
 
+  it("ナビバー・ローディングスピナーを手書きしている場合はinline-nav-bar・inline-loading-spinnerを検出する", () => {
+    expect(
+      findSimulationTemplateIssues(resolve(simulationsDir, "inline-ui-parts"))
+    ).toEqual(["inline-nav-bar", "inline-loading-spinner"]);
+  });
+
   it("共通コントローラをシングルクォートでimportしていても誤検知しない", () => {
     expect(
       findSimulationTemplateIssues(
@@ -62,6 +69,10 @@ describe("checkSimulationTemplateCompliance", () => {
 
     expect(result.violations).toEqual([
       {
+        slug: "inline-ui-parts",
+        issues: ["inline-nav-bar", "inline-loading-spinner"]
+      },
+      {
         slug: "local-controller-copy",
         issues: ["non-canonical-canvas-controller"]
       },
@@ -73,7 +84,7 @@ describe("checkSimulationTemplateCompliance", () => {
   it("許容リストに含まれるslugはviolationsから除外される", () => {
     const result = checkSimulationTemplateCompliance({
       simulationsDir,
-      allowedNonCompliantSlugs: ["missing-p5-canvas"]
+      allowedNonCompliantSlugs: ["inline-ui-parts", "missing-p5-canvas"]
     });
 
     expect(result.violations).toEqual([
