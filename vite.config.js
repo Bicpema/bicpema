@@ -1,6 +1,6 @@
 import { resolve } from "node:path";
 import { globSync } from "tinyglobby";
-import { defineConfig } from "vite";
+import { configDefaults, defineConfig } from "vitest/config";
 import tailwindcss from "@tailwindcss/vite";
 import { getHtmlInputsRecursively } from "./vite/_build/getHtmlInputsRecursively.js";
 import { bicpemaComponentsPlugin } from "./vite/_build/bicpemaComponents.js";
@@ -21,6 +21,13 @@ export default defineConfig({
     // バンドルしたサードパーティライブラリのライセンス一覧を出力する。
     // 既定の出力先（.vite/license.md）はFirebase Hostingのignore対象（**/.*）となるため変更する。
     license: { fileName: "third-party-licenses.md" }
+  },
+  test: {
+    // Viteのrootはvite/のため、Vitestの基準ディレクトリはリポジトリ直下に戻す
+    root: import.meta.dirname,
+    include: ["test/**/*.{test,spec}.{js,mjs}"],
+    // test/e2e/ はPlaywrightのテストのため、Vitestの対象から除外する
+    exclude: [...configDefaults.exclude, "test/e2e/**"]
   },
   plugins: [
     tailwindcss(),
