@@ -3,6 +3,7 @@
     "**/themes/**",
     "**/node_modules/**",
     "public/**",
+    "static/vite/**",
     "resources/**",
     "docs/site/**",
     "docs/.cache/**"
