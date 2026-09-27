@@ -25,7 +25,12 @@ const rootDir = resolve(__dirname, "..");
 const simulationsDir = join(rootDir, "vite", "simulations");
 const outDir = join(rootDir, "static", "vite");
 
+/**
+ * コマンドライン引数を解析する。
+ * @param {string[]} argv
+ */
 function parseArgs(argv) {
+  /** @type {{ filter: string[] | null, duration: number, deviceScale: number, baseUrl: string | null }} */
   const options = {
     filter: null,
     duration: 5000,
@@ -118,6 +123,7 @@ async function benchmarkSimulation(browser, baseUrl, name, options) {
   );
 
   // 同じ期間、JSヒープ使用量をサンプリングしてばらつき（アロケーション量の目安）を見る。
+  /** @type {number[]} */
   const heapSamples = [];
   const sampleInterval = setInterval(async () => {
     try {
@@ -181,6 +187,7 @@ async function main() {
     return;
   }
 
+  /** @type {import("vite").PreviewServer | null} */
   let previewServer = null;
   let baseUrl = options.baseUrl;
   if (!baseUrl) {
@@ -210,7 +217,11 @@ async function main() {
       console.log(
         `  画面のペイント頻度(rAFベース): ${result.measuredFps.toFixed(1)} fps`
       );
-      if (result.heapMinMB !== null) {
+      if (
+        result.heapMinMB !== null &&
+        result.heapMaxMB !== null &&
+        result.heapRangeMB !== null
+      ) {
         console.log(
           `  JSHeapUsedSize: ${result.heapMinMB.toFixed(2)}〜${result.heapMaxMB.toFixed(2)} MB (幅 ${result.heapRangeMB.toFixed(2)} MB)`
         );
