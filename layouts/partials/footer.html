@@ -1,4 +1,4 @@
-{{/* themes/hugo-theme-tailwind/layouts/partials/footer.html のオーバーライド（サブモジュールのため直接編集不可）。第三者ライセンス一覧ページへのリンクを追加するため上書き。テーマ更新時は差分を確認すること。 */}}
+{{/* themes/hugo-theme-tailwind/layouts/partials/footer.html のオーバーライド（サブモジュールのため直接編集不可）。利用規約ページ・第三者ライセンス一覧ページへのリンクを追加するため上書き。テーマ更新時は差分を確認すること。 */}}
 <section class="flex flex-col md:flex-row mx-2 md:mx-0 gap-2 md:gap-0 justify-between w-full max-w-4xl lg:max-w-5xl py-6 text-slate-500 dark:text-slate-300">
   <div class="flex flex-row">
     {{ partial "social_media.html" . }}
@@ -26,6 +26,11 @@
       "Copyright" $Copyright
     ) | safeHTML }}
     {{ end }}
+  </div>
+  <div class="flex flex-row">
+    <span class="ml-0 pl-0 md:ml-2 md:pl-2 border-l-0 md:border-l border-slate-300 dark:border-slate-400">
+      <a href="{{ "terms/" | relLangURL }}" class="underline">{{ T "footer.terms" }}</a>
+    </span>
   </div>
   <div class="flex flex-row">
     <span class="ml-0 pl-0 md:ml-2 md:pl-2 border-l-0 md:border-l border-slate-300 dark:border-slate-400">
