@@ -1,0 +1,105 @@
+# 教科書などの外部出版物に掲載されているBicpemaのURL一覧。
+# 掲載URLは出版物の改訂（約4年）まで変更できないため、ここに登録したURLがビルド成果物に
+# 存在する（またはfirebase.jsonのリダイレクト先が存在する）ことを `npm run check:published-urls` とCIで検査する。
+#
+# 各エントリの項目:
+#   url:          掲載されているURL（https://bicpema.com/ から始まる絶対URL）
+#   publications: 掲載先の一覧（出版物名・掲載年度など）。未把握の場合は空配列とする
+#     - name:     出版物名（例: ○○出版「物理基礎」）
+#       year:     掲載年度（例: 2027）
+#   note:         補足（任意）
+#
+# 現時点で掲載先を把握していないURLも、将来の掲載に備えてトップページと全シミュレーションを登録している。
+
+- url: https://bicpema.com/
+  publications: []
+- url: https://bicpema.com/vite/simulations/3d-strata/
+  publications: []
+- url: https://bicpema.com/vite/simulations/3d-strata-csv/
+  publications: []
+- url: https://bicpema.com/vite/simulations/air-column/
+  publications: []
+- url: https://bicpema.com/vite/simulations/archimedes-principle/
+  publications: []
+- url: https://bicpema.com/vite/simulations/cart-work-ruler/
+  publications: []
+- url: https://bicpema.com/vite/simulations/cellophane/
+  publications: []
+- url: https://bicpema.com/vite/simulations/cellophane-color-2/
+  publications: []
+- url: https://bicpema.com/vite/simulations/cellophane-color-2d-animation/
+  publications: []
+- url: https://bicpema.com/vite/simulations/cellophane-display/
+  publications: []
+- url: https://bicpema.com/vite/simulations/conservation-of-heat-and-specific-heat/
+  publications: []
+- url: https://bicpema.com/vite/simulations/doppler/
+  publications: []
+- url: https://bicpema.com/vite/simulations/elastic-force/
+  publications: []
+- url: https://bicpema.com/vite/simulations/first-law-of-thermodynamics/
+  publications: []
+- url: https://bicpema.com/vite/simulations/force-and-acceleration/
+  publications: []
+- url: https://bicpema.com/vite/simulations/force-composition/
+  publications: []
+- url: https://bicpema.com/vite/simulations/force-decomposition/
+  publications: []
+- url: https://bicpema.com/vite/simulations/free-fall/
+  publications: []
+- url: https://bicpema.com/vite/simulations/half-life/
+  publications: []
+- url: https://bicpema.com/vite/simulations/heat-engine/
+  publications: []
+- url: https://bicpema.com/vite/simulations/horizontal-throw/
+  publications: []
+- url: https://bicpema.com/vite/simulations/lens/
+  publications: []
+- url: https://bicpema.com/vite/simulations/magnetic-field-straight/
+  publications: []
+- url: https://bicpema.com/vite/simulations/normal-force/
+  publications: []
+- url: https://bicpema.com/vite/simulations/oscilloscope/
+  publications: []
+- url: https://bicpema.com/vite/simulations/pendulum/
+  publications: []
+- url: https://bicpema.com/vite/simulations/pendulum-wave/
+  publications: []
+- url: https://bicpema.com/vite/simulations/projectile-motion/
+  publications: []
+- url: https://bicpema.com/vite/simulations/refraction/
+  publications: []
+- url: https://bicpema.com/vite/simulations/slope-cart-motion/
+  publications: []
+- url: https://bicpema.com/vite/simulations/slope-force-decomposition/
+  publications: []
+- url: https://bicpema.com/vite/simulations/specific-heat-and-heat-capacity/
+  publications: []
+- url: https://bicpema.com/vite/simulations/spring/
+  publications: []
+- url: https://bicpema.com/vite/simulations/standing-wave/
+  publications: []
+- url: https://bicpema.com/vite/simulations/tate-yoko-wave/
+  publications: []
+- url: https://bicpema.com/vite/simulations/three-force-equilibrium/
+  publications: []
+- url: https://bicpema.com/vite/simulations/train-acceleration/
+  publications: []
+- url: https://bicpema.com/vite/simulations/transformer/
+  publications: []
+- url: https://bicpema.com/vite/simulations/uniform-linear-motion/
+  publications: []
+- url: https://bicpema.com/vite/simulations/uniformly-accelerated-linear-motion/
+  publications: []
+- url: https://bicpema.com/vite/simulations/velocity-composition/
+  publications: []
+- url: https://bicpema.com/vite/simulations/vertical-throw-down/
+  publications: []
+- url: https://bicpema.com/vite/simulations/vertical-throw-up/
+  publications: []
+- url: https://bicpema.com/vite/simulations/visualization-of-heat-transfer/
+  publications: []
+- url: https://bicpema.com/vite/simulations/wave-machine/
+  publications: []
+- url: https://bicpema.com/vite/simulations/wave-reflection/
+  publications: []

@@ -131,6 +131,14 @@ npm run check:article-links
 
 意図的に記事なしとするシミュレーションは`scripts/articleless-simulation-allowlist.js`に追加する。
 
+教科書などに掲載されたURL（`data/published-urls.yaml`）がビルド成果物からアクセス可能かをチェックする（Vite・Hugoのビルド後に実行する）
+
+```bash
+npm run check:published-urls
+```
+
+シミュレーション名・記事スラッグの変更やページの移転を行う場合は、`firebase.json`の`hosting.redirects`に旧URLからのリダイレクトを必ず追加する。
+
 ## Simulation
 
 [`vite`](./vite/)ディレクトリにシミュレーションのHTMLを配置する。  

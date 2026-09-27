@@ -59,12 +59,29 @@ fix: 波の反射シミュレーションで音が鳴らない不具合を修正
 chore: dependabotによる依存関係の更新
 ```
 
+## 掲載URLの維持とリダイレクト
+
+教科書などの外部出版物には Bicpema のURLが掲載されており、出版物は約4年間改訂されません。その間にリンク切れを起こさないよう、以下の運用とします。
+
+- シミュレーション名（`vite/simulations/` のフォルダー名）・記事スラッグ（`content/post/` のフォルダー名）の変更やページの移転を行う場合は、旧URLから新URLへのリダイレクトを `firebase.json` の `hosting.redirects` に**必ず**追加する
+- 外部に掲載されたURLは `data/published-urls.yaml` に登録する。掲載先（出版物名・掲載年度）が判明したら `publications` に追記する
+- 登録したURLがビルド成果物（`public/`）に存在するか、`firebase.json` のリダイレクト先が存在するかを `npm run check:published-urls` で検査する。CI（`check-published-urls.yml`）でもPRごとに実行され、掲載URLにアクセスできなくなる変更はCIが失敗する
+
+ローカルで検査する場合は、Vite・Hugoのビルド後に実行します。
+
+```bash
+npm run build
+hugo --minify
+npm run check:published-urls
+```
+
 ## GitHub Actions
 
-| ワークフロー              | トリガー                                      | 処理                                                        |
-| ------------------------- | --------------------------------------------- | ----------------------------------------------------------- |
-| `deploy.yml`              | `workflow_dispatch` (手動) またはリリースタグ | Vite ビルド → Hugo ビルド → Firebase Hosting へデプロイ     |
-| `create-release-note.yml` | `v*.*.*` または `v*.*.*-Beta*` タグのプッシュ | GitHub Release を自動作成し、正式リリース時はデプロイを起動 |
+| ワークフロー               | トリガー                                      | 処理                                                        |
+| -------------------------- | --------------------------------------------- | ----------------------------------------------------------- |
+| `deploy.yml`               | `workflow_dispatch` (手動) またはリリースタグ | Vite ビルド → Hugo ビルド → Firebase Hosting へデプロイ     |
+| `create-release-note.yml`  | `v*.*.*` または `v*.*.*-Beta*` タグのプッシュ | GitHub Release を自動作成し、正式リリース時はデプロイを起動 |
+| `check-published-urls.yml` | Pull Request、`main` へのプッシュ             | Vite ビルド → Hugo ビルド → 掲載URLのリンク切れチェック     |
 
 ## ラベル一覧
 
