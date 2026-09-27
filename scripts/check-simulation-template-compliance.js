@@ -1,4 +1,4 @@
-// vite/simulations/ 配下の各シミュレーションが、templates/の必須構成
+// vite/simulations/ 配下の各シミュレーションが、vite/_templates/simulation/の必須構成
 // （<bicpema-nav-bar> / id="p5Container" / id="p5Canvas"、設定ボタン・設定モーダルの
 // 共通コンポーネント利用、ts/index.tsを
 // <script type="module">で読み込む構成、共通のBicpemaCanvasControllerの
@@ -52,7 +52,7 @@ let hasError = false;
 if (result.violations.length > 0) {
   hasError = true;
   console.error(
-    "テンプレート（templates/）の構成から外れているシミュレーションがあります:"
+    "テンプレート（vite/_templates/simulation/）の構成から外れているシミュレーションがあります:"
   );
   for (const { slug, issues } of result.violations) {
     console.error(`  vite/simulations/${slug}`);

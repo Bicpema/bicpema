@@ -34,11 +34,11 @@ bicpema/
 ├── scripts/                  # 開発用スクリプト（雛形生成・各種チェック・ベンチマーク）
 ├── static/                   # 静的ファイル（CSS, 画像, ビルド済みシミュレーション）
 │   └── vite/                 # Vite ビルド出力先（生成物・git 管理外）
-├── templates/                # シミュレーション雛形テンプレート
 ├── test/                     # Vitest 単体テスト
 ├── themes/                   # Hugo テーマ（サブモジュール）
 ├── vite/                     # シミュレーションのソースコード
 │   ├── _build/               # ビルド設定
+│   ├── _templates/           # シミュレーション雛形テンプレート（ビルド対象外）
 │   ├── css/                  # 共通 CSS
 │   ├── js/                   # 共通 JavaScript
 │   ├── simulations/          # 各シミュレーション

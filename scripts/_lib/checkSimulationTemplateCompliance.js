@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-// templates/ をコピーして作られるシミュレーション（vite/simulations/<slug>/）が
+// vite/_templates/simulation/ をコピーして作られるシミュレーション（vite/simulations/<slug>/）が
 // テンプレートの必須構成から外れていないかを検査する。
 //
 // 検査項目:

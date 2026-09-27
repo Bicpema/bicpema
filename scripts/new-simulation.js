@@ -1,4 +1,4 @@
-// templates/ のひな形から新しいシミュレーションを vite/simulations/ 配下に生成する。
+// vite/_templates/simulation/ のひな形から新しいシミュレーションを vite/simulations/ 配下に生成する。
 //
 // 使い方:
 //   npm run new:simulation
@@ -15,7 +15,7 @@ import {
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
-const templateDir = resolve(rootDir, "templates");
+const templateDir = resolve(rootDir, "vite", "_templates", "simulation");
 const simulationsDir = resolve(rootDir, "vite", "simulations");
 
 const rl = createInterface({ input, output });
