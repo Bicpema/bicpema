@@ -1,3 +1,4 @@
+---
 # 教科書などの外部出版物に掲載されているBicpemaのURL一覧。
 # 掲載URLは出版物の改訂（約4年）まで変更できないため、ここに登録したURLがビルド成果物に
 # 存在する（またはfirebase.jsonのリダイレクト先が存在する）ことを `npm run check:published-urls` とCIで検査する。

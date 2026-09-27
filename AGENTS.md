@@ -107,7 +107,7 @@
 
 1. 作業前に、対応するIssueが存在することを確認してください（なければ「[Issueの登録手順](#issueの登録手順)」に従って作成します）。
 1. 「[ブランチ運用方針](#ブランチ運用方針)」に従いブランチを作成します。
-1. 変更内容に応じて該当するチェックを実行してください（`npm run lint:md` / `npm run format:check` / `npm run typecheck` / `npm test` など。詳細は [package.json](package.json) の `scripts` を参照）。
+1. 変更内容に応じて該当するチェックを実行してください（`npm run lint:md` / `npm run lint:yaml` / `npm run format:check` / `npm run typecheck` / `npm test` など。詳細は [package.json](package.json) の `scripts` を参照）。
 1. [.github/pull_request_template.md](.github/pull_request_template.md) に従い、以下の項目を省略せず記入してPRを作成します。
     - 本プルリクエストで実施したこと
     - 本プルリクエストで実施していないこと

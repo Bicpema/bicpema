@@ -1,0 +1,18 @@
+---
+# yamllint の設定（https://yamllint.readthedocs.io/en/stable/configuration.html）
+# YAMLの整形は Prettier ではなく yamllint で検査する（.prettierignore 参照）。
+extends: default
+
+ignore: |
+  node_modules/
+  themes/
+  public/
+  resources/
+  static/vite/
+  docs/site/
+  .claude/worktrees/
+
+rules:
+  # SHA固定の uses: 行（例: `uses: <action>@<SHA40桁>  # vX.Y.Z`）が80文字を超えるため緩和する
+  line-length:
+    max: 100

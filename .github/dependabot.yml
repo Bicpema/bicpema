@@ -1,3 +1,4 @@
+---
 version: 2
 updates:
   # npm (JavaScript) の依存関係
@@ -16,3 +17,11 @@ updates:
     labels:
       - "依存関係"
       - "github actions"
+
+  # Python（yamllint 等の開発ツール）の依存関係
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "依存関係"

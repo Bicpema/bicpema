@@ -1,0 +1,2 @@
+# 開発用のPythonツール（CIの yamllint ワークフローで使用）
+yamllint==1.38.0

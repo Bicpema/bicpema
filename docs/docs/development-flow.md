@@ -77,11 +77,12 @@ npm run check:published-urls
 
 ## GitHub Actions
 
-| ワークフロー               | トリガー                                      | 処理                                                        |
-| -------------------------- | --------------------------------------------- | ----------------------------------------------------------- |
-| `deploy.yml`               | `workflow_dispatch` (手動) またはリリースタグ | Vite ビルド → Hugo ビルド → Firebase Hosting へデプロイ     |
-| `create-release-note.yml`  | `v*.*.*` または `v*.*.*-Beta*` タグのプッシュ | GitHub Release を自動作成し、正式リリース時はデプロイを起動 |
-| `check-published-urls.yml` | Pull Request、`main` へのプッシュ             | Vite ビルド → Hugo ビルド → 掲載URLのリンク切れチェック     |
+| ワークフロー               | トリガー                                              | 処理                                                        |
+| -------------------------- | ----------------------------------------------------- | ----------------------------------------------------------- |
+| `deploy.yml`               | `workflow_dispatch` (手動) またはリリースタグ         | Vite ビルド → Hugo ビルド → Firebase Hosting へデプロイ     |
+| `create-release-note.yml`  | `v*.*.*` または `v*.*.*-Beta*` タグのプッシュ         | GitHub Release を自動作成し、正式リリース時はデプロイを起動 |
+| `check-published-urls.yml` | Pull Request、`main` へのプッシュ                     | Vite ビルド → Hugo ビルド → 掲載URLのリンク切れチェック     |
+| `yamllint.yml`             | YAMLファイル変更時のPull Request、`main` へのプッシュ | yamllint によるYAMLファイルのリントチェック                 |
 
 ## ラベル一覧
 

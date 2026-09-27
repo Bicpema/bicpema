@@ -25,3 +25,6 @@ layouts
 # Configuration
 *.min.js
 *.min.css
+# YAML（yamllint で検査する。コメント前の空白数の規則がPrettierと衝突するため）
+*.yml
+*.yaml

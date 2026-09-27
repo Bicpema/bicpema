@@ -1,7 +1,7 @@
 ---
 name: リリースノートの作成
 
-on:
+"on":
   # vX.X.X または vX.X.X-BetaX のタグがpushされたときに実行
   push:
     tags:
@@ -20,7 +20,7 @@ jobs:
 
     steps:
       # リポジトリをcheckout
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
       - name: Check prerelease
         id: prerelease
@@ -34,7 +34,7 @@ jobs:
 
       - name: Create Release
         # GitHub Release を自動作成
-        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64  # v3
         with:
           # PRやコミットからリリースノートを自動生成
           generate_release_notes: true
@@ -46,7 +46,7 @@ jobs:
       - name: Trigger Deploy Workflow
         # 正式リリースの場合のみデプロイWorkflowを起動
         if: steps.prerelease.outputs.value == 'false'
-        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3  # v9
         with:
           script: |
             // デプロイ用Workflowを起動
