@@ -16,3 +16,11 @@ export const TEMPLATE_COMPLIANCE_ALLOWLIST = [
   "refraction",
   "spring"
 ];
+
+// 設定モーダル以外の目的（データ登録・CSV形式の説明など）のモーダルを
+// 手書きしているシミュレーションslug一覧。これらのモーダルは見出し部分に
+// 独自の要素を持つなど<bicpema-settings-modal>の外枠と構成が異なるため、
+// inline-settings-modal（.modal-panel / .modal-closeの手書き）のチェックから除外する。
+// 手書きのモーダルがなくなった場合はここから削除すること（削除し忘れは
+// staleNonSettingsModalSlugsとしてチェックが検知する）。
+export const NON_SETTINGS_MODAL_SLUGS = ["3d-strata", "3d-strata-csv"];

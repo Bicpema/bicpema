@@ -39,7 +39,7 @@ function onReset(p: p5) {
 export function elCreate(p: p5) {
   initModal({
     openSelectors: ".settings-modal-open",
-    modalSelector: "#modal",
+    modalSelector: "#simulationSettingModal",
     closeSelectors: ".modal-close"
   });
 

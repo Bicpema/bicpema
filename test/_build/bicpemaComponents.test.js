@@ -102,6 +102,48 @@ describe("expandBicpemaComponents", () => {
     expect(html).toContain("シミュレーションの設定</h1>");
   });
 
+  it('<bicpema-settings-modal variant="dark">を背景を暗くしない暗色パネルへ展開する', () => {
+    const html = expandBicpemaComponents(
+      page(
+        '<bicpema-settings-modal id="settingsModal" variant="dark" panel-class="w-[340px]"><input /></bicpema-settings-modal>'
+      )
+    );
+
+    expect(html).toContain(
+      renderSettingsModal({
+        id: "settingsModal",
+        variant: "dark",
+        panelClass: "w-[340px]",
+        bodyHtml: "<input />"
+      })
+    );
+    expect(html).toContain(
+      '<div class="modal-panel max-h-[85vh] overflow-y-auto w-[340px]">'
+    );
+    expect(html).toContain('class="modal-close modal-close-solid mt-2"');
+    expect(html).not.toContain("bg-black/50");
+    expect(html).not.toContain("modal-close-icon");
+  });
+
+  it("lightのpanel-classは既定の幅クラスを置き換える", () => {
+    const html = renderSettingsModal({
+      panelClass: "w-full max-w-2xl",
+      bodyHtml: ""
+    });
+
+    expect(html).toContain("max-w-2xl");
+    expect(html).not.toContain("max-w-lg");
+    expect(renderSettingsModal({ bodyHtml: "" })).toContain("w-full max-w-lg");
+  });
+
+  it("未知のvariantはエラーにする", () => {
+    expect(() =>
+      expandBicpemaComponents(
+        page('<bicpema-settings-modal variant="blue"></bicpema-settings-modal>')
+      )
+    ).toThrow("blue");
+  });
+
   it("設定モーダルの中身に含まれるHTMLコメントは保持したまま展開する", () => {
     const html = expandBicpemaComponents(
       page(

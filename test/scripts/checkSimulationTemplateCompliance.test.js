@@ -7,6 +7,13 @@ import {
   getSimulationSlugs
 } from "../../scripts/_lib/checkSimulationTemplateCompliance.js";
 
+const INLINE_UI_PARTS_ISSUES = [
+  "inline-nav-bar",
+  "inline-loading-spinner",
+  "inline-settings-button",
+  "inline-settings-modal"
+];
+
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const simulationsDir = resolve(
   __dirname,
@@ -48,10 +55,10 @@ describe("findSimulationTemplateIssues", () => {
     ).toEqual(["non-canonical-canvas-controller"]);
   });
 
-  it("ナビバー・ローディングスピナーを手書きしている場合はinline-nav-bar・inline-loading-spinnerを検出する", () => {
+  it("共通UIパーツを手書きしている場合はinline-nav-bar・inline-loading-spinner・inline-settings-button・inline-settings-modalを検出する", () => {
     expect(
       findSimulationTemplateIssues(resolve(simulationsDir, "inline-ui-parts"))
-    ).toEqual(["inline-nav-bar", "inline-loading-spinner"]);
+    ).toEqual(INLINE_UI_PARTS_ISSUES);
   });
 
   it("共通コントローラをシングルクォートでimportしていても誤検知しない", () => {
@@ -68,10 +75,7 @@ describe("checkSimulationTemplateCompliance", () => {
     const result = checkSimulationTemplateCompliance({ simulationsDir });
 
     expect(result.violations).toEqual([
-      {
-        slug: "inline-ui-parts",
-        issues: ["inline-nav-bar", "inline-loading-spinner"]
-      },
+      { slug: "inline-ui-parts", issues: INLINE_UI_PARTS_ISSUES },
       {
         slug: "local-controller-copy",
         issues: ["non-canonical-canvas-controller"]
@@ -79,6 +83,7 @@ describe("checkSimulationTemplateCompliance", () => {
       { slug: "missing-p5-canvas", issues: ["missing-p5-canvas"] }
     ]);
     expect(result.staleAllowlistSlugs).toEqual([]);
+    expect(result.staleNonSettingsModalSlugs).toEqual([]);
   });
 
   it("許容リストに含まれるslugはviolationsから除外される", () => {
@@ -103,6 +108,35 @@ describe("checkSimulationTemplateCompliance", () => {
     });
 
     expect(result.staleAllowlistSlugs.toSorted()).toEqual([
+      "compliant-sim",
+      "sim-does-not-exist"
+    ]);
+  });
+
+  it("nonSettingsModalSlugsに含まれるslugはinline-settings-modalのみ除外される", () => {
+    const result = checkSimulationTemplateCompliance({
+      simulationsDir,
+      nonSettingsModalSlugs: ["inline-ui-parts"]
+    });
+
+    expect(result.violations).toContainEqual({
+      slug: "inline-ui-parts",
+      issues: [
+        "inline-nav-bar",
+        "inline-loading-spinner",
+        "inline-settings-button"
+      ]
+    });
+    expect(result.staleNonSettingsModalSlugs).toEqual([]);
+  });
+
+  it("手書きのモーダルがないslugがnonSettingsModalSlugsにある場合はstaleNonSettingsModalSlugsとして検出する", () => {
+    const result = checkSimulationTemplateCompliance({
+      simulationsDir,
+      nonSettingsModalSlugs: ["compliant-sim", "sim-does-not-exist"]
+    });
+
+    expect(result.staleNonSettingsModalSlugs).toEqual([
       "compliant-sim",
       "sim-does-not-exist"
     ]);

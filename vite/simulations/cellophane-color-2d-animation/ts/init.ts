@@ -30,7 +30,7 @@ export function elInit(p: p5) {
   );
   initModal({
     openSelectors: ".settings-modal-open",
-    modalSelector: "#settingModal",
+    modalSelector: "#simulationSettingModal",
     closeSelectors: ".modal-close"
   });
 }

@@ -28,40 +28,32 @@
       </div>
 
       <!-- 設定モーダル -->
-      <div
+      <bicpema-settings-modal
         id="settingsModal"
-        class="modal-panel hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] max-[576px]:w-[290px]"
-        role="dialog"
-        aria-modal="true"
-        aria-label="設定"
+        variant="dark"
+        panel-class="w-[340px] max-[576px]:w-[290px]"
       >
-        <div>
-          <h5 class="mb-5 text-center text-white">設定</h5>
-          <div class="mb-3">
-            <label for="accelerationInput" class="form-label"
-              >加速度 a (m/s²)</label
-            >
-            <input
-              type="number"
-              class="form-control"
-              id="accelerationInput"
-              min="-10"
-              max="10"
-              value="2"
-              step="0.5"
-            />
-          </div>
-          <button
-            id="resetButton"
-            class="mb-2 w-full rounded bg-amber-500 px-3 py-2 text-neutral-900 hover:bg-amber-400"
+        <div class="mb-3">
+          <label for="accelerationInput" class="form-label"
+            >加速度 a (m/s²)</label
           >
-            リセット
-          </button>
-          <button id="closeModal" class="modal-close modal-close-solid">
-            閉じる
-          </button>
+          <input
+            type="number"
+            class="form-control"
+            id="accelerationInput"
+            min="-10"
+            max="10"
+            value="2"
+            step="0.5"
+          />
         </div>
-      </div>
+        <button
+          id="resetButton"
+          class="mb-2 w-full rounded bg-amber-500 px-3 py-2 text-neutral-900 hover:bg-amber-400"
+        >
+          リセット
+        </button>
+      </bicpema-settings-modal>
 
       <!-- 左下コントロール -->
       <div
@@ -76,17 +68,10 @@
       </div>
 
       <!-- 右上コントロール -->
-      <div
+      <bicpema-settings-button
+        id="toggleModal"
         class="absolute top-2 right-5 z-[1000] max-[576px]:top-[5px] max-[576px]:right-2.5"
-      >
-        <button
-          id="toggleModal"
-          class="settings-modal-open btn-settings-modal-open"
-          aria-label="シミュレーションの設定"
-        >
-          ⚙ 設定
-        </button>
-      </div>
+      ></bicpema-settings-button>
     </div>
 
     <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->

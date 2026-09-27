@@ -33,48 +33,20 @@
           再開
         </button>
       </div>
-      <div class="absolute end-0 me-3" style="top: 4.2rem; z-index: 1100">
-        <button
-          class="settings-modal-open btn-settings-modal-open"
-          type="button"
-          aria-label="シミュレーションの設定"
-        >
-          ⚙ 設定
-        </button>
-      </div>
+      <bicpema-settings-button
+        class="absolute end-0 me-3 top-[4.2rem] z-[1100]"
+      ></bicpema-settings-button>
     </main>
 
-    <div
-      class="fixed inset-0 z-[1100] hidden flex items-center justify-center bg-black/50"
-      id="simulationSettingModal"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="simulationSettingModalLabel"
-    >
-      <div class="w-full max-w-lg rounded bg-white p-4 text-neutral-900">
-        <div
-          class="mb-3 flex items-center justify-between border-b border-neutral-200 pb-2"
-        >
-          <h1 class="text-lg font-semibold" id="simulationSettingModalLabel">
-            表示設定
-          </h1>
-          <button
-            aria-label="閉じる"
-            class="modal-close modal-close-icon"
-            type="button"
-          >
-            &times;
-          </button>
-        </div>
-        <div>
-          <label class="form-label" for="modeSelect">表示モード</label>
-          <select class="form-control" id="modeSelect">
-            <option value="waveform">波形</option>
-            <option value="spectrum">スペクトル</option>
-          </select>
-        </div>
+    <bicpema-settings-modal title="表示設定">
+      <div>
+        <label class="form-label" for="modeSelect">表示モード</label>
+        <select class="form-control" id="modeSelect">
+          <option value="waveform">波形</option>
+          <option value="spectrum">スペクトル</option>
+        </select>
       </div>
-    </div>
+    </bicpema-settings-modal>
 
     <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
     <bicpema-loading-spinner></bicpema-loading-spinner>

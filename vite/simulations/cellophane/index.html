@@ -37,13 +37,7 @@
           >
             出射光
           </div>
-          <button
-            type="button"
-            class="settings-modal-open cursor-pointer btn-settings-modal-open"
-            aria-label="シミュレーションの設定"
-          >
-            ⚙ 設定
-          </button>
+          <bicpema-settings-button class="shrink-0"></bicpema-settings-button>
         </div>
         <div class="relative min-h-0 flex-1 rounded bg-white p-1">
           <canvas id="graphChart"></canvas>
@@ -69,94 +63,65 @@
     <bicpema-loading-spinner></bicpema-loading-spinner>
 
     <!-- 設定モーダル -->
-    <div
-      class="fixed inset-0 z-[1100] hidden flex items-center justify-center bg-black/50"
-      id="settingsModal"
-      role="dialog"
-      aria-modal="true"
-      aria-label="シミュレーションの設定"
-    >
-      <div
-        class="max-h-[85vh] w-full max-w-lg overflow-y-auto rounded bg-white p-4 text-neutral-900"
-      >
-        <div
-          class="mb-3 flex items-center justify-between border-b border-neutral-200 pb-2"
+    <bicpema-settings-modal>
+      <div class="mb-4">
+        <button
+          type="button"
+          id="waveRepresentationButton"
+          class="rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
         >
-          <h1 class="text-lg font-semibold">シミュレーションの設定</h1>
+          波動表現の切り替え
+        </button>
+        <p class="mt-1 text-sm text-neutral-600">
+          光の波の表現方法（球・直線）を切り替えます。
+        </p>
+      </div>
+
+      <div class="mb-4">
+        <label
+          class="mb-1 block text-sm font-semibold"
+          for="cellophaneCountSlider"
+        >
+          セロハンテープの枚数: <span id="cellophaneCountValue">1</span>枚
+        </label>
+        <input
+          type="range"
+          class="w-full"
+          id="cellophaneCountSlider"
+          min="1"
+          max="10"
+          step="1"
+          value="1"
+        />
+      </div>
+
+      <div class="mb-2">
+        <span class="mb-1 block text-sm font-semibold">表示する光線の色</span>
+        <div class="flex gap-2">
           <button
             type="button"
-            class="modal-close modal-close-icon"
-            aria-label="閉じる"
+            id="rButton"
+            class="flex-1 rounded bg-red-600 px-3 py-2 text-white hover:bg-red-500"
           >
-            &times;
+            赤(600 nm)
           </button>
-        </div>
-
-        <div class="mb-4">
           <button
             type="button"
-            id="waveRepresentationButton"
-            class="rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
+            id="gButton"
+            class="flex-1 rounded bg-green-600 px-3 py-2 text-white hover:bg-green-500"
           >
-            波動表現の切り替え
+            緑(550 nm)
           </button>
-          <p class="mt-1 text-sm text-neutral-600">
-            光の波の表現方法（球・直線）を切り替えます。
-          </p>
-        </div>
-
-        <div class="mb-4">
-          <label
-            class="mb-1 block text-sm font-semibold"
-            for="cellophaneCountSlider"
+          <button
+            type="button"
+            id="bButton"
+            class="flex-1 rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
           >
-            セロハンテープの枚数: <span id="cellophaneCountValue">1</span>枚
-          </label>
-          <input
-            type="range"
-            class="w-full"
-            id="cellophaneCountSlider"
-            min="1"
-            max="10"
-            step="1"
-            value="1"
-          />
-        </div>
-
-        <div class="mb-2">
-          <span class="mb-1 block text-sm font-semibold">表示する光線の色</span>
-          <div class="flex gap-2">
-            <button
-              type="button"
-              id="rButton"
-              class="flex-1 rounded bg-red-600 px-3 py-2 text-white hover:bg-red-500"
-            >
-              赤(600 nm)
-            </button>
-            <button
-              type="button"
-              id="gButton"
-              class="flex-1 rounded bg-green-600 px-3 py-2 text-white hover:bg-green-500"
-            >
-              緑(550 nm)
-            </button>
-            <button
-              type="button"
-              id="bButton"
-              class="flex-1 rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
-            >
-              青(450 nm)
-            </button>
-          </div>
-        </div>
-
-        <div class="flex justify-end border-t border-neutral-200 pt-2">
-          <button type="button" class="modal-close modal-close-outline">
-            閉じる
+            青(450 nm)
           </button>
         </div>
       </div>
-    </div>
+    </bicpema-settings-modal>
 
     <script type="module" src="./ts/index.ts"></script>
   </body>

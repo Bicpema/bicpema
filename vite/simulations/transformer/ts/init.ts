@@ -94,7 +94,7 @@ export function elCreate(p: p5) {
   initModal({
     openSelectors: "#toggleModal",
     modalSelector: "#settingsModal",
-    closeSelectors: "#closeModal"
+    closeSelectors: "#settingsModal .modal-close"
   });
 }
 
