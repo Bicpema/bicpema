@@ -21,7 +21,8 @@
     "vite/ts/**/*.ts",
     "vite/simulations/**/*.ts",
     "test/**/*.js",
-    "templates/ts/**/*.ts"
+    "templates/ts/**/*.ts",
+    "scripts/**/*.js"
   ],
-  "exclude": ["node_modules", "static", "test/**/fixtures", "test/e2e"]
+  "exclude": ["node_modules", "static", "test/**/fixtures"]
 }

@@ -71,7 +71,7 @@ describe("getHtmlInputsRecursively", () => {
 
 ## 型チェック
 
-`vite/_build/` などのJSDocコメントに対してTypeScriptによる型チェックを実行できます。
+`vite/_build/` ・ `scripts/` ・ `test/`（`test/e2e/` を含む）などのJSDocコメントに対してTypeScriptによる型チェックを実行できます。
 
 ```bash
 npm run typecheck

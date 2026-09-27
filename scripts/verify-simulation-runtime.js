@@ -44,6 +44,7 @@ function parseIntWithMin(value, fallback, min = 1) {
  * @param {string[]} argv
  */
 function parseArgs(argv) {
+  /** @type {{ filter: string | null, concurrency: number, timeout: number, settle: number, baseUrl: string | null }} */
   const options = {
     filter: null,
     concurrency: 4,
@@ -200,8 +201,9 @@ async function main() {
   }
 
   let names = listSimulationNames();
-  if (options.filter) {
-    names = names.filter((name) => name.includes(options.filter));
+  const { filter } = options;
+  if (filter) {
+    names = names.filter((name) => name.includes(filter));
   }
   if (names.length === 0) {
     console.error("検証対象のシミュレーションが見つかりませんでした。");

@@ -14,6 +14,7 @@ import { TEMPLATE_COMPLIANCE_ALLOWLIST } from "./template-compliance-allowlist.j
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
 
+/** @type {Record<string, string>} */
 const ISSUE_DESCRIPTIONS = {
   "missing-index-html": "index.htmlが存在しません",
   "missing-entry-script": "ts/index.tsが存在しません",
