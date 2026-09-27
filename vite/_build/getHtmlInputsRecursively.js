@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 
 /**
  * 指定したディレクトリから再帰的にHTMLファイルを取得
+ * `_` で始まるディレクトリ（`_templates/` などビルド対象外のファイル置き場）は除外する
  * @param {string} dir - 検索するディレクトリ
  * @returns {Record<string, string>} - input設定用のオブジェクト
  */
@@ -11,6 +12,9 @@ export const getHtmlInputsRecursively = (dir) => {
   return entries.reduce((inputs, entry) => {
     const fullPath = resolve(dir, entry.name);
     if (entry.isDirectory()) {
+      if (entry.name.startsWith("_")) {
+        return inputs;
+      }
       // ディレクトリの場合、再帰的に取得
       Object.assign(inputs, getHtmlInputsRecursively(fullPath));
     } else if (entry.isFile() && entry.name.endsWith(".html")) {

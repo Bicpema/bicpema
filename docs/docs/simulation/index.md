@@ -42,7 +42,7 @@ npm run new:simulation
 
 ### パターン A — ES モジュール + p5 インスタンスモード（標準）
 
-採用しているシミュレーションの標準構成です。新規シミュレーションは`npm run new:simulation`が生成するひな形（`templates/`配下）がこの構成に沿っているため、そのまま実装を進めてください。
+採用しているシミュレーションの標準構成です。新規シミュレーションは`npm run new:simulation`が生成するひな形（`vite/_templates/simulation/`配下）がこの構成に沿っているため、そのまま実装を進めてください。
 
 ```txt
 vite/simulations/{name}/

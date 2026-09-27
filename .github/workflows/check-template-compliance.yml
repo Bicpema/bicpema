@@ -4,8 +4,8 @@ name: シミュレーションのテンプレート準拠チェック
 "on":
   pull_request:
     paths:
-      - "templates/**"
       - "vite/simulations/**"
+      - "vite/_templates/**"
       - "scripts/check-simulation-template-compliance.js"
       - "scripts/template-compliance-allowlist.js"
       - "scripts/_lib/checkSimulationTemplateCompliance.js"
@@ -14,8 +14,8 @@ name: シミュレーションのテンプレート準拠チェック
     branches:
       - main
     paths:
-      - "templates/**"
       - "vite/simulations/**"
+      - "vite/_templates/**"
       - "scripts/check-simulation-template-compliance.js"
       - "scripts/template-compliance-allowlist.js"
       - "scripts/_lib/checkSimulationTemplateCompliance.js"

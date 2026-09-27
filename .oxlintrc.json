@@ -255,7 +255,7 @@
     "func-names": "warn",
     // `new Array(n).fill(v)`は定番の書き方のため対象外にする。
     "unicorn/no-new-array": "off",
-    // templatesのひな形など、意図的にコメントだけのファイルがあるため対象外にする。
+    // vite/_templates/のひな形など、意図的にコメントだけのファイルがあるため対象外にする。
     "unicorn/no-empty-file": "off",
     // p5.jsのインスタンスモード（AGENTS.md）では`new p5(sketch)`のように、
     // 戻り値を使わないnew呼び出しが必須の書き方になるため対象外にする。
@@ -297,7 +297,7 @@
     "static/**",
     "public/**",
     "themes/**",
-    "templates/**",
+    "vite/_templates/**",
     "test/**/fixtures/**"
   ],
   "env": {

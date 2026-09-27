@@ -38,6 +38,13 @@ describe("getHtmlInputsRecursively", () => {
     );
   });
 
+  it("_ で始まるディレクトリは除外する", () => {
+    const inputs = getHtmlInputsRecursively(fixturesDir);
+    const paths = Object.values(inputs);
+
+    expect(paths.some((path) => path.includes("/_templates/"))).toBe(false);
+  });
+
   it("html以外のファイルは無視する", () => {
     const inputs = getHtmlInputsRecursively(fixturesDir);
     const paths = Object.values(inputs);
