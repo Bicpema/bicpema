@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[弾性力シミュレーションを開く](/vite/simulations/elastic-force/)
+{{< simulation-link "/vite/simulations/elastic-force/" >}}
 
 ## 扱っている現象および本教材の説明
 

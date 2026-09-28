@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[温度変化に要する熱量シミュレーションを開く](/vite/simulations/specific-heat-and-heat-capacity/)
+{{< simulation-link "/vite/simulations/specific-heat-and-heat-capacity/" >}}
 
 ## 扱っている現象および本教材の説明
 

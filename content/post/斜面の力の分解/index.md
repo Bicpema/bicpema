@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[斜面の力の分解シミュレーションを開く](/vite/simulations/slope-force-decomposition/)
+{{< simulation-link "/vite/simulations/slope-force-decomposition/" >}}
 
 ## 扱っている現象および本教材の説明
 

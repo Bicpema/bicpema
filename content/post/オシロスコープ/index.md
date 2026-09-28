@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[オシロスコープシミュレーションを開く](/vite/simulations/oscilloscope/)
+{{< simulation-link "/vite/simulations/oscilloscope/" >}}
 
 ## 扱っている現象および本教材の説明
 

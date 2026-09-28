@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[比熱の測定シミュレーションを開く](/vite/simulations/conservation-of-heat-and-specific-heat/)
+{{< simulation-link "/vite/simulations/conservation-of-heat-and-specific-heat/" >}}
 
 ## 扱っている現象および本教材の説明
 

@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[振り子シミュレーションを開く](/vite/simulations/pendulum/)
+{{< simulation-link "/vite/simulations/pendulum/" >}}
 
 ## 扱っている現象および本教材の説明
 

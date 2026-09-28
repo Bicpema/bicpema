@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[アルキメデスの原理シミュレーションを開く](/vite/simulations/archimedes-principle/)
+{{< simulation-link "/vite/simulations/archimedes-principle/" >}}
 
 ## 扱っている現象および本教材の説明
 

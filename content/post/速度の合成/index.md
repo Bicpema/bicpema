@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[速度の合成シミュレーションを開く](/vite/simulations/velocity-composition/)
+{{< simulation-link "/vite/simulations/velocity-composition/" >}}
 
 ## 扱っている現象および本教材の説明
 

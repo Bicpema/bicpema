@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[力の合成シミュレーションを開く](/vite/simulations/force-composition/)
+{{< simulation-link "/vite/simulations/force-composition/" >}}
 
 ## 扱っている現象および本教材の説明
 

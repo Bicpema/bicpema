@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[ドップラー効果シミュレーションを開く](/vite/simulations/doppler/)
+{{< simulation-link "/vite/simulations/doppler/" >}}
 
 ## 扱っている現象および本教材の説明
 

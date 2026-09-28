@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[変圧器シミュレーションを開く](/vite/simulations/transformer/)
+{{< simulation-link "/vite/simulations/transformer/" >}}
 
 ## 扱っている現象および本教材の説明
 

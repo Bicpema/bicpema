@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[3力の釣り合いシミュレーションを開く](/vite/simulations/three-force-equilibrium/)
+{{< simulation-link "/vite/simulations/three-force-equilibrium/" >}}
 
 ## 扱っている現象および本教材の説明
 

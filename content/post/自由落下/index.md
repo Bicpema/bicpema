@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[自由落下シミュレーションを開く](/vite/simulations/free-fall/)
+{{< simulation-link "/vite/simulations/free-fall/" >}}
 
 ## 扱っている現象および本教材の説明
 

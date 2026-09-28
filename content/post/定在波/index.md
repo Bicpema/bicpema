@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[定在波シミュレーションを開く](/vite/simulations/standing-wave/)
+{{< simulation-link "/vite/simulations/standing-wave/" >}}
 
 ## 扱っている現象および本教材の説明
 

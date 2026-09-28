@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[空気柱の共鳴シミュレーションを開く](/vite/simulations/air-column/)
+{{< simulation-link "/vite/simulations/air-column/" >}}
 
 ## 扱っている現象および本教材の説明
 

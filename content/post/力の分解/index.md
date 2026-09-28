@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[力の分解シミュレーションを開く](/vite/simulations/force-decomposition/)
+{{< simulation-link "/vite/simulations/force-decomposition/" >}}
 
 ## 扱っている現象および本教材の説明
 

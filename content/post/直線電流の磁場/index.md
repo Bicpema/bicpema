@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[直線電流の磁場シミュレーションを開く](/vite/simulations/magnetic-field-straight/)
+{{< simulation-link "/vite/simulations/magnetic-field-straight/" >}}
 
 ## 扱っている現象および本教材の説明
 

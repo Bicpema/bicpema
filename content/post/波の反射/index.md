@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[波の反射シミュレーションを開く](/vite/simulations/wave-reflection/)
+{{< simulation-link "/vite/simulations/wave-reflection/" >}}
 
 ## 扱っている現象および本教材の説明
 
