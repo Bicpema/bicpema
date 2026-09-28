@@ -14,7 +14,7 @@ import {
 
 /**
  * シミュレーションそのものの設定を行います。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function settingInit(p: p5) {
   p.frameRate(FPS);
@@ -23,7 +23,7 @@ export function settingInit(p: p5) {
 
 /**
  * 初期値を設定します。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function valueInit(p: p5) {
   if (!state.weightImage || !state.pendulumData) return;

@@ -45,7 +45,7 @@ export class Ball {
 
   /**
    * ボールの位置を更新し描画する。
-   * @param {*} p p5インスタンス
+   * @param p - p5インスタンス
    */
   _draw(p: p5) {
     if (state.clickedCount === true) {

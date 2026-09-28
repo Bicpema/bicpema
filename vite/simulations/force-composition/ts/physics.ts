@@ -1,10 +1,10 @@
 /**
  * 2つの力ベクトルの合力を計算する（力の合成）。
- * @param {number} f1x F1のx成分
- * @param {number} f1y F1のy成分
- * @param {number} f2x F2のx成分
- * @param {number} f2y F2のy成分
- * @returns {{x: number, y: number}} 合力ベクトル
+ * @param f1x - F1のx成分
+ * @param f1y - F1のy成分
+ * @param f2x - F2のx成分
+ * @param f2y - F2のy成分
+ * @returns 合力ベクトル
  */
 export function composeForces(
   f1x: number,
@@ -17,10 +17,10 @@ export function composeForces(
 
 /**
  * 力ベクトルの大きさを計算する。
- * @param {number} x x成分（ピクセル単位）
- * @param {number} y y成分（ピクセル単位）
- * @param {number} forceScale スケール (px/N)
- * @returns {number} 力の大きさ (N)
+ * @param x - x成分（ピクセル単位）
+ * @param y - y成分（ピクセル単位）
+ * @param forceScale - スケール (px/N)
+ * @returns 力の大きさ (N)
  */
 export function computeForceMagnitude(
   x: number,
@@ -33,9 +33,9 @@ export function computeForceMagnitude(
 /**
  * 力ベクトルの向き（角度）を計算する。
  * 画面座標系（y下向き正）を物理座標系（y上向き正）に変換して角度を求める。
- * @param {number} x x成分
- * @param {number} y y成分（画面座標系、下向き正）
- * @returns {number} x軸正方向を0度とした角度 (度)
+ * @param x - x成分
+ * @param y - y成分（画面座標系、下向き正）
+ * @returns x軸正方向を0度とした角度 (度)
  */
 export function computeForceAngleDeg(x: number, y: number) {
   return (Math.atan2(-y, x) * 180) / Math.PI;

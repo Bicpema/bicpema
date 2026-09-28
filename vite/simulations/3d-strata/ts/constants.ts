@@ -31,22 +31,18 @@ export const GRID_STROKE_WEIGHT = 1;
 
 /**
  * x軸（経度方向）の色（赤）
- * @type {readonly [number, number, number]}
  */
 export const X_AXIS_COLOR = [255, 0, 0] as const;
 /**
  * y軸（緯度方向）の色（青）
- * @type {readonly [number, number, number]}
  */
 export const Y_AXIS_COLOR = [0, 0, 255] as const;
 /**
  * z軸（深さ方向）の色（緑）
- * @type {readonly [number, number, number]}
  */
 export const Z_AXIS_COLOR = [0, 255, 0] as const;
 /**
  * 格子線の色（半透明のグレー）
- * @type {readonly [number, number]}
  */
 export const GRID_LINE_COLOR = [170, 150] as const;
 
@@ -59,7 +55,6 @@ export const STRATA_COLUMN_SIZE = 50;
 
 /**
  * 地点名マーカー（円錐）の色（赤）
- * @type {readonly [number, number, number]}
  */
 export const PLACE_MARKER_COLOR = [255, 0, 0] as const;
 /** 地点名マーカー・ラベルの縦方向オフセット（柱状図最上部からの距離） */

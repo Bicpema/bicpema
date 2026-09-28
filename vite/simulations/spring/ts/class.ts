@@ -31,11 +31,11 @@ export class Spring {
   number: 1 | 2;
 
   /**
-   * @param {number|string} k ばね定数
-   * @param {number|string} w 質量
-   * @param {number|string} c 組み合わせ（1: 単独, 2: 並列, 3: 直列）
-   * @param {number|string} a 振幅
-   * @param {1|2} n 上下どちらのばねか
+   * @param k - ばね定数
+   * @param w - 質量
+   * @param c - 組み合わせ（1: 単独, 2: 並列, 3: 直列）
+   * @param a - 振幅
+   * @param n - 上下どちらのばねか
    */
   constructor(
     k: number | string,
@@ -55,7 +55,7 @@ export class Spring {
 
   /**
    * ばねとおもりを描画する。
-   * @param {*} p p5インスタンス
+   * @param p - p5インスタンス
    */
   draw(p: p5) {
     const springImage = state.springImage!;

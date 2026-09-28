@@ -41,8 +41,8 @@ const TAPE_RX = TAPE_ORIGIN_X + SLOPE_LENGTH_M * PX_PER_M;
 /**
  * 指定角度に対する斜面左端（上端）座標を返す。
  * 右端が常に GROUND_Y に接するよう左端 Y を逆算する。
- * @param {number} angleDeg - 傾斜角 (度)
- * @returns {{x: number, y: number}}
+ * @param angleDeg - 傾斜角 (度)
+ * @returns
  */
 function getSlopeLeft(angleDeg: number) {
   const theta = (angleDeg * Math.PI) / 180;
@@ -56,8 +56,8 @@ function getSlopeLeft(angleDeg: number) {
 /**
  * 指定角度に対する斜面右端（下端）座標を返す。
  * 常に GROUND_Y に接する。
- * @param {number} angleDeg - 傾斜角 (度)
- * @returns {{x: number, y: number}}
+ * @param angleDeg - 傾斜角 (度)
+ * @returns
  */
 function getSlopeRight(angleDeg: number) {
   const theta = (angleDeg * Math.PI) / 180;
@@ -70,8 +70,8 @@ function getSlopeRight(angleDeg: number) {
 
 /**
  * 斜面を描画する。
- * @param {*} p - p5インスタンス
- * @param {number} angleDeg - 傾斜角 (度)
+ * @param p - p5インスタンス
+ * @param angleDeg - 傾斜角 (度)
  */
 export function drawSlope(p: p5, angleDeg: number) {
   const left = getSlopeLeft(angleDeg);
@@ -102,9 +102,9 @@ export function drawSlope(p: p5, angleDeg: number) {
 
 /**
  * 地面画像をタイル状に描画する。
- * @param {*} p - p5インスタンス
- * @param {number} xStart - 開始x座標
- * @param {number} xEnd - 終了x座標
+ * @param p - p5インスタンス
+ * @param xStart - 開始x座標
+ * @param xEnd - 終了x座標
  */
 function drawGround(p: p5, xStart: number, xEnd: number) {
   if (!state.groundImage) {
@@ -126,9 +126,9 @@ function drawGround(p: p5, xStart: number, xEnd: number) {
 
 /**
  * 左上端の支持台を描画する。
- * @param {*} p - p5インスタンス
- * @param {number} px - 支持台の中心x座標
- * @param {number} py - 支持台の頂点y座標
+ * @param p - p5インスタンス
+ * @param px - 支持台の中心x座標
+ * @param py - 支持台の頂点y座標
  */
 function drawSupportStructure(p: p5, px: number, py: number) {
   p.stroke(70);
@@ -145,10 +145,10 @@ function drawSupportStructure(p: p5, px: number, py: number) {
 
 /**
  * 斜面右端（ゴール側）のストッパーを描画する。
- * @param {*} p - p5インスタンス
- * @param {number} tx - 右端x座標
- * @param {number} ty - 右端y座標
- * @param {number} angleDeg - 傾斜角 (度)
+ * @param p - p5インスタンス
+ * @param tx - 右端x座標
+ * @param ty - 右端y座標
+ * @param angleDeg - 傾斜角 (度)
  */
 function drawStopper(p: p5, tx: number, ty: number, angleDeg: number) {
   const theta = (angleDeg * Math.PI) / 180;
@@ -163,10 +163,10 @@ function drawStopper(p: p5, tx: number, ty: number, angleDeg: number) {
 
 /**
  * 方向矢印を描画する（斜面右端）。
- * @param {*} p - p5インスタンス
- * @param {number} rx - 右端x座標
- * @param {number} ry - 右端y座標
- * @param {number} angleDeg - 傾斜角 (度)
+ * @param p - p5インスタンス
+ * @param rx - 右端x座標
+ * @param ry - 右端y座標
+ * @param angleDeg - 傾斜角 (度)
  */
 function drawDirectionArrow(p: p5, rx: number, ry: number, angleDeg: number) {
   const theta = (angleDeg * Math.PI) / 180;
@@ -193,9 +193,9 @@ function drawDirectionArrow(p: p5, rx: number, ry: number, angleDeg: number) {
 
 /**
  * 斜面上の台車を描画する。
- * @param {*} p - p5インスタンス
- * @param {import("./slope-cart.js").SlopeCart} cart - 台車オブジェクト
- * @param {number} angleDeg - 傾斜角 (度)
+ * @param p - p5インスタンス
+ * @param cart - 台車オブジェクト
+ * @param angleDeg - 傾斜角 (度)
  */
 export function drawCartOnSlope(p: p5, cart: SlopeCart, angleDeg: number) {
   const theta = (angleDeg * Math.PI) / 180;
@@ -233,9 +233,9 @@ export function drawCartOnSlope(p: p5, cart: SlopeCart, angleDeg: number) {
 
 /**
  * 記録テープとマーク（点）を描画する。
- * @param {*} p - p5インスタンス
- * @param {number[]} marks - 各記録時刻における変位 (m) の配列
- * @param {number} recInterval - 記録間隔 (s)
+ * @param p - p5インスタンス
+ * @param marks - 各記録時刻における変位 (m) の配列
+ * @param recInterval - 記録間隔 (s)
  */
 export function drawRecordingTape(p: p5, marks: number[], recInterval: number) {
   // テープ背景
@@ -290,8 +290,8 @@ export function drawRecordingTape(p: p5, marks: number[], recInterval: number) {
 
 /**
  * 情報パネルを描画する（左上）。
- * @param {*} p - p5インスタンス
- * @param {import("./slope-cart.js").SlopeCart} cart - 台車オブジェクト
+ * @param p - p5インスタンス
+ * @param cart - 台車オブジェクト
  */
 export function drawInfoPanel(p: p5, cart: SlopeCart) {
   const PANEL_W = 310;

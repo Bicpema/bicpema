@@ -54,9 +54,8 @@ export class Ball {
   _lastGhostTime: number;
 
   /**
-   * @constructor
-   * @param {number} initialHeight 初期の高さ (m)
-   * @param {number} initialVelocity 初速度 (m/s) - 水平方向
+   * @param initialHeight - 初期の高さ (m)
+   * @param initialVelocity - 初速度 (m/s) - 水平方向
    */
   constructor(
     initialHeight = DEFAULT_INITIAL_HEIGHT,
@@ -79,7 +78,7 @@ export class Ball {
 
   /**
    * 位置を更新
-   * @param {number} dt 時間刻み (秒)
+   * @param dt - 時間刻み (秒)
    */
   update(dt: number) {
     if (!this.isMoving) return;
@@ -110,7 +109,7 @@ export class Ball {
 
   /**
    * WebGL 3D で物体を描画
-   * @param {p5} p p5インスタンス
+   * @param p - p5インスタンス
    */
   display(p: p5) {
     // --- スケール計算 (カメラ固定: 常に基準最大値で S を決定) ---
@@ -367,10 +366,14 @@ export class Ball {
 
 /**
  * 3D矢印を描画する (軸方向のみ対応の簡易実装)
- * @param {p5} p
- * @param {number} x1,y1,z1 始点
- * @param {number} x2,y2,z2 終点
- * @param {p5.Color} color
+ * @param p -
+ * @param x1 - 始点のx座標
+ * @param y1 - 始点のy座標
+ * @param z1 - 始点のz座標
+ * @param x2 - 終点のx座標
+ * @param y2 - 終点のy座標
+ * @param z2 - 終点のz座標
+ * @param color -
  */
 function drawArrow3D(
   p: p5,

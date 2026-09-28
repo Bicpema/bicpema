@@ -26,11 +26,11 @@ export class Tank {
   d: number;
 
   /**
-   * @param {number} cx 水槽中心X座標
-   * @param {number} bottomY 水槽底面Y座標
-   * @param {number} w 水槽幅
-   * @param {number} h 水槽高さ
-   * @param {number} d 水槽奥行き（未使用）
+   * @param cx - 水槽中心X座標
+   * @param bottomY - 水槽底面Y座標
+   * @param w - 水槽幅
+   * @param h - 水槽高さ
+   * @param d - 水槽奥行き（未使用）
    */
   constructor(cx: number, bottomY: number, w: number, h: number, d: number) {
     this.cx = cx;
@@ -42,7 +42,7 @@ export class Tank {
 
   /**
    * 水槽を描画する。
-   * @param {*} p p5インスタンス
+   * @param p - p5インスタンス
    */
   draw(p: p5) {
     const halfW = this.w / 2;
@@ -65,7 +65,7 @@ export class Tank {
    * 水面の手前側の線だけを再描画する。
    * 円柱を描画した後に呼び出すことで、水面の手前の線が円柱より前面に表示され、
    * 円柱が水に沈み込んでいるように見せる。
-   * @param {*} p p5インスタンス
+   * @param p - p5インスタンス
    */
   drawWaterSurfaceLine(p: p5) {
     const img = state.tankImage;

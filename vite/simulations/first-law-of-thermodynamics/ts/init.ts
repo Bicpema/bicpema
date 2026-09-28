@@ -16,7 +16,7 @@ import {
 
 /**
  * 値の初期化を行う。
- * @param {p5} p - p5 インスタンス
+ * @param p - p5 インスタンス
  */
 export function initValue(p: p5) {
   state.pistonX = PISTON_INIT_X;
@@ -46,7 +46,7 @@ export function initValue(p: p5) {
 
 /**
  * DOM 要素のイベントリスナーを設定する。
- * @param {p5} p - p5 インスタンス
+ * @param p - p5 インスタンス
  */
 export function elCreate(p: p5) {
   p.select("#resetButton")!.mousePressed(() => onResetButtonClick());

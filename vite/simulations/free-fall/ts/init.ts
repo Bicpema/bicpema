@@ -18,7 +18,7 @@ export const FPS = 30;
 
 /**
  * DOM要素を選択してstateに格納し、イベントリスナーを設定する
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elCreate(p: p5) {
   state.heightInput = p.select("#heightInput");
@@ -62,7 +62,7 @@ export function elCreate(p: p5) {
 
 /**
  * キャンバス設定とシミュレーションの初期値を設定する
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function initValue(p: p5) {
   p.frameRate(FPS);

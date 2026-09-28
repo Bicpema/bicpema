@@ -16,13 +16,13 @@ import { decomposeGravityOnSlope } from "./physics.js";
 
 /**
  * 矢印を描画する。
- * @param {p5} p
- * @param {number} x1 始点X
- * @param {number} y1 始点Y
- * @param {number} x2 終点X
- * @param {number} y2 終点Y
- * @param {p5.Color} col 色
- * @param {number} [sw=3] strokeWeight
+ * @param p -
+ * @param x1 - 始点X
+ * @param y1 - 始点Y
+ * @param x2 - 終点X
+ * @param y2 - 終点Y
+ * @param col - 色
+ * @param sw - strokeWeight（省略時: 3）
  */
 export function drawArrow(
   p: p5,
@@ -113,10 +113,10 @@ function drawLabel(
 
 /**
  * 斜面分解のシーンを描画する。
- * @param {p5} p
+ * @param p -
  */
 export function drawSlopeScene(p: p5) {
-  const θ = (state.slopeAngle * Math.PI) / 180;
+  const theta = (state.slopeAngle * Math.PI) / 180;
   const { gravity: mg } = decomposeGravityOnSlope(
     state.mass,
     GRAVITY,
@@ -129,28 +129,28 @@ export function drawSlopeScene(p: p5) {
   const oy = 300;
 
   p.background(255, 255, 255);
-  drawSlopeSurface(p, ox, oy, θ);
-  drawSlopeVectors(p, ox, oy, θ, mg, sc);
+  drawSlopeSurface(p, ox, oy, theta);
+  drawSlopeVectors(p, ox, oy, theta, mg, sc);
   drawSlopeInfoPanel(p, mg);
   drawSlopeLegend(p);
 }
 
 /**
  * 斜面の表面を描画する。
- * @param {p5} p
- * @param {number} ox オブジェクト原点X
- * @param {number} oy オブジェクト原点Y
- * @param {number} θ 斜面角度（ラジアン）
+ * @param p -
+ * @param ox - オブジェクト原点X
+ * @param oy - オブジェクト原点Y
+ * @param theta - 斜面角度（ラジアン）
  */
-function drawSlopeSurface(p: p5, ox: number, oy: number, θ: number) {
-  const cosT = Math.cos(θ);
-  const sinT = Math.sin(θ);
+function drawSlopeSurface(p: p5, ox: number, oy: number, theta: number) {
+  const cosT = Math.cos(theta);
+  const sinT = Math.sin(theta);
   const len = 500;
 
   // 地面（斜面の下）― 画像を斜面座標系で中央に1枚描画
   p.push();
   p.translate(ox, oy);
-  p.rotate(-θ);
+  p.rotate(-theta);
   const bandH = 40;
   if (state.groundImg && state.groundImg.width > 0) {
     p.image(state.groundImg, -len, 0, len * 2, bandH);
@@ -174,7 +174,7 @@ function drawSlopeSurface(p: p5, ox: number, oy: number, θ: number) {
   p.noFill();
   p.stroke(60, 60, 60, 210);
   p.strokeWeight(1.5);
-  p.arc(arcCX, arcCY + 5, arcR * 2, arcR * 2, -θ, 0);
+  p.arc(arcCX, arcCY + 5, arcR * 2, arcR * 2, -theta, 0);
   drawLabel(
     p,
     `θ=${state.slopeAngle}°`,
@@ -185,22 +185,22 @@ function drawSlopeSurface(p: p5, ox: number, oy: number, θ: number) {
   );
 
   // オブジェクト（ブロック）
-  drawBlock(p, ox, oy, θ);
+  drawBlock(p, ox, oy, theta);
 }
 
 /**
  * 斜面上のブロックを描画する。
- * @param {p5} p
- * @param {number} ox
- * @param {number} oy
- * @param {number} θ
+ * @param p -
+ * @param ox -
+ * @param oy -
+ * @param theta -
  */
-function drawBlock(p: p5, ox: number, oy: number, θ: number) {
+function drawBlock(p: p5, ox: number, oy: number, theta: number) {
   const bw = 52;
   const bh = BLOCK_HEIGHT;
   p.push();
   p.translate(ox, oy);
-  p.rotate(-θ);
+  p.rotate(-theta);
   p.fill(222, 196, 165); // 薄い茶色
   p.stroke(139, 90, 43); // 濃い茶色
   p.strokeWeight(2);
@@ -210,23 +210,23 @@ function drawBlock(p: p5, ox: number, oy: number, θ: number) {
 
 /**
  * 斜面分解の力ベクトルを描画する。
- * @param {p5} p
- * @param {number} ox 原点X
- * @param {number} oy 原点Y
- * @param {number} θ 斜面角度（ラジアン）
- * @param {number} mg 重力の大きさ（N）
- * @param {number} sc スケール
+ * @param p -
+ * @param ox - 原点X
+ * @param oy - 原点Y
+ * @param theta - 斜面角度（ラジアン）
+ * @param mg - 重力の大きさ（N）
+ * @param sc - スケール
  */
 function drawSlopeVectors(
   p: p5,
   ox: number,
   oy: number,
-  θ: number,
+  theta: number,
   mg: number,
   sc: number
 ) {
-  const cosT = Math.cos(θ);
-  const sinT = Math.sin(θ);
+  const cosT = Math.cos(theta);
+  const sinT = Math.sin(theta);
   const bh = BLOCK_HEIGHT; // ブロック高さ
 
   // ベクトルの基点をブロック中央に
@@ -290,26 +290,26 @@ function drawSlopeVectors(
   }
 
   // 直角マーク
-  drawRightAngleMark(p, baseX, baseY, θ, 18);
+  drawRightAngleMark(p, baseX, baseY, theta, 18);
 }
 
 /**
  * F_parallel と F_perp の直角マークを描画する。
- * @param {p5} p
- * @param {number} ox
- * @param {number} oy
- * @param {number} θ
- * @param {number} sz マークのサイズ
+ * @param p -
+ * @param ox -
+ * @param oy -
+ * @param theta -
+ * @param sz - マークのサイズ
  */
 function drawRightAngleMark(
   p: p5,
   ox: number,
   oy: number,
-  θ: number,
+  theta: number,
   sz: number
 ) {
-  const cosT = Math.cos(θ);
-  const sinT = Math.sin(θ);
+  const cosT = Math.cos(theta);
+  const sinT = Math.sin(theta);
   // F_parallel 方向 (-cosT, sinT) に sz 進んだ点
   const cx = ox - sz * cosT;
   const cy = oy + sz * sinT;
@@ -331,8 +331,8 @@ function drawRightAngleMark(
 
 /**
  * 右下に数値パネルを描画する。
- * @param {p5} p
- * @param {number} mg N
+ * @param p -
+ * @param mg - N
  */
 function drawSlopeInfoPanel(p: p5, mg: number) {
   const panelW = 290;
@@ -378,7 +378,7 @@ function drawSlopeInfoPanel(p: p5, mg: number) {
 
 /**
  * 左上に凡例を描画する。
- * @param {p5} p
+ * @param p -
  */
 function drawSlopeLegend(p: p5) {
   const lx = 16;

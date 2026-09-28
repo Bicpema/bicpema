@@ -67,7 +67,7 @@ const CART_CONTACT_X = RULER_INIT_LEFT - CART_W;
 
 /**
  * 地面を描画する
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function drawGround(p: p5) {
   p.imageMode(p.CORNER);
@@ -77,8 +77,8 @@ function drawGround(p: p5) {
 
 /**
  * 台車を描画する
- * @param {p5} p p5インスタンス
- * @param {number} cartLeftX 台車の左端x座標（仮想座標）
+ * @param p - p5インスタンス
+ * @param cartLeftX - 台車の左端x座標（仮想座標）
  */
 function drawCart(p: p5, cartLeftX: number) {
   p.imageMode(p.CORNER);
@@ -88,8 +88,8 @@ function drawCart(p: p5, cartLeftX: number) {
 
 /**
  * 定規を描画する
- * @param {p5} p p5インスタンス
- * @param {number} leftX 定規の左端x座標（仮想座標）
+ * @param p - p5インスタンス
+ * @param leftX - 定規の左端x座標（仮想座標）
  */
 function drawRuler(p: p5, leftX: number) {
   if (leftX >= BOOK_LEFT_X) return;
@@ -129,7 +129,7 @@ function drawRuler(p: p5, leftX: number) {
 
 /**
  * 本を描画する
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function drawBook(p: p5) {
   if (state.bookImage && state.bookImage.width > 0) {
@@ -151,9 +151,9 @@ function drawBook(p: p5) {
 
 /**
  * 速度の矢印を描画する
- * @param {p5} p p5インスタンス
- * @param {number} cartLeftX 台車の左端x座標
- * @param {number} v 現在の速度 (m/s)
+ * @param p - p5インスタンス
+ * @param cartLeftX - 台車の左端x座標
+ * @param v - 現在の速度 (m/s)
  */
 function drawVelocityArrow(p: p5, cartLeftX: number, v: number) {
   if (v <= 0.005) return;
@@ -180,8 +180,8 @@ function drawVelocityArrow(p: p5, cartLeftX: number, v: number) {
 
 /**
  * 抵抗力の矢印を描画する（接触中のみ）
- * @param {p5} p p5インスタンス
- * @param {number} cartLeftX 台車の左端x座標
+ * @param p - p5インスタンス
+ * @param cartLeftX - 台車の左端x座標
  */
 function drawForceArrow(p: p5, cartLeftX: number) {
   const arrowY = CART_BODY_TOP + CART_H / 2;
@@ -211,8 +211,8 @@ function drawForceArrow(p: p5, cartLeftX: number) {
 
 /**
  * めり込み距離のディメンションラインを描画する
- * @param {p5} p p5インスタンス
- * @param {number} d めり込み距離 (m)
+ * @param p - p5インスタンス
+ * @param d - めり込み距離 (m)
  */
 function drawPenetrationLine(p: p5, d: number) {
   if (d < 0.001) return;
@@ -266,8 +266,8 @@ function updateInfoPanelDOM() {
 
 /**
  * 情報パネルの状態別メッセージの表示・非表示を切り替える。
- * @param {p5.Element | null} el p5.Element
- * @param {boolean} visible
+ * @param el - p5.Element
+ * @param visible -
  */
 function setStatusVisible(el: p5.Element | null, visible: boolean) {
   if (!el) return;
@@ -280,8 +280,8 @@ function setStatusVisible(el: p5.Element | null, visible: boolean) {
 
 /**
  * 物理状態を1フレーム分更新する。
- * @param {p5} [p] p5インスタンス
- * @param {number} dt タイムステップ (s)
+ * @param p - p5インスタンス
+ * @param dt - タイムステップ (s)
  */
 export function update(p: p5 | undefined, dt: number) {
   if (state.phase === "approach") {
@@ -324,7 +324,7 @@ export function update(p: p5 | undefined, dt: number) {
 
 /**
  * 1フレーム分の描画を行う。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function drawScene(p: p5) {
   let cartLeftX: number;
@@ -360,7 +360,7 @@ function drawScene(p: p5) {
 
 /**
  * シミュレーションの描画と物理更新を行う。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function drawSimulation(p: p5) {
   p.scale(p.width / V_W);

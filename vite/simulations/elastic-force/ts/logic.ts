@@ -18,7 +18,7 @@ import { HOOKE_LINE_COLOR } from "./constants.js";
 
 /**
  * 壁（地面画像を90°回転）を描画する
- * @param {*} p - p5 インスタンス。
+ * @param p - p5 インスタンス。
  */
 function drawWall(p: p5) {
   if (!state.wallImg) return;
@@ -40,7 +40,7 @@ function drawWall(p: p5) {
 
 /**
  * 左右の区切り線を描画する
- * @param {*} p - p5 インスタンス。
+ * @param p - p5 インスタンス。
  */
 function drawDivider(p: p5) {
   p.stroke(200);
@@ -52,7 +52,7 @@ function drawDivider(p: p5) {
 
 /**
  * フック則グラフを描画する
- * @param {*} p - p5 インスタンス。
+ * @param p - p5 インスタンス。
  */
 function drawGraph(p: p5) {
   const spring = state.springs[0];
@@ -193,7 +193,7 @@ function drawGraph(p: p5) {
 
 /**
  * シミュレーション全体を描画する。
- * @param {*} p - p5 インスタンス。
+ * @param p - p5 インスタンス。
  */
 export function drawSimulation(p: p5) {
   p.background(255);

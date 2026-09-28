@@ -13,7 +13,7 @@ const NAV_HEIGHT = 60;
 
 /**
  * DOM要素の生成とイベントリスナーの設定を行う。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elCreate(p: p5) {
   bindStartStopControls(p, {
@@ -49,7 +49,7 @@ export function elCreate(p: p5) {
 
 /**
  * canvasサイズに依存する画像サイズを再計算する（リサイズ時にも呼ぶため、シミュレーションの状態は変更しない）。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function resizeImages(p: p5) {
   state.springImage!.resize(p.width / 20, p.height / 4);
@@ -58,7 +58,7 @@ export function resizeImages(p: p5) {
 
 /**
  * グラフ用DOM要素のサイズ・位置を設定する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function layoutGraphs(p: p5) {
   state
@@ -73,7 +73,7 @@ export function layoutGraphs(p: p5) {
 
 /**
  * シミュレーションの初期値を設定する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function initValue(p: p5) {
   resizeImages(p);

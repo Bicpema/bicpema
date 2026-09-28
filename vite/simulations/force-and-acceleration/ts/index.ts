@@ -152,7 +152,7 @@ const sketch = (p: p5) => {
 
 /**
  * 地面とレールを描画する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function drawTrack(p: p5) {
   p.image(state.groundImg!, 0, GROUND_Y, W, H - GROUND_Y);
@@ -160,10 +160,10 @@ function drawTrack(p: p5) {
 
 /**
  * 力の矢印を描画する。
- * @param {*} p p5インスタンス
- * @param {number} x1 矢印の始点x
- * @param {number} y  矢印のy座標
- * @param {number} x2 矢印の終点x（マウス位置）
+ * @param p - p5インスタンス
+ * @param x1 - 矢印の始点x
+ * @param y - 矢印のy座標
+ * @param x2 - 矢印の終点x（マウス位置）
  */
 function drawForceArrow(p: p5, x1: number, y: number, x2: number) {
   if (x2 <= x1 + MIN_ARROW_DRAG_DISTANCE) return;
@@ -195,9 +195,9 @@ function drawForceArrow(p: p5, x1: number, y: number, x2: number) {
 
 /**
  * ドラッグ操作のヒントを描画する。
- * @param {*} p p5インスタンス
- * @param {number} x 台車の右端x
- * @param {number} y ヒントのy座標
+ * @param p - p5インスタンス
+ * @param x - 台車の右端x
+ * @param y - ヒントのy座標
  */
 function drawDragHint(p: p5, x: number, y: number) {
   p.stroke(DRAG_HINT_COLOR);
@@ -228,11 +228,11 @@ function drawDragHint(p: p5, x: number, y: number) {
 
 /**
  * 情報パネルを描画する。
- * @param {*} p p5インスタンス
- * @param {number} F  現在の力 (N)
- * @param {number} a  現在の加速度 (m/s²)
- * @param {number} m  質量 (kg)
- * @param {number} v  現在の速度 (m/s)
+ * @param p - p5インスタンス
+ * @param F - 現在の力 (N)
+ * @param a - 現在の加速度 (m/s²)
+ * @param m - 質量 (kg)
+ * @param v - 現在の速度 (m/s)
  */
 function drawInfoPanel(
   p: p5,

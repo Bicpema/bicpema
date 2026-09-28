@@ -24,7 +24,7 @@ import {
 
 /**
  * 要素の選択とイベントハンドラーの設定を行う。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elCreate(p: p5) {
   state.gridButton = p.select("#gridButton");
@@ -60,7 +60,7 @@ export function elCreate(p: p5) {
 
 /**
  * 初期値を設定する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function initValue(p: p5) {
   state.radi = p.width / BALL_RADIUS_DIVISOR;

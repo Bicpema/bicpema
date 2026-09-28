@@ -25,8 +25,8 @@ const DRAG_BOTTOM_MARGIN = 50;
 
 /**
  * 情報テキストをDOM要素に反映する。
- * @param {import("./cylinder.js").Cylinder} cylinder 円柱オブジェクト
- * @param {number} waterSurfaceY 水面のY座標
+ * @param cylinder - 円柱オブジェクト
+ * @param waterSurfaceY - 水面のY座標
  */
 function drawInfoText(cylinder: Cylinder, waterSurfaceY: number) {
   const subFrac = cylinder.getSubmergedFraction(waterSurfaceY);
@@ -39,16 +39,16 @@ function drawInfoText(cylinder: Cylinder, waterSurfaceY: number) {
 
 /**
  * 矢印を描画するヘルパー関数。
- * @param {*} p p5インスタンス
- * @param {number} x1 始点X
- * @param {number} y1 始点Y
- * @param {number} x2 終点X（矢印の先端）
- * @param {number} y2 終点Y（矢印の先端）
- * @param {number[]} col RGB色配列 [r, g, b]
- * @param {string} label ラベルテキスト
- * @param {number} lx ラベルX座標
- * @param {number} ly ラベルY座標
- * @param {string} lAlignH 水平アライメント（p.LEFT / p.CENTER / p.RIGHT）
+ * @param p - p5インスタンス
+ * @param x1 - 始点X
+ * @param y1 - 始点Y
+ * @param x2 - 終点X（矢印の先端）
+ * @param y2 - 終点Y（矢印の先端）
+ * @param col - RGB色配列 [r, g, b]
+ * @param label - ラベルテキスト
+ * @param lx - ラベルX座標
+ * @param ly - ラベルY座標
+ * @param lAlignH - 水平アライメント（p.LEFT / p.CENTER / p.RIGHT）
  */
 function drawArrow(
   p: p5,
@@ -102,7 +102,7 @@ function drawArrow(
  * 円柱にかかる力の矢印を描画する。
  *  1. 重力（↓, 赤）: 密度に比例
  *  2. 浮力（↑, 緑）: 水中体積比に比例
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function drawForceArrows(p: p5) {
   const cylinder = state.cylinder;
@@ -151,7 +151,7 @@ function drawForceArrows(p: p5) {
 
 /**
  * シミュレーション全体の描画と物理更新を行う関数。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 export function drawSimulation(p: p5) {
   p.scale(p.width / BASE_W);
@@ -190,7 +190,7 @@ export function drawSimulation(p: p5) {
 
 /**
  * マウス押下時の処理。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 export function handleMousePressed(p: p5) {
   const scaleX = BASE_W / p.width;
@@ -207,7 +207,7 @@ export function handleMousePressed(p: p5) {
 
 /**
  * マウスリリース時の処理。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 export function handleMouseReleased(p: p5) {
   if (state.cylinder && state.cylinder.dragging) {

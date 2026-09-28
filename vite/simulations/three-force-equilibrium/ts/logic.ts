@@ -80,14 +80,14 @@ export function calcEquilibrium() {
 
 /**
  * 矢印を描画する（軸 + 三角形の矢頭）。
- * @param {*} p p5 インスタンス
- * @param {number} x1 始点 X
- * @param {number} y1 始点 Y
- * @param {number} x2 終点 X
- * @param {number} y2 終点 Y
- * @param {number[]} col [R, G, B]
- * @param {number} sw 線幅（px）
- * @param {number} hs 矢頭サイズ（px）
+ * @param p - p5 インスタンス
+ * @param x1 - 始点 X
+ * @param y1 - 始点 Y
+ * @param x2 - 終点 X
+ * @param y2 - 終点 Y
+ * @param col - [R, G, B]
+ * @param sw - 線幅（px）
+ * @param hs - 矢頭サイズ（px）
  */
 function drawArrow(
   p: p5,
@@ -127,10 +127,10 @@ function drawArrow(
 
 /**
  * ラベル同士の重なりを避けつつ、各ラベルの向き（法線側）を維持する。
- * @param {{anchorX:number,anchorY:number,dirX:number,dirY:number,baseOffset:number,maxOffset?:number}[]} labels
- * @param {number} minDistance
- * @param {{minX:number,maxX:number,minY:number,maxY:number}} bounds
- * @returns {{x:number,y:number}[]}
+ * @param labels -
+ * @param minDistance -
+ * @param bounds -
+ * @returns
  */
 function placeLabelsAlongNormals(
   labels: {
@@ -240,11 +240,11 @@ function drawCeiling(p: p5) {
 
 /**
  * アンカーポイント（天井固定点）を描画する。
- * @param {*} p p5 インスタンス
- * @param {number} x 座標 X
- * @param {number} y 座標 Y
- * @param {number[]} col [R, G, B]
- * @param {string} label ラベル文字（"A" or "B"）
+ * @param p - p5 インスタンス
+ * @param x - 座標 X
+ * @param y - 座標 Y
+ * @param col - [R, G, B]
+ * @param label - ラベル文字（"A" or "B"）
  */
 function drawAnchor(
   p: p5,
@@ -734,9 +734,9 @@ function drawDivider(p: p5) {
 
 /**
  * マウスが操作可能な要素の上にあるときカーソルを変える。
- * @param {*} p p5 インスタンス
- * @param {number} vmx 仮想 X
- * @param {number} vmy 仮想 Y
+ * @param p - p5 インスタンス
+ * @param vmx - 仮想 X
+ * @param vmy - 仮想 Y
  */
 function updateCursor(p: p5, vmx: number, vmy: number) {
   const { anchorA, anchorB, ring } = state;
@@ -762,7 +762,7 @@ function updateCursor(p: p5, vmx: number, vmy: number) {
 
 /**
  * シミュレーション全体を描画する。
- * @param {*} p p5 インスタンス
+ * @param p - p5 インスタンス
  */
 export function drawSimulation(p: p5) {
   p.background(220);

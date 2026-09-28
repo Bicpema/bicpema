@@ -37,7 +37,7 @@ const MATERIAL_B_COLOR: [number, number, number, number] = [0, 0, 255, 150];
 
 /**
  * シミュレーション全体を描画する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function drawSimulation(p: p5) {
   const VH = VW * (p.height / p.width);
@@ -59,8 +59,8 @@ export function drawSimulation(p: p5) {
 
 /**
  * バーナー画像を描画する。
- * @param {*} p
- * @param {number} VH 仮想キャンバス高さ
+ * @param p -
+ * @param VH - 仮想キャンバス高さ
  */
 function drawBurner(p: p5, VH: number) {
   if (!state.burnerImg) return;
@@ -70,8 +70,8 @@ function drawBurner(p: p5, VH: number) {
 
 /**
  * グラフ領域の背景（青枠 + 白内側）を描画する。
- * @param {*} p
- * @param {number} VH
+ * @param p -
+ * @param VH -
  */
 function drawGraphBackground(p: p5, VH: number) {
   p.push();
@@ -85,8 +85,8 @@ function drawGraphBackground(p: p5, VH: number) {
 
 /**
  * 「物質A」「物質B」のラベルテキストを描画する。
- * @param {*} p
- * @param {number} VH
+ * @param p -
+ * @param VH -
  */
 function drawObjectLabels(p: p5, VH: number) {
   p.push();
@@ -101,8 +101,8 @@ function drawObjectLabels(p: p5, VH: number) {
 
 /**
  * フックバー・吊り下げ線・物質球を描画する。
- * @param {*} p
- * @param {number} VH
+ * @param p -
+ * @param VH -
  */
 function drawHooksAndBalls(p: p5, VH: number) {
   p.push();
@@ -129,11 +129,11 @@ function drawHooksAndBalls(p: p5, VH: number) {
 
 /**
  * 放射状グラデーションで物質球を描画する。
- * @param {*} p
- * @param {number} x 中心x（仮想px）
- * @param {number} y 中心y（仮想px）
- * @param {number} r 半径（仮想px）
- * @param {number} type 物質タイプ（0-4）
+ * @param p -
+ * @param x - 中心x（仮想px）
+ * @param y - 中心y（仮想px）
+ * @param r - 半径（仮想px）
+ * @param type - 物質タイプ（0-4）
  */
 function drawMaterialBall(
   p: p5,
@@ -170,8 +170,8 @@ function drawMaterialBall(
 
 /**
  * T-Qグラフの軸・グラフ線・凡例を描画する。
- * @param {*} p
- * @param {number} VH
+ * @param p -
+ * @param VH -
  */
 function drawGraphLines(p: p5, VH: number) {
   const ysize = VW / 2.75; // グラフ内側高さ（px）
@@ -264,8 +264,8 @@ function drawGraphLines(p: p5, VH: number) {
 
 /**
  * 各物質の比熱値をテキストで表示する。
- * @param {*} p
- * @param {number} VH
+ * @param p -
+ * @param VH -
  */
 function drawSpecificHeatLabels(p: p5, VH: number) {
   p.push();

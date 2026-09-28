@@ -5,7 +5,7 @@ import { initValue } from "./init.js";
 
 /**
  * リセットボタンが押されたときの処理
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function onReset(p: p5) {
   initValue(p);

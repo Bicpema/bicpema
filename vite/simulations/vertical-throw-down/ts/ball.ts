@@ -35,9 +35,8 @@ export class Ball {
   lastGraphUpdate: number;
 
   /**
-   * @constructor
-   * @param {number} initialHeight 初期高さ (m)
-   * @param {number} initialVelocity 初速度 (m/s) - 下向きを正とする
+   * @param initialHeight - 初期高さ (m)
+   * @param initialVelocity - 初速度 (m/s) - 下向きを正とする
    */
   constructor(
     initialHeight: number,
@@ -57,7 +56,7 @@ export class Ball {
 
   /**
    * 位置を更新
-   * @param {number} dt 時間刻み (秒)
+   * @param dt - 時間刻み (秒)
    */
   update(dt: number) {
     if (!this.isMoving) return;
@@ -92,8 +91,8 @@ export class Ball {
 
   /**
    * ボールを描画
-   * @param {p5} p p5インスタンス
-   * @param {number} canvasHeight キャンバスの高さ
+   * @param p - p5インスタンス
+   * @param canvasHeight - キャンバスの高さ
    */
   display(p: p5, canvasHeight: number) {
     const ballY =
@@ -218,8 +217,8 @@ export class Ball {
 
   /**
    * リセット
-   * @param {number} newHeight 新しい初期高さ
-   * @param {number} [newInitialVelocity] 新しい初速度
+   * @param newHeight - 新しい初期高さ
+   * @param newInitialVelocity - 新しい初速度
    */
   reset(newHeight: number, newInitialVelocity?: number) {
     this.initialHeight = newHeight;

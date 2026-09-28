@@ -6,12 +6,12 @@ import { DT_UNIT, DV_UNIT } from "./constants.js";
  *
  * このシミュレーションでは簡略化のため Q = W = ΔU = step としている。
  *
- * @param {number} step 入力された熱量ステップ
- * @param {number} t0 基準温度
- * @param {number} pistonInitX ピストンの初期X座標
- * @param {number} [dtUnit=DT_UNIT] ステップあたりの温度変化量
- * @param {number} [dvUnit=DV_UNIT] ステップあたりのピストン移動量
- * @returns {{Q: number, W: number, dU: number, T: number, pistonXTarget: number}}
+ * @param step - 入力された熱量ステップ
+ * @param t0 - 基準温度
+ * @param pistonInitX - ピストンの初期X座標
+ * @param dtUnit - ステップあたりの温度変化量（省略時: DT_UNIT）
+ * @param dvUnit - ステップあたりのピストン移動量（省略時: DV_UNIT）
+ * @returns
  */
 export function computeThermodynamicState(
   step: number,
@@ -32,9 +32,9 @@ export function computeThermodynamicState(
 /**
  * 気体分子の運動速度を温度から計算する（アニメーション用の近似式）。
  * 温度が高いほど分子は速く動く。
- * @param {number} temperature 温度
- * @param {number} zFactor 分子ごとのばらつき係数
- * @returns {number} 分子の移動速度
+ * @param temperature - 温度
+ * @param zFactor - 分子ごとのばらつき係数
+ * @returns 分子の移動速度
  */
 export function computeMoleculeSpeed(temperature: number, zFactor: number) {
   return Math.sqrt(temperature * temperature * temperature) * (0.6 + zFactor);

@@ -45,8 +45,8 @@ export const WAVELENGTH_B = 450;
  * 光速一定のもとでは角速度（振動数相当）は波長に反比例するため、
  * 画面上に描画される波の空間的な波長がWAVELENGTH_R/G/Bの比と一致するよう、
  * 赤色光の角速度(ANGULAR_VELOCITY_R)を基準に波長比から算出する。
- * @param {number} wavelength 対象の光の波長 (nm)
- * @returns {number} その光の1フレーム当たりの回転角速度（度）
+ * @param wavelength - 対象の光の波長 (nm)
+ * @returns その光の1フレーム当たりの回転角速度（度）
  */
 export function computeAngularVelocity(wavelength: number) {
   return (ANGULAR_VELOCITY_R * WAVELENGTH_R) / wavelength;
@@ -66,17 +66,14 @@ export const DIM_STROKE_WEIGHT = 0.1;
 
 /**
  * 赤色光の表示色
- * @type {readonly [number, number, number]}
  */
 export const RED_COLOR = [255, 0, 0] as const;
 /**
  * 緑色光の表示色
- * @type {readonly [number, number, number]}
  */
 export const GREEN_COLOR = [0, 255, 0] as const;
 /**
  * 青色光の表示色
- * @type {readonly [number, number, number]}
  */
 export const BLUE_COLOR = [0, 0, 255] as const;
 
@@ -100,9 +97,9 @@ export const BTN_SUCCESS =
  * addClass/removeClassへ渡すことはできない。個々のクラス名に分割してから
  * classListを操作することで、レイアウト用に付与している他のクラス
  * （flex-1等）を保持したまま安全に入れ替える。
- * @param {*} element p.select()で取得したp5.Element
- * @param {string} fromClassNames 取り除くBTN_*定数
- * @param {string} toClassNames 付け加えるBTN_*定数
+ * @param element - p.select()で取得したp5.Element
+ * @param fromClassNames - 取り除くBTN_*定数
+ * @param toClassNames - 付け加えるBTN_*定数
  */
 export function swapButtonClass(
   element: p5.Element,

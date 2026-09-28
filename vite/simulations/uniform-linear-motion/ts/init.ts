@@ -24,7 +24,7 @@ export function imgInit() {
 
 /**
  * リセットボタンが押されたときの処理。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function onReset(p: p5) {
   state.isPlaying = true;
@@ -34,7 +34,7 @@ function onReset(p: p5) {
 
 /**
  * DOM要素の動的な生成とイベントリスナーの設定を行う。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elCreate(p: p5) {
   initModal({
@@ -59,7 +59,7 @@ export function elCreate(p: p5) {
 
 /**
  * DOM要素の動的に変化する設定を行う。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elSetting(p: p5) {
   const GRAPH = p.select("#graph")!;
@@ -88,7 +88,7 @@ export function elSetting(p: p5) {
 
 /**
  * 変数やオブジェクトの初期化を行う。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function initValue(p: p5) {
   const yellowInput = p.select("#yellowCarSpeedInput");

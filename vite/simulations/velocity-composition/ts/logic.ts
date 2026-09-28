@@ -3,28 +3,25 @@ import { V_W, V_H, RIVER_BOTTOM } from "./constants.js";
 
 /**
  * 川の速度(v川)を表す色
- * @type {readonly [number, number, number]}
  */
 const RIVER_COLOR = [255, 100, 100] as const;
 /**
  * 船の速度(v船)を表す色
- * @type {readonly [number, number, number]}
  */
 const BOAT_COLOR = [80, 240, 100] as const;
 /**
  * 合成速度(v合)を表す色
- * @type {readonly [number, number, number]}
  */
 const COMPOSITE_COLOR = [110, 170, 255] as const;
 
 /**
  * 矢印を描画する。
- * @param {p5} p p5インスタンス
- * @param {number} fromX 始点のX座標
- * @param {number} fromY 始点のY座標
- * @param {number} toX 終点のX座標
- * @param {number} toY 終点のY座標
- * @param {p5.Color} col 矢印の色
+ * @param p - p5インスタンス
+ * @param fromX - 始点のX座標
+ * @param fromY - 始点のY座標
+ * @param toX - 終点のX座標
+ * @param toY - 終点のY座標
+ * @param col - 矢印の色
  */
 export function drawArrow(
   p: p5,
@@ -56,13 +53,13 @@ export function drawArrow(
 /**
  * 矢印とラベルをまとめて描画する。
  * 矢印がゼロ長のときはラベルのみを始点の右に表示する。
- * @param {p5} p p5インスタンス
- * @param {number} fromX 始点のX座標
- * @param {number} fromY 始点のY座標
- * @param {number} toX 終点のX座標
- * @param {number} toY 終点のY座標
- * @param {p5.Color} col 矢印とラベルの色
- * @param {string} label 表示するテキスト
+ * @param p - p5インスタンス
+ * @param fromX - 始点のX座標
+ * @param fromY - 始点のY座標
+ * @param toX - 終点のX座標
+ * @param toY - 終点のY座標
+ * @param col - 矢印とラベルの色
+ * @param label - 表示するテキスト
  */
 export function drawArrowWithLabel(
   p: p5,
@@ -111,7 +108,7 @@ export function drawArrowWithLabel(
 
 /**
  * シーンの背景（川・岸・ラベル）を描画する。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function drawScene(p: p5) {
   p.background(28, 98, 165);
@@ -148,7 +145,7 @@ export function drawScene(p: p5) {
 
 /**
  * 速度矢印の色凡例を描画する。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function drawLegend(p: p5) {
   const lx = 28;
@@ -174,8 +171,8 @@ export function drawLegend(p: p5) {
 
 /**
  * 速度の値から、向きを表す矢印文字を返す。
- * @param {number} v 速度
- * @returns {string} 向きを表す文字列
+ * @param v - 速度
+ * @returns 向きを表す文字列
  */
 function dirChar(v: number) {
   if (Math.abs(v) < 0.05) return "（静止）";
@@ -185,7 +182,7 @@ function dirChar(v: number) {
 /**
  * 右下に速度情報パネルを描画する。
  * v_合 = v_川 + v_船 の関係を視覚的に確認できる。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function drawInfoPanel(p: p5) {
   if (!state.boat) return;

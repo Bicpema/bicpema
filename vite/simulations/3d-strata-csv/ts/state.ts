@@ -39,6 +39,7 @@ export const state: {
   jaFont: any;
   /**
    * 地点データの連想配列。
+   * ```
    * {
    *   地点N: {
    *     name: 地点名入力欄(p5.Element),
@@ -48,6 +49,7 @@ export const state: {
    *   },
    *   ...
    * }
+   * ```
    */
   dataInputArr: Record<string, PlaceDataEntry>;
   /** 地層平面の回転演出用の累積角度 */
@@ -78,6 +80,7 @@ export const state: {
 
   /**
    * 地点データの連想配列。
+   * ```
    * {
    *   地点N: {
    *     name: 地点名入力欄(p5.Element),
@@ -87,6 +90,7 @@ export const state: {
    *   },
    *   ...
    * }
+   * ```
    */
   dataInputArr: {},
 

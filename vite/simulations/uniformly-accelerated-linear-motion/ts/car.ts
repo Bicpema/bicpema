@@ -29,9 +29,8 @@ export class Car {
   markers: { t: number; px: number }[];
 
   /**
-   * @constructor
-   * @param {number} initialVelocity 初速度 (m/s)
-   * @param {number} acceleration 加速度 (m/s²)
+   * @param initialVelocity - 初速度 (m/s)
+   * @param acceleration - 加速度 (m/s²)
    */
   constructor(initialVelocity: number, acceleration: number) {
     this.initialVelocity = initialVelocity;
@@ -42,13 +41,13 @@ export class Car {
     this.isMoving = false;
     this.lastGraphUpdate = 0;
     this.lastMarkerTime = 0;
-    /** @type {{t: number, px: number}[]} 等時間マーカーの経過時刻と仮想x座標リスト */
+    /** 等時間マーカーの経過時刻と仮想x座標リスト */
     this.markers = [];
   }
 
   /**
    * 位置・速度を更新する
-   * @param {number} dt 時間刻み (秒)
+   * @param dt - 時間刻み (秒)
    */
   update(dt: number) {
     if (!this.isMoving) return;
@@ -98,12 +97,12 @@ export class Car {
 
   /**
    * 車とトラックを描画する
-   * @param {p5} p p5インスタンス
-   * @param {number} vH 仮想キャンバス高さ
-   * @param {Object} options 描画オプション
-   * @param {p5.Image} [options.carImage] 車の画像
-   * @param {p5.Image} [options.groundImage] 地面画像
-   * @param {boolean} [options.showMarkers] 等時間マーカーを表示するか
+   * @param p - p5インスタンス
+   * @param vH - 仮想キャンバス高さ
+   * @param options - 描画オプション
+   *   - `carImage`: 車の画像
+   *   - `groundImage`: 地面画像
+   *   - `showMarkers`: 等時間マーカーを表示するか
    */
   display(
     p: p5,
@@ -191,8 +190,8 @@ export class Car {
 
   /**
    * リセットする
-   * @param {number} newInitialVelocity 新しい初速度
-   * @param {number} newAcceleration 新しい加速度
+   * @param newInitialVelocity - 新しい初速度
+   * @param newAcceleration - 新しい加速度
    */
   reset(newInitialVelocity: number, newAcceleration: number) {
     this.initialVelocity = newInitialVelocity;

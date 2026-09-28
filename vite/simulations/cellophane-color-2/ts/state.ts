@@ -5,7 +5,7 @@ import type { Chart } from "chart.js";
 import type { Cellophane } from "./class.js";
 
 /**
- * @types/p5の型定義には createRadio() の戻り値に `option` / `selected`
+ * `@types/p5`の型定義には createRadio() の戻り値に `option` / `selected`
  * メソッドが含まれないため、実際に存在するこれらのメソッドを補った型。
  */
 export type RadioElement = p5.Element & {

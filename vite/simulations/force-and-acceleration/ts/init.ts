@@ -11,8 +11,8 @@ export const FPS = 60;
 
 /**
  * シミュレーションそのものの設定を行う関数
- * @param {*} p p5インスタンス
- * @param {*} canvasController BicpemaCanvasControllerインスタンス
+ * @param p - p5インスタンス
+ * @param canvasController - BicpemaCanvasControllerインスタンス
  */
 export function settingInit(p: p5, canvasController: BicpemaCanvasController) {
   canvasController.fullScreen(p);
@@ -23,7 +23,7 @@ export function settingInit(p: p5, canvasController: BicpemaCanvasController) {
 
 /**
  * 仮想DOMを読み込むための関数
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elementSelectInit(p: p5) {
   state.massInput = p.select("#massInput");
@@ -33,7 +33,7 @@ export function elementSelectInit(p: p5) {
 
 /**
  * 仮想DOMの場所や実行関数を設定するための関数
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elementPositionInit(p: p5) {
   // elementSelectInit()で取得済みのため呼び出し時点でnullになりえない
@@ -50,7 +50,7 @@ export function elementPositionInit(p: p5) {
 
 /**
  * 初期値を設定するための関数
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function valueInit(p: p5) {
   const mass = parseFloat(String(state.massInput!.value()));

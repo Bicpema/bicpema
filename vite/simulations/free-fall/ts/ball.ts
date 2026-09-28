@@ -33,9 +33,8 @@ export class Ball {
   lastGraphUpdate: number;
 
   /**
-   * @constructor
-   * @param {number} initialHeight 初期高さ (m)
-   * @param {number} [dragCoefficient] 空気抵抗係数（質量1kgあたり）
+   * @param initialHeight - 初期高さ (m)
+   * @param dragCoefficient - 空気抵抗係数（質量1kgあたり）
    */
   constructor(initialHeight: number, dragCoefficient: number = 0) {
     this.initialHeight = initialHeight;
@@ -53,7 +52,7 @@ export class Ball {
 
   /**
    * 位置を更新
-   * @param {number} dt 時間刻み (秒)
+   * @param dt - 時間刻み (秒)
    */
   update(dt: number) {
     if (!this.isMoving) return;
@@ -91,11 +90,11 @@ export class Ball {
 
   /**
    * ボールを描画
-   * @param {p5} p p5インスタンス
-   * @param {number} canvasHeight キャンバスの高さ
-   * @param {Object} options 描画オプション
-   * @param {p5.Image} [options.ballImage] ボール画像
-   * @param {p5.Image} [options.groundImage] 地面画像
+   * @param p - p5インスタンス
+   * @param canvasHeight - キャンバスの高さ
+   * @param options - 描画オプション
+   *   - `ballImage`: ボール画像
+   *   - `groundImage`: 地面画像
    */
   display(
     p: p5,
@@ -183,8 +182,8 @@ export class Ball {
 
   /**
    * リセット
-   * @param {number} newHeight 新しい初期高さ
-   * @param {number} [dragCoefficient] 新しい空気抵抗係数
+   * @param newHeight - 新しい初期高さ
+   * @param dragCoefficient - 新しい空気抵抗係数
    */
   reset(newHeight: number, dragCoefficient: number = this.dragCoefficient) {
     this.initialHeight = newHeight;

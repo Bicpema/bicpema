@@ -3,6 +3,9 @@
   // eslint-config-airbnb-base (https://github.com/airbnb/javascript) に
   // できる限り追従する形でルールを選定している。
   "plugins": ["import"],
+  // TSDoc記法の検査（tsdoc/syntax）に使う。typescript-eslintがTypeScript 7に
+  // 未対応でESLintを導入できないため、oxlintのJSプラグインとして読み込んでいる。
+  "jsPlugins": ["eslint-plugin-tsdoc"],
   "rules": {
     // airbnbはargs: "after-used"だが、p5のインスタンスモードでは呼び出し側の形に合わせて
     // 未使用のpを受け取るだけの引数が多く、ノイズになるためargs: "none"に変更している。
@@ -283,6 +286,12 @@
   // no-param-reassign(222件): 引数のプロパティ変更を含めると影響範囲が広いため見送り
   // prefer-destructuring(36件): 書き換えの妥当性を1件ずつ確認する必要があるため見送り
   "overrides": [
+    {
+      // .tsの型はTypeScriptの型注釈で表すため、ドキュメントコメントはTSDoc記法に統一する。
+      // .js（vite/_build/・scripts/）は型をJSDocで表すため対象外にする。
+      "files": ["**/*.ts"],
+      "rules": { "tsdoc/syntax": "error" }
+    },
     {
       "files": ["scripts/**"],
       "rules": { "no-console": "off" }

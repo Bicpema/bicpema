@@ -8,11 +8,11 @@ const DRAG_EPSILON = 1e-6;
  * k が十分小さい場合は空気抵抗なしの等加速度運動の式を用い、
  * それ以外の場合は線形抵抗を受ける運動の解析解を用いる。
  *
- * @param {Object} params
- * @param {number} params.t 経過時間 (s)
- * @param {number} params.gravity 重力加速度 (m/s^2)
- * @param {number} params.k 空気抵抗係数（質量1kgあたり）
- * @returns {{distanceFallen: number, velocity: number}} 落下距離と速度
+ * @param params -
+ *   - `t`: 経過時間 (s)
+ *   - `gravity`: 重力加速度 (m/s^2)
+ *   - `k`: 空気抵抗係数（質量1kgあたり）
+ * @returns 落下距離と速度
  */
 export function computeDragFreeFall({
   t,

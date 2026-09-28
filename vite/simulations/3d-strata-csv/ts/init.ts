@@ -33,7 +33,7 @@ const JA_FONT_URL =
 
 /**
  * DOM要素の参照を取得・生成する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elCreate(p: p5) {
   state.buttonParent = p.select("#buttonParent");
@@ -55,7 +55,7 @@ export function elCreate(p: p5) {
 
 /**
  * DOM要素の位置・イベントを設定する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elInit(p: p5) {
   state.buttonParent.position(UI_EDGE_MARGIN, HEADER_HEIGHT + UI_EDGE_MARGIN);
@@ -107,7 +107,7 @@ export function uiInit() {
 
 /**
  * カメラ位置・フレームレートなどシミュレーションの初期値を設定する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function initValue(p: p5) {
   p.frameRate(FRAME_RATE);
@@ -119,7 +119,7 @@ export function initValue(p: p5) {
 
 /**
  * 日本語フォントを非同期で読み込む（読み込み失敗してもシミュレーションは動作する）。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function loadJapaneseFont(p: p5) {
   p.loadFont(

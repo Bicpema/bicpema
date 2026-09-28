@@ -28,9 +28,9 @@ import {
 
 /**
  * 地層の種類に応じたfill()を適用する。該当する種類がない場合は何もしない（直前のfill状態を維持する）。
- * @param {*} p p5インスタンス
- * @param {string} kind 地層の種類
- * @param {number} alpha 不透明度
+ * @param p - p5インスタンス
+ * @param kind - 地層の種類
+ * @param alpha - 不透明度
  */
 function applyStrataFill(p: p5, kind: string, alpha: number) {
   const color = (STRATA_COLORS as Record<string, number[]>)[kind];
@@ -41,7 +41,7 @@ function applyStrataFill(p: p5, kind: string, alpha: number) {
 
 /**
  * 緯度経度、深さの最小値と最大値を計算する。
- * @returns {{x: {min:number,max:number}, y: {min:number,max:number}, z: {min:number,max:number}}}
+ * @returns
  */
 function calculateValue() {
   const latitudeArr: number[] = [];
@@ -72,7 +72,7 @@ function calculateValue() {
 
 /**
  * 背景（座標軸・格子線・ラベル）を描画する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function backgroundSetting(
   p: p5,
@@ -164,7 +164,7 @@ function backgroundSetting(
 
 /**
  * 方角を描画する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function drawDirMark(p: p5, x: number, y: number) {
   p.push();
@@ -186,7 +186,7 @@ function drawDirMark(p: p5, x: number, y: number) {
 
 /**
  * ３点を結び平面を生成する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function createPlane1(
   p: p5,
@@ -209,7 +209,7 @@ function createPlane1(
 
 /**
  * ４点を結び平面を生成する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function createPlane2(
   p: p5,
@@ -236,7 +236,7 @@ function createPlane2(
 
 /**
  * 1地点分の地層の柱状図を描画する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function drawStrata(
   p: p5,
@@ -317,7 +317,7 @@ function drawStrata(
 
 /**
  * 選択中の3地点を結ぶ平面（層ごとの直方体）を描画する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function drawSelectedPlanes(
   p: p5,
@@ -486,7 +486,7 @@ function drawSelectedPlanes(
 
 /**
  * 「全体」ボタン用の固定平面を描画する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function drawAllSetPlanes(p: p5) {
   // oxlint-disable-next-line guard-for-in -- ALL_SET_DATAはstate.jsで定義された静的な定数オブジェクトのため、継承プロパティの混入はない
@@ -581,7 +581,7 @@ function drawAllSetPlanes(p: p5) {
 
 /**
  * シミュレーションの描画を行う。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function drawSimulation(p: p5) {
   const coordinateData = calculateValue();

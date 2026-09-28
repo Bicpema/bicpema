@@ -42,14 +42,14 @@ const state: {
 
 /**
  * p.createSelect()が返すp5.Elementは、実際にはoption()メソッドを
- * 持つが、@types/p5の型定義には含まれていないため、ここで補って扱う。
+ * 持つが、`@types/p5`の型定義には含まれていないため、ここで補って扱う。
  */
 type SelectElement = p5.Element & {
   option(value: string, label?: string): unknown;
 };
 
 /**
- * p.createSlider()が返すp5.Elementの value() は @types/p5 上
+ * p.createSlider()が返すp5.Elementの value() は `@types/p5` 上
  * `string | number` だが、スライダーの値は実際には常に number である。
  * 算術演算で使用するため、value() の戻り値を number に絞り込んで扱う。
  */

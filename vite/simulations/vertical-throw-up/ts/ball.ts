@@ -29,8 +29,7 @@ export class Ball {
   history: { t: number; y: number; v: number }[];
 
   /**
-   * @constructor
-   * @param {number} initialVelocity 初速度 (m/s) - 上向きを正とする
+   * @param initialVelocity - 初速度 (m/s) - 上向きを正とする
    */
   constructor(initialVelocity: number = DEFAULT_INITIAL_VELOCITY) {
     this.initialVelocity = initialVelocity;
@@ -46,7 +45,7 @@ export class Ball {
 
   /**
    * 位置を更新
-   * @param {number} dt 時間刻み (秒)
+   * @param dt - 時間刻み (秒)
    */
   update(dt: number) {
     if (!this.isMoving) return;
@@ -67,8 +66,8 @@ export class Ball {
 
   /**
    * ボールを描画
-   * @param {p5} p p5インスタンス
-   * @param {number} canvasHeight キャンバスの高さ
+   * @param p - p5インスタンス
+   * @param canvasHeight - キャンバスの高さ
    */
   display(p: p5, canvasHeight: number) {
     // 高さスケールを動的に計算（最高到達点がアニメーションエリアに収まるよう調整）
@@ -161,8 +160,8 @@ export class Ball {
 
   /**
    * y-t グラフと v-t グラフを描画
-   * @param {p5} p p5インスタンス
-   * @param {number} canvasHeight キャンバスの高さ
+   * @param p - p5インスタンス
+   * @param canvasHeight - キャンバスの高さ
    */
   _drawGraphs(p: p5, canvasHeight: number) {
     const maxTime = (2 * this.initialVelocity) / this.g;
@@ -356,7 +355,7 @@ export class Ball {
 
   /**
    * リセット
-   * @param {number} newVelocity 新しい初速度
+   * @param newVelocity - 新しい初速度
    */
   reset(newVelocity: number) {
     this.initialVelocity = newVelocity;

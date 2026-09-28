@@ -7,7 +7,7 @@ import { Ball } from "./class.js";
 /**
  * canvasサイズに依存するレイアウト値の再計算を行う
  * （リサイズ時にも呼ぶため、シミュレーションの状態は変更しない）。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function updateLayout(p: p5) {
   state.radi = p.width / BALL_RADIUS_DIVISOR;
@@ -23,7 +23,7 @@ export function updateLayout(p: p5) {
 /**
  * シミュレーションの状態と赤玉・青玉を初期値にリセットする
  * （初回セットアップ・リセットボタン押下時に呼ぶ）。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function resetSimulationState(p: p5) {
   updateLayout(p);
@@ -54,7 +54,7 @@ export function resetSimulationState(p: p5) {
 
 /**
  * シミュレーションの描画と物理更新を行う。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function drawSimulation(p: p5) {
   if (state.clickedCount === true) {
@@ -83,7 +83,7 @@ export function drawSimulation(p: p5) {
 
 /**
  * 背景・地面・グリッド・軌跡を描画する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function backGround(p: p5) {
   p.background(255);

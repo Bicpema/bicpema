@@ -12,7 +12,7 @@ import {
 
 /**
  * シミュレーションそのものの設定を行います。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function settingInit(p: p5) {
   p.textAlign(p.CENTER);
@@ -21,7 +21,7 @@ export function settingInit(p: p5) {
 
 /**
  * 初期値を設定します。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function valueInit(p: p5) {
   state.lightRotateTheta = 0;

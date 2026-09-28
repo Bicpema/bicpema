@@ -15,13 +15,13 @@ import {
 
 /**
  * FPS を定数として定義する。
- * @constant {number} FPS - フレームレート。
+ * フレームレート。
  */
 export const FPS = 60;
 
 /**
  * 初期設定を行う。
- * @param {*} p - p5 インスタンス。
+ * @param p - p5 インスタンス。
  */
 export function settingInit(p: p5) {
   p.frameRate(FPS);
@@ -29,7 +29,7 @@ export function settingInit(p: p5) {
 
 /**
  * 要素の選択を初期化する。
- * @param {*} p - p5 インスタンス。
+ * @param p - p5 インスタンス。
  */
 export function elementSelectInit(p: p5) {
   state.decelerationButton = p.select("#decelerationButton");
@@ -41,7 +41,7 @@ export function elementSelectInit(p: p5) {
 
 /**
  * 値の初期化を行う。
- * @param {*} p - p5 インスタンス。
+ * @param p - p5 インスタンス。
  */
 export function valueInit(p: p5) {
   if (!state.stopper || !state.button) return;

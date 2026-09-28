@@ -16,8 +16,8 @@ export class Ball {
   theta0: number;
 
   /**
-   * @param {number} length 振り子の長さ（データ上の単位）
-   * @param {number} theta0 振れ幅（初期角度、ラジアン）
+   * @param length - 振り子の長さ（データ上の単位）
+   * @param theta0 - 振れ幅（初期角度、ラジアン）
    */
   constructor(length: number, theta0: number) {
     this.posx = 0;
@@ -29,7 +29,7 @@ export class Ball {
 
   /**
    * 現在のフレームカウントに応じて位置を更新する。
-   * @param {*} p p5インスタンス
+   * @param p - p5インスタンス
    */
   move(p: p5) {
     this.theta = computePendulumWaveAngle(
@@ -44,7 +44,7 @@ export class Ball {
 
   /**
    * 支点からの糸とおもりを描画する。
-   * @param {*} p p5インスタンス
+   * @param p - p5インスタンス
    */
   display(p: p5) {
     p.line(p.width / 2, PIVOT_Y, this.posx, this.posy);

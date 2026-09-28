@@ -4,7 +4,7 @@ import { state } from "./state.js";
 
 /**
  * 経過フレーム数を更新し、物体の斜面上のy座標を再計算する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function calculate(p: p5) {
   if (state.clickedCount === true) {
@@ -19,7 +19,7 @@ export function calculate(p: p5) {
 
 /**
  * 坂とその角度表示を描画する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function slope(p: p5) {
   p.fill(255);
@@ -69,7 +69,7 @@ export function slope(p: p5) {
 
 /**
  * シミュレーションの描画と物理更新を行う。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function drawSimulation(p: p5) {
   p.background(255);

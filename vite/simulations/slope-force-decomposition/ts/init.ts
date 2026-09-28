@@ -5,7 +5,7 @@ import { initModal } from "../../../ts/bicpema-modal-controller.js";
 
 /**
  * DOM要素を選択してstateに格納し、イベントリスナーを設定する。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elCreate(p: p5) {
   state.slopeAngleInput = p.select("#slopeAngleInput");
@@ -26,7 +26,7 @@ export function elCreate(p: p5) {
 
 /**
  * キャンバス設定と初期値を設定する。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function initValue(p: p5) {
   p.frameRate(FPS);

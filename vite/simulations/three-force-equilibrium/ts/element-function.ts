@@ -19,8 +19,8 @@ import { DRAG_HIT_MARGIN } from "./constants.js";
 
 /**
  * マウス／タッチ開始時にドラッグ対象を決定する。
- * @param {number} vmx 仮想座標系の X（mouseX / width * V_W）
- * @param {number} vmy 仮想座標系の Y（mouseY / width * V_W）
+ * @param vmx - 仮想座標系の X（mouseX / width * V_W）
+ * @param vmy - 仮想座標系の Y（mouseY / width * V_W）
  */
 export function startDrag(vmx: number, vmy: number) {
   const { anchorA, anchorB, ring } = state;
@@ -55,8 +55,8 @@ export function startDrag(vmx: number, vmy: number) {
 
 /**
  * ドラッグ中の位置を更新する。
- * @param {number} vmx 仮想座標系の X
- * @param {number} vmy 仮想座標系の Y
+ * @param vmx - 仮想座標系の X
+ * @param vmy - 仮想座標系の Y
  */
 export function updateDrag(vmx: number, vmy: number) {
   const nx = vmx + state.dragOffsetX;

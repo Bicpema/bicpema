@@ -13,8 +13,8 @@ export const FPS = 30;
 
 /**
  * シミュレーション設定を行う
- * @param {*} p - p5インスタンス
- * @param {*} canvasController - BicpemaCanvasControllerインスタンス
+ * @param p - p5インスタンス
+ * @param canvasController - BicpemaCanvasControllerインスタンス
  */
 export function settingInit(p: p5, canvasController: BicpemaCanvasController) {
   canvasController.fullScreen(p);
@@ -28,7 +28,7 @@ export function settingInit(p: p5, canvasController: BicpemaCanvasController) {
 
 /**
  * DOM要素の初期化（作成 + 参照取得）
- * @param {*} p - p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elementSelectInit(p: p5) {
   // ボタン・入力の参照
@@ -55,7 +55,7 @@ export function elementSelectInit(p: p5) {
 
 /**
  * DOM要素の位置・サイズを設定する（リサイズ時も呼ばれる）
- * @param {*} _p - p5インスタンス
+ * @param _p - p5インスタンス
  */
 export function elementPositionInit(_p: p5) {
   // グラフは CSS position:absolute で配置するため JS 側の設定不要

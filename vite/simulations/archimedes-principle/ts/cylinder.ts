@@ -29,12 +29,11 @@ export class Cylinder {
   dragOffsetY: number;
 
   /**
-   * @constructor
-   * @param {number} cx 円柱の中心X座標（キャンバス座標）
-   * @param {number} cy 円柱の底面Y座標（キャンバス座標）
-   * @param {number} r 円柱の半径（キャンバス単位）
-   * @param {number} h 円柱の高さ（キャンバス単位）
-   * @param {number} density 円柱の密度（g/cm³）
+   * @param cx - 円柱の中心X座標（キャンバス座標）
+   * @param cy - 円柱の底面Y座標（キャンバス座標）
+   * @param r - 円柱の半径（キャンバス単位）
+   * @param h - 円柱の高さ（キャンバス単位）
+   * @param density - 円柱の密度（g/cm³）
    */
   constructor(cx: number, cy: number, r: number, h: number, density: number) {
     this.cx = cx;
@@ -51,8 +50,8 @@ export class Cylinder {
 
   /**
    * アルキメデスの原理に基づいて円柱の位置を更新する。
-   * @param {number} waterSurfaceY 水面のY座標（キャンバス座標）
-   * @param {number} tankBottomY 水槽底面のY座標（キャンバス座標）
+   * @param waterSurfaceY - 水面のY座標（キャンバス座標）
+   * @param tankBottomY - 水槽底面のY座標（キャンバス座標）
    */
   update(waterSurfaceY: number, tankBottomY: number) {
     if (this.dragging) {
@@ -112,7 +111,7 @@ export class Cylinder {
 
   /**
    * 円柱を描画する。
-   * @param {*} p p5インスタンス
+   * @param p - p5インスタンス
    */
   draw(p: p5) {
     const r = this.r;
@@ -130,8 +129,8 @@ export class Cylinder {
 
   /**
    * 円柱の水中体積比を返す。
-   * @param {number} waterSurfaceY 水面のY座標
-   * @returns {number} 水中体積比（0〜1）
+   * @param waterSurfaceY - 水面のY座標
+   * @returns 水中体積比（0〜1）
    */
   getSubmergedFraction(waterSurfaceY: number) {
     const topY = this.cy - this.h;
@@ -147,9 +146,9 @@ export class Cylinder {
 
   /**
    * ドラッグ判定（マウス座標が円柱上にあるか）。
-   * @param {number} mx マウスX座標
-   * @param {number} my マウスY座標
-   * @returns {boolean}
+   * @param mx - マウスX座標
+   * @param my - マウスY座標
+   * @returns
    */
   isOver(mx: number, my: number) {
     return (

@@ -29,7 +29,7 @@ export const TAPE_WIDTH_SLIDER_DEFAULT = 75;
 /** 色計算前・初期化時に画像を塗りつぶす灰色のレベル(RGB各成分に使用) */
 export const BLANK_IMAGE_GRAY_LEVEL = 200;
 
-/** XYZ三刺激値をリニアsRGBへ変換する行列(CIE XYZ(D65) -> リニアsRGB) */
+/** XYZ三刺激値をリニアsRGBへ変換する行列(CIE XYZ(D65) → リニアsRGB) */
 export const XYZ_TO_SRGB_MATRIX = [
   [3.2406, -1.5372, -0.4986],
   [-0.9689, 1.8758, 0.0415],
