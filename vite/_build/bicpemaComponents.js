@@ -116,7 +116,7 @@ export function renderNavBar({ title, backHref = TOP_PAGE_PATH }) {
         title="${backLabel}"
         onclick="${NAV_BACK_ONCLICK}"
       >${renderIcon({ name: "arrow-left", size: "20" })}</a>
-      <a class="shrink-0 font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <a class="shrink-0 font-semibold text-white no-underline" href="/">Bicpema</a>
       <span class="ml-3 min-w-0 truncate font-light text-neutral-300">${title}</span>
     </nav>`;
 }

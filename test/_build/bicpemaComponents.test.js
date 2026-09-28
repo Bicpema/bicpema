@@ -75,6 +75,13 @@ describe("renderIcon", () => {
 });
 
 describe("renderNavBar", () => {
+  it("トップページへのリンクを実行環境に依存しないルート相対パスにする", () => {
+    const html = renderNavBar({ title: "振り子の実験" });
+
+    expect(html).toContain('href="/">Bicpema</a>');
+    expect(html).not.toContain("https://bicpema.com");
+  });
+
   it("左端に解説ページへ戻るボタンを配置する", () => {
     const html = renderNavBar({ title: "振り子", backHref: "/post/a/" });
 
