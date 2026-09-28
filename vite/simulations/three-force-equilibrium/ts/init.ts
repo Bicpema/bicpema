@@ -8,7 +8,7 @@ const FPS = 30;
 
 /**
  * DOM 要素の取得とイベントリスナーの登録、基本設定を行う。
- * @param {*} p p5 インスタンス
+ * @param p - p5 インスタンス
  */
 export function elCreate(p: p5) {
   state.weightInput = p.select("#weightInput");
@@ -28,7 +28,7 @@ export function elCreate(p: p5) {
 
 /**
  * シミュレーションの初期値を設定する。
- * @param {*} p p5 インスタンス
+ * @param p - p5 インスタンス
  */
 export function initValue(p: p5) {
   p.textFont("sans-serif");

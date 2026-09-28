@@ -19,8 +19,8 @@ export class TR {
   trRemoveButton: any;
 
   /**
-   * @param {number} n 新しく生成するtr要素の番号
-   * @param {*} p p5インスタンス
+   * @param n - 新しく生成するtr要素の番号
+   * @param p - p5インスタンス
    */
   constructor(n: number, p: any) {
     const num = n;

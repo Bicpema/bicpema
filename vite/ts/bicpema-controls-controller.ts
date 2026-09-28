@@ -20,8 +20,8 @@ const DEFAULT_ARIA_LABELS = {
 /**
  * 要素にaria-labelが未設定の場合のみ既定値を設定する。
  * 既にaria-labelが指定されている要素（シミュレーション固有の文言）は上書きしない。
- * @param element p.select()で取得したp5.Element（nullの場合は何もしない）
- * @param label 既定のaria-label
+ * @param element - p.select()で取得したp5.Element（nullの場合は何もしない）
+ * @param label - 既定のaria-label
  */
 function ensureAriaLabel(element: any, label: string): void {
   const node = element?.elt;
@@ -34,8 +34,8 @@ function ensureAriaLabel(element: any, label: string): void {
  * p5.Element.mousePressed()は内部的に"mousedown"のみをバインドし、
  * キーボード操作（Tab移動 → Enter/Space）で発火する"click"イベントには
  * 反応しないため、あえて素のaddEventListenerを使用してキーボード操作にも対応する。
- * @param element p.select()で取得したp5.Element（nullの場合は何もしない）
- * @param handler クリック時の処理
+ * @param element - p.select()で取得したp5.Element（nullの場合は何もしない）
+ * @param handler - クリック時の処理
  */
 function bindClick(element: any, handler: () => void): void {
   element?.elt?.addEventListener("click", handler);
@@ -64,7 +64,7 @@ interface StartStopControlsOptions {
 
 /**
  * start/stopボタンが分かれているシミュレーション向けの共通バインディング。
- * @param p p5インスタンス
+ * @param p - p5インスタンス
  * @returns p.select()で取得した各ボタン要素
  */
 export function bindStartStopControls(
@@ -119,7 +119,7 @@ interface ToggleControlsOptions {
 
 /**
  * 1つのボタンで開始/一時停止をトグルするシミュレーション向けの共通バインディング。
- * @param p p5インスタンス
+ * @param p - p5インスタンス
  * @returns p.select()で取得した各ボタン要素
  */
 export function bindToggleControls(

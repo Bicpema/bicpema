@@ -36,7 +36,7 @@ import {
 
 /**
  * シミュレーションの描画と物理更新を行う。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function drawSimulation(p: p5) {
   p.background(0);
@@ -70,7 +70,7 @@ export function drawSimulation(p: p5) {
 
 /**
  * 右上の表示モード切り替えタブを描画する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function drawModeTabs(p: p5) {
   p.noFill();
@@ -132,7 +132,7 @@ function drawModeTabs(p: p5) {
 
 /**
  * 光源（レーザー光源）を描画する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function lightResource(p: p5) {
   p.strokeWeight(1);

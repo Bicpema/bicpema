@@ -22,7 +22,7 @@ import { bindStartStopControls } from "../../../ts/bicpema-controls-controller.j
 
 /**
  * 操作パネルの高さを求める。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function controlPanelHeight(p: p5) {
   return p.windowHeight / CONTROL_PANEL_HEIGHT_DIVISOR;
@@ -30,7 +30,7 @@ export function controlPanelHeight(p: p5) {
 
 /**
  * 操作パネルのボタン1列分の幅を求める。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function buttonColumnWidth(p: p5) {
   return p.windowWidth / BUTTON_COLUMN_DIVISOR;
@@ -38,7 +38,7 @@ export function buttonColumnWidth(p: p5) {
 
 /**
  * canvasの高さ（操作パネルの高さを差し引いた高さ）を求める。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function canvasHeight(p: p5) {
   return p.windowHeight - NAV_HEIGHT - controlPanelHeight(p);
@@ -46,7 +46,7 @@ export function canvasHeight(p: p5) {
 
 /**
  * canvasを生成し、#p5Canvasに配置する。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function fullScreen(p: p5) {
   p.pixelDensity(Math.min(p.displayDensity(), MAX_PIXEL_DENSITY));
@@ -57,7 +57,7 @@ export function fullScreen(p: p5) {
 
 /**
  * canvasを現在のウィンドウサイズに合わせて再生成する。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function resizeScreen(p: p5) {
   p.resizeCanvas(p.windowWidth, canvasHeight(p));
@@ -66,11 +66,11 @@ export function resizeScreen(p: p5) {
 /**
  * DOM要素の生成を行う（初回セットアップ専用）。
  * sortButton1〜3はここでmousePressedを登録する。
- * @param {*} p p5インスタンス
- * @param {object} handlers 表示パターン切り替えボタンのイベントハンドラ
- * @param {() => void} handlers.sortButtonAction1
- * @param {() => void} handlers.sortButtonAction2
- * @param {() => void} handlers.sortButtonAction3
+ * @param p - p5インスタンス
+ * @param handlers - 表示パターン切り替えボタンのイベントハンドラ
+ *   - `sortButtonAction1`
+ *   - `sortButtonAction2`
+ *   - `sortButtonAction3`
  */
 export function buttonCreation(
   p: p5,
@@ -101,7 +101,7 @@ export function buttonCreation(
 
 /**
  * 坂を滑る物体を生成する。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function materialSet(p: p5) {
   state.material = new Material(p, Number(state.weightButton!.value()), 1);
@@ -110,11 +110,11 @@ export function materialSet(p: p5) {
 /**
  * ボタンのイベント登録・表示状態の初期化を行う（初回セットアップ専用。
  * リサイズ時に再登録するとリスナーが重複するため呼ばない）。
- * @param {*} p p5インスタンス
- * @param {object} handlers スタート/ストップ/リセットボタンのイベントハンドラ
- * @param {() => void} handlers.onStartClick
- * @param {() => void} handlers.onStopClick
- * @param {(p: *) => void} handlers.resetButtonAction
+ * @param p - p5インスタンス
+ * @param handlers - スタート/ストップ/リセットボタンのイベントハンドラ
+ *   - `onStartClick`
+ *   - `onStopClick`
+ *   - `resetButtonAction`
  */
 export function buttonEvents(
   p: p5,
@@ -144,7 +144,7 @@ export function buttonEvents(
 /**
  * canvasサイズに依存するボタンの配置を行う（リサイズ時にも呼ぶため、
  * イベント登録や表示状態は変更しない）。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function buttonSettings(p: p5) {
   const controlTop = NAV_HEIGHT + p.height;
@@ -248,7 +248,7 @@ export function buttonSettings(p: p5) {
 /**
  * canvasサイズに依存するレイアウト値の再計算を行う（リサイズ時にも呼ぶため、
  * シミュレーションの状態は変更しない）。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function updateLayout(p: p5) {
   state.slopeWidth = (2 * p.width) / 3;
@@ -264,7 +264,7 @@ export function updateLayout(p: p5) {
 
 /**
  * シミュレーションの初期設定を行う。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function initSettings(p: p5) {
   state.count = 0;

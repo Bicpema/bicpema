@@ -9,7 +9,7 @@ import { bindToggleControls } from "../../../ts/bicpema-controls-controller.js";
 
 /**
  * UI要素の生成とイベントリスナーの設定を担当する関数。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elCreate(p: p5) {
   state.massInput = p.select("#massInput");
@@ -47,7 +47,7 @@ export function elCreate(p: p5) {
 
 /**
  * パラメータと状態を初期化する
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function initValue(p: p5) {
   p.frameRate(FPS);

@@ -12,8 +12,8 @@ const DRAG_COEFFICIENT_MAX = 2;
 
 /**
  * 高さ入力欄の値をクランプし、範囲外だった場合は入力欄の表示も補正する
- * @param {number} newHeight
- * @returns {number} クランプ後の高さ
+ * @param newHeight -
+ * @returns クランプ後の高さ
  */
 export function clampHeight(newHeight: number) {
   if (Number.isNaN(newHeight) || newHeight < MIN_HEIGHT_INPUT) {
@@ -29,8 +29,8 @@ export function clampHeight(newHeight: number) {
 
 /**
  * 空気抵抗係数入力欄の値をクランプし、範囲外だった場合は入力欄の表示も補正する
- * @param {number} newDragCoefficient
- * @returns {number} クランプ後の空気抵抗係数
+ * @param newDragCoefficient -
+ * @returns クランプ後の空気抵抗係数
  */
 export function clampDragCoefficient(newDragCoefficient: number) {
   if (

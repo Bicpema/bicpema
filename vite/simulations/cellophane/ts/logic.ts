@@ -10,12 +10,12 @@ import {
 
 /**
  * 偏光板を描画する
- * @param {*} p p5インスタンス
- * @param {number} size 偏光板の大きさ
- * @param {number} x x座標
- * @param {number} y y座標
- * @param {number} z z座標
- * @param {0 | 1} pattern 偏光板の向き（0: スタート寄り, 1: ゴール寄り）
+ * @param p - p5インスタンス
+ * @param size - 偏光板の大きさ
+ * @param x - x座標
+ * @param y - y座標
+ * @param z - z座標
+ * @param pattern - 偏光板の向き（0: スタート寄り, 1: ゴール寄り）
  */
 function createPolarizer(
   p: p5,
@@ -47,7 +47,7 @@ function createPolarizer(
 
 /**
  * 偏光板・光の進行軸・セロハンを描画する
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function drawSimulation(p: p5) {
   // スタート寄りの偏光板

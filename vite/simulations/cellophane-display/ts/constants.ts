@@ -15,7 +15,6 @@ export const IMAGE_SIZE = 200;
 /**
  * 入力画像の初期化に使う色（明るいグレー、不透明）。
  * createStartimg()とcolabNum2_normal()のpixels初期化で共通利用する。
- * @type {readonly [number, number, number, number]}
  */
 export const INITIAL_PIXEL_COLOR = [200, 200, 200, 255];
 

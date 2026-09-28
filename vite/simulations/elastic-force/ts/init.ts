@@ -10,7 +10,7 @@ const FPS = 30;
 
 /**
  * 要素の選択とイベントハンドラーの設定、基本設定を行う。
- * @param {*} p - p5 インスタンス。
+ * @param p - p5 インスタンス。
  */
 export function elCreate(p: p5) {
   state.springConstantInput = p.select("#springConstantInput");
@@ -30,7 +30,7 @@ export function elCreate(p: p5) {
 
 /**
  * シミュレーションの初期値を設定する。
- * @param {*} p - p5 インスタンス。
+ * @param p - p5 インスタンス。
  */
 export function initValue(p: p5) {
   const k = parseInt(String(state.springConstantInput!.value()), 10);

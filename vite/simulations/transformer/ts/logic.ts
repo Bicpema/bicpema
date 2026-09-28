@@ -20,7 +20,7 @@ import {
 /**
  * シミュレーション全体を描画する関数。
  * UIの状態をstateに反映したのち、各パーツを描画する。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 export function drawSimulation(p: p5) {
   // 設定パネルのラジオボタンからstate（位相・速度）を更新
@@ -70,7 +70,7 @@ export function drawSimulation(p: p5) {
 /**
  * コア内の磁力線ループと向きを示す矢印を描画する。
  * 電流の符号に応じて矢印の向きを反転させる。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 function magline(p: p5) {
   // 磁力線の楕円ループ（コア断面を模した丸角矩形）
@@ -127,7 +127,7 @@ function magline(p: p5) {
 /**
  * 一次コイルの巻き線・端線・電流矢印を描画する。
  * state.count1 の値に応じて巻き線の本数が変化する。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 function coil1(p: p5) {
   const x = 0; // コイル左端のX座標
@@ -177,7 +177,7 @@ function coil1(p: p5) {
 /**
  * 二次コイルの巻き線・端線・電流矢印を描画する。
  * state.phase（同位相/逆位相）によって端線の接続方向が変化する。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 function coil2(p: p5) {
   const x = 260; // コイル左端のX座標
@@ -249,7 +249,7 @@ function coil2(p: p5) {
 /**
  * 一次電圧のオシロスコープ波形を描画する。
  * 振幅は固定（V1）で、一次電圧の基準波形を表す。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 function oscillo1(p: p5) {
   const w = OSCILLO_WIDTH; // 描画領域の幅
@@ -283,7 +283,7 @@ function oscillo1(p: p5) {
 /**
  * 二次電圧のオシロスコープ波形を描画する。
  * 振幅は変圧比 (N2/N1) × V1 で決まり、逆位相のときは符号を反転する。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 function oscillo2(p: p5) {
   const w = OSCILLO_WIDTH; // 描画領域の幅
@@ -324,7 +324,7 @@ function oscillo2(p: p5) {
 /**
  * 一次電流の大きさと向きを示す矢印を描画する。
  * Iの符号（正負）が矢印の向きを決める。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 function current1(p: p5) {
   p.push();
@@ -345,7 +345,7 @@ function current1(p: p5) {
  * 二次電流の大きさと向きを示す矢印を描画する。
  * 大きさは変圧比 (N1/N2) × 一次電流の最大値で決まる。
  * 逆位相のときは電流の向きが反転する。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 function current2(p: p5) {
   p.push();

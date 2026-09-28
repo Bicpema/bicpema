@@ -13,7 +13,7 @@ import { FPS, H, ORIGIN_X } from "./constants.js";
 
 /**
  * 初期設定を行う。
- * @param {*} p - p5 インスタンス。
+ * @param p - p5 インスタンス。
  */
 export function settingInit(p: p5) {
   p.frameRate(FPS);
@@ -23,7 +23,7 @@ export function settingInit(p: p5) {
 
 /**
  * HTML ボタンのイベントリスナーを登録する。
- * @param {*} p - p5 インスタンス。
+ * @param p - p5 インスタンス。
  */
 export function elCreate(p: p5) {
   bindStartStopControls(p, {
@@ -44,7 +44,7 @@ export function elCreate(p: p5) {
 
 /**
  * 値の初期化を行う。
- * @param {*} p - p5 インスタンス。
+ * @param p - p5 インスタンス。
  */
 export function initValue(p: p5) {
   state.posx = ORIGIN_X;

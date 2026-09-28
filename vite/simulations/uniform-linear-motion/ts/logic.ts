@@ -33,11 +33,11 @@ loadChart()
 /**
  * スケールの表示をする。
  *
- * @param {p5} p p5インスタンス
- * @param {number} x スケールのx座標
- * @param {number} y スケールのy座標
- * @param {number} w スケールの幅
- * @param {number} h スケールの高さ
+ * @param p - p5インスタンス
+ * @param x - スケールのx座標
+ * @param y - スケールのy座標
+ * @param w - スケールの幅
+ * @param h - スケールの高さ
  */
 export function drawScale(p: p5, x: number, y: number, w: number, h: number) {
   p.fill(255);
@@ -58,7 +58,7 @@ export function drawScale(p: p5, x: number, y: number, w: number, h: number) {
 /**
  * グラフを描画する。
  * Chart.jsの読み込みが完了するまでは描画をスキップする。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function graphDraw(p: p5) {
   if (!Chart) return;

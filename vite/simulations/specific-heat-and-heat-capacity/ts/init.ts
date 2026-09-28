@@ -29,8 +29,8 @@ export const MASS_VALUES = [0.3, 0.1];
 
 /**
  * シミュレーションの初期設定
- * @param {*} p p5インスタンス
- * @param {*} canvasController BicpemaCanvasControllerインスタンス
+ * @param p - p5インスタンス
+ * @param canvasController - BicpemaCanvasControllerインスタンス
  */
 export function settingInit(p: p5, canvasController: BicpemaCanvasController) {
   canvasController.fullScreen(p);
@@ -40,7 +40,7 @@ export function settingInit(p: p5, canvasController: BicpemaCanvasController) {
 
 /**
  * DOM要素の取得とイベントハンドラ登録
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elCreate(p: p5) {
   state.materialSelectA = p.select("#materialSelectA");
@@ -62,7 +62,7 @@ export function elCreate(p: p5) {
 
 /**
  * state の初期値をDOM要素から読み込む
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function initValue(p: p5) {
   state.materialA = parseInt(state.materialSelectA.value(), 10);

@@ -25,7 +25,7 @@ import {
 /**
  * キャンバスクリック時の処理。
  * 回転リモコン・屈折率リモコン・表示モードタブの当たり判定を行い、状態を更新する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function onMousePressed(p: p5) {
   state.theta1 = p.radians(state.lightRotateTheta);

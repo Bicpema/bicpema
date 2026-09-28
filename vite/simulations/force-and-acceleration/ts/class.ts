@@ -30,9 +30,8 @@ export class Cart {
   _displayW?: number;
 
   /**
-   * @constructor
-   * @param {number} x 台車の中心x座標（論理ピクセル）
-   * @param {number} mass 質量 (kg)
+   * @param x - 台車の中心x座標（論理ピクセル）
+   * @param mass - 質量 (kg)
    */
   constructor(x: number, mass: number) {
     this.initialX = x;
@@ -60,7 +59,7 @@ export class Cart {
 
   /**
    * 台車の右端x座標を返す
-   * @returns {number}
+   * @returns
    */
   get rightEdge() {
     return this.x + this.BODY_W / 2;
@@ -68,7 +67,7 @@ export class Cart {
 
   /**
    * 台車の表示上の右端x座標を返す（画像描画後に更新される）
-   * @returns {number}
+   * @returns
    */
   get displayRightEdge() {
     return this.x + (this._displayW || this.BODY_W) / 2;
@@ -76,7 +75,7 @@ export class Cart {
 
   /**
    * 台車の左端x座標を返す
-   * @returns {number}
+   * @returns
    */
   get leftEdge() {
     return this.x - this.BODY_W / 2;
@@ -84,8 +83,8 @@ export class Cart {
 
   /**
    * 位置・速度を更新する
-   * @param {number} dt 時間ステップ (s)
-   * @param {number} pxPerMeter 1メートルあたりのピクセル数
+   * @param dt - 時間ステップ (s)
+   * @param pxPerMeter - 1メートルあたりのピクセル数
    */
   update(dt: number, pxPerMeter: number) {
     this.acceleration = this.force / this.mass;
@@ -106,9 +105,9 @@ export class Cart {
 
   /**
    * 台車を描画する
-   * @param {*} p p5インスタンス
-   * @param {number} groundY 地面のy座標（論理ピクセル）
-   * @param {*} cartImg 台車画像
+   * @param p - p5インスタンス
+   * @param groundY - 地面のy座標（論理ピクセル）
+   * @param cartImg - 台車画像
    */
   display(p: p5, groundY: number, cartImg: p5.Image) {
     const imgH = this.WHEEL_R * 2 + this.BODY_H + this.BOX_H;

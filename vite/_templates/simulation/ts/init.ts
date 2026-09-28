@@ -10,7 +10,7 @@ import { initModal } from "../../../ts/bicpema-modal-controller.js";
 export const FPS = 30;
 /**
  * シミュレーションそのものの設定を行います。
- * @param p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function settingInit(p: p5): void {
   p.frameRate(FPS);
@@ -22,7 +22,7 @@ export function settingInit(p: p5): void {
  * 仮想DOMを読み込みます。
  * 設定モーダルを利用する場合は、index.htmlのコメントアウトを外してください
  * （モーダルが存在しない場合、initModal()は何もしません）。
- * @param p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elementSelectInit(p: p5): void {
   initModal({
@@ -34,12 +34,12 @@ export function elementSelectInit(p: p5): void {
 
 /**
  * 仮想DOMの場所や実行関数を設定します。
- * @param p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elementPositionInit(p: p5): void {}
 
 /**
  * 初期値を設定します。
- * @param p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function valueInit(p: p5): void {}

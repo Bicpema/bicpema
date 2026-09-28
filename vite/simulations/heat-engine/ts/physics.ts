@@ -7,10 +7,10 @@ import { PISTON_Y_TOP, PISTON_Y_MID, PISTON_Y_BOTTOM } from "./constants.js";
  * stage 2: 放熱して戻す (PISTON_Y_BOTTOM→PISTON_Y_MID)
  * stage 3: 元の状態に戻る (PISTON_Y_MID→PISTON_Y_TOP)
  *
- * @param {number} stage 現在のサイクル段階 (0〜3)
- * @param {number} t 段階内の経過フレーム数
- * @param {number} duration 各段階の所要フレーム数
- * @returns {number} ピストンのY座標
+ * @param stage - 現在のサイクル段階 (0〜3)
+ * @param t - 段階内の経過フレーム数
+ * @param duration - 各段階の所要フレーム数
+ * @returns ピストンのY座標
  */
 export function computePistonY(stage: number, t: number, duration: number) {
   const ratio = t / duration;
@@ -23,8 +23,8 @@ export function computePistonY(stage: number, t: number, duration: number) {
 
 /**
  * サイクルの段階を次に進める（3の次は0に戻る）。
- * @param {number} stage 現在の段階
- * @returns {number} 次の段階
+ * @param stage - 現在の段階
+ * @returns 次の段階
  */
 export function advanceStage(stage: number) {
   return (stage + 1) % 4;
@@ -32,10 +32,10 @@ export function advanceStage(stage: number) {
 
 /**
  * 線形補間を行う。
- * @param {number} a 開始値
- * @param {number} b 終了値
- * @param {number} t 補間係数 (0〜1)
- * @returns {number}
+ * @param a - 開始値
+ * @param b - 終了値
+ * @param t - 補間係数 (0〜1)
+ * @returns
  */
 function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;

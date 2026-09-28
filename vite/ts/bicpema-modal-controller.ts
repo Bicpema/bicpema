@@ -97,7 +97,7 @@ export function initCollapse({
 
 /**
  * タブ要素のhref属性（例: "#paneId"）から対象のペイン要素を取得する。
- * @param tab タブ（トリガー）要素
+ * @param tab - タブ（トリガー）要素
  */
 function getPane(tab: Element): HTMLElement | null {
   const paneSelector = tab.getAttribute("href");

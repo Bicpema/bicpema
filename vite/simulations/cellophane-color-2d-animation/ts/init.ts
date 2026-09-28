@@ -10,7 +10,7 @@ import {
 
 /**
  * DOM要素の生成
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elCreate(p: p5) {
   state.polarizerSelect = p.select("#polarizerSelect")!;
@@ -21,7 +21,7 @@ export function elCreate(p: p5) {
 
 /**
  * DOM要素の設定
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elInit(p: p5) {
   state.cellophaneAddButton!.mousePressed(() => cellophaneAddButtonFunction(p));
@@ -46,7 +46,7 @@ export function uiInit() {
 
 /**
  * 初期値やシミュレーションの設定
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function initValue(p: p5) {
   // テーブルからそれぞれのデータを取得

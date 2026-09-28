@@ -43,7 +43,7 @@ loadMath()
 /**
  * シミュレーションの描画と物理更新を行う（p5のdraw()から毎フレーム呼び出される）。
  * mathjsの読み込みが完了するまでは描画をスキップする。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function drawSimulation(p: p5) {
   if (!math) return;
@@ -80,7 +80,7 @@ export function optChanged() {
 
 /**
  * checkboxによって実行される補助線の記述。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function checked(p: p5) {
   // 基準線(0°)
@@ -106,7 +106,7 @@ function checked(p: p5) {
 
 /**
  * normalにおける配列用意や画像の貼り付け, テープ幅の設定, 偏光板の表示など。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function prenormal(p: p5) {
   state.tape_angle = new Array(state.colabNum).fill(0);
@@ -157,7 +157,7 @@ function prenormal(p: p5) {
 
 /**
  * normalにおける, 組数1での色計算と配色の処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function colabNum1_normal(p: p5) {
   if (state.colabNum === 1) {
@@ -189,7 +189,7 @@ function colabNum1_normal(p: p5) {
 
 /**
  * normalにおける, 組数2以上での色計算と配色の処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function colabNum2_normal(p: p5) {
   if (state.colabNum >= 2) {
@@ -342,7 +342,7 @@ function colabNum2_normal(p: p5) {
 
 /**
  * 偏光板を描画する処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function createPolarizer(
   p: p5,
@@ -372,7 +372,7 @@ function createPolarizer(
 
 /**
  * セロハンを描画する処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function createCellophane(
   p: p5,
@@ -435,7 +435,7 @@ function toRGB(a: number) {
 
 /**
  * セロハンの総数の数え上げをする処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function numInputFunction(p: p5) {
   state.cellophaneNum = 0;
@@ -450,7 +450,7 @@ function numInputFunction(p: p5) {
 /**
  * 偏光板１枚を透過したときの色の計算。
  * mathjsが未読み込みの場合は読み込みを待ってから計算する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export async function beforeColorCalculate(p: p5) {
   if (!math) {
@@ -499,7 +499,7 @@ export async function beforeColorCalculate(p: p5) {
 
 /**
  * セロハン及び二枚目の偏光板を透過した時の処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function afterColorCalculate(p: p5) {
   // セロハンの組数が１枚以上ある場合
@@ -634,7 +634,7 @@ function afterColorCalculate(p: p5) {
 
 /**
  * セロハン及び二枚目の偏光板を透過した時の処理(セロハン1枚のみ)。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function afterColorCalculate1(p: p5) {
   // セロハンの組数が１枚以上ある場合
@@ -739,8 +739,8 @@ function afterColorCalculate1(p: p5) {
 
 /**
  * セロハン及び二枚目の偏光板を透過した時の処理(組数2以上, 分割計算用)。
- * @param {*} p p5インスタンス
- * @param {string} binaryString 各セロハンの組を偏光板1枚目/2枚目のどちら側として扱うかを表す2進数文字列
+ * @param p - p5インスタンス
+ * @param binaryString - 各セロハンの組を偏光板1枚目/2枚目のどちら側として扱うかを表す2進数文字列
  */
 function afterColorCalculates(p: p5, binaryString: string) {
   let bi = 0;
@@ -945,11 +945,11 @@ function afterColorCalculates(p: p5, binaryString: string) {
 
 /**
  * tape1枚目のみに色を塗る。
- * @param {*} p p5インスタンス
- * @param {number} rAfter1 セロハン1枚透過時のR
- * @param {number} gAfter1 セロハン1枚透過時のG
- * @param {number} bAfter1 セロハン1枚透過時のB
- * @param {number} rotateInput テープの回転角(度)
+ * @param p - p5インスタンス
+ * @param rAfter1 - セロハン1枚透過時のR
+ * @param gAfter1 - セロハン1枚透過時のG
+ * @param bAfter1 - セロハン1枚透過時のB
+ * @param rotateInput - テープの回転角(度)
  */
 function drawTape_1(
   p: p5,
@@ -979,11 +979,11 @@ function drawTape_1(
 
 /**
  * tapeが2枚以上ある場合における，色の塗りつぶし。
- * @param {*} p p5インスタンス
- * @param {number[]} tape_angle 各組の回転角(度)の配列
- * @param {number[]} rAftera 生成しうる全ての色のR配列
- * @param {number[]} gAftera 生成しうる全ての色のG配列
- * @param {number[]} bAftera 生成しうる全ての色のB配列
+ * @param p - p5インスタンス
+ * @param tape_angle - 各組の回転角(度)の配列
+ * @param rAftera - 生成しうる全ての色のR配列
+ * @param gAftera - 生成しうる全ての色のG配列
+ * @param bAftera - 生成しうる全ての色のB配列
  */
 function drawTapes(
   p: p5,
@@ -1044,8 +1044,8 @@ function drawTapes(
 
 /**
  * ある角度におけるテープの4隅の点の情報を入手する。
- * @param {*} p p5インスタンス
- * @param {number} tape_angle テープの回転角(ラジアン)
+ * @param p - p5インスタンス
+ * @param tape_angle - テープの回転角(ラジアン)
  */
 function getrectPoint(p: p5, tape_angle: number) {
   p.push();
@@ -1084,7 +1084,7 @@ function getrectPoint(p: p5, tape_angle: number) {
 
 /**
  * そのピクセルが，tapeの内部にあるために変更を求められるかを判定する。
- * @param {number} i pixels配列のRGBA4要素単位のインデックス
+ * @param i - pixels配列のRGBA4要素単位のインデックス
  */
 function checkA(i: number) {
   const x = i % state.img!.width;

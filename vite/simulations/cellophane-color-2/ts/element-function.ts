@@ -35,7 +35,7 @@ export function onScreenshotClick() {
 
 /**
  * セロハン追加ボタンを押したときの処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function cellophaneAddButtonFunction(p: p5) {
   state.colabNum += 1;
@@ -44,7 +44,7 @@ export function cellophaneAddButtonFunction(p: p5) {
 
 /**
  * セロハン削除ボタンを押したときの処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function cellophaneRemoveButtonFunction(p: p5) {
   if (state.colabNum > 0) {
@@ -58,7 +58,7 @@ export function cellophaneRemoveButtonFunction(p: p5) {
 /**
  * キー押下時の処理。上矢印キーで、分割計算(組数2以上の色計算・塗り分け)を
  * 最初からやり直すためのフラグをリセットする。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function onKeyPressed(p: p5) {
   if (p.keyCode === p.UP_ARROW) {

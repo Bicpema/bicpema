@@ -25,7 +25,7 @@ import {
 
 /**
  * p.createRadio()が返すp5.Elementは、実際にはoption()/selected()メソッドを
- * 持つが、@types/p5の型定義には含まれていないため、ここで補って扱う。
+ * 持つが、`@types/p5`の型定義には含まれていないため、ここで補って扱う。
  */
 type RadioElement = p5.Element & {
   option(value: string, label?: string): unknown;
@@ -34,7 +34,7 @@ type RadioElement = p5.Element & {
 
 /**
  * DOM要素の参照を取得する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elCreate(p: p5) {
   state.polarizerSelect = p.select("#polarizerSelect");
@@ -45,7 +45,7 @@ export function elCreate(p: p5) {
 
 /**
  * DOM要素にイベントを設定する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function elInit(p: p5) {
   state.cellophaneAddButton!.mousePressed(() => cellophaneAddButtonFunction(p));
@@ -65,7 +65,7 @@ export function elInit(p: p5) {
 
 /**
  * 初期値やシミュレーションの設定を行う。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function initValue(p: p5) {
   // テーブルからそれぞれのデータを取得
@@ -136,7 +136,7 @@ export function createStartimg() {
 
 /**
  * スライダーやラジオボタンを作成する処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function createSliderandRadio(p: p5) {
   state.slider = p.createSlider(
@@ -163,7 +163,7 @@ export function createSliderandRadio(p: p5) {
 
 /**
  * シミュレーションの初回セットアップを行う。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function setupSimulation(p: p5) {
   elCreate(p);
@@ -183,7 +183,7 @@ export function setupSimulation(p: p5) {
 /**
  * windowResized時の再初期化を行う。
  * セロハンの組を全て削除した上で初期値を設定し直す。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function resizeSimulation(p: p5) {
   elInit(p);

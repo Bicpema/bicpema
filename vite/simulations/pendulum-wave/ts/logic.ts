@@ -6,7 +6,7 @@ import { FPS, TIME_LABEL_X, TIME_LABEL_Y } from "./constants.js";
 
 /**
  * シミュレーションの描画と物理更新を行う。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function drawSimulation(p: p5) {
   p.background(255);

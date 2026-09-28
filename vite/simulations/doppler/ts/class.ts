@@ -11,8 +11,8 @@ export class SOUND {
   radi: number;
 
   /**
-   * @param {number} x 音波が生成された X 座標
-   * @param {number} r 初期半径
+   * @param x - 音波が生成された X 座標
+   * @param r - 初期半径
    */
   constructor(x: number, r: number) {
     this.soundx = x;
@@ -21,7 +21,7 @@ export class SOUND {
 
   /**
    * 音波を描画する。
-   * @param {*} p p5 インスタンス。
+   * @param p - p5 インスタンス。
    */
   _draw(p: p5) {
     if (state.clickedCount === true) {

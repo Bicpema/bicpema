@@ -13,7 +13,7 @@ import {
 
 /**
  * p5のフレームレートなど基本設定を行う。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 export function settingInit(p: p5) {
   p.frameRate(FRAME_RATE);
@@ -21,7 +21,7 @@ export function settingInit(p: p5) {
 
 /**
  * HTML要素の参照を取得し、state に保持する。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 export function elementSelectInit(p: p5) {
   state.atomPlusBtn = document.getElementById("atomPlusBtn");
@@ -38,7 +38,7 @@ export function elementSelectInit(p: p5) {
 
 /**
  * HTML要素の位置と大きさをキャンバス座標に合わせて動的に調整する。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 export function elementPositionInit(p: p5) {
   const canvasEl = document.querySelector("#p5Canvas canvas");
@@ -72,7 +72,7 @@ export function elementPositionInit(p: p5) {
 
 /**
  * 初期値設定とイベントリスナーの登録を行う。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 export function valueInit(p: p5) {
   initAtoms();

@@ -10,7 +10,7 @@ const loadScreenshot = createLazyImporter(() => import("modern-screenshot"));
 
 /**
  * p.select()・p.createSelect()が返すp5.Elementは、実際にはoption()メソッドを
- * 持つが、@types/p5の型定義には含まれていないため、ここで補って扱う。
+ * 持つが、`@types/p5`の型定義には含まれていないため、ここで補って扱う。
  */
 type SelectElement = p5.Element & {
   option(value: string, label?: string): unknown;
@@ -20,8 +20,8 @@ type SelectElement = p5.Element & {
  * `document.getElementById(id)` の戻り値を非null型として取得するヘルパー。
  * このシミュレーションのテンプレートに常に存在する静的なDOM要素を取得する
  * 箇所でのみ使用する（存在しない場合は元の実装同様に例外が発生する）。
- * @param {string} id 取得したい要素のid
- * @returns {HTMLElement}
+ * @param id - 取得したい要素のid
+ * @returns
  */
 export function requireElementById(id: string): HTMLElement {
   const el = document.getElementById(id);
@@ -35,8 +35,8 @@ export function requireElementById(id: string): HTMLElement {
  * `getSelectElement(id)` の戻り値を非null型として取得するヘルパー。
  * このシミュレーションのテンプレートに常に存在する静的な`<select>`要素を
  * 取得する箇所でのみ使用する（存在しない場合は元の実装同様に例外が発生する）。
- * @param {string} id 取得したいselect要素のid
- * @returns {HTMLSelectElement}
+ * @param id - 取得したいselect要素のid
+ * @returns
  */
 function requireSelectElement(id: string): HTMLSelectElement {
   const el = getSelectElement(id);
@@ -75,7 +75,7 @@ export function onScreenshotClick() {
 
 /**
  * 地点名の入力欄が編集されたときの処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function placeNameInputFunction(p: p5) {
   const placeNum = Object.keys(state.dataInputArr).length;
@@ -108,7 +108,7 @@ export function placeNameInputFunction(p: p5) {
 
 /**
  * 地点データの追加ボタンを押した時に動く処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function placeAddButtonFunction(p: p5) {
   const placeNum = Object.keys(state.dataInputArr).length;
@@ -141,7 +141,7 @@ export function placeAddButtonFunction(p: p5) {
 
 /**
  * 地点データの削除ボタンを押した時に動く処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function placeRemoveButtonFunction(p: p5) {
   const placeNum = Object.keys(state.dataInputArr).length;
@@ -157,7 +157,7 @@ export function placeRemoveButtonFunction(p: p5) {
 
 /**
  * 平面を構成する１つ目の地点のデータに関連する処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function firstPlaceSelectFunction(p: p5) {
   const firstPlaceSelect = p.select("#firstPlaceSelect")!;
@@ -197,7 +197,7 @@ export function firstPlaceSelectFunction(p: p5) {
 
 /**
  * 平面を構成する２つ目の地点のデータに関連する処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function secondPlaceSelectFunction(p: p5) {
   const secondPlaceSelect = p.select("#secondPlaceSelect")!;
@@ -237,7 +237,7 @@ export function secondPlaceSelectFunction(p: p5) {
 
 /**
  * 平面を構成する３つ目の地点のデータに関連する処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function thirdPlaceSelectFunction(p: p5) {
   const thirdPlaceSelect = p.select("#thirdPlaceSelect")!;
@@ -277,7 +277,7 @@ export function thirdPlaceSelectFunction(p: p5) {
 
 /**
  * 平面を構成する地層の種類が変わったときの処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function strataSelectFunction(p: p5) {
   firstPlaceSelectFunction(p);
@@ -287,7 +287,7 @@ export function strataSelectFunction(p: p5) {
 
 /**
  * 平面を構成する地点の選択肢を更新する処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function placeRefreshFunction(p: p5) {
   const firstPlaceSelect = p.select("#firstPlaceSelect") as SelectElement;
@@ -335,7 +335,7 @@ export function placeRefreshFunction(p: p5) {
 
 /**
  * 平面を構成する地層の組を追加するボタンを押した時の処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function strataAddButtonFunction(p: p5) {
   const nextTrNum = requireElementById("strataSelect").childElementCount + 1;
@@ -408,7 +408,7 @@ export function strataRemoveButtonFunction() {
 
 /**
  * 地点データが未登録の場合に、動作確認用のテストデータを読み込む処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function loadTestDataButtonFunction(p: p5) {
   if (Object.keys(state.dataInputArr).length !== 0) return;
@@ -491,7 +491,7 @@ export function loadTestDataButtonFunction(p: p5) {
 
 /**
  * Aセットボタンを押した時の処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function aSetButtonFunction(p: p5) {
   state.allSetIs = false;
@@ -518,7 +518,7 @@ export function aSetButtonFunction(p: p5) {
 
 /**
  * Bセットボタンを押した時の処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function bSetButtonFunction(p: p5) {
   state.allSetIs = false;
@@ -545,7 +545,7 @@ export function bSetButtonFunction(p: p5) {
 
 /**
  * Cセットボタンを押した時の処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function cSetButtonFunction(p: p5) {
   state.allSetIs = false;
@@ -576,7 +576,7 @@ export function cSetButtonFunction(p: p5) {
 
 /**
  * Dセットボタンを押した時の処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function dSetButtonFunction(p: p5) {
   state.allSetIs = false;
@@ -607,7 +607,7 @@ export function dSetButtonFunction(p: p5) {
 
 /**
  * 「全体」ボタンを押した時の処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function allSetButtonFunction(p: p5) {
   state.allSetIs = true;
@@ -625,7 +625,7 @@ export function allSetButtonFunction(p: p5) {
 /**
  * 子ウィンドウ（地層データ編集画面）から地層データを受け取る処理。
  * window.opener経由で子ウィンドウから直接呼び出されるため、windowへの公開が必要。
- * @param {[string, Array]} arr [地点名, 地層データ配列]
+ * @param arr - [地点名, 地層データ配列]
  */
 export function submit(arr: [string, unknown[]]) {
   const [name, dataArr] = arr;
@@ -643,8 +643,8 @@ export function submit(arr: [string, unknown[]]) {
 /**
  * 入力済みの地層データを子ウィンドウに引き継ぐための処理。
  * window.opener経由で子ウィンドウから直接呼び出されるため、windowへの公開が必要。
- * @param {string} placeName 地点名
- * @returns {Array} 地層データ配列
+ * @param placeName - 地点名
+ * @returns 地層データ配列
  */
 export function loadLayers(placeName: string) {
   let arrKey = placeName;

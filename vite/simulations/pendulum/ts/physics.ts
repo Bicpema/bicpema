@@ -4,12 +4,12 @@ import { DEFAULT_FPS, LENGTH_TO_METER_DIVISOR } from "./constants.js";
  * 単振り子の角度を単振動近似で計算する。
  * θ(t) = θ0 * cos(ωt),  ω = sqrt(g / L)
  *
- * @param {number} theta0Deg 振れ幅（初期角度、度）
- * @param {number} stringLengthPx 振り子の長さ（表示ピクセル単位、LENGTH_TO_METER_DIVISORで割るとメートルになる）
- * @param {number} gravity 重力加速度 (m/s^2)
- * @param {number} count 経過フレーム数（累積カウンタ）
- * @param {number} [fps=DEFAULT_FPS] フレームレート
- * @returns {number} 現在の振れ角 (ラジアン)
+ * @param theta0Deg - 振れ幅（初期角度、度）
+ * @param stringLengthPx - 振り子の長さ（表示ピクセル単位、LENGTH_TO_METER_DIVISORで割るとメートルになる）
+ * @param gravity - 重力加速度 (m/s^2)
+ * @param count - 経過フレーム数（累積カウンタ）
+ * @param fps - フレームレート（省略時: DEFAULT_FPS）
+ * @returns 現在の振れ角 (ラジアン)
  */
 export function computePendulumAngle(
   theta0Deg: number,
@@ -29,15 +29,15 @@ export function computePendulumAngle(
  * 縦方向は最下点（θ=0）、横方向は最大振れ幅でのおもりの位置が収まるように求め、
  * 画面が十分に大きい場合は等倍（maxScale）を上限とする。
  *
- * @param {object} params
- * @param {number} params.canvasHeight キャンバスの高さ(px)
- * @param {number} params.pivotY 支点のY座標(px)
- * @param {number} params.halfPanelWidth 支点からパネル端までの水平距離(px)
- * @param {number} params.ballRadius おもりの表示半径(px)
- * @param {number} [params.bottomMargin=0] 操作ボタン等と重ならないよう下端に確保する余白(px)
- * @param {{stringLength: number, theta0: number}[]} params.pendulums 紐の長さ（内部単位）と振れ幅（度）の一覧
- * @param {number} [params.maxScale=1] 倍率の上限
- * @returns {number} 表示倍率（px / 内部単位）
+ * @param params -
+ *   - `canvasHeight`: キャンバスの高さ(px)
+ *   - `pivotY`: 支点のY座標(px)
+ *   - `halfPanelWidth`: 支点からパネル端までの水平距離(px)
+ *   - `ballRadius`: おもりの表示半径(px)
+ *   - `bottomMargin`: 操作ボタン等と重ならないよう下端に確保する余白(px)（省略時: 0）
+ *   - `pendulums`: 紐の長さ（内部単位）と振れ幅（度）の一覧
+ *   - `maxScale`: 倍率の上限（省略時: 1）
+ * @returns 表示倍率（px / 内部単位）
  */
 export function computeDisplayScale({
   canvasHeight,

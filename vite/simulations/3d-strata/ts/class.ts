@@ -16,8 +16,8 @@ export class DOM {
   placeDataInput: any;
 
   /**
-   * @param {number} n 地点番号
-   * @param {*} p p5インスタンス
+   * @param n - 地点番号
+   * @param p - p5インスタンス
    */
   constructor(n: number, p: any) {
     this.n = n;

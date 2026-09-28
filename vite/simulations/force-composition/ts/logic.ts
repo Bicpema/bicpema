@@ -17,14 +17,14 @@ import {
 
 /**
  * 矢印を描画する。
- * @param {p5} p p5インスタンス
- * @param {number} fromX 始点のX座標
- * @param {number} fromY 始点のY座標
- * @param {number} toX 終点のX座標
- * @param {number} toY 終点のY座標
- * @param {p5.Color} col 矢印の色
- * @param {number} weight 線の太さ
- * @param {number} headSize 矢印の頭の大きさ
+ * @param p - p5インスタンス
+ * @param fromX - 始点のX座標
+ * @param fromY - 始点のY座標
+ * @param toX - 終点のX座標
+ * @param toY - 終点のY座標
+ * @param col - 矢印の色
+ * @param weight - 線の太さ
+ * @param headSize - 矢印の頭の大きさ
  */
 export function drawArrow(
   p: p5,
@@ -57,13 +57,13 @@ export function drawArrow(
 
 /**
  * 矢印とラベルをまとめて描画する。
- * @param {p5} p p5インスタンス
- * @param {number} fromX 始点のX座標
- * @param {number} fromY 始点のY座標
- * @param {number} toX 終点のX座標
- * @param {number} toY 終点のY座標
- * @param {p5.Color} col 矢印とラベルの色
- * @param {string} label 表示するテキスト
+ * @param p - p5インスタンス
+ * @param fromX - 始点のX座標
+ * @param fromY - 始点のY座標
+ * @param toX - 終点のX座標
+ * @param toY - 終点のY座標
+ * @param col - 矢印とラベルの色
+ * @param label - 表示するテキスト
  */
 export function drawArrowWithLabel(
   p: p5,
@@ -100,12 +100,12 @@ export function drawArrowWithLabel(
 
 /**
  * 破線を描画する。
- * @param {p5} p p5インスタンス
- * @param {number} x1 始点X
- * @param {number} y1 始点Y
- * @param {number} x2 終点X
- * @param {number} y2 終点Y
- * @param {p5.Color} col 色
+ * @param p - p5インスタンス
+ * @param x1 - 始点X
+ * @param y1 - 始点Y
+ * @param x2 - 終点X
+ * @param y2 - 終点Y
+ * @param col - 色
  */
 export function drawDashedLine(
   p: p5,
@@ -141,7 +141,7 @@ export function drawDashedLine(
 
 /**
  * グリッドを描画する。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function drawGrid(p: p5) {
   p.strokeWeight(1);
@@ -217,11 +217,11 @@ export function drawGrid(p: p5) {
 
 /**
  * 情報パネルを描画する。
- * @param {p5} p p5インスタンス
- * @param {number} f1x F₁のX成分
- * @param {number} f1y F₁のY成分
- * @param {number} f2x F₂のX成分
- * @param {number} f2y F₂のY成分
+ * @param p - p5インスタンス
+ * @param f1x - F₁のX成分
+ * @param f1y - F₁のY成分
+ * @param f2x - F₂のX成分
+ * @param f2y - F₂のY成分
  */
 export function drawInfoPanel(
   p: p5,
@@ -297,7 +297,7 @@ export function drawInfoPanel(
 
 /**
  * シーン全体を描画する。
- * @param {p5} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function drawScene(p: p5) {
   p.background(255, 255, 255);

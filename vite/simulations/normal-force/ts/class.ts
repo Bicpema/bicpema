@@ -5,10 +5,10 @@ import { computeSlideDisplacement } from "./physics.js";
 
 /**
  * 矢印の先端の三角形を描画する。
- * @param {p5} p p5インスタンス
- * @param {number} a 矢印先端のx座標
- * @param {number} b 矢印先端のy座標
- * @param {string} n 矢印の向き（"gravity" | "vertical" | "horizontal" | "normal"）
+ * @param p - p5インスタンス
+ * @param a - 矢印先端のx座標
+ * @param b - 矢印先端のy座標
+ * @param n - 矢印の向き（"gravity" | "vertical" | "horizontal" | "normal"）
  */
 function arrow(
   p: p5,
@@ -93,12 +93,12 @@ function arrow(
 
 /**
  * 破線を描画する。
- * @param {p5} p p5インスタンス
- * @param {number} aX 始点のx座標
- * @param {number} aY 始点のy座標
- * @param {number} bX 終点のx座標
- * @param {number} bY 終点のy座標
- * @param {number} w 線の太さ
+ * @param p - p5インスタンス
+ * @param aX - 始点のx座標
+ * @param aY - 始点のy座標
+ * @param bX - 終点のx座標
+ * @param bY - 終点のy座標
+ * @param w - 線の太さ
  */
 function dashedLine(
   p: p5,
@@ -118,11 +118,11 @@ function dashedLine(
 
 /**
  * 坂の上の物体と、力の矢印（表示パターンに応じて）を描画する。
- * @param {*} p p5インスタンス
- * @param {number} a 物体左上頂点のx座標
- * @param {number} b 物体左上頂点のy座標
- * @param {number} sort 表示パターン（1〜3）
- * @param {number} w 質量
+ * @param p - p5インスタンス
+ * @param a - 物体左上頂点のx座標
+ * @param b - 物体左上頂点のy座標
+ * @param sort - 表示パターン（1〜3）
+ * @param w - 質量
  */
 function rectMaterial(p: p5, a: number, b: number, sort: number, w: number) {
   p.stroke(0);
@@ -733,9 +733,9 @@ export class Material {
   sort: number;
 
   /**
-   * @param {p5} p p5インスタンス
-   * @param {number} m_w 質量[kg]
-   * @param {number} s 表示パターン（1〜3）
+   * @param p - p5インスタンス
+   * @param m_w - 質量[kg]
+   * @param s - 表示パターン（1〜3）
    */
   constructor(p: p5, m_w: number, s: number) {
     this.materialX = state.referencePoint;
@@ -749,7 +749,7 @@ export class Material {
 
   /**
    * 物体の位置を更新し、描画する。
-   * @param {p5} p p5インスタンス
+   * @param p - p5インスタンス
    */
   _draw(p: p5) {
     if (state.clickedCount === true) {

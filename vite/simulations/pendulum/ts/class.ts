@@ -15,8 +15,8 @@ export class Ball {
   theta: number;
 
   /**
-   * @param {number} stringLength 振り子の長さ（表示ピクセル単位）
-   * @param {number} theta0 振れ幅（初期角度、度）
+   * @param stringLength - 振り子の長さ（表示ピクセル単位）
+   * @param theta0 - 振れ幅（初期角度、度）
    */
   constructor(stringLength: number, theta0: number) {
     this.posx = 0;
@@ -33,8 +33,8 @@ export class Ball {
 
   /**
    * 現在のフレームカウントに応じて位置を更新する。
-   * @param {*} p p5インスタンス
-   * @param {number} n 支点のオフセットx座標
+   * @param p - p5インスタンス
+   * @param n - 支点のオフセットx座標
    */
   calculate(p: p5, n: number) {
     const displayLength = this.stringLength * state.displayScale;
@@ -50,8 +50,8 @@ export class Ball {
 
   /**
    * 支点からの糸とおもりを描画する。
-   * @param {*} p p5インスタンス
-   * @param {number} n 支点のオフセットx座標
+   * @param p - p5インスタンス
+   * @param n - 支点のオフセットx座標
    */
   display(p: p5, n: number) {
     p.line(this.posx, this.posy, n + p.width / 6, state.pivotY);

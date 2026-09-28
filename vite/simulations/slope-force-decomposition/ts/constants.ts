@@ -12,17 +12,14 @@ export const GRAVITY = 9.8;
 export const LABEL_FONT_SIZE = 16;
 /**
  * 重力(mg)ベクトル・ラベル・凡例の色
- * @type {readonly [number, number, number]}
  */
 export const GRAVITY_COLOR = [40, 170, 70] as const;
 /**
  * 斜面方向成分(mg sinθ)ベクトル・ラベル・凡例の色
- * @type {readonly [number, number, number]}
  */
 export const PARALLEL_COLOR = [220, 50, 50] as const;
 /**
  * 斜面垂直方向成分(mg cosθ)ベクトル・ラベル・凡例の色
- * @type {readonly [number, number, number]}
  */
 export const PERPENDICULAR_COLOR = [50, 100, 220] as const;
 /** ブロックの高さ（斜面座標系） */

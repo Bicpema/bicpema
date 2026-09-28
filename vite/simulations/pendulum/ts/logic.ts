@@ -17,7 +17,7 @@ import { computeDisplayScale } from "./physics.js";
 
 /**
  * 支点の位置と表示倍率を現在のキャンバスサイズ・振り子の設定に合わせて更新する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function updateDisplayScale(p: p5) {
   state.pivotY = p.height * PIVOT_Y_RATIO;
@@ -34,7 +34,7 @@ function updateDisplayScale(p: p5) {
 /**
  * 3分割された画面の枠線とグリッド線を描画する。
  * グリッド線は表示倍率に合わせて間隔を変え、支点を基準に配置する。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 function drawBackground(p: p5) {
   const step = GRID_STEP * state.displayScale;
@@ -73,7 +73,7 @@ function drawBackground(p: p5) {
 
 /**
  * シミュレーションの描画と物理更新を行う。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function drawSimulation(p: p5) {
   p.background(255);

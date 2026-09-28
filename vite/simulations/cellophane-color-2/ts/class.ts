@@ -7,8 +7,8 @@ export class Cellophane {
   number: number;
 
   /**
-   * @param {number} n セロハンの組番号
-   * @param {*} p p5インスタンス
+   * @param n - セロハンの組番号
+   * @param p - p5インスタンス
    */
   constructor(n: number, p: p5) {
     this.number = n;

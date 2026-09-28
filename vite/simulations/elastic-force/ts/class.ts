@@ -28,12 +28,11 @@ export class Spring {
   hitR: number;
 
   /**
-   * @constructor
-   * @param {number} attachX バネの壁側端点 X座標（仮想座標）
-   * @param {number} attachY バネの壁側端点 Y座標（仮想座標）
-   * @param {number} naturalLength バネの自然長（ピクセル）
-   * @param {number} k ばね定数 (N/m)
-   * @param {number} coilCount コイルの数（偶数）
+   * @param attachX - バネの壁側端点 X座標（仮想座標）
+   * @param attachY - バネの壁側端点 Y座標（仮想座標）
+   * @param naturalLength - バネの自然長（ピクセル）
+   * @param k - ばね定数 (N/m)
+   * @param coilCount - コイルの数（偶数）
    */
   constructor(
     attachX: number,
@@ -62,7 +61,7 @@ export class Spring {
 
   /**
    * バネの現在の長さ (px)
-   * @returns {number}
+   * @returns
    */
   get currentLength() {
     return this.endX - this.attachX;
@@ -71,7 +70,7 @@ export class Spring {
   /**
    * 伸び・縮み (m)
    * 正：伸び、負：縮み
-   * @returns {number}
+   * @returns
    */
   get displacement() {
     return (this.currentLength - this.naturalLength) / PX_PER_M;
@@ -80,7 +79,7 @@ export class Spring {
   /**
    * 弾性力の大きさ (N)
    * F = k * |x|
-   * @returns {number}
+   * @returns
    */
   get forceMagnitude() {
     return this.k * Math.abs(this.displacement);
@@ -89,8 +88,8 @@ export class Spring {
   /**
    * バネの変形状態に応じた色を返す
    * 青: 自然長、赤系: 伸び、緑系: 縮み
-   * @param {*} p p5 インスタンス
-   * @returns {number[]} [r, g, b]
+   * @param p - p5 インスタンス
+   * @returns [r, g, b]
    */
   getSpringColor(p: p5) {
     const dispM = this.displacement;
@@ -112,9 +111,9 @@ export class Spring {
 
   /**
    * マウスがバネ先端の上にあるか判定
-   * @param {number} mx マウスX（仮想座標）
-   * @param {number} my マウスY（仮想座標）
-   * @returns {boolean}
+   * @param mx - マウスX（仮想座標）
+   * @param my - マウスY（仮想座標）
+   * @returns
    */
   isOverHandle(mx: number, my: number) {
     const dx = mx - this.endX;
@@ -124,7 +123,7 @@ export class Spring {
 
   /**
    * ドラッグ開始
-   * @param {number} mx マウスX（仮想座標）
+   * @param mx - マウスX（仮想座標）
    */
   startDrag(mx: number) {
     this.isDragging = true;
@@ -133,8 +132,8 @@ export class Spring {
 
   /**
    * ドラッグ中の位置更新
-   * @param {*} p p5 インスタンス
-   * @param {number} mx マウスX（仮想座標）
+   * @param p - p5 インスタンス
+   * @param mx - マウスX（仮想座標）
    */
   drag(p: p5, mx: number) {
     if (!this.isDragging) return;
@@ -152,7 +151,7 @@ export class Spring {
 
   /**
    * 自然長位置を示す縦の点線を描画
-   * @param {*} p p5 インスタンス
+   * @param p - p5 インスタンス
    */
   drawNaturalLengthLine(p: p5) {
     const nx = this.attachX + this.naturalLength;
@@ -172,7 +171,7 @@ export class Spring {
 
   /**
    * バネのコイル形状（ジグザグ）を描画
-   * @param {*} p p5 インスタンス
+   * @param p - p5 インスタンス
    */
   drawCoil(p: p5) {
     const x1 = this.attachX;
@@ -213,7 +212,7 @@ export class Spring {
 
   /**
    * 変位と弾性力の数値・矢印を描画
-   * @param {*} p p5 インスタンス
+   * @param p - p5 インスタンス
    */
   drawForceInfo(p: p5) {
     const dispM = this.displacement;
@@ -259,7 +258,7 @@ export class Spring {
 
   /**
    * バネ全体を描画
-   * @param {*} p p5 インスタンス
+   * @param p - p5 インスタンス
    */
   display(p: p5) {
     this.drawNaturalLengthLine(p);
@@ -278,7 +277,7 @@ export class Spring {
 
   /**
    * ばね定数を更新
-   * @param {number} newK 新しいばね定数 (N/m)
+   * @param newK - 新しいばね定数 (N/m)
    */
   updateK(newK: number) {
     this.k = newK;

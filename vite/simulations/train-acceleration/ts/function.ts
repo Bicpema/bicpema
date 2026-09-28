@@ -19,10 +19,10 @@ import {
 
 /**
  * 線路（レールと枕木）を描画する。
- * @param {*} p p5インスタンス。
- * @param {number} groundY 地面上部のy座標（仮想ピクセル）
- * @param {number} trackOffset 線路スクロールオフセット（仮想ピクセル）
- * @param {number} vw 仮想キャンバス幅
+ * @param p - p5インスタンス。
+ * @param groundY - 地面上部のy座標（仮想ピクセル）
+ * @param trackOffset - 線路スクロールオフセット（仮想ピクセル）
+ * @param vw - 仮想キャンバス幅
  */
 export const drawTrack = (
   p: p5,
@@ -61,9 +61,9 @@ export const drawTrack = (
 
 /**
  * 電車を描画する。
- * @param {*} p p5インスタンス。
- * @param {number} trainX 電車の中心x座標（仮想ピクセル）
- * @param {number} groundY 地面上部のy座標（仮想ピクセル）
+ * @param p - p5インスタンス。
+ * @param trainX - 電車の中心x座標（仮想ピクセル）
+ * @param groundY - 地面上部のy座標（仮想ピクセル）
  */
 export const drawTrain = (p: p5, trainX: number, groundY: number) => {
   const BODY_W = TRAIN_HALF_W * 2;
@@ -151,10 +151,10 @@ export const drawTrain = (p: p5, trainX: number, groundY: number) => {
 
 /**
  * 速さと経過時間の情報パネルを描画する。
- * @param {*} p p5インスタンス。
- * @param {number} v 速さ (m/s)
- * @param {number} t 経過時間 (s)
- * @param {number} a 加速度 (m/s²)
+ * @param p - p5インスタンス。
+ * @param v - 速さ (m/s)
+ * @param t - 経過時間 (s)
+ * @param a - 加速度 (m/s²)
  */
 export const drawInfoPanel = (p: p5, v: number, t: number, a: number) => {
   // パネル背景

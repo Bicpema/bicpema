@@ -21,7 +21,7 @@ export function onStopClick() {
 
 /**
  * リセットボタンが押されたときの処理
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function onResetClick(p: p5) {
   initValue(p);

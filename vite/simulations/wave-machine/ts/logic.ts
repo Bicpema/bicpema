@@ -11,7 +11,7 @@ import { ReflectedWave } from "./reflected-wave.js";
 
 /**
  * シミュレーションを描画する。
- * @param {*} p - p5 インスタンス。
+ * @param p - p5 インスタンス。
  */
 export function drawSimulation(p: p5) {
   if (!state.mediums || !state.stopper || !state.button) return;
@@ -41,7 +41,7 @@ export function drawSimulation(p: p5) {
 
 /**
  * ボタンの処理を行う。
- * @param {*} p - p5 インスタンス。
+ * @param p - p5 インスタンス。
  */
 function buttonFunction(p: p5) {
   if (!state.button) return;
@@ -86,7 +86,7 @@ function buttonFunction(p: p5) {
 
 /**
  * ストッパーの処理を行う。
- * @param {*} p - p5 インスタンス。
+ * @param p - p5 インスタンス。
  */
 function stopperFunction(p: p5) {
   if (!state.stopper) return;
@@ -121,7 +121,7 @@ function stopperFunction(p: p5) {
 
 /**
  * 画像の処理を行う。
- * @param {*} p - p5 インスタンス。
+ * @param p - p5 インスタンス。
  */
 function imageFunction(p: p5) {
   if (!state.button || !state.stopper) return;

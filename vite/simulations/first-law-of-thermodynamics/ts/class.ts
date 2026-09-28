@@ -18,11 +18,11 @@ export class Molecule {
   vy: number;
 
   /**
-   * @param {p5} p - p5 インスタンス
-   * @param {number} x - 初期X座標
-   * @param {number} y - 初期Y座標
-   * @param {number} vx - X方向速度
-   * @param {number} vy - Y方向速度
+   * @param p - p5 インスタンス
+   * @param x - 初期X座標
+   * @param y - 初期Y座標
+   * @param vx - X方向速度
+   * @param vy - Y方向速度
    */
   constructor(p: p5, x: number, y: number, vx: number, vy: number) {
     this.x = x;
@@ -50,7 +50,7 @@ export class Molecule {
   }
 
   /**
-   * @param {p5} p - p5 インスタンス
+   * @param p - p5 インスタンス
    */
   draw(p: p5) {
     const T = state.T;

@@ -21,8 +21,8 @@ export const PX_PER_METER = 50;
 
 /**
  * キャンバスとp5.jsの基本設定を行う。
- * @param {*} p p5インスタンス。
- * @param {*} canvasController BicpemaCanvasControllerインスタンス。
+ * @param p - p5インスタンス。
+ * @param canvasController - BicpemaCanvasControllerインスタンス。
  */
 export function settingInit(p: p5, canvasController: BicpemaCanvasController) {
   p.loadFont(
@@ -40,7 +40,7 @@ export function settingInit(p: p5, canvasController: BicpemaCanvasController) {
 
 /**
  * DOM要素を取得し、イベントを設定する。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 export function elCreate(p: p5) {
   bindToggleControls(p, {
@@ -59,7 +59,7 @@ export function elCreate(p: p5) {
 
 /**
  * シミュレーション変数の初期化。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 export function initValue(p: p5) {
   state.isPlaying = false;

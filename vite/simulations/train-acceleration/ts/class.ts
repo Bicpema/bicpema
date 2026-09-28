@@ -13,8 +13,7 @@ export class Train {
   trackOffset: number;
 
   /**
-   * @constructor
-   * @param {number} startX 初期表示x座標（仮想ピクセル）
+   * @param startX - 初期表示x座標（仮想ピクセル）
    */
   constructor(startX: number) {
     this.startX = startX;
@@ -28,10 +27,10 @@ export class Train {
   /**
    * 位置と速度を1ステップ更新する。
    * 速度は 0 以上に制限される（電車は後退しない）。
-   * @param {number} dt 時間ステップ (s)
-   * @param {number} acceleration 加速度 (m/s²)
-   * @param {number} pxPerMeter 仮想ピクセル/メートル
-   * @param {number} vw 仮想キャンバス幅（ラップ用）
+   * @param dt - 時間ステップ (s)
+   * @param acceleration - 加速度 (m/s²)
+   * @param pxPerMeter - 仮想ピクセル/メートル
+   * @param vw - 仮想キャンバス幅（ラップ用）
    */
   update(dt: number, acceleration: number, pxPerMeter: number, vw: number) {
     this.velocity = Math.max(0, this.velocity + acceleration * dt);

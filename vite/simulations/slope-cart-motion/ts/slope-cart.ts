@@ -21,9 +21,8 @@ export class SlopeCart {
   WHEEL_R: number;
 
   /**
-   * @constructor
-   * @param {number} angleDeg - 斜面の傾斜角 (度)
-   * @param {number} slopeLengthM - 斜面の長さ (m)
+   * @param angleDeg - 斜面の傾斜角 (度)
+   * @param slopeLengthM - 斜面の長さ (m)
    */
   constructor(angleDeg: number, slopeLengthM: number) {
     this.angleDeg = angleDeg;
@@ -44,7 +43,7 @@ export class SlopeCart {
 
   /**
    * 台車の状態を dt 秒進める
-   * @param {number} dt - 時間ステップ (s)
+   * @param dt - 時間ステップ (s)
    */
   update(dt: number) {
     if (this.isAtBottom) return;
@@ -73,7 +72,7 @@ export class SlopeCart {
 
   /**
    * 斜面角度と物理量を再初期化する
-   * @param {number} angleDeg - 新しい傾斜角 (度)
+   * @param angleDeg - 新しい傾斜角 (度)
    */
   setAngle(angleDeg: number) {
     this.angleDeg = angleDeg;

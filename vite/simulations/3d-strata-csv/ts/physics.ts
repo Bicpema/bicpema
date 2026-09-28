@@ -1,8 +1,8 @@
 /**
  * 座標データの配列から最小値・最大値の範囲を計算する。
  * 値が存在しない場合は0を範囲として返す。
- * @param {number[]} values 座標値の配列
- * @returns {{min: number, max: number}} 最小値・最大値
+ * @param values - 座標値の配列
+ * @returns 最小値・最大値
  */
 export function computeCoordinateBounds(values: number[]) {
   if (values.length === 0) {
@@ -19,11 +19,11 @@ export function computeCoordinateBounds(values: number[]) {
 
 /**
  * x方向・y方向の表示範囲を、短い方に余白を加えて正方形（同じ長さ）に揃える。
- * @param {number} xMin x方向の最小値
- * @param {number} xMax x方向の最大値
- * @param {number} yMin y方向の最小値
- * @param {number} yMax y方向の最大値
- * @returns {{xMin: number, xMax: number, yMin: number, yMax: number}}
+ * @param xMin - x方向の最小値
+ * @param xMax - x方向の最大値
+ * @param yMin - y方向の最小値
+ * @param yMax - y方向の最大値
+ * @returns
  */
 export function computeSquareBounds(
   xMin: number,

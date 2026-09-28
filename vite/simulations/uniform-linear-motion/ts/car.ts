@@ -17,13 +17,12 @@ export class CAR {
   varr: { x: number; y: number }[];
 
   /**
-   * @constructor
-   * @param {number} x x方向の座標
-   * @param {number} y y方向の座標
-   * @param {p5.Image} i 車の画像
-   * @param {number} v x方向の速度
-   * @param {Array} xa 各時刻におけるx方向の座標xの配列
-   * @param {Array} va 各時刻におけるx方向の速度vの配列
+   * @param x - x方向の座標
+   * @param y - y方向の座標
+   * @param i - 車の画像
+   * @param v - x方向の速度
+   * @param xa - 各時刻におけるx方向の座標xの配列
+   * @param va - 各時刻におけるx方向の速度vの配列
    */
   constructor(
     x: number,
@@ -53,7 +52,7 @@ export class CAR {
 
   /**
    * 軌跡の描画を行う。
-   * @param {p5} p p5インスタンス
+   * @param p - p5インスタンス
    */
   drawTrajectory(p: p5) {
     p.tint(255, 150);
@@ -82,7 +81,7 @@ export class CAR {
 
   /**
    * 車の描画を行う。
-   * @param {p5} p p5インスタンス
+   * @param p - p5インスタンス
    */
   drawCar(p: p5) {
     p.tint(255);

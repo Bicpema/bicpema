@@ -19,7 +19,7 @@ export function initAtoms() {
 
 /**
  * シミュレーション全体を描画する。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 export function drawSimulation(p: p5) {
   p.background(255);
@@ -68,11 +68,11 @@ export function drawSimulation(p: p5) {
 
 /**
  * X・Y 軸を描画する。
- * @param {*} p p5インスタンス。
- * @param {number} pad 左右のパディング。
- * @param {number} w グラフの幅。
- * @param {number} bY グラフ下端のY座標。
- * @param {number} tY グラフ上端のY座標。
+ * @param p - p5インスタンス。
+ * @param pad - 左右のパディング。
+ * @param w - グラフの幅。
+ * @param bY - グラフ下端のY座標。
+ * @param tY - グラフ上端のY座標。
  */
 function drawAxes(p: p5, pad: number, w: number, bY: number, tY: number) {
   p.stroke(0);
@@ -110,11 +110,11 @@ function drawAxes(p: p5, pad: number, w: number, bY: number, tY: number) {
 
 /**
  * 半減期ガイド線（点線グリッド）を描画する。
- * @param {*} p p5インスタンス。
- * @param {number} pad 左右のパディング。
- * @param {number} w グラフの幅。
- * @param {number} bY グラフ下端のY座標。
- * @param {number} tY グラフ上端のY座標。
+ * @param p - p5インスタンス。
+ * @param pad - 左右のパディング。
+ * @param w - グラフの幅。
+ * @param bY - グラフ下端のY座標。
+ * @param tY - グラフ上端のY座標。
  */
 function drawHalfLifeGuides(
   p: p5,
@@ -150,11 +150,11 @@ function drawHalfLifeGuides(
 
 /**
  * 放射性崩壊曲線を描画する。
- * @param {*} p p5インスタンス。
- * @param {number} pad 左右のパディング。
- * @param {number} w グラフの幅。
- * @param {number} bY グラフ下端のY座標。
- * @param {number} tY グラフ上端のY座標。
+ * @param p - p5インスタンス。
+ * @param pad - 左右のパディング。
+ * @param w - グラフの幅。
+ * @param bY - グラフ下端のY座標。
+ * @param tY - グラフ上端のY座標。
  */
 function drawDecayCurve(p: p5, pad: number, w: number, bY: number, tY: number) {
   p.noFill();
@@ -172,11 +172,11 @@ function drawDecayCurve(p: p5, pad: number, w: number, bY: number, tY: number) {
 
 /**
  * 原子グリッドパネルを描画する。
- * @param {*} p p5インスタンス。
- * @param {number} xStart グリッド左上のX座標。
- * @param {number} yStart グリッド左上のY座標。
- * @param {number} size グリッドの一辺のサイズ。
- * @param {number} decayRate 現在の崩壊率（0〜1）。
+ * @param p - p5インスタンス。
+ * @param xStart - グリッド左上のX座標。
+ * @param yStart - グリッド左上のY座標。
+ * @param size - グリッドの一辺のサイズ。
+ * @param decayRate - 現在の崩壊率（0〜1）。
  */
 function drawAtomGrid(
   p: p5,

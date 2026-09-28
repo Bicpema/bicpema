@@ -63,7 +63,7 @@ export class BicpemaCanvasController {
    * キャンバスに割り当て可能な幅・高さを求める。
    * panelSelectorが指定されている場合はそのDOM要素のサイズを、
    * それ以外はウィンドウサイズから#navBar（およびbottomBarSelector）の高さを差し引いたサイズを返す。
-   * @param p p5インスタンス。
+   * @param p - p5インスタンス。
    */
   _getAvailableSize(p: any): { w: number; h: number } {
     if (this.panelSelector) {
@@ -86,7 +86,7 @@ export class BicpemaCanvasController {
 
   /**
    * 利用可能領域を元に、fixed・heightModeの設定に応じたキャンバスサイズ（widthRatio・heightRatio適用前）を求める。
-   * @param p p5インスタンス。
+   * @param p - p5インスタンス。
    */
   _getSize(p: any): { w: number; h: number } {
     const { w: availW, h: availH } = this._getAvailableSize(p);
@@ -111,7 +111,7 @@ export class BicpemaCanvasController {
 
   /**
    * HTML要素で生成している#p5Canvasと#navBarを元にcanvasを生成する。
-   * @param p p5インスタンス。
+   * @param p - p5インスタンス。
    */
   fullScreen(p: any): void {
     p.pixelDensity(Math.min(p.displayDensity(), MAX_PIXEL_DENSITY));
@@ -125,7 +125,7 @@ export class BicpemaCanvasController {
 
   /**
    * HTML要素で生成している#p5Canvasと#navBarを元にcanvasをリサイズする。
-   * @param p p5インスタンス。
+   * @param p - p5インスタンス。
    */
   resizeScreen(p: any): void {
     const { w, h } = this._getSize(p);

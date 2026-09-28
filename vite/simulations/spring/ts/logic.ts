@@ -11,7 +11,7 @@ const loadChart = createLazyImporter(() =>
 
 /**
  * シミュレーションの描画と物理更新を行う。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function drawSimulation(p: p5) {
   p.background(255);

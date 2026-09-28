@@ -4,16 +4,16 @@
  * k（抵抗係数）が十分小さい場合は空気抵抗なしの放物運動の式を用い、
  * それ以外の場合は線形抵抗を受ける運動の解析解を用いる。
  *
- * @param {Object} params
- * @param {number} params.t 経過時間 (s)
- * @param {number} params.speed 初速度 (m/s)
- * @param {number} params.angleDeg 射出角度 (度)
- * @param {number} params.mass 質量 (kg)
- * @param {number} params.k 空気抵抗係数
- * @param {number} params.gravity 重力加速度 (m/s^2)
- * @param {number} params.posx0 初期x座標
- * @param {number} params.posy0 初期y座標
- * @returns {{x: number, y: number}} 計算された位置
+ * @param params -
+ *   - `t`: 経過時間 (s)
+ *   - `speed`: 初速度 (m/s)
+ *   - `angleDeg`: 射出角度 (度)
+ *   - `mass`: 質量 (kg)
+ *   - `k`: 空気抵抗係数
+ *   - `gravity`: 重力加速度 (m/s^2)
+ *   - `posx0`: 初期x座標
+ *   - `posy0`: 初期y座標
+ * @returns 計算された位置
  */
 export function computeDragProjectilePosition({
   t,

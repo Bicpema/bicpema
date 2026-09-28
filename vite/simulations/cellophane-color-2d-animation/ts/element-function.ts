@@ -35,7 +35,7 @@ export function onScreenshotClick() {
 
 /**
  * 追加ボタンを押したときの処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function cellophaneAddButtonFunction(p: p5) {
   state.colabNum! += 1;
@@ -44,7 +44,7 @@ export function cellophaneAddButtonFunction(p: p5) {
 
 /**
  * 削除ボタンを押したときの処理。
- * @param {*} p p5インスタンス
+ * @param p - p5インスタンス
  */
 export function cellophaneRemoveButtonFunction(p: p5) {
   if (state.colabNum! > 0) {

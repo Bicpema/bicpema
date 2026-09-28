@@ -24,7 +24,7 @@ export const CYL_H = 100;
 
 /**
  * シミュレーションの初期値を設定する関数。
- * @param {*} [p] p5インスタンス（未使用だが呼び出し元との引数形式を揃えるために受け取る）。
+ * @param p - p5インスタンス（未使用だが呼び出し元との引数形式を揃えるために受け取る）。
  */
 export function initValue(p?: p5) {
   state.waterSurfaceY = TANK_BOTTOM_Y - TANK_H * WATER_FILL_RATIO;
@@ -50,7 +50,7 @@ export function initValue(p?: p5) {
 
 /**
  * UI要素のイベントリスナーを設定する関数。
- * @param {*} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 export function elCreate(p: p5) {
   const resetBtn = document.getElementById("resetButton");

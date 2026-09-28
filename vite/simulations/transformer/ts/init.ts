@@ -10,7 +10,7 @@ export const FPS = 60;
 /**
  * UI要素のイベントリスナーを設定する関数。
  * 設定パネルの各ボタンにクリックイベントを登録する。
- * @param {p5} p p5インスタンス。
+ * @param p - p5インスタンス。
  */
 export function elCreate(p: p5) {
   // 一次コイル：巻数を増やす（上限あり）
