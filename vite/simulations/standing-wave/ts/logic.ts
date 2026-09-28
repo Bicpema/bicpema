@@ -7,6 +7,10 @@ import {
 } from "./physics.js";
 import { GRID_LINES_PER_WAVELENGTH } from "./constants.js";
 
+/**
+ * グリッド・x軸・右向きの波・左向きの波・定常波を描画し、再生中は時間と波の先端位置を進める。
+ * @param p - p5インスタンス
+ */
 export function drawSimulation(p: p5) {
   p.background(211, 237, 244);
   p.push();
@@ -32,6 +36,10 @@ export function drawSimulation(p: p5) {
   }
 }
 
+/**
+ * キャンバス中央を起点に、波長に応じた間隔でグリッド線を描画する。
+ * @param p - p5インスタンス
+ */
 function drawGrid(p: p5) {
   p.stroke(200);
   p.strokeWeight(1);
@@ -53,6 +61,10 @@ function drawGrid(p: p5) {
   }
 }
 
+/**
+ * 矢印とラベル付きのx軸を描画する。
+ * @param p - p5インスタンス
+ */
 function drawXAxis(p: p5) {
   const yAxis = state.innerH / 2;
   p.stroke(0);
@@ -75,6 +87,10 @@ function drawXAxis(p: p5) {
   p.text("x", state.innerW - 5, yAxis + 20);
 }
 
+/**
+ * 右向きに進む波を、波の先端より左側の範囲に赤色で描画する。
+ * @param p - p5インスタンス
+ */
 function drawRightWave(p: p5) {
   p.stroke(255, 0, 0);
   p.strokeWeight(2);
@@ -95,6 +111,10 @@ function drawRightWave(p: p5) {
   p.endShape();
 }
 
+/**
+ * 左向きに進む波を、波の先端より右側の範囲に青色で描画する。
+ * @param p - p5インスタンス
+ */
 function drawLeftWave(p: p5) {
   p.stroke(0, 0, 255);
   p.strokeWeight(2);
@@ -115,6 +135,10 @@ function drawLeftWave(p: p5) {
   p.endShape();
 }
 
+/**
+ * 2つの波が重なり合う範囲に定常波を緑色で描画する。
+ * @param p - p5インスタンス
+ */
 function drawStandingWave(p: p5) {
   p.stroke(0, 180, 0);
   p.strokeWeight(2);

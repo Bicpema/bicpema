@@ -15,12 +15,17 @@ const WEIGHT_IMAGE_URL =
 const PENDULUM_DATA_URL =
   "https://dl.dropboxusercontent.com/s/a4mwnazwmgqmn87/pendulumData.csv";
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({
     fixedAspectRatio: false
   });
   let isFirstDraw = true;
 
+  /** おもりの画像と振り子の長さデータCSVを読み込む。 */
   p.preload = () => {
     state.weightImage = p.loadImage(WEIGHT_IMAGE_URL);
     // p5.jsの型定義上、loadTable()の戻り値は`object`型となっているため、
@@ -28,12 +33,14 @@ const sketch = (p: p5) => {
     state.pendulumData = p.loadTable(PENDULUM_DATA_URL, "header") as p5.Table;
   };
 
+  /** キャンバスを生成し、初期設定を行う。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     settingInit(p);
     valueInit(p);
   };
 
+  /** 毎フレームの描画を行う。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -43,6 +50,7 @@ const sketch = (p: p5) => {
     drawSimulation(p);
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスの大きさを再設定する。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
   };

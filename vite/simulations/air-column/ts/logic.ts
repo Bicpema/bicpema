@@ -13,6 +13,10 @@ const PIPE_LINE_WEIGHT = 5;
 /** 補足テキストのフォントサイズ */
 const CAPTION_FONT_SIZE = 14;
 
+/**
+ * 定常波の振動の軌跡（複数位相の波形）を波レイヤーに描き直す。
+ * @param p - p5インスタンス
+ */
 export function updateWaveLayer(p: p5) {
   if (!state.waveLayer) return;
   const waveLayer = state.waveLayer;
@@ -34,6 +38,10 @@ export function updateWaveLayer(p: p5) {
   }
 }
 
+/**
+ * 現在時刻の定常波を描画し、実行中であれば時刻を進める。
+ * @param p - p5インスタンス
+ */
 export function drawWave(p: p5) {
   const startX = (CANVAS_WIDTH - state.pipeL) / 2;
   const freqConst = computeFreqConst(state.type, state.m_n, state.pipeL);
@@ -57,6 +65,10 @@ export function drawWave(p: p5) {
   }
 }
 
+/**
+ * 管の輪郭、長さLの寸法線、両端の腹・節のラベルを描画する。
+ * @param p - p5インスタンス
+ */
 export function drawUIContext(p: p5) {
   const pipeH = 100;
   const startX = (CANVAS_WIDTH - state.pipeL) / 2;
@@ -113,6 +125,15 @@ export function drawUIContext(p: p5) {
   }
 }
 
+/**
+ * 管の両端に腹・節のラベルを描画する。
+ * @param p - p5インスタンス
+ * @param left - 左端のラベル
+ * @param right - 右端のラベル
+ * @param x - 管の左端のX座標
+ * @param l - 管の長さ
+ * @param y - 管の中心のY座標
+ */
 function drawLabels(
   p: p5,
   left: string,
@@ -129,6 +150,10 @@ function drawLabels(
   p.text(right, x + l, y + 70);
 }
 
+/**
+ * 管の種類に応じた波長と固有振動数の式を描画する。
+ * @param p - p5インスタンス
+ */
 export function drawFormula(p: p5) {
   const { type, m_n } = state;
   const formulaY = 400;

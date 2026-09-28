@@ -20,6 +20,17 @@ export class Ball {
   gravity: number;
   fps: number;
 
+  /**
+   * ボールを生成する。
+   * @param x - 初期X座標
+   * @param y - 初期Y座標
+   * @param s - 初速度
+   * @param t - 投射角
+   * @param w - 質量
+   * @param y0 - 投射開始時のY座標
+   * @param k - 空気抵抗の比例定数
+   * @param n - ボールの番号（1または2）
+   */
   constructor(
     x: number,
     y: number,

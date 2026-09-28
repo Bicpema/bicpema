@@ -80,10 +80,12 @@ export function valueInit(p: p5) {
   const { toggleButton, resetButton } = bindToggleControls(p, {
     toggleSelector: "#toggleBtn",
     resetSelector: "#resetBtn",
+    /** シミュレーションの実行・停止を切り替え、ボタンの表示を更新する。 */
     onToggle: () => {
       state.isRunning = !state.isRunning;
       state.toggleBtn.html(state.isRunning ? "ストップ" : "スタート");
     },
+    /** シミュレーションを停止して経過時間と原子を初期化し、ボタンをスタート表示に戻す。 */
     onReset: () => {
       state.isRunning = false;
       state.currentTime = 0;

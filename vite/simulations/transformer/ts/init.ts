@@ -74,10 +74,12 @@ export function elCreate(p: p5) {
   bindToggleControls(p, {
     toggleSelector: "#playPauseButton",
     resetSelector: "#resetButton",
+    /** 再生・一時停止を切り替え、ボタンの表示を更新する。 */
     onToggle: () => {
       state.isRunning = !state.isRunning;
       playPauseButton.textContent = state.isRunning ? "⏸ 一時停止" : "▶ 再開";
     },
+    /** 状態を初期値に戻し、ラジオボタンとボタンの表示をリセットする。 */
     onReset: () => {
       state.isRunning = false;
       state.count1 = TURNS_MAX;

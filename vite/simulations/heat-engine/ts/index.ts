@@ -8,7 +8,12 @@ import "../../../css/tailwind.css";
 
 const canvasController = new BicpemaCanvasController();
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
+  /** 炎・おもり・氷の画像を読み込む。 */
   p.preload = () => {
     state.img_flame = p.loadImage(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/flame.png?alt=media&token=1e8a3133-f779-47fd-9236-489515c0cbb6"
@@ -21,6 +26,7 @@ const sketch = (p: p5) => {
     );
   };
 
+  /** キャンバスを生成し、初期設定を行う。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     elementPositionInit(p);
@@ -29,6 +35,7 @@ const sketch = (p: p5) => {
 
   let isFirstDraw = true;
 
+  /** 毎フレーム、シリンダーを描画して熱機関のサイクルを進める。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -41,6 +48,7 @@ const sketch = (p: p5) => {
     animateCycle(p);
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスとDOMの位置を再設定する。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
     elementPositionInit(p);

@@ -154,6 +154,10 @@ function lightResource(p: p5) {
 // animation モード
 // ============================================================
 
+/**
+ * 入射角と相対屈折率から屈折角を計算し、光の粒の進む速度と位置を更新する（animationモード）。
+ * @param p - p5インスタンス
+ */
 function animationCalculate(p: p5) {
   state.theta1 = p.radians(state.lightRotateTheta);
   state.n12 = state.n2 / state.n1;
@@ -200,6 +204,10 @@ function animationCalculate(p: p5) {
   }
 }
 
+/**
+ * リモコンの長押しで入射角を変更し、入射角・屈折率のリモコンと値を描画する（animationモード）。
+ * @param p - p5インスタンス
+ */
 function animationOperation(p: p5) {
   const { rotateRemocon, nRemocon } = state;
   if (!rotateRemocon || !nRemocon) return;
@@ -331,6 +339,10 @@ function animationOperation(p: p5) {
   p.stroke(255);
 }
 
+/**
+ * 入射角・屈折角などを表す円弧と角度の値、境界面と法線の軸を描画する（animationモード）。
+ * @param p - p5インスタンス
+ */
 function animationBackgroundSetting(p: p5) {
   p.noFill();
   p.strokeWeight(5);
@@ -551,6 +563,10 @@ function animationBackgroundSetting(p: p5) {
   p.line(0, p.height / 2, p.width, p.height / 2);
 }
 
+/**
+ * 反射率に応じた明るさで光の粒の軌跡をグラフィックスに描き足して表示し、操作時には軌跡をリセットする（animationモード）。
+ * @param p - p5インスタンス
+ */
 function animationRays(p: p5) {
   const { pg, rotateRemocon, nRemocon } = state;
   if (!pg || !rotateRemocon || !nRemocon) return;
@@ -703,6 +719,10 @@ function animationRays(p: p5) {
 // line モード
 // ============================================================
 
+/**
+ * 入射角と相対屈折率から屈折角を計算する（lineモード）。
+ * @param p - p5インスタンス
+ */
 function lineCalculate(p: p5) {
   state.theta1 = p.radians(state.lightRotateTheta);
   state.n12 = state.n2 / state.n1;
@@ -710,6 +730,10 @@ function lineCalculate(p: p5) {
   state.boundary = computeSnellRatio(state.theta1, state.n12);
 }
 
+/**
+ * リモコンの長押しで入射角を変更し、入射角・屈折率のリモコンと値を描画する（lineモード）。
+ * @param p - p5インスタンス
+ */
 function lineOperation(p: p5) {
   const { rotateRemocon, nRemocon } = state;
   if (!rotateRemocon || !nRemocon) return;
@@ -820,6 +844,10 @@ function lineOperation(p: p5) {
   );
 }
 
+/**
+ * 入射角・屈折角などを表す円弧と角度の値、境界面と法線の軸を描画する（lineモード）。
+ * @param p - p5インスタンス
+ */
 function lineBackgroundSetting(p: p5) {
   p.noFill();
   p.strokeWeight(5);
@@ -1002,6 +1030,10 @@ function lineBackgroundSetting(p: p5) {
   p.line(0, p.height / 2, p.width, p.height / 2);
 }
 
+/**
+ * 入射光・反射光・屈折光を、反射率に応じた明るさの直線で描画する（lineモード）。
+ * @param p - p5インスタンス
+ */
 function lineRays(p: p5) {
   const s = p.sq(
     (state.n1 * p.cos(state.theta1) - state.n2 * p.cos(state.theta2)) /
@@ -1048,6 +1080,10 @@ function lineRays(p: p5) {
 // animationMax モード
 // ============================================================
 
+/**
+ * 入射角と相対屈折率から屈折角を計算し、光の粒の進む速度と位置を更新する（animationMaxモード）。
+ * @param p - p5インスタンス
+ */
 function animationMaxCalculate(p: p5) {
   state.theta1 = p.radians(state.lightRotateTheta);
   state.n12 = state.n2 / state.n1;
@@ -1094,6 +1130,10 @@ function animationMaxCalculate(p: p5) {
   }
 }
 
+/**
+ * リモコンの長押しで入射角を変更し、入射角・屈折率のリモコンと値を描画する（animationMaxモード）。
+ * @param p - p5インスタンス
+ */
 function animationMaxOperation(p: p5) {
   const { rotateRemocon, nRemocon } = state;
   if (!rotateRemocon || !nRemocon) return;
@@ -1225,6 +1265,10 @@ function animationMaxOperation(p: p5) {
   p.stroke(255);
 }
 
+/**
+ * 入射角・屈折角などを表す円弧と角度の値、境界面と法線の軸を描画する（animationMaxモード）。
+ * @param p - p5インスタンス
+ */
 function animationMaxBackgroundSetting(p: p5) {
   p.noFill();
   p.strokeWeight(5);
@@ -1445,6 +1489,10 @@ function animationMaxBackgroundSetting(p: p5) {
   p.line(0, p.height / 2, p.width, p.height / 2);
 }
 
+/**
+ * 反射率によらず最大の明るさで光の粒の軌跡をグラフィックスに描き足して表示し、操作時には軌跡をリセットする（animationMaxモード）。
+ * @param p - p5インスタンス
+ */
 function animationMaxRays(p: p5) {
   const { pg, rotateRemocon, nRemocon } = state;
   if (!pg || !rotateRemocon || !nRemocon) return;
@@ -1584,6 +1632,10 @@ function animationMaxRays(p: p5) {
 // lineMax モード
 // ============================================================
 
+/**
+ * 入射角と相対屈折率から屈折角を計算する（lineMaxモード）。
+ * @param p - p5インスタンス
+ */
 function lineMaxCalculate(p: p5) {
   state.theta1 = p.radians(state.lightRotateTheta);
   state.n12 = state.n2 / state.n1;
@@ -1591,6 +1643,10 @@ function lineMaxCalculate(p: p5) {
   state.boundary = computeSnellRatio(state.theta1, state.n12);
 }
 
+/**
+ * リモコンの長押しで入射角を変更し、入射角・屈折率のリモコンと値を描画する（lineMaxモード）。
+ * @param p - p5インスタンス
+ */
 function lineMaxOperation(p: p5) {
   const { rotateRemocon, nRemocon } = state;
   if (!rotateRemocon || !nRemocon) return;
@@ -1701,6 +1757,10 @@ function lineMaxOperation(p: p5) {
   );
 }
 
+/**
+ * 入射角・屈折角などを表す円弧と角度の値、境界面と法線の軸を描画する（lineMaxモード）。
+ * @param p - p5インスタンス
+ */
 function lineMaxBackgroundSetting(p: p5) {
   p.noFill();
   p.strokeWeight(5);
@@ -1883,6 +1943,10 @@ function lineMaxBackgroundSetting(p: p5) {
   p.line(0, p.height / 2, p.width, p.height / 2);
 }
 
+/**
+ * 入射光・反射光・屈折光を、反射率によらず最大の明るさの直線で描画する（lineMaxモード）。
+ * @param p - p5インスタンス
+ */
 function lineMaxRays(p: p5) {
   p.strokeWeight(5);
   p.stroke(...RAY_COLOR);

@@ -130,12 +130,25 @@ export class Ball {
 
     // 座標変換: 打ち出し点 (y=0) が台の上面
     // WebGL: 右=+x, 下=+y
+    /**
+     * x座標（m）を描画座標（px）に変換する。
+     * @param xm - x座標（m）
+     * @returns 描画上のx座標（px）
+     */
     const toBx = (xm: number) => xm * S;
-    // 物理軌跡の y 座標 (地面 = h0_px)
+    /**
+     * 物理軌跡の高さ（m）を描画上のy座標（px、地面 = h0_px）に変換する。
+     * @param ym - 高さ（m）
+     * @returns 描画上のy座標（px）
+     */
     const toByPhys = (ym: number) => (this.initialHeight - ym) * S;
-    // 球の視覚的中心 y 座標 = 物理位置から BALL_R 分上にオフセット
-    // → 台の上面 (y=0) に球の底が触れるときの球中心は y = -BALL_R
-    // → 地面の上面 (y=h0_px) に球の底が触れるときの球中心は y = h0_px - BALL_R
+    /**
+     * 高さ（m）を球の視覚的中心のy座標（px）に変換する。物理位置から球の半径（BALL_R）分だけ上にオフセットする。
+     * 台の上面 (y=0) に球の底が触れるときの球中心は y = -BALL_R、
+     * 地面の上面 (y=h0_px) に球の底が触れるときの球中心は y = h0_px - BALL_R となる。
+     * @param ym - 高さ（m）
+     * @returns 球の中心の描画上のy座標（px）
+     */
     const toBy = (ym: number) => toByPhys(ym) - BALL_R;
 
     const bx = toBx(this.x);
@@ -355,10 +368,16 @@ export class Ball {
     this._lastGhostTime = 0;
   }
 
+  /**
+   * ボールの運動を開始する。
+   */
   start() {
     this.isMoving = true;
   }
 
+  /**
+   * ボールの運動を停止する。
+   */
   stop() {
     this.isMoving = false;
   }

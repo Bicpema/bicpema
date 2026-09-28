@@ -18,6 +18,10 @@ import { FPS, CAMERA_DISTANCE } from "./constants.js";
 // FPSはdraw()から毎フレーム呼び出されるprenormal()内からsetup()側へ移設し、
 // 一度だけ設定するようにしている。
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({
     fixedAspectRatio: false,
@@ -26,9 +30,11 @@ const sketch = (p: p5) => {
   });
   let isFirstDraw = true;
 
-  // 外部ファイルの読み込み
-  // p5.jsの型定義上、loadTable()の戻り値は`object`型となっているため、
-  // 実際の戻り値であるp5.Tableへ明示的にキャストする。
+  /**
+   * 等色関数・偏光板の強度分布・光路差の分散特性などのCSVと画像を読み込む。
+   * p5.jsの型定義上、`loadTable()` の戻り値は `object` 型となっているため、
+   * 実際の戻り値である `p5.Table` へ明示的にキャストする。
+   */
   p.preload = () => {
     state.cmfTable = p.loadTable(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fcsv%2Fcommon%2Fcmf.csv?alt=media&token=df4cb716-5da8-4640-822e-5107acbdb916",
@@ -63,7 +69,7 @@ const sketch = (p: p5) => {
     );
   };
 
-  // ★ setup関数
+  /** キャンバスを生成し、初期設定・カメラ設定・UIの生成と色計算の初期化を行う。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
@@ -81,7 +87,7 @@ const sketch = (p: p5) => {
     });
   };
 
-  // ★ draw関数
+  /** 毎フレームの描画を行う。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -91,6 +97,7 @@ const sketch = (p: p5) => {
     drawSimulation(p);
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスとDOMを再設定し、セロハンを削除して色計算をやり直す。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
     elInit(p);
@@ -109,6 +116,7 @@ const sketch = (p: p5) => {
     });
   };
 
+  /** 上矢印キーが押されたとき、アニメーションの状態を初期化して最初から再生する。 */
   p.keyPressed = () => {
     if (p.keyCode === p.UP_ARROW) {
       state.Cluster1isDead = false;

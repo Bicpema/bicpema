@@ -11,6 +11,12 @@ import {
   ARROW_COLOR
 } from "./constants.js";
 
+/**
+ * 現在時刻における、つり合いの位置x0の媒質の変位を計算します。
+ * @param p - p5インスタンス
+ * @param x0 - 媒質のつり合いの位置
+ * @returns 媒質の変位
+ */
 function displacement(p: p5, x0: number) {
   return computeWaveDisplacement(
     state.A,
@@ -22,6 +28,14 @@ function displacement(p: p5, x0: number) {
   );
 }
 
+/**
+ * 始点から終点へ向かう矢印を描画します（長さが1未満の場合は描画しません）。
+ * @param p - p5インスタンス
+ * @param x1 - 始点のX座標
+ * @param y1 - 始点のY座標
+ * @param x2 - 終点のX座標
+ * @param y2 - 終点のY座標
+ */
 function drawArrow(p: p5, x1: number, y1: number, x2: number, y2: number) {
   if (p.dist(x1, y1, x2, y2) < 1) return;
   p.stroke(...ARROW_COLOR);
@@ -38,6 +52,11 @@ function drawArrow(p: p5, x1: number, y1: number, x2: number, y2: number) {
   p.pop();
 }
 
+/**
+ * 矢印付きの横軸とタイトルを描画します。
+ * @param p - p5インスタンス
+ * @param title - 軸に表示するタイトル
+ */
 function drawAxis(p: p5, title: string) {
   p.stroke(0);
   p.strokeWeight(1);
@@ -57,6 +76,10 @@ function drawAxis(p: p5, title: string) {
   p.text(title, WAVE_ORIGIN_X, -60);
 }
 
+/**
+ * 縦波の媒質の様子と、注目する媒質の変位を表す矢印を描画します。
+ * @param p - p5インスタンス
+ */
 function drawLongitudinal(p: p5) {
   p.push();
   p.translate(0, p.height / 3);
@@ -87,6 +110,10 @@ function drawLongitudinal(p: p5) {
   p.pop();
 }
 
+/**
+ * 縦波の変位を横波に変換した波形と、注目する媒質の変位を表す矢印を描画します。
+ * @param p - p5インスタンス
+ */
 function drawConvertedTransverse(p: p5) {
   p.push();
   p.translate(0, (p.height * 2) / 3);
@@ -125,6 +152,10 @@ function drawConvertedTransverse(p: p5) {
   p.pop();
 }
 
+/**
+ * 速度スライダーに応じてフレームレートを設定し、時刻を進めて縦波と横波を描画します。
+ * @param p - p5インスタンス
+ */
 export function drawSimulation(p: p5) {
   const speedSlider = document.getElementById(
     "speedSlider"

@@ -18,6 +18,13 @@ export class Medium {
   posy: number;
   number: number;
 
+  /**
+   * 媒質を生成する。
+   * @param p - p5インスタンス
+   * @param x - 初期X座標
+   * @param y - 初期Y座標
+   * @param n - 媒質の番号
+   */
   constructor(p: any, x: number, y: number, n: number) {
     this.p = p;
     this.posx = x;

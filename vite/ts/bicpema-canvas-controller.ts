@@ -41,6 +41,10 @@ export class BicpemaCanvasController {
   bottomBarSelector: string | null;
   heightMode: "aspect" | "half";
 
+  /**
+   * BicpemaCanvasControllerを生成する。
+   * @param options - キャンバスの設定オプション（各項目は `BicpemaCanvasControllerOptions` を参照）
+   */
   constructor({
     fixedAspectRatio = true,
     is3D = false,

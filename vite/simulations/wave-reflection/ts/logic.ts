@@ -15,6 +15,10 @@ const COMBINED_COLOR = [0, 160, 0] as const;
 /** 未到達区間の波を示す破線パターン */
 const DASH_PATTERN = [6, 6];
 
+/**
+ * グリッド・反射壁・入射波・反射波・合成波を描画し、再生中は時間と波の先端位置を進める。
+ * @param p - p5インスタンス
+ */
 export function drawSimulation(p: p5) {
   p.background(255);
   drawGrid(p);
@@ -154,6 +158,10 @@ export function drawSimulation(p: p5) {
   }
 }
 
+/**
+ * 反射壁の位置とキャンバス中央を起点にグリッド線を描画し、中央に基準線を引く。
+ * @param p - p5インスタンス
+ */
 function drawGrid(p: p5) {
   p.stroke(142, 216, 236);
   p.strokeWeight(1);
@@ -180,6 +188,10 @@ function drawGrid(p: p5) {
   p.line(0, p.height / 2, p.width, p.height / 2);
 }
 
+/**
+ * 反射の条件（自由端／固定端）に応じた色で反射壁を描画する。
+ * @param p - p5インスタンス
+ */
 function drawReflectWall(p: p5) {
   if (state.mode === "free") p.stroke(236, 193, 56);
   else p.stroke(0, 171, 158);

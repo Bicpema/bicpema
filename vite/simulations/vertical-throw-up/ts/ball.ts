@@ -240,7 +240,17 @@ export class Ball {
     const plotW = gw - padL - padR;
     const plotH = gh - padT - padB;
 
+    /**
+     * 時刻をグラフのプロットエリア上のx座標に変換する。
+     * @param t - 時刻
+     * @returns プロットエリア上のx座標
+     */
     const mapX = (t: number) => plotX + (maxX > 0 ? (t / maxX) * plotW : 0);
+    /**
+     * 値をグラフのプロットエリア上のy座標に変換する。
+     * @param v - 縦軸の値
+     * @returns プロットエリア上のy座標
+     */
     const mapY = (v: number) =>
       plotY + plotH - ((v - minY) / (maxY - minY)) * plotH;
 

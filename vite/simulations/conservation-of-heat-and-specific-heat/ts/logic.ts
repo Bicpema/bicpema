@@ -36,21 +36,42 @@ const BALL_Y_LARGE = 424;
 /** 質量「軽い」選択時の球のY座標 */
 const BALL_Y_SMALL = 457;
 
+/**
+ * 接触状態のラジオボタンの選択値を取得する。
+ * @returns 接触状態（1: 接触前、0: 接触後）。未選択時は1
+ */
 function getContactState() {
   const value = getCheckedRadioValue("contact");
   return value !== null ? parseInt(value, 10) : 1;
 }
 
+/**
+ * 物質Aの材質のラジオボタンの選択値を取得する。
+ * @returns 材質のインデックス。未選択時は0
+ */
 function getMaterialA() {
   const value = getCheckedRadioValue("materialA");
   return value !== null ? parseInt(value, 10) : 0;
 }
 
+/**
+ * 物質Aの質量のラジオボタンの選択値を取得する。
+ * @returns 質量のインデックス（0: 重い、1: 軽い）。未選択時は1
+ */
 function getMassA() {
   const value = getCheckedRadioValue("massA");
   return value !== null ? parseInt(value, 10) : 1;
 }
 
+/**
+ * 材質に応じた球の放射状グラデーションを生成する。
+ * @param p - p5インスタンス
+ * @param x - 球の中心のx座標
+ * @param y - 球の中心のy座標
+ * @param r - 球の半径
+ * @param type - 材質のインデックス
+ * @returns 球の塗りに使う放射状グラデーション
+ */
 function getMaterialGradient(
   p: p5,
   x: number,
@@ -86,6 +107,11 @@ function getMaterialGradient(
   return g;
 }
 
+/**
+ * 吊り下げ棒と物質Aの球を接触状態に応じた位置に描画する。
+ * 呼び出し元の `drawContainer` で行った `push()` をこの関数内で `pop()` する。
+ * @param p - p5インスタンス
+ */
 function ballDraw(p: p5) {
   const contactState = getContactState();
   const checkcolorA = getMaterialA();
@@ -127,6 +153,10 @@ function ballDraw(p: p5) {
   }
 }
 
+/**
+ * 容器（水の入った箱）と物質Aの球を接触状態に応じた位置に描画する。
+ * @param p - p5インスタンス
+ */
 function drawContainer(p: p5) {
   const contactState = getContactState();
   p.push();
@@ -140,6 +170,10 @@ function drawContainer(p: p5) {
   }
 }
 
+/**
+ * 見出しと、接触前の場合は各物質の温度・比熱の説明文を描画する。
+ * @param p - p5インスタンス
+ */
 function showPara(p: p5) {
   p.push();
   p.textSize(HEADER_FONT_SIZE);
@@ -163,6 +197,10 @@ function showPara(p: p5) {
   }
 }
 
+/**
+ * 接触後は経過時間を進めて高温側・低温側の温度を更新し、接触前は時間と温度を初期値に戻す。
+ * @param p - p5インスタンス
+ */
 function updateTemperature(p: p5) {
   const contactState = getContactState();
 
@@ -204,6 +242,10 @@ function updateTemperature(p: p5) {
   }
 }
 
+/**
+ * 温度の時間変化のグラフ（軸・凡例・温度曲線・現在温度のラベル）を描画する。
+ * @param p - p5インスタンス
+ */
 function drawGraph(p: p5) {
   p.push();
   p.scale(0.65);
@@ -343,14 +385,30 @@ function drawGraph(p: p5) {
   p.pop();
 }
 
+/**
+ * 時間をグラフ上のx座標に変換する。
+ * @param p - p5インスタンス
+ * @param t - 経過時間
+ * @returns グラフ上のx座標
+ */
 function tx(p: p5, t: number) {
   return p.map(t, 0, state.tMax, state.gx, state.gx + state.gw);
 }
 
+/**
+ * 温度をグラフ上のy座標に変換する。
+ * @param p - p5インスタンス
+ * @param T - 温度（K）
+ * @returns グラフ上のy座標
+ */
 function ty(p: p5, T: number) {
   return p.map(T, state.Tmin, state.Tmax, state.gy + state.gh, state.gy);
 }
 
+/**
+ * 容器・球・説明文・グラフの描画と温度の更新を行う。
+ * @param p - p5インスタンス
+ */
 export function drawSimulation(p: p5) {
   drawContainer(p);
   updateTemperature(p);

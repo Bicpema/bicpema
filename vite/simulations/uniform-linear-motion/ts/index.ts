@@ -14,9 +14,14 @@ import {
   TICK_LABEL_FONT_SIZE
 } from "./constants.js";
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
+  /** 黄色と赤色の車の画像を読み込む。 */
   p.preload = () => {
     state.YELLOW_CAR_IMG = p.loadImage(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FyCar.png?alt=media&token=fa3ee043-5471-41d7-bb7f-93ac1eca46f1"
@@ -26,6 +31,7 @@ const sketch = (p: p5) => {
     );
   };
 
+  /** キャンバスを生成し、DOM要素・画像・初期値・描画設定を行う。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
@@ -40,6 +46,7 @@ const sketch = (p: p5) => {
 
   let isFirstDraw = true;
 
+  /** 毎フレーム、道路と目盛りを描画し、車の位置を更新して描画したうえでグラフを描画する。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -75,6 +82,7 @@ const sketch = (p: p5) => {
     graphDraw(p);
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスとDOMの配置を再設定し、初期値を設定し直す。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
     elSetting(p);

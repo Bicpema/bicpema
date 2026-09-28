@@ -32,6 +32,9 @@ export class BallGraph {
   vtChart: InstanceType<typeof import("chart.js").Chart> | null;
   ytChart: InstanceType<typeof import("chart.js").Chart> | null;
 
+  /**
+   * チャートを未生成の状態でインスタンスを生成する。
+   */
   constructor() {
     this.vtChart = null;
     this.ytChart = null;
@@ -106,6 +109,9 @@ export class BallGraph {
     });
   }
 
+  /**
+   * y-tグラフのチャートを初期化（まだ存在しない場合のみ生成）
+   */
   _initYtChart() {
     const ctx = getCanvasElement("ytCanvas");
     if (!ctx || this.ytChart || !Chart) return;

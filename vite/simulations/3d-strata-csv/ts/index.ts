@@ -21,6 +21,10 @@ import {
   thirdPlaceSelectFunction
 } from "./element-function.js";
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({
     fixedAspectRatio: false,
@@ -31,11 +35,16 @@ const sketch = (p: p5) => {
   // 別ドキュメントのため、ESモジュールのimport/exportでは参照できない。
   window.submit = submit;
   window.loadLayers = loadLayers;
+  /** 子ウィンドウから呼び出され、平面を定める地点の選択肢を更新する。 */
   window.placeRefreshFunction = () => placeRefreshFunction(p);
+  /** 子ウィンドウから呼び出され、1つ目の地点の選択を反映する。 */
   window.firstPlaceSelectFunction = () => firstPlaceSelectFunction(p);
+  /** 子ウィンドウから呼び出され、2つ目の地点の選択を反映する。 */
   window.secondPlaceSelectFunction = () => secondPlaceSelectFunction(p);
+  /** 子ウィンドウから呼び出され、3つ目の地点の選択を反映する。 */
   window.thirdPlaceSelectFunction = () => thirdPlaceSelectFunction(p);
 
+  /** キャンバスとDOM要素を生成し、初期値・UI・日本語フォントを設定する。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
@@ -47,6 +56,7 @@ const sketch = (p: p5) => {
 
   let isFirstDraw = true;
 
+  /** 毎フレームの描画を行う。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -56,6 +66,7 @@ const sketch = (p: p5) => {
     drawSimulation(p);
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスサイズを再設定する。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
   };

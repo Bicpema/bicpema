@@ -28,6 +28,10 @@ const R_TABLE_URL =
 const WHITE_IMAGE_URL =
   "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2F2025%3DDGI%3Dcellophane-color2_ELK%2Fwhite.png?alt=media&token=038ee120-ec5e-4440-8130-3b764f11d25e";
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({
     fixedAspectRatio: false,
@@ -36,6 +40,7 @@ const sketch = (p: p5) => {
   });
   let isFirstDraw = true;
 
+  /** 等色関数・強度分布・光路差の分散特性・強度補正のCSVと白画像を読み込む。 */
   p.preload = () => {
     state.cmfTable = p.loadTable(CMF_TABLE_URL, "csv", "header") as p5.Table; // 等色関数のデータ
     state.osTable = p.loadTable(OS_TABLE_URL, "csv", "header") as p5.Table; // 偏光板を一枚通したときの波長毎の強度分布 PC-最新
@@ -45,11 +50,13 @@ const sketch = (p: p5) => {
     state.img = p.loadImage(WHITE_IMAGE_URL);
   };
 
+  /** キャンバスを生成し、初期設定を行う。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     setupSimulation(p);
   };
 
+  /** 毎フレームの描画を行う。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -59,10 +66,12 @@ const sketch = (p: p5) => {
     drawSimulation(p);
   };
 
+  /** キー入力に応じた操作を行う。 */
   p.keyPressed = () => {
     onKeyPressed(p);
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスとDOMの位置を再設定する。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
     resizeSimulation(p);

@@ -24,6 +24,9 @@ const AXIS_MAX_MARGIN_RATIO = 1.1;
 export class BallGraph {
   chart: ChartInstance<"scatter"> | null;
 
+  /**
+   * グラフのインスタンスを未生成の状態で初期化する。
+   */
   constructor() {
     this.chart = null;
   }

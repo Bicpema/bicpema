@@ -1,5 +1,9 @@
 // graph.tsはグラフ描画専用のファイルです。
 
+// /**
+//  * グラフを描画します。
+//  * @param p - p5インスタンス
+//  */
 // export function drawGraph(p: p5) {
 //   if (typeof graphChart !== "undefined" && graphChart) {
 //     graphChart.destroy();

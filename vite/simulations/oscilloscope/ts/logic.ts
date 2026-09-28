@@ -8,6 +8,9 @@ import {
 const CANVAS_WIDTH = 1000;
 const GRID_SIZE = 50;
 
+/**
+ * 音声入力が有効な場合に、表示モードに応じて波形またはスペクトルのデータを更新します。
+ */
 export function updateAudioData() {
   if (!state.audioStarted || state.paused || !state.fft) return;
 
@@ -18,6 +21,10 @@ export function updateAudioData() {
   }
 }
 
+/**
+ * オシロスコープの画面（背景・グリッド・メッセージ・信号）を描画します。
+ * @param p - p5インスタンス
+ */
 export function drawOscilloscope(p: p5) {
   const scale = p.width / CANVAS_WIDTH;
   p.push();
@@ -29,6 +36,10 @@ export function drawOscilloscope(p: p5) {
   p.pop();
 }
 
+/**
+ * 画面のグリッド線を描画します。
+ * @param p - p5インスタンス
+ */
 function drawGrid(p: p5) {
   p.stroke(0, 55);
   p.strokeWeight(1.5);
@@ -40,6 +51,10 @@ function drawGrid(p: p5) {
   }
 }
 
+/**
+ * 音声入力の状態に応じた案内メッセージを描画します。
+ * @param p - p5インスタンス
+ */
 function drawMessage(p: p5) {
   p.noStroke();
   p.fill(0);
@@ -54,6 +69,10 @@ function drawMessage(p: p5) {
   );
 }
 
+/**
+ * 波形またはスペクトルの信号を折れ線で描画します。
+ * @param p - p5インスタンス
+ */
 function drawSignal(p: p5) {
   const values =
     state.displayMode === "waveform" ? state.waveform : state.spectrum;

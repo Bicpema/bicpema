@@ -11,9 +11,14 @@ import {
   handleMouseReleased
 } from "./logic.js";
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
+  /** 水槽と物体の画像を読み込む。 */
   p.preload = () => {
     state.tankImage = p.loadImage(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/waterTank.png?alt=media&token=54c843b3-9823-47b0-9a66-0ad3f947afd3"
@@ -23,6 +28,7 @@ const sketch = (p: p5) => {
     );
   };
 
+  /** キャンバスとDOM要素を生成し、フレームレートや設定モーダルなどの初期設定を行う。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
@@ -39,6 +45,7 @@ const sketch = (p: p5) => {
 
   let isFirstDraw = true;
 
+  /** 毎フレームの描画を行う。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -48,14 +55,17 @@ const sketch = (p: p5) => {
     drawSimulation(p);
   };
 
+  /** マウスが物体上で押されたとき、物体のドラッグを開始する。 */
   p.mousePressed = () => {
     handleMousePressed(p);
   };
 
+  /** マウスボタンが離されたとき、物体のドラッグを終了する。 */
   p.mouseReleased = () => {
     handleMouseReleased(p);
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスサイズを再設定する。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
   };

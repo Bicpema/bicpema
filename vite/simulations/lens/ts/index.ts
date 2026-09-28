@@ -45,6 +45,12 @@ const state: {
  * 持つが、`@types/p5`の型定義には含まれていないため、ここで補って扱う。
  */
 type SelectElement = p5.Element & {
+  /**
+   * セレクトボックスに選択肢を追加する。
+   * @param value - 選択肢の値
+   * @param label - 選択肢の表示名（省略時は値を表示）
+   * @returns 戻り値（本シミュレーションでは使用しない）
+   */
   option(value: string, label?: string): unknown;
 };
 
@@ -54,14 +60,23 @@ type SelectElement = p5.Element & {
  * 算術演算で使用するため、value() の戻り値を number に絞り込んで扱う。
  */
 type SliderElement = Omit<p5.Element, "value"> & {
+  /**
+   * スライダーの現在値を取得する。
+   * @returns スライダーの値
+   */
   value(): number;
 };
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({
     fixedAspectRatio: false
   });
 
+  /** 頭部・凸レンズ・凹レンズ・ろうそく・F字・LEDの画像を読み込む。 */
   p.preload = () => {
     state.headImg = p.loadImage(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2FheadImg.png?alt=media&token=60e35b0a-2592-4864-9576-b93f584fadf3"
@@ -83,6 +98,7 @@ const sketch = (p: p5) => {
     );
   };
 
+  /** キャンバスを生成し、ボタンの作成と初期設定を行う。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     buttonCreation(p);
@@ -92,6 +108,7 @@ const sketch = (p: p5) => {
 
   let isFirstDraw = true;
 
+  /** 毎フレーム、方眼・レンズ・光軸を描画し、選択中の物体に応じて光路・像・スクリーン・焦点を描画する。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -119,6 +136,7 @@ const sketch = (p: p5) => {
     }
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスとボタンの配置を再設定する。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
     initSettings(p);
@@ -135,7 +153,10 @@ let focusLengthSlider: SliderElement;
 let lensSelect: SelectElement;
 let objectSelect: SelectElement;
 
-//ボタンの生成
+/**
+ * 物体・スクリーンの位置と焦点距離のスライダー、レンズと物体の種類のセレクトボックスを生成する。
+ * @param p - p5インスタンス
+ */
 function buttonCreation(p: p5) {
   objectXSlider = p.createSlider(0, (4 * p.width) / 10, 0) as SliderElement;
   screenXSlider = p.createSlider(
@@ -164,7 +185,10 @@ function buttonCreation(p: p5) {
     objectSelect.option(objectOptionArr[i]);
   }
 }
-//ボタンの初期設定
+/**
+ * スライダーとセレクトボックスの大きさと位置を設定する。
+ * @param p - p5インスタンス
+ */
 function buttonSettings(p: p5) {
   objectXSlider
     .size((4 * p.width) / 10, 2)
@@ -195,7 +219,10 @@ let objectY: number;
 let blurValue: number;
 let pg: p5.Graphics;
 
-//初期設定
+/**
+ * レンズ・スクリーンの大きさを決め、画像を画面サイズに合わせてリサイズするなどの初期設定を行う。
+ * @param p - p5インスタンス
+ */
 function initSettings(p: p5) {
   const { headImg, convexLensImg, concaveLensImg, candleImg, fImg, ledImg } =
     state;
@@ -234,7 +261,10 @@ function initSettings(p: p5) {
   p.textAlign(p.CENTER, p.CENTER);
 }
 
-//方眼の描画
+/**
+ * 背景、焦点の位置を示す線、方眼を描画する。
+ * @param p - p5インスタンス
+ */
 function gridDraw(p: p5) {
   //背景色
   p.background(0);
@@ -318,7 +348,10 @@ function gridDraw(p: p5) {
   p.stroke(255, 255);
 }
 
-//レンズの描画
+/**
+ * 選択されたレンズの種類に応じたレンズの画像を描画する。
+ * @param p - p5インスタンス
+ */
 function lensDraw(p: p5) {
   if (lensSelect.value() === "凸レンズ") {
     p.image(
@@ -347,7 +380,10 @@ function lensDraw(p: p5) {
   }
 }
 
-//土台の描画
+/**
+ * 光学台の土台と物体を載せる台を描画する。
+ * @param p - p5インスタンス
+ */
 function baseDraw(p: p5) {
   p.fill(0);
   p.rect(p.width / 10, (3 * p.height) / 4, (4 * p.width) / 5, p.height / 4);
@@ -365,14 +401,25 @@ function baseDraw(p: p5) {
   );
 }
 
-//点線の手続き
+/**
+ * 2点間に点線を描画する。
+ * @param p - p5インスタンス
+ * @param aX - 始点のx座標
+ * @param aY - 始点のy座標
+ * @param bX - 終点のx座標
+ * @param bY - 終点のy座標
+ */
 function dashedLine(p: p5, aX: number, aY: number, bX: number, bY: number) {
   p.drawingContext.setLineDash([5, 5]);
   p.line(aX, aY, bX, bY);
   p.drawingContext.setLineDash([]);
 }
 
-//光線の描画
+/**
+ * レンズの種類と物体の位置に応じた光線を描画する。
+ * @param p - p5インスタンス
+ * @param img - 物体の画像
+ */
 function opticalPathDisplay(p: p5, img: p5.Image) {
   const { headImg } = state;
   if (!headImg) return;
@@ -817,7 +864,11 @@ function opticalPathDisplay(p: p5, img: p5.Image) {
   }
 }
 
-//物体と虚像の描画
+/**
+ * 物体と、レンズによってできる虚像を描画する。
+ * @param p - p5インスタンス
+ * @param img - 物体の画像
+ */
 function objectAndVirtualImageDisplay(p: p5, img: p5.Image) {
   const { headImg } = state;
   if (!headImg) return;
@@ -1016,7 +1067,11 @@ function objectAndVirtualImageDisplay(p: p5, img: p5.Image) {
   }
 }
 
-//スクリーンの描画
+/**
+ * スクリーンとスクリーンに映る実像を描画する。
+ * @param p - p5インスタンス
+ * @param img - 物体の画像
+ */
 function screenDisplay(p: p5, img: p5.Image) {
   const a = (4 * p.width) / 10 - objectXSlider.value();
   const b =
@@ -1213,7 +1268,11 @@ function screenDisplay(p: p5, img: p5.Image) {
   }
 }
 
-//焦点の描画
+/**
+ * 焦点の位置のラベルと焦点距離を描画する。
+ * @param p - p5インスタンス
+ * @param img - 物体の画像（本関数では使用しない）
+ */
 function focusDraw(p: p5, img: p5.Image) {
   p.tint(255, 255);
   p.fill(255, 255);

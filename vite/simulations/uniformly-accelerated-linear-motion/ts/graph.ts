@@ -23,6 +23,9 @@ const AXIS_MAX_MARGIN_RATIO = 1.1;
 export class MotionGraph {
   chart: InstanceType<typeof import("chart.js").Chart> | null;
 
+  /**
+   * グラフのインスタンスを未生成の状態で初期化する。
+   */
   constructor() {
     this.chart = null;
   }

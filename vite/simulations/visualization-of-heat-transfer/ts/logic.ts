@@ -36,6 +36,10 @@ const GY = 130;
 const GW = 277;
 const GH = 266;
 
+/**
+ * 温度を更新し、接触前後の物質・矢印・温度変化のグラフを描画する。
+ * @param p - p5インスタンス
+ */
 export function drawSimulation(p: p5) {
   p.background(255);
 
@@ -46,6 +50,9 @@ export function drawSimulation(p: p5) {
   drawGraph(p);
 }
 
+/**
+ * 接触している場合は時刻を進めて高温側・低温側の温度を計算し、接触していない場合は状態をリセットする。
+ */
 function updateTemperature() {
   const contactState = parseInt(getCheckedRadioValue("contact") ?? "1", 10);
   if (contactState === 0) {
@@ -67,16 +74,33 @@ function updateTemperature() {
   }
 }
 
+/**
+ * 左側に接触前（初期温度）の高温・低温の物質を描画する。
+ * @param p - p5インスタンス
+ */
 function leftArea(p: p5) {
   drawBlock(p, L_BLK_X, L_BLK_TOP_Y, BLK_W, BLK_H, state.Thot0);
   drawBlock(p, L_BLK_X, L_BLK_BOT_Y, BLK_W, BLK_H, state.Tcold0);
 }
 
+/**
+ * 右側に現在の温度の高温・低温の物質を描画する。
+ * @param p - p5インスタンス
+ */
 function rightArea(p: p5) {
   drawBlock(p, R_BLK_X, R_BLK_TOP_Y, BLK_W, BLK_H, state.Thot);
   drawBlock(p, R_BLK_X, R_BLK_BOT_Y, BLK_W, BLK_H, state.Tcold);
 }
 
+/**
+ * 温度に応じた色の物質ブロックを、分子と温度ラベルとともに描画する。
+ * @param p - p5インスタンス
+ * @param x - 左上のX座標
+ * @param y - 左上のY座標
+ * @param w - 幅
+ * @param h - 高さ
+ * @param T - 温度（K）
+ */
 function drawBlock(
   p: p5,
   x: number,
@@ -98,6 +122,15 @@ function drawBlock(
   p.text(`${T.toFixed(1)} K`, x + 6, y + 14);
 }
 
+/**
+ * ブロック内に格子状の分子を、温度が高いほど大きく揺らして描画する。
+ * @param p - p5インスタンス
+ * @param x - ブロック左上のX座標
+ * @param y - ブロック左上のY座標
+ * @param w - ブロックの幅
+ * @param h - ブロックの高さ
+ * @param T - 温度（K）
+ */
 function drawMolecules(
   p: p5,
   x: number,
@@ -125,6 +158,10 @@ function drawMolecules(
   }
 }
 
+/**
+ * 左右の領域の間に時間経過を表す矢印を描画する。
+ * @param p - p5インスタンス
+ */
 function middleArrow(p: p5) {
   p.fill(255, 0, 0, 120);
   p.noStroke();
@@ -132,8 +169,22 @@ function middleArrow(p: p5) {
   p.triangle(378, 281, 344, 253, 344, 309);
 }
 
+/**
+ * 高温側・低温側の温度変化のグラフを、平衡温度の破線と現在点のラベルとともに描画する。
+ * @param p - p5インスタンス
+ */
 function drawGraph(p: p5) {
+  /**
+   * 時刻をグラフのx座標に変換する。
+   * @param t - 時刻
+   * @returns グラフ上のx座標
+   */
   const tx = (t: number) => p.map(t, 0, state.tMax, GX, GX + GW);
+  /**
+   * 温度をグラフのy座標に変換する。
+   * @param T - 温度
+   * @returns グラフ上のy座標
+   */
   const ty = (T: number) => p.map(T, state.Tmin, state.Tmax, GY + GH, GY);
 
   p.push();

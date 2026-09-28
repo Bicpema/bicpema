@@ -30,7 +30,9 @@ export function elCreate(p: p5) {
   const { toggleButton, resetButton } = bindToggleControls(p, {
     toggleSelector: "#playPauseButton",
     resetSelector: "#resetButton",
+    /** 再生・一時停止を切り替える。 */
     onToggle: () => onPlayPause(),
+    /** シミュレーションをリセットする。 */
     onReset: () => onReset()
   });
   state.playPauseButton = toggleButton;
