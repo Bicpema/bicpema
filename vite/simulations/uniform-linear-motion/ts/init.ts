@@ -49,6 +49,7 @@ export function elCreate(p: p5) {
     toggleSelector: "#playButton",
     resetSelector: "#resetButton",
     onToggle: onPlayPause,
+    /** リセット処理を実行する。 */
     onReset: () => onReset(p)
   });
   state.playButton = toggleButton;

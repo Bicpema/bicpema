@@ -30,9 +30,14 @@ const H = CANVAS_HEIGHT;
 /** 地面のy座標（論理ピクセル） */
 const GROUND_Y = H - GROUND_HEIGHT;
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
+  /** 地面と台車の画像を読み込む。 */
   p.preload = () => {
     state.groundImg = p.loadImage(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810"
@@ -42,6 +47,7 @@ const sketch = (p: p5) => {
     );
   };
 
+  /** キャンバスを生成して初期設定を行い、フォントを非同期で読み込む。 */
   p.setup = () => {
     settingInit(p, canvasController);
     elementSelectInit(p);
@@ -59,6 +65,7 @@ const sketch = (p: p5) => {
 
   let isFirstDraw = true;
 
+  /** 毎フレーム、ドラッグ量に応じた力で台車の運動を更新し、地面・台車・力の矢印・情報パネルを描画する。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -126,11 +133,13 @@ const sketch = (p: p5) => {
     );
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスとDOMの位置を再設定する。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
     elementPositionInit(p);
   };
 
+  /** マウスを押した位置が台車の上かどうかを判定し、台車からのドラッグ状態を記録する。 */
   p.mousePressed = () => {
     // valueInit()で生成済みのためnullになりえない
     const cart = state.cart!;
@@ -145,6 +154,7 @@ const sketch = (p: p5) => {
       logMY <= GROUND_Y;
   };
 
+  /** マウスを離したときに台車からのドラッグ状態を解除する。 */
   p.mouseReleased = () => {
     state.isDraggingFromCart = false;
   };

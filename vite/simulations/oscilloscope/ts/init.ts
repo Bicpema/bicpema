@@ -53,6 +53,7 @@ export function setupControls(
     startSelector: "#startButton",
     stopSelector: "#stopButton",
     resetSelector: "#restartButton",
+    /** 音声入力を開始し、初回はマイク入力とFFTを生成する。 */
     onStart: () => {
       p.userStartAudio();
       if (!state.mic) {
@@ -64,9 +65,11 @@ export function setupControls(
         state.fft.setInput(state.mic);
       }
     },
+    /** 表示を一時停止する。 */
     onStop: () => {
       state.paused = true;
     },
+    /** 一時停止を解除する。 */
     onReset: () => {
       state.paused = false;
     },

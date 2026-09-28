@@ -84,7 +84,7 @@ export class TR {
       this.td3Select.option(STRATA_KINDS[i]);
     }
 
-    // 削除ボタンを押した時の処理
+    /** 削除ボタンを押したときに、この行をテーブルと管理用配列から削除する。 */
     const removeButtonFunction = () => {
       p.select("#tr" + num).remove();
       // Array.prototype.pop()は引数を無視して末尾要素しか削除できないため、

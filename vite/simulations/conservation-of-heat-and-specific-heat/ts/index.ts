@@ -11,15 +11,21 @@ import {
 } from "./init.js";
 import { drawSimulation } from "./logic.js";
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
+  /** 攪拌容器の画像を読み込む。 */
   p.preload = () => {
     state.boxImg = p.loadImage(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/stirringVessel.png?alt=media&token=665a56ef-4ff2-487c-bc9d-3089b1609699"
     );
   };
 
+  /** キャンバスを生成し、初期設定を行う。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     settingInit(p);
@@ -30,6 +36,7 @@ const sketch = (p: p5) => {
 
   let isFirstDraw = true;
 
+  /** 毎フレーム、1600×800の仮想領域を画面中央に収まるよう拡大縮小して描画する。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -47,6 +54,7 @@ const sketch = (p: p5) => {
     p.pop();
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスとDOMの位置を再設定する。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
     elementPositionInit(p);

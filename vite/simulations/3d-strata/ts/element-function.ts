@@ -13,6 +13,12 @@ const loadScreenshot = createLazyImporter(() => import("modern-screenshot"));
  * 持つが、`@types/p5`の型定義には含まれていないため、ここで補って扱う。
  */
 type SelectElement = p5.Element & {
+  /**
+   * セレクトボックスに選択肢を追加する。
+   * @param value - 選択肢の値
+   * @param label - 選択肢の表示名（省略時は `value` を表示する）
+   * @returns p5の実装が返す値（使用しない）
+   */
   option(value: string, label?: string): unknown;
 };
 
@@ -89,6 +95,7 @@ export function placeNameInputFunction(p: p5) {
     } else {
       state.dataInputArr[place].edit.html(placeName + "のデータを編集");
     }
+    /** 地点データ編集用の子ウィンドウを開く。 */
     // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
     requireElementById("placeDataInput" + (i + 1)).onclick = () => {
       window.open(
@@ -126,6 +133,7 @@ export function placeAddButtonFunction(p: p5) {
   state.dataInputArr[placeName].data.y = newDom.yInput;
   state.dataInputArr[placeName].edit = newDom.placeDataInput;
 
+  /** 地点データ編集用の子ウィンドウを開く。 */
   // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   requireElementById("placeDataInput" + newPlaceNum).onclick = () => {
     window.open(
@@ -325,10 +333,13 @@ export function placeRefreshFunction(p: p5) {
   // placeRefreshFunctionは地点の追加・削除のたびに呼び出されるため、
   // addEventListenerで都度追加すると呼び出し回数分ハンドラが多重登録されてしまう。
   // 同一要素に対して常に単一のハンドラのみを保つよう、プロパティ代入で上書きする。
+  /** 1つ目の地点の選択が変更されたときに、その地点のデータに関連する処理を行う。 */
   // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   firstPlaceSelectDoc.onchange = () => firstPlaceSelectFunction(p);
+  /** 2つ目の地点の選択が変更されたときに、その地点のデータに関連する処理を行う。 */
   // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   secondPlaceSelectDoc.onchange = () => secondPlaceSelectFunction(p);
+  /** 3つ目の地点の選択が変更されたときに、その地点のデータに関連する処理を行う。 */
   // oxlint-disable-next-line unicorn/prefer-add-event-listener -- placeRefreshFunction等から繰り返し呼ばれるため、代入で単一ハンドラのみを保つ
   thirdPlaceSelectDoc.onchange = () => thirdPlaceSelectFunction(p);
 }

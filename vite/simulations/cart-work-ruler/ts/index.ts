@@ -8,9 +8,14 @@ import { elCreate, initValue } from "./init.js";
 import { drawSimulation } from "./logic.js";
 import { state } from "./state.js";
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
+  /** フォントと本・台車・地面の画像を読み込む。 */
   p.preload = () => {
     state.font = p.loadFont(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
@@ -26,6 +31,7 @@ const sketch = (p: p5) => {
     );
   };
 
+  /** キャンバスを生成し、DOM要素と初期値を設定する。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
@@ -34,6 +40,7 @@ const sketch = (p: p5) => {
 
   let isFirstDraw = true;
 
+  /** 毎フレームの描画を行う。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -43,6 +50,7 @@ const sketch = (p: p5) => {
     drawSimulation(p);
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスの大きさを再設定する。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
   };

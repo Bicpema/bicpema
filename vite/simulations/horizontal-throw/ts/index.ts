@@ -5,15 +5,21 @@ import { state } from "./state.js";
 import { BicpemaCanvasController } from "../../../ts/bicpema-canvas-controller.js";
 import { elCreate, initValue, FPS } from "./init.js";
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({ is3D: true });
 
+  /** フォントを読み込む。 */
   p.preload = () => {
     state.font = p.loadFont(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580"
     );
   };
 
+  /** キャンバスを生成し、初期設定を行う。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
@@ -22,6 +28,7 @@ const sketch = (p: p5) => {
 
   let isFirstDraw = true;
 
+  /** 毎フレーム、ボールの位置を更新して描画する。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -36,6 +43,7 @@ const sketch = (p: p5) => {
     }
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスを再設定する。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
   };

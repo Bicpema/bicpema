@@ -40,6 +40,7 @@ export function elCreate(p: p5) {
     toggleSelector: "#playPauseButton",
     resetSelector: "#resetButton",
     onToggle: onPlayPause,
+    /** リセット時の処理（何もしない）。 */
     onReset: () => {}
   });
   state.playPauseButton = toggleButton;

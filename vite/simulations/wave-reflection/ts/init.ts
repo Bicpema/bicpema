@@ -21,7 +21,9 @@ export function elementSelectInit(p: p5) {
   const { toggleButton } = bindToggleControls(p, {
     toggleSelector: "#moveBtn",
     resetSelector: "#resetBtn",
+    /** 再生状態を切り替える。 */
     onToggle: () => toggleMove(toggleButton?.elt),
+    /** シミュレーションをリセットする。 */
     onReset: () => resetSim(toggleButton?.elt)
   });
 }
@@ -35,6 +37,7 @@ export function elementPositionInit(p: p5) {
 
   const modeBtn = document.getElementById("modeBtn");
   if (modeBtn) {
+    /** 自由端／固定端を切り替える。 */
     // oxlint-disable-next-line unicorn/prefer-add-event-listener -- 呼び出しのたびに再実行されるため、代入で単一ハンドラのみを保つ
     modeBtn.onclick = () => toggleMode(modeBtn);
   }

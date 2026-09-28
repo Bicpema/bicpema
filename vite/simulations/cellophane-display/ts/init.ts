@@ -28,7 +28,18 @@ import {
  * 持つが、`@types/p5`の型定義には含まれていないため、ここで補って扱う。
  */
 type RadioElement = p5.Element & {
+  /**
+   * 選択肢を追加する。
+   * @param value - 選択肢の値
+   * @param label - 表示ラベル（省略時は値を表示）
+   * @returns p5の実装が返す値
+   */
   option(value: string, label?: string): unknown;
+  /**
+   * 選択中の値を設定または取得する。
+   * @param value - 選択状態にする値（省略時は取得のみ）
+   * @returns 選択中の値など、p5の実装が返す値
+   */
   selected(value?: string): unknown;
 };
 

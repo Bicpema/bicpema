@@ -174,7 +174,17 @@ function middleArrow(p: p5) {
  * @param p - p5インスタンス
  */
 function drawGraph(p: p5) {
+  /**
+   * 時刻をグラフのx座標に変換する。
+   * @param t - 時刻
+   * @returns グラフ上のx座標
+   */
   const tx = (t: number) => p.map(t, 0, state.tMax, GX, GX + GW);
+  /**
+   * 温度をグラフのy座標に変換する。
+   * @param T - 温度
+   * @returns グラフ上のy座標
+   */
   const ty = (T: number) => p.map(T, state.Tmin, state.Tmax, GY + GH, GY);
 
   p.push();

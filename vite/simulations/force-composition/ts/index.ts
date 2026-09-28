@@ -63,9 +63,14 @@ function applyDrag(vx: number, vy: number) {
   }
 }
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
+  /** フォントを読み込む。 */
   p.preload = () => {
     state.font = p.loadFont(
       "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
@@ -76,6 +81,7 @@ const sketch = (p: p5) => {
     );
   };
 
+  /** キャンバスを生成し、初期設定を行う。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
@@ -89,6 +95,7 @@ const sketch = (p: p5) => {
 
   let isFirstDraw = true;
 
+  /** 毎フレームの描画を行い、矢印の先端付近ではカーソルを手の形にする。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -114,21 +121,31 @@ const sketch = (p: p5) => {
     }
   };
 
+  /** マウスを押した位置が矢印の先端付近であれば、その矢印のドラッグを開始する。 */
   p.mousePressed = () => {
     const { vx, vy } = getVirtualPos(p.mouseX, p.mouseY, p);
     tryStartDrag(vx, vy, p);
   };
 
+  /**
+   * ドラッグ中の矢印の先端をマウス位置に合わせて移動する。
+   * @returns ブラウザの既定の動作を抑止するため `false`
+   */
   p.mouseDragged = () => {
     const { vx, vy } = getVirtualPos(p.mouseX, p.mouseY, p);
     applyDrag(vx, vy);
     return false;
   };
 
+  /** マウスを離したときにドラッグを終了する。 */
   p.mouseReleased = () => {
     state.dragging = null;
   };
 
+  /**
+   * タッチした位置が矢印の先端付近であれば、その矢印のドラッグを開始する。
+   * @returns ブラウザの既定の動作を抑止するため `false`
+   */
   p.touchStarted = () => {
     if (p.touches.length === 0) return false;
     // @types/p5ではtouches[]の要素はobject型のため、ドキュメント通りx/yプロパティを持つ座標として扱う
@@ -138,6 +155,10 @@ const sketch = (p: p5) => {
     return false;
   };
 
+  /**
+   * ドラッグ中の矢印の先端をタッチ位置に合わせて移動する。
+   * @returns ブラウザの既定の動作を抑止するため `false`
+   */
   p.touchMoved = () => {
     if (p.touches.length === 0) return false;
     // @types/p5ではtouches[]の要素はobject型のため、ドキュメント通りx/yプロパティを持つ座標として扱う
@@ -147,11 +168,16 @@ const sketch = (p: p5) => {
     return false;
   };
 
+  /**
+   * タッチを離したときにドラッグを終了する。
+   * @returns ブラウザの既定の動作を抑止するため `false`
+   */
   p.touchEnded = () => {
     state.dragging = null;
     return false;
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスを再設定する。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
   };

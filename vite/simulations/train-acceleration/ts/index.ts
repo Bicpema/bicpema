@@ -19,11 +19,16 @@ import {
   GROUND_FILL_Y_OFFSET
 } from "./constants.js";
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({
     heightMode: "half"
   });
 
+  /** キャンバスを生成し、初期設定とグラフの初期化を行う。 */
   p.setup = () => {
     settingInit(p, canvasController);
     elCreate(p);
@@ -33,6 +38,7 @@ const sketch = (p: p5) => {
 
   let isFirstDraw = true;
 
+  /** 毎フレーム、電車の運動とv-tグラフを更新し、背景・線路・電車・情報パネルを描画する。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -91,6 +97,7 @@ const sketch = (p: p5) => {
     drawInfoPanel(p, train.velocity, state.elapsedTime, state.acceleration);
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスを再設定する。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
   };

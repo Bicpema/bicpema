@@ -134,6 +134,7 @@ export function buttonEvents(
     resetSelector: "#resetButton",
     onStart: onStartClick,
     onStop: onStopClick,
+    /** リセットボタンの処理を実行する。 */
     onReset: () => resetButtonAction(p)
   });
   state.startButton = startButton;

@@ -23,9 +23,14 @@ import {
 } from "./element-function.js";
 import { drawSimulation } from "./logic.js";
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   let isFirstDraw = true;
 
+  /** キャンバスを生成し、初期設定を行う。 */
   p.setup = () => {
     fullScreen(p);
     buttonCreation(p, {
@@ -39,6 +44,7 @@ const sketch = (p: p5) => {
     buttonEvents(p, { onStartClick, onStopClick, resetButtonAction });
   };
 
+  /** 毎フレームの描画を行う。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -48,6 +54,7 @@ const sketch = (p: p5) => {
     drawSimulation(p);
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスとボタンの配置を再設定する。 */
   p.windowResized = () => {
     resizeScreen(p);
     updateLayout(p);

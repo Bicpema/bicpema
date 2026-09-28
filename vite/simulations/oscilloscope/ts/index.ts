@@ -14,9 +14,14 @@ import { drawOscilloscope, updateAudioData } from "./logic.js";
 
 const canvasController = new BicpemaCanvasController();
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   let elements: ReturnType<typeof elementSelectInit>;
 
+  /** キャンバスを生成し、初期設定・操作パネル・設定モーダルを準備する。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     settingInit(p);
@@ -33,6 +38,7 @@ const sketch = (p: p5) => {
 
   let isFirstDraw = true;
 
+  /** 毎フレーム、音声データを更新してオシロスコープの波形を描画する。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -43,6 +49,7 @@ const sketch = (p: p5) => {
     drawOscilloscope(p);
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスとDOMの位置を再設定する。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
     elementPositionInit();

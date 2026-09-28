@@ -39,6 +39,7 @@ export function elCreate(p: p5) {
     resetSelector: "#resetButton",
     onStart: onStartClick,
     onStop: onStopClick,
+    /** リセットボタンが押されたときに振り子を初期状態に戻す。 */
     onReset: () => onResetClick(p)
   });
   state.startButton = startButton;

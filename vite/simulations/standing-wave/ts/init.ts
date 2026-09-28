@@ -22,7 +22,9 @@ export function elementSelectInit(p: p5) {
   const { toggleButton } = bindToggleControls(p, {
     toggleSelector: "#moveBtn",
     resetSelector: "#resetBtn",
+    /** 再生状態を切り替える。 */
     onToggle: () => toggleMove(toggleButton?.elt),
+    /** シミュレーションをリセットする。 */
     onReset: () => resetSim(toggleButton?.elt)
   });
 }

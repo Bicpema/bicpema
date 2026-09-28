@@ -29,11 +29,17 @@ export function initModal({
   const modal = document.querySelector(modalSelector);
   if (!modal) return;
 
+  /**
+   * モーダルの表示・非表示を切り替え、aria-hidden属性を同期する。
+   * @param isHidden - モーダルを非表示にする場合は `true`
+   */
   const setModalVisibility = (isHidden: boolean) => {
     modal.classList.toggle("hidden", isHidden);
     modal.setAttribute("aria-hidden", String(isHidden));
   };
+  /** モーダルを表示する。 */
   const open = () => setModalVisibility(false);
+  /** モーダルを非表示にし、`onClose` コールバックを呼び出す。 */
   const close = () => {
     setModalVisibility(true);
     onClose?.();
@@ -78,6 +84,7 @@ export function initCollapse({
   if (!target) return;
 
   const toggles = document.querySelectorAll(toggleSelectors);
+  /** 対象要素の表示状態に合わせて、トグル要素のaria-expanded属性を更新する。 */
   const syncExpandedState = () => {
     const isExpanded = !target.classList.contains("hidden");
     toggles.forEach((toggle) => {
@@ -127,6 +134,10 @@ export function initTabs({ tabSelector }: InitTabsOptions): void {
     tab.closest(".nav-tabs")?.setAttribute("role", "tablist");
   });
 
+  /**
+   * 指定したタブをアクティブにし、対応するペインのみを表示する。あわせて各タブ・ペインのrole・aria属性を設定する。
+   * @param activeTab - アクティブにするタブ要素
+   */
   const activate = (activeTab: Element) => {
     tabs.forEach((tab) => {
       const pane = getPane(tab);
@@ -188,6 +199,10 @@ export function initOffcanvas({
   if (!panel) return;
 
   const toggles = document.querySelectorAll(openSelectors);
+  /**
+   * オフキャンバスの開閉状態を切り替え、パネルとトグル要素のaria属性を同期する。
+   * @param isOpen - パネルを開く場合は `true`
+   */
   const syncOpenState = (isOpen: boolean) => {
     panel.classList.toggle("is-open", isOpen);
     panel.setAttribute("aria-hidden", String(!isOpen));
@@ -198,7 +213,9 @@ export function initOffcanvas({
       }
     });
   };
+  /** オフキャンバスを開く。 */
   const open = () => syncOpenState(true);
+  /** オフキャンバスを閉じる。 */
   const close = () => syncOpenState(false);
 
   syncOpenState(panel.classList.contains("is-open"));

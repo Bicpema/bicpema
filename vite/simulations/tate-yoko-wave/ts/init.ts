@@ -18,6 +18,7 @@ export function elementSelectInit(p: p5) {
   const { toggleButton } = bindToggleControls(p, {
     toggleSelector: "#moveBtn",
     resetSelector: "#resetBtn",
+    /** 波の再生・停止を切り替え、ボタンの表示と色を更新する。 */
     onToggle: () => {
       const moveBtn = toggleButton?.elt;
       state.running = !state.running;
@@ -32,6 +33,7 @@ export function elementSelectInit(p: p5) {
         moveBtn.classList.add("bg-red-600", "hover:bg-red-500");
       }
     },
+    /** 時刻を0に戻して停止し、ボタンをスタート表示に戻す。 */
     onReset: () => {
       const moveBtn = toggleButton?.elt;
       state.t = 0;

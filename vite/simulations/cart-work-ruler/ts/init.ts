@@ -20,6 +20,7 @@ export function elCreate(p: p5) {
     toggleSelector: "#playPauseButton",
     resetSelector: "#resetButton",
     onToggle: onPlayPause,
+    /** リセットボタンが押されたときにパラメータと状態を初期化する。 */
     onReset: () => onReset(p)
   });
   state.playPauseButton = toggleButton;

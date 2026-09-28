@@ -105,10 +105,12 @@ export function setupControls(p: p5) {
   bindToggleControls(p, {
     toggleSelector: "#playPauseButton",
     resetSelector: "#resetButton",
+    /** 再生・一時停止を切り替え、ボタンの表示を更新する。 */
     onToggle: () => {
       state.isRunning = !state.isRunning;
       playPauseButton.textContent = state.isRunning ? "⏸ 一時停止" : "▶ 再開";
     },
+    /** 状態と入力を初期値に戻し、表示と波形レイヤーを更新する。 */
     onReset: () => {
       state.isRunning = false;
       state.type = INITIAL_TYPE;

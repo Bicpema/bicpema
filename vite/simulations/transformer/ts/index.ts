@@ -9,10 +9,15 @@ import { drawSimulation } from "./logic.js";
 /** 仮想キャンバス幅。p.scale() でこの幅に合わせてスケーリングする。 */
 const V_W = 1000;
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   // 16:9 固定比率でキャンバスサイズを計算（設定UIはモーダル表示のため高さは考慮不要）
   const canvasController = new BicpemaCanvasController();
 
+  /** 変圧器のコアとコイルの画像を読み込む。 */
   p.preload = () => {
     // 変圧器コア・コイル画像を事前ロード
     state.img1 = p.loadImage(
@@ -26,6 +31,7 @@ const sketch = (p: p5) => {
     );
   };
 
+  /** キャンバスを生成し、初期設定を行う。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     p.angleMode(p.DEGREES); // 角度を度数法で扱う
@@ -37,6 +43,7 @@ const sketch = (p: p5) => {
 
   let isFirstDraw = true;
 
+  /** 毎フレームの描画を行う。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -48,6 +55,7 @@ const sketch = (p: p5) => {
     drawSimulation(p);
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスを再設定する。 */
   p.windowResized = () => {
     // ウィンドウリサイズ時にキャンバスを再計算
     canvasController.resizeScreen(p);

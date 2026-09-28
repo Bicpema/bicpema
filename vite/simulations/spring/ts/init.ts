@@ -22,6 +22,7 @@ export function elCreate(p: p5) {
     resetSelector: "#resetButton",
     onStart: moveButtonAction,
     onStop: moveButtonAction,
+    /** シミュレーションをリセットする。 */
     onReset: () => resetButtonAction(p)
   });
   initModal({

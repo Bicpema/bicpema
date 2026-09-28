@@ -11,6 +11,10 @@ import { csvDataLoad, updateColorSwatches } from "./element-function.js";
 import { initGraph, initCmfGraph } from "./graph.js";
 import { drawSimulation } from "./logic.js";
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController({
     fixedAspectRatio: false,
@@ -18,6 +22,7 @@ const sketch = (p: p5) => {
     panelSelector: "#p5Canvas"
   });
 
+  /** スペクトル・RGB・等色関数・光源スペクトルのCSVを読み込む。 */
   p.preload = () => {
     // p5.jsの型定義上、loadTable()の戻り値は`object`型となっているため、
     // 実際の戻り値であるp5.Tableへ明示的にキャストする。
@@ -35,6 +40,7 @@ const sketch = (p: p5) => {
     ) as p5.Table;
   };
 
+  /** キャンバスを生成し、初期設定・CSVデータの反映・グラフの初期化を行う。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
@@ -48,6 +54,7 @@ const sketch = (p: p5) => {
 
   let isFirstDraw = true;
 
+  /** 毎フレーム、光線とシミュレーションの描画を行う。 */
   p.draw = () => {
     if (isFirstDraw) {
       isFirstDraw = false;
@@ -64,6 +71,7 @@ const sketch = (p: p5) => {
     drawSimulation(p);
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスを再設定する。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
   };
