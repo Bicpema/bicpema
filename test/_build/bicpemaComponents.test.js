@@ -63,6 +63,15 @@ describe("renderIcon", () => {
   });
 });
 
+describe("renderNavBar", () => {
+  it("トップページへのリンクを実行環境に依存しないルート相対パスにする", () => {
+    const html = renderNavBar({ title: "振り子の実験" });
+
+    expect(html).toContain('href="/">Bicpema</a>');
+    expect(html).not.toContain("https://bicpema.com");
+  });
+});
+
 describe("expandBicpemaComponents", () => {
   it("<bicpema-nav-bar>を<title>をタイトルにしたナビバーへ展開する", () => {
     const html = expandBicpemaComponents(
