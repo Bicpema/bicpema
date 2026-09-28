@@ -11,14 +11,20 @@ import {
   valueInit
 } from "./init.js";
 
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
   let isFirstDraw = true;
 
+  // /** フォントなどの素材を読み込む。 */
   // p.preload = () => {
   //   font = p.loadFont("...");
   // };
 
+  /** キャンバスを生成し、初期設定を行う。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     settingInit(p);
@@ -27,6 +33,7 @@ const sketch = (p: p5) => {
     valueInit(p);
   };
 
+  /** 毎フレームの描画を行う。 */
   p.draw = () => {
     p.scale(p.width / 1000);
     p.background(0);
@@ -38,6 +45,7 @@ const sketch = (p: p5) => {
     }
   };
 
+  /** ウィンドウサイズの変更に合わせてキャンバスとDOMの位置を再設定する。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
     elementPositionInit(p);

@@ -155,8 +155,10 @@ vite/simulations/{name}/
     - 省略可能な引数の既定値は `[fps=60]` とせず、説明に「（省略時: 60）」と記載する
     - 本文中の `@` `<` `>` `{` `}` はTSDocの構文と解釈されるため、`` `@types/p5` `` のようにコードスパンで囲む
 - `.ts` ファイルでは、以下の宣言にドキュメントコメント（`/** */`）を必ず書く。`npm run lint` の `jsdoc-js/require-jsdoc` ルール（`eslint-plugin-jsdoc` の `require-jsdoc`）で検査される
-    - 対象: 関数宣言（`function f() {}`）・クラスのメソッド（getter・setter・引数のある `constructor` を含む）・クラス宣言。`export` の有無は問わない
-    - 対象外: アロー関数・関数式（`const sketch = (p: p5) => {}` や `p.setup = () => {}`、イベントのコールバック、関数内のローカルな補助関数など）と、引数のない `constructor`
+    - 関数: 関数宣言（`function f() {}`）と、変数・プロパティに代入するアロー関数・関数式（`const sketch = (p: p5) => {}`、`p.setup = () => {}`、`{ onReset: () => {} }`、関数内のローカルな補助関数など）
+    - メソッド: クラスのメソッド（`constructor`・getter・setter、クラスのプロパティに代入したアロー関数を含む）と、interface・型定義のメソッドシグネチャ（`option(value: string): unknown;`）
+    - クラス宣言
+    - `export` の有無は問わない。他の関数の引数として直接渡すコールバック（`arr.map((x) => x * 2)`、`addEventListener("click", () => {})` など）は対象外
 
 ## 共通UIコンポーネント
 
