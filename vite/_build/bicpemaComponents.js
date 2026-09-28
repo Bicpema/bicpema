@@ -24,7 +24,8 @@
 
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
-import { dirname, join } from "node:path";
+import { dirname, join, resolve } from "node:path";
+import { getSimulationArticleDirs } from "../../scripts/_lib/checkArticleSimulationLinks.js";
 
 const DEFAULT_SETTINGS_LABEL = "シミュレーションの設定";
 const DEFAULT_SETTINGS_MODAL_ID = "simulationSettingModal";
@@ -32,6 +33,14 @@ const DEFAULT_LIGHT_PANEL_WIDTH_CLASS = "w-full max-w-lg";
 const DEFAULT_SETTINGS_BUTTON_POSITION_CLASS =
   "absolute top-5 right-5 z-[1000] max-[576px]:top-2.5 max-[576px]:right-2.5";
 const DEFAULT_ICON_SIZE = "16";
+const TOP_PAGE_PATH = "/";
+const POSTS_DIR = resolve(import.meta.dirname, "..", "..", "content", "post");
+// 直前のページが戻り先と同じ場合のみ履歴を1つ戻り、スクロール位置を保ったまま解説ページへ戻す。
+// 教科書のQRコード等から直接開いた場合（履歴に戻り先がない場合）は、hrefの戻り先へ遷移する。
+// インラインのイベントハンドラーではdocumentのプロパティがスコープに含まれ、
+// `URL`がdocument.URL（文字列）を指すため、window.URLを明示する。
+const NAV_BACK_ONCLICK =
+  "try{var r=new window.URL(document.referrer);if(history.length>1&&r.origin===location.origin&&r.pathname===this.pathname){history.back();return false}}catch(e){}";
 const BOOTSTRAP_ICONS_DIR = join(
   dirname(
     createRequire(import.meta.url).resolve("bootstrap-icons/package.json")
@@ -70,17 +79,45 @@ export function parseAttributes(attributesText) {
 }
 
 /**
- * ページ上部のナビバー（#navBar）。
- * @param {{ title: string }} options
+ * シミュレーションのindex.htmlのパスから、ナビバーの戻るボタンの遷移先を決める。
+ * シミュレーションへリンクしている解説ページ（content/post/<記事>/index.md）があればその記事、
+ * なければトップページを返す。
+ * @param {string | undefined} filename index.htmlの絶対パス
+ * @param {string} [postsDir] 記事のディレクトリ（テスト用）
  * @returns {string}
  */
-export function renderNavBar({ title }) {
+export function resolveNavBackHref(filename, postsDir = POSTS_DIR) {
+  const slug = filename
+    ?.replaceAll("\\", "/")
+    .match(/\/simulations\/([^/]+)\/index\.html$/)?.[1];
+  const articleDir = slug && getSimulationArticleDirs(postsDir).get(slug);
+  return articleDir ? encodeURI(`/post/${articleDir}/`) : TOP_PAGE_PATH;
+}
+
+/**
+ * ページ上部のナビバー（#navBar）。
+ * 左端に解説ページ（またはトップページ）へ戻るボタン（#navBackButton）を配置する。
+ * @param {{ title: string, backHref?: string }} options
+ *   backHref: 戻るボタンの遷移先（既定はトップページ）
+ * @returns {string}
+ */
+export function renderNavBar({ title, backHref = TOP_PAGE_PATH }) {
+  const backLabel =
+    backHref === TOP_PAGE_PATH ? "トップページへ戻る" : "解説ページへ戻る";
   return `<nav
-      class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
+      class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4 max-[576px]:px-2"
       id="navBar"
     >
-      <a class="font-semibold text-white no-underline" href="/">Bicpema</a>
-      <span class="ml-3 font-light text-neutral-300">${title}</span>
+      <a
+        id="navBackButton"
+        class="mr-3 flex h-9 w-9 shrink-0 items-center justify-center rounded text-neutral-300 no-underline hover:bg-neutral-700 hover:text-white max-[576px]:mr-2"
+        href="${escapeAttribute(backHref)}"
+        aria-label="${backLabel}"
+        title="${backLabel}"
+        onclick="${NAV_BACK_ONCLICK}"
+      >${renderIcon({ name: "arrow-left", size: "20" })}</a>
+      <a class="shrink-0 font-semibold text-white no-underline" href="/">Bicpema</a>
+      <span class="ml-3 min-w-0 truncate font-light text-neutral-300">${title}</span>
     </nav>`;
 }
 
@@ -244,9 +281,11 @@ export function renderIcon({ name, size = DEFAULT_ICON_SIZE, className }) {
  * HTMLコメント内（コメントアウトされた利用例など）は展開しない。
  * 未知のタグ名は記述ミスとみなしてエラーにする。
  * @param {string} html
+ * @param {{ backHref?: string }} [options]
+ *   backHref: ナビバーの戻るボタンの遷移先（既定はトップページ）
  * @returns {string}
  */
-export function expandBicpemaComponents(html) {
+export function expandBicpemaComponents(html, { backHref } = {}) {
   const pageTitle = html.match(/<title>([\s\S]*?)<\/title>/)?.[1].trim() ?? "";
 
   // コメントを一時的にプレースホルダーへ退避し、展開後に元へ戻す
@@ -256,7 +295,7 @@ export function expandBicpemaComponents(html) {
     comments.push(comment);
     return `__BICPEMA_COMMENT_${comments.length - 1}__`;
   });
-  return expandMasked(masked, pageTitle).replace(
+  return expandMasked(masked, { pageTitle, backHref }).replace(
     /__BICPEMA_COMMENT_(\d+)__/g,
     (_match, index) => comments[Number(index)]
   );
@@ -265,11 +304,12 @@ export function expandBicpemaComponents(html) {
 /**
  * コメントを退避済みのHTML内の`<bicpema-*>`タグを展開する。
  * @param {string} html
- * @param {string} pageTitle ナビバーのタイトル省略時に使う<title>の内容
+ * @param {{ pageTitle: string, backHref?: string }} context
+ *   pageTitle: ナビバーのタイトル省略時に使う<title>の内容。backHref: 戻るボタンの遷移先
  * @returns {string}
  */
-function expandMasked(html, pageTitle) {
-  const expanded = expandTags(html, pageTitle);
+function expandMasked(html, context) {
+  const expanded = expandTags(html, context);
 
   const unexpandedTag = expanded.match(/<\/?bicpema-[\w-]+/);
   if (unexpandedTag) {
@@ -284,18 +324,21 @@ function expandMasked(html, pageTitle) {
  * `<bicpema-*>`タグを展開する。タグの中身は先に再帰的に展開するため、
  * 設定モーダル内のアイコンのように入れ子になったタグも展開される。
  * @param {string} html
- * @param {string} pageTitle
+ * @param {{ pageTitle: string, backHref?: string }} context
  * @returns {string}
  */
-function expandTags(html, pageTitle) {
+function expandTags(html, context) {
   return html.replace(
     /<bicpema-([\w-]+)((?:\s+[\w-]+="[^"]*")*)\s*>([\s\S]*?)<\/bicpema-\1>/g,
     (_match, name, attributesText, rawInnerHtml) => {
       const attributes = parseAttributes(attributesText);
-      const innerHtml = expandTags(rawInnerHtml, pageTitle);
+      const innerHtml = expandTags(rawInnerHtml, context);
       switch (name) {
         case "nav-bar":
-          return renderNavBar({ title: attributes.title ?? pageTitle });
+          return renderNavBar({
+            title: attributes.title ?? context.pageTitle,
+            backHref: context.backHref
+          });
         case "loading-spinner":
           return renderLoadingSpinner();
         case "settings-button":
@@ -333,7 +376,10 @@ export function bicpemaComponentsPlugin() {
     name: "bicpema-components",
     transformIndexHtml: {
       order: "pre",
-      handler: (html) => expandBicpemaComponents(html)
+      handler: (html, ctx) =>
+        expandBicpemaComponents(html, {
+          backHref: resolveNavBackHref(ctx.filename)
+        })
     }
   };
 }

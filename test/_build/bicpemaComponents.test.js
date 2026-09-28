@@ -1,3 +1,5 @@
+import { fileURLToPath } from "node:url";
+import { dirname, resolve } from "node:path";
 import { describe, it, expect } from "vitest";
 import {
   expandBicpemaComponents,
@@ -6,8 +8,17 @@ import {
   renderLoadingSpinner,
   renderNavBar,
   renderSettingsButton,
-  renderSettingsModal
+  renderSettingsModal,
+  resolveNavBackHref
 } from "../../vite/_build/bicpemaComponents.js";
+
+const postsDir = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  "..",
+  "scripts",
+  "fixtures",
+  "posts"
+);
 
 /**
  * 文字列をHTMLとして解釈できる最小限の形に整えるため、テスト用のページを組み立てる。
@@ -70,6 +81,54 @@ describe("renderNavBar", () => {
     expect(html).toContain('href="/">Bicpema</a>');
     expect(html).not.toContain("https://bicpema.com");
   });
+
+  it("左端に解説ページへ戻るボタンを配置する", () => {
+    const html = renderNavBar({ title: "振り子", backHref: "/post/a/" });
+
+    expect(html).toMatch(/<a\s+id="navBackButton"[^>]*href="\/post\/a\/"/);
+    expect(html).toContain('aria-label="解説ページへ戻る"');
+    expect(html).toContain("bi-arrow-left");
+    expect(html.indexOf("navBackButton")).toBeLessThan(html.indexOf("Bicpema"));
+  });
+
+  it("直前のページが戻り先と同じ場合のみ履歴を戻る", () => {
+    const html = renderNavBar({ title: "振り子", backHref: "/post/a/" });
+
+    expect(html).toContain("history.back()");
+    expect(html).toContain("r.pathname===this.pathname");
+  });
+
+  it("backHrefを省略した場合はトップページへ戻る", () => {
+    const html = renderNavBar({ title: "振り子" });
+
+    expect(html).toContain('href="/"');
+    expect(html).toContain('aria-label="トップページへ戻る"');
+  });
+});
+
+describe("resolveNavBackHref", () => {
+  it("シミュレーションへリンクしている記事のURLを返す", () => {
+    expect(
+      resolveNavBackHref("/repo/vite/simulations/sim-a/index.html", postsDir)
+    ).toBe(encodeURI("/post/記事あ/"));
+  });
+
+  it("Windowsのパス区切りでも記事のURLを返す", () => {
+    expect(
+      resolveNavBackHref(
+        "C:\\repo\\vite\\simulations\\sim-b\\index.html",
+        postsDir
+      )
+    ).toBe(encodeURI("/post/記事い/"));
+  });
+
+  it("対応する記事がない場合・シミュレーション以外のページはトップページを返す", () => {
+    expect(
+      resolveNavBackHref("/repo/vite/simulations/sim-c/index.html", postsDir)
+    ).toBe("/");
+    expect(resolveNavBackHref("/repo/vite/index.html", postsDir)).toBe("/");
+    expect(resolveNavBackHref(undefined, postsDir)).toBe("/");
+  });
 });
 
 describe("expandBicpemaComponents", () => {
@@ -81,6 +140,17 @@ describe("expandBicpemaComponents", () => {
     expect(html).toContain('id="navBar"');
     expect(html).toContain(renderNavBar({ title: "振り子の実験" }));
     expect(html).not.toContain("bicpema-nav-bar");
+  });
+
+  it("<bicpema-nav-bar>の戻るボタンにbackHrefを設定する", () => {
+    const html = expandBicpemaComponents(
+      page("<bicpema-nav-bar></bicpema-nav-bar>"),
+      { backHref: "/post/a/" }
+    );
+
+    expect(html).toContain(
+      renderNavBar({ title: "振り子の実験", backHref: "/post/a/" })
+    );
   });
 
   it("<bicpema-nav-bar>のtitle属性を<title>より優先する", () => {

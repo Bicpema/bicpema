@@ -54,6 +54,27 @@ export function extractLinkedSimulationSlugs(markdownContent) {
 }
 
 /**
+ * シミュレーションslugから、そのシミュレーションへリンクしている記事の
+ * ディレクトリ名への対応表を作成する。複数の記事からリンクされている場合は、
+ * ディレクトリ名の昇順で最初の記事を採用する。
+ * @param {string} postsDir
+ * @returns {Map<string, string>}
+ */
+export function getSimulationArticleDirs(postsDir) {
+  /** @type {Map<string, string>} */
+  const articleDirs = new Map();
+  const articles = getArticleEntries(postsDir).toSorted((a, b) =>
+    a.articleDir.localeCompare(b.articleDir)
+  );
+  for (const article of articles) {
+    for (const slug of extractLinkedSimulationSlugs(article.content)) {
+      if (!articleDirs.has(slug)) articleDirs.set(slug, article.articleDir);
+    }
+  }
+  return articleDirs;
+}
+
+/**
  * 記事とシミュレーションのリンク整合性を検査する。
  * @param {object} options
  * @param {string} options.simulationsDir
