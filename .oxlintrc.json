@@ -3,9 +3,14 @@
   // eslint-config-airbnb-base (https://github.com/airbnb/javascript) に
   // できる限り追従する形でルールを選定している。
   "plugins": ["import"],
-  // TSDoc記法の検査（tsdoc/syntax）に使う。typescript-eslintがTypeScript 7に
-  // 未対応でESLintを導入できないため、oxlintのJSプラグインとして読み込んでいる。
-  "jsPlugins": ["eslint-plugin-tsdoc"],
+  // TSDoc記法の検査（tsdoc/syntax）とドキュメントコメントの必須化（require-jsdoc）に使う。
+  // typescript-eslintがTypeScript 7に未対応でESLintを導入できないため、
+  // oxlintのJSプラグインとして読み込んでいる。eslint-plugin-jsdocは組み込みの
+  // jsdocプラグインと名前が衝突するため、jsdoc-jsという別名で読み込む。
+  "jsPlugins": [
+    "eslint-plugin-tsdoc",
+    { "name": "jsdoc-js", "specifier": "eslint-plugin-jsdoc" }
+  ],
   "rules": {
     // airbnbはargs: "after-used"だが、p5のインスタンスモードでは呼び出し側の形に合わせて
     // 未使用のpを受け取るだけの引数が多く、ノイズになるためargs: "none"に変更している。
@@ -289,8 +294,26 @@
     {
       // .tsの型はTypeScriptの型注釈で表すため、ドキュメントコメントはTSDoc記法に統一する。
       // .js（vite/_build/・scripts/）は型をJSDocで表すため対象外にする。
+      // 関数宣言・メソッド・クラス宣言には、exportの有無を問わずドキュメントコメントを必須にする。
+      // p5のsketchやイベントのコールバック、関数内のローカルな補助関数などの
+      // アロー関数・関数式は対象外にする。引数のないconstructorも対象外（exemptEmptyConstructors）。
       "files": ["**/*.ts"],
-      "rules": { "tsdoc/syntax": "error" }
+      "rules": {
+        "tsdoc/syntax": "error",
+        "jsdoc-js/require-jsdoc": [
+          "error",
+          {
+            "publicOnly": false,
+            "require": {
+              "FunctionDeclaration": true,
+              "MethodDefinition": true,
+              "ClassDeclaration": true,
+              "ArrowFunctionExpression": false,
+              "FunctionExpression": false
+            }
+          }
+        ]
+      }
     },
     {
       "files": ["scripts/**"],
