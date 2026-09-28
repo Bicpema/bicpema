@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[水平投射運動シミュレーションを開く](/vite/simulations/horizontal-throw/)
+{{< simulation-link "/vite/simulations/horizontal-throw/" >}}
 
 ## 扱っている現象および本教材の説明
 

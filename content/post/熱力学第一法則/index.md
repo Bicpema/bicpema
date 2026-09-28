@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[熱力学第一法則シミュレーションを開く](/vite/simulations/first-law-of-thermodynamics/)
+{{< simulation-link "/vite/simulations/first-law-of-thermodynamics/" >}}
 
 ## 扱っている現象および本教材の説明
 

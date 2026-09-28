@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[等加速度直線運動シミュレーションを開く](/vite/simulations/uniformly-accelerated-linear-motion/)
+{{< simulation-link "/vite/simulations/uniformly-accelerated-linear-motion/" >}}
 
 ## 扱っている現象および本教材の説明
 

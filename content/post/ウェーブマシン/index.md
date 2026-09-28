@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[ウェーブマシンシミュレーションを開く](/vite/simulations/wave-machine/)
+{{< simulation-link "/vite/simulations/wave-machine/" >}}
 
 ## 扱っている現象および本教材の説明
 

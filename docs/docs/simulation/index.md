@@ -253,6 +253,16 @@ tags:
 ---
 ```
 
+本文冒頭の「シミュレーションのリンク」節には、`simulation-link` ショートコードでシミュレーションへのリンクを記述します。フロントマターの `image`（サムネイル）と `title` を使ったカードとして表示されます。
+
+```markdown
+## シミュレーションのリンク
+
+{{< simulation-link "/vite/simulations/doppler/" >}}
+```
+
+引数のパスは `/vite/simulations/<名前>/` 形式で記述してください。記事とシミュレーションのリンク整合性チェック（`npm run check:article-links`）や、シミュレーションのナビバーの戻るボタンの遷移先は、このパスから決まります。
+
 ### タグ付けルール
 
 [Issue #625](https://github.com/Bicpema/bicpema/issues/625) の整理により、`tags` / `categories` / `series` は以下の規則に従います。

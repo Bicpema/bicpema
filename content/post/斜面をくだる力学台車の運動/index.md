@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[斜面をくだる力学台車の運動シミュレーションを開く](/vite/simulations/slope-cart-motion/)
+{{< simulation-link "/vite/simulations/slope-cart-motion/" >}}
 
 ## 扱っている現象および本教材の説明
 

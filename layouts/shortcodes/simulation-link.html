@@ -1,0 +1,34 @@
+{{/*
+  記事からシミュレーションへのリンクを、サムネイル付きのカードとして表示する。
+  使い方: {{< simulation-link "/vite/simulations/<名前>/" >}}
+  - 第1引数: シミュレーションのパス（scripts/_lib/checkArticleSimulationLinks.js が
+    記事とシミュレーションの対応付けに使うため、"/vite/simulations/<名前>/" 形式で書く）
+  - サムネイルとタイトルは記事のフロントマター（image / title）から取得する
+  - ナビバーの戻るボタンが history.back() で記事へ戻れるよう、同じタブで開く
+*/}}
+{{- $href := .Get 0 -}}
+{{- if not (findRE `^/vite/simulations/[A-Za-z0-9_-]+/$` $href) -}}
+  {{- errorf "simulation-link: 第1引数には \"/vite/simulations/<名前>/\" 形式のパスを指定してください（%q, %s）" $href .Position -}}
+{{- end -}}
+{{- $title := .Page.Title -}}
+{{- $image := "" -}}
+{{- with .Page.Params.image -}}
+  {{- with $.Page.Resources.Get . -}}
+    {{- $image = .RelPermalink -}}
+  {{- else -}}
+    {{- $image = . -}}
+  {{- end -}}
+{{- end -}}
+<a class="not-prose simulation-link" href="{{ $href }}">
+  {{- with $image }}
+  <img class="simulation-link__thumbnail" src="{{ . | safeURL }}" alt="" loading="lazy" />
+  {{- end }}
+  <span class="simulation-link__body">
+    <span class="simulation-link__label">シミュレーション</span>
+    <span class="simulation-link__title">{{ $title }}</span>
+    <span class="simulation-link__button">
+      シミュレーションを開く
+      <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+    </span>
+  </span>
+</a>

@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[熱機関シミュレーションを開く](/vite/simulations/heat-engine/)
+{{< simulation-link "/vite/simulations/heat-engine/" >}}
 
 ## 扱っている現象および本教材の説明
 

@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[半減期シミュレーションを開く](/vite/simulations/half-life/)
+{{< simulation-link "/vite/simulations/half-life/" >}}
 
 ## 扱っている現象および本教材の説明
 

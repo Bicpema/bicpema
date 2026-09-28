@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[等速直線運動シミュレーションを開く](/vite/simulations/uniform-linear-motion/)
+{{< simulation-link "/vite/simulations/uniform-linear-motion/" >}}
 
 ## 扱っている現象および本教材の説明
 

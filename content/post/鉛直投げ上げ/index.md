@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[鉛直投げ上げシミュレーションを開く](/vite/simulations/vertical-throw-up/)
+{{< simulation-link "/vite/simulations/vertical-throw-up/" >}}
 
 ## 扱っている現象および本教材の説明
 

@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[縦横波シミュレーションを開く](/vite/simulations/tate-yoko-wave/)
+{{< simulation-link "/vite/simulations/tate-yoko-wave/" >}}
 
 ## 扱っている現象および本教材の説明
 

@@ -12,7 +12,7 @@ aliases: []
 
 ## シミュレーションのリンク
 
-[力学台車が定規にする仕事のシミュレーションを開く](/vite/simulations/cart-work-ruler/)
+{{< simulation-link "/vite/simulations/cart-work-ruler/" >}}
 
 ## 扱っている現象および本教材の説明
 

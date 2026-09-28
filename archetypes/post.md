@@ -10,6 +10,10 @@ series: []
 aliases: []
 ---
 
+## シミュレーションのリンク
+
+{{ "{{<" }} simulation-link "/vite/simulations/<名前>/" {{ ">}}" }}
+
 ## 扱っている現象および本教材の説明
 
 ## 対象
