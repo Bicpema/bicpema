@@ -37,15 +37,15 @@ export class Ball {
    * @param n - 支点のオフセットx座標
    */
   calculate(p: p5, n: number) {
-    const displayLength = this.stringLength * state.displayScale;
-    this.posx = n + p.width / 6 + displayLength * p.sin(this.theta);
-    this.posy = state.pivotY + displayLength * p.cos(this.theta);
     this.theta = computePendulumAngle(
       this.theta0,
       this.stringLength,
       state.gravity,
       state.count
     );
+    const displayLength = this.stringLength * state.displayScale;
+    this.posx = n + p.width / 6 + displayLength * p.sin(this.theta);
+    this.posy = state.pivotY + displayLength * p.cos(this.theta);
   }
 
   /**
