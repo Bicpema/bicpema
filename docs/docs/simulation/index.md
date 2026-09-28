@@ -148,6 +148,12 @@ vite/simulations/{name}/
 - 重いファイル（フォント、画像等）は [Firebase Storage](https://console.firebase.google.com/project/bicpema/storage) にアップロードし、URL で参照する
 - 既存シミュレーションのフォルダー名（URL）を変更する場合は、`firebase.json` に旧URLからのリダイレクトを必ず追加する（[掲載URLの維持とリダイレクト](../development-flow.md#掲載urlの維持とリダイレクト)）
 - フォントは `setup()` 内で `loadFont()` を使って非同期ロードし、Firebase Storage が到達不能でもスケッチ起動をブロックしないようにする
+- `.ts` ファイルのドキュメントコメントは [TSDoc](https://tsdoc.org/) 記法で書く。`npm run lint` の `tsdoc/syntax` ルールで検査される
+    - 型はTypeScriptの型注釈で表すため、`@param {number} x` のような `{型}` は書かず、`@param x - 説明` の形式にする
+    - 戻り値は `@returns 説明` と書く（`{型}` は書かない）。`@type` / `@constructor` などJSDoc固有のタグは使わない
+    - オブジェクト引数のプロパティは `@param params.t` とせず、親の `@param` の説明に ``- `t`: 説明`` の箇条書きで記載する
+    - 省略可能な引数の既定値は `[fps=60]` とせず、説明に「（省略時: 60）」と記載する
+    - 本文中の `@` `<` `>` `{` `}` はTSDocの構文と解釈されるため、`` `@types/p5` `` のようにコードスパンで囲む
 
 ## 共通UIコンポーネント
 
