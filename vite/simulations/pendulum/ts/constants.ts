@@ -8,7 +8,7 @@ export const DEFAULT_FPS = 60;
 export const PIVOT_Y_RATIO = 0.1;
 /** 下部の操作ボタンとおもりが重ならないようキャンバス下端に確保する余白(px) */
 export const CONTROLS_BOTTOM_MARGIN = 64;
-/** 長さ入力(m)を内部の長さ単位(px)に変換する係数 */
+/** 長さ入力(cm)を内部の長さ単位(px)に変換する係数 */
 export const LENGTH_INPUT_SCALE = 50;
 /** 内部の長さ単位(px)を物理計算用のメートルに変換する係数 */
 export const LENGTH_TO_METER_DIVISOR = LENGTH_INPUT_SCALE * 100;
