@@ -11,12 +11,17 @@ import {
   PANEL_BORDER_STROKE_WEIGHT,
   AFTERIMAGE_ALPHA,
   PIVOT_Y_RATIO,
-  CONTROLS_BOTTOM_MARGIN
+  CONTROLS_BOTTOM_MARGIN,
+  INITIAL_STRING_LENGTH,
+  INITIAL_LEFT_ANGLE_DEG,
+  INITIAL_RIGHT_ANGLE_DEG
 } from "./constants.js";
 import { computeDisplayScale } from "./physics.js";
 
 /**
- * 支点の位置と表示倍率を現在のキャンバスサイズ・振り子の設定に合わせて更新する。
+ * 支点の位置と表示倍率を現在のキャンバスサイズに合わせて更新する。
+ * 倍率は初期状態の振り子が画面内に収まるように求め、ユーザーが紐の長さ・振れ角を
+ * 変更しても紐の見た目の長さが変わらないよう、振り子の設定変更には追従させない。
  * @param p - p5インスタンス
  */
 function updateDisplayScale(p: p5) {
@@ -27,7 +32,10 @@ function updateDisplayScale(p: p5) {
     halfPanelWidth: p.width / 6,
     ballRadius: state.radi,
     bottomMargin: CONTROLS_BOTTOM_MARGIN,
-    pendulums: [state.leftPendulum!, state.rightPendulum!]
+    pendulums: [
+      { stringLength: INITIAL_STRING_LENGTH, theta0: INITIAL_LEFT_ANGLE_DEG },
+      { stringLength: INITIAL_STRING_LENGTH, theta0: INITIAL_RIGHT_ANGLE_DEG }
+    ]
   });
 }
 
