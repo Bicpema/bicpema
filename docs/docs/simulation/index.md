@@ -180,6 +180,9 @@ vite/simulations/{name}/
 - `<bicpema-settings-modal>` の `variant` は `light`（既定。背景を暗くした白いモーダル）と `dark`（`.modal-panel` の暗色パネル。背景を暗くせず、設定を変えながらシミュレーションを見られる）から選びます
 - `<bicpema-settings-modal>` の `panel-class` にはパネルの幅を指定します。`light` では既定の `w-full max-w-lg` を置き換え、`dark` では `.modal-panel` の幅を上書きします（例: `panel-class="w-[340px] max-[576px]:w-[290px]"`）
 - 閉じるボタンは `id` を持たないため、`initModal()` の `closeSelectors` には `#<モーダルのid> .modal-close` を指定します
+- ナビバーの左端には解説ページへ戻るボタン（`#navBackButton`）が表示されます。戻り先はビルド時に `content/post/*/index.md` 内の `/vite/simulations/<名前>/` へのリンクから決まり、リンクしている記事がない場合はトップページになります
+    - 直前のページが戻り先の解説ページの場合は履歴を1つ戻り（記事のスクロール位置を保つ）、教科書のQRコード等から直接開いた場合は戻り先へ遷移します
+    - 記事のリンクを追加・変更した場合は、`npm run build` で再ビルドすると戻り先に反映されます
 - アイコンは `<svg>` をべた書きせず `<bicpema-icon>` で記述します（例: `<bicpema-icon name="camera" size="20" class="pb-1"></bicpema-icon>`）。アイコン名は [Bootstrap Icons](https://icons.getbootstrap.com/) の一覧で確認でき、存在しない名前を指定するとビルドエラーになります。SVGはビルド時に `bootstrap-icons` パッケージ（`devDependencies`）から読み込みます
 - `<bicpema-settings-modal>` の中身など、他の `<bicpema-*>` タグの内側に書いた `<bicpema-icon>` も展開されます
 - アイコンは装飾扱い（`aria-hidden="true"`）のため、アイコンのみのボタンにはボタン側に `aria-label` を付与してください

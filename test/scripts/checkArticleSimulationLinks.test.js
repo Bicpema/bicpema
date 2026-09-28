@@ -5,6 +5,7 @@ import {
   checkArticleSimulationLinks,
   extractLinkedSimulationSlugs,
   getArticleEntries,
+  getSimulationArticleDirs,
   getSimulationSlugs
 } from "../../scripts/_lib/checkArticleSimulationLinks.js";
 
@@ -29,6 +30,16 @@ describe("getArticleEntries", () => {
     const articleDirs = entries.map((entry) => entry.articleDir).toSorted();
 
     expect(articleDirs).toEqual(["記事あ", "記事い"]);
+  });
+});
+
+describe("getSimulationArticleDirs", () => {
+  it("シミュレーションslugからリンク元の記事ディレクトリ名への対応表を作成する", () => {
+    const articleDirs = getSimulationArticleDirs(postsDir);
+
+    expect(articleDirs.get("sim-a")).toBe("記事あ");
+    expect(articleDirs.get("sim-b")).toBe("記事い");
+    expect(articleDirs.has("sim-c")).toBe(false);
   });
 });
 
