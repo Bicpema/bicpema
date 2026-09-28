@@ -21,12 +21,19 @@ const INITIAL_M_N = 1;
 /** 管の長さの初期値 */
 const INITIAL_PIPE_L = 400;
 
+/**
+ * 波の描画用のグラフィックスレイヤーを作り直し、定常波を再描画する。
+ * @param p - p5インスタンス
+ */
 export function elementPositionInit(p: p5) {
   if (state.waveLayer) state.waveLayer.remove();
   state.waveLayer = p.createGraphics(p.width, p.height);
   updateWaveLayer(p);
 }
 
+/**
+ * 振動次数と管の長さの表示を現在の値に更新する。
+ */
 function updateDisplays() {
   const mnDisplay = document.getElementById("mnDisplay");
   const lDisplay = document.getElementById("lDisplay");
@@ -34,6 +41,10 @@ function updateDisplays() {
   if (lDisplay) lDisplay.textContent = String(state.pipeL);
 }
 
+/**
+ * 管の種類・振動次数・管の長さの操作ボタン、再生・リセットボタン、設定モーダルにイベントを登録する。
+ * @param p - p5インスタンス
+ */
 export function setupControls(p: p5) {
   const typeSelect = document.getElementById(
     "typeSelect"

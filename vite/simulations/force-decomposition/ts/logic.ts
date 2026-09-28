@@ -363,6 +363,12 @@ function drawXYInfoPanel(p: p5, Fx: number, Fy: number) {
   p.textAlign(p.CENTER, p.CENTER);
 }
 
+/**
+ * 力の矢印の先端にドラッグ操作用の円を描画します。
+ * @param p - p5インスタンス
+ * @param tipX - 矢印先端のX座標
+ * @param tipY - 矢印先端のY座標
+ */
 function drawInteractionHint(p: p5, tipX: number, tipY: number) {
   // 先端の円
   p.noFill();

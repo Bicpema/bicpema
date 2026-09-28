@@ -6,6 +6,10 @@ import {
   STAGE_DURATION_FRAMES
 } from "./constants.js";
 
+/**
+ * 加熱・冷却のアイコン、シリンダー内の気体・ピストン・おもり、現在の段階の説明文を描画する。
+ * @param p - p5インスタンス
+ */
 export function drawChamber(p: p5) {
   const gw = 250;
   const gh = 400;
@@ -109,6 +113,10 @@ export function drawChamber(p: p5) {
   if (state.stage === 3) p.text("④ ①に戻る（繰り返し）", 20, 20);
 }
 
+/**
+ * 再生中に時刻を進め、段階に応じたピストンの位置を更新する。段階の終了時はおもりの有無を切り替えて次の段階に進む。
+ * @param p - p5インスタンス
+ */
 export function animateCycle(p: p5) {
   if (!state.isPlaying) return;
   state.t++;

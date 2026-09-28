@@ -49,6 +49,9 @@ const sketch = (p: p5) => {
   };
 };
 
+/**
+ * p5.soundを読み込んだうえでシミュレーションを開始する。
+ */
 async function startSimulation() {
   window.p5 = p5;
   await import("p5/lib/addons/p5.sound.js");

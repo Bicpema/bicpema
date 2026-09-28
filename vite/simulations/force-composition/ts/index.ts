@@ -10,11 +10,24 @@ import { V_W, ORIGIN_X, ORIGIN_Y, GRID_STEP } from "./constants.js";
 
 const DRAG_THRESHOLD = 20;
 
+/**
+ * 画面上の座標を仮想座標系の座標に変換する。
+ * @param clientX - 画面上のx座標
+ * @param clientY - 画面上のy座標
+ * @param p - p5インスタンス
+ * @returns 仮想座標系の座標（`vx`, `vy`）
+ */
 function getVirtualPos(clientX: number, clientY: number, p: p5) {
   const scale = p.width / V_W;
   return { vx: clientX / scale, vy: clientY / scale };
 }
 
+/**
+ * 指定した座標が力F1・F2の矢印の先端に近い場合、その矢印のドラッグを開始する。
+ * @param vx - 仮想座標系のx座標
+ * @param vy - 仮想座標系のy座標
+ * @param p - p5インスタンス
+ */
 function tryStartDrag(vx: number, vy: number, p: p5) {
   const f1AbsX = ORIGIN_X + state.f1TipX;
   const f1AbsY = ORIGIN_Y + state.f1TipY;
@@ -27,6 +40,11 @@ function tryStartDrag(vx: number, vy: number, p: p5) {
   }
 }
 
+/**
+ * ドラッグ中の矢印の先端を、グリッドにスナップした座標へ移動する（原点には移動しない）。
+ * @param vx - 仮想座標系のx座標
+ * @param vy - 仮想座標系のy座標
+ */
 function applyDrag(vx: number, vy: number) {
   if (state.dragging === "f1") {
     const rx = Math.round((vx - ORIGIN_X) / GRID_STEP) * GRID_STEP;

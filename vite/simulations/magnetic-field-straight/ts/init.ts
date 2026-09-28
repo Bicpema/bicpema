@@ -6,10 +6,21 @@ import { bindToggleControls } from "../../../ts/bicpema-controls-controller.js";
 /** 電流の強さの初期値（A） */
 const INITIAL_CURRENT = 1;
 
+/**
+ * 設定値を初期化する（現在は処理なし）。
+ * @param p - p5インスタンス
+ */
 export function settingInit(p: p5) {}
 
+/**
+ * DOM要素の選択を初期化する（現在は処理なし）。
+ * @param p - p5インスタンス
+ */
 export function elementSelectInit(p: p5) {}
 
+/**
+ * 電流の強さのラベルをスライダーの値に合わせて更新する。
+ */
 function updateControlLabels() {
   const currentSlider = document.getElementById(
     "currentSlider"
@@ -20,6 +31,10 @@ function updateControlLabels() {
   }
 }
 
+/**
+ * 電流スライダーの入力イベントを登録し、ラベルを初期表示する。
+ * @param p - p5インスタンス
+ */
 export function elementPositionInit(p: p5) {
   const currentSlider = document.getElementById("currentSlider");
   if (currentSlider) {
@@ -30,6 +45,10 @@ export function elementPositionInit(p: p5) {
   updateControlLabels();
 }
 
+/**
+ * 再生・リセットボタンと設定モーダルにイベントを登録する。
+ * @param p - p5インスタンス
+ */
 export function valueInit(p: p5) {
   const playPauseButton = document.getElementById("playPauseButton");
   if (!playPauseButton) return;

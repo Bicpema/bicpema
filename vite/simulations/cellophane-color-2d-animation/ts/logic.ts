@@ -62,8 +62,11 @@ loadMath()
     // unhandled rejectionにならないようにするだけに留める。
   });
 
-// ★ draw相当のメイン処理
-// Chart.js・mathjsの読み込みが完了するまでは描画をスキップする。
+/**
+ * draw相当のメイン処理。偏光板・セロハンの描画と色計算、グラフ描画を行う。
+ * Chart.js・mathjsの読み込みが完了するまでは描画をスキップする。
+ * @param p - p5インスタンス
+ */
 export function drawSimulation(p: p5) {
   if (!math || !Chart) return;
   state.currentValue = state.optRadio.value();
@@ -85,7 +88,10 @@ export function drawSimulation(p: p5) {
   }
 }
 
-// checkboxによって実行される補助線の記述
+/**
+ * 補助線（基準線と各組のセロハンの向きを示す線）を描画する。
+ * @param p - p5インスタンス
+ */
 export function checked(p: p5) {
   //基準線(0°)
   p.push();
@@ -108,7 +114,10 @@ export function checked(p: p5) {
   }
 }
 
-//スライダーやラジオボタンを作成する処理
+/**
+ * テープの幅のスライダーや、補助線・素材の種類などを選ぶラジオボタンを作成する。
+ * @param p - p5インスタンス
+ */
 export function createSliderandRadio(p: p5) {
   state.slider = p.createSlider(
     TAPE_WIDTH_SLIDER_MIN,
@@ -130,7 +139,10 @@ export function createSliderandRadio(p: p5) {
   state.preValue = state.optRadio.value();
 }
 
-//normalにおける配列用意や画像の貼り付け, テープ幅の設定, 偏光板の表示など
+/**
+ * normalモードにおける配列の用意、画像の貼り付け、テープ幅の設定、偏光板の描画を行う。
+ * @param p - p5インスタンス
+ */
 export function prenormal(p: p5) {
   state.tape_angle = new Array(state.colabNum!).fill(0);
   state.tape_angle_cal = new Array(state.colabNum!).fill(0); //配列の宣言(1枚目以降) 1,2,3,4,5..colabNum
@@ -181,7 +193,10 @@ export function prenormal(p: p5) {
   }
 }
 
-//"画像塗分け"における配列用意や画像の貼り付け, テープ幅の設定, 偏光板の表示など
+/**
+ * 「画像塗分け」モードにおける配列の用意、画像の貼り付け、テープ幅の設定、偏光板の描画を行う。
+ * @param p - p5インスタンス
+ */
 export function prefilledimage(p: p5) {
   p.frameRate(FPS);
   state.tape_angle = new Array(state.colabNum!).fill(0);
@@ -235,7 +250,10 @@ export function prefilledimage(p: p5) {
   }
 }
 
-// normalにおける, 組数1での色計算と配色の処理
+/**
+ * normalモードにおいて、セロハンの組数が1のときの色計算と配色を行う。
+ * @param p - p5インスタンス
+ */
 export function colabNum1_normal(p: p5) {
   if (state.colabNum! === 1) {
     let z = 0;
@@ -264,7 +282,10 @@ export function colabNum1_normal(p: p5) {
   }
 }
 
-// normalにおける, 組数2以上での色計算と配色の処理
+/**
+ * normalモードにおいて、セロハンの組数が2以上のときの色計算と配色を行う。
+ * @param p - p5インスタンス
+ */
 export function colabNum2_normal(p: p5) {
   if (state.colabNum! >= 2) {
     if (state.count2 === 0) {
@@ -415,6 +436,10 @@ export function colabNum2_normal(p: p5) {
   }
 }
 
+/**
+ * セロハンの組数分の矩形を固定色で描画する。
+ * @param p - p5インスタンス
+ */
 export function colorRect(p: p5) {
   for (let i = 0; i < state.colabNum!; i++) {
     const size = 50;
@@ -428,7 +453,9 @@ export function colorRect(p: p5) {
   }
 }
 
-//白画像を定位置に配置し, pixelsの色を初期値にする処理. 入力画像のサイズを設定する処理
+/**
+ * 白画像を定位置に配置し、pixelsの色を初期値にする。入力画像のサイズを設定する。
+ */
 export function createStartimg() {
   state.img!.resize(STAGE_SIZE, STAGE_SIZE);
   state.centerX = STAGE_HALF_SIZE;
@@ -444,7 +471,15 @@ export function createStartimg() {
   //img2.resize(200, 200);
 }
 
-// 偏光板を描画する処理
+/**
+ * 偏光板を描画する。
+ * @param p - p5インスタンス
+ * @param size - 偏光板の一辺の長さ
+ * @param x - 中心のx座標
+ * @param y - 中心のy座標
+ * @param z - 中心のz座標
+ * @param pattern - 偏光方向を表す線の向き（0: 縦、1: 横）
+ */
 export function createPolarizer(
   p: p5,
   size: number,
@@ -471,7 +506,14 @@ export function createPolarizer(
   p.pop();
 }
 
-// セロハンを描画する処理
+/**
+ * セロハンを描画する。
+ * @param p - p5インスタンス
+ * @param n - セロハンの枚数
+ * @param rAfter - セロハンの回転角（度）
+ * @param a - 奥行き方向の配置を開始する枚数目
+ * @param angle_1 - テープの幅を決める角度（ラジアン）
+ */
 export function createCellophane(
   p: p5,
   n: number,
@@ -496,7 +538,12 @@ export function createCellophane(
   p.pop();
 }
 
-// 回転行列R(theta)
+/**
+ * 回転行列R(theta)を返す。
+ * @param p - p5インスタンス
+ * @param theta - 回転角（ラジアン）
+ * @returns 2×2の回転行列
+ */
 export function r_theta(p: p5, theta: number) {
   return [
     [p.cos(theta), -p.sin(theta)],
@@ -504,7 +551,12 @@ export function r_theta(p: p5, theta: number) {
   ];
 }
 
-// 回転行列R(-theta)
+/**
+ * 回転行列R(-theta)を返す。
+ * @param p - p5インスタンス
+ * @param theta - 回転角（ラジアン）
+ * @returns 2×2の回転行列
+ */
 export function mai_r_theta(p: p5, theta: number) {
   return [
     [p.cos(theta), p.sin(theta)],
@@ -512,7 +564,12 @@ export function mai_r_theta(p: p5, theta: number) {
   ];
 }
 
-// ジョーンズマトリクス
+/**
+ * 偏光板のジョーンズマトリクスを返す。
+ * @param p - p5インスタンス
+ * @param theta - 偏光板の角度（ラジアン）
+ * @returns 2×2のジョーンズマトリクス
+ */
 export function jhons(p: p5, theta: number) {
   return [
     [p.sin(theta) ** 2, -p.sin(theta) * p.cos(theta)],
@@ -520,7 +577,11 @@ export function jhons(p: p5, theta: number) {
   ];
 }
 
-// RGBへの変換
+/**
+ * 線形RGBの値をガンマ補正してsRGBの0〜255の値に変換する。
+ * @param a - 線形RGBの値
+ * @returns 0〜255に丸めたsRGBの値
+ */
 export function toRGB(a: number) {
   if (a <= SRGB_LINEAR_THRESHOLD) {
     a *= SRGB_LINEAR_SCALE;
@@ -532,7 +593,11 @@ export function toRGB(a: number) {
   return Math.round(a * 255);
 }
 
-// セロハンの総数の数え上げをする処理
+/**
+ * セロハンの総数を数え上げる。
+ * @param p - p5インスタンス
+ * @returns 全組のセロハンの枚数の合計
+ */
 export function numInputFunction(p: p5) {
   state.cellophaneNum = 0;
   for (let i = 0; i < state.colabNum!; i++) {
@@ -543,8 +608,12 @@ export function numInputFunction(p: p5) {
   return state.cellophaneNum;
 }
 
-// 偏光板１枚を透過したときの色の計算
-// mathjsが未読み込みの場合は読み込みを待ってから計算する。
+/**
+ * 偏光板1枚を透過したときの色を計算する。
+ * mathjsが未読み込みの場合は読み込みを待ってから計算する。
+ * @param p - p5インスタンス
+ * @returns 計算完了時に解決される `Promise`
+ */
 export async function beforeColorCalculate(p: p5) {
   if (!math) {
     math = await loadMath();
@@ -601,7 +670,10 @@ export async function beforeColorCalculate(p: p5) {
   );
 }
 
-// セロハン及び二枚目の偏光板を透過した時の処理
+/**
+ * セロハンおよび2枚目の偏光板を透過したときの色を計算し、要素に反映する。
+ * @param p - p5インスタンス
+ */
 export function afterColorCalculate(p: p5) {
   // セロハンの組数が１枚以上ある場合
   if (state.colabNum! >= 1) {
@@ -745,7 +817,10 @@ export function afterColorCalculate(p: p5) {
   );
 }
 
-// セロハン及び二枚目の偏光板を透過した時の処理(セロハン1枚のみ)
+/**
+ * セロハンおよび2枚目の偏光板を透過したときの色を計算する（セロハン1組のみ）。
+ * @param p - p5インスタンス
+ */
 export function afterColorCalculate1(p: p5) {
   // セロハンの組数が１枚以上ある場合
   if (state.colabNum! >= 1) {
@@ -850,7 +925,11 @@ export function afterColorCalculate1(p: p5) {
   //afterColor.style("background-color:rgb(" + str(rAfter1) + "," + str(gAfter1) + "," + str(bAfter1) + ")")
 }
 
-// セロハン及び二枚目の偏光板を透過した時の処理
+/**
+ * セロハンおよび2枚目の偏光板を透過したときの色を、テープの重なり方ごとに計算する。
+ * @param p - p5インスタンス
+ * @param binaryString - 各組のテープの重なりを表す2進数の文字列（0: テープあり、1: テープなし）
+ */
 export function afterColorCalculates(p: p5, binaryString: string) {
   let bi = 0;
   let tape_sum = 0;
@@ -1057,7 +1136,14 @@ export function afterColorCalculates(p: p5, binaryString: string) {
   //rAfter2 = 255-50*tape_sum
 }
 
-// tape1枚目のみに色を塗る
+/**
+ * 1組目のテープの内部のみに色を塗り、それ以外は偏光板の配置に応じた色にする。
+ * @param p - p5インスタンス
+ * @param rAfter1 - テープ内部の赤成分
+ * @param gAfter1 - テープ内部の緑成分
+ * @param bAfter1 - テープ内部の青成分
+ * @param rotateInput - テープの回転角（度）
+ */
 export function drawTape_1(
   p: p5,
   rAfter1: number,
@@ -1084,7 +1170,14 @@ export function drawTape_1(
   }
 }
 
-//tapeが2枚以上ある場合における，色の塗りつぶし
+/**
+ * テープが2組以上ある場合に、テープの重なり方に応じて画像を分割しながら塗りつぶす。
+ * @param p - p5インスタンス
+ * @param tape_angle - 各組のテープの回転角（度）
+ * @param rAftera - 重なり方ごとの赤成分
+ * @param gAftera - 重なり方ごとの緑成分
+ * @param bAftera - 重なり方ごとの青成分
+ */
 export function drawTapes(
   p: p5,
   tape_angle: number[],
@@ -1142,7 +1235,11 @@ export function drawTapes(
   }
 }
 
-// ある角度におけるテープの4隅の点の情報を入手
+/**
+ * ある角度におけるテープの4隅の点の座標を計算し、状態に保存する。
+ * @param p - p5インスタンス
+ * @param tape_angle - テープの回転角（ラジアン）
+ */
 export function getrectPoint(p: p5, tape_angle: number) {
   p.push();
   p.translate(-STAGE_HALF_SIZE, -STAGE_HALF_SIZE);
@@ -1182,7 +1279,11 @@ export function getrectPoint(p: p5, tape_angle: number) {
   p.pop();
 }
 
-//そのピクセルが，tapeの内部にあるために変更を求められるかを判定
+/**
+ * そのピクセルがテープの内部にあるかを判定する。
+ * @param i - ピクセルの番号
+ * @returns テープの内部にある場合は `true`
+ */
 export function checkA(i: number) {
   const x = i % state.img!.width;
   const y = (i - x) / state.img!.width;
@@ -1203,7 +1304,13 @@ export function checkA(i: number) {
   );
 }
 
-//tape内部にあることを判定する外積計算S
+/**
+ * テープの内部にあることを判定するための外積を計算する。
+ * @param P - 判定する点
+ * @param A - 辺の始点
+ * @param B - 辺の終点
+ * @returns ベクトルABとAPの外積
+ */
 export function crossProduct(
   P: { x: number; y: number },
   A: { x: number; y: number },
@@ -1214,7 +1321,10 @@ export function crossProduct(
   return AB.x * AP.y - AB.y * AP.x;
 }
 
-// 光源の強度値の算出
+/**
+ * 光源の強度の合計値を算出する。
+ * @returns 全波長の光源強度の合計
+ */
 export function intensity_max() {
   for (let i = WAVELENGTH_MIN; i <= WAVELENGTH_MAX; i++) {
     state.Intensity_all_box[i - WAVELENGTH_MIN] =
@@ -1224,6 +1334,9 @@ export function intensity_max() {
   return state.Intensity_all;
 }
 
+/**
+ * 素材の選択に応じて、セロハンテープまたはOPPフィルムの厚さのデータに切り替える。
+ */
 export function optChanged() {
   if (state.optRadio.value() === "セロハンテープ") {
     state.dArr = state.dTable!.getColumn("d");
@@ -1237,8 +1350,10 @@ export function optChanged() {
   }
 }
 
-// HSV色空間分布の場合について
-// Chart.jsの読み込みが完了するまでは描画をスキップする。
+/**
+ * HSV色空間分布の場合について、スペクトルのグラフを描画する。
+ * Chart.jsの読み込みが完了するまでは描画をスキップする。
+ */
 export function drawGraph() {
   if (!Chart) return;
   if (typeof state.mainChartObj !== "undefined" && state.mainChartObj) {
@@ -1368,7 +1483,12 @@ export function drawGraph() {
   state.mainChartObj = new Chart(mainCtx!, mainChartsetup);
 }
 
-// Chart.jsの読み込みが完了するまでは描画をスキップする。
+/**
+ * 色相・彩度の平面上に1点をプロットしたグラフを描画する。
+ * Chart.jsの読み込みが完了するまでは描画をスキップする。
+ * @param x1 - プロットする点のx座標
+ * @param y1 - プロットする点のy座標
+ */
 export function drawGraph2_1(x1: number, y1: number) {
   if (!Chart) return;
   if (typeof state.mainChartObj !== "undefined" && state.mainChartObj) {
@@ -1458,7 +1578,10 @@ export function drawGraph2_1(x1: number, y1: number) {
   state.mainChartObj = new Chart(mainCtx!, mainChartsetup);
 }
 
-// Chart.jsの読み込みが完了するまでは描画をスキップする。
+/**
+ * 各組の色相・彩度を平面上にプロットしたグラフを描画する。
+ * Chart.jsの読み込みが完了するまでは描画をスキップする。
+ */
 export function drawGraph2() {
   if (!Chart) return;
   if (typeof state.mainChartObj !== "undefined" && state.mainChartObj) {

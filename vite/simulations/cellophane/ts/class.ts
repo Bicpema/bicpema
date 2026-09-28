@@ -59,6 +59,11 @@ export class Ray {
   wl: number;
   magnification: number;
 
+  /**
+   * 光線を生成する。
+   * @param z - 初期z座標
+   * @param color - 光線の色（`"r"` / `"g"` / `"b"`）
+   */
   constructor(z: number, color: string) {
     this.posx = 0;
     this.posy = 0;
@@ -74,6 +79,10 @@ export class Ray {
     this.magnification = 1;
   }
 
+  /**
+   * 色ごとの波長・光路差・透過率を計算し、光線の位置を更新して線または球で描画する。
+   * @param p - p5インスタンス
+   */
   _draw(p: p5) {
     const cellophaneCount = Number(state.cellophaneCountSlider!.value());
 
@@ -150,6 +159,10 @@ export class Ray {
     }
   }
 
+  /**
+   * 光線の振動を線で描画する。
+   * @param p - p5インスタンス
+   */
   _drawAsLine(p: p5) {
     if (this.clr === "r") {
       p.stroke(...RED_COLOR);
@@ -184,6 +197,10 @@ export class Ray {
     p.pop();
   }
 
+  /**
+   * 光線の振動を球で描画する。
+   * @param p - p5インスタンス
+   */
   _drawAsSphere(p: p5) {
     p.noStroke();
     if (this.clr === "r") {

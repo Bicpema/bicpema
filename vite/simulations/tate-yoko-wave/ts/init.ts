@@ -2,10 +2,18 @@ import { state } from "./state.js";
 import { WAVE_ORIGIN_X } from "./constants.js";
 import { bindToggleControls } from "../../../ts/bicpema-controls-controller.js";
 
+/**
+ * 波長から波数を設定する。
+ * @param p - p5インスタンス
+ */
 export function settingInit(p: p5) {
   state.k = p.TWO_PI / state.lambda;
 }
 
+/**
+ * スタート／ストップボタンとリセットボタンにイベントを登録する。
+ * @param p - p5インスタンス
+ */
 export function elementSelectInit(p: p5) {
   const { toggleButton } = bindToggleControls(p, {
     toggleSelector: "#moveBtn",
@@ -36,10 +44,18 @@ export function elementSelectInit(p: p5) {
   });
 }
 
+/**
+ * DOM要素の位置を初期化する（再配置が必要な要素はないため処理は行わない）。
+ * @param p - p5インスタンス
+ */
 export function elementPositionInit(p: p5) {
   // リサイズに追従して再配置が必要な要素はない（ボタン等の初期化はelementSelectInitで実施済み）
 }
 
+/**
+ * 媒質の粒子の初期位置と、注目する粒子のインデックスを初期化する。
+ * @param p - p5インスタンス
+ */
 export function valueInit(p: p5) {
   state.xStart = WAVE_ORIGIN_X;
   state.particles = [];

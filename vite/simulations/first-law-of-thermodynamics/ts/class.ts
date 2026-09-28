@@ -10,6 +10,9 @@ import {
   MOLECULE_Y_MAX as Y_MAX
 } from "./constants.js";
 
+/**
+ * 容器内を運動する気体分子を表すクラスです。
+ */
 export class Molecule {
   x: number;
   y: number;
@@ -32,6 +35,9 @@ export class Molecule {
     this.vy = vy;
   }
 
+  /**
+   * 温度に応じた速さで分子を移動させ、容器の壁やピストンで跳ね返らせます。
+   */
   move() {
     const T = state.T;
     const speed = computeMoleculeSpeed(T, this.z);

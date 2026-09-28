@@ -355,10 +355,16 @@ export class Ball {
     this._lastGhostTime = 0;
   }
 
+  /**
+   * ボールの運動を開始する。
+   */
   start() {
     this.isMoving = true;
   }
 
+  /**
+   * ボールの運動を停止する。
+   */
   stop() {
     this.isMoving = false;
   }

@@ -8,6 +8,10 @@ import { CURRENT_THRESHOLD, ARROW_SPACING } from "./constants.js";
 
 let lastCurrentVal: number | null = null;
 
+/**
+ * 電流スライダーから電流の値を取得する。
+ * @returns 電流の値（A）。スライダーがない場合は1
+ */
 function getCurrentVal() {
   const currentSlider = document.getElementById(
     "currentSlider"
@@ -15,6 +19,11 @@ function getCurrentVal() {
   return currentSlider ? parseFloat(currentSlider.value) : 1;
 }
 
+/**
+ * 直線電流の導線と、電流の向きに流れる矢印を描画する。
+ * @param p - p5インスタンス
+ * @param currentVal - 電流の値（A）
+ */
 function drawWire(p: p5, currentVal: number) {
   p.push();
   p.noStroke();
@@ -40,6 +49,11 @@ function drawWire(p: p5, currentVal: number) {
   p.pop();
 }
 
+/**
+ * xz平面上に半径 `R` の円を描画する。
+ * @param p - p5インスタンス
+ * @param R - 円の半径
+ */
 function drawCircle(p: p5, R: number) {
   p.beginShape();
   for (let theta = 0; theta <= p.TWO_PI; theta += 0.05) {
@@ -48,6 +62,14 @@ function drawCircle(p: p5, R: number) {
   p.endShape(p.CLOSE);
 }
 
+/**
+ * 磁力線の円周上を回る、磁場の向きを示す矢印を描画する。
+ * @param p - p5インスタンス
+ * @param r - 矢印を描く円の半径
+ * @param currentVal - 電流の値（A）
+ * @param arrowSize - 矢印の大きさ
+ * @param color - 矢印の色。`null` の場合は既定の青色
+ */
 function drawFlowArrow(
   p: p5,
   r: number,
@@ -75,6 +97,11 @@ function drawFlowArrow(
   p.pop();
 }
 
+/**
+ * 複数の半径で磁力線と矢印を描画し、磁場の強さに応じて色・太さ・矢印の大きさを変える。
+ * @param p - p5インスタンス
+ * @param currentVal - 電流の値（A）
+ */
 function drawFieldLines(p: p5, currentVal: number) {
   const absI = p.abs(currentVal);
   if (absI <= 0.01) {
@@ -118,6 +145,10 @@ function drawFieldLines(p: p5, currentVal: number) {
   }
 }
 
+/**
+ * 磁場の向きと観測半径での相対磁場強度を情報パネルに表示する。
+ * @param currentVal - 電流の値（A）
+ */
 function updateInfoPanel(currentVal: number) {
   const fieldDirectionLabel = document.getElementById("fieldDirectionLabel");
   if (fieldDirectionLabel) {
@@ -140,6 +171,10 @@ function updateInfoPanel(currentVal: number) {
   }
 }
 
+/**
+ * 背景・導線・磁力線を描画し、電流が変化した場合は情報パネルを更新する。再生中は時刻を進める。
+ * @param p - p5インスタンス
+ */
 export function drawSimulation(p: p5) {
   p.background(240);
   p.orbitControl();

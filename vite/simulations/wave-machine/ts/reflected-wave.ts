@@ -22,6 +22,15 @@ export class ReflectedWave {
   number: number;
   fixed: boolean;
 
+  /**
+   * 反射波の媒質を初期化する。
+   * @param p - p5インスタンス
+   * @param x - 媒質のx座標
+   * @param y - 媒質のy座標
+   * @param t - 位相角の初期値（度）
+   * @param n - 媒質の番号
+   * @param f - 固定端反射かどうか
+   */
   constructor(p: any, x: number, y: number, t: number, n: number, f: boolean) {
     this.p = p;
     this.time = 0;

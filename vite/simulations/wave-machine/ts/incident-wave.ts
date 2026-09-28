@@ -21,6 +21,15 @@ export class IncidentWave {
   number: number;
   fixed: boolean;
 
+  /**
+   * 入射波の媒質の粒子を生成する。
+   * @param p - p5インスタンス
+   * @param x - 粒子のx座標
+   * @param y - 粒子のy座標
+   * @param t - 振動の位相（角度）の初期値
+   * @param n - 媒質の番号（振動を開始するまでの時間）
+   * @param f - 固定端かどうか
+   */
   constructor(p: any, x: number, y: number, t: number, n: number, f: boolean) {
     this.p = p;
     this.time = 0;
