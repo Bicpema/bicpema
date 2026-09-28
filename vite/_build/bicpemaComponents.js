@@ -79,7 +79,7 @@ export function renderNavBar({ title }) {
       class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4"
       id="navBar"
     >
-      <a class="font-semibold text-white no-underline" href="https://bicpema.com/">Bicpema</a>
+      <a class="font-semibold text-white no-underline" href="/">Bicpema</a>
       <span class="ml-3 font-light text-neutral-300">${title}</span>
     </nav>`;
 }
