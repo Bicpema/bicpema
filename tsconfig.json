@@ -12,13 +12,12 @@
     "skipLibCheck": true
   },
   "include": [
-    "vite/types/**/*.ts",
-    "vite/_build/**/*.js",
-    "vite/ts/**/*.ts",
-    "vite/simulations/**/*.ts",
-    "vite/_templates/**/*.ts",
     "test/**/*.js",
-    "scripts/**/*.js"
+    "scripts/**/*.js",
+    "src/**/*.ts",
+    "src/**/*.mjs",
+    "astro.config.mjs",
+    ".astro/types.d.ts"
   ],
-  "exclude": ["node_modules", "static", "test/**/fixtures"]
+  "exclude": ["node_modules", "dist", "test/**/fixtures"]
 }

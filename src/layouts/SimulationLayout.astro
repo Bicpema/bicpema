@@ -1,0 +1,30 @@
+---
+// シミュレーションページ（src/simulations/<名前>/*.astro）の共通のHTML骨格。
+import "../styles/simulation.css";
+
+interface Props {
+  /** ページのタイトル（<title>） */
+  title: string;
+  /** <body>のクラス */
+  class?: string;
+  /** 右クリックメニューを無効にするか */
+  disableContextMenu?: boolean;
+}
+
+const { title, class: bodyClass, disableContextMenu = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <title>{title}</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body
+    class={bodyClass}
+    oncontextmenu={disableContextMenu ? "return false;" : undefined}
+  >
+    <slot />
+  </body>
+</html>

@@ -1,0 +1,58 @@
+---
+import SimulationLayout from "../../layouts/SimulationLayout.astro";
+import NavBar from "../../components/simulation/NavBar.astro";
+import LoadingSpinner from "../../components/simulation/LoadingSpinner.astro";
+import SettingsButton from "../../components/simulation/SettingsButton.astro";
+import SettingsModal from "../../components/simulation/SettingsModal.astro";
+
+const title = "音の可視化";
+---
+
+<SimulationLayout title={title} class="bg-neutral-900" disableContextMenu>
+  <NavBar title={title} />
+
+  <main class="w-full p-0 mt-[60px]" id="p5Container">
+    <div class="flex justify-center" id="p5Canvas"></div>
+    <div class="absolute bottom-0 start-0 m-3">
+      <button
+        class="m-1 rounded bg-green-600 px-3 py-2 text-white hover:bg-green-500"
+        id="startButton"
+        type="button"
+      >
+        音の入力開始
+      </button>
+      <button
+        class="m-1 rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
+        id="stopButton"
+        type="button"
+      >
+        一時停止
+      </button>
+      <button
+        class="m-1 rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
+        id="restartButton"
+        type="button"
+      >
+        再開
+      </button>
+    </div>
+    <SettingsButton class="absolute end-0 me-3 top-[4.2rem] z-[1100]" />
+  </main>
+
+  <SettingsModal title="表示設定">
+    <div>
+      <label class="form-label" for="modeSelect">
+        表示モード
+      </label>
+      <select class="form-control" id="modeSelect">
+        <option value="waveform">波形</option>
+        <option value="spectrum">スペクトル</option>
+      </select>
+    </div>
+  </SettingsModal>
+
+  <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
+  <LoadingSpinner />
+
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

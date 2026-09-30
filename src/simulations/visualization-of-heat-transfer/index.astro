@@ -1,0 +1,54 @@
+---
+import SimulationLayout from "../../layouts/SimulationLayout.astro";
+import NavBar from "../../components/simulation/NavBar.astro";
+import LoadingSpinner from "../../components/simulation/LoadingSpinner.astro";
+
+const title = "熱の移動";
+---
+
+<SimulationLayout title={title} class="bg-neutral-900">
+  <NavBar title={title} />
+
+  <div class="w-full p-0 mt-[60px]" id="p5Container">
+    <div class="flex justify-center" id="p5Canvas"></div>
+  </div>
+
+  <!-- 上部設定パネル -->
+  <div
+    class="absolute start-0 m-3 rounded p-3"
+    style="top: 4.5rem; background: rgba(255, 255, 255, 0.9); z-index: 1000"
+  >
+    <div class="mb-1 flex items-center gap-2">
+      <input
+        class="h-4 w-4 accent-blue-600"
+        type="radio"
+        name="contact"
+        id="contactYes"
+        value="0"
+      />
+      <label class="text-sm" for="contactYes">
+        接触させる
+        <br />
+        <small>(※ただし同質量, 同物質)</small>
+      </label>
+    </div>
+    <div class="flex items-center gap-2">
+      <input
+        class="h-4 w-4 accent-blue-600"
+        type="radio"
+        name="contact"
+        id="contactNo"
+        value="1"
+        checked
+      />
+      <label class="text-sm" for="contactNo">
+        接触前に戻す
+      </label>
+    </div>
+  </div>
+
+  <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
+  <LoadingSpinner />
+
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

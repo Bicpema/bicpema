@@ -1,0 +1,34 @@
+---
+import SimulationLayout from "../../layouts/SimulationLayout.astro";
+import NavBar from "../../components/simulation/NavBar.astro";
+import LoadingSpinner from "../../components/simulation/LoadingSpinner.astro";
+
+const title = "熱機関";
+---
+
+<SimulationLayout title={title} class="bg-neutral-900" disableContextMenu>
+  <NavBar title={title} />
+  <div class="w-full p-0 mt-[60px]" id="p5Container">
+    <div class="flex justify-center" id="p5Canvas"></div>
+    <div class="fixed bottom-0 left-0 z-[1100] m-3" id="simulationControls">
+      <button
+        class="m-1 rounded bg-green-600 px-3 py-2 text-white hover:bg-green-500"
+        id="playButton"
+        type="button"
+      >
+        一時停止
+      </button>
+      <button
+        class="m-1 rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
+        id="resetButton"
+        type="button"
+      >
+        リセット
+      </button>
+    </div>
+  </div>
+  <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
+  <LoadingSpinner />
+
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

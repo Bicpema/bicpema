@@ -1,0 +1,107 @@
+---
+import SimulationLayout from "../../layouts/SimulationLayout.astro";
+import NavBar from "../../components/simulation/NavBar.astro";
+import LoadingSpinner from "../../components/simulation/LoadingSpinner.astro";
+import SettingsButton from "../../components/simulation/SettingsButton.astro";
+import SettingsModal from "../../components/simulation/SettingsModal.astro";
+import Icon from "../../components/Icon.astro";
+
+const title = "セロハンによる色を変化を観察するシミュレーション";
+---
+
+<SimulationLayout
+  title={title}
+  class="m-0 h-screen w-screen fixed bg-neutral-900 p-0 text-base"
+  disableContextMenu
+>
+  <NavBar title="偏光色を再現するシミュレーション" />
+  <div class="mt-[60px]" id="p5Container">
+    <div class="flex w-full m-0">
+      <div class="flex-1 p-0 content-box">
+        <div class="h-[90vh]" id="p5Canvas"></div>
+      </div>
+      <div class="flex-1 p-0 content-box">
+        <div class="flex w-full m-0 h-[10vh] text-base" id="color">
+          <div class="flex-1 m-2 border flex items-center p-0">
+            <span class="flex-1 text-center">１枚目の偏光板を透過</span>
+            <div class="flex-1 h-[5vh] m-2" id="beforeColor"></div>
+          </div>
+          <div class="flex-1 m-2 border flex items-center p-0">
+            <span class="flex-1 text-center">２枚目の偏光板を透過</span>
+            <div class="flex-1 h-[5vh] m-2" id="afterColor"></div>
+          </div>
+        </div>
+        <!-- どちらのグラフを表示するかJavaScriptで切り替える -->
+        <div
+          class="h-[80vh]"
+          id="mainSpectrumGraphParent"
+          style="display: none"
+        >
+          <canvas class="w-full h-full" id="mainSpectrumGraph"></canvas>
+        </div>
+
+        <div
+          class="relative flex h-[80vh] w-[80vh] items-center justify-center opacity-80"
+          id="mainSpectrumGraphParent0"
+          style="display: none"
+        >
+          <canvas
+            class="absolute w-full h-full"
+            id="mainSpectrumGraph0"
+          ></canvas>
+        </div>
+      </div>
+    </div>
+    <!-- Button trigger modal -->
+    <div class="absolute bottom-0 m-3 start-0">
+      <SettingsButton class="inline-block" />
+      <a
+        class="inline-flex items-center gap-1.5 rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
+        id="screenshotButton"
+        type="button"
+      >
+        スクリーンショット
+        <Icon name="camera" size={20} class="pb-1" />
+      </a>
+    </div>
+    <!-- Modal -->
+    <SettingsModal panelClass="w-full max-w-2xl">
+      <div>
+        <h2 class="text-lg font-semibold">偏光板とセロハンテープの設定</h2>
+        <div class="mb-4">
+          <select class="form-control" id="polarizerSelect">
+            <option>平行ニコル配置</option>
+            <option>直交ニコル配置</option>
+          </select>
+          <label
+            class="mt-1 block text-sm text-neutral-600"
+            for="polarizerSelect"
+          >
+            偏光板の重ね方を選択してください。
+          </label>
+        </div>
+
+        <h2 class="text-lg font-semibold">セロハンテープの組の設定</h2>
+        <button
+          class="mb-3 rounded border border-blue-600 bg-white px-3 py-1.5 text-blue-600 hover:bg-blue-50"
+          id="cellophaneAddButton"
+        >
+          <Icon name="plus-circle" size={20} class="pb-1" />
+          追加
+        </button>
+        <button
+          class="mb-3 rounded border border-red-600 bg-white px-3 py-1.5 text-red-600 hover:bg-red-50"
+          id="cellophaneRemoveButton"
+        >
+          <Icon name="dash-circle" size={20} class="pb-1" />
+          削除
+        </button>
+        <div class="mb-3 overflow-auto" id="cellophaneColabNum"></div>
+      </div>
+    </SettingsModal>
+  </div>
+  <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
+  <LoadingSpinner />
+
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

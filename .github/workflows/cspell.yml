@@ -5,11 +5,9 @@ name: ドキュメント・コードのスペルチェック（cspell）
   pull_request:
     paths:
       - "**/*.md"
-      - "**/*.toml"
       - "**/*.html"
-      - "i18n/**"
+      - "src/**"
       - "scripts/**"
-      - "vite/ts/**"
       - "cspell.json"
       - "package.json"
       - "package-lock.json"
@@ -19,11 +17,9 @@ name: ドキュメント・コードのスペルチェック（cspell）
       - main
     paths:
       - "**/*.md"
-      - "**/*.toml"
       - "**/*.html"
-      - "i18n/**"
+      - "src/**"
       - "scripts/**"
-      - "vite/ts/**"
       - "cspell.json"
       - "package.json"
       - "package-lock.json"

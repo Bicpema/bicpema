@@ -14,6 +14,7 @@
     "goldmark",
     "javascripts",
     "Jong",
+    "Kaku",
     "katex",
     "kenji",
     "Koelle",
@@ -28,6 +29,8 @@
     "mathbf",
     "mathrm",
     "noodp",
+    "noopener",
+    "nums",
     "opengraph",
     "oscillo",
     "peaceiris",
@@ -44,19 +47,16 @@
     "webgl",
     "withdeploy",
     "worktrees",
-    "Xiaoliang",
     "zensical"
   ],
   "ignorePaths": [
-    "**/themes/**",
     "**/node_modules/**",
-    "public/**",
-    "static/vite/**",
-    "resources/**",
+    "dist/**",
+    ".astro/**",
     "docs/site/**",
     "docs/.cache/**",
     "package-lock.json",
-    "vite/simulations/**",
+    "src/simulations/**",
     "test/**"
   ]
 }

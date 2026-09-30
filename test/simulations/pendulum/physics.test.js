@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   computePendulumAngle,
   computeDisplayScale
-} from "../../../vite/simulations/pendulum/ts/physics.js";
+} from "../../../src/simulations/pendulum/ts/physics.js";
 
 describe("computePendulumAngle", () => {
   it("count=0では振れ角は初期角度θ0そのものになる", () => {

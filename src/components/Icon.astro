@@ -1,0 +1,31 @@
+---
+// Bootstrap Iconsのアイコン（インラインSVG）。
+// 装飾目的のため読み上げ対象から外す。アイコンのみのボタンでは、ボタン側にaria-labelを付与すること。
+import { loadBootstrapIcon } from "../lib/bootstrap-icons.mjs";
+
+interface Props {
+  /** アイコン名（例: "camera"。https://icons.getbootstrap.com/ で確認する） */
+  name: string;
+  /** 幅・高さ（px） */
+  size?: number | string;
+  /** 追加するクラス（"pb-1"など） */
+  class?: string;
+}
+
+const { name, size = 16, class: className } = Astro.props;
+if (!/^\d+$/.test(String(size))) {
+  throw new Error(`<Icon>のsizeはpx単位の整数で指定してください: ${size}`);
+}
+const { viewBox, innerSvg } = loadBootstrapIcon(name);
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  fill="currentColor"
+  class:list={["bi", `bi-${name}`, className]}
+  viewBox={viewBox}
+  aria-hidden="true"
+  set:html={innerSvg}
+/>

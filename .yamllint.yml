@@ -5,10 +5,8 @@ extends: default
 
 ignore: |
   node_modules/
-  themes/
-  public/
-  resources/
-  static/vite/
+  dist/
+  .astro/
   docs/site/
   .claude/worktrees/
 

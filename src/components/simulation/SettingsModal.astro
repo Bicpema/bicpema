@@ -1,0 +1,85 @@
+---
+// 設定モーダルの外枠（オーバーレイ・見出し・閉じるボタン）。
+// 設定項目はシミュレーション固有のため、スロットとして差し込む。
+// 開閉は initModal() の `.modal-close` で行う。
+interface Props {
+  /** モーダルのid */
+  id?: string;
+  /** 見出し */
+  title?: string;
+  /** "light"（白背景）または"dark"（.modal-panelの暗色パネル） */
+  variant?: "light" | "dark";
+  /**
+   * パネルの幅を指定するクラス。lightでは既定の"w-full max-w-lg"を置き換え、
+   * darkでは.modal-panelの幅（w-[350px]等）をユーティリティクラスで上書きする。
+   */
+  panelClass?: string;
+}
+
+const {
+  id = "simulationSettingModal",
+  title = "シミュレーションの設定",
+  variant = "light",
+  panelClass
+} = Astro.props;
+if (variant !== "light" && variant !== "dark") {
+  throw new Error(
+    `<SettingsModal>のvariantは"light"または"dark"を指定してください: ${variant}`
+  );
+}
+const labelId = `${id}Label`;
+---
+
+<div
+  class:list={[
+    "fixed inset-0 z-[1100] hidden flex items-center justify-center",
+    // 暗色パネルは設定を変えながらシミュレーションを見られるよう、背景を暗くしない
+    variant === "light" && "bg-black/50"
+  ]}
+  id={id}
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby={labelId}
+>
+  {variant === "dark" ? (
+    <div class:list={["modal-panel max-h-[85vh] overflow-y-auto", panelClass]}>
+      <h1
+        class="mb-5 text-center text-lg font-semibold text-white"
+        id={labelId}
+      >
+        {title}
+      </h1>
+      <slot />
+      <button type="button" class="modal-close modal-close-solid mt-2">
+        閉じる
+      </button>
+    </div>
+  ) : (
+    <div
+      class:list={[
+        "max-h-[85vh]",
+        panelClass ?? "w-full max-w-lg",
+        "overflow-y-auto rounded bg-white p-4 text-neutral-900"
+      ]}
+    >
+      <div class="mb-3 flex items-center justify-between border-b border-neutral-200 pb-2">
+        <h1 class="text-lg font-semibold" id={labelId}>
+          {title}
+        </h1>
+        <button
+          type="button"
+          class="modal-close modal-close-icon"
+          aria-label="閉じる"
+        >
+          &times;
+        </button>
+      </div>
+      <slot />
+      <div class="flex justify-end border-t border-neutral-200 pt-2">
+        <button type="button" class="modal-close modal-close-outline">
+          閉じる
+        </button>
+      </div>
+    </div>
+  )}
+</div>

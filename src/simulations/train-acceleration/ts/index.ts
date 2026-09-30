@@ -1,0 +1,105 @@
+import p5 from "p5";
+import { hideLoadingSpinner } from "../../../lib/simulation/bicpema-loading-spinner.js";
+import { BicpemaCanvasController } from "../../../lib/simulation/bicpema-canvas-controller.js";
+import { state } from "./state.js";
+import {
+  FPS,
+  V_W,
+  PX_PER_METER,
+  settingInit,
+  elCreate,
+  initValue
+} from "./init.js";
+import { drawTrack, drawTrain, drawInfoPanel } from "./function.js";
+import { initChart, updateChart } from "./graph.js";
+import {
+  GRAPH_UPDATE_INTERVAL,
+  GROUND_Y_RATIO,
+  GROUND_FILL_Y_OFFSET
+} from "./constants.js";
+
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
+const sketch = (p: p5) => {
+  const canvasController = new BicpemaCanvasController({
+    heightMode: "half"
+  });
+
+  /** キャンバスを生成し、初期設定とグラフの初期化を行う。 */
+  p.setup = () => {
+    settingInit(p, canvasController);
+    elCreate(p);
+    initValue(p);
+    initChart();
+  };
+
+  let isFirstDraw = true;
+
+  /** 毎フレーム、電車の運動とv-tグラフを更新し、背景・線路・電車・情報パネルを描画する。 */
+  p.draw = () => {
+    if (isFirstDraw) {
+      isFirstDraw = false;
+      hideLoadingSpinner();
+    }
+
+    p.scale(p.width / V_W);
+
+    /** 仮想キャンバス高さ */
+    const VH = V_W * (p.height / p.width);
+    /** 地面y座標（仮想ピクセル） */
+    const GROUND_Y = VH * GROUND_Y_RATIO;
+
+    const { train } = state;
+    if (!train) return;
+
+    if (state.isPlaying) {
+      const dt = 1 / FPS;
+      state.elapsedTime += dt;
+      train.update(dt, state.acceleration, PX_PER_METER, V_W);
+
+      // グラフデータを一定間隔で追記
+      state.lastGraphUpdate += dt;
+      if (state.lastGraphUpdate >= GRAPH_UPDATE_INTERVAL) {
+        state.lastGraphUpdate = 0;
+        const v = parseFloat(train.velocity.toFixed(3));
+        if (v > state.maxObservedVelocity) state.maxObservedVelocity = v;
+        state.vtData.push({
+          x: parseFloat(state.elapsedTime.toFixed(2)),
+          y: v
+        });
+        updateChart();
+      }
+    }
+
+    // 空背景
+    p.background(135, 206, 235);
+
+    // 地面
+    p.fill(80, 130, 60);
+    p.noStroke();
+    p.rect(
+      0,
+      GROUND_Y + GROUND_FILL_Y_OFFSET,
+      V_W,
+      VH - GROUND_Y - GROUND_FILL_Y_OFFSET
+    );
+
+    // 線路
+    drawTrack(p, GROUND_Y, train.trackOffset, V_W);
+
+    // 電車
+    drawTrain(p, train.x, GROUND_Y);
+
+    // 情報パネル
+    drawInfoPanel(p, train.velocity, state.elapsedTime, state.acceleration);
+  };
+
+  /** ウィンドウサイズの変更に合わせてキャンバスを再設定する。 */
+  p.windowResized = () => {
+    canvasController.resizeScreen(p);
+  };
+};
+
+new p5(sketch);

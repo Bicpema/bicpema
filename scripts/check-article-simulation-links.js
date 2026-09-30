@@ -1,4 +1,4 @@
-// content/post/ 配下の記事と vite/simulations/ 配下のシミュレーションの
+// src/content/posts/ 配下の記事と src/simulations/ 配下のシミュレーションの
 // 対応関係を検査する。
 //
 // - 記事内の "/vite/simulations/<slug>/" リンクが実在するシミュレーションを
@@ -18,8 +18,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
 
 const result = checkArticleSimulationLinks({
-  simulationsDir: resolve(rootDir, "vite", "simulations"),
-  postsDir: resolve(rootDir, "content", "post"),
+  simulationsDir: resolve(rootDir, "src", "simulations"),
+  postsDir: resolve(rootDir, "src", "content", "posts"),
   allowedArticlelessSlugs: ARTICLELESS_SIMULATION_ALLOWLIST
 });
 
@@ -32,7 +32,7 @@ if (result.brokenLinks.length > 0) {
   );
   for (const { articleDir, slug } of result.brokenLinks) {
     console.error(
-      `  content/post/${articleDir}/index.md -> /vite/simulations/${slug}/`
+      `  src/content/posts/${articleDir}/index.md -> /vite/simulations/${slug}/`
     );
   }
 }
@@ -43,7 +43,7 @@ if (result.missingArticleSlugs.length > 0) {
     "対応する記事が見つからないシミュレーションがあります（意図的な場合は scripts/articleless-simulation-allowlist.js に追加してください）:"
   );
   for (const slug of result.missingArticleSlugs) {
-    console.error(`  vite/simulations/${slug}`);
+    console.error(`  src/simulations/${slug}`);
   }
 }
 

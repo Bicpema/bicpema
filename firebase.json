@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "public",
+    "public": "dist",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "redirects": [
       {
@@ -16,6 +16,21 @@
       {
         "source": "/vite/simulations/cellophane_display/:slug*",
         "destination": "/vite/simulations/cellophane-display/:slug*",
+        "type": 301
+      },
+      {
+        "source": "/post/page/**",
+        "destination": "/post/",
+        "type": 301
+      },
+      {
+        "source": "/page/**",
+        "destination": "/post/",
+        "type": 301
+      },
+      {
+        "source": "/sitemap.xml",
+        "destination": "/sitemap-index.xml",
         "type": 301
       },
       {

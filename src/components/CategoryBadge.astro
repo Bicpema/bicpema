@@ -1,0 +1,25 @@
+---
+// カテゴリーのバッジ。hrefを指定するとリンクになる。
+import { categoryStyle } from "../lib/posts";
+
+interface Props {
+  category: string;
+  href?: string;
+  class?: string;
+}
+
+const { category, href, class: className } = Astro.props;
+const Tag = href ? "a" : "span";
+---
+
+<Tag
+  href={href}
+  class:list={[
+    "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold",
+    categoryStyle(category).badge,
+    href && "hover:opacity-80",
+    className
+  ]}
+>
+  {category}
+</Tag>

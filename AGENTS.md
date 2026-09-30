@@ -7,44 +7,44 @@
 - `.claude/` : Claude Code・GitHub Copilot Coding Agent共通のスキル（`skills/`）・サブエージェント（`agents/`）定義を格納するフォルダー
 - `.github/` : GitHub関連の設定ファイルを格納するフォルダー
 - `.vscode/` : VSCode関連の設定ファイルを格納するフォルダー
-- `archetypes/` : コンテンツのアーキタイプ（テンプレート）を格納するフォルダー
-- `config/` : Hugoの設定ファイルを格納するフォルダー
-- `content/` : サイトのコンテンツ（記事やページ）を格納するフォルダー
-- `data/` : Hugoのデータファイルと、外部に掲載されたURLの一覧（`published-urls.yaml`）を格納するフォルダー
+- `data/` : 外部に掲載されたURLの一覧（`published-urls.yaml`）など、CI・ビルドで参照するデータファイルを格納するフォルダー
 - `docs/` : 開発者ドキュメント（Zensical）を格納するフォルダー
-- `i18n/` : 多言語対応の翻訳ファイルを格納するフォルダー
-- `layouts/` : サイトのレイアウトテンプレートを格納するフォルダー
+- `public/` : ファビコンなど、サイトにそのまま配信する静的ファイルを格納するフォルダー
 - `scripts/` : シミュレーションの雛形生成・検証・ベンチマーク、開発環境の保守用のスクリプトを格納するフォルダー
-- `static/` : CSS、JavaScript、画像などの静的ファイルを格納するフォルダー
+- `src/` : サイト全体（記事・シミュレーション）のソースを格納するフォルダー（Astro）
+    - `components/` : Astroコンポーネント（ヘッダー・フッター・検索・ダークモードの切り替え・記事カードなど）
+        - `simulation/` : シミュレーション共通のUIパーツ（`NavBar` / `LoadingSpinner` / `SettingsButton` / `SettingsModal`）。アイコン（`Icon`）は `components/` 直下
+    - `content/posts/` : 記事（`<記事名>/index.md`）を格納するフォルダー
+    - `content/pages/` : 固定ページ（about / licenses / terms）を格納するフォルダー
+    - `content.config.ts` : 記事・固定ページのフロントマターのスキーマ
+    - `integrations/` ・`plugins/` : Astroインテグレーション・remarkプラグイン（ショートコード記法の変換、ライセンス一覧の出力）
+    - `layouts/` : ページの共通レイアウト（記事用の `BaseLayout`・シミュレーション用の `SimulationLayout`）
+    - `lib/` : 共通のTypeScript（`simulation/` はシミュレーションがブラウザーで使う共通処理）
+    - `pages/` : ページのルーティング（`vite/simulations/[...path].astro` がシミュレーションのページを出力する）
+    - `simulations/` : 各シミュレーション（`<名前>/index.astro` と `<名前>/ts/`）を格納するフォルダー
+        - `_template/` : シミュレーションの雛形（`_` で始まるフォルダーはページとして出力されない）
+    - `styles/` : CSS（`simulation.css` はシミュレーション用のTailwind CSS）
+    - `types/` : TypeScriptの型定義ファイル
 - `test/` : テストを格納するフォルダー
     - `e2e/` : PlaywrightによるE2Eテストを格納するフォルダー
     - 上記以外 : Vitestによる単体テストを格納するフォルダー
-- `themes/` : Hugoテーマ（git submodule）を格納するフォルダー
-- `vite/` : Viteを使用したフロントエンドのビルド設定やシミュレーションファイルを格納するフォルダー
-    - `_build/` : Viteのビルド設定を格納するフォルダー
-    - `_templates/` : シミュレーションの雛形テンプレートファイルを格納するフォルダー（`_` で始まるディレクトリはビルド対象外）
-    - `css/` : 共通のCSSファイルを格納するフォルダー
-    - `ts/` : 共通のTypeScriptファイルを格納するフォルダー
-    - `simulations/` : 各シミュレーションのファイルを格納するフォルダー
-    - `types/` : TypeScriptの型定義ファイルを格納するフォルダー
 
 以下はビルド時に生成されるフォルダーで、git管理対象外です（`.gitignore` 参照）。
 
-- `public/` : Hugoのビルド出力先
-- `resources/` : Hugoが生成するキャッシュ（`resources/_gen`）
-- `static/vite/` : Viteのビルド出力先
+- `dist/` : Astroのビルド出力先（記事・シミュレーションを含むサイト全体）。Firebase Hostingの配信対象
+- `.astro/` : Astroが生成する型定義・キャッシュ
 
 ## シミュレーションの実装手順
 
-1. `vite/simulations/` ディレクトリに新しいシミュレーション用のフォルダを作成します。作成には、以下のコマンドを実行してください。
+1. `src/simulations/` ディレクトリに新しいシミュレーション用のフォルダを作成します。作成には、以下のコマンドを実行してください。
 
     ```bash
     npm run new:simulation
     ```
 
 1. 手順に従って、日本語名とハイフン区切りの英語名のシミュレーション名を入力します。
-1. vite/simulations/ フォルダ内に新しいシミュレーション用のフォルダが作成され、その中に基本的なHTMLテンプレートファイルが生成されます。
-1. 生成されたHTMLテンプレートファイルを開き、シミュレーションの内容を実装します。
+1. `src/simulations/` フォルダ内に新しいシミュレーション用のフォルダが作成され、その中にページ（`index.astro`）と `ts/` 配下のTypeScriptが生成されます。
+1. 生成されたファイルを開き、シミュレーションの内容を実装します。共通UIパーツは `src/components/simulation/` のコンポーネントを利用してください。
 1. 実装が完了したら、ローカルサーバーを起動して、シミュレーションが正しく動作することを確認します。
 1. シミュレーションを追加した後、現象とシミュレーションの説明をする記事を追加します。
 

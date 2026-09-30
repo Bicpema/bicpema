@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { calcEquilibrium } from "../../../vite/simulations/three-force-equilibrium/ts/logic.js";
-import { state } from "../../../vite/simulations/three-force-equilibrium/ts/state.js";
+import { calcEquilibrium } from "../../../src/simulations/three-force-equilibrium/ts/logic.js";
+import { state } from "../../../src/simulations/three-force-equilibrium/ts/state.js";
 
 beforeEach(() => {
   state.anchorA = { x: 115, y: 90 };

@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach } from "vitest";
-import { Car } from "../../../vite/simulations/uniformly-accelerated-linear-motion/ts/car.js";
-import { state } from "../../../vite/simulations/uniformly-accelerated-linear-motion/ts/state.js";
-import { MAX_TIME } from "../../../vite/simulations/uniformly-accelerated-linear-motion/ts/constants.js";
+import { Car } from "../../../src/simulations/uniformly-accelerated-linear-motion/ts/car.js";
+import { state } from "../../../src/simulations/uniformly-accelerated-linear-motion/ts/state.js";
+import { MAX_TIME } from "../../../src/simulations/uniformly-accelerated-linear-motion/ts/constants.js";
 
 beforeEach(() => {
   state.xtData = [];

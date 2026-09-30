@@ -1,25 +1,26 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { getSimulationSlugs } from "./simulations.js";
 
-// vite/_templates/simulation/ をコピーして作られるシミュレーション（vite/simulations/<slug>/）が
+// src/simulations/_template/ をコピーして作られるシミュレーション（src/simulations/<slug>/）が
 // テンプレートの必須構成から外れていないかを検査する。
 //
 // 検査項目:
 // - エントリーポイント（ts/index.ts）が存在し、
-//   index.htmlから<script type="module">で読み込まれているか
-// - ナビバー（<bicpema-nav-bar>）/ id="p5Container" / id="p5Canvas" を持つ要素があるか
+//   index.astroから<script src>で読み込まれているか（Astroがモジュールとしてバンドルする）
+// - ナビバー（<NavBar>）/ id="p5Container" / id="p5Canvas" を持つ要素があるか
 // - ナビバー・ローディングスピナー・設定ボタン・設定モーダルを共通コンポーネント
-//   （<bicpema-*>タグ）を使わずに手書きでコピーしていないか（#621・#747の再発防止）
-// - Bootstrap IconsのSVGアイコンを<bicpema-icon>を使わずにべた書きしていないか（#748の再発防止）
+//   （src/components/simulation/）を使わずに手書きでコピーしていないか（#621・#747の再発防止）
+// - Bootstrap IconsのSVGアイコンを<Icon>を使わずにべた書きしていないか（#748の再発防止）
 // - BicpemaCanvasControllerを利用している場合、シミュレーション固有の
-//   複製ファイルではなく共通の vite/ts/bicpema-canvas-controller.js を
+//   複製ファイルではなく共通の src/lib/simulation/bicpema-canvas-controller.ts を
 //   参照しているか（#79の再発防止）
 // Bootstrap IconsのSVGは class="bi bi-<name>" を持つ
 const INLINE_ICON_PATTERN = /<svg\b[^>]*\bclass="(?:[^"]*\s)?bi(?:\s[^"]*)?"/;
 const CANVAS_CONTROLLER_IMPORT_PATTERN =
   /from\s+(["'])([^"']*bicpema-canvas-controller\.js)\1/;
 const CANONICAL_CANVAS_CONTROLLER_IMPORT_PATH =
-  "../../../ts/bicpema-canvas-controller.js";
+  "../../../lib/simulation/bicpema-canvas-controller.js";
 // 設定ボタンのフック用クラス（.settings-modal-open）・見た目用クラス（.btn-settings-modal-open）
 const INLINE_SETTINGS_BUTTON_PATTERN =
   /class="(?:[^"]*\s)?(?:btn-)?settings-modal-open(?:\s[^"]*)?"/;
@@ -29,18 +30,6 @@ const INLINE_SETTINGS_MODAL_PATTERN =
   /class="(?:[^"]*\s)?(?:modal-panel|modal-close)(?:\s[^"]*)?"/;
 const ENTRY_SCRIPT_CANDIDATES = ["ts/index.ts"];
 const JS_FILE_EXTENSIONS = [".js", ".ts"];
-
-/**
- * vite/simulations/ 配下のシミュレーションslug一覧を取得する。
- * @param {string} simulationsDir
- * @returns {string[]}
- */
-export function getSimulationSlugs(simulationsDir) {
-  return readdirSync(simulationsDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => entry.name)
-    .toSorted();
-}
 
 /**
  * ディレクトリ配下のjs/tsファイルを再帰的に列挙する。
@@ -67,13 +56,13 @@ function listJsFilesRecursively(dir) {
  */
 export function findSimulationTemplateIssues(simulationDir) {
   const issues = [];
-  const indexHtmlPath = join(simulationDir, "index.html");
+  const indexPagePath = join(simulationDir, "index.astro");
 
-  if (!existsSync(indexHtmlPath)) {
-    return ["missing-index-html"];
+  if (!existsSync(indexPagePath)) {
+    return ["missing-index-page"];
   }
 
-  const html = readFileSync(indexHtmlPath, "utf-8");
+  const html = readFileSync(indexPagePath, "utf-8");
 
   const entryScriptRelPath = ENTRY_SCRIPT_CANDIDATES.find((candidate) =>
     existsSync(join(simulationDir, candidate))
@@ -81,11 +70,11 @@ export function findSimulationTemplateIssues(simulationDir) {
   if (!entryScriptRelPath) {
     issues.push("missing-entry-script");
   } else {
+    /** @type {string[]} */
     const scriptTags = html.match(/<script[^>]*>/g) ?? [];
-    const isLoadedAsModule = scriptTags.some(
-      (tag) =>
-        tag.includes('type="module"') &&
-        tag.includes(`src="./${entryScriptRelPath}"`)
+    // is:inlineなどsrc以外の属性があるとAstroがバンドルしないため、src属性のみを許容する
+    const isLoadedAsModule = scriptTags.includes(
+      `<script src="./${entryScriptRelPath}">`
     );
     if (!isLoadedAsModule) {
       issues.push("entry-script-not-loaded-as-module");
@@ -94,7 +83,7 @@ export function findSimulationTemplateIssues(simulationDir) {
 
   if (/id="navBar"/.test(html)) {
     issues.push("inline-nav-bar");
-  } else if (!/<bicpema-nav-bar[\s>]/.test(html)) {
+  } else if (!/<NavBar[\s/>]/.test(html)) {
     issues.push("missing-nav-bar");
   }
   if (/id="loadingSpinner"/.test(html)) issues.push("inline-loading-spinner");
@@ -134,7 +123,7 @@ export function findSimulationTemplateIssues(simulationDir) {
 }
 
 /**
- * vite/simulations/ 配下全体のテンプレート準拠チェックを行う。
+ * src/simulations/ 配下全体のテンプレート準拠チェックを行う。
  * @param {object} options
  * @param {string} options.simulationsDir
  * @param {string[]} [options.allowedNonCompliantSlugs] 既知の非準拠として許容するslug

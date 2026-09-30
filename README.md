@@ -5,11 +5,10 @@
 - サイト: <https://bicpema.com/>
 - 使い方: トップページまたは記事一覧から見たいシミュレーションを選び、ブラウザで開いてパラメータを操作する。インストール不要で、スマートフォン・タブレット・PCのいずれでも利用できる。詳しくは[Bicpemaについて](https://bicpema.com/about/)を参照。
 
-サイトは[Hugo](https://gohugo.io/)で構築し、シミュレーションは[p5.js](https://p5js.org/)と[Vite](https://vite.dev/)で実装している。
+サイト（記事・シミュレーション）は[Astro](https://astro.build/)で構築し、シミュレーションは[p5.js](https://p5js.org/)で実装している。
 
 ## Requirements
 
-- [Hugo](https://gohugo.io/installation/)（extended、最新版。CIは`latest`を使用）
 - [Node.js](https://nodejs.org/ja/download/) 24.x（CIと同じバージョン）
 - npm 11.x（Node.jsに同梱）
 - Python 3.x・pip（YAMLのリントに使うyamllint、開発者ドキュメントのZensicalで使用）
@@ -17,9 +16,6 @@
 各種インストールできているかの確認
 
 ```bash
-hugo version
-# hugo v0.1xx.x+extended ...
-
 node -v
 # v24.x.x
 
@@ -29,11 +25,10 @@ npm -v
 
 ## Setup
 
-リポジトリをクローンする  
-※サブモジュールを使用しているため、`--recursive`オプションをつけること
+リポジトリをクローンする
 
 ```bash
-git clone --recursive git@github.com:Bicpema/bicpema.git
+git clone git@github.com:Bicpema/bicpema.git
 ```
 
 npmパッケージをインストールする（`package-lock.json`どおりの版を入れるため`npm ci`を使う。パッケージを追加・更新するとき以外は`npm install`を使わない）
@@ -56,25 +51,19 @@ npx playwright install --with-deps chromium
 
 ## Development
 
-hugoのサーバーを立ち上げる
-
-```bash
-hugo server -D
-```
-
-simulationsのhtmlをビルドする（変更を監視して`static/vite/`へ出力し続ける）
+Astroの開発サーバーを立ち上げる（記事・シミュレーションとも、編集すると自動で反映される）
 
 ```bash
 npm run dev
 ```
 
 TOPページ
-<http://localhost:1313/>
+<http://localhost:4321/>
 
-シミュレーション（`vite/simulations/<シミュレーション名>/`が`/vite/simulations/<シミュレーション名>/`で配信される）
-<http://localhost:1313/vite/simulations/wave-reflection/>
+シミュレーション（`src/simulations/<シミュレーション名>/`が`/vite/simulations/<シミュレーション名>/`で配信される）
+<http://localhost:4321/vite/simulations/wave-reflection/>
 
-シミュレーションを一度だけビルドする（出力先は`static/vite/`）
+サイト全体をビルドする（出力先は`dist/`。`npm run preview`で確認できる）
 
 ```bash
 npm run build
@@ -84,8 +73,9 @@ npm run build
 
 | コマンド                            | 内容                                                                                                             |
 | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `npm run dev`                       | シミュレーションを監視ビルドする                                                                                 |
-| `npm run build`                     | シミュレーションをビルドする                                                                                     |
+| `npm run dev`                       | Astroの開発サーバーを起動する                                                                                    |
+| `npm run build`                     | サイト全体（記事・シミュレーション）をビルドする                                                                 |
+| `npm run preview`                   | ビルドしたサイトを確認する                                                                                       |
 | `npm run new:simulation`            | 雛形から新しいシミュレーションを生成する                                                                         |
 | `npm test`                          | Vitestで単体テストを実行する（`npm run test:watch`で監視実行）                                                   |
 | `npm run test:e2e`                  | PlaywrightでE2Eテストを実行する（事前に自動でビルドされる）                                                      |
@@ -115,33 +105,31 @@ zensical serve
 
 ## Blog
 
-記事の追加
+記事は`src/content/posts/<記事名>/index.md`に追加する（記事名がURL `/post/<記事名>/` になる）。サムネイル画像は同じフォルダーに置き、フロントマターの`image`にファイル名を書く。フロントマターの項目は[`src/content.config.ts`](./src/content.config.ts)のスキーマで検査され、不足や未定義の項目があるとビルドが失敗する。
 
-```bash
-hugo new post/[post-name]/index.md
-# 例
-hugo new post/sample-post/index.md
+```yaml
+---
+title: "記事のタイトル"
+description: "記事の説明"
+author: "kenji"
+date: "2026-10-01"
+image: "thumbnail.png"
+tags: ["物理", "力学"]
+categories: ["力学"]
+series: ["力学入門"]
+aliases: []
+---
+```
+
+シミュレーションは、以下の記法で記事に埋め込む（埋め込みの下に「全画面表示」「別タブで開く」ボタンが表示される）。
+
+```markdown
+{{< simulation-link "/vite/simulations/<シミュレーション名>/" >}}
 ```
 
 タグ・カテゴリ・シリーズは、記事のフロントマター（`tags` / `categories` / `series`）で指定する（専用ページの作成は不要）。付け方のルールは[タグ付けルール](./docs/docs/simulation/index.md#タグ付けルール)を参照。
 
-使用できるマークダウンの記法は以下を参照
-
-プレビュー  
-<https://hugo-theme-tailwind.tomo.dev/post/markdown-syntax/>
-
-ソースコード  
-<https://github.com/tomowang/hugo-theme-tailwind/blob/main/exampleSite/content/post/markdown-syntax/index.md?plain=1>
-
-記事中で数式（KaTeX）を使う場合は、フロントマターに以下のいずれかを設定して有効化する。
-
-```yaml
-math: true # または katex: true
-```
-
-全記事で一括有効化する場合は`config/_default/params.toml`の`math`を`true`にする。
-
-記法はインライン`\( ... \)`、ブロック`$$ ... $$`を使用する（参照: [KaTeX Supported Functions](https://katex.org/docs/supported.html)）。
+記事では数式（KaTeX）を常に使用できる。記法はインライン`\( ... \)`、ブロック`$$ ... $$`を使用する（参照: [KaTeX Supported Functions](https://katex.org/docs/supported.html)）。
 インラインの`\( ... \)`はMarkdownのエスケープ処理で`\`が消えてしまうため、Markdown本文中では`\\( ... \\)`と2重バックスラッシュで記述すること（ブロックの`$$ ... $$`はそのままでよい）。
 
 ```markdown
@@ -162,7 +150,7 @@ npm run check:article-links
 
 意図的に記事なしとするシミュレーションは`scripts/articleless-simulation-allowlist.js`に追加する。
 
-教科書などに掲載されたURL（`data/published-urls.yaml`）がビルド成果物からアクセス可能かをチェックする（Vite・Hugoのビルド後に実行する）
+教科書などに掲載されたURL（`data/published-urls.yaml`）がビルド成果物からアクセス可能かをチェックする（`npm run build`の後に実行する）
 
 ```bash
 npm run check:published-urls
@@ -172,8 +160,8 @@ npm run check:published-urls
 
 ## Simulation
 
-[`vite/simulations/`](./vite/simulations/)にシミュレーションのHTML・CSS・TypeScriptを配置する。  
-新規のシミュレーションを追加する場合は、以下のコマンドを実行し、対話形式で日本語名とハイフン区切りの英語名（例: `sample-simulation`）を入力する。[`vite/_templates/simulation/`](./vite/_templates/simulation/)の雛形から`vite/simulations/<英語名>/`が生成される。
+[`src/simulations/`](./src/simulations/)にシミュレーションのページ（`index.astro`）とTypeScript（`ts/`）を配置する。共通UIパーツは[`src/components/simulation/`](./src/components/simulation/)のコンポーネントを使う。  
+新規のシミュレーションを追加する場合は、以下のコマンドを実行し、対話形式で日本語名とハイフン区切りの英語名（例: `sample-simulation`）を入力する。[`src/simulations/_template/`](./src/simulations/_template/)の雛形から`src/simulations/<英語名>/`が生成される。
 
 ```bash
 npm run new:simulation
@@ -185,14 +173,13 @@ p5.jsはインスタンスモード（`new p5(sketch)`）で実装する。実�
 
 ## Structure
 
-フォルダー構成は[AGENTS.mdのフォルダー構成](./AGENTS.md#フォルダー構成)に集約している（二重管理を避けるため、READMEには記載しない）。`public/`・`resources/`・`static/vite/`はビルド時に生成されるフォルダーで、git管理対象外。
+フォルダー構成は[AGENTS.mdのフォルダー構成](./AGENTS.md#フォルダー構成)に集約している（二重管理を避けるため、READMEには記載しない）。`dist/`・`.astro/`はビルド時に生成されるフォルダーで、git管理対象外。
 
 ## License
 
 - ソースコードには[MIT License](./LICENSE)が適用される。
-- 記事・画像・シミュレーションの画面などのコンテンツには、公開サイトの[利用規約](https://bicpema.com/terms/)が適用される（授業・自習での利用や改変は自由、出版物・商用教材への掲載は要連絡）。規約の本文は[`content/terms.md`](./content/terms.md)で管理する。
-- サードパーティライブラリ・フォントのライセンスは[`content/licenses.md`](./content/licenses.md)を参照。
-- サイトのテーマには[hugo-theme-tailwind](https://github.com/tomowang/hugo-theme-tailwind)（git submodule、`themes/hugo-theme-tailwind`）を使用しており、[MIT License](https://github.com/tomowang/hugo-theme-tailwind/blob/main/LICENSE)が適用される。ライセンス全文はsubmodule内の`themes/hugo-theme-tailwind/LICENSE`、または[`content/licenses.md`](./content/licenses.md)を参照。
+- 記事・画像・シミュレーションの画面などのコンテンツには、公開サイトの[利用規約](https://bicpema.com/terms/)が適用される（授業・自習での利用や改変は自由、出版物・商用教材への掲載は要連絡）。規約の本文は[`src/content/pages/terms.md`](./src/content/pages/terms.md)で管理する。
+- サードパーティライブラリ・フォントのライセンスは[`src/content/pages/licenses.md`](./src/content/pages/licenses.md)を参照。
 
 ## Others
 

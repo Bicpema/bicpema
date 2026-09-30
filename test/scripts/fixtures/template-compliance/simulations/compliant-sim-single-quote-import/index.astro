@@ -1,0 +1,12 @@
+---
+import SimulationLayout from "../../../../../../src/layouts/SimulationLayout.astro";
+import NavBar from "../../../../../../src/components/simulation/NavBar.astro";
+---
+
+<SimulationLayout title="シングルクォートでcanonical importしているシミュレーション">
+  <NavBar title="シングルクォートでcanonical importしているシミュレーション" />
+  <div id="p5Container">
+    <div id="p5Canvas"></div>
+  </div>
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

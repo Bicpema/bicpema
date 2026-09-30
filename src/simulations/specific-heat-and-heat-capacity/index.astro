@@ -1,0 +1,85 @@
+---
+import SimulationLayout from "../../layouts/SimulationLayout.astro";
+import NavBar from "../../components/simulation/NavBar.astro";
+import LoadingSpinner from "../../components/simulation/LoadingSpinner.astro";
+import SettingsButton from "../../components/simulation/SettingsButton.astro";
+import SettingsModal from "../../components/simulation/SettingsModal.astro";
+
+const title = "比熱と熱容量";
+---
+
+<SimulationLayout
+  title={title}
+  class="h-full overflow-hidden bg-neutral-900 p-0"
+>
+  <NavBar title={title} />
+
+  <div
+    class="relative mt-[60px] h-[calc(100vh-60px)] w-full overflow-hidden p-0"
+    id="p5Container"
+  >
+    <div class="flex h-full w-full justify-center" id="p5Canvas"></div>
+
+    <!-- 設定モーダル -->
+    <SettingsModal
+      id="settingsModal"
+      variant="dark"
+      panelClass="w-[340px] max-[576px]:w-[290px]"
+    >
+      <div class="mb-4">
+        <label for="materialSelectA" class="form-label">
+          物質A
+        </label>
+        <select class="form-control" id="materialSelectA">
+          <option value="0">アルミニウム</option>
+          <option value="1">鉄</option>
+          <option value="2">銅</option>
+          <option value="3">銀</option>
+          <option value="4">水銀</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="massSelectA" class="form-label">
+          物質Aの質量
+        </label>
+        <select class="form-control" id="massSelectA">
+          <option value="1" selected>
+            質量(小) 0.1kg
+          </option>
+          <option value="0">質量(大) 0.3kg</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="materialSelectB" class="form-label">
+          物質B
+        </label>
+        <select class="form-control" id="materialSelectB">
+          <option value="0">アルミニウム</option>
+          <option value="1">鉄</option>
+          <option value="2">銅</option>
+          <option value="3">銀</option>
+          <option value="4">水銀</option>
+        </select>
+      </div>
+      <div class="mb-4">
+        <label for="massSelectB" class="form-label">
+          物質Bの質量
+        </label>
+        <select class="form-control" id="massSelectB">
+          <option value="0" selected>
+            質量(大) 0.3kg
+          </option>
+          <option value="1">質量(小) 0.1kg</option>
+        </select>
+      </div>
+    </SettingsModal>
+
+    <!-- 右上コントロール -->
+    <SettingsButton id="toggleModal" />
+  </div>
+
+  <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
+  <LoadingSpinner />
+
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

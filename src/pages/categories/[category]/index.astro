@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHeader from "../../../components/PageHeader.astro";
+import PostGrid from "../../../components/PostGrid.astro";
+import { getPosts } from "../../../lib/posts";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  const categories = [
+    ...new Set(posts.flatMap((post) => post.data.categories))
+  ];
+  // Hugoのタクソノミーと同じく、URLは小文字化したカテゴリー名とする
+  return categories.map((category) => ({
+    params: { category: category.toLowerCase() },
+    props: {
+      category,
+      posts: posts.filter((post) => post.data.categories.includes(category))
+    }
+  }));
+}
+
+const { category, posts } = Astro.props;
+---
+
+<BaseLayout
+  title={`${category}の教材`}
+  description={`「${category}」の物理シミュレーション教材の一覧です。`}
+>
+  <PageHeader
+    title={category}
+    description={`「${category}」の教材 ${posts.length}本`}
+    breadcrumbs={[
+      { href: "/categories/", label: "カテゴリー" },
+      { label: category }
+    ]}
+  />
+  <div class="mx-auto max-w-6xl px-4 py-10">
+    <PostGrid posts={posts} />
+  </div>
+</BaseLayout>

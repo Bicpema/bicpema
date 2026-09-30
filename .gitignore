@@ -1,16 +1,11 @@
-/public
+/dist
+/.astro
 
 .firebaserc
-
-.hugo_build.lock
-
-resources/_gen
 
 .DS_Store
 
 node_modules
-
-static/vite
 
 nohup.out
 

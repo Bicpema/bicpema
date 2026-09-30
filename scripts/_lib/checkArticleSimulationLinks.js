@@ -1,26 +1,15 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { getSimulationSlugs } from "./simulations.js";
 
-// content/post/*/index.md 内の "/vite/simulations/<slug>/" 形式のリンクから
+// src/content/posts/*/index.md 内の "/vite/simulations/<slug>/" 形式のリンクから
 // slugを抽出する。記事ディレクトリ名は日本語、slugは英語のことが多く両者を
 // 直接対応付けられないため、ディレクトリ名ではなく記事本文中のリンクを
 // 手がかりにシミュレーションとの対応を判定する。
 const SIMULATION_LINK_PATTERN = /\/vite\/simulations\/([A-Za-z0-9_-]+)\/?/g;
 
 /**
- * vite/simulations/ 配下のシミュレーションslug一覧を取得する。
- * @param {string} simulationsDir
- * @returns {string[]}
- */
-export function getSimulationSlugs(simulationsDir) {
-  return readdirSync(simulationsDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => entry.name)
-    .toSorted();
-}
-
-/**
- * content/post/ 配下の記事（index.mdを持つディレクトリ）一覧を取得する。
+ * src/content/posts/ 配下の記事（index.mdを持つディレクトリ）一覧を取得する。
  * @param {string} postsDir
  * @returns {{ articleDir: string, content: string }[]}
  */
@@ -51,27 +40,6 @@ export function extractLinkedSimulationSlugs(markdownContent) {
     slugs.add(match[1]);
   }
   return [...slugs];
-}
-
-/**
- * シミュレーションslugから、そのシミュレーションへリンクしている記事の
- * ディレクトリ名への対応表を作成する。複数の記事からリンクされている場合は、
- * ディレクトリ名の昇順で最初の記事を採用する。
- * @param {string} postsDir
- * @returns {Map<string, string>}
- */
-export function getSimulationArticleDirs(postsDir) {
-  /** @type {Map<string, string>} */
-  const articleDirs = new Map();
-  const articles = getArticleEntries(postsDir).toSorted((a, b) =>
-    a.articleDir.localeCompare(b.articleDir)
-  );
-  for (const article of articles) {
-    for (const slug of extractLinkedSimulationSlugs(article.content)) {
-      if (!articleDirs.has(slug)) articleDirs.set(slug, article.articleDir);
-    }
-  }
-  return articleDirs;
 }
 
 /**

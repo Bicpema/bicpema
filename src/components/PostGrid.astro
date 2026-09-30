@@ -1,0 +1,25 @@
+---
+// 記事カードのグリッド。
+import PostCard from "./PostCard.astro";
+import type { Post } from "../lib/posts";
+
+interface Props {
+  posts: Post[];
+  headingLevel?: 2 | 3;
+  /** 先頭から何件の画像を遅延読み込みしないか */
+  eagerCount?: number;
+  id?: string;
+}
+
+const { posts, headingLevel, eagerCount = 3, id } = Astro.props;
+---
+
+<div id={id} class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+  {posts.map((post, index) => (
+    <PostCard
+      post={post}
+      headingLevel={headingLevel}
+      eager={index < eagerCount}
+    />
+  ))}
+</div>

@@ -1,0 +1,21 @@
+---
+import SimulationLayout from "../../../../../../src/layouts/SimulationLayout.astro";
+---
+
+<SimulationLayout title="共通UIパーツを手書きしているシミュレーション">
+  <nav id="navBar">Bicpema</nav>
+  <div id="p5Container">
+    <div id="p5Canvas"></div>
+  </div>
+  <div id="loadingSpinner"></div>
+  <button class="settings-modal-open btn-settings-modal-open">⚙ 設定</button>
+  <div id="settingsModal" class="modal-panel hidden">
+    <button class="modal-close modal-close-solid">閉じる</button>
+  </div>
+  <button>
+    <svg class="bi bi-camera" viewBox="0 0 16 16">
+      <path d="M0 0" />
+    </svg>
+  </button>
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

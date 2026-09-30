@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import TermIndex from "../../components/TermIndex.astro";
+import { categoryUrl, countBy, getPosts } from "../../lib/posts";
+
+const categories = countBy(await getPosts(), (post) => post.data.categories);
+---
+
+<BaseLayout
+  title="カテゴリー"
+  description="Bicpemaの物理シミュレーション教材を分野別に探せます。"
+>
+  <PageHeader
+    title="カテゴリー"
+    description="物理の分野ごとに教材を探せます。"
+    breadcrumbs={[{ label: "カテゴリー" }]}
+  />
+  <div class="mx-auto max-w-6xl px-4 py-10">
+    <TermIndex
+      icon="folder2-open"
+      terms={categories.map(([name, count]) => ({
+        name,
+        count,
+        href: categoryUrl(name),
+        category: name
+      }))}
+    />
+    <p class="mt-8 text-sm text-slate-600 dark:text-slate-400">
+      学習の順番に沿った教材のまとまりは
+      <a
+        href="/series/"
+        class="font-semibold text-blue-700 hover:underline dark:text-blue-300"
+      >
+        シリーズ
+      </a>
+      から探せます。
+    </p>
+  </div>
+</BaseLayout>

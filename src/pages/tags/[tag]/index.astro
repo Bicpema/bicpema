@@ -1,0 +1,39 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PageHeader from "../../../components/PageHeader.astro";
+import PostGrid from "../../../components/PostGrid.astro";
+import { getPosts } from "../../../lib/posts";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
+  // Hugoのタクソノミーと同じく、URLは小文字化したタグ名とする
+  return tags.map((tag) => ({
+    params: { tag: tag.toLowerCase() },
+    props: { tag, posts: posts.filter((post) => post.data.tags.includes(tag)) }
+  }));
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout
+  title={`タグ「${tag}」`}
+  description={`タグ「${tag}」の物理シミュレーション教材の一覧です。`}
+>
+  <PageHeader
+    title={`#${tag}`}
+    description={`タグ「${tag}」の教材 ${posts.length}本`}
+    breadcrumbs={[{ href: "/tags/", label: "タグ" }, { label: tag }]}
+  >
+    <a
+      href={`/post/?tag=${encodeURIComponent(tag)}`}
+      class="mt-4 inline-block text-sm font-semibold text-blue-700 hover:underline dark:text-blue-300"
+    >
+      ほかの条件と組み合わせて絞り込む →
+    </a>
+  </PageHeader>
+  <div class="mx-auto max-w-6xl px-4 py-10">
+    <PostGrid posts={posts} />
+  </div>
+</BaseLayout>

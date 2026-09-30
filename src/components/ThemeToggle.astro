@@ -1,0 +1,45 @@
+---
+// ダークモードの切り替えスイッチ。状態は<html>の.darkクラスとlocalStorageの"theme"で保持する
+// （初期表示時のクラス付与はBaseLayout.astroの<head>内のスクリプトで行う）。
+import Icon from "./Icon.astro";
+---
+
+<button
+  type="button"
+  role="switch"
+  aria-checked="false"
+  aria-label="ダークモード"
+  title="ダークモードの切り替え"
+  class="relative inline-flex h-8 w-14 shrink-0 cursor-pointer items-center rounded-full border border-slate-300 bg-slate-100 p-0.5 transition-colors hover:border-slate-400 dark:border-slate-600 dark:bg-slate-800 dark:hover:border-slate-500"
+  data-theme-toggle
+>
+  <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white text-amber-500 shadow transition-transform duration-200 dark:translate-x-6 dark:bg-slate-950 dark:text-sky-300">
+    <Icon name="sun-fill" size={14} class="dark:hidden" />
+    <Icon name="moon-stars-fill" size={14} class="hidden dark:block" />
+  </span>
+</button>
+
+<script>
+  const root = document.documentElement;
+  const toggles = document.querySelectorAll<HTMLButtonElement>(
+    "[data-theme-toggle]"
+  );
+  const sync = () => {
+    const dark = String(root.classList.contains("dark"));
+    for (const toggle of toggles) {
+      toggle.setAttribute("aria-checked", dark);
+    }
+  };
+  sync();
+  for (const toggle of toggles) {
+    toggle.addEventListener("click", () => {
+      const dark = root.classList.toggle("dark");
+      try {
+        localStorage.setItem("theme", dark ? "dark" : "light");
+      } catch {
+        // ストレージが使えない環境（プライベートブラウズ等）では保存しない
+      }
+      sync();
+    });
+  }
+</script>

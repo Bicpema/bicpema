@@ -1,0 +1,50 @@
+// index.js はメインのメソッドを呼び出すためのエントリーポイントです。
+
+import p5 from "p5";
+import { hideLoadingSpinner } from "../../../lib/simulation/bicpema-loading-spinner.js";
+import { BicpemaCanvasController } from "../../../lib/simulation/bicpema-canvas-controller.js";
+import { state } from "./state.js";
+import { initValue, elCreate } from "./init.js";
+import { drawSimulation } from "./logic.js";
+
+/**
+ * シミュレーションのスケッチを定義する。
+ * @param p - p5インスタンス
+ */
+const sketch = (p: p5) => {
+  const canvasController = new BicpemaCanvasController();
+
+  /** 炎の画像を読み込む。 */
+  p.preload = () => {
+    state.img_flame = p.loadImage(
+      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/flame.png?alt=media&token=1e8a3133-f779-47fd-9236-489515c0cbb6"
+    );
+  };
+
+  /** キャンバスを生成し、初期設定を行う。 */
+  p.setup = () => {
+    canvasController.fullScreen(p);
+    elCreate(p);
+    initValue(p);
+  };
+
+  let isFirstDraw = true;
+
+  /** 毎フレームの描画を行う。 */
+  p.draw = () => {
+    if (isFirstDraw) {
+      isFirstDraw = false;
+      hideLoadingSpinner();
+    }
+
+    drawSimulation(p);
+  };
+
+  /** ウィンドウサイズの変更に合わせてキャンバスを再設定し、値を初期化し直す。 */
+  p.windowResized = () => {
+    canvasController.resizeScreen(p);
+    initValue(p);
+  };
+};
+
+new p5(sketch);

@@ -1,10 +1,10 @@
-// vite/simulations/ 配下の各シミュレーションをヘッドレスブラウザーで起動し、
+// src/simulations/ 配下の各シミュレーションをヘッドレスブラウザーで起動し、
 // ページロード時および起動直後の実行中に発生した未処理例外（pageerror）や
 // console.error・リソースの読み込み失敗（requestfailed）を検知する。
 // 1件でも検知した場合は非0終了し、CIでのビルド失敗に反映できるようにする。
 //
 // 使い方:
-//   npm run build          # 先に static/vite/ をビルドしておく
+//   npm run build          # 先に dist/ をビルドしておく
 //   npm run verify:runtime
 //
 // オプション:
@@ -12,19 +12,19 @@
 //   --concurrency=<n>   同時に起動するページ数（既定: 4）
 //   --timeout=<ms>      ページ読み込みのタイムアウト（既定: 20000）
 //   --settle=<ms>       読み込み後、draw()等の実行を観測する待機時間（既定: 2000）
-//   --base-url=<url>    既に起動済みのサーバーを使う場合に指定する（省略時は vite preview を自動起動）
+//   --base-url=<url>    既に起動済みのサーバーを使う場合に指定する（省略時は astro preview を自動起動）
 
-import { existsSync, readdirSync, statSync } from "node:fs";
-import { createServer } from "node:net";
+import { existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
-import { preview } from "vite";
+import { startPreviewServer } from "./_lib/previewServer.js";
+import { getSimulationSlugs } from "./_lib/simulations.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
-const simulationsDir = join(rootDir, "vite", "simulations");
-const outDir = join(rootDir, "static", "vite");
+const simulationsDir = join(rootDir, "src", "simulations");
+const outDir = join(rootDir, "dist");
 
 /**
  * min以上の整数として妥当な値であれば返し、そうでなければ既定値を返す。
@@ -73,35 +73,6 @@ function parseArgs(argv) {
     }
   }
   return options;
-}
-
-/**
- * index.html を持つシミュレーションディレクトリ名の一覧を取得する。
- */
-function listSimulationNames() {
-  return readdirSync(simulationsDir)
-    .filter((name) => {
-      const dir = join(simulationsDir, name);
-      return statSync(dir).isDirectory() && existsSync(join(dir, "index.html"));
-    })
-    .toSorted();
-}
-
-/**
- * 空いているTCPポートを1つ取得する。
- * @returns {Promise<number>}
- */
-function findFreePort() {
-  return new Promise((resolvePort, reject) => {
-    const server = createServer();
-    server.unref();
-    server.on("error", reject);
-    server.listen(0, () => {
-      const address = server.address();
-      const port = typeof address === "object" && address ? address.port : 0;
-      server.close(() => resolvePort(port));
-    });
-  });
 }
 
 /**
@@ -200,7 +171,7 @@ async function main() {
     return;
   }
 
-  let names = listSimulationNames();
+  let names = getSimulationSlugs(simulationsDir);
   const { filter } = options;
   if (filter) {
     names = names.filter((name) => name.includes(filter));
@@ -211,20 +182,13 @@ async function main() {
     return;
   }
 
-  /** @type {import("vite").PreviewServer | null} */
-  let previewServer = null;
-  let baseUrl = options.baseUrl;
-
-  if (!baseUrl) {
-    const port = await findFreePort();
-    previewServer = await preview({
-      root: join(rootDir, "vite"),
-      base: "/vite",
-      preview: { port, strictPort: true },
-      build: { outDir }
-    });
-    baseUrl = `http://localhost:${port}`;
-  }
+  // --base-url の指定がなければ、ビルド済みのサイトを配信するプレビューサーバーを起動する
+  const previewServer = options.baseUrl
+    ? null
+    : await startPreviewServer(rootDir);
+  // previewServerがnullのときは options.baseUrl が指定されている
+  const baseUrl =
+    previewServer?.baseUrl ?? /** @type {string} */ (options.baseUrl);
 
   const browser = await chromium.launch();
   console.log(
@@ -269,7 +233,7 @@ async function main() {
   } finally {
     await browser.close();
     if (previewServer) {
-      await previewServer.close();
+      await previewServer.stop();
     }
   }
 }

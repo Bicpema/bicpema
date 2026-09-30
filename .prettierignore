@@ -3,24 +3,13 @@ node_modules
 __pycache__
 
 # Build outputs
-public
-resources
-vite/_build
 dist
+.astro
 docs/site
 docs/.cache
 
-# Hugo
-.hugo_build.lock
-
 # Git
 .git
-
-# Themes (managed separately)
-themes
-
-# Hugo template overrides (Go templateタグ混在のためPrettierのHTMLパーサーでは解釈不可)
-layouts
 
 # Configuration
 *.min.js

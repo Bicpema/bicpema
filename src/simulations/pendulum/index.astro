@@ -1,0 +1,112 @@
+---
+import SimulationLayout from "../../layouts/SimulationLayout.astro";
+import NavBar from "../../components/simulation/NavBar.astro";
+import LoadingSpinner from "../../components/simulation/LoadingSpinner.astro";
+import SettingsButton from "../../components/simulation/SettingsButton.astro";
+import SettingsModal from "../../components/simulation/SettingsModal.astro";
+
+const title = "振り子の実験";
+---
+
+<SimulationLayout
+  title={title}
+  class="m-0 h-screen w-screen p-0 fixed text-base"
+  disableContextMenu
+>
+  <NavBar title={title} />
+
+  <div class="mt-[60px]" id="p5Canvas"></div>
+
+  <SettingsButton class="absolute bottom-0 m-3" />
+
+  <SettingsModal>
+    <div class="mb-4">
+      <h2 class="mb-2 font-semibold">左の振り子の設定</h2>
+      <div class="mb-2 flex">
+        <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">
+          振れ角度[°]
+        </span>
+        <input
+          type="number"
+          class="w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+          id="leftAngleInput"
+          placeholder="左の振れ角"
+          aria-label="Angle"
+          value="10"
+        />
+      </div>
+      <div class="flex">
+        <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">
+          紐の長さ[cm]
+        </span>
+        <input
+          type="number"
+          class="w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+          id="leftLengthInput"
+          placeholder="左の紐の長さ"
+          aria-label="Length"
+          value="10"
+        />
+      </div>
+    </div>
+    <div class="mb-4">
+      <h2 class="mb-2 font-semibold">右の振り子の設定</h2>
+      <div class="mb-2 flex">
+        <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">
+          振れ角度[°]
+        </span>
+        <input
+          type="number"
+          class="w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+          id="rightAngleInput"
+          placeholder="右の振れ角"
+          aria-label="Angle"
+          value="20"
+        />
+      </div>
+      <div class="flex">
+        <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">
+          紐の長さ[cm]
+        </span>
+        <input
+          type="number"
+          class="w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+          id="rightLengthInput"
+          placeholder="右の紐の長さ"
+          aria-label="Length"
+          value="10"
+        />
+      </div>
+    </div>
+  </SettingsModal>
+  <button
+    class="absolute end-0 m-3 rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
+    id="gridButton"
+  >
+    グリッド線の表示
+  </button>
+  <div class="absolute bottom-0 end-0 m-3">
+    <button
+      class="mr-2 rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
+      id="startButton"
+    >
+      スタート
+    </button>
+    <button
+      class="mr-2 rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
+      id="stopButton"
+    >
+      ストップ
+    </button>
+    <button
+      class="rounded bg-red-600 px-3 py-2 text-white hover:bg-red-500"
+      id="resetButton"
+    >
+      リセット
+    </button>
+  </div>
+  <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
+  <LoadingSpinner />
+
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

@@ -1,4 +1,4 @@
-// 対応する記事（content/post/*/index.md からのリンク）が存在しなくても
+// 対応する記事（src/content/posts/*/index.md からのリンク）が存在しなくても
 // checkArticleSimulationLinks.js のチェックを許容するシミュレーションslug一覧。
 //
 // 以下は本チェックを導入した時点（2026-09-03）で記事が存在しなかった

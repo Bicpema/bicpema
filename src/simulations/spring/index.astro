@@ -1,0 +1,155 @@
+---
+import SimulationLayout from "../../layouts/SimulationLayout.astro";
+import NavBar from "../../components/simulation/NavBar.astro";
+import LoadingSpinner from "../../components/simulation/LoadingSpinner.astro";
+import SettingsButton from "../../components/simulation/SettingsButton.astro";
+import SettingsModal from "../../components/simulation/SettingsModal.astro";
+
+const title = "ばねの単振動";
+---
+
+<SimulationLayout
+  title={title}
+  class="m-0 h-screen w-screen p-0 fixed text-base"
+  disableContextMenu
+>
+  <NavBar title={title} />
+
+  <div class="mt-[60px] p-0" id="p5Canvas"></div>
+  <div class="absolute start-0 bottom-0 m-1">
+    <button
+      class="m-1 rounded bg-blue-600 px-3 py-2 text-white hover:bg-blue-500"
+      id="startButton"
+    >
+      スタート
+    </button>
+    <button
+      class="m-1 rounded bg-red-600 px-3 py-2 text-white hover:bg-red-500"
+      id="stopButton"
+    >
+      ストップ
+    </button>
+    <button
+      class="m-1 rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
+      id="resetButton"
+    >
+      リセット
+    </button>
+  </div>
+  <SettingsButton class="absolute end-0 bottom-0 z-[1000] m-2" />
+  <!-- Modal -->
+  <SettingsModal>
+    <div>
+      <div class="mb-4">
+        <label class="form-label text-lg">上のばねの設定</label>
+        <div class="mb-2 flex">
+          <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">
+            ばね定数
+          </span>
+          <input
+            type="number"
+            class="w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+            id="konstantButton1"
+            value="1"
+          />
+        </div>
+        <div class="mb-2 flex">
+          <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">
+            組み合わせ
+          </span>
+          <input
+            type="number"
+            class="w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+            id="combiButton1"
+            value="1"
+          />
+        </div>
+        <div class="mb-2 flex">
+          <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">
+            質量
+          </span>
+          <input
+            type="number"
+            class="w-full border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+            id="weightButton1"
+            value="1"
+          />
+          <span class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">
+            kg
+          </span>
+        </div>
+        <div class="flex">
+          <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">
+            振幅
+          </span>
+          <input
+            type="number"
+            class="w-full border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+            id="amplitudeButton1"
+            value="100"
+          />
+          <span class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">
+            m
+          </span>
+        </div>
+      </div>
+      <div class="mb-4">
+        <label class="form-label text-lg">下のばねの設定</label>
+        <div class="mb-2 flex">
+          <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">
+            ばね定数
+          </span>
+          <input
+            type="number"
+            class="w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+            id="konstantButton2"
+            value="1"
+          />
+        </div>
+        <div class="mb-2 flex">
+          <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">
+            組み合わせ
+          </span>
+          <input
+            type="number"
+            class="w-full rounded-r border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+            id="combiButton2"
+            value="1"
+          />
+        </div>
+        <div class="mb-2 flex">
+          <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">
+            質量
+          </span>
+          <input
+            type="number"
+            class="w-full border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+            id="weightButton2"
+            value="1"
+          />
+          <span class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">
+            kg
+          </span>
+        </div>
+        <div class="flex">
+          <span class="inline-flex items-center whitespace-nowrap rounded-l border border-r-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">
+            振幅
+          </span>
+          <input
+            type="number"
+            class="w-full border border-neutral-300 bg-white px-3 py-1.5 text-neutral-900"
+            id="amplitudeButton2"
+            value="100"
+          />
+          <span class="inline-flex items-center whitespace-nowrap rounded-r border border-l-0 border-neutral-300 bg-neutral-100 px-3 text-sm text-neutral-700">
+            m
+          </span>
+        </div>
+      </div>
+    </div>
+  </SettingsModal>
+  <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
+  <LoadingSpinner />
+
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

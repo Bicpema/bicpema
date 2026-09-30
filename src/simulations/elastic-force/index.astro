@@ -1,0 +1,61 @@
+---
+import SimulationLayout from "../../layouts/SimulationLayout.astro";
+import NavBar from "../../components/simulation/NavBar.astro";
+import LoadingSpinner from "../../components/simulation/LoadingSpinner.astro";
+import SettingsButton from "../../components/simulation/SettingsButton.astro";
+import SettingsModal from "../../components/simulation/SettingsModal.astro";
+
+const title = "弾性力";
+---
+
+<SimulationLayout
+  title={title}
+  class="h-full overflow-hidden bg-neutral-900 p-0"
+>
+  <NavBar title={title} />
+
+  <div
+    class="relative mt-[60px] h-[calc(100vh-60px)] w-full overflow-hidden p-0"
+    id="p5Container"
+  >
+    <div class="flex h-full w-full justify-center" id="p5Canvas"></div>
+
+    <!-- モーダルパネル -->
+    <SettingsModal id="settingsModal" variant="dark">
+      <div class="mb-4">
+        <label for="springConstantInput" class="form-label">
+          ばね定数 k (N/m)
+        </label>
+        <input
+          type="range"
+          class="w-full accent-blue-600"
+          id="springConstantInput"
+          min="5"
+          max="100"
+          value="20"
+          step="5"
+        />
+        <div class="flex justify-between">
+          <small class="text-white/50">5 N/m</small>
+          <span id="springConstantDisplay" class="font-bold text-white">
+            20 N/m
+          </span>
+          <small class="text-white/50">100 N/m</small>
+        </div>
+      </div>
+      <button
+        id="resetButton"
+        class="mb-2 w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
+      >
+        リセット
+      </button>
+    </SettingsModal>
+
+    <!-- 右上コントロール -->
+    <SettingsButton id="toggleModal" />
+  </div>
+  <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
+  <LoadingSpinner />
+
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

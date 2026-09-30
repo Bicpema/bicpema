@@ -1,4 +1,4 @@
-// vite/simulations/ 配下のシミュレーションをヘッドレスブラウザーで起動し、
+// src/simulations/ 配下のシミュレーションをヘッドレスブラウザーで起動し、
 // 平均frameRateとJSヒープ使用量（アイドル時のばらつき）を計測する。
 // 描画負荷に関する変更（frameRate/pixelDensity/毎フレームの生成物削減 等）の
 // before/after比較や、代表シミュレーションの現状把握に使う。
@@ -13,17 +13,17 @@
 //   --device-scale=<n>      ブラウザーcontextのdeviceScaleFactor（既定: 1）
 //   --base-url=<url>        既に起動済みのサーバーを使う場合に指定する
 
-import { existsSync, readdirSync, statSync } from "node:fs";
-import { createServer } from "node:net";
+import { existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
-import { preview } from "vite";
+import { startPreviewServer } from "./_lib/previewServer.js";
+import { getSimulationSlugs } from "./_lib/simulations.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
-const simulationsDir = join(rootDir, "vite", "simulations");
-const outDir = join(rootDir, "static", "vite");
+const simulationsDir = join(rootDir, "src", "simulations");
+const outDir = join(rootDir, "dist");
 
 /**
  * コマンドライン引数を解析する。
@@ -58,28 +58,6 @@ function parseArgs(argv) {
     }
   }
   return options;
-}
-
-function listSimulationNames() {
-  return readdirSync(simulationsDir)
-    .filter((name) => {
-      const dir = join(simulationsDir, name);
-      return statSync(dir).isDirectory() && existsSync(join(dir, "index.html"));
-    })
-    .toSorted();
-}
-
-function findFreePort() {
-  return new Promise((resolvePort, reject) => {
-    const server = createServer();
-    server.unref();
-    server.on("error", reject);
-    server.listen(0, () => {
-      const address = server.address();
-      const port = typeof address === "object" && address ? address.port : 0;
-      server.close(() => resolvePort(port));
-    });
-  });
 }
 
 /**
@@ -180,26 +158,20 @@ async function main() {
     return;
   }
 
-  const names = options.filter ?? listSimulationNames();
+  const names = options.filter ?? getSimulationSlugs(simulationsDir);
   if (names.length === 0) {
     console.error("計測対象のシミュレーションが見つかりませんでした。");
     process.exitCode = 1;
     return;
   }
 
-  /** @type {import("vite").PreviewServer | null} */
-  let previewServer = null;
-  let baseUrl = options.baseUrl;
-  if (!baseUrl) {
-    const port = await findFreePort();
-    previewServer = await preview({
-      root: join(rootDir, "vite"),
-      base: "/vite",
-      preview: { port, strictPort: true },
-      build: { outDir }
-    });
-    baseUrl = `http://localhost:${port}`;
-  }
+  // --base-url の指定がなければ、ビルド済みのサイトを配信するプレビューサーバーを起動する
+  const previewServer = options.baseUrl
+    ? null
+    : await startPreviewServer(rootDir);
+  // previewServerがnullのときは options.baseUrl が指定されている
+  const baseUrl =
+    previewServer?.baseUrl ?? /** @type {string} */ (options.baseUrl);
 
   const browser = await chromium.launch();
   console.log(
@@ -238,7 +210,7 @@ async function main() {
   } finally {
     await browser.close();
     if (previewServer) {
-      await previewServer.close();
+      await previewServer.stop();
     }
   }
 }

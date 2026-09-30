@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../../components/Icon.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import { countBy, getPosts, tagUrl } from "../../lib/posts";
+
+const tags = countBy(await getPosts(), (post) => post.data.tags);
+---
+
+<BaseLayout
+  title="タグ"
+  description="Bicpemaの物理シミュレーション教材をタグから探せます。"
+>
+  <PageHeader
+    title="タグ"
+    description={`${tags.length}個のタグから教材を探せます。複数のタグで絞り込む場合はシミュレーション一覧を使ってください。`}
+    breadcrumbs={[{ label: "タグ" }]}
+  />
+  <div class="mx-auto max-w-6xl px-4 py-10">
+    <ul class="flex flex-wrap gap-2">
+      {tags.map(([tag, count]) => (
+        <li>
+          <a href={tagUrl(tag)} class="chip">
+            <Icon name="tag" size={12} />
+            {tag}
+            <span class="text-xs opacity-70">{count}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</BaseLayout>

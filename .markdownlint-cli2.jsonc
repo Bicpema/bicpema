@@ -12,11 +12,9 @@
     "MD041": false
   },
   "ignores": [
-    "**/themes/**",
     "**/node_modules/**",
-    "public/**",
-    "static/vite/**",
-    "resources/**",
+    "dist/**",
+    ".astro/**",
     "docs/site/**",
     "docs/.cache/**"
   ]

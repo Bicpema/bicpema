@@ -1,0 +1,21 @@
+---
+import SimulationLayout from "../../layouts/SimulationLayout.astro";
+import NavBar from "../../components/simulation/NavBar.astro";
+import LoadingSpinner from "../../components/simulation/LoadingSpinner.astro";
+
+const title = "ペンデュラムウェーブ";
+---
+
+<SimulationLayout
+  title={title}
+  class="m-0 h-screen w-screen p-0 fixed text-base"
+>
+  <NavBar title={title} />
+
+  <div class="mt-[60px] p-0" id="p5Canvas"></div>
+
+  <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
+  <LoadingSpinner />
+
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

@@ -79,11 +79,12 @@ export function createSimulation({
     force: false
   });
 
-  const indexPath = join(destDir, "index.html");
-  const html = readFileSync(indexPath, "utf-8");
+  const indexPath = join(destDir, "index.astro");
+  const page = readFileSync(indexPath, "utf-8");
   writeFileSync(
     indexPath,
-    renderTemplate(html, { title, path: `/simulations/${dirName}` }),
+    // タイトルはAstroのフロントマター内の文字列リテラルに埋め込むため、JSONとしてエスケープする
+    renderTemplate(page, { title: JSON.stringify(title).slice(1, -1) }),
     "utf-8"
   );
   return destDir;
