@@ -1,0 +1,79 @@
+---
+// 記事中のシミュレーションの埋め込み（src/plugins/remark-simulation-link.mjs）の「全画面表示」ボタンの動作。
+// Fullscreen APIに対応しない端末（iPhoneのSafariなど）では、画面全体に広げる疑似的な全画面表示にする。
+---
+
+<script>
+  const PSEUDO_FULLSCREEN_CLASS = "is-pseudo-fullscreen";
+
+  for (const embed of document.querySelectorAll<HTMLElement>(
+    "[data-simulation-embed]"
+  )) {
+    const frame = embed.querySelector<HTMLElement>(".simulation-embed__frame")!;
+    const iframe = frame.querySelector("iframe")!;
+    const exitButton = embed.querySelector<HTMLButtonElement>(
+      "[data-simulation-embed-exit]"
+    )!;
+    const fullscreenButton = embed.querySelector<HTMLButtonElement>(
+      "[data-simulation-embed-fullscreen]"
+    )!;
+
+    const isPseudoFullscreen = () =>
+      frame.classList.contains(PSEUDO_FULLSCREEN_CLASS);
+
+    const onKeydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isPseudoFullscreen()) {
+        setPseudoFullscreen(false);
+        fullscreenButton.focus();
+      }
+    };
+
+    const setPseudoFullscreen = (enabled: boolean) => {
+      frame.classList.toggle(PSEUDO_FULLSCREEN_CLASS, enabled);
+      // 背後の記事がスクロールしないようにする
+      document.documentElement.style.overflow = enabled ? "hidden" : "";
+      exitButton.hidden = !enabled;
+      // フォーカスがiframe内にあるとキー入力は親ページに届かないため、iframe側でもEscを受け付ける
+      // （シミュレーションは同一オリジンのため、contentWindowにアクセスできる）
+      const iframeWindow = iframe.contentWindow;
+      if (enabled) {
+        iframeWindow?.addEventListener("keydown", onKeydown);
+      } else {
+        iframeWindow?.removeEventListener("keydown", onKeydown);
+      }
+    };
+
+    const enter = async () => {
+      // 画面外で読み込みが遅延されている場合も、全画面にしたらすぐ読み込ませる
+      iframe.loading = "eager";
+      if (document.fullscreenEnabled && frame.requestFullscreen) {
+        try {
+          await frame.requestFullscreen();
+          iframe.focus();
+          return;
+        } catch {
+          // 全画面表示が拒否された場合は疑似的な全画面表示にする
+        }
+      }
+      setPseudoFullscreen(true);
+      iframe.focus();
+    };
+
+    const exit = async () => {
+      if (document.fullscreenElement === frame) {
+        await document.exitFullscreen();
+      }
+      if (isPseudoFullscreen()) {
+        setPseudoFullscreen(false);
+        fullscreenButton.focus();
+      }
+    };
+
+    fullscreenButton.addEventListener("click", enter);
+    exitButton.addEventListener("click", exit);
+    document.addEventListener("fullscreenchange", () => {
+      exitButton.hidden = document.fullscreenElement !== frame;
+    });
+    document.addEventListener("keydown", onKeydown);
+  }
+</script>

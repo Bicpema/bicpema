@@ -5,10 +5,11 @@
 @source "../pages";
 @source "../lib/posts.ts";
 @plugin "@tailwindcss/typography";
-@import "./simulation-link.css";
 
 /* <html>の.darkクラスでダークモードを切り替える（ThemeToggle.astro） */
 @custom-variant dark (&:where(.dark, .dark *));
+
+@import "./simulation-embed.css";
 
 @theme {
   --font-sans:

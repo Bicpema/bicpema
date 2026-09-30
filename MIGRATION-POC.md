@@ -43,6 +43,7 @@ Hugoテーマ（`hugo-theme-tailwind`）に相当する機能を、Tailwind CSS�
 - **検索**: ヘッダーのボタン、または「/」キー・Ctrl+Kで検索ダイアログを開き、タイトル・説明・タグ・カテゴリーを絞り込む（`/search.json` をクライアント側で検索。カタカナ・ひらがな、全角・半角を区別しない）
 - **シミュレーション一覧**（`/post/`）: サムネイル付きのカードで全教材を表示し、キーワード・分野・対象（中学・高校・大学）・タグ（複数選択でAND）で絞り込む。条件はURLのクエリに反映する。ページ送りは廃止し、`/post/page/<n>/`・`/page/<n>/` は `firebase.json` で `/post/` へリダイレクトする
 - **トップページ**: 紹介・分野から探す・新着の教材
+- **シミュレーションの埋め込み**: 記事内にシミュレーションをiframeで埋め込み（画面に入るまで読み込まない）、その下に「全画面表示」（Fullscreen API。iPhoneなど非対応の端末では画面全体に広げる表示）と「別タブで開く」ボタンを配置。埋め込み時はシミュレーションのナビバーの戻るボタンを外し、リンクをページ全体で開く
 - **記事ページ**: パンくずリスト・カテゴリー・公開日・シリーズ・目次（PCではサイドに固定）・タグ・同じシリーズの教材・関連する教材
 - **タクソノミー**: タグ・カテゴリー・シリーズの一覧と各ページ（Hugoと同じURL）
 - **その他**: 404ページ・RSS（`/index.xml`）・サイトマップ（`@astrojs/sitemap`。`/sitemap.xml` はリダイレクト）・OGP／Twitterカード・本文へのスキップリンク・固定ページの最終更新日
@@ -58,19 +59,19 @@ npm run preview   # ビルドしたサイトを確認
 
 ## 実装した範囲
 
-| 項目                           | 実装                                                                                                                                      |
-| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| 記事（全32本）                 | `src/content/posts/<スラッグ>/index.md`。本文・front matterはHugo版から無修正                                                             |
-| 固定ページ                     | `src/content/pages/`（about / licenses / terms）と `src/pages/[page].astro`。TOML形式のfront matterのまま読み込める                       |
-| 記事ページ `/post/<スラッグ>/` | `src/pages/post/[slug].astro`                                                                                                             |
-| 記事一覧（ページ送り）         | `/post/`（1ページ目）と `/post/page/<n>/`（Hugoと同じURL、1ページ10件）                                                                   |
-| タクソノミー                   | タグのみ（`/tags/`・`/tags/<タグ>/`）                                                                                                     |
-| ショートコード                 | remarkプラグインで変換（`src/plugins/`）。`simulation-link`（サムネイル付きカード）・`bundled-licenses`（ライセンス一覧）                 |
-| front matterのスキーマ         | `src/content.config.ts`（`title` / `description` / `author` / `date` / `image` / `tags` / `categories` / `series` / `aliases` / `draft`） |
-| `aliases`                      | `src/pages/[...alias].astro` でHugoと同じmeta refresh形式のページを生成                                                                   |
-| シミュレーション               | 段階移行の「方法B」。`vite build` の出力先を `public/vite/` に変更し、Astroがそのまま `dist/vite/` へコピー                               |
-| ダークモード・数式             | テーマと同じ `.dark` クラス切り替えとKaTeX（CDN・auto-render）                                                                            |
-| CI・スクリプト・設定           | デプロイ・掲載URL検査のワークフローからHugoを削除し、各スクリプト・lint設定・`.gitignore`・`firebase.json` を移行後のパスに変更           |
+| 項目                           | 実装                                                                                                                                                            |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 記事（全32本）                 | `src/content/posts/<スラッグ>/index.md`。本文・front matterはHugo版から無修正                                                                                   |
+| 固定ページ                     | `src/content/pages/`（about / licenses / terms）と `src/pages/[page].astro`。TOML形式のfront matterのまま読み込める                                             |
+| 記事ページ `/post/<スラッグ>/` | `src/pages/post/[slug].astro`                                                                                                                                   |
+| 記事一覧（ページ送り）         | `/post/`（1ページ目）と `/post/page/<n>/`（Hugoと同じURL、1ページ10件）                                                                                         |
+| タクソノミー                   | タグのみ（`/tags/`・`/tags/<タグ>/`）                                                                                                                           |
+| ショートコード                 | remarkプラグインで変換（`src/plugins/`）。`simulation-link`（シミュレーションの埋め込み＋全画面表示・別タブで開くボタン）・`bundled-licenses`（ライセンス一覧） |
+| front matterのスキーマ         | `src/content.config.ts`（`title` / `description` / `author` / `date` / `image` / `tags` / `categories` / `series` / `aliases` / `draft`）                       |
+| `aliases`                      | `src/pages/[...alias].astro` でHugoと同じmeta refresh形式のページを生成                                                                                         |
+| シミュレーション               | 段階移行の「方法B」。`vite build` の出力先を `public/vite/` に変更し、Astroがそのまま `dist/vite/` へコピー                                                     |
+| ダークモード・数式             | テーマと同じ `.dark` クラス切り替えとKaTeX（CDN・auto-render）                                                                                                  |
+| CI・スクリプト・設定           | デプロイ・掲載URL検査のワークフローからHugoを削除し、各スクリプト・lint設定・`.gitignore`・`firebase.json` を移行後のパスに変更                                 |
 
 `simulation-link` はAstroコンポーネント版も試作しましたが（コミット `bee3418` の `SimulationLink.astro`）、
 記事をMDXにできない（後述）ため、記事ではremarkプラグインを使い、コンポーネントは削除しました。

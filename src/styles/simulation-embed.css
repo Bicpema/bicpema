@@ -1,0 +1,44 @@
+/* 記事中のシミュレーションの埋め込み（src/plugins/remark-simulation-link.mjs が出力する）。
+   site.css から読み込まれるため、Tailwind CSSの@applyを使える。 */
+@layer components {
+  .simulation-embed {
+    @apply my-6;
+  }
+
+  .simulation-embed__frame {
+    /* シミュレーションは画面全体に描画する前提のため、横長の枠で表示する。
+       スマートフォンでは横幅が狭く操作しづらいため、高さの下限を設ける */
+    @apply relative aspect-[16/10] max-h-[80vh] min-h-[420px] w-full overflow-hidden rounded-xl border border-slate-300 bg-neutral-900 shadow-sm dark:border-slate-700;
+  }
+
+  .simulation-embed__frame iframe {
+    @apply absolute inset-0 h-full w-full border-0;
+  }
+
+  /* 全画面表示（Fullscreen API）と、APIに対応しない端末（iPhoneなど）向けの疑似的な全画面表示 */
+  .simulation-embed__frame:fullscreen,
+  .simulation-embed__frame.is-pseudo-fullscreen {
+    @apply aspect-auto max-h-none min-h-0 rounded-none border-0;
+  }
+
+  .simulation-embed__frame.is-pseudo-fullscreen {
+    @apply fixed inset-0 z-[100] h-dvh;
+  }
+
+  /* 全画面表示を終了するボタン。シミュレーションのナビバー（高さ60px）の右端に重ねる */
+  .simulation-embed__close {
+    @apply absolute top-3 right-3 z-10 cursor-pointer rounded-md bg-white/90 px-3 py-1.5 text-sm font-semibold text-slate-800 shadow hover:bg-white;
+  }
+
+  .simulation-embed__actions {
+    @apply mt-3 flex flex-wrap gap-2;
+  }
+
+  .simulation-embed__button {
+    @apply inline-flex cursor-pointer items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 no-underline transition-colors hover:border-blue-400 hover:text-blue-700 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-blue-500 dark:hover:text-blue-300;
+  }
+
+  .simulation-embed__button:first-child {
+    @apply border-blue-600 bg-blue-600 text-white hover:border-blue-700 hover:bg-blue-700 hover:text-white dark:border-blue-500 dark:bg-blue-500 dark:text-white dark:hover:bg-blue-600 dark:hover:text-white;
+  }
+}

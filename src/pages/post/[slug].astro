@@ -5,6 +5,7 @@ import CategoryBadge from "../../components/CategoryBadge.astro";
 import Icon from "../../components/Icon.astro";
 import PageHeader from "../../components/PageHeader.astro";
 import PostGrid from "../../components/PostGrid.astro";
+import SimulationEmbedScript from "../../components/SimulationEmbedScript.astro";
 import {
   categoryUrl,
   formatDate,
@@ -101,6 +102,7 @@ const related = posts
   <div class="mx-auto grid max-w-6xl gap-12 px-4 py-10 lg:grid-cols-[minmax(0,1fr)_16rem]">
     <article class="article-body min-w-0">
       <Content />
+      <SimulationEmbedScript />
     </article>
 
     <aside class="space-y-8 lg:sticky lg:top-24 lg:self-start">

@@ -46,3 +46,17 @@ const navBackOnClick =
   </a>
   <span class="ml-3 min-w-0 truncate font-light text-neutral-300">{title}</span>
 </nav>
+
+<!--
+  記事ページに埋め込まれている場合（iframe内）は、戻るボタンを外し、
+  ナビバーのリンクをiframeではなくページ全体で開く。
+  （ナビバーの高さは変えないため、BicpemaCanvasControllerの計算には影響しない）
+-->
+<script is:inline>
+  if (window.self !== window.top) {
+    document.getElementById("navBackButton")?.remove();
+    for (const link of document.querySelectorAll("#navBar a")) {
+      link.target = "_top";
+    }
+  }
+</script>
