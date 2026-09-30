@@ -1,6 +1,6 @@
 import { experimental_AstroContainer as AstroContainer } from "astro/container";
 import { beforeAll, describe, expect, it } from "vitest";
-import Icon from "../../src/components/simulation/Icon.astro";
+import Icon from "../../src/components/Icon.astro";
 import LoadingSpinner from "../../src/components/simulation/LoadingSpinner.astro";
 import NavBar from "../../src/components/simulation/NavBar.astro";
 import SettingsButton from "../../src/components/simulation/SettingsButton.astro";

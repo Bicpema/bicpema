@@ -5,7 +5,7 @@
 // 生成され、Markdownの変換より後になる。そのため、remarkプラグインで目印の要素を出力しておき、
 // ビルド完了後（astro:build:done）に生成済みのHTMLへライセンス本文を差し込む。
 // ライセンス本文が取得できないパッケージは data/third_party_license_supplements.yaml の内容で補う。
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { visit } from "unist-util-visit";
 import { parse } from "yaml";
@@ -83,12 +83,17 @@ export function bundledLicenses() {
         const licensesHtml = renderLicenses(
           readFileSync(new URL(LICENSES_FILE_NAME, dir), "utf-8")
         );
-        for (const { pathname } of pages) {
-          const file = new URL(`${pathname}index.html`, dir);
+        // 404.html・search.jsonなど、<パス>/index.html 以外の出力は対象外
+        const files = pages
+          .map(({ pathname }) => new URL(`${pathname}index.html`, dir))
+          .filter((file) => existsSync(file));
+        for (const file of files) {
           const html = readFileSync(file, "utf-8");
           if (html.includes(PLACEHOLDER)) {
             writeFileSync(file, html.replace(PLACEHOLDER, licensesHtml));
-            logger.info(`/${pathname} にライセンス一覧を出力しました`);
+            logger.info(
+              `${file.pathname.replace(dir.pathname, "/")} にライセンス一覧を出力しました`
+            );
           }
         }
       }

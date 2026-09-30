@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import { unified } from "@astrojs/markdown-remark";
+import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
 import {
   bundledLicenses,
@@ -13,7 +14,7 @@ export default defineConfig({
   // Hugoと同じく末尾スラッシュ付きのディレクトリ形式（/post/<スラッグ>/index.html）で出力する
   trailingSlash: "always",
   build: { format: "directory" },
-  integrations: [bundledLicenses()],
+  integrations: [bundledLicenses(), sitemap()],
   // 開発時のツールバーが全画面表示のシミュレーションの操作ボタンと重なるため無効にする
   devToolbar: { enabled: false },
   markdown: {

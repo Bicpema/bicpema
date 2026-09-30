@@ -1,0 +1,41 @@
+---
+// タクソノミー（タグ・カテゴリー・シリーズ）の一覧。名前と記事数をカードで表示する。
+import Icon from "./Icon.astro";
+import { categoryStyle } from "../lib/posts";
+
+interface Props {
+  terms: { name: string; count: number; href: string; category?: string }[];
+  icon: string;
+}
+
+const { terms, icon } = Astro.props;
+---
+
+<ul class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+  {terms.map((term) => (
+    <li>
+      <a
+        href={term.href}
+        class="group relative flex items-center gap-3 overflow-hidden rounded-xl border border-slate-200 bg-white p-4 transition hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-500/60"
+      >
+        {term.category && (
+          <span
+            class:list={[
+              "absolute inset-y-0 left-0 w-1 bg-gradient-to-b",
+              categoryStyle(term.category).accent
+            ]}
+          />
+        )}
+        <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 group-hover:text-blue-700 dark:bg-slate-800 dark:text-slate-400 dark:group-hover:text-blue-300">
+          <Icon name={icon} size={18} />
+        </span>
+        <span class="min-w-0 flex-1 font-semibold group-hover:text-blue-700 dark:group-hover:text-blue-300">
+          {term.name}
+        </span>
+        <span class="shrink-0 text-sm text-slate-500 dark:text-slate-400">
+          {term.count}本
+        </span>
+      </a>
+    </li>
+  ))}
+</ul>

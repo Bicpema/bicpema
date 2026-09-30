@@ -19,6 +19,21 @@
         "type": 301
       },
       {
+        "source": "/post/page/**",
+        "destination": "/post/",
+        "type": 301
+      },
+      {
+        "source": "/page/**",
+        "destination": "/post/",
+        "type": 301
+      },
+      {
+        "source": "/sitemap.xml",
+        "destination": "/sitemap-index.xml",
+        "type": 301
+      },
+      {
         "source": "/simulations/:slug*",
         "destination": "/vite/simulations/:slug*",
         "type": 301

@@ -1,0 +1,84 @@
+---
+// サイト共通のフッター。
+import Icon from "./Icon.astro";
+
+const LINK_GROUPS = [
+  {
+    heading: "教材を探す",
+    links: [
+      { href: "/post/", label: "シミュレーション一覧" },
+      { href: "/categories/", label: "カテゴリー" },
+      { href: "/series/", label: "シリーズ" },
+      { href: "/tags/", label: "タグ" }
+    ]
+  },
+  {
+    heading: "このサイトについて",
+    links: [
+      { href: "/about/", label: "Bicpemaについて" },
+      { href: "/terms/", label: "利用規約" },
+      { href: "/licenses/", label: "サードパーティライセンス" }
+    ]
+  }
+];
+---
+
+<footer class="mt-24 border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900/50">
+  <div class="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="lg:col-span-2">
+      <a href="/" class="flex items-center gap-2 text-lg font-bold">
+        <img
+          src="/logo.svg"
+          alt=""
+          width="48"
+          height="32"
+          class="h-8 w-auto dark:invert"
+        />
+        Bicpema
+      </a>
+      <p class="mt-3 max-w-sm text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+        手元で動かしながら物理現象を観察する、中学生・高校生のための物理シミュレーション教材サイトです。
+      </p>
+      <div class="mt-4 flex gap-3 text-slate-500 dark:text-slate-400">
+        <a
+          href="https://github.com/Bicpema/bicpema"
+          class="hover:text-slate-900 dark:hover:text-white"
+          aria-label="GitHub"
+          title="GitHub"
+        >
+          <Icon name="github" size={20} />
+        </a>
+        <a
+          href="/index.xml"
+          class="hover:text-slate-900 dark:hover:text-white"
+          aria-label="RSSフィード"
+          title="RSSフィード"
+        >
+          <Icon name="rss" size={20} />
+        </a>
+      </div>
+    </div>
+    {LINK_GROUPS.map((group) => (
+      <nav aria-label={group.heading}>
+        <h2 class="text-sm font-semibold text-slate-900 dark:text-white">
+          {group.heading}
+        </h2>
+        <ul class="mt-3 space-y-2 text-sm">
+          {group.links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="text-slate-600 hover:text-blue-700 dark:text-slate-400 dark:hover:text-blue-300"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    ))}
+  </div>
+  <p class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 dark:border-slate-800 dark:text-slate-500">
+    © 2022 - {new Date().getFullYear()} BICPEMA
+  </p>
+</footer>

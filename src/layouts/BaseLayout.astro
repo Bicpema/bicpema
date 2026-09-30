@@ -1,15 +1,38 @@
 ---
-import "../styles/global.css";
-import "../styles/simulation-link.css";
+// 記事サイトの共通レイアウト（ヘッダー・フッター・メタ情報）。
+import type { ImageMetadata } from "astro";
+import "../styles/site.css";
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
 
 interface Props {
+  /** ページのタイトル（省略時はサイト名のみ） */
   title?: string;
+  /** ページの説明（meta description・OGP） */
   description?: string;
+  /** OGP画像（外部URLまたはAstroの画像） */
+  image?: string | ImageMetadata;
+  /** OGPの種類（記事ページは"article"） */
+  type?: "website" | "article";
+  /** KaTeXで数式を表示するか */
   math?: boolean;
 }
 
-const { title, description = "", math = false } = Astro.props;
-const pageTitle = title ? `${title} :: Bicpema` : "Bicpema";
+const SITE_NAME = "Bicpema";
+const SITE_DESCRIPTION =
+  "Bicpemaは、中学生と高校生のための物理シミュレーション教材の配布サイトです。";
+
+const {
+  title,
+  description = SITE_DESCRIPTION,
+  image,
+  type = "website",
+  math = false
+} = Astro.props;
+const pageTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const imageUrl =
+  image && new URL(typeof image === "string" ? image : image.src, Astro.site);
 ---
 
 <!doctype html>
@@ -19,16 +42,37 @@ const pageTitle = title ? `${title} :: Bicpema` : "Bicpema";
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" href="/favicon.ico" />
-    <!-- テーマと同じく、描画前にダークモードのクラスを付与してちらつきを防ぐ -->
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={SITE_NAME}
+      href="/index.xml"
+    />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={title ?? SITE_NAME} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="ja_JP" />
+    {imageUrl && <meta property="og:image" content={imageUrl} />}
+    <meta
+      name="twitter:card"
+      content={imageUrl ? "summary_large_image" : "summary"}
+    />
+    <!-- 描画前にダークモードのクラスを付与してちらつきを防ぐ（切り替えはThemeToggle.astro） -->
     <script is:inline>
-      if (
-        localStorage.theme === "dark" ||
-        (!("theme" in localStorage) &&
-          matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        document.documentElement.classList.add("dark");
+      try {
+        const theme = localStorage.getItem("theme");
+        if (
+          theme === "dark" ||
+          (theme === null && matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.documentElement.classList.add("dark");
+        }
+      } catch {
+        // ストレージが使えない環境ではOSの設定に従わず、ライトモードで表示する
       }
     </script>
     {math && (
@@ -52,7 +96,7 @@ const pageTitle = title ? `${title} :: Bicpema` : "Bicpema";
         />
         <script is:inline>
           document.addEventListener("DOMContentLoaded", () => {
-            renderMathInElement(document.body, {
+            renderMathInElement(document.querySelector("main"), {
               delimiters: [
                 { left: "$$", right: "$$", display: true },
                 { left: "$", right: "$", display: false },
@@ -66,37 +110,17 @@ const pageTitle = title ? `${title} :: Bicpema` : "Bicpema";
       </Fragment>
     )}
   </head>
-  <body>
-    <header class="site-header">
-      <a class="site-title" href="/">
-        <img src="/logo.svg" alt="" width="32" height="32" />
-        Bicpema
-      </a>
-      <nav>
-        <a href="/post/">シミュレーション一覧</a>
-        <a href="/about/">Bicpemaについて</a>
-        <button
-          type="button"
-          id="theme-toggle"
-          aria-label="ダークモードの切り替え"
-        >
-          ◐
-        </button>
-      </nav>
-    </header>
-    <main>
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:shadow dark:focus:bg-slate-900"
+    >
+      本文へ移動
+    </a>
+    <Header />
+    <main id="main" class="flex-1">
       <slot />
     </main>
-    <footer class="site-footer">
-      <span>© 2022 - {new Date().getFullYear()} BICPEMA</span>
-      <a href="/terms/">利用規約</a>
-      <a href="/licenses/">サードパーティライセンス</a>
-    </footer>
-    <script>
-      document.getElementById("theme-toggle")?.addEventListener("click", () => {
-        const dark = document.documentElement.classList.toggle("dark");
-        localStorage.theme = dark ? "dark" : "light";
-      });
-    </script>
+    <Footer />
   </body>
 </html>

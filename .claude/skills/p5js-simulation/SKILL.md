@@ -46,7 +46,7 @@ description: "WORKFLOW SKILL — src/simulations/_template/ のテンプレー�
     - テンプレートが使っている Material Design の足場（MDC Web / Material Web Components）で UI コントロールを作る。
     - 配色、タイポグラフィ、余白などがデザインシステムに準拠していることを確認する。
     - 新しいコントロール（スライダー、ボタン、カードなど）が必要なら、テンプレート内の既存パターンに従って追加する。
-    - ボタン等のアイコンは `<svg>` をべた書きせず、`<Icon name="camera" size={20} />` のように共通コンポーネント（`src/components/simulation/Icon.astro`）で記述する（アイコン名は [Bootstrap Icons](https://icons.getbootstrap.com/) を参照）。アイコンのみのボタンには `aria-label` を付与する。詳細は [共通UIコンポーネント](../../../docs/docs/simulation/index.md#共通uiコンポーネント) を参照。
+    - ボタン等のアイコンは `<svg>` をべた書きせず、`<Icon name="camera" size={20} />` のように共通コンポーネント（`src/components/Icon.astro`）で記述する（アイコン名は [Bootstrap Icons](https://icons.getbootstrap.com/) を参照）。アイコンのみのボタンには `aria-label` を付与する。詳細は [共通UIコンポーネント](../../../docs/docs/simulation/index.md#共通uiコンポーネント) を参照。
 
 6. **インタラクションを検証する**
     - `npm run dev` で開発サーバーを起動し、`http://localhost:4321/vite/simulations/<slug>/` を開く。

@@ -1,0 +1,83 @@
+---
+// 記事（シミュレーション教材）のカード。サムネイル・カテゴリー・対象学年・説明を表示する。
+// data-* 属性は記事一覧の絞り込み（src/pages/post/index.astro）で使う。
+import { Image } from "astro:assets";
+import CategoryBadge from "./CategoryBadge.astro";
+import { GRADE_TAGS, postUrl, type Post } from "../lib/posts";
+
+interface Props {
+  post: Post;
+  /** カードのタイトルの見出しレベル */
+  headingLevel?: 2 | 3;
+  /** 画像を遅延読み込みしない（ファーストビューのカード用） */
+  eager?: boolean;
+}
+
+const { post, headingLevel = 2, eager = false } = Astro.props;
+const { title, description, image, categories, tags } = post.data;
+const category = categories[0];
+const grades = tags.filter((tag) =>
+  (GRADE_TAGS as readonly string[]).includes(tag)
+);
+const Heading = `h${headingLevel}` as const;
+const loading = eager ? "eager" : "lazy";
+---
+
+<article
+  class="group relative flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-lg dark:border-slate-800 dark:bg-slate-900 dark:hover:border-blue-500/60"
+  data-post
+  data-category={category}
+  data-tags={JSON.stringify(tags)}
+  data-keywords={[title, description, ...categories, ...tags].join(" ")}
+>
+  <div class="relative aspect-video overflow-hidden bg-slate-100 dark:bg-slate-800">
+    {typeof image === "string" ? (
+      <img
+        src={image}
+        alt=""
+        width="640"
+        height="360"
+        loading={loading}
+        decoding="async"
+        class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+      />
+    ) : image ? (
+      <Image
+        src={image}
+        alt=""
+        width={640}
+        loading={loading}
+        class="h-full w-full object-cover transition duration-300 group-hover:scale-105"
+      />
+    ) : null}
+    {category && (
+      <CategoryBadge
+        category={category}
+        class="absolute top-3 left-3 shadow-sm"
+      />
+    )}
+  </div>
+  <div class="flex flex-1 flex-col p-4">
+    <Heading class="text-lg leading-snug font-bold">
+      <a
+        href={postUrl(post.id)}
+        class="after:absolute after:inset-0 group-hover:text-blue-700 dark:group-hover:text-blue-300"
+      >
+        {title}
+      </a>
+    </Heading>
+    <p class="mt-2 line-clamp-2 text-sm leading-relaxed text-slate-600 dark:text-slate-400">
+      {description}
+    </p>
+    {grades.length > 0 && (
+      <p class="mt-auto flex flex-wrap gap-1.5 pt-3 text-xs">
+        <span class="sr-only">対象:</span>
+        {grades.map((grade) => (
+          <span class="rounded bg-slate-100 px-1.5 py-0.5 text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+            {grade}
+          </span>
+        ))}
+      </p>
+    )}
+  </div>
+</article>

@@ -1,5 +1,5 @@
-/* assets/css/simulation-link.css のコピー（PoC）。
-   Astroの画像最適化は<img>にwidth/height属性を付与するため、.simulation-link__thumbnail に height: auto を追加している。 */
+/* 記事中のシミュレーションへのリンクカード（src/plugins/remark-simulation-link.mjs が出力する）。
+   Astroの画像最適化は<img>にwidth/height属性を付与するため、.simulation-link__thumbnail に height: auto を指定している。 */
 .simulation-link {
   display: flex;
   align-items: stretch;

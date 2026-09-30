@@ -1,0 +1,104 @@
+---
+// サイト共通のヘッダー（ロゴ・メニュー・検索・ダークモードの切り替え）。
+import Icon from "./Icon.astro";
+import Search from "./Search.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+
+const NAV_ITEMS = [
+  {
+    href: "/post/",
+    label: "シミュレーション一覧",
+    match: /^\/(post|tags)\//
+  },
+  {
+    href: "/categories/",
+    label: "カテゴリー",
+    match: /^\/(categories|series)\//
+  },
+  { href: "/about/", label: "Bicpemaについて", match: /^\/about\// }
+];
+
+const pathname = decodeURI(Astro.url.pathname);
+const navItems = NAV_ITEMS.map((item) => ({
+  ...item,
+  current: item.match.test(pathname)
+}));
+---
+
+<header class="sticky top-0 z-40 border-b border-slate-200/80 bg-white/85 backdrop-blur dark:border-slate-800 dark:bg-slate-950/85">
+  <div class="mx-auto flex h-16 max-w-6xl items-center gap-3 px-4 sm:gap-6">
+    <a href="/" class="flex shrink-0 items-center gap-2 text-lg font-bold">
+      <img
+        src="/logo.svg"
+        alt=""
+        width="48"
+        height="32"
+        class="h-8 w-auto dark:invert"
+      />
+      Bicpema
+    </a>
+    <nav aria-label="メインメニュー" class="hidden md:block">
+      <ul class="flex items-center gap-1">
+        {navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={item.current ? "page" : undefined}
+              class="rounded-md px-3 py-2 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 aria-[current=page]:text-blue-700 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white dark:aria-[current=page]:text-blue-300"
+            >
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <div class="ml-auto flex items-center gap-2 sm:gap-3">
+      <Search />
+      <ThemeToggle />
+      <button
+        type="button"
+        class="flex h-9 w-9 items-center justify-center rounded-md text-slate-600 hover:bg-slate-100 md:hidden dark:text-slate-300 dark:hover:bg-slate-800"
+        aria-label="メニューを開く"
+        aria-expanded="false"
+        aria-controls="mobileNav"
+        data-mobile-nav-toggle
+      >
+        <Icon name="list" size={22} />
+      </button>
+    </div>
+  </div>
+  <nav
+    id="mobileNav"
+    aria-label="メインメニュー"
+    class="hidden border-t border-slate-200 md:hidden dark:border-slate-800"
+  >
+    <ul class="mx-auto max-w-6xl px-2 py-2">
+      {navItems.map((item) => (
+        <li>
+          <a
+            href={item.href}
+            aria-current={item.current ? "page" : undefined}
+            class="block rounded-md px-3 py-2.5 font-medium text-slate-700 hover:bg-slate-100 aria-[current=page]:text-blue-700 dark:text-slate-200 dark:hover:bg-slate-800 dark:aria-[current=page]:text-blue-300"
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>(
+    "[data-mobile-nav-toggle]"
+  )!;
+  const nav = document.querySelector<HTMLElement>("#mobileNav")!;
+  toggle.addEventListener("click", () => {
+    const open = nav.classList.toggle("hidden") === false;
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute(
+      "aria-label",
+      open ? "メニューを閉じる" : "メニューを開く"
+    );
+  });
+</script>

@@ -1,6 +1,9 @@
-@import "tailwindcss";
-/* 共通UIパーツ（src/components/simulation/）のクラスも検出対象に含める */
+/* シミュレーション（src/simulations/）のスタイル。記事サイトは site.css を使う。 */
+@import "tailwindcss" source(none);
+@source "../simulations";
 @source "../components/simulation";
+@source "../components/Icon.astro";
+@source "../lib/simulation";
 
 @layer components {
   /*

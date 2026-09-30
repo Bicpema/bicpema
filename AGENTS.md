@@ -12,8 +12,8 @@
 - `public/` : ファビコンなど、サイトにそのまま配信する静的ファイルを格納するフォルダー
 - `scripts/` : シミュレーションの雛形生成・検証・ベンチマーク、開発環境の保守用のスクリプトを格納するフォルダー
 - `src/` : サイト全体（記事・シミュレーション）のソースを格納するフォルダー（Astro）
-    - `components/` : Astroコンポーネント
-        - `simulation/` : シミュレーション共通のUIパーツ（`NavBar` / `LoadingSpinner` / `SettingsButton` / `SettingsModal` / `Icon`）
+    - `components/` : Astroコンポーネント（ヘッダー・フッター・検索・ダークモードの切り替え・記事カードなど）
+        - `simulation/` : シミュレーション共通のUIパーツ（`NavBar` / `LoadingSpinner` / `SettingsButton` / `SettingsModal`）。アイコン（`Icon`）は `components/` 直下
     - `content/posts/` : 記事（`<記事名>/index.md`）を格納するフォルダー
     - `content/pages/` : 固定ページ（about / licenses / terms）を格納するフォルダー
     - `content.config.ts` : 記事・固定ページのフロントマターのスキーマ
