@@ -4,9 +4,7 @@ import { describe, it, expect } from "vitest";
 import {
   checkArticleSimulationLinks,
   extractLinkedSimulationSlugs,
-  getArticleEntries,
-  getSimulationArticleDirs,
-  getSimulationSlugs
+  getArticleEntries
 } from "../../scripts/_lib/checkArticleSimulationLinks.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -14,32 +12,12 @@ const fixturesDir = resolve(__dirname, "fixtures");
 const simulationsDir = resolve(fixturesDir, "simulations");
 const postsDir = resolve(fixturesDir, "posts");
 
-describe("getSimulationSlugs", () => {
-  it("シミュレーションディレクトリ名の一覧を取得する", () => {
-    expect(getSimulationSlugs(simulationsDir)).toEqual([
-      "sim-a",
-      "sim-b",
-      "sim-c"
-    ]);
-  });
-});
-
 describe("getArticleEntries", () => {
   it("index.mdを持つディレクトリのみを記事として取得する", () => {
     const entries = getArticleEntries(postsDir);
     const articleDirs = entries.map((entry) => entry.articleDir).toSorted();
 
     expect(articleDirs).toEqual(["記事あ", "記事い"]);
-  });
-});
-
-describe("getSimulationArticleDirs", () => {
-  it("シミュレーションslugからリンク元の記事ディレクトリ名への対応表を作成する", () => {
-    const articleDirs = getSimulationArticleDirs(postsDir);
-
-    expect(articleDirs.get("sim-a")).toBe("記事あ");
-    expect(articleDirs.get("sim-b")).toBe("記事い");
-    expect(articleDirs.has("sim-c")).toBe(false);
   });
 });
 

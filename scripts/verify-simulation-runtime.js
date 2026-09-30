@@ -14,12 +14,12 @@
 //   --settle=<ms>       読み込み後、draw()等の実行を観測する待機時間（既定: 2000）
 //   --base-url=<url>    既に起動済みのサーバーを使う場合に指定する（省略時は astro preview を自動起動）
 
-import { existsSync, readdirSync, statSync } from "node:fs";
-import { createServer } from "node:net";
+import { existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
-import { preview } from "astro";
+import { startPreviewServer } from "./_lib/previewServer.js";
+import { getSimulationSlugs } from "./_lib/simulations.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
@@ -73,40 +73,6 @@ function parseArgs(argv) {
     }
   }
   return options;
-}
-
-/**
- * index.astro を持つシミュレーションディレクトリ名の一覧を取得する。
- */
-function listSimulationNames() {
-  return readdirSync(simulationsDir)
-    .filter((name) => {
-      if (name.startsWith("_")) {
-        return false;
-      }
-      const dir = join(simulationsDir, name);
-      return (
-        statSync(dir).isDirectory() && existsSync(join(dir, "index.astro"))
-      );
-    })
-    .toSorted();
-}
-
-/**
- * 空いているTCPポートを1つ取得する。
- * @returns {Promise<number>}
- */
-function findFreePort() {
-  return new Promise((resolvePort, reject) => {
-    const server = createServer();
-    server.unref();
-    server.on("error", reject);
-    server.listen(0, () => {
-      const address = server.address();
-      const port = typeof address === "object" && address ? address.port : 0;
-      server.close(() => resolvePort(port));
-    });
-  });
 }
 
 /**
@@ -205,7 +171,7 @@ async function main() {
     return;
   }
 
-  let names = listSimulationNames();
+  let names = getSimulationSlugs(simulationsDir);
   const { filter } = options;
   if (filter) {
     names = names.filter((name) => name.includes(filter));
@@ -216,19 +182,13 @@ async function main() {
     return;
   }
 
-  /** @type {import("astro").PreviewServer | null} */
-  let previewServer = null;
-  let baseUrl = options.baseUrl;
-
-  if (!baseUrl) {
-    const port = await findFreePort();
-    previewServer = await preview({
-      root: rootDir,
-      server: { port },
-      logLevel: "warn"
-    });
-    baseUrl = `http://localhost:${port}`;
-  }
+  // --base-url の指定がなければ、ビルド済みのサイトを配信するプレビューサーバーを起動する
+  const previewServer = options.baseUrl
+    ? null
+    : await startPreviewServer(rootDir);
+  // previewServerがnullのときは options.baseUrl が指定されている
+  const baseUrl =
+    previewServer?.baseUrl ?? /** @type {string} */ (options.baseUrl);
 
   const browser = await chromium.launch();
   console.log(

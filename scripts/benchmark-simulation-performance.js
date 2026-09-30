@@ -13,12 +13,12 @@
 //   --device-scale=<n>      ブラウザーcontextのdeviceScaleFactor（既定: 1）
 //   --base-url=<url>        既に起動済みのサーバーを使う場合に指定する
 
-import { existsSync, readdirSync, statSync } from "node:fs";
-import { createServer } from "node:net";
+import { existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
-import { preview } from "astro";
+import { startPreviewServer } from "./_lib/previewServer.js";
+import { getSimulationSlugs } from "./_lib/simulations.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
@@ -58,33 +58,6 @@ function parseArgs(argv) {
     }
   }
   return options;
-}
-
-function listSimulationNames() {
-  return readdirSync(simulationsDir)
-    .filter((name) => {
-      if (name.startsWith("_")) {
-        return false;
-      }
-      const dir = join(simulationsDir, name);
-      return (
-        statSync(dir).isDirectory() && existsSync(join(dir, "index.astro"))
-      );
-    })
-    .toSorted();
-}
-
-function findFreePort() {
-  return new Promise((resolvePort, reject) => {
-    const server = createServer();
-    server.unref();
-    server.on("error", reject);
-    server.listen(0, () => {
-      const address = server.address();
-      const port = typeof address === "object" && address ? address.port : 0;
-      server.close(() => resolvePort(port));
-    });
-  });
 }
 
 /**
@@ -185,25 +158,20 @@ async function main() {
     return;
   }
 
-  const names = options.filter ?? listSimulationNames();
+  const names = options.filter ?? getSimulationSlugs(simulationsDir);
   if (names.length === 0) {
     console.error("計測対象のシミュレーションが見つかりませんでした。");
     process.exitCode = 1;
     return;
   }
 
-  /** @type {import("astro").PreviewServer | null} */
-  let previewServer = null;
-  let baseUrl = options.baseUrl;
-  if (!baseUrl) {
-    const port = await findFreePort();
-    previewServer = await preview({
-      root: rootDir,
-      server: { port },
-      logLevel: "warn"
-    });
-    baseUrl = `http://localhost:${port}`;
-  }
+  // --base-url の指定がなければ、ビルド済みのサイトを配信するプレビューサーバーを起動する
+  const previewServer = options.baseUrl
+    ? null
+    : await startPreviewServer(rootDir);
+  // previewServerがnullのときは options.baseUrl が指定されている
+  const baseUrl =
+    previewServer?.baseUrl ?? /** @type {string} */ (options.baseUrl);
 
   const browser = await chromium.launch();
   console.log(

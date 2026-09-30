@@ -3,8 +3,7 @@ import { dirname, resolve } from "node:path";
 import { describe, it, expect } from "vitest";
 import {
   checkSimulationTemplateCompliance,
-  findSimulationTemplateIssues,
-  getSimulationSlugs
+  findSimulationTemplateIssues
 } from "../../scripts/_lib/checkSimulationTemplateCompliance.js";
 
 const INLINE_UI_PARTS_ISSUES = [
@@ -22,18 +21,6 @@ const simulationsDir = resolve(
   "template-compliance",
   "simulations"
 );
-
-describe("getSimulationSlugs", () => {
-  it("シミュレーションディレクトリ名の一覧を取得する", () => {
-    expect(getSimulationSlugs(simulationsDir)).toEqual([
-      "compliant-sim",
-      "compliant-sim-single-quote-import",
-      "inline-ui-parts",
-      "local-controller-copy",
-      "missing-p5-canvas"
-    ]);
-  });
-});
 
 describe("findSimulationTemplateIssues", () => {
   it("テンプレートに準拠している場合は空配列を返す", () => {

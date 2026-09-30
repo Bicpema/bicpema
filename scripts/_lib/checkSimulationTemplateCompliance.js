@@ -1,5 +1,6 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { getSimulationSlugs } from "./simulations.js";
 
 // src/simulations/_template/ をコピーして作られるシミュレーション（src/simulations/<slug>/）が
 // テンプレートの必須構成から外れていないかを検査する。
@@ -29,21 +30,6 @@ const INLINE_SETTINGS_MODAL_PATTERN =
   /class="(?:[^"]*\s)?(?:modal-panel|modal-close)(?:\s[^"]*)?"/;
 const ENTRY_SCRIPT_CANDIDATES = ["ts/index.ts"];
 const JS_FILE_EXTENSIONS = [".js", ".ts"];
-
-/**
- * src/simulations/ 配下のシミュレーションslug一覧を取得する。
- * @param {string} simulationsDir
- * @returns {string[]}
- */
-export function getSimulationSlugs(simulationsDir) {
-  return (
-    readdirSync(simulationsDir, { withFileTypes: true })
-      // `_` で始まるフォルダー（ひな形の _template/ など）はシミュレーションとして扱わない
-      .filter((entry) => entry.isDirectory() && !entry.name.startsWith("_"))
-      .map((entry) => entry.name)
-      .toSorted()
-  );
-}
 
 /**
  * ディレクトリ配下のjs/tsファイルを再帰的に列挙する。
