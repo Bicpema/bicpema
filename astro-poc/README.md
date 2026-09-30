@@ -133,4 +133,4 @@ npm run check     # astro check（型検査）
 - **画像**: ページバンドル内の `thumbnail.png` はAstroが自動でWebPに変換・最適化します。一方で `<img>` に `width` / `height` 属性が付くため、カードのCSSに `height: auto` が必要でした。Hugoの `image: "thumbnail.png"` はスキーマの `image()` でそのまま解決できます。
 - **型検査**: 日付の不正値や、未定義のキー（例: `tagz`）はビルド時にエラーになります（`z.strictObject` を使用）。
 - **コンテンツのキャッシュ**: remarkプラグインを変更しても、`.astro/` と `node_modules/.astro/` のキャッシュが残っていると記事が再変換されません。プラグイン開発時はキャッシュの削除が必要です。
-- **開発サーバーでのシミュレーション配信**: `astro dev` は `public/` 配下のディレクトリURL（`/vite/simulations/<名前>/`）を `index.html` に解決せず404になります（ビルド後の `astro preview`・Firebase Hostingでは解決されます）。`astro.config.mjs` のViteプラグインで開発時のみ `index.html` へ書き換えています。また `public/vite/` はgit管理外のため、`npm run dev` でもシミュレーションを先にビルドしています。
+- **開発サーバーでのシミュレーション配信**: `astro dev` は `public/` 配下のディレクトリURL（`/vite/simulations/<名前>/`）を `index.html` に解決せず404になります（ビルド後の `astro preview`・Firebaseのホスティングでは解決されます）。`astro.config.mjs` のViteプラグインで開発時のみ `index.html` へ書き換えています。また `public/vite/` はgit管理外のため、`npm run dev` でもシミュレーションを先にビルドしています。
