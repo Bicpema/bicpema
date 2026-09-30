@@ -6,7 +6,7 @@
     "build:simulations": "cd .. && vite build --outDir \"$INIT_CWD/public/vite\" --emptyOutDir",
     "build": "npm run build:simulations && astro build",
     "build:astro": "astro build",
-    "dev": "astro dev",
+    "dev": "npm run build:simulations && astro dev",
     "preview": "astro preview",
     "check": "astro check"
   },
