@@ -1,0 +1,17 @@
+---
+// /post/ （1ページ目）。Hugoと同じく2ページ目以降は /post/page/<n>/ に出力する
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostList from "../../components/PostList.astro";
+import { getPosts, PAGE_SIZE } from "../../lib/posts";
+
+const posts = await getPosts();
+const lastPage = Math.ceil(posts.length / PAGE_SIZE);
+---
+
+<BaseLayout title="シミュレーション一覧">
+  <PostList posts={posts.slice(0, PAGE_SIZE)} />
+  <nav class="pagination">
+    <span></span>
+    {lastPage > 1 && <a href="/post/page/2/">次へ →</a>}
+  </nav>
+</BaseLayout>

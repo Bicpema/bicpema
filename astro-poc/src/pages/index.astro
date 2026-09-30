@@ -1,0 +1,12 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostList from "../components/PostList.astro";
+import { getPosts, PAGE_SIZE } from "../lib/posts";
+
+const posts = (await getPosts()).slice(0, PAGE_SIZE);
+---
+
+<BaseLayout>
+  <PostList posts={posts} />
+  <p><a href="/post/">すべてのシミュレーションを見る</a></p>
+</BaseLayout>

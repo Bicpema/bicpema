@@ -1,0 +1,20 @@
+---
+// SimulationLink コンポーネントの動作確認用ページ（PoC限定）。
+// 記事本文（.md）ではremarkプラグインがカードを出力するため、コンポーネントは
+// .astroページやMDXから使う場合の置き換え先として、ここで表示を確認する。
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SimulationLink from "../../components/SimulationLink.astro";
+import { getPosts } from "../../lib/posts";
+
+const simulationPaths: Record<string, string> = {
+  振り子: "/vite/simulations/pendulum/",
+  自由落下: "/vite/simulations/free-fall/",
+  ドップラー効果: "/vite/simulations/doppler/"
+};
+const posts = (await getPosts()).filter((post) => post.id in simulationPaths);
+---
+
+<BaseLayout title="SimulationLinkコンポーネントの確認">
+  <h1>SimulationLinkコンポーネントの確認</h1>
+  {posts.map((post) => <SimulationLink href={simulationPaths[post.id]} title={post.data.title} image={post.data.image} />)}
+</BaseLayout>

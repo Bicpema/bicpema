@@ -1,0 +1,84 @@
+/* PoC用の最小限のスタイル。本格移行時はテーマ相当のデザインをTailwindで実装する */
+:root {
+  color-scheme: light;
+  --fg: #1e293b;
+  --bg: #ffffff;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --link: #2563eb;
+}
+.dark {
+  color-scheme: dark;
+  --fg: #f1f5f9;
+  --bg: #1e293b;
+  --muted: #94a3b8;
+  --border: #475569;
+  --link: #93c5fd;
+}
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, sans-serif;
+  line-height: 1.8;
+}
+a {
+  color: var(--link);
+}
+main {
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+.site-header,
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+.site-header nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.site-title {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  color: inherit;
+  font-weight: 700;
+  text-decoration: none;
+}
+.site-footer {
+  justify-content: center;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.post-meta,
+.post-card p {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+.post-card {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.post-card h2 {
+  margin: 0;
+}
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  list-style: none;
+}
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}

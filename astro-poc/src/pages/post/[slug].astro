@@ -1,0 +1,33 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPosts, tagUrl } from "../../lib/posts";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description} math>
+  <article>
+    <h1>{post.data.title}</h1>
+    <p class="post-meta">
+      {post.data.date.toLocaleDateString("ja-JP")}
+      {post.data.series.length > 0 && <span> / シリーズ: {post.data.series.join(", ")}</span>}
+    </p>
+    <Content />
+    <ul class="tags">
+      {
+        post.data.tags.map((tag) => (
+          <li>
+            <a href={tagUrl(tag)}>#{tag}</a>
+          </li>
+        ))
+      }
+    </ul>
+  </article>
+</BaseLayout>
