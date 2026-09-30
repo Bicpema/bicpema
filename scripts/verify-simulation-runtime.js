@@ -4,7 +4,7 @@
 // 1件でも検知した場合は非0終了し、CIでのビルド失敗に反映できるようにする。
 //
 // 使い方:
-//   npm run build          # 先に static/vite/ をビルドしておく
+//   npm run build:simulations  # 先に public/vite/ をビルドしておく
 //   npm run verify:runtime
 //
 // オプション:
@@ -24,7 +24,7 @@ import { preview } from "vite";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
 const simulationsDir = join(rootDir, "vite", "simulations");
-const outDir = join(rootDir, "static", "vite");
+const outDir = join(rootDir, "public", "vite");
 
 /**
  * min以上の整数として妥当な値であれば返し、そうでなければ既定値を返す。

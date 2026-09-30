@@ -1,5 +1,0 @@
-node_modules/
-dist/
-.astro/
-# npm run build:simulations の出力（ルートのViteビルド結果）
-public/vite/

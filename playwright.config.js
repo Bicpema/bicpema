@@ -2,8 +2,8 @@ import { defineConfig, devices } from "@playwright/test";
 
 /**
  * E2Eテストの実行対象URLとブラウザーの起動サーバー。
- * `vite build` の成果物（static/vite/）を `vite preview` で配信し、
- * `scripts/verify-simulation-runtime.js` と同様にHugoサーバーなしで
+ * `vite build` の成果物（public/vite/）を `vite preview` で配信し、
+ * `scripts/verify-simulation-runtime.js` と同様にAstroのサーバーなしで
  * `/vite/simulations/<name>/` に直接アクセスする。
  */
 const PORT = 4173;

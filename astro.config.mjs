@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
 import { unified } from "@astrojs/markdown-remark";
+import { remarkBundledLicenses } from "./src/plugins/remark-bundled-licenses.mjs";
 import { remarkSimulationLink } from "./src/plugins/remark-simulation-link.mjs";
 
 const publicDir = fileURLToPath(new URL("./public", import.meta.url));
@@ -38,9 +39,9 @@ export default defineConfig({
   build: { format: "directory" },
   markdown: {
     // Astro 7既定のMarkdown処理系ではなくremark/rehypeパイプラインを使い、
-    // 既存記事の {{< simulation-link >}} 記法をremarkプラグインで変換する
+    // Hugo時代のショートコード記法（{{< simulation-link >}}・{{< bundled-licenses >}}）をremarkプラグインで変換する
     processor: unified({
-      remarkPlugins: [remarkSimulationLink]
+      remarkPlugins: [remarkSimulationLink, remarkBundledLicenses]
     })
   },
   vite: {

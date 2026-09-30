@@ -1,4 +1,4 @@
-// content/post/ 配下の記事と vite/simulations/ 配下のシミュレーションの
+// src/content/posts/ 配下の記事と vite/simulations/ 配下のシミュレーションの
 // 対応関係を検査する。
 //
 // - 記事内の "/vite/simulations/<slug>/" リンクが実在するシミュレーションを
@@ -19,7 +19,7 @@ const rootDir = resolve(__dirname, "..");
 
 const result = checkArticleSimulationLinks({
   simulationsDir: resolve(rootDir, "vite", "simulations"),
-  postsDir: resolve(rootDir, "content", "post"),
+  postsDir: resolve(rootDir, "src", "content", "posts"),
   allowedArticlelessSlugs: ARTICLELESS_SIMULATION_ALLOWLIST
 });
 
@@ -32,7 +32,7 @@ if (result.brokenLinks.length > 0) {
   );
   for (const { articleDir, slug } of result.brokenLinks) {
     console.error(
-      `  content/post/${articleDir}/index.md -> /vite/simulations/${slug}/`
+      `  src/content/posts/${articleDir}/index.md -> /vite/simulations/${slug}/`
     );
   }
 }

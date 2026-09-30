@@ -18,7 +18,11 @@
     "vite/simulations/**/*.ts",
     "vite/_templates/**/*.ts",
     "test/**/*.js",
-    "scripts/**/*.js"
+    "scripts/**/*.js",
+    "src/**/*.ts",
+    "src/**/*.mjs",
+    "astro.config.mjs",
+    ".astro/types.d.ts"
   ],
-  "exclude": ["node_modules", "static", "test/**/fixtures"]
+  "exclude": ["node_modules", "public/vite", "dist", "test/**/fixtures"]
 }

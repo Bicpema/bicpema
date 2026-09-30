@@ -55,12 +55,16 @@ const pageTitle = title ? `${title} :: Bicpema` : "Bicpema";
       <a class="site-title" href="/"><img src="/logo.svg" alt="" width="32" height="32" />Bicpema</a>
       <nav>
         <a href="/post/">シミュレーション一覧</a>
-        <a href="/tags/">タグ</a>
+        <a href="/about/">Bicpemaについて</a>
         <button type="button" id="theme-toggle" aria-label="ダークモードの切り替え">◐</button>
       </nav>
     </header>
     <main><slot /></main>
-    <footer class="site-footer">© 2022 - {new Date().getFullYear()} BICPEMA</footer>
+    <footer class="site-footer">
+      <span>© 2022 - {new Date().getFullYear()} BICPEMA</span>
+      <a href="/terms/">利用規約</a>
+      <a href="/licenses/">サードパーティライセンス</a>
+    </footer>
     <script>
       document.getElementById("theme-toggle")?.addEventListener("click", () => {
         const dark = document.documentElement.classList.toggle("dark");

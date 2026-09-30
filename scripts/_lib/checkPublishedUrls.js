@@ -180,7 +180,7 @@ function toEntryPathname(entry, seenUrls, siteOrigin) {
  * 掲載URL一覧の各URLがビルド成果物からアクセス可能かを検査する。
  * @param {object} options
  * @param {{ url?: unknown }[]} options.entries 掲載URL一覧（data/published-urls.yaml）
- * @param {string} options.publicDir Hugo・Viteのビルド成果物（public/）
+ * @param {string} options.publicDir Vite・Astroのビルド成果物（dist/）
  * @param {string} options.siteOrigin 例: "https://bicpema.com"
  * @param {{ source?: string, regex?: string, destination: string }[]} [options.redirects] firebase.jsonのhosting.redirects
  * @returns {{

@@ -1,33 +1,35 @@
-// Hugoのショートコード {{< simulation-link "/vite/simulations/<名前>/" >}} を、
-// layouts/shortcodes/simulation-link.html と同じマークアップのカードに変換するremarkプラグイン。
-// 記事本文を書き換えずにAstroへ移行できるかを確認するためのPoC実装。
+// 記事中の {{< simulation-link "/vite/simulations/<名前>/" >}}（Hugo時代のショートコード記法）を、
+// サムネイル付きのカードに変換するremarkプラグイン。
+// サムネイルとタイトルは記事のfront matter（image / title）から取得する。
+// scripts/_lib/checkArticleSimulationLinks.js が記事とシミュレーションの対応付けに
+// "/vite/simulations/<名前>/" 形式のパスを使うため、記法は変えずに残している。
 import { visit } from "unist-util-visit";
+import { escapeHtml } from "./escapeHtml.mjs";
 
 // smartypants（Hugoのtypographerに相当）が先に適用され、引用符が “ ” に変換される場合も許容する
 const SHORTCODE = /^\{\{<\s*simulation-link\s+["“”]([^"“”]+)["“”]\s*>\}\}$/;
 const HREF = /^\/vite\/simulations\/[A-Za-z0-9_-]+\/$/;
 
-const escapeHtml = (s) =>
-  String(s).replace(
-    /[&<>"]/g,
-    (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]
-  );
-
+/** @returns {(tree: import("mdast").Root, file: import("vfile").VFile) => void} */
 export function remarkSimulationLink() {
   return (tree, file) => {
-    const frontmatter = file.data.astro?.frontmatter ?? {};
+    /** @type {{ title?: string, image?: string }} */
+    const frontmatter = /** @type {any} */ (file.data).astro?.frontmatter ?? {};
     visit(tree, "paragraph", (node, index, parent) => {
-      if (node.children.length !== 1 || node.children[0].type !== "text")
+      if (!parent || index === undefined) return;
+      if (node.children.length !== 1 || node.children[0].type !== "text") {
         return;
+      }
       const match = node.children[0].value.trim().match(SHORTCODE);
       if (!match) return;
-      const href = match[1];
+      const href = match[1] ?? "";
       if (!HREF.test(href)) {
         file.fail(
           `simulation-link: "/vite/simulations/<名前>/" 形式のパスを指定してください（${href}）`,
           node
         );
       }
+      /** @type {import("mdast").PhrasingContent[]} */
       const children = [
         {
           type: "html",
@@ -36,12 +38,12 @@ export function remarkSimulationLink() {
       ];
       if (frontmatter.image) {
         // mdastのimageノードとして出力し、ページバンドル内の画像はAstroの画像最適化に任せる。
-        // Hugoのページリソース（"thumbnail.png"）はAstroでは相対パス（"./thumbnail.png"）として解決する
+        // front matterの "thumbnail.png" は記事と同じフォルダーの画像として "./thumbnail.png" に解決する
+        const { image } = frontmatter;
         const url =
-          /^(https?:)?\/\//.test(frontmatter.image) ||
-          frontmatter.image.startsWith("./")
-            ? frontmatter.image
-            : `./${frontmatter.image}`;
+          /^(https?:)?\/\//.test(image) || image.startsWith("./")
+            ? image
+            : `./${image}`;
         children.push({
           type: "image",
           url,

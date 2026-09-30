@@ -6,7 +6,8 @@ import { getHtmlInputsRecursively } from "./vite/_build/getHtmlInputsRecursively
 import { bicpemaComponentsPlugin } from "./vite/_build/bicpemaComponents.js";
 
 const root = resolve(import.meta.dirname, "vite");
-const outDir = resolve(import.meta.dirname, "static/vite");
+// Astroのpublic/配下へ出力し、Astroのビルドでdist/vite/へそのままコピーさせる
+const outDir = resolve(import.meta.dirname, "public/vite");
 
 export default defineConfig({
   root,

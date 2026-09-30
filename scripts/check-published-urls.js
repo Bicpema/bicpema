@@ -1,13 +1,13 @@
 // 教科書などの外部出版物に掲載されたURL（data/published-urls.yaml）が、
-// ビルド成果物（public/）からアクセス可能かを検査する。
+// ビルド成果物（dist/）からアクセス可能かを検査する。
 //
-// - URLに対応するページが public/ に存在するか
+// - URLに対応するページが dist/ に存在するか
 // - 存在しない場合、firebase.json の redirects に一致し、リダイレクト先が存在するか
 //
-// Hugo・Viteのビルド後に実行する。
+// Vite・Astroのビルド後に実行する。
 //
 // 使い方:
-//   npm run build && hugo --minify
+//   npm run build
 //   npm run check:published-urls
 
 import { existsSync, readFileSync } from "node:fs";
@@ -18,12 +18,12 @@ import { checkPublishedUrls } from "./_lib/checkPublishedUrls.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
-const publicDir = resolve(rootDir, "public");
+const publicDir = resolve(rootDir, "dist");
 const SITE_ORIGIN = "https://bicpema.com";
 
 if (!existsSync(publicDir)) {
   console.error(
-    "public/ が見つかりません。先に `npm run build && hugo --minify` でビルドしてください。"
+    "dist/ が見つかりません。先に `npm run build` でビルドしてください。"
   );
   process.exit(1);
 }

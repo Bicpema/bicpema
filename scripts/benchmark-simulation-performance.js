@@ -23,7 +23,7 @@ import { preview } from "vite";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
 const simulationsDir = join(rootDir, "vite", "simulations");
-const outDir = join(rootDir, "static", "vite");
+const outDir = join(rootDir, "public", "vite");
 
 /**
  * コマンドライン引数を解析する。

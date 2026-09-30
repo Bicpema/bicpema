@@ -4,7 +4,7 @@ name: 記事とシミュレーションのリンク整合性チェック
 "on":
   pull_request:
     paths:
-      - "content/post/**"
+      - "src/content/posts/**"
       - "vite/simulations/**"
       - "scripts/check-article-simulation-links.js"
       - "scripts/articleless-simulation-allowlist.js"
@@ -14,7 +14,7 @@ name: 記事とシミュレーションのリンク整合性チェック
     branches:
       - main
     paths:
-      - "content/post/**"
+      - "src/content/posts/**"
       - "vite/simulations/**"
       - "scripts/check-article-simulation-links.js"
       - "scripts/articleless-simulation-allowlist.js"

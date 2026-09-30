@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
-// content/post/*/index.md 内の "/vite/simulations/<slug>/" 形式のリンクから
+// src/content/posts/*/index.md 内の "/vite/simulations/<slug>/" 形式のリンクから
 // slugを抽出する。記事ディレクトリ名は日本語、slugは英語のことが多く両者を
 // 直接対応付けられないため、ディレクトリ名ではなく記事本文中のリンクを
 // 手がかりにシミュレーションとの対応を判定する。
@@ -20,7 +20,7 @@ export function getSimulationSlugs(simulationsDir) {
 }
 
 /**
- * content/post/ 配下の記事（index.mdを持つディレクトリ）一覧を取得する。
+ * src/content/posts/ 配下の記事（index.mdを持つディレクトリ）一覧を取得する。
  * @param {string} postsDir
  * @returns {{ articleDir: string, content: string }[]}
  */

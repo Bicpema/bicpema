@@ -3,57 +3,61 @@
 <!-- cspell:ignore Sätteri tagz -->
 
 記事サイトをHugoからAstroへ移行した場合の効果とコストを見極めるための概念実証です。
-このディレクトリは `main` へはマージせず、判断後に破棄する前提です。
+このブランチは `main` へはマージせず、判断後に破棄する前提です。
+
+当初は `astro-poc/` に記事3本で実装し（コミット `bee3418`）、その後、移行後のフォルダー構成を確認するため、
+Astroをリポジトリ直下に移し、全32記事・固定ページを移行してHugo関連のファイルを削除しました。
 
 ## 実行方法
 
 ```bash
-# リポジトリ直下で依存関係をインストール済みであること（シミュレーションのビルドに使用）
-cd astro-poc
-npm install
-npm run build     # シミュレーション（ルートのVite）→ public/vite/、記事（Astro）→ dist/
-npm run preview   # http://localhost:4321/
-npm run dev       # シミュレーションをビルドしてから開発サーバーを起動
-npm run check     # astro check（型検査）
+npm ci
+npm run dev       # シミュレーションをビルドしてからAstroの開発サーバーを起動（http://localhost:4321/）
+npm run build     # シミュレーション（Vite）→ public/vite/、サイト（Astro）→ dist/
+npm run preview   # ビルドしたサイトを確認
 ```
 
 ## 実装した範囲
 
-| 項目                           | 実装                                                                                                                                                                                                 |
-| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 記事（3本）                    | `振り子`（ページバンドル内の画像）・`自由落下`（外部URLの画像、`aliases` の検証用）・`ドップラー効果`。本文はHugo版から無修正                                                                        |
-| 記事ページ `/post/<スラッグ>/` | `src/pages/post/[slug].astro`                                                                                                                                                                        |
-| 記事一覧（ページ送り）         | `/post/`（1ページ目）と `/post/page/<n>/`（Hugoと同じURL）。PoCでは記事が3本のため1ページ2件                                                                                                         |
-| タクソノミー                   | タグのみ（`/tags/`・`/tags/<タグ>/`）                                                                                                                                                                |
-| `simulation-link`              | ① remarkプラグイン（`src/plugins/remark-simulation-link.mjs`、既存記事の記法をそのまま変換）<br>② Astroコンポーネント（`src/components/SimulationLink.astro`、確認用ページ `/poc/simulation-link/`） |
-| front matterのスキーマ         | `src/content.config.ts`（`title` / `description` / `author` / `date` / `image` / `tags` / `categories` / `series` / `aliases` / `draft`）                                                            |
-| `aliases`                      | `src/pages/[...alias].astro` でHugoと同じmeta refresh形式のページを生成                                                                                                                              |
-| シミュレーション               | 段階移行の「方法B」。ルートの `vite build` の出力先を `astro-poc/public/vite/` に変更し、Astroがそのまま `dist/vite/` へコピー                                                                       |
-| ダークモード・数式             | テーマと同じ `.dark` クラス切り替えとKaTeX（CDN・auto-render）                                                                                                                                       |
+| 項目                           | 実装                                                                                                                                      |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| 記事（全32本）                 | `src/content/posts/<スラッグ>/index.md`。本文・front matterはHugo版から無修正                                                             |
+| 固定ページ                     | `src/content/pages/`（about / licenses / terms）と `src/pages/[page].astro`。TOML形式のfront matterのまま読み込める                       |
+| 記事ページ `/post/<スラッグ>/` | `src/pages/post/[slug].astro`                                                                                                             |
+| 記事一覧（ページ送り）         | `/post/`（1ページ目）と `/post/page/<n>/`（Hugoと同じURL、1ページ10件）                                                                   |
+| タクソノミー                   | タグのみ（`/tags/`・`/tags/<タグ>/`）                                                                                                     |
+| ショートコード                 | remarkプラグインで変換（`src/plugins/`）。`simulation-link`（サムネイル付きカード）・`bundled-licenses`（ライセンス一覧）                 |
+| front matterのスキーマ         | `src/content.config.ts`（`title` / `description` / `author` / `date` / `image` / `tags` / `categories` / `series` / `aliases` / `draft`） |
+| `aliases`                      | `src/pages/[...alias].astro` でHugoと同じmeta refresh形式のページを生成                                                                   |
+| シミュレーション               | 段階移行の「方法B」。`vite build` の出力先を `public/vite/` に変更し、Astroがそのまま `dist/vite/` へコピー                               |
+| ダークモード・数式             | テーマと同じ `.dark` クラス切り替えとKaTeX（CDN・auto-render）                                                                            |
+| CI・スクリプト・設定           | デプロイ・掲載URL検査のワークフローからHugoを削除し、各スクリプト・lint設定・`.gitignore`・`firebase.json` を移行後のパスに変更           |
+
+`simulation-link` はAstroコンポーネント版も試作しましたが（コミット `bee3418` の `SimulationLink.astro`）、
+記事をMDXにできない（後述）ため、記事ではremarkプラグインを使い、コンポーネントは削除しました。
 
 ## 評価結果
 
 ### 1. フォルダー構造の変化
 
-本格移行時の想定です（PoCは既存構成と共存させるため `astro-poc/` に配置しています）。
-
 ```text
-移行前（Hugo＋Vite）                     移行後（Astro＋Vite、方法B）
-├── archetypes/        ← Hugo           ├── src/
-├── assets/css/        ← Hugo           │   ├── content/posts/<スラッグ>/index.md   ← content/post/ から移動
-├── config/_default/   ← Hugo           │   ├── content.config.ts                  ← front matterのスキーマ
-├── content/post/      ← Hugo           │   ├── components/ layouts/ pages/ styles/ plugins/
-├── data/              ← Hugo＋CI       ├── public/            ← Astroの静的ファイル（ソース）
-├── i18n/              ← Hugo           ├── data/published-urls.yaml（CI用に残す）
-├── layouts/           ← Hugo           ├── astro.config.mjs
-├── static/            ← Hugo           ├── vite/              ← 変更なし
-├── themes/（submodule）← Hugo          └── vite.config.js     ← 出力先のみ変更
-├── vite/
-└── vite.config.js
+移行前（Hugo＋Vite）                      移行後（Astro＋Vite、方法B）＝このブランチ
+├── archetypes/          ← Hugo          ├── src/
+├── assets/css/          ← Hugo          │   ├── content/
+├── config/_default/     ← Hugo          │   │   ├── posts/<スラッグ>/index.md   ← content/post/ から移動
+├── content/             ← Hugo          │   │   └── pages/{about,licenses,terms}.md
+├── data/                ← Hugo＋CI      │   ├── content.config.ts               ← front matterのスキーマ
+├── i18n/                ← Hugo          │   ├── components/ layouts/ lib/ pages/ plugins/ styles/
+├── layouts/             ← Hugo          ├── public/              ← favicon.ico・logo.svg（＋ビルド時に vite/）
+├── static/              ← Hugo          ├── data/                ← CI用（published-urls.yaml など）
+├── themes/（submodule） ← Hugo          ├── vite/                ← 変更なし
+├── vite/                                ├── astro.config.mjs
+└── vite.config.js                       └── vite.config.js       ← 出力先のみ変更
 ```
 
-- Hugo用の8フォルダー（`archetypes/` `assets/` `config/` `content/` `i18n/` `layouts/` `static/` `themes/`）が `src/` と `public/` に集約され、git submoduleがなくなります。
-- **注意**: 現在リポジトリ直下の `public/` はHugoの出力先（git管理対象外）ですが、Astroでは `public/` が **ソース** です。`.gitignore`・`firebase.json`（`hosting.public`）・markdownlint / cspell / yamllint / Prettierの除外設定の見直しが必要です（Astroの出力先は `dist/`）。
+- Hugo用の8フォルダー（`archetypes/` `assets/` `config/` `content/` `i18n/` `layouts/` `static/` `themes/`）が `src/` と `public/` に集約され、git submodule（`.gitmodules`）がなくなりました。
+- サイトのソースは `src/`、シミュレーションは `vite/` と、役割ごとにフォルダーが分かれます。
+- **注意**: Hugoでは直下の `public/` が出力先（git管理対象外）でしたが、Astroでは `public/` が **ソース** です。出力先は `dist/` で、`public/vite/`（Viteの出力）・`dist/`・`.astro/` をgit管理対象外にしています。
 
 ### 2. ビルドの流れとビルド時間
 
@@ -80,16 +84,21 @@ npm run check     # astro check（型検査）
 
 ### 4. 既存CIへの影響
 
-| CI・スクリプト                                                         | 必要な修正                                                                                              |
-| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `deploy.yml` / `check-published-urls.yml`                              | `peaceiris/actions-hugo` と `hugo --minify` を `astro build` に置き換え、`public/` を `dist/` に変更    |
-| `check:published-urls`（`scripts/check-published-urls.js`）            | 検査対象ディレクトリを `public/` → `dist/` に変更（ロジックはそのまま流用できることを確認済み）         |
-| `check:article-links`（`scripts/_lib/checkArticleSimulationLinks.js`） | 記事ディレクトリのパス（`content/post/`）を変更。ショートコードの記法を変えなければ検出ロジックは流用可 |
-| `vite/_build/bicpemaComponents.js`                                     | ナビバーの「解説ページへ戻る」リンクの対象判定に使う `POSTS_DIR` のパスを変更                           |
-| markdownlint / cspell / Prettier / yamllint                            | 除外パスの `public/` を `dist/`・`.astro/` に変更。記事の `.md` はそのままlint対象                      |
-| typecheck                                                              | `astro check` を追加（PoCでは0 errors）。ルートの `tsc --noEmit` との統合方法を決める                   |
-| E2E（Playwright）・`verify:runtime`                                    | `vite preview` で完結しているため影響なし                                                               |
-| ドキュメント                                                           | `README.md` と `docs/docs/` の約9ファイルでHugoの手順・パスに言及しており更新が必要                     |
+このブランチで以下を修正し、全チェックが通ることを確認しました。
+
+| CI・スクリプト                                       | 修正内容                                                                                                |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `deploy.yml` / `check-published-urls.yml`            | Hugoのセットアップ・`hugo --minify`・submoduleの取得を削除し、`npm run build`（Vite＋Astro）に一本化    |
+| `check:published-urls`                               | 検査対象を `public/` → `dist/` に変更（検査ロジックはそのまま）                                         |
+| `check:article-links`・`check-article-links.yml`     | 記事のパスを `content/post/` → `src/content/posts/` に変更                                              |
+| `vite/_build/bicpemaComponents.js`                   | ナビバーの「解説ページへ戻る」リンクの判定に使う記事のパスを変更                                        |
+| `verify:runtime`・`benchmark:performance`・E2E       | Viteの出力先を `static/vite/` → `public/vite/` に変更（`vite preview` で完結する点は変わらず）          |
+| markdownlint / cspell / Prettier / yamllint / oxlint | 除外パスを `public/vite/`・`dist/`・`.astro/` に変更。oxlintに `.astro` 用のグローバル（`Astro`）を追加 |
+| typecheck                                            | `tsc --noEmit` の対象に `src/` の `.ts`・`.mjs` を追加                                                  |
+| ドキュメント                                         | `README.md`・`AGENTS.md` を更新。**`docs/docs/` の9ファイル（Hugoへの言及36箇所）は未更新**             |
+
+`npm run build` の中身が「シミュレーションのみ」から「シミュレーション＋サイト」に変わるため、
+シミュレーションだけをビルドするE2Eの事前処理は `npm run build:simulations` に変更しています。
 
 ### 5. テーマ相当の実装量
 
@@ -136,3 +145,6 @@ npm run check     # astro check（型検査）
 - **開発サーバーでのシミュレーション配信**: 次の2点に対応しています。
     - `astro dev` は `public/` 配下のディレクトリURL（`/vite/simulations/<名前>/`）を`index.html`に解決せず404になります（ビルド後は解決されます）。`astro.config.mjs` のViteプラグインで、開発時のみ書き換えています。
     - `public/vite/` はgit管理外のため、`npm run dev` でもシミュレーションを先にビルドします。
+- **`astro check` はTypeScript 7に未対応**: `@astrojs/check` の対応はTypeScript 5／6までで、TypeScript 7を使うこのリポジトリには導入できません。`.astro` ファイルの型検査は、対応を待つか、`.astro` 内のロジックを `.ts` に切り出して `tsc` で検査する方針になります。
+- **oxlintは `.astro` も検査する**: フロントマターの `Astro` やインラインスクリプトのグローバルを `globals` に定義する必要があります。
+- **GitHubのラベル**: リリースノートの分類（`.github/release.yml`）に `Hugo` ラベルがあり、移行する場合はラベル名の変更が必要です。

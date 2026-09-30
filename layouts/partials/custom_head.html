@@ -1,8 +1,0 @@
-{{/* themes/hugo-theme-tailwind/layouts/partials/custom_head.html のオーバーライド。テーマのhead.htmlから読み込まれる、サイト独自のhead要素を定義する。 */}}
-{{- $styles := resources.Get "css/simulation-link.css" -}}
-{{- if hugo.IsDevelopment }}
-  {{- $styles = $styles | fingerprint -}}
-{{ else }}
-  {{- $styles = $styles | minify | fingerprint -}}
-{{ end -}}
-<link rel="stylesheet" href="{{ $styles.RelPermalink }}" />

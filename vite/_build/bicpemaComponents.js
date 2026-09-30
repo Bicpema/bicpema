@@ -34,7 +34,14 @@ const DEFAULT_SETTINGS_BUTTON_POSITION_CLASS =
   "absolute top-5 right-5 z-[1000] max-[576px]:top-2.5 max-[576px]:right-2.5";
 const DEFAULT_ICON_SIZE = "16";
 const TOP_PAGE_PATH = "/";
-const POSTS_DIR = resolve(import.meta.dirname, "..", "..", "content", "post");
+const POSTS_DIR = resolve(
+  import.meta.dirname,
+  "..",
+  "..",
+  "src",
+  "content",
+  "posts"
+);
 // 直前のページが戻り先と同じ場合のみ履歴を1つ戻り、スクロール位置を保ったまま解説ページへ戻す。
 // 教科書のQRコード等から直接開いた場合（履歴に戻り先がない場合）は、hrefの戻り先へ遷移する。
 // インラインのイベントハンドラーではdocumentのプロパティがスコープに含まれ、
@@ -80,7 +87,7 @@ export function parseAttributes(attributesText) {
 
 /**
  * シミュレーションのindex.htmlのパスから、ナビバーの戻るボタンの遷移先を決める。
- * シミュレーションへリンクしている解説ページ（content/post/<記事>/index.md）があればその記事、
+ * シミュレーションへリンクしている解説ページ（src/content/posts/<記事>/index.md）があればその記事、
  * なければトップページを返す。
  * @param {string | undefined} filename index.htmlの絶対パス
  * @param {string} [postsDir] 記事のディレクトリ（テスト用）
