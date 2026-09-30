@@ -1,0 +1,63 @@
+---
+// 共通UIパーツ（ナビバー・ローディングスピナー・設定ボタン・設定モーダル・アイコン）は
+// src/components/simulation/ のコンポーネントを利用してください。DOM構造やスタイルを直接書かないでください。
+import SimulationLayout from "../../layouts/SimulationLayout.astro";
+import NavBar from "../../components/simulation/NavBar.astro";
+import LoadingSpinner from "../../components/simulation/LoadingSpinner.astro";
+// import SettingsButton from "../../components/simulation/SettingsButton.astro";
+// import SettingsModal from "../../components/simulation/SettingsModal.astro";
+
+const title = "{% title %}";
+---
+
+<SimulationLayout
+  title={title}
+  class="h-full overflow-hidden bg-neutral-900 p-0"
+  disableContextMenu
+>
+  <NavBar title={title} />
+
+  <div
+    class="relative mt-[60px] h-[calc(100vh-60px)] w-full overflow-hidden p-0"
+    id="p5Container"
+  >
+    <div class="flex h-full w-full justify-center" id="p5Canvas"></div>
+
+    <!-- <div id="graph" class="rounded border">
+          <canvas id="graphCanvas"></canvas>
+      </div> -->
+
+    <!--
+      左下の再生操作エリア（必要に応じてコメントアウトを外して利用してください）。
+      ts/init.tsで src/lib/simulation/bicpema-controls-controller.ts の
+      bindToggleControls()（開始/一時停止トグル）または
+      bindStartStopControls()（開始・停止ボタンが別々のパターン）を使って
+      イベント登録とaria-labelの付与を行ってください。
+    <div class="absolute bottom-0 left-0 m-3 flex gap-2">
+      <button type="button" class="cursor-pointer rounded bg-neutral-600 px-3 py-1.5 text-white hover:bg-neutral-500" id="playPauseButton">開始</button>
+      <button type="button" class="cursor-pointer rounded bg-red-600 px-3 py-1.5 text-white hover:bg-red-500" id="resetButton">リセット</button>
+    </div>
+    -->
+
+    <!-- 右上設定ボタン（必要に応じてコメントアウトを外して利用してください。開閉はts/init.tsのinitModal()で行います） -->
+    <!-- <SettingsButton /> -->
+  </div>
+
+  <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
+  <LoadingSpinner />
+
+  <!--
+    設定モーダル（必要に応じてコメントアウトを外して利用してください。開閉はts/init.tsのinitModal()で行います）。
+    タグの中身が設定項目としてモーダルの外枠（見出し・閉じるボタン）に差し込まれます。
+    入力欄・ラベルには form-control / form-label を利用してください。
+  <SettingsModal>
+    <div class="mb-3">
+      <label for="exampleInput" class="form-label">項目名</label>
+      <input type="range" class="form-control" id="exampleInput" />
+    </div>
+  </SettingsModal>
+  -->
+
+  <!-- p5.jsは index.ts の import で読み込まれます（TailwindCSSはSimulationLayoutで読み込みます） -->
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

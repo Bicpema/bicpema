@@ -4,8 +4,8 @@ name: シミュレーションの起動チェック（Playwright）
 "on":
   pull_request:
     paths:
-      - "vite/**"
-      - "vite.config.js"
+      - "src/**"
+      - "astro.config.mjs"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/verify-runtime.yml"
@@ -13,8 +13,8 @@ name: シミュレーションの起動チェック（Playwright）
     branches:
       - main
     paths:
-      - "vite/**"
-      - "vite.config.js"
+      - "src/**"
+      - "astro.config.mjs"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/verify-runtime.yml"
@@ -42,7 +42,7 @@ jobs:
       - name: 依存パッケージのインストール
         run: npm ci
 
-      - name: Viteのビルド
+      - name: Astroのビルド
         run: npm run build
 
       - name: Playwrightブラウザーのキャッシュ

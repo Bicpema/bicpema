@@ -4,8 +4,9 @@ name: スクリプト・シミュレーションのユニットテスト（Vites
 "on":
   pull_request:
     paths:
-      - "vite/**"
-      - "vite.config.js"
+      - "src/**"
+      - "vitest.config.js"
+      - "astro.config.mjs"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/unit-test.yml"
@@ -13,8 +14,9 @@ name: スクリプト・シミュレーションのユニットテスト（Vites
     branches:
       - main
     paths:
-      - "vite/**"
-      - "vite.config.js"
+      - "src/**"
+      - "vitest.config.js"
+      - "astro.config.mjs"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/unit-test.yml"

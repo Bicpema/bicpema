@@ -1,42 +1,21 @@
 // @ts-check
-import { existsSync } from "node:fs";
-import { fileURLToPath } from "node:url";
 import { defineConfig } from "astro/config";
 import { unified } from "@astrojs/markdown-remark";
-import { remarkBundledLicenses } from "./src/plugins/remark-bundled-licenses.mjs";
+import tailwindcss from "@tailwindcss/vite";
+import {
+  bundledLicenses,
+  remarkBundledLicenses
+} from "./src/integrations/bundled-licenses.mjs";
 import { remarkSimulationLink } from "./src/plugins/remark-simulation-link.mjs";
-
-const publicDir = fileURLToPath(new URL("./public", import.meta.url));
-
-/**
- * `astro dev` は public/ 配下のディレクトリURL（/vite/simulations/<名前>/）を
- * index.html に解決しないため、開発サーバーでのみ index.html へ書き換える。
- * ビルド後（astro preview・Firebase Hosting）は静的ホスティングが解決するため不要。
- * @returns {import("vite").Plugin}
- */
-function servePublicDirectoryIndex() {
-  return {
-    name: "serve-public-directory-index",
-    configureServer(server) {
-      server.middlewares.use((req, _res, next) => {
-        const [pathname, query] = (req.url ?? "").split("?");
-        if (pathname.startsWith("/vite/") && pathname.endsWith("/")) {
-          const indexPath = `${pathname}index.html`;
-          if (existsSync(publicDir + decodeURIComponent(indexPath))) {
-            req.url = query === undefined ? indexPath : `${indexPath}?${query}`;
-          }
-        }
-        next();
-      });
-    }
-  };
-}
 
 export default defineConfig({
   site: "https://bicpema.com",
   // Hugoと同じく末尾スラッシュ付きのディレクトリ形式（/post/<スラッグ>/index.html）で出力する
   trailingSlash: "always",
   build: { format: "directory" },
+  integrations: [bundledLicenses()],
+  // 開発時のツールバーが全画面表示のシミュレーションの操作ボタンと重なるため無効にする
+  devToolbar: { enabled: false },
   markdown: {
     // Astro 7既定のMarkdown処理系ではなくremark/rehypeパイプラインを使い、
     // Hugo時代のショートコード記法（{{< simulation-link >}}・{{< bundled-licenses >}}）をremarkプラグインで変換する
@@ -45,6 +24,13 @@ export default defineConfig({
     })
   },
   vite: {
-    plugins: [servePublicDirectoryIndex()]
+    // シミュレーション（src/simulations/）のスタイルはTailwind CSSで記述する
+    plugins: [tailwindcss()],
+    build: {
+      chunkSizeWarningLimit: 1500,
+      // バンドルしたサードパーティライブラリのライセンス一覧を出力する（/licenses/ で表示）。
+      // 既定の出力先（.vite/license.md）はFirebase Hostingのignore対象（**/.*）となるため変更する。
+      license: { fileName: "third-party-licenses.md" }
+    }
   }
 });

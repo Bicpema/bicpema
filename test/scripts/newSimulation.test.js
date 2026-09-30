@@ -29,8 +29,8 @@ beforeEach(() => {
   mkdirSync(join(templateDir, "js"), { recursive: true });
   mkdirSync(join(simulationsDir, "doppler"), { recursive: true });
   writeFileSync(
-    join(templateDir, "index.html"),
-    '<title>{% title %}</title><span>{% title %}</span><a href="{% path %}"></a>'
+    join(templateDir, "index.astro"),
+    'const title = "{% title %}";\n<span>{% title %}</span>'
   );
   writeFileSync(join(templateDir, "js", "main.js"), "// main");
 });
@@ -84,6 +84,19 @@ describe("renderTemplate", () => {
 });
 
 describe("createSimulation", () => {
+  it("タイトルの引用符・バックスラッシュをエスケープして埋め込む", () => {
+    const destDir = createSimulation({
+      templateDir,
+      simulationsDir,
+      title: 'レンズ"の\\実験',
+      dirName: "lens"
+    });
+
+    expect(readFileSync(join(destDir, "index.astro"), "utf-8")).toContain(
+      'const title = "レンズ\\"の\\\\実験";'
+    );
+  });
+
   it("テンプレートをコピーしてプレースホルダーを置換する", () => {
     const destDir = createSimulation({
       templateDir,
@@ -92,8 +105,8 @@ describe("createSimulation", () => {
       dirName: "lens"
     });
 
-    expect(readFileSync(join(destDir, "index.html"), "utf-8")).toBe(
-      '<title>レンズ</title><span>レンズ</span><a href="/simulations/lens"></a>'
+    expect(readFileSync(join(destDir, "index.astro"), "utf-8")).toBe(
+      'const title = "レンズ";\n<span>レンズ</span>'
     );
     expect(readFileSync(join(destDir, "js", "main.js"), "utf-8")).toBe(
       "// main"

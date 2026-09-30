@@ -1,0 +1,12 @@
+---
+import SimulationLayout from "../../../../../../src/layouts/SimulationLayout.astro";
+import NavBar from "../../../../../../src/components/simulation/NavBar.astro";
+---
+
+<SimulationLayout title="BicpemaCanvasControllerを複製しているシミュレーション">
+  <NavBar title="BicpemaCanvasControllerを複製しているシミュレーション" />
+  <div id="p5Container">
+    <div id="p5Canvas"></div>
+  </div>
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

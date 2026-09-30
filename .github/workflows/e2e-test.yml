@@ -4,10 +4,10 @@ name: シミュレーションのE2Eテスト（Playwright）
 "on":
   pull_request:
     paths:
-      - "vite/**"
+      - "src/**"
       - "test/e2e/**"
       - "playwright.config.js"
-      - "vite.config.js"
+      - "astro.config.mjs"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/e2e-test.yml"
@@ -15,10 +15,10 @@ name: シミュレーションのE2Eテスト（Playwright）
     branches:
       - main
     paths:
-      - "vite/**"
+      - "src/**"
       - "test/e2e/**"
       - "playwright.config.js"
-      - "vite.config.js"
+      - "astro.config.mjs"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/e2e-test.yml"

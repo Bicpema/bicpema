@@ -1,4 +1,4 @@
-// vite/_templates/simulation/ のひな形から新しいシミュレーションを vite/simulations/ 配下に生成する。
+// src/simulations/_template/ のひな形から新しいシミュレーションを src/simulations/ 配下に生成する。
 //
 // 使い方:
 //   npm run new:simulation
@@ -15,8 +15,8 @@ import {
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
-const templateDir = resolve(rootDir, "vite", "_templates", "simulation");
-const simulationsDir = resolve(rootDir, "vite", "simulations");
+const templateDir = resolve(rootDir, "src", "simulations", "_template");
+const simulationsDir = resolve(rootDir, "src", "simulations");
 
 const rl = createInterface({ input, output });
 // question() は待機中以外に届いた行を捨てるため、パイプ入力でも取りこぼさないよう行イテレーターで読む
@@ -55,7 +55,7 @@ try {
 
   createSimulation({ templateDir, simulationsDir, title, dirName });
   console.log(
-    `\nvite/simulations/ に「${title}」のフォルダー「${dirName}」を生成しました。`
+    `\nsrc/simulations/ に「${title}」のフォルダー「${dirName}」を生成しました。`
   );
 } catch (error) {
   console.error(`\nエラー: ${error instanceof Error ? error.message : error}`);

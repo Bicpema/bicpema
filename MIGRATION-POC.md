@@ -8,6 +8,33 @@
 当初は `astro-poc/` に記事3本で実装し（コミット `bee3418`）、その後、移行後のフォルダー構成を確認するため、
 Astroをリポジトリ直下に移し、全32記事・固定ページを移行してHugo関連のファイルを削除しました。
 
+## 方法Aへの移行（このブランチの現状）
+
+方法B（シミュレーションはViteのまま）で確認した後、シミュレーションもAstroのページとして扱う方法Aまで移行しました。
+
+- **ビルドの1系統化**: `vite build` → `astro build` の2段階から、`astro build` だけになりました（153ページを約1.3〜2秒）。`vite.config.js` は削除し、Vitestの設定は `vitest.config.js`（Astroの `getViteConfig` を使用）に分けました。
+- **フォルダー構成**: `vite/` フォルダーがなくなり、すべて `src/` に集約されました。
+
+    | 移行前（方法B）                                      | 移行後（方法A）                                        |
+    | ---------------------------------------------------- | ------------------------------------------------------ |
+    | `vite/simulations/<名前>/index.html`                 | `src/simulations/<名前>/index.astro`                   |
+    | `vite/simulations/<名前>/ts/`                        | `src/simulations/<名前>/ts/`（変更なし）               |
+    | `vite/_templates/simulation/`                        | `src/simulations/_template/`                           |
+    | `vite/ts/`                                           | `src/lib/simulation/`                                  |
+    | `vite/css/tailwind.css`                              | `src/styles/simulation.css`                            |
+    | `vite/types/`                                        | `src/types/`                                           |
+    | `vite/_build/bicpemaComponents.js`（独自プラグイン） | `src/components/simulation/*.astro`（5コンポーネント） |
+
+- **`<bicpema-*>` のコンポーネント化**: 45本・47ページのHTMLをスクリプトで `.astro` に変換しました。ナビバーの戻り先は、ページのURLと記事のコンテンツコレクションから自動で決まります。
+- **出力の同一性**: 移行前後の全47ページのDOM（スクリプト・CSSのURLを除く）が完全に一致することを確認しました。
+- **URL**: `/vite/simulations/<名前>/` は `src/pages/vite/simulations/[...path].astro` で維持しています。子ウィンドウ（`3d-strata` の `childWindow.html` など）は掲載URLではないため、`/vite/simulations/3d-strata/childWindow/` に変更しました。
+- **ライセンス一覧**: Viteのライセンス一覧はクライアントのバンドル時に生成され、Markdownの変換より後になるため、ビルド完了後（`astro:build:done`）に `/licenses/` へ差し込むインテグレーションに変えました。
+- **テスト**: 独自プラグインのテストは、Astroの Container API を使ったコンポーネントのテストに移植しました。`verify:runtime`（45本）・E2E（20件）・単体テスト（417件）が通ることを確認しています。
+- **注意点**:
+    - Astro 7の `astro dev` / `astro preview` は、AIエージェントから実行されたことを検知すると自動でバックグラウンド実行になります（人・CIでは通常どおり）。
+    - Prettierで `.astro` を整形するため `prettier-plugin-astro` を導入しました。要素内の全角スペースだけの文字列は整形で消えるため、`&#12288;` で記述しています。
+    - 開発時のツールバーはシミュレーションの操作ボタンと重なるため無効にしています。
+
 ## 実行方法
 
 ```bash

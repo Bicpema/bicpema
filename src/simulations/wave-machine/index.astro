@@ -1,0 +1,40 @@
+---
+import SimulationLayout from "../../layouts/SimulationLayout.astro";
+import NavBar from "../../components/simulation/NavBar.astro";
+import LoadingSpinner from "../../components/simulation/LoadingSpinner.astro";
+import Icon from "../../components/simulation/Icon.astro";
+
+const title = "ウェーブマシン";
+---
+
+<SimulationLayout title={title} class="bg-neutral-900" disableContextMenu>
+  <NavBar title={title} />
+
+  <div class="w-full p-0 mt-[60px]" id="p5Container">
+    <div class="flex justify-center" id="p5Canvas"></div>
+
+    <div class="absolute bottom-0 start-0 m-3">
+      <button
+        type="button"
+        class="m-1 rounded bg-neutral-700 px-3 py-2 text-white hover:bg-neutral-600"
+        id="decelerationButton"
+        aria-label="波の速さを遅くする"
+      >
+        <Icon name="skip-start-fill" size={32} />
+      </button>
+      <button
+        type="button"
+        class="m-1 rounded bg-neutral-700 px-3 py-2 text-white hover:bg-neutral-600"
+        id="accelerationButton"
+        aria-label="波の速さを速くする"
+      >
+        <Icon name="skip-start-fill" size={32} class="-scale-x-100" />
+      </button>
+    </div>
+  </div>
+
+  <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
+  <LoadingSpinner />
+
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

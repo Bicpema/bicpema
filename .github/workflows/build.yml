@@ -1,13 +1,13 @@
 ---
-name: シミュレーションのビルドチェック（Vite）
+name: サイト・シミュレーションのビルドチェック（Astro）
 
 "on":
   push:
     branches:
       - main
     paths:
-      - "vite/**"
-      - "vite.config.js"
+      - "src/**"
+      - "astro.config.mjs"
       - "package.json"
       - "package-lock.json"
       - ".github/workflows/build.yml"
@@ -35,5 +35,5 @@ jobs:
       - name: 依存パッケージのインストール
         run: npm ci
 
-      - name: Viteのビルド
+      - name: Astroのビルド
         run: npm run build

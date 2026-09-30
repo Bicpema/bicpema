@@ -8,5 +8,7 @@ const posts = (await getPosts()).slice(0, PAGE_SIZE);
 
 <BaseLayout>
   <PostList posts={posts} />
-  <p><a href="/post/">すべてのシミュレーションを見る</a></p>
+  <p>
+    <a href="/post/">すべてのシミュレーションを見る</a>
+  </p>
 </BaseLayout>

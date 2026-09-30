@@ -48,13 +48,12 @@
   ],
   "ignorePaths": [
     "**/node_modules/**",
-    "public/vite/**",
     "dist/**",
     ".astro/**",
     "docs/site/**",
     "docs/.cache/**",
     "package-lock.json",
-    "vite/simulations/**",
+    "src/simulations/**",
     "test/**"
   ]
 }

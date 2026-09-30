@@ -106,6 +106,6 @@ description: "WORKFLOW SKILL — p5.js シミュレーションのための単�
 
 ## 🔭 次に追加するとよいカスタマイズ（任意）
 
-- `vite/_templates/tests/` にテストテンプレート（Vitest + Playwright など）を用意し、`/p5js-simulation-testing` から選べるようにする。
+- `src/simulations/_template/` にテストテンプレート（Vitest + Playwright など）を用意し、`/p5js-simulation-testing` から選べるようにする。
 - シミュレーションの型情報（TypeScript 定義）からテストの入力/期待値を自動生成する仕組みを追加する。
 - CI で自動実行される `npm test` / `pnpm test` タスクのテンプレートも合わせて用意し、GitHub Actions のワークフロー例を追加する。

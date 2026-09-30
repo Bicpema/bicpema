@@ -1,0 +1,18 @@
+---
+import SimulationLayout from "../../../../../../src/layouts/SimulationLayout.astro";
+import NavBar from "../../../../../../src/components/simulation/NavBar.astro";
+import SettingsButton from "../../../../../../src/components/simulation/SettingsButton.astro";
+import SettingsModal from "../../../../../../src/components/simulation/SettingsModal.astro";
+---
+
+<SimulationLayout title="準拠しているシミュレーション">
+  <NavBar title="準拠しているシミュレーション" />
+  <div id="p5Container">
+    <div id="p5Canvas"></div>
+    <SettingsButton />
+  </div>
+  <SettingsModal>
+    <button class="csv-example-modal-close">閉じる</button>
+  </SettingsModal>
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

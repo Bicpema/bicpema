@@ -1,10 +1,10 @@
-// vite/simulations/ 配下の各シミュレーションをヘッドレスブラウザーで起動し、
+// src/simulations/ 配下の各シミュレーションをヘッドレスブラウザーで起動し、
 // ページロード時および起動直後の実行中に発生した未処理例外（pageerror）や
 // console.error・リソースの読み込み失敗（requestfailed）を検知する。
 // 1件でも検知した場合は非0終了し、CIでのビルド失敗に反映できるようにする。
 //
 // 使い方:
-//   npm run build:simulations  # 先に public/vite/ をビルドしておく
+//   npm run build          # 先に dist/ をビルドしておく
 //   npm run verify:runtime
 //
 // オプション:
@@ -12,19 +12,19 @@
 //   --concurrency=<n>   同時に起動するページ数（既定: 4）
 //   --timeout=<ms>      ページ読み込みのタイムアウト（既定: 20000）
 //   --settle=<ms>       読み込み後、draw()等の実行を観測する待機時間（既定: 2000）
-//   --base-url=<url>    既に起動済みのサーバーを使う場合に指定する（省略時は vite preview を自動起動）
+//   --base-url=<url>    既に起動済みのサーバーを使う場合に指定する（省略時は astro preview を自動起動）
 
 import { existsSync, readdirSync, statSync } from "node:fs";
 import { createServer } from "node:net";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
-import { preview } from "vite";
+import { preview } from "astro";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
-const simulationsDir = join(rootDir, "vite", "simulations");
-const outDir = join(rootDir, "public", "vite");
+const simulationsDir = join(rootDir, "src", "simulations");
+const outDir = join(rootDir, "dist");
 
 /**
  * min以上の整数として妥当な値であれば返し、そうでなければ既定値を返す。
@@ -76,13 +76,18 @@ function parseArgs(argv) {
 }
 
 /**
- * index.html を持つシミュレーションディレクトリ名の一覧を取得する。
+ * index.astro を持つシミュレーションディレクトリ名の一覧を取得する。
  */
 function listSimulationNames() {
   return readdirSync(simulationsDir)
     .filter((name) => {
+      if (name.startsWith("_")) {
+        return false;
+      }
       const dir = join(simulationsDir, name);
-      return statSync(dir).isDirectory() && existsSync(join(dir, "index.html"));
+      return (
+        statSync(dir).isDirectory() && existsSync(join(dir, "index.astro"))
+      );
     })
     .toSorted();
 }
@@ -211,17 +216,16 @@ async function main() {
     return;
   }
 
-  /** @type {import("vite").PreviewServer | null} */
+  /** @type {import("astro").PreviewServer | null} */
   let previewServer = null;
   let baseUrl = options.baseUrl;
 
   if (!baseUrl) {
     const port = await findFreePort();
     previewServer = await preview({
-      root: join(rootDir, "vite"),
-      base: "/vite",
-      preview: { port, strictPort: true },
-      build: { outDir }
+      root: rootDir,
+      server: { port },
+      logLevel: "warn"
     });
     baseUrl = `http://localhost:${port}`;
   }
@@ -269,7 +273,7 @@ async function main() {
   } finally {
     await browser.close();
     if (previewServer) {
-      await previewServer.close();
+      await previewServer.stop();
     }
   }
 }

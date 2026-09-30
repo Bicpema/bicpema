@@ -7,17 +7,22 @@ import { getPosts, PAGE_SIZE } from "../../../lib/posts";
 export const getStaticPaths = (async ({ paginate }) => {
   const posts = await getPosts();
   // 1ページ目は /post/ が担当するため、2ページ目以降のみ出力する
-  return paginate(posts, { pageSize: PAGE_SIZE }).filter(({ params }) => params.page !== undefined && String(params.page) !== "1");
+  return paginate(posts, { pageSize: PAGE_SIZE }).filter(
+    ({ params }) => params.page !== undefined && String(params.page) !== "1"
+  );
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
-const prevUrl = page.currentPage === 2 ? "/post/" : `/post/page/${page.currentPage - 1}/`;
+const prevUrl =
+  page.currentPage === 2 ? "/post/" : `/post/page/${page.currentPage - 1}/`;
 ---
 
 <BaseLayout title={`シミュレーション一覧（${page.currentPage}ページ目）`}>
   <PostList posts={page.data} />
   <nav class="pagination">
     <a href={prevUrl}>← 前へ</a>
-    {page.url.next && <a href={`/post/page/${page.currentPage + 1}/`}>次へ →</a>}
+    {page.url.next && (
+      <a href={`/post/page/${page.currentPage + 1}/`}>次へ →</a>
+    )}
   </nav>
 </BaseLayout>

@@ -12,14 +12,12 @@ const tags = [...counts].sort((a, b) => b[1] - a[1]);
 <BaseLayout title="タグ">
   <h1>タグ</h1>
   <ul class="tags">
-    {
-      tags.map(([tag, count]) => (
-        <li>
-          <a href={tagUrl(tag)}>
-            #{tag}（{count}）
-          </a>
-        </li>
-      ))
-    }
+    {tags.map(([tag, count]) => (
+      <li>
+        <a href={tagUrl(tag)}>
+          #{tag}（{count}）
+        </a>
+      </li>
+    ))}
   </ul>
 </BaseLayout>

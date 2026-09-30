@@ -1,13 +1,13 @@
 ---
 name: p5js-simulation
-description: "WORKFLOW SKILL — vite/_templates/ 配下のテンプレートを使って p5.js + Material Design でインタラクティブなシミュレーション教材を作成します。"
+description: "WORKFLOW SKILL — src/simulations/_template/ のテンプレートを使って p5.js + Material Design でインタラクティブなシミュレーション教材を作成します。"
 ---
 
 # p5.js シミュレーション (Material Design)
 
 このスキルは、**p5.js** を使ったインタラクティブなシミュレーション教材を、**Material Design** で統一された見た目で、再利用可能なテンプレートから素早く作成したいときに使います。
 
-このスキルは、`/vite/_templates/` フォルダ（標準は `simulation/`）に `*.html`、`*.ts` のスターターファイルがあり、Material Design + p5.js のプロジェクト規約に従っていることを前提としています。
+このスキルは、`src/simulations/_template/` フォルダに `index.astro`・`ts/*.ts` のスターターファイルがあり、Material Design + p5.js のプロジェクト規約に従っていることを前提としています。
 
 ---
 
@@ -17,7 +17,7 @@ description: "WORKFLOW SKILL — vite/_templates/ 配下のテンプレートを
 
 - **p5.js** を使って描画・アニメーションを行う。
 - **Material Design** の見た目（MDC Web / Material Web Components / Material Design の配色・タイポグラフィ）を使う。
-- `/vite/_templates/` 配下のテンプレートから開始し、実行可能なシミュレーションを新しいフォルダ（例：`vite/simulations/<name>/`）に出力する。
+- `src/simulations/_template/` のテンプレートから開始し（`npm run new:simulation`）、実行可能なシミュレーションを新しいフォルダ（例：`src/simulations/<name>/`）に出力する。
 
 ---
 
@@ -29,27 +29,27 @@ description: "WORKFLOW SKILL — vite/_templates/ 配下のテンプレートを
     - どんな入力、出力、インタラクションが必要か？
 
 2. **テンプレートを選ぶ**
-    - `/vite/_templates/` の中から、目的に合う HTML/CSS/JS の足場を探す。
-    - 適切なものがなければ、既存パターンに従って新しいテンプレートを `/vite/_templates/` に追加する。
+    - `src/simulations/_template/` を足場にする（`_` で始まるフォルダーはページとして出力されない）。
+    - 共通UIパーツは `src/components/simulation/` のAstroコンポーネント（`NavBar` / `LoadingSpinner` / `SettingsButton` / `SettingsModal` / `Icon`）を使う。
 
 3. **新しいシミュレーション用フォルダを作る**
-    - 選んだテンプレートをコピーし、新しいディレクトリ（例：`vite/simulations/<slug>/`）を作る。
-    - 必要に応じてファイル名を変更する（例：`index.html`、`styles.css`、`sketch.js` など）。
+    - `npm run new:simulation` でテンプレートをコピーし、新しいディレクトリ（例：`src/simulations/<slug>/`）を作る。
+    - ページは `index.astro`、ロジックは `ts/` 配下に置く。
 
 4. **p5.js を組み込み**
-    - `index.html` に正しい p5.js の読み込み（ローカル）が含まれていることを確認する。
+    - `index.astro` の末尾で `<script src="./ts/index.ts"></script>` を読み込み（`src` 以外の属性を付けるとAstroがバンドルしない）、p5.jsは `ts/index.ts` で `import` する。
     - テンプレートのスケッチファイルに p5.js の `setup()` / `draw()` コードを置く。
     - コードはモジュール化し、モデル（データ/状態）、ビュー（描画）、コントローラ（操作）を分ける。
-    - **ES Modules形式（`<script type="module">`）で実装することを必須とし、`import`/`export` を活用して機能を分割する。**
+    - **ES Modules形式で実装することを必須とし、`import`/`export` を活用して機能を分割する。**
 
 5. **Material Design スタイルを適用する**
     - テンプレートが使っている Material Design の足場（MDC Web / Material Web Components）で UI コントロールを作る。
     - 配色、タイポグラフィ、余白などがデザインシステムに準拠していることを確認する。
     - 新しいコントロール（スライダー、ボタン、カードなど）が必要なら、テンプレート内の既存パターンに従って追加する。
-    - ボタン等のアイコンは `<svg>` をべた書きせず、`<bicpema-icon name="camera" size="20"></bicpema-icon>` のように共通コンポーネントで記述する（アイコン名は [Bootstrap Icons](https://icons.getbootstrap.com/) を参照）。アイコンのみのボタンには `aria-label` を付与する。詳細は [共通UIコンポーネント](../../../docs/docs/simulation/index.md#共通uiコンポーネント) を参照。
+    - ボタン等のアイコンは `<svg>` をべた書きせず、`<Icon name="camera" size={20} />` のように共通コンポーネント（`src/components/simulation/Icon.astro`）で記述する（アイコン名は [Bootstrap Icons](https://icons.getbootstrap.com/) を参照）。アイコンのみのボタンには `aria-label` を付与する。詳細は [共通UIコンポーネント](../../../docs/docs/simulation/index.md#共通uiコンポーネント) を参照。
 
 6. **インタラクションを検証する**
-    - ローカルでシミュレーションを動かす（例：`index.html` をブラウザで開く、または簡易サーバーを起動する）。
+    - `npm run dev` で開発サーバーを起動し、`http://localhost:4321/vite/simulations/<slug>/` を開く。
     - p5 のキャンバスが更新され、コントロールが動き、レスポンシブなレイアウトが維持されることを確認する。
 
 7. **品質チェック（完了条件）**
@@ -63,37 +63,35 @@ description: "WORKFLOW SKILL — vite/_templates/ 配下のテンプレートを
 ## 🧩 判断ポイント / 分岐
 
 - **テンプレートが必要か？**
-    - 目的のレイアウトに合うテンプレートが無ければ、`/vite/_templates/` に新しいテンプレートを追加し、フォルダ命名規則に従う。
+    - 目的のレイアウトに合うテンプレートが無ければ、`src/simulations/` に `_` で始まる名前で新しいテンプレートを追加する。
 
 - **シミュレーションのバリエーションを複数作るか？**
-    - `vite/simulations/` 以下に別々のフォルダを作成し、共有 JS/CSS をインポートして再利用する。
+    - `src/simulations/` 以下に別々のフォルダを作成し、共有 TS（`src/lib/simulation/`）をインポートして再利用する。
 
 - **コンポーネントライブラリを変更したいか？**
-    - テンプレートの Material 設定（例：MDC → Material Web Components への切り替え）を更新するか、テンプレートはそのままにして `vite/_templates/` に補助ユーティリティを追加するかを判断する。
+    - テンプレートの Material 設定（例：MDC → Material Web Components への切り替え）を更新するか、テンプレートはそのままにして `src/lib/simulation/` に補助ユーティリティを追加するかを判断する。
 
 ---
 
 ## 📦 テンプレートの追加・参照場所
 
-- テンプレートは `/vite/_templates/` に置く。
+- テンプレートは `src/simulations/` に `_` で始まる名前（標準は `_template/`）で置く。
 - 各テンプレートには以下を含めること：
-    - `index.html`（エントリーポイント）
-    - `styles.css`（Material Design スタイル + レイアウト）
-    - `sketch.js`（p5.js スケッチコード）または同等の JS ファイル
-    - テンプレートから参照される共有アセット（アイコン、フォントなど）
+    - `index.astro`（ページ。`SimulationLayout` と共通コンポーネントを使う）
+    - `ts/index.ts`（p5.js スケッチのエントリーポイント）と、分割したモジュール
+    - スタイルは Tailwind CSS のクラスで記述する（`src/styles/simulation.css` を `SimulationLayout` が読み込む）
 
 ---
 
 ## 💡 試してみるプロンプト例
 
 - `/p5js-simulation マウスの動きに反応するパーティクルシステムを、"material-card" テンプレートを使って作成して。`
-- `/p5js-simulation 初速と角度のスライダー付きで放物運動シミュレータを作成して（テンプレート: /vite/_templates/physics-basic）。`
-- `/p5js-simulation 既存の /vite/_templates/interactive-map シミュレーションにスコアカウンターとリセットボタンを追加して。`
+- `/p5js-simulation 初速と角度のスライダー付きで放物運動シミュレータを作成して（テンプレート: src/simulations/_template）。`
+- `/p5js-simulation 既存の src/simulations/pendulum シミュレーションにスコアカウンターとリセットボタンを追加して。`
 
 ---
 
 ## 🔭 次に追加するとよいカスタマイズ（任意）
 
-- `/vite/_templates/` の構成ルールを検証する linter/チェッカーを追加する。
 - 説明からスケッチの雛形を生成する補助プロンプト（例: `p5js-sketch.prompt.md`）を追加する。
 - 生成されたシミュレーションで Material Design のアクセシビリティチェックを強制する `instructions` ファイルを追加する。

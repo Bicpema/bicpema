@@ -1,0 +1,65 @@
+---
+import SimulationLayout from "../../layouts/SimulationLayout.astro";
+import NavBar from "../../components/simulation/NavBar.astro";
+import LoadingSpinner from "../../components/simulation/LoadingSpinner.astro";
+import SettingsButton from "../../components/simulation/SettingsButton.astro";
+import SettingsModal from "../../components/simulation/SettingsModal.astro";
+
+const title = "3力の釣り合い";
+---
+
+<SimulationLayout
+  title={title}
+  class="h-full overflow-hidden bg-neutral-900 p-0"
+  disableContextMenu
+>
+  <NavBar title={title} />
+
+  <div
+    class="relative mt-[60px] h-[calc(100vh-60px)] w-full overflow-hidden p-0"
+    id="p5Container"
+  >
+    <div class="flex h-full w-full justify-center" id="p5Canvas"></div>
+
+    <!-- 設定パネル -->
+    <SettingsModal
+      id="settingsModal"
+      variant="dark"
+      panelClass="w-[340px] max-[576px]:w-[290px]"
+    >
+      <div class="mb-4">
+        <label for="weightInput" class="form-label">
+          おもりの重さ W:
+          <span id="weightDisplay">20</span> N
+        </label>
+        <input
+          type="range"
+          class="w-full accent-blue-600"
+          id="weightInput"
+          min="5"
+          max="50"
+          step="1"
+          value="20"
+        />
+        <div class="flex justify-between">
+          <small class="text-white/50">5 N</small>
+          <small class="text-white/50">50 N</small>
+        </div>
+      </div>
+      <button
+        id="resetButton"
+        class="mb-2 w-full rounded bg-neutral-600 px-3 py-2 text-white hover:bg-neutral-500"
+      >
+        リセット
+      </button>
+    </SettingsModal>
+
+    <!-- 右上コントロール -->
+    <SettingsButton id="toggleModal" />
+  </div>
+
+  <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
+  <LoadingSpinner />
+
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

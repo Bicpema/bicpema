@@ -32,7 +32,7 @@ jobs:
       - name: 依存パッケージのインストール
         run: npm ci
 
-      - name: シミュレーション（Vite）とサイト（Astro）のビルド
+      - name: サイト・シミュレーションのビルド（Astro）
         run: npm run build
 
       - name: 掲載URLのリンク切れチェック

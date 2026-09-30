@@ -1,0 +1,162 @@
+---
+import SimulationLayout from "../../layouts/SimulationLayout.astro";
+import NavBar from "../../components/simulation/NavBar.astro";
+import LoadingSpinner from "../../components/simulation/LoadingSpinner.astro";
+import SettingsButton from "../../components/simulation/SettingsButton.astro";
+import SettingsModal from "../../components/simulation/SettingsModal.astro";
+
+const title = "力学台車が定規にする仕事";
+---
+
+<SimulationLayout
+  title={title}
+  class="h-full overflow-hidden bg-neutral-900 p-0"
+>
+  <NavBar title={title} />
+
+  <div
+    class="relative mt-[60px] h-[calc(100vh-60px)] w-full overflow-hidden p-0"
+    id="p5Container"
+  >
+    <div class="flex h-full w-full justify-center" id="p5Canvas"></div>
+
+    <!-- 情報パネル（HTML 表示） -->
+    <div
+      id="infoPanel"
+      class="absolute top-2.5 left-2.5 z-[1000] w-[360px] rounded-[9px] border-2 border-[rgba(0,0,0,0.12)] bg-white/98 px-3.5 py-3 text-[#222] shadow-[0_8px_20px_rgba(0,0,0,0.25)]"
+      role="region"
+      aria-label="情報パネル"
+    >
+      <div class="mb-1.5 flex items-baseline justify-between gap-2">
+        <span class="text-sm text-[#333]">質量 m = </span>
+        <span id="info-mass" class="text-[15px] font-bold text-[#111]">
+          0.5 kg
+        </span>
+      </div>
+      <div class="mb-1.5 flex items-baseline justify-between gap-2">
+        <span class="text-sm text-[#333]">初速度 v₀ = </span>
+        <span id="info-v0" class="text-[15px] font-bold text-[#111]">
+          2.0 m/s
+        </span>
+      </div>
+      <div class="mb-1.5 flex items-baseline justify-between gap-2">
+        <span class="text-sm text-[#333]">抵抗力 F = </span>
+        <span id="info-F" class="text-[15px] font-bold text-[#111]">
+          5 N
+        </span>
+      </div>
+      <hr />
+      <div class="mb-1.5 flex items-baseline justify-between gap-2">
+        <span class="text-sm text-[#333]">初期運動エネルギー KE₀ = </span>
+        <span id="info-ke0" class="text-[15px] font-bold text-[#111]">
+          0.000 J
+        </span>
+      </div>
+      <div class="mb-1.5 flex items-baseline justify-between gap-2">
+        <span class="text-sm text-[#333]">めり込み距離 d = </span>
+        <span id="info-d" class="text-[15px] font-bold text-[#111]">
+          0.000 m
+        </span>
+      </div>
+      <div class="mb-1.5 flex items-baseline justify-between gap-2">
+        <span class="text-sm text-[#333]">仕事 W = </span>
+        <span id="info-W" class="text-[15px] font-bold text-[#111]">
+          0.000 J
+        </span>
+      </div>
+      <div id="info-status" class="mt-2 text-[13px]">
+        <div id="status-critical" class="hidden">
+          <span class="text-[#d84c4c] font-bold">
+            ⚠ 臨界値以上（ものさしは完全に本の中）
+          </span>
+          <br />
+          <small>
+            めり込みが最大に達しました。物差しは本の中に完全に入っています。
+          </small>
+        </div>
+        <div id="status-stopped" class="hidden">
+          <span class="text-[#0b6] font-bold">
+            ✓ W = ½ m v₀² = <span id="status-ke0">0.000</span> J
+          </span>
+          <br />
+          <small>台車が静止 → 仕事 = 初期運動エネルギー</small>
+        </div>
+        <div id="status-running">
+          <span class="text-[#2c4dff] font-semibold">
+            現在の運動エネルギー = ½ m v² =<span id="status-ke">0.000</span> J
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 設定モーダル -->
+    <SettingsModal id="settingsModal" variant="dark">
+      <div class="mb-3">
+        <label for="massInput" class="form-label">
+          台車の質量 m (kg)
+        </label>
+        <input
+          type="number"
+          class="form-control"
+          id="massInput"
+          min="0.1"
+          max="2.0"
+          step="0.1"
+          value="0.5"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="velocityInput" class="form-label">
+          初速度 v₀ (m/s)
+        </label>
+        <input
+          type="number"
+          class="form-control"
+          id="velocityInput"
+          min="0.5"
+          max="3.0"
+          step="0.5"
+          value="2.0"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="forceInput" class="form-label">
+          抵抗力 F (N)
+        </label>
+        <input
+          type="number"
+          class="form-control"
+          id="forceInput"
+          min="1"
+          max="50"
+          step="1"
+          value="5"
+        />
+      </div>
+    </SettingsModal>
+
+    <!-- 左下コントロール -->
+    <div class="absolute bottom-5 left-5 z-[1000] flex flex-wrap gap-2.5 max-[576px]:bottom-2.5 max-[576px]:left-2.5 max-[576px]:gap-2">
+      <button
+        id="resetButton"
+        class="rounded-lg bg-blue-600 px-5 py-2.5 text-base font-bold whitespace-nowrap text-white shadow-[0_4px_6px_rgba(0,0,0,0.3)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:bg-blue-500 hover:shadow-[0_6px_8px_rgba(0,0,0,0.4)] active:translate-y-0 active:shadow-[0_2px_4px_rgba(0,0,0,0.3)] max-[576px]:px-[15px] max-[576px]:py-2 max-[576px]:text-sm max-[400px]:px-3 max-[400px]:py-1.5 max-[400px]:text-xs"
+      >
+        🔄 リセット
+      </button>
+      <button
+        id="playPauseButton"
+        class="rounded-lg bg-green-600 px-5 py-2.5 text-base font-bold whitespace-nowrap text-white shadow-[0_4px_6px_rgba(0,0,0,0.3)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:bg-green-500 hover:shadow-[0_6px_8px_rgba(0,0,0,0.4)] active:translate-y-0 active:shadow-[0_2px_4px_rgba(0,0,0,0.3)] max-[576px]:px-[15px] max-[576px]:py-2 max-[576px]:text-sm max-[400px]:px-3 max-[400px]:py-1.5 max-[400px]:text-xs"
+      >
+        ▶ 開始
+      </button>
+    </div>
+
+    <!-- 右上コントロール -->
+    <SettingsButton id="toggleModal" />
+  </div>
+
+  <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
+  <LoadingSpinner />
+
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

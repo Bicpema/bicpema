@@ -1,0 +1,64 @@
+---
+import SimulationLayout from "../../layouts/SimulationLayout.astro";
+import NavBar from "../../components/simulation/NavBar.astro";
+import LoadingSpinner from "../../components/simulation/LoadingSpinner.astro";
+import SettingsButton from "../../components/simulation/SettingsButton.astro";
+import SettingsModal from "../../components/simulation/SettingsModal.astro";
+
+const title = "斜面の力の分解";
+---
+
+<SimulationLayout
+  title={title}
+  class="h-full overflow-hidden bg-neutral-900 p-0"
+  disableContextMenu
+>
+  <NavBar title={title} />
+
+  <div
+    class="relative mt-[60px] h-[calc(100vh-60px)] w-full overflow-hidden p-0"
+    id="p5Container"
+  >
+    <div class="flex h-full w-full justify-center" id="p5Canvas"></div>
+
+    <!-- 設定パネル -->
+    <SettingsModal id="settingsModal" variant="dark" panelClass="w-[400px]">
+      <div class="mb-4">
+        <label class="form-label">
+          質量: <span id="massValue">10 kg</span>
+        </label>
+        <input
+          type="range"
+          class="w-full accent-blue-600"
+          id="massInput"
+          min="1"
+          max="30"
+          step="1"
+          value="10"
+        />
+      </div>
+      <div class="mb-4">
+        <label class="form-label">
+          斜面の角度: <span id="slopeAngleValue">30°</span>
+        </label>
+        <input
+          type="range"
+          class="w-full accent-blue-600"
+          id="slopeAngleInput"
+          min="0"
+          max="80"
+          step="1"
+          value="30"
+        />
+      </div>
+    </SettingsModal>
+
+    <!-- 右上コントロール -->
+    <SettingsButton id="toggleModal" />
+  </div>
+
+  <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
+  <LoadingSpinner />
+
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

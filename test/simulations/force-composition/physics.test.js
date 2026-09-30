@@ -3,7 +3,7 @@ import {
   composeForces,
   computeForceMagnitude,
   computeForceAngleDeg
-} from "../../../vite/simulations/force-composition/ts/physics.js";
+} from "../../../src/simulations/force-composition/ts/physics.js";
 
 describe("composeForces", () => {
   it("2つの力ベクトルの成分ごとの和を返す（力の合成）", () => {

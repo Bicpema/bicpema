@@ -1,0 +1,48 @@
+---
+// ページ上部のナビバー（#navBar）。
+// #navBarの高さはBicpemaCanvasControllerがsetup()時に参照するため、静的なマークアップとして出力する。
+// 左端に解説ページ（またはトップページ）へ戻るボタン（#navBackButton）を配置する。
+import Icon from "./Icon.astro";
+import { resolveNavBackHref, TOP_PAGE_PATH } from "../../lib/simulation-page";
+
+interface Props {
+  /** ナビバーに表示するタイトル */
+  title: string;
+  /** 戻るボタンの遷移先（未指定時は、ページのURLから求めたシミュレーションの解説ページ） */
+  backHref?: string;
+}
+
+const slug = Astro.url.pathname.match(/\/vite\/simulations\/([^/]+)\//)?.[1];
+const {
+  title,
+  backHref = slug ? await resolveNavBackHref(slug) : TOP_PAGE_PATH
+} = Astro.props;
+const backLabel =
+  backHref === TOP_PAGE_PATH ? "トップページへ戻る" : "解説ページへ戻る";
+// 直前のページが戻り先と同じ場合のみ履歴を1つ戻り、スクロール位置を保ったまま解説ページへ戻す。
+// 教科書のQRコード等から直接開いた場合（履歴に戻り先がない場合）は、hrefの戻り先へ遷移する。
+// インラインのイベントハンドラーではdocumentのプロパティがスコープに含まれ、
+// `URL`がdocument.URL（文字列）を指すため、window.URLを明示する。
+const navBackOnClick =
+  "try{var r=new window.URL(document.referrer);if(history.length>1&&r.origin===location.origin&&r.pathname===this.pathname){history.back();return false}}catch(e){}";
+---
+
+<nav
+  class="fixed inset-x-0 top-0 z-50 flex h-[60px] items-center border-b border-neutral-700 bg-neutral-900 px-4 max-[576px]:px-2"
+  id="navBar"
+>
+  <a
+    id="navBackButton"
+    class="mr-3 flex h-9 w-9 shrink-0 items-center justify-center rounded text-neutral-300 no-underline hover:bg-neutral-700 hover:text-white max-[576px]:mr-2"
+    href={backHref}
+    aria-label={backLabel}
+    title={backLabel}
+    onclick={navBackOnClick}
+  >
+    <Icon name="arrow-left" size={20} />
+  </a>
+  <a class="shrink-0 font-semibold text-white no-underline" href="/">
+    Bicpema
+  </a>
+  <span class="ml-3 min-w-0 truncate font-light text-neutral-300">{title}</span>
+</nav>

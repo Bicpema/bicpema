@@ -1,0 +1,26 @@
+---
+// src/simulations/<名前>/index.astro を /vite/simulations/<名前>/ に、
+// それ以外のページ（子ウィンドウなど）を /vite/simulations/<名前>/<ページ名>/ に出力する。
+// URLは教科書などに掲載されているため変更しないこと（data/published-urls.yaml）。
+// `_` で始まるフォルダー（新規作成用のひな形 _template/ など）は出力しない。
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+
+export function getStaticPaths() {
+  const pages = import.meta.glob<{ default: AstroComponentFactory }>(
+    ["../../../simulations/*/*.astro", "!../../../simulations/_*/**"],
+    { eager: true }
+  );
+  return Object.entries(pages).map(([file, module]) => {
+    const [, slug, page] =
+      file.match(/\/simulations\/([^/]+)\/([^/]+)\.astro$/) ?? [];
+    return {
+      params: { path: page === "index" ? slug : `${slug}/${page}` },
+      props: { Page: module.default }
+    };
+  });
+}
+
+const { Page } = Astro.props;
+---
+
+<Page />

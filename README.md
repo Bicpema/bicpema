@@ -5,7 +5,7 @@
 - サイト: <https://bicpema.com/>
 - 使い方: トップページまたは記事一覧から見たいシミュレーションを選び、ブラウザで開いてパラメータを操作する。インストール不要で、スマートフォン・タブレット・PCのいずれでも利用できる。詳しくは[Bicpemaについて](https://bicpema.com/about/)を参照。
 
-サイトは[Astro](https://astro.build/)で構築し、シミュレーションは[p5.js](https://p5js.org/)と[Vite](https://vite.dev/)で実装している。
+サイト（記事・シミュレーション）は[Astro](https://astro.build/)で構築し、シミュレーションは[p5.js](https://p5js.org/)で実装している。
 
 ## Requirements
 
@@ -51,25 +51,19 @@ npx playwright install --with-deps chromium
 
 ## Development
 
-シミュレーションをビルドしてから、Astroの開発サーバーを立ち上げる
+Astroの開発サーバーを立ち上げる（記事・シミュレーションとも、編集すると自動で反映される）
 
 ```bash
 npm run dev
 ```
 
-シミュレーションを編集する場合は、別のターミナルで変更を監視してビルドし続ける（出力先は`public/vite/`）
-
-```bash
-npm run dev:simulations
-```
-
 TOPページ
 <http://localhost:4321/>
 
-シミュレーション（`vite/simulations/<シミュレーション名>/`が`/vite/simulations/<シミュレーション名>/`で配信される）
+シミュレーション（`src/simulations/<シミュレーション名>/`が`/vite/simulations/<シミュレーション名>/`で配信される）
 <http://localhost:4321/vite/simulations/wave-reflection/>
 
-シミュレーションとサイトをビルドする（出力先は`dist/`。`npm run preview`で確認できる）
+サイト全体をビルドする（出力先は`dist/`。`npm run preview`で確認できる）
 
 ```bash
 npm run build
@@ -79,9 +73,8 @@ npm run build
 
 | コマンド                            | 内容                                                                                                             |
 | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `npm run dev`                       | シミュレーションをビルドし、Astroの開発サーバーを起動する                                                        |
-| `npm run dev:simulations`           | シミュレーションを監視ビルドする                                                                                 |
-| `npm run build`                     | シミュレーション（`build:simulations`）とサイト（`build:site`）をビルドする                                      |
+| `npm run dev`                       | Astroの開発サーバーを起動する                                                                                    |
+| `npm run build`                     | サイト全体（記事・シミュレーション）をビルドする                                                                 |
 | `npm run preview`                   | ビルドしたサイトを確認する                                                                                       |
 | `npm run new:simulation`            | 雛形から新しいシミュレーションを生成する                                                                         |
 | `npm test`                          | Vitestで単体テストを実行する（`npm run test:watch`で監視実行）                                                   |
@@ -167,8 +160,8 @@ npm run check:published-urls
 
 ## Simulation
 
-[`vite/simulations/`](./vite/simulations/)にシミュレーションのHTML・CSS・TypeScriptを配置する。  
-新規のシミュレーションを追加する場合は、以下のコマンドを実行し、対話形式で日本語名とハイフン区切りの英語名（例: `sample-simulation`）を入力する。[`vite/_templates/simulation/`](./vite/_templates/simulation/)の雛形から`vite/simulations/<英語名>/`が生成される。
+[`src/simulations/`](./src/simulations/)にシミュレーションのページ（`index.astro`）とTypeScript（`ts/`）を配置する。共通UIパーツは[`src/components/simulation/`](./src/components/simulation/)のコンポーネントを使う。  
+新規のシミュレーションを追加する場合は、以下のコマンドを実行し、対話形式で日本語名とハイフン区切りの英語名（例: `sample-simulation`）を入力する。[`src/simulations/_template/`](./src/simulations/_template/)の雛形から`src/simulations/<英語名>/`が生成される。
 
 ```bash
 npm run new:simulation
@@ -180,7 +173,7 @@ p5.jsはインスタンスモード（`new p5(sketch)`）で実装する。実�
 
 ## Structure
 
-フォルダー構成は[AGENTS.mdのフォルダー構成](./AGENTS.md#フォルダー構成)に集約している（二重管理を避けるため、READMEには記載しない）。`public/vite/`・`dist/`・`.astro/`はビルド時に生成されるフォルダーで、git管理対象外。
+フォルダー構成は[AGENTS.mdのフォルダー構成](./AGENTS.md#フォルダー構成)に集約している（二重管理を避けるため、READMEには記載しない）。`dist/`・`.astro/`はビルド時に生成されるフォルダーで、git管理対象外。
 
 ## License
 

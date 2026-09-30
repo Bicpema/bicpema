@@ -3,10 +3,8 @@ node_modules
 __pycache__
 
 # Build outputs
-public/vite
 dist
 .astro
-vite/_build
 docs/site
 docs/.cache
 

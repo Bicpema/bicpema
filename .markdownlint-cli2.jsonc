@@ -13,7 +13,6 @@
   },
   "ignores": [
     "**/node_modules/**",
-    "public/vite/**",
     "dist/**",
     ".astro/**",
     "docs/site/**",

@@ -8,16 +8,15 @@ interface Props {
 const { posts } = Astro.props;
 ---
 
-{
-  posts.map((post) => (
-    <article class="post-card">
-      <h2>
-        <a href={postUrl(post.id)}>{post.data.title}</a>
-      </h2>
-      <p>
-        {post.data.date.toLocaleDateString("ja-JP")} / {post.data.categories.join(", ")}
-      </p>
-      <p>{post.data.description}</p>
-    </article>
-  ))
-}
+{posts.map((post) => (
+  <article class="post-card">
+    <h2>
+      <a href={postUrl(post.id)}>{post.data.title}</a>
+    </h2>
+    <p>
+      {post.data.date.toLocaleDateString("ja-JP")} /{" "}
+      {post.data.categories.join(", ")}
+    </p>
+    <p>{post.data.description}</p>
+  </article>
+))}

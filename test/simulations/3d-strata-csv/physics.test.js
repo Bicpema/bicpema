@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   computeCoordinateBounds,
   computeSquareBounds
-} from "../../../vite/simulations/3d-strata-csv/ts/physics.js";
+} from "../../../src/simulations/3d-strata-csv/ts/physics.js";
 
 describe("computeCoordinateBounds", () => {
   it("配列が空の場合は0〜0の範囲を返す", () => {

@@ -23,43 +23,70 @@ const pageTitle = title ? `${title} :: Bicpema` : "Bicpema";
     <link rel="icon" href="/favicon.ico" />
     <!-- テーマと同じく、描画前にダークモードのクラスを付与してちらつきを防ぐ -->
     <script is:inline>
-      if (localStorage.theme === "dark" || (!("theme" in localStorage) && matchMedia("(prefers-color-scheme: dark)").matches)) {
+      if (
+        localStorage.theme === "dark" ||
+        (!("theme" in localStorage) &&
+          matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
         document.documentElement.classList.add("dark");
       }
     </script>
-    {
-      math && (
-        <Fragment>
-          <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous" />
-          <script is:inline defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous" />
-          <script is:inline defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous" />
-          <script is:inline>
-            document.addEventListener("DOMContentLoaded", () => {
-              renderMathInElement(document.body, {
-                delimiters: [
-                  { left: "$$", right: "$$", display: true },
-                  { left: "$", right: "$", display: false },
-                  { left: "\\(", right: "\\)", display: false },
-                  { left: "\\[", right: "\\]", display: true }
-                ],
-                throwOnError: false
-              });
+    {math && (
+      <Fragment>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+          crossorigin="anonymous"
+        />
+        <script
+          is:inline
+          defer
+          src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+          crossorigin="anonymous"
+        />
+        <script
+          is:inline
+          defer
+          src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+          crossorigin="anonymous"
+        />
+        <script is:inline>
+          document.addEventListener("DOMContentLoaded", () => {
+            renderMathInElement(document.body, {
+              delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "$", right: "$", display: false },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "\\[", right: "\\]", display: true }
+              ],
+              throwOnError: false
             });
-          </script>
-        </Fragment>
-      )
-    }
+          });
+        </script>
+      </Fragment>
+    )}
   </head>
   <body>
     <header class="site-header">
-      <a class="site-title" href="/"><img src="/logo.svg" alt="" width="32" height="32" />Bicpema</a>
+      <a class="site-title" href="/">
+        <img src="/logo.svg" alt="" width="32" height="32" />
+        Bicpema
+      </a>
       <nav>
         <a href="/post/">シミュレーション一覧</a>
         <a href="/about/">Bicpemaについて</a>
-        <button type="button" id="theme-toggle" aria-label="ダークモードの切り替え">◐</button>
+        <button
+          type="button"
+          id="theme-toggle"
+          aria-label="ダークモードの切り替え"
+        >
+          ◐
+        </button>
       </nav>
     </header>
-    <main><slot /></main>
+    <main>
+      <slot />
+    </main>
     <footer class="site-footer">
       <span>© 2022 - {new Date().getFullYear()} BICPEMA</span>
       <a href="/terms/">利用規約</a>

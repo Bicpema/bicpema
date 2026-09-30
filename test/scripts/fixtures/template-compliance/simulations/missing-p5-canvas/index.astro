@@ -1,0 +1,10 @@
+---
+import SimulationLayout from "../../../../../../src/layouts/SimulationLayout.astro";
+import NavBar from "../../../../../../src/components/simulation/NavBar.astro";
+---
+
+<SimulationLayout title="p5Canvasを持たないシミュレーション">
+  <NavBar title="p5Canvasを持たないシミュレーション" />
+  <div id="p5Container"></div>
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

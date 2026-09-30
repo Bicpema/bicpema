@@ -8,15 +8,18 @@ import { join } from "node:path";
 const SIMULATION_LINK_PATTERN = /\/vite\/simulations\/([A-Za-z0-9_-]+)\/?/g;
 
 /**
- * vite/simulations/ 配下のシミュレーションslug一覧を取得する。
+ * src/simulations/ 配下のシミュレーションslug一覧を取得する。
  * @param {string} simulationsDir
  * @returns {string[]}
  */
 export function getSimulationSlugs(simulationsDir) {
-  return readdirSync(simulationsDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .map((entry) => entry.name)
-    .toSorted();
+  return (
+    readdirSync(simulationsDir, { withFileTypes: true })
+      // `_` で始まるフォルダー（ひな形の _template/ など）はシミュレーションとして扱わない
+      .filter((entry) => entry.isDirectory() && !entry.name.startsWith("_"))
+      .map((entry) => entry.name)
+      .toSorted()
+  );
 }
 
 /**

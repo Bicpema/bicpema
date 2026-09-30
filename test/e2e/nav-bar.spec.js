@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 const SIMULATION_PATH = "/vite/simulations/pendulum/";
-// vite previewではAstroの記事ページを配信しないため、記事ページはスタブで代用する
+// 記事本文の内容に依存しないよう、記事ページはスタブで代用する
 const ARTICLE_PATH = encodeURI("/post/振り子/");
 const ARTICLELESS_SIMULATION_PATH = "/vite/simulations/spring/";
 

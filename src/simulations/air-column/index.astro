@@ -1,0 +1,96 @@
+---
+import SimulationLayout from "../../layouts/SimulationLayout.astro";
+import NavBar from "../../components/simulation/NavBar.astro";
+import LoadingSpinner from "../../components/simulation/LoadingSpinner.astro";
+import SettingsButton from "../../components/simulation/SettingsButton.astro";
+import SettingsModal from "../../components/simulation/SettingsModal.astro";
+
+const title = "空気柱の共鳴";
+---
+
+<SimulationLayout title={title} class="bg-neutral-900" disableContextMenu>
+  <NavBar title={title} />
+  <div class="w-full p-0 mt-[60px]" id="p5Container">
+    <div class="relative flex justify-center" id="p5Canvas">
+      <!-- 設定モーダル -->
+      <SettingsModal
+        id="settingsModal"
+        variant="dark"
+        panelClass="w-[320px] p-6 max-[576px]:w-[320px] max-[576px]:p-6"
+      >
+        <div class="mb-3">
+          <label for="typeSelect" class="mb-1 block text-sm">
+            管の種類
+          </label>
+          <select class="form-control px-2 py-1 text-sm" id="typeSelect">
+            <option value="closed">閉管</option>
+            <option value="open">開管</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <span class="mb-1 block text-sm">倍振動数</span>
+          <div class="flex items-center gap-2">
+            <button
+              class="rounded bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-500"
+              id="mnMinusBtn"
+            >
+              －
+            </button>
+            <strong id="mnDisplay" class="mx-1">
+              1
+            </strong>
+            <button
+              class="rounded bg-amber-500 px-2 py-1 text-sm text-neutral-900 hover:bg-amber-400"
+              id="mnPlusBtn"
+            >
+              ＋
+            </button>
+          </div>
+        </div>
+        <div class="mb-4">
+          <span class="mb-1 block text-sm">管の長さ</span>
+          <div class="flex items-center gap-2">
+            <button
+              class="rounded bg-blue-600 px-2 py-1 text-sm text-white hover:bg-blue-500"
+              id="lminusBtn"
+            >
+              －
+            </button>
+            <strong id="lDisplay" class="mx-1">
+              400
+            </strong>
+            <button
+              class="rounded bg-amber-500 px-2 py-1 text-sm text-neutral-900 hover:bg-amber-400"
+              id="lplusBtn"
+            >
+              ＋
+            </button>
+          </div>
+        </div>
+      </SettingsModal>
+
+      <!-- 左下: 再生/一時停止・リセット -->
+      <div class="absolute bottom-0 start-0 z-[1000] m-3 flex gap-2">
+        <button
+          id="playPauseButton"
+          class="rounded bg-green-600 px-4 py-2 text-white hover:bg-green-500"
+        >
+          ▶ 開始
+        </button>
+        <button
+          id="resetButton"
+          class="rounded bg-neutral-600 px-4 py-2 text-white hover:bg-neutral-500"
+        >
+          🔄 リセット
+        </button>
+      </div>
+
+      <!-- 右上: 設定ボタン -->
+      <SettingsButton id="toggleModal" />
+    </div>
+  </div>
+  <!-- ローディングスピナー（p5.jsの初回draw()実行時にts/index.tsで非表示にします） -->
+  <LoadingSpinner />
+
+  <script src="./ts/index.ts"></script>
+</SimulationLayout>

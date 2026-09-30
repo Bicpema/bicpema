@@ -1,4 +1,4 @@
-// vite/simulations/ 配下のシミュレーションをヘッドレスブラウザーで起動し、
+// src/simulations/ 配下のシミュレーションをヘッドレスブラウザーで起動し、
 // 平均frameRateとJSヒープ使用量（アイドル時のばらつき）を計測する。
 // 描画負荷に関する変更（frameRate/pixelDensity/毎フレームの生成物削減 等）の
 // before/after比較や、代表シミュレーションの現状把握に使う。
@@ -18,12 +18,12 @@ import { createServer } from "node:net";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright";
-import { preview } from "vite";
+import { preview } from "astro";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const rootDir = resolve(__dirname, "..");
-const simulationsDir = join(rootDir, "vite", "simulations");
-const outDir = join(rootDir, "public", "vite");
+const simulationsDir = join(rootDir, "src", "simulations");
+const outDir = join(rootDir, "dist");
 
 /**
  * コマンドライン引数を解析する。
@@ -63,8 +63,13 @@ function parseArgs(argv) {
 function listSimulationNames() {
   return readdirSync(simulationsDir)
     .filter((name) => {
+      if (name.startsWith("_")) {
+        return false;
+      }
       const dir = join(simulationsDir, name);
-      return statSync(dir).isDirectory() && existsSync(join(dir, "index.html"));
+      return (
+        statSync(dir).isDirectory() && existsSync(join(dir, "index.astro"))
+      );
     })
     .toSorted();
 }
@@ -187,16 +192,15 @@ async function main() {
     return;
   }
 
-  /** @type {import("vite").PreviewServer | null} */
+  /** @type {import("astro").PreviewServer | null} */
   let previewServer = null;
   let baseUrl = options.baseUrl;
   if (!baseUrl) {
     const port = await findFreePort();
     previewServer = await preview({
-      root: join(rootDir, "vite"),
-      base: "/vite",
-      preview: { port, strictPort: true },
-      build: { outDir }
+      root: rootDir,
+      server: { port },
+      logLevel: "warn"
     });
     baseUrl = `http://localhost:${port}`;
   }
@@ -238,7 +242,7 @@ async function main() {
   } finally {
     await browser.close();
     if (previewServer) {
-      await previewServer.close();
+      await previewServer.stop();
     }
   }
 }

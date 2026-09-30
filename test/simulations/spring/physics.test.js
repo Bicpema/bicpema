@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   computeEffectiveSpringConstant,
   computeSpringPosition
-} from "../../../vite/simulations/spring/ts/physics.js";
+} from "../../../src/simulations/spring/ts/physics.js";
 
 describe("computeEffectiveSpringConstant", () => {
   it("combination=1（単独）ではそのままのばね定数になる", () => {
