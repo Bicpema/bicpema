@@ -37,7 +37,7 @@ export default defineConfig({
   trailingSlash: "always",
   build: { format: "directory" },
   markdown: {
-    // 既定のSätteriではなくremark/rehypeパイプラインを使い、
+    // Astro 7既定のMarkdown処理系ではなくremark/rehypeパイプラインを使い、
     // 既存記事の {{< simulation-link >}} 記法をremarkプラグインで変換する
     processor: unified({
       remarkPlugins: [remarkSimulationLink]
