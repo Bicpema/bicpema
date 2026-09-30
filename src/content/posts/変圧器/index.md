@@ -10,7 +10,7 @@ series: ["電磁気学基礎"]
 aliases: []
 ---
 
-## シミュレーションのリンク
+## シミュレーション
 
 {{< simulation-link "/vite/simulations/transformer/" >}}
 

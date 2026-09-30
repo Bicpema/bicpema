@@ -10,7 +10,7 @@ series: ["原子物理入門"]
 aliases: []
 ---
 
-## シミュレーションのリンク
+## シミュレーション
 
 {{< simulation-link "/vite/simulations/half-life/" >}}
 

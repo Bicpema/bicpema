@@ -10,7 +10,7 @@ series: ["波動と音"]
 aliases: []
 ---
 
-## シミュレーションのリンク
+## シミュレーション
 
 {{< simulation-link "/vite/simulations/air-column/" >}}
 

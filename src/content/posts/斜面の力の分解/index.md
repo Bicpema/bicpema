@@ -10,7 +10,7 @@ series: ["力学入門"]
 aliases: []
 ---
 
-## シミュレーションのリンク
+## シミュレーション
 
 {{< simulation-link "/vite/simulations/slope-force-decomposition/" >}}
 

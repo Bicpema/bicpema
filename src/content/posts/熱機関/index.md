@@ -10,7 +10,7 @@ series: ["熱力学基礎"]
 aliases: []
 ---
 
-## シミュレーションのリンク
+## シミュレーション
 
 {{< simulation-link "/vite/simulations/heat-engine/" >}}
 
