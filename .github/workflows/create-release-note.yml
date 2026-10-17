@@ -21,26 +21,30 @@ jobs:
     steps:
       - name: リポジトリのチェックアウト
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: プレリリースの判定
         id: prerelease
         run: |
           # タグ名に "Beta" が含まれている場合は prerelease と判定
           if [[ "${GITHUB_REF_NAME}" == *Beta* ]]; then
-            echo "value=true" >> $GITHUB_OUTPUT
+            echo "value=true" >> "${GITHUB_OUTPUT}"
           else
-            echo "value=false" >> $GITHUB_OUTPUT
+            echo "value=false" >> "${GITHUB_OUTPUT}"
           fi
 
       - name: GitHub Releaseの作成
-        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64  # v3.0.3
-        with:
-          # PRやコミットからリリースノートを自動生成
-          generate_release_notes: true
-          # Betaの場合は prerelease にする
-          prerelease: ${{ steps.prerelease.outputs.value }}
+        # PRやコミットからリリースノートを自動生成し、Betaの場合は prerelease にする
+        run: |
+          args=(--generate-notes)
+          if [[ "${PRERELEASE}" == "true" ]]; then
+            args+=(--prerelease)
+          fi
+          gh release create "${GITHUB_REF_NAME}" "${args[@]}"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PRERELEASE: ${{ steps.prerelease.outputs.value }}
 
       - name: デプロイワークフローの起動
         # 正式リリースの場合のみデプロイWorkflowを起動

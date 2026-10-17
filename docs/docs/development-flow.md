@@ -128,6 +128,10 @@ Actions画面やPRのチェック一覧で何を検査しているかを判別�
 | `unit-test.yml`                 | スクリプト・シミュレーションのユニットテスト（Vitest） | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | `npm test`                                                  |
 | `e2e-test.yml`                  | シミュレーションのE2Eテスト（Playwright）              | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | `npm run test:e2e`                                          |
 | `verify-runtime.yml`            | シミュレーションの起動チェック（Playwright）           | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | Vite ビルド → `npm run verify:runtime`                      |
+| `actionlint.yml`                | ワークフローの構文チェック（actionlint）               | ワークフロー変更時のPull Request、`main` へのプッシュ                   | actionlint によるワークフローの構文・式の検査               |
+| `zizmor.yml`                    | ワークフローのセキュリティチェック（zizmor）           | ワークフロー変更時のPull Request、`main` へのプッシュ                   | zizmor によるワークフローのセキュリティ検査                 |
+| `dependency-review.yml`         | 依存関係のセキュリティチェック（dependency-review）    | 依存関係ファイル変更時のPull Request                                    | 追加される依存関係の脆弱性を検査（重大度 high 以上で失敗）  |
+| `codeql.yml`                    | コードのセキュリティ解析（CodeQL）                     | Vite関連ファイル等の変更時のPull Request、`main` へのプッシュ、毎週月曜 | JavaScript/TypeScriptの静的解析                             |
 
 ### Hugoのバージョン管理
 
