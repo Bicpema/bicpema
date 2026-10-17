@@ -1,3 +1,7 @@
+import {
+  drawInfoPanel as drawInfoPanelComponent,
+  INFO_PANEL_STYLE
+} from "../../../ts/components/info-panel.js";
 import { drawArrow } from "../../../ts/components/arrow.js";
 import { drawDashedLine } from "../../../ts/components/dashed-line.js";
 import { state } from "./state.js";
@@ -275,45 +279,43 @@ function drawRightAngleMark(
  * @param mg - N
  */
 function drawSlopeInfoPanel(p: p5, mg: number) {
-  const panelW = 290;
-  const panelH = 130;
-  const panelX = V_W - panelW - 10;
-  const panelY = V_H - panelH - 10;
-  const lineH = 26;
-
-  p.fill(255);
-  p.stroke(0);
-  p.strokeWeight(1.5);
-  p.rect(panelX, panelY, panelW, panelH, 8);
-  p.noStroke();
-
   const { parallel, perpendicular } = decomposeGravityOnSlope(
     state.mass,
     GRAVITY,
     state.slopeAngle
   );
-  const mgStr = mg.toFixed(1);
-  const fpStr = parallel.toFixed(1);
-  const fnStr = perpendicular.toFixed(1);
-  const θStr = `${state.slopeAngle.toFixed(1)}°`;
 
-  p.textSize(14);
-  p.textAlign(p.LEFT, p.CENTER);
-
-  p.fill(...GRAVITY_COLOR);
-  p.text(`mg        = ${mgStr} N`, panelX + 16, panelY + lineH * 0.6);
-  p.fill(...PARALLEL_COLOR);
-  p.text(
-    `mg sinθ  = ${fpStr} N（斜面方向）`,
-    panelX + 16,
-    panelY + lineH * 1.7
+  drawInfoPanelComponent(
+    p,
+    [
+      {
+        label: "mg（重力）",
+        value: mg.toFixed(1),
+        unit: "N",
+        color: `rgb(${GRAVITY_COLOR.join(", ")})`
+      },
+      {
+        label: "mg sinθ（斜面方向）",
+        value: parallel.toFixed(1),
+        unit: "N",
+        color: `rgb(${PARALLEL_COLOR.join(", ")})`
+      },
+      {
+        label: "mg cosθ（垂直方向）",
+        value: perpendicular.toFixed(1),
+        unit: "N",
+        color: `rgb(${PERPENDICULAR_COLOR.join(", ")})`
+      },
+      { label: "θ（斜面角）", value: state.slopeAngle.toFixed(1), unit: "°" }
+    ],
+    {
+      x: V_W - INFO_PANEL_STYLE.margin,
+      y: V_H - INFO_PANEL_STYLE.margin,
+      anchorX: "right",
+      anchorY: "bottom",
+      labelWidth: 150
+    }
   );
-  p.fill(...PERPENDICULAR_COLOR);
-  p.text(`mg cosθ = ${fnStr} N（垂直方向）`, panelX + 16, panelY + lineH * 2.8);
-  p.fill(0);
-  p.text(`θ（斜面角）= ${θStr}`, panelX + 16, panelY + lineH * 3.9);
-
-  p.textAlign(p.CENTER, p.CENTER);
 }
 
 /**

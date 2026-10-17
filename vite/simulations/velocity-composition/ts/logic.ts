@@ -1,4 +1,8 @@
 import { drawArrow } from "../../../ts/components/arrow.js";
+import {
+  drawInfoPanel as drawInfoPanelComponent,
+  INFO_PANEL_STYLE
+} from "../../../ts/components/info-panel.js";
 import { state } from "./state.js";
 import {
   V_W,
@@ -173,37 +177,28 @@ function dirChar(v: number) {
 
 /**
  * 右下に速度情報パネルを描画する。
- * v_合 = v_川 + v_船 の関係を視覚的に確認できる。数値は右揃えにして桁ずれを防ぐ。
+ * v_合 = v_川 + v_船 の関係を視覚的に確認できる。向きは項目名の後ろに矢印文字で示す。
  * @param p - p5インスタンス
  */
 export function drawInfoPanel(p: p5) {
   if (!state.boat) return;
-
-  const lineH = 26;
-  const panelW = 230;
-  const panelH = lineH * VELOCITY_ROWS.length + 16;
-  const px = V_W - 20 - panelW;
-  const py = V_H - 20 - panelH;
-
-  drawPanelBackground(p, px, py, panelW, panelH);
 
   const speeds = [
     state.boat.riverSpeed,
     state.boat.boatSpeed,
     state.boat.compositeSpeed
   ];
-
-  p.textSize(PANEL_FONT_SIZE);
-  VELOCITY_ROWS.forEach((row, i) => {
-    const y = py + 8 + lineH * (i + 0.5);
-    p.fill(...row.color);
-    p.textAlign(p.LEFT, p.CENTER);
-    p.text(row.name, px + 14, y);
-    p.fill(...TEXT_COLOR);
-    p.textAlign(p.RIGHT, p.CENTER);
-    p.text(`${Math.abs(speeds[i]).toFixed(1)} m/s`, px + panelW - 56, y);
-    p.fill(...TEXT_MUTED_COLOR);
-    p.textAlign(p.LEFT, p.CENTER);
-    p.text(i === 0 ? "←" : dirChar(speeds[i]), px + panelW - 44, y);
+  const rows = VELOCITY_ROWS.map((row, i) => ({
+    label: `${row.name} ${i === 0 ? "←" : dirChar(speeds[i])}`,
+    value: Math.abs(speeds[i]).toFixed(1),
+    unit: "m/s",
+    color: `rgb(${row.color.join(", ")})`
+  }));
+  drawInfoPanelComponent(p, rows, {
+    x: V_W - INFO_PANEL_STYLE.margin,
+    y: V_H - INFO_PANEL_STYLE.margin,
+    anchorX: "right",
+    anchorY: "bottom",
+    labelWidth: 70
   });
 }

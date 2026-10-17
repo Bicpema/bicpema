@@ -1,3 +1,7 @@
+import {
+  drawInfoPanel as drawInfoPanelComponent,
+  INFO_PANEL_STYLE
+} from "../../../ts/components/info-panel.js";
 import { drawDashedLine } from "../../../ts/components/dashed-line.js";
 import { drawArrowWithLabel } from "../../../ts/components/arrow.js";
 import { drawAxes } from "../../../ts/components/axes.js";
@@ -83,61 +87,41 @@ export function drawInfoPanel(
   const f2Angle = computeForceAngleDeg(f2x, f2y);
   const frAngle = computeForceAngleDeg(frx, fry);
 
-  const panelW = 248;
-  const panelH = 118;
-  const panelX = V_W - panelW - 10;
-  const panelY = V_H - panelH - 10;
-
-  p.fill(255);
-  p.stroke(0);
-  p.strokeWeight(1.5);
-  p.rect(panelX, panelY, panelW, panelH, 8);
-  p.noStroke();
-
-  // 列位置
-  const colLabel = panelX + 16; // ラベル（LEFT基準）
-  const colMag = panelX + panelW - 86; // 大きさ（RIGHT基準）
-  const colAngle = panelX + panelW - 14; // 角度（RIGHT基準）
-
-  // 行の中心Y
-  const cy1 = panelY + 20; // F1
-  const cy2 = panelY + 48; // F2
-  const divY = panelY + 66; // 区切り線
-  const cy3 = panelY + 92; // 合力
-
-  p.textSize(14);
-
-  // F1
-  p.fill(0);
-  p.textAlign(p.LEFT, p.CENTER);
-  p.text("F1", colLabel, cy1);
-  p.textAlign(p.RIGHT, p.CENTER);
-  p.text(`${f1Mag.toFixed(1)} N`, colMag, cy1);
-  p.text(`${f1Angle.toFixed(1)}°`, colAngle, cy1);
-
-  // F2
-  p.fill(0);
-  p.textAlign(p.LEFT, p.CENTER);
-  p.text("F2", colLabel, cy2);
-  p.textAlign(p.RIGHT, p.CENTER);
-  p.text(`${f2Mag.toFixed(1)} N`, colMag, cy2);
-  p.text(`${f2Angle.toFixed(1)}°`, colAngle, cy2);
-
-  // 区切り線
-  p.stroke(0, 60);
-  p.strokeWeight(1);
-  p.line(colLabel, divY, panelX + panelW - 16, divY);
-  p.noStroke();
-
-  // 合力
-  p.fill(220, 50, 50);
-  p.textAlign(p.LEFT, p.CENTER);
-  p.text("合力", colLabel, cy3);
-  p.textAlign(p.RIGHT, p.CENTER);
-  p.text(`${frMag.toFixed(1)} N`, colMag, cy3);
-  p.text(`${frAngle.toFixed(1)}°`, colAngle, cy3);
-
-  p.textAlign(p.CENTER, p.CENTER);
+  drawInfoPanelComponent(
+    p,
+    [
+      {
+        label: "F1",
+        value: f1Mag.toFixed(1),
+        unit: "N",
+        secondValue: f1Angle.toFixed(1),
+        secondUnit: "°"
+      },
+      {
+        label: "F2",
+        value: f2Mag.toFixed(1),
+        unit: "N",
+        secondValue: f2Angle.toFixed(1),
+        secondUnit: "°"
+      },
+      {
+        label: "合力",
+        value: frMag.toFixed(1),
+        unit: "N",
+        secondValue: frAngle.toFixed(1),
+        secondUnit: "°",
+        color: "rgb(220, 50, 50)",
+        dividerAbove: true
+      }
+    ],
+    {
+      x: V_W - INFO_PANEL_STYLE.margin,
+      y: V_H - INFO_PANEL_STYLE.margin,
+      anchorX: "right",
+      anchorY: "bottom",
+      labelWidth: 50
+    }
+  );
 }
 
 /**

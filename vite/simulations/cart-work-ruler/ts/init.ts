@@ -73,13 +73,13 @@ export function initValue(p: p5) {
   state.playPauseButton!.removeAttribute("disabled");
 
   // 情報パネルの初期値を更新
-  if (state.infoMassEl) state.infoMassEl.html(state.mass_kg.toFixed(1) + " kg");
-  if (state.infoV0El) state.infoV0El.html(state.v0_ms.toFixed(1) + " m/s");
-  if (state.infoFEl) state.infoFEl.html(state.force_N.toFixed(0) + " N");
+  if (state.infoMassEl) state.infoMassEl.html(state.mass_kg.toFixed(1));
+  if (state.infoV0El) state.infoV0El.html(state.v0_ms.toFixed(1));
+  if (state.infoFEl) state.infoFEl.html(state.force_N.toFixed(0));
   const ke0 = 0.5 * state.mass_kg * state.v0_ms * state.v0_ms;
-  if (state.infoKe0El) state.infoKe0El.html(ke0.toFixed(3) + " J");
-  if (state.infoDEl) state.infoDEl.html(state.penetration_m.toFixed(3) + " m");
+  if (state.infoKe0El) state.infoKe0El.html(ke0.toFixed(3));
+  if (state.infoDEl) state.infoDEl.html(state.penetration_m.toFixed(3));
   if (state.infoWEl) {
-    state.infoWEl.html((state.force_N * state.penetration_m).toFixed(3) + " J");
+    state.infoWEl.html((state.force_N * state.penetration_m).toFixed(3));
   }
 }
