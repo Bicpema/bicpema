@@ -7,7 +7,9 @@ export const COMPONENT_FUNCTION_NAMES = [
   "drawArrow",
   "drawArrowWithLabel",
   "drawDashed",
-  "drawDashedLine"
+  "drawDashedLine",
+  "drawGrid",
+  "drawAxes"
 ];
 
 const SOURCE_EXTENSIONS = [".ts", ".js"];

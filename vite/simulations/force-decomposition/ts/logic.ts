@@ -1,6 +1,7 @@
 import { drawArrow } from "../../../ts/components/arrow.js";
 import { drawAxes } from "../../../ts/components/axes.js";
 import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
+import { drawGrid } from "../../../ts/components/grid.js";
 import { drawDashedLine } from "../../../ts/components/dashed-line.js";
 import { state } from "./state.js";
 import {
@@ -56,7 +57,12 @@ function drawLabel(
  */
 export function drawXYScene(p: p5) {
   p.background(255, 255, 255);
-  drawGrid(p);
+  // 原点を通るグリッド線
+  drawGrid(p, COORDINATE_SYSTEM, {
+    stepX: GRID_STEP,
+    stepY: GRID_STEP,
+    bounds: { left: 0, top: 0, right: V_W, bottom: V_H }
+  });
   drawAxes(p, COORDINATE_SYSTEM, {
     xLabel: "x",
     yLabel: "y",
@@ -121,23 +127,6 @@ export function drawXYScene(p: p5) {
   drawXYLabels(p, Fx, Fy, tipX, tipY, (state.forceAngle * Math.PI) / 180);
   drawXYInfoPanel(p, Fx, Fy);
   drawInteractionHint(p, tipX, tipY);
-}
-
-/**
- * グリッドを描画する。
- * @param p -
- */
-function drawGrid(p: p5) {
-  p.strokeWeight(1);
-  p.stroke(168, 206, 221);
-  for (let x = ORIGIN_X; x <= V_W; x += GRID_STEP) p.line(x, 0, x, V_H);
-  for (let x = ORIGIN_X - GRID_STEP; x >= 0; x -= GRID_STEP) {
-    p.line(x, 0, x, V_H);
-  }
-  for (let y = ORIGIN_Y; y <= V_H; y += GRID_STEP) p.line(0, y, V_W, y);
-  for (let y = ORIGIN_Y - GRID_STEP; y >= 0; y -= GRID_STEP) {
-    p.line(0, y, V_W, y);
-  }
 }
 
 /**
