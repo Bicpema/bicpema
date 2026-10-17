@@ -48,8 +48,13 @@ jobs:
       - name: 記事とシミュレーションのリンク整合性チェック
         run: npm run check:article-links
 
+  # デプロイ前に全シミュレーションのE2Eテストを実行する（PRでは変更されたシミュレーションのみ実行しているため）
+  e2e-test:
+    # actionlintが `$/` 構文に未対応のため、zizmorのself-repository指摘は抑制する
+    uses: ./.github/workflows/e2e-test.yml  # zizmor: ignore[self-repository]
+
   deploy:
-    needs: verify
+    needs: [verify, e2e-test]
     runs-on: ubuntu-latest
     steps:
       - name: リポジトリのチェックアウト

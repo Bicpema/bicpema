@@ -110,28 +110,40 @@ Actions画面やPRのチェック一覧で何を検査しているかを判別�
 
 ### ワークフロー一覧
 
-| ファイル                        | ワークフロー名                                         | トリガー                                                                | 処理                                                        |
-| ------------------------------- | ------------------------------------------------------ | ----------------------------------------------------------------------- | ----------------------------------------------------------- |
-| `deploy.yml`                    | Firebase Hostingへのデプロイ                           | `workflow_dispatch` (手動) またはリリースタグ                           | Vite ビルド → Hugo ビルド → Firebase Hosting へデプロイ     |
-| `create-release-note.yml`       | リリースノートの作成                                   | `v*.*.*` または `v*.*.*-Beta*` タグのプッシュ                           | GitHub Release を自動作成し、正式リリース時はデプロイを起動 |
-| `build.yml`                     | シミュレーションのビルドチェック（Vite）               | `main` へのプッシュ（Vite関連ファイル変更時）                           | `npm run build`                                             |
-| `check-published-urls.yml`      | 掲載URLのリンク切れチェック                            | Pull Request、`main` へのプッシュ                                       | Vite ビルド → Hugo ビルド → 掲載URLのリンク切れチェック     |
-| `check-article-links.yml`       | 記事とシミュレーションのリンク整合性チェック           | 記事・シミュレーション変更時のPull Request、`main` へのプッシュ         | `npm run check:article-links`                               |
-| `check-template-compliance.yml` | シミュレーションのテンプレート準拠チェック             | テンプレート・シミュレーション変更時のPull Request、`main` へのプッシュ | `npm run check:template-compliance`                         |
-| `cspell.yml`                    | ドキュメント・コードのスペルチェック（cspell）         | 対象ファイル変更時のPull Request、`main` へのプッシュ                   | `npm run lint:spell`                                        |
-| `format.yml`                    | コードのフォーマットチェック（Prettier）               | Pull Request、`main` へのプッシュ                                       | `npm run format:check`                                      |
-| `markdownlint.yml`              | Markdownのリントチェック（markdownlint）               | Markdownファイル変更時のPull Request、`main` へのプッシュ               | `npm run lint:md`                                           |
-| `oxlint.yml`                    | TypeScript/JavaScriptのリントチェック（oxlint）        | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | `npm run lint`                                              |
-| `docs-build.yml`                | 開発者ドキュメントのビルドチェック（Zensical）         | `docs/` 変更時のPull Request、`main` へのプッシュ                       | `zensical build --strict`（リンク切れ・設定ミスを検知）     |
-| `yamllint.yml`                  | YAMLのリントチェック（yamllint）                       | YAMLファイル変更時のPull Request、`main` へのプッシュ                   | yamllint によるYAMLファイルのリントチェック                 |
-| `typecheck.yml`                 | TypeScriptの型チェック（tsc）                          | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | `npm run typecheck`                                         |
-| `unit-test.yml`                 | スクリプト・シミュレーションのユニットテスト（Vitest） | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | `npm test`                                                  |
-| `e2e-test.yml`                  | シミュレーションのE2Eテスト（Playwright）              | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | `npm run test:e2e`                                          |
-| `verify-runtime.yml`            | シミュレーションの起動チェック（Playwright）           | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | Vite ビルド → `npm run verify:runtime`                      |
-| `actionlint.yml`                | ワークフローの構文チェック（actionlint）               | ワークフロー変更時のPull Request、`main` へのプッシュ                   | actionlint によるワークフローの構文・式の検査               |
-| `zizmor.yml`                    | ワークフローのセキュリティチェック（zizmor）           | ワークフロー変更時のPull Request、`main` へのプッシュ                   | zizmor によるワークフローのセキュリティ検査                 |
-| `dependency-review.yml`         | 依存関係のセキュリティチェック（dependency-review）    | 依存関係ファイル変更時のPull Request                                    | 追加される依存関係の脆弱性を検査（重大度 high 以上で失敗）  |
-| `codeql.yml`                    | コードのセキュリティ解析（CodeQL）                     | Vite関連ファイル等の変更時のPull Request、`main` へのプッシュ、毎週月曜 | JavaScript/TypeScriptの静的解析                             |
+| ファイル                        | ワークフロー名                                         | トリガー                                                                   | 処理                                                        |
+| ------------------------------- | ------------------------------------------------------ | -------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| `deploy.yml`                    | Firebase Hostingへのデプロイ                           | `workflow_dispatch` (手動) またはリリースタグ                              | Vite ビルド → Hugo ビルド → Firebase Hosting へデプロイ     |
+| `create-release-note.yml`       | リリースノートの作成                                   | `v*.*.*` または `v*.*.*-Beta*` タグのプッシュ                              | GitHub Release を自動作成し、正式リリース時はデプロイを起動 |
+| `build.yml`                     | シミュレーションのビルドチェック（Vite）               | `main` へのプッシュ（Vite関連ファイル変更時）                              | `npm run build`                                             |
+| `check-published-urls.yml`      | 掲載URLのリンク切れチェック                            | Pull Request、`main` へのプッシュ                                          | Vite ビルド → Hugo ビルド → 掲載URLのリンク切れチェック     |
+| `check-article-links.yml`       | 記事とシミュレーションのリンク整合性チェック           | 記事・シミュレーション変更時のPull Request、`main` へのプッシュ            | `npm run check:article-links`                               |
+| `check-template-compliance.yml` | シミュレーションのテンプレート準拠チェック             | テンプレート・シミュレーション変更時のPull Request、`main` へのプッシュ    | `npm run check:template-compliance`                         |
+| `cspell.yml`                    | ドキュメント・コードのスペルチェック（cspell）         | 対象ファイル変更時のPull Request、`main` へのプッシュ                      | `npm run lint:spell`                                        |
+| `format.yml`                    | コードのフォーマットチェック（Prettier）               | Pull Request、`main` へのプッシュ                                          | `npm run format:check`                                      |
+| `markdownlint.yml`              | Markdownのリントチェック（markdownlint）               | Markdownファイル変更時のPull Request、`main` へのプッシュ                  | `npm run lint:md`                                           |
+| `oxlint.yml`                    | TypeScript/JavaScriptのリントチェック（oxlint）        | Vite関連ファイル変更時のPull Request、`main` へのプッシュ                  | `npm run lint`                                              |
+| `docs-build.yml`                | 開発者ドキュメントのビルドチェック（Zensical）         | `docs/` 変更時のPull Request、`main` へのプッシュ                          | `zensical build --strict`（リンク切れ・設定ミスを検知）     |
+| `yamllint.yml`                  | YAMLのリントチェック（yamllint）                       | YAMLファイル変更時のPull Request、`main` へのプッシュ                      | yamllint によるYAMLファイルのリントチェック                 |
+| `typecheck.yml`                 | TypeScriptの型チェック（tsc）                          | Vite関連ファイル変更時のPull Request、`main` へのプッシュ                  | `npm run typecheck`                                         |
+| `unit-test.yml`                 | スクリプト・シミュレーションのユニットテスト（Vitest） | Pull Request（変更されたシミュレーションのみ）、`main` へのプッシュ        | `npm test`                                                  |
+| `e2e-test.yml`                  | シミュレーションのE2Eテスト（Playwright）              | Pull Request（変更されたシミュレーションのみ）、タグのプッシュ、デプロイ時 | `npm run test:e2e`                                          |
+| `verify-runtime.yml`            | シミュレーションの起動チェック（Playwright）           | Vite関連ファイル変更時のPull Request、`main` へのプッシュ                  | Vite ビルド → `npm run verify:runtime`                      |
+| `actionlint.yml`                | ワークフローの構文チェック（actionlint）               | ワークフロー変更時のPull Request、`main` へのプッシュ                      | actionlint によるワークフローの構文・式の検査               |
+| `zizmor.yml`                    | ワークフローのセキュリティチェック（zizmor）           | ワークフロー変更時のPull Request、`main` へのプッシュ                      | zizmor によるワークフローのセキュリティ検査                 |
+| `dependency-review.yml`         | 依存関係のセキュリティチェック（dependency-review）    | 依存関係ファイル変更時のPull Request                                       | 追加される依存関係の脆弱性を検査（重大度 high 以上で失敗）  |
+| `codeql.yml`                    | コードのセキュリティ解析（CodeQL）                     | Vite関連ファイル等の変更時のPull Request、`main` へのプッシュ、毎週月曜    | JavaScript/TypeScriptの静的解析                             |
+
+### テストの実行範囲
+
+`unit-test.yml` と `e2e-test.yml` は、Pull Requestでは `scripts/detect-changed-tests.js` で変更ファイルから実行範囲を判定します。
+
+| 変更内容                                                                                                                 | 実行するテスト                                                                           |
+| ------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| `vite/simulations/<名前>/`・`test/simulations/<名前>/`・`test/e2e/<名前>.spec.js` のみ                                   | 該当シミュレーションのユニットテスト・E2Eテストのみ                                      |
+| 共通コード（`vite/` のうちシミュレーション以外・`test/_build/` 等）、設定ファイル（`package.json`・`vite.config.js` 等） | 全テスト                                                                                 |
+| 上記以外（記事・ドキュメントのみなど）                                                                                   | 実行しない（ジョブは成功扱い。Requiredなステータスチェックでマージできなくなるのを防ぐ） |
+
+全シミュレーションのE2Eテストは、タグ（`vX.X.X`）のpush時と、`deploy.yml` のデプロイ前（`e2e-test.yml` を呼び出し）に実行します。ユニットテストは `main` へのpush時とデプロイ前（`verify` ジョブ）に全体を実行します。
 
 ### Hugoのバージョン管理
 
