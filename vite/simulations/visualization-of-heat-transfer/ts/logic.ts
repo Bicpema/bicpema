@@ -9,6 +9,8 @@ import {
   MOLECULE_JITTER_SCALE,
   MOLECULE_JITTER_MAX
 } from "./constants.js";
+import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
+import { drawPolyline } from "../../../ts/components/plot-area.js";
 import { getCheckedRadioValue } from "../../../ts/bicpema-dom.js";
 
 // 仮想キャンバス寸法: p.scale(p.width / 1000) 適用後の 1000×562 論理ピクセル空間
@@ -179,13 +181,26 @@ function drawGraph(p: p5) {
    * @param t - 時刻
    * @returns グラフ上のx座標
    */
-  const tx = (t: number) => p.map(t, 0, state.tMax, GX, GX + GW);
+  const scaleY = GH / (state.Tmax - state.Tmin);
+  // 物理座標（時間・温度）をそのままピクセルへ変換する座標系（原点は温度0の位置）
+  const cs = new CoordinateSystem({
+    originX: GX,
+    originY: GY + GH + state.Tmin * scaleY,
+    scaleX: GW / state.tMax,
+    scaleY
+  });
+  /**
+   * 時刻をグラフのx座標に変換する。
+   * @param t - 時刻
+   * @returns グラフ上のx座標
+   */
+  const tx = (t: number) => cs.toPxX(t);
   /**
    * 温度をグラフのy座標に変換する。
    * @param T - 温度
    * @returns グラフ上のy座標
    */
-  const ty = (T: number) => p.map(T, state.Tmin, state.Tmax, GY + GH, GY);
+  const ty = (T: number) => cs.toPxY(T);
 
   p.push();
 
@@ -247,35 +262,19 @@ function drawGraph(p: p5) {
     p.line(tx(0), ty(state.Teq), tx(state.tMax), ty(state.Teq));
     p.drawingContext.setLineDash([]);
 
-    // 温度変化曲線（高温）
-    p.noFill();
-    p.strokeWeight(2);
-    p.stroke(...HOT_COLOR);
-    p.beginShape();
-    for (let tt = 0; tt <= state.tMax; tt++) {
-      const T = computeTemperatureAtTime(
-        state.Teq,
-        state.Thot0,
-        state.heatK,
-        tt
-      );
-      p.vertex(tx(tt), ty(T));
-    }
-    p.endShape();
-
-    // 温度変化曲線（低温）
-    p.stroke(...COLD_COLOR);
-    p.beginShape();
-    for (let tt = 0; tt <= state.tMax; tt++) {
-      const T = computeTemperatureAtTime(
-        state.Teq,
-        state.Tcold0,
-        state.heatK,
-        tt
-      );
-      p.vertex(tx(tt), ty(T));
-    }
-    p.endShape();
+    // 温度変化曲線（高温・低温）
+    /**
+     * 初期温度から平衡温度へ向かう温度変化の点列を作る。
+     * @param T0 - 初期温度
+     * @returns 時刻と温度の点列
+     */
+    const curve = (T0: number) =>
+      Array.from({ length: state.tMax + 1 }, (_, tt) => ({
+        x: tt,
+        y: computeTemperatureAtTime(state.Teq, T0, state.heatK, tt)
+      }));
+    drawPolyline(p, cs, curve(state.Thot0), p.color(...HOT_COLOR), 2);
+    drawPolyline(p, cs, curve(state.Tcold0), p.color(...COLD_COLOR), 2);
 
     const t_now = p.min(state.t, state.tMax);
 
