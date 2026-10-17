@@ -82,26 +82,27 @@ npm run build
 
 ### npm scripts
 
-| コマンド                            | 内容                                                                                                             |
-| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `npm run dev`                       | シミュレーションを監視ビルドする                                                                                 |
-| `npm run build`                     | シミュレーションをビルドする                                                                                     |
-| `npm run new:simulation`            | 雛形から新しいシミュレーションを生成する                                                                         |
-| `npm test`                          | Vitestで単体テストを実行する（`npm run test:watch`で監視実行）                                                   |
-| `npm run test:e2e`                  | PlaywrightでE2Eテストを実行する（事前に自動でビルドされる）                                                      |
-| `npm run typecheck`                 | TypeScriptの型チェックを実行する                                                                                 |
-| `npm run lint`                      | oxlintでJavaScript/TypeScriptをリントする                                                                        |
-| `npm run lint:md`                   | Markdownをリントする                                                                                             |
-| `npm run lint:yaml`                 | YAMLをリントする（yamllintが必要）                                                                               |
-| `npm run lint:spell`                | cspellでスペルチェックを実行する                                                                                 |
-| `npm run format`                    | Prettierで整形する                                                                                               |
-| `npm run format:check`              | Prettierの整形漏れをチェックする                                                                                 |
-| `npm run check:template-compliance` | 各シミュレーションが雛形の必須構成に沿っているかをチェックする                                                   |
-| `npm run check:article-links`       | 記事とシミュレーションのリンク整合性をチェックする                                                               |
-| `npm run check:published-urls`      | 掲載URLがビルド成果物からアクセス可能かをチェックする                                                            |
-| `npm run verify:runtime`            | 各シミュレーションをヘッドレスブラウザーで起動し、実行時エラーを検知する（事前に`npm run build`が必要）          |
-| `npm run benchmark:performance`     | シミュレーションのframeRate・メモリ使用量を計測する（例: `npm run benchmark:performance -- --filter=free-fall`） |
-| `npm run clean:worktrees`           | マージ済みPRに対応する`.claude/worktrees/`配下のworktreeを一覧表示する（`-- --delete`で削除）                    |
+| コマンド                             | 内容                                                                                                             |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`                        | シミュレーションを監視ビルドする                                                                                 |
+| `npm run build`                      | シミュレーションをビルドする                                                                                     |
+| `npm run new:simulation`             | 雛形から新しいシミュレーションを生成する                                                                         |
+| `npm test`                           | Vitestで単体テストを実行する（`npm run test:watch`で監視実行）                                                   |
+| `npm run test:e2e`                   | PlaywrightでE2Eテストを実行する（事前に自動でビルドされる）                                                      |
+| `npm run typecheck`                  | TypeScriptの型チェックを実行する                                                                                 |
+| `npm run lint`                       | oxlintでJavaScript/TypeScriptをリントする                                                                        |
+| `npm run lint:md`                    | Markdownをリントする                                                                                             |
+| `npm run lint:yaml`                  | YAMLをリントする（yamllintが必要）                                                                               |
+| `npm run lint:spell`                 | cspellでスペルチェックを実行する                                                                                 |
+| `npm run format`                     | Prettierで整形する                                                                                               |
+| `npm run format:check`               | Prettierの整形漏れをチェックする                                                                                 |
+| `npm run check:template-compliance`  | 各シミュレーションが雛形の必須構成に沿っているかをチェックする                                                   |
+| `npm run check:duplicate-components` | 共通コンポーネントと同種の関数の独自定義を検出する                                                               |
+| `npm run check:article-links`        | 記事とシミュレーションのリンク整合性をチェックする                                                               |
+| `npm run check:published-urls`       | 掲載URLがビルド成果物からアクセス可能かをチェックする                                                            |
+| `npm run verify:runtime`             | 各シミュレーションをヘッドレスブラウザーで起動し、実行時エラーを検知する（事前に`npm run build`が必要）          |
+| `npm run benchmark:performance`      | シミュレーションのframeRate・メモリ使用量を計測する（例: `npm run benchmark:performance -- --filter=free-fall`） |
+| `npm run clean:worktrees`            | マージ済みPRに対応する`.claude/worktrees/`配下のworktreeを一覧表示する（`-- --delete`で削除）                    |
 
 ### 開発者ドキュメント
 
