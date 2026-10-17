@@ -2,6 +2,13 @@
 name: シミュレーションのビルドチェック（Vite）
 
 "on":
+  pull_request:
+    paths:
+      - "vite/**"
+      - "vite.config.js"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/build.yml"
   push:
     branches:
       - main

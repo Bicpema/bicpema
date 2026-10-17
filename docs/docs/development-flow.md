@@ -114,7 +114,7 @@ Actions画面やPRのチェック一覧で何を検査しているかを判別�
 | ------------------------------- | ------------------------------------------------------ | -------------------------------------------------------------------------- | ----------------------------------------------------------- |
 | `deploy.yml`                    | Firebase Hostingへのデプロイ                           | `workflow_dispatch` (手動) またはリリースタグ                              | Vite ビルド → Hugo ビルド → Firebase Hosting へデプロイ     |
 | `create-release-note.yml`       | リリースノートの作成                                   | `v*.*.*` または `v*.*.*-Beta*` タグのプッシュ                              | GitHub Release を自動作成し、正式リリース時はデプロイを起動 |
-| `build.yml`                     | シミュレーションのビルドチェック（Vite）               | `main` へのプッシュ（Vite関連ファイル変更時）                              | `npm run build`                                             |
+| `build.yml`                     | シミュレーションのビルドチェック（Vite）               | Vite関連ファイル変更時のPull Request、`main` へのプッシュ                  | `npm run build`                                             |
 | `check-published-urls.yml`      | 掲載URLのリンク切れチェック                            | Pull Request、`main` へのプッシュ                                          | Vite ビルド → Hugo ビルド → 掲載URLのリンク切れチェック     |
 | `check-article-links.yml`       | 記事とシミュレーションのリンク整合性チェック           | 記事・シミュレーション変更時のPull Request、`main` へのプッシュ            | `npm run check:article-links`                               |
 | `check-template-compliance.yml` | シミュレーションのテンプレート準拠チェック             | テンプレート・シミュレーション変更時のPull Request、`main` へのプッシュ    | `npm run check:template-compliance`                         |
