@@ -138,7 +138,9 @@ const canvasController = new BicpemaCanvasController({
 
 複数のシミュレーションで重複しがちな描画部品は、`vite/ts/components/` 配下に共通コンポーネントとして切り出します（[Issue #818](https://github.com/Bicpema/bicpema/issues/818)）。
 
-- **共通インターフェース**: `vite/ts/components/sim-component.ts` の `SimComponent`（`update()` で状態更新、`draw(p)` で描画）。一時停止中は `update()` を呼ばず `draw(p)` のみ呼ぶことで、[パフォーマンス方針](#パフォーマンス方針)の描画抑制に沿えます。
+- **共通インターフェース**: `vite/ts/components/sim-component.ts` の `SimComponent`（`update()` で状態更新、`draw(p)` で描画、`reset()` で初期状態へ戻す、`dispose()` でリソース解放）。一時停止中は `update()` を呼ばず `draw(p)` のみ呼ぶことで、[パフォーマンス方針](#パフォーマンス方針)の描画抑制に沿えます。
+- **部品のまとめ管理**: `vite/ts/components/component-group.ts` の `ComponentGroup` が複数の `SimComponent` を束ね、`update()` / `draw(p)` / `reset()` / `dispose()` を一括で呼びます。コンストラクターに「一時停止中か」を返す関数を渡すと、一時停止中は `update()` をスキップして `draw(p)` のみ実行します（`new ComponentGroup(() => !isPlaying)` のように使います）。
+- **設定値の反映**: 設定パネルの値は、呼び出し側（`onChange` 等のハンドラー）が部品のプロパティへ直接代入します（例: `arrow.color = ...`）。イベントバスやリアクティブ化は行いません。
 - **配置場所**: 1ファイル1コンポーネント（ケバブケース）で `vite/ts/components/` に置きます。シミュレーション固有の部品は従来どおり各シミュレーションの `ts/class.ts` に置きます。
 - **関数とクラスの使い分け**: 状態を持たない描画は関数（例: `drawArrow`）、状態を持ち毎フレーム更新するものは `SimComponent` を実装するクラス（例: `Arrow`）で提供します。
 - **提供済みの部品**: 矢印（`arrow.ts`）・点線（`dashed-line.ts`）。使用例は`npm run new:simulation`が生成するひな形の`ts/index.ts`にあります。再生・停止ボタンのバインディングは従来どおり `vite/ts/bicpema-controls-controller.ts` が担います。

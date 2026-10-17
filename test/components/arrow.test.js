@@ -79,6 +79,27 @@ describe("Arrow", () => {
   });
 });
 
+describe("Arrow reset/dispose", () => {
+  it("resetでコンストラクターの座標に戻り、色は保持される", () => {
+    const arrow = new Arrow(1, 2, 3, 4, /** @type {any} */ ("red"));
+    arrow.set(10, 20, 30, 40);
+    arrow.reset();
+    expect([arrow.fromX, arrow.fromY, arrow.toX, arrow.toY]).toEqual([
+      1, 2, 3, 4
+    ]);
+    expect(arrow.color).toBe("red");
+  });
+
+  it("disposeで色を手放し、以降は描画しない", () => {
+    const p = createMockP();
+    const arrow = new Arrow(0, 0, 100, 0, /** @type {any} */ ("red"));
+    arrow.dispose();
+    arrow.draw(p);
+    expect(arrow.color).toBeNull();
+    expect(p.line).not.toHaveBeenCalled();
+  });
+});
+
 describe("drawArrowWithLabel", () => {
   it("長さが2px未満の場合は矢印もラベルも描画しない", () => {
     const p = createMockP();
