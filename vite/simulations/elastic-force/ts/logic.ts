@@ -15,6 +15,8 @@ import {
   GRAPH_X_RANGE
 } from "./state.js";
 import { HOOKE_LINE_COLOR } from "./constants.js";
+import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
+import { drawPlotArea } from "../../../ts/components/plot-area.js";
 
 /**
  * 壁（地面画像を90°回転）を描画する
@@ -72,91 +74,56 @@ function drawGraph(p: p5) {
 
   const pxPerCm = gw / 2 / X_RANGE;
   const pxPerN = gh / 2 / Y_RANGE;
+  const cs = new CoordinateSystem({
+    originX: cx,
+    originY: cy,
+    scaleX: pxPerCm,
+    scaleY: pxPerN
+  });
 
-  // --- 背景 ---
-  p.fill(250);
-  p.stroke(180);
-  p.strokeWeight(1.5);
-  p.rect(GRAPH_LEFT, GRAPH_TOP, gw, gh, 8);
-
-  // --- グリッド ---
-  p.stroke(220);
-  p.strokeWeight(1);
-
-  // 縦グリッド（10cm刻み）
-  for (let xc = -X_RANGE; xc <= X_RANGE; xc += X_STEP) {
-    const gx = cx + xc * pxPerCm;
-    p.line(gx, GRAPH_TOP, gx, GRAPH_BOTTOM);
-  }
-  // 横グリッド（10N刻み）
-  for (let fn = -Y_RANGE; fn <= Y_RANGE; fn += Y_STEP) {
-    const gy = cy - fn * pxPerN;
-    p.line(GRAPH_LEFT, gy, GRAPH_RIGHT, gy);
-  }
-
-  // --- F = kx のライン（y軸範囲でクリップ）---
+  // F = kx のライン（y軸範囲でクリップ）
   // y = ±Y_RANGE になる x 座標: x = ±Y_RANGE/k * 100 cm
   const maxXforY = k > 0 ? (Y_RANGE / k) * 100 : X_RANGE;
   const clipX1cm = Math.max(-X_RANGE, -maxXforY);
   const clipX2cm = Math.min(X_RANGE, maxXforY);
-  p.stroke(...HOOKE_LINE_COLOR);
-  p.strokeWeight(2.5);
-  p.line(
-    cx + clipX1cm * pxPerCm,
-    cy - p.constrain(k * (clipX1cm / 100), -Y_RANGE, Y_RANGE) * pxPerN,
-    cx + clipX2cm * pxPerCm,
-    cy - p.constrain(k * (clipX2cm / 100), -Y_RANGE, Y_RANGE) * pxPerN
-  );
 
-  // --- 軸線（x軸・y軸）---
-  p.stroke(100);
-  p.strokeWeight(1.5);
-  p.line(GRAPH_LEFT, cy, GRAPH_RIGHT, cy); // x軸
-  p.line(cx, GRAPH_TOP, cx, GRAPH_BOTTOM); // y軸
-
-  // --- 軸ラベル ---
-  p.noStroke();
-  p.fill(80);
-  p.textAlign(p.CENTER, p.TOP);
-  p.textSize(13);
-
-  // x軸ラベル（10cm刻み）
-  for (let xc = -X_RANGE; xc <= X_RANGE; xc += X_STEP) {
-    if (xc !== 0) {
-      const gx = cx + xc * pxPerCm;
-      p.text(xc.toString(), gx, cy + 6);
+  // 背景・グリッド・F = kx のライン・軸線・目盛り・軸タイトルを共通コンポーネントで描画
+  drawPlotArea(p, cs, {
+    bounds: {
+      left: GRAPH_LEFT,
+      top: GRAPH_TOP,
+      right: GRAPH_RIGHT,
+      bottom: GRAPH_BOTTOM
+    },
+    gridStepX: X_STEP,
+    gridStepY: Y_STEP,
+    gridColor: p.color(220),
+    series: [
+      {
+        points: [clipX1cm, clipX2cm].map((xc) => ({
+          x: xc,
+          y: p.constrain(k * (xc / 100), -Y_RANGE, Y_RANGE)
+        })),
+        color: p.color(...HOOKE_LINE_COLOR),
+        weight: 2.5
+      }
+    ],
+    axisLine: {},
+    ticks: { stepX: X_STEP, stepY: Y_STEP },
+    labels: {
+      xTitle: "バネの伸び x (cm)",
+      yTitle: "弾性力 F (N)"
     }
-  }
-  // y軸ラベル（10N刻み）
-  p.textAlign(p.RIGHT, p.CENTER);
-  for (let fn = -Y_RANGE; fn <= Y_RANGE; fn += Y_STEP) {
-    if (fn !== 0) {
-      const gy = cy - fn * pxPerN;
-      p.text(fn.toFixed(0), cx - 6, gy);
-    }
-  }
-
-  // 軸タイトル
-  p.fill(60);
-  p.textSize(14);
-  p.textAlign(p.CENTER, p.BOTTOM);
-  p.text("バネの伸び x (cm)", cx, GRAPH_BOTTOM + 30);
-
-  // y軸タイトル（縦書き）
-  p.push();
-  p.translate(GRAPH_LEFT - 40, cy);
-  p.rotate(-p.HALF_PI);
-  p.textAlign(p.CENTER, p.CENTER);
-  p.textSize(14);
-  p.text("弾性力 F (N)", 0, 0);
-  p.pop();
+  });
 
   // タイトル
+  p.push();
   p.fill(40);
   p.noStroke();
   p.textAlign(p.CENTER, p.TOP);
   p.textSize(16);
   p.text("フックの法則  F = kx", cx, GRAPH_TOP - 28);
+  p.pop();
 
   // F = kx の式（グラフ内）
   p.fill(...HOOKE_LINE_COLOR);
