@@ -278,6 +278,8 @@ drawPlotArea(p, cs, {
 - Chart.jsは `createLazyImporter` で遅延読み込みします。初回の `update()` で読み込みを始め、完了後にチャートを生成します。読み込みに失敗した場合は再試行せず、ログのみ出力します。
 - `reset()` はデータ配列を空にして軸の最大値を初期値へ戻し、`dispose()` はチャートを `destroy()` します。`draw(p)` は何もしません（Chart.js自身が描画するため）。
 - v-t / y-t のように複数の canvas が必要な場合は、`ChartLine` を canvas ごとに生成します。
+- 見た目は任意で調整できます。データセットは `pointRadius`・`borderDash`・`fillColor`・`tension`、軸は `titleFontSize`・`tickFontSize`・`hideGrid`（右側の第2軸でグリッド線を描画しない）、全体は `titleFontSize`・`legendFontSize` を指定します。
+- 軸の最大値を `maxRatio` で表せない場合（上限の固定、初期条件に応じた値など）は、シミュレーション側で軸設定の `max` を更新したうえで `setAxisMax()` を呼び、`update()` を呼びます。データ配列は参照渡しのため、リセット時は `data.length = 0` のように同じ配列を空にしてください。
 
 ```ts
 const vtGraph = new ChartLine({

@@ -147,6 +147,55 @@ describe("ChartLine", () => {
     expect(chartInstances).toHaveLength(0);
   });
 
+  it("見た目の任意設定（点の半径・破線・塗りつぶし・フォント・グリッド）をChart.jsへ渡す", async () => {
+    const line = new ChartLine(
+      createOptions({
+        showLegend: true,
+        titleFontSize: 18,
+        legendFontSize: 13,
+        axes: [
+          { id: "x", direction: "x", title: "t", max: 5 },
+          {
+            id: "y1",
+            direction: "y",
+            title: "v",
+            max: 5,
+            titleFontSize: 14,
+            tickFontSize: 12,
+            hideGrid: true
+          }
+        ],
+        datasets: [
+          {
+            label: "v",
+            color: "red",
+            data: [],
+            yAxisID: "y1",
+            pointRadius: 0,
+            borderDash: [6, 4],
+            fillColor: "rgba(255,0,0,0.1)",
+            tension: 0.2
+          }
+        ]
+      })
+    );
+    line.update();
+    await flush();
+    const { options, data } = chartInstances[0].config;
+    expect(options.plugins.title.font.size).toBe(18);
+    expect(options.plugins.legend.labels.font.size).toBe(13);
+    expect(options.scales.y1.title.font.size).toBe(14);
+    expect(options.scales.y1.ticks.font.size).toBe(12);
+    expect(options.scales.y1.grid.drawOnChartArea).toBe(false);
+    expect(data.datasets[0]).toMatchObject({
+      pointRadius: 0,
+      borderDash: [6, 4],
+      fill: true,
+      backgroundColor: "rgba(255,0,0,0.1)",
+      tension: 0.2
+    });
+  });
+
   it("drawは何も描画しない", () => {
     const line = new ChartLine(createOptions());
     const p = {};

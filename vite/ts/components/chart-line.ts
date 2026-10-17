@@ -37,6 +37,12 @@ export interface ChartLineAxis {
   maxRatio?: number;
   /** 自動調整する最大値の下限（省略時: 初期の最大値） */
   minMax?: number;
+  /** 軸タイトルのフォントサイズ（省略時: 12） */
+  titleFontSize?: number;
+  /** 目盛りのフォントサイズ（省略時: 11） */
+  tickFontSize?: number;
+  /** trueのとき、この軸のグリッド線をプロット領域へ描画しない（右側の第2軸向け。省略時: false） */
+  hideGrid?: boolean;
 }
 
 /** データセットの設定 */
@@ -49,6 +55,14 @@ export interface ChartLineDataset {
   data: ChartPoint[];
   /** 対応するY軸のID（省略時: `y`） */
   yAxisID?: string;
+  /** 点の半径（省略時: 2） */
+  pointRadius?: number;
+  /** 線の破線パターン（省略時: 実線） */
+  borderDash?: number[];
+  /** 線の下を塗りつぶす色（指定すると塗りつぶす。省略時: 塗りつぶさない） */
+  fillColor?: string;
+  /** 線の曲がり具合（省略時: Chart.jsの既定） */
+  tension?: number;
 }
 
 /** ChartLineの設定 */
@@ -65,6 +79,10 @@ export interface ChartLineOptions {
   datasets: ChartLineDataset[];
   /** 凡例を表示するか（省略時: false） */
   showLegend?: boolean;
+  /** グラフタイトルのフォントサイズ（省略時: 14） */
+  titleFontSize?: number;
+  /** 凡例のフォントサイズ（省略時: Chart.jsの既定） */
+  legendFontSize?: number;
 }
 
 /**
@@ -183,7 +201,15 @@ export class ChartLine implements SimComponent {
 
   /** @returns Chart.jsの生成時に渡す設定 */
   private buildConfig(): ChartConfiguration {
-    const { axes, datasets, title, showLegend, type } = this.options;
+    const {
+      axes,
+      datasets,
+      title,
+      showLegend,
+      type,
+      titleFontSize,
+      legendFontSize
+    } = this.options;
     const scales: Record<string, object> = {};
     for (const axis of axes) {
       scales[axis.id] = {
@@ -194,10 +220,11 @@ export class ChartLine implements SimComponent {
         title: {
           display: true,
           text: axis.title,
-          font: { size: 12 },
+          font: { size: axis.titleFontSize ?? 12 },
           ...(axis.color ? { color: axis.color } : {})
         },
-        ticks: { font: { size: 11 } }
+        ticks: { font: { size: axis.tickFontSize ?? 11 } },
+        ...(axis.hideGrid ? { grid: { drawOnChartArea: false } } : {})
       };
     }
     return {
@@ -207,18 +234,32 @@ export class ChartLine implements SimComponent {
           label: d.label,
           data: d.data,
           showLine: true,
-          pointRadius: 2,
+          pointRadius: d.pointRadius ?? 2,
           pointBackgroundColor: d.color,
           borderColor: d.color,
           borderWidth: 2,
-          fill: false,
+          fill: d.fillColor !== undefined,
+          ...(d.fillColor !== undefined
+            ? { backgroundColor: d.fillColor }
+            : {}),
+          ...(d.borderDash ? { borderDash: d.borderDash } : {}),
+          ...(d.tension !== undefined ? { tension: d.tension } : {}),
           ...(d.yAxisID ? { yAxisID: d.yAxisID } : {})
         }))
       },
       options: {
         plugins: {
-          title: { display: !!title, text: title ?? "", font: { size: 14 } },
-          legend: { display: !!showLegend }
+          title: {
+            display: !!title,
+            text: title ?? "",
+            font: { size: titleFontSize ?? 14 }
+          },
+          legend: {
+            display: !!showLegend,
+            ...(legendFontSize
+              ? { labels: { font: { size: legendFontSize } } }
+              : {})
+          }
         },
         scales,
         animation: false,

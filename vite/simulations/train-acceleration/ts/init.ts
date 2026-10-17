@@ -70,5 +70,6 @@ export function initValue(p: p5) {
     parseFloat(String(p.select("#accelerationInput")!.value())) ||
     DEFAULT_ACCELERATION;
   state.train = new Train(V_W / TRAIN_START_X_DIVISOR);
-  state.vtData = [{ x: 0, y: 0 }];
+  state.vtData.length = 0;
+  state.vtData.push({ x: 0, y: 0 });
 }

@@ -19,8 +19,6 @@ export const state: {
   maxObservedVelocity: number;
   /** 読み込み済みフォント */
   font: p5.Font | null;
-  /** Chart.js インスタンス */
-  graphChart: InstanceType<typeof import("chart.js").Chart> | null;
 } = {
   isPlaying: false,
   elapsedTime: 0,
@@ -29,6 +27,5 @@ export const state: {
   vtData: [],
   lastGraphUpdate: 0,
   maxObservedVelocity: 0,
-  font: null,
-  graphChart: null
+  font: null
 };

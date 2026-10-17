@@ -193,9 +193,10 @@ export class Ball {
     this.time = 0;
     this.dragCoefficient = dragCoefficient;
     this.isMoving = false;
-    state.vtData = [];
-    state.ytData = [];
+    state.vtData.length = 0;
+    state.ytData.length = 0;
     this.lastGraphUpdate = 0;
+    state.graph?.reset();
   }
 
   /**
