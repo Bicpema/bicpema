@@ -15,7 +15,7 @@ const MIN_DASHED_LENGTH = 1;
 
 /**
  * 始点から終点まで点線を描画する。長さが極端に短い場合は何も描画しない。
- * 描画後のstroke/strokeWeightは変更されたまま残る（既存の各シミュレーションの挙動を踏襲）。
+ * 描画状態（stroke/strokeWeight）は`push()`/`pop()`で閉じており、呼び出し側へ副作用を残さない。
  * @param p - p5インスタンス
  * @param x1 - 始点のX座標
  * @param y1 - 始点のY座標
@@ -42,6 +42,7 @@ export function drawDashedLine(
   const uy = dy / len;
   let d = 0;
   let drawing = true;
+  p.push();
   p.stroke(col);
   p.strokeWeight(weight);
   while (d < len) {
@@ -57,4 +58,5 @@ export function drawDashedLine(
     d += segLen;
     drawing = !drawing;
   }
+  p.pop();
 }
