@@ -166,8 +166,30 @@ const canvasController = new BicpemaCanvasController({
 | 座標軸・グリッド             | `drawGrid`: `wave-reflection` / `standing-wave` / `force-composition` / `oscilloscope` / `force-decomposition`。軸: `components/axes.ts`の`drawAxes`（移行済み）                                                                                                              | `components/coordinate-system.ts`（座標変換）→ `components/grid.ts`・`components/axes.ts` | `CoordinateSystem`（原点・スケール・Y軸反転・原点基準のグリッド値）と、それを使う`drawGrid`（`grid.ts`）を提供済み。各シミュレーションの`drawGrid`は修正のタイミングで段階的に移行する（未着手）。`axes.ts`（`drawAxes`）も提供済みで、`force-decomposition`・`force-composition`・`half-life`・`tate-yoko-wave`は軸を移行済み |
 | 点線                         | `drawDashed`: `force-decomposition` / `slope-force-decomposition`（同一実装）。同様の処理: `force-composition` / `lens` / `normal-force`                                                                                                                                      | `components/dashed-line.ts`                                                               | 提供済み。`force-decomposition`・`slope-force-decomposition`・`force-composition`は移行済み                                                                                                                                                                                                                                    |
 | 再生・停止・リセットボタン   | 25件が`bindToggleControls` / `bindStartStopControls`を利用済み。ボタンを持つが未利用: `archimedes-principle` / `elastic-force` / `first-law-of-thermodynamics` / `force-and-acceleration` / `three-force-equilibrium`                                                         | 既存の`bicpema-controls-controller.ts`を継続（クラス化は不要）                            | 5件のみ未移行。修正のタイミングで移行する                                                                                                                                                                                                                                                                                      |
-| ボタンのマークアップ         | 再生・リセットボタンのHTML（Tailwindクラス）が各`index.html`にコピーされている                                                                                                                                                                                                | `<bicpema-*>`タグ（`vite/_build/bicpemaComponents.js`）として共通化する案                 | 未着手。切り出す場合はStorybookで見た目を確認する                                                                                                                                                                                                                                                                              |
+| ボタンのマークアップ         | 再生・リセットボタンのHTML（Tailwindクラス）が各`index.html`にコピーされている                                                                                                                                                                                                | `<bicpema-*>`タグ（`vite/_build/bicpemaComponents.js`）として共通化する案                 | 調査済み。共通化しない（[判断](#再生リセットボタンのマークアップの共通化判断)を参照）                                                                                                                                                                                                                                          |
 | 初期化・イベントハンドラー群 | `drawSimulation`（30件）、`elCreate`（29件）、`initValue`（27件）、`settingInit`（15件）、`onReset`（13件）、`onPlayPause`（11件）などが同名で各シミュレーションに存在する                                                                                                    | 中身はシミュレーション固有のため、共通化の対象外（ひな形の構成で揃っている）              | 対象外                                                                                                                                                                                                                                                                                                                         |
+
+#### 再生・リセットボタンのマークアップの共通化判断
+
+[Issue #848](https://github.com/Bicpema/bicpema/issues/848)（2026-10-17時点）の調査結果です。`vite/simulations/`（45件）のうち、リセットボタンを持つのは27件です。
+
+| 観点   | 調査結果                                                                                                                                                                                                                                                       |
+| ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ID     | リセットは`resetButton`（22件）・`resetBtn`（4件）・`restartButton`（1件）。再生は`playPauseButton`（13件）・`startButton` / `stopButton`（各4件）・`playButton`（2件）・`toggleBtn`（1件）で、`bindToggleControls`等のセレクタ指定で吸収している              |
+| 個数   | リセットのみの1個（`archimedes-principle`など）、再生とリセットの2個、開始・停止・リセットの3個（`doppler` / `pendulum` / `oscilloscope` / `spring`）が混在する                                                                                                |
+| 配置   | 左下の`absolute bottom-5 left-5 z-[1000] flex flex-wrap gap-2.5`（約15件）が最多。ほかに`bottom-0 start-0 m-3`系、`bottom-0 end-0`（`pendulum`は右下）、`m-1`、コンテナなし（`heat-engine` / `uniform-linear-motion`など約10件は設定パネル内などに配置）がある |
+| クラス | 色（`neutral` / `green` / `blue` / `red`）・余白（`m-1` / `mr-2`）・サイズ（`px-3 py-2`と`px-5 py-2.5`など）が異なり、ボタンのクラス文字列だけでリセット6種・再生5種以上ある。ラベルも「リセット」以外が混在する                                               |
+
+`bicpemaComponents.js`の`<bicpema-*>`タグは、ナビバー・スピナー・設定ボタンなど、全シミュレーションでほぼ同一の構造と配置を持つ部品を、ビルド時に展開する仕組みです。属性で変えられるのは`variant`・`panel-class`などごく一部で、中身（設定項目）はタグの子要素として渡します。
+
+判断は**共通化しない**（現状維持）とします。理由は以下のとおりです。
+
+- 配置・個数・ID・色・ラベルの差異が大きく、タグ化するには属性やスロットが多くなる。差異を属性で吸収すると、手書きのTailwindクラスより読みにくくなる
+- 挙動の共通化は`bicpema-controls-controller.ts`（`bindToggleControls` / `bindStartStopControls`）で済んでおり、`stories/play-controls.stories.js`もこれを使って確認できている。マークアップ側はセレクタで差異を吸収できている
+- 見た目を統一する目的なら、タグ化よりも`vite/css/tailwind.css`の`@layer components`にボタンのクラス（例: `.btn-play`・`.btn-reset`）を追加するほうが、既存の手書きのIDや配置を保てて移行の影響範囲も小さい
+- 手書きの検出（`npm run check:template-compliance`）は、配置・IDが多様なため誤検出が多くなり、現状では費用に見合わない
+
+見た目の統一が必要になった場合は、`@layer components`へのクラス追加を先に検討してください。
 
 #### 重複定義の検査
 
