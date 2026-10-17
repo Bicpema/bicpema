@@ -5,6 +5,8 @@ name: TypeScriptの型チェック（tsc）
   pull_request:
     paths:
       - "vite/**"
+      - "test/**"
+      - "scripts/**"
       - "tsconfig.json"
       - "package.json"
       - "package-lock.json"
@@ -14,6 +16,8 @@ name: TypeScriptの型チェック（tsc）
       - main
     paths:
       - "vite/**"
+      - "test/**"
+      - "scripts/**"
       - "tsconfig.json"
       - "package.json"
       - "package-lock.json"
