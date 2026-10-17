@@ -1,14 +1,8 @@
-import type { Chart as ChartInstance } from "chart.js";
 import { state } from "./state.js";
-import { createLazyImporter } from "../../../ts/bicpema-lazy-import.js";
-import { getCanvasElement } from "../../../ts/bicpema-dom.js";
-
-const loadChart = createLazyImporter(() =>
-  import("chart.js/auto").then((module) => module.default)
-);
-let Chart: typeof import("chart.js").Chart | null = null;
-// 読み込み失敗後に毎フレーム再試行しないためのフラグ。
-let chartLoadFailed = false;
+import {
+  ChartLine,
+  type ChartLineAxis
+} from "../../../ts/components/chart-line.js";
 
 /** 速度データの表示色 */
 const VELOCITY_COLOR = "rgb(220, 60, 60)";
@@ -16,158 +10,101 @@ const VELOCITY_COLOR = "rgb(220, 60, 60)";
 const HEIGHT_COLOR = "rgb(60, 150, 255)";
 /** グラフ軸の最大値を実データの最大値からどれだけ余裕を持たせるかの倍率 */
 const AXIS_MAX_MARGIN_RATIO = 1.1;
+/** 軸の最大値を求める際の実データの最大値の下限（データが少ないときの見た目を保つ） */
+const AXIS_DATA_MAX_FLOOR = 1;
 
 /**
  * ボール運動のグラフ描画クラス
- * v-tグラフとy-tグラフを同時に表示
+ * v-tグラフとy-tグラフを同時に表示（共通コンポーネント `ChartLine` を利用）
  */
 export class BallGraph {
-  chart: ChartInstance<"scatter"> | null;
+  private readonly heightAxis: ChartLineAxis = {
+    id: "y1",
+    direction: "y",
+    title: "高さ y [m]",
+    color: HEIGHT_COLOR,
+    max: AXIS_DATA_MAX_FLOOR * AXIS_MAX_MARGIN_RATIO,
+    titleFontSize: 14,
+    tickFontSize: 12,
+    position: "right",
+    hideGrid: true
+  };
 
-  /**
-   * グラフのインスタンスを未生成の状態で初期化する。
-   */
-  constructor() {
-    this.chart = null;
-  }
+  private readonly chartLine = new ChartLine({
+    canvasId: "graphCanvas",
+    title: "v-tグラフとy-tグラフ",
+    titleFontSize: 16,
+    legendFontSize: 13,
+    showLegend: true,
+    axes: [
+      {
+        id: "x",
+        direction: "x",
+        title: "時間 t [s]",
+        max: AXIS_DATA_MAX_FLOOR * AXIS_MAX_MARGIN_RATIO,
+        minMax: AXIS_DATA_MAX_FLOOR,
+        maxRatio: AXIS_MAX_MARGIN_RATIO,
+        titleFontSize: 14,
+        tickFontSize: 12
+      },
+      {
+        id: "y",
+        direction: "y",
+        title: "速度 v [m/s]",
+        color: VELOCITY_COLOR,
+        max: AXIS_DATA_MAX_FLOOR * AXIS_MAX_MARGIN_RATIO,
+        minMax: AXIS_DATA_MAX_FLOOR,
+        maxRatio: AXIS_MAX_MARGIN_RATIO,
+        titleFontSize: 14,
+        tickFontSize: 12,
+        position: "left"
+      },
+      this.heightAxis
+    ],
+    datasets: [
+      {
+        label: "速度 v (m/s)",
+        color: VELOCITY_COLOR,
+        data: state.vtData,
+        pointRadius: 3,
+        yAxisID: "y"
+      },
+      {
+        label: "高さ y (m)",
+        color: HEIGHT_COLOR,
+        data: state.ytData,
+        pointRadius: 3,
+        yAxisID: "y1"
+      }
+    ]
+  });
 
   /**
    * グラフを更新
-   * Chart.jsが未読み込みの場合は動的importを行い、完了後に再度呼び出す。
+   * 高さ軸の最大値は初期高さから決め、時間軸・速度軸は実データから `ChartLine` が自動調整する。
    */
   updateGraph() {
     if (!state.graphVisible) return;
-
-    if (!Chart) {
-      if (chartLoadFailed) return;
-      loadChart()
-        .then((ChartCtor) => {
-          Chart = ChartCtor;
-          this.updateGraph();
-        })
-        .catch((error) => {
-          chartLoadFailed = true;
-          // 失敗をユーザーへ通知するUIがないため、原因調査用にログのみ出力する。
-          // oxlint-disable-next-line no-console -- 上記コメントの理由により意図的な出力
-          console.error("Chart.jsの読み込みに失敗しました。", error);
-        });
-      return;
-    }
-
-    const ctx = getCanvasElement("graphCanvas");
-    if (!ctx) return;
-
-    // 既存グラフを破棄
-    if (this.chart) {
-      this.chart.destroy();
-      this.chart = null;
-    }
-
     const ball = state.ball;
     if (!ball) return;
-
-    const maxTime = ball.time > 0 ? ball.time : 1;
-    const maxVelocity = Math.max(...state.vtData.map((d) => d.y), 1);
-    const maxHeight = ball.initialHeight;
-
-    const data = {
-      datasets: [
-        {
-          label: "速度 v (m/s)",
-          data: state.vtData,
-          showLine: true,
-          pointRadius: 3,
-          pointBackgroundColor: VELOCITY_COLOR,
-          borderColor: VELOCITY_COLOR,
-          borderWidth: 2,
-          yAxisID: "y",
-          fill: false
-        },
-        {
-          label: "高さ y (m)",
-          data: state.ytData,
-          showLine: true,
-          pointRadius: 3,
-          pointBackgroundColor: HEIGHT_COLOR,
-          borderColor: HEIGHT_COLOR,
-          borderWidth: 2,
-          yAxisID: "y1",
-          fill: false
-        }
-      ]
-    };
-
-    const options: import("chart.js").ChartOptions<"scatter"> = {
-      plugins: {
-        title: {
-          display: true,
-          text: "v-tグラフとy-tグラフ",
-          font: { size: 16 }
-        },
-        legend: {
-          labels: { font: { size: 13 } }
-        }
-      },
-      scales: {
-        x: {
-          type: "linear",
-          min: 0,
-          max: parseFloat((maxTime * AXIS_MAX_MARGIN_RATIO).toFixed(2)),
-          title: {
-            display: true,
-            text: "時間 t [s]",
-            font: { size: 14 }
-          },
-          ticks: { font: { size: 12 } }
-        },
-        y: {
-          type: "linear",
-          position: "left",
-          min: 0,
-          max: parseFloat((maxVelocity * AXIS_MAX_MARGIN_RATIO).toFixed(2)),
-          title: {
-            display: true,
-            text: "速度 v [m/s]",
-            font: { size: 14 },
-            color: VELOCITY_COLOR
-          },
-          ticks: { font: { size: 12 } }
-        },
-        y1: {
-          type: "linear",
-          position: "right",
-          min: 0,
-          max: parseFloat((maxHeight * AXIS_MAX_MARGIN_RATIO).toFixed(2)),
-          title: {
-            display: true,
-            text: "高さ y [m]",
-            font: { size: 14 },
-            color: HEIGHT_COLOR
-          },
-          ticks: { font: { size: 12 } },
-          grid: {
-            drawOnChartArea: false
-          }
-        }
-      },
-      animation: false,
-      maintainAspectRatio: false
-    };
-
-    this.chart = new Chart(ctx, {
-      type: "scatter",
-      data,
-      options
-    });
+    const heightMax = parseFloat(
+      (ball.initialHeight * AXIS_MAX_MARGIN_RATIO).toFixed(2)
+    );
+    this.heightAxis.max = heightMax;
+    this.chartLine.setAxisMax("y1", heightMax);
+    this.chartLine.update();
   }
 
   /**
-   * グラフをリセット
+   * グラフをリセット（データを空にして軸の最大値を初期値へ戻す）
    */
   reset() {
-    if (this.chart) {
-      this.chart.destroy();
-      this.chart = null;
+    const ball = state.ball;
+    if (ball) {
+      this.heightAxis.max = parseFloat(
+        (ball.initialHeight * AXIS_MAX_MARGIN_RATIO).toFixed(2)
+      );
     }
+    this.chartLine.reset();
   }
 }

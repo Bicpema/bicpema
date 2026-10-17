@@ -229,8 +229,8 @@ export class Ball {
     this.velocity = this.initialVelocity;
     this.time = 0;
     this.isMoving = false;
-    state.vtData = [];
-    state.ytData = [];
+    state.vtData.length = 0;
+    state.ytData.length = 0;
     this.lastGraphUpdate = 0;
   }
 

@@ -203,8 +203,8 @@ export class Car {
     this.lastGraphUpdate = 0;
     this.lastMarkerTime = 0;
     this.markers = [];
-    state.xtData = [];
-    state.vtData = [];
+    state.xtData.length = 0;
+    state.vtData.length = 0;
   }
 
   /**

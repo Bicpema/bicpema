@@ -38,7 +38,8 @@ export const onReset = () => {
   state.lastGraphUpdate = 0;
   state.maxObservedVelocity = 0;
   state.train!.reset();
-  state.vtData = [{ x: 0, y: 0 }];
+  state.vtData.length = 0;
+  state.vtData.push({ x: 0, y: 0 });
   updateChart();
 };
 
