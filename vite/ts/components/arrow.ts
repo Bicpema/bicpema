@@ -52,6 +52,54 @@ export function drawArrow(
   p.pop();
 }
 
+/** ラベル付き矢印のラベルに関するオプション（ArrowStyleも指定できる） */
+export interface ArrowLabelStyle extends ArrowStyle {
+  /** ラベルの文字サイズ（既定: 16） */
+  labelFontSize?: number;
+  /** 矢印の中点から法線方向へのラベルのずれ（既定: 18） */
+  labelOffset?: number;
+}
+
+/**
+ * 矢印とラベルをまとめて描画する。ラベルは矢印の中点から法線方向にずらして矢印と同じ色で表示する。
+ * 矢印が極端に短い場合はラベルも描画しない。
+ * @param p - p5インスタンス
+ * @param fromX - 始点のX座標
+ * @param fromY - 始点のY座標
+ * @param toX - 終点のX座標
+ * @param toY - 終点のY座標
+ * @param col - 矢印とラベルの色
+ * @param label - 表示するテキスト
+ * @param style - 見た目のオプション
+ */
+export function drawArrowWithLabel(
+  p: p5,
+  fromX: number,
+  fromY: number,
+  toX: number,
+  toY: number,
+  col: p5.Color,
+  label: string,
+  { labelFontSize = 16, labelOffset = 18, ...arrowStyle }: ArrowLabelStyle = {}
+): void {
+  const dx = toX - fromX;
+  const dy = toY - fromY;
+  const len = Math.hypot(dx, dy);
+  if (len < MIN_ARROW_LENGTH) return;
+
+  drawArrow(p, fromX, fromY, toX, toY, col, arrowStyle);
+
+  p.noStroke();
+  p.textSize(labelFontSize);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.fill(col);
+  p.text(
+    label,
+    (fromX + toX) / 2 + (-dy / len) * labelOffset,
+    (fromY + toY) / 2 + (dx / len) * labelOffset
+  );
+}
+
 /**
  * 始点・終点を保持して描画する矢印コンポーネント。
  * 座標を毎フレーム書き換える使い方（ドラッグ操作など）を想定している。

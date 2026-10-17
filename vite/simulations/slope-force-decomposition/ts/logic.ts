@@ -1,4 +1,5 @@
 import { drawArrow as drawSharedArrow } from "../../../ts/components/arrow.js";
+import { drawDashedLine } from "../../../ts/components/dashed-line.js";
 import { state } from "./state.js";
 import {
   V_W,
@@ -29,44 +30,6 @@ export function drawArrow(
   sw = 3
 ) {
   drawSharedArrow(p, x1, y1, x2, y2, col, { weight: sw });
-}
-
-/**
- * 点線を描画する。
- */
-function drawDashed(
-  p: p5,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  col: p5.Color
-) {
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const len = p.sqrt(dx * dx + dy * dy);
-  if (len < 1) return;
-  const dashLen = 8;
-  const gapLen = 6;
-  const ux = dx / len;
-  const uy = dy / len;
-  let d = 0;
-  let drawing = true;
-  p.stroke(col);
-  p.strokeWeight(1.5);
-  while (d < len) {
-    const segLen = p.min(drawing ? dashLen : gapLen, len - d);
-    if (drawing) {
-      p.line(
-        x1 + ux * d,
-        y1 + uy * d,
-        x1 + ux * (d + segLen),
-        y1 + uy * (d + segLen)
-      );
-    }
-    d += segLen;
-    drawing = !drawing;
-  }
 }
 
 /**
@@ -229,8 +192,22 @@ function drawSlopeVectors(
   const tipPerpY = baseY + fnLen * cosT;
 
   // 補助破線（平行四辺形：各成分先端から重力先端へ）
-  drawDashed(p, tipPerpX, tipPerpY, tipGravX, tipGravY, p.color(150, 150, 150));
-  drawDashed(p, tipParX, tipParY, tipGravX, tipGravY, p.color(150, 150, 150));
+  drawDashedLine(
+    p,
+    tipPerpX,
+    tipPerpY,
+    tipGravX,
+    tipGravY,
+    p.color(150, 150, 150)
+  );
+  drawDashedLine(
+    p,
+    tipParX,
+    tipParY,
+    tipGravX,
+    tipGravY,
+    p.color(150, 150, 150)
+  );
 
   // F_perp（青）
   drawArrow(
