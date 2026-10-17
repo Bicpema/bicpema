@@ -136,7 +136,12 @@ const canvasController = new BicpemaCanvasController({
 - **関数とクラスの使い分け**: 状態を持たない描画は関数（例: `drawArrow`）、状態を持ち毎フレーム更新するものは `SimComponent` を実装するクラス（例: `Arrow`）で提供します。
 - **提供済みの部品**: 矢印（`arrow.ts`）。再生・停止ボタンのバインディングは従来どおり `vite/ts/bicpema-controls-controller.ts` が担います。
 - **既存シミュレーションの移行**: 一括移行はせず、修正するタイミングで段階的に移行します。移行済み: `force-decomposition` / `slope-force-decomposition`。
-- **Storybook**: 現時点では導入しません。共通部品がまだ少数で、`vite/_templates/` の使用例とdevサーバー（`npm run dev`）での確認で足りるためです。Viteのルート（`./vite`）・出力先（`static/vite`）が特殊で設定の保守コストとCIジョブ・Dependabotの増加が見合わないことも理由です。UI部品が増えて確認コストが高くなった時点で、`@storybook/html-vite` 構成（`vite/css/tailwind.css` を `preview` で読み込み、p5を使うstoryは `p.remove()` で後始末する共通デコレーター、パスフィルター付きの別CIジョブ）で再検討します。
+- **Storybook**: UI部品の確認用に導入しています（`@storybook/html-vite`）。`npm run storybook` で起動し（`http://localhost:6006`）、`npm run build:storybook` で静的ビルドします。設定は `.storybook/`、storiesはシミュレーションのビルド対象（`vite/`）に混ざらないよう、リポジトリ直下の `stories/` に `*.stories.js` として置きます。
+    - `.storybook/preview.js` で `vite/css/tailwind.css` を読み込み、本番と同じ見た目で確認できます。
+    - `.storybook/main.js` の `viteFinal` で、Viteのroot（`./vite`）をリポジトリ直下に戻し、Tailwindのプラグインを追加しています。
+    - storiesから `?bicpema` 付きでimportしたHTML（例: `import html from "./settings-modal.html?bicpema"`）は、`<bicpema-*>` タグがシミュレーションのビルドと同じ処理で展開されます。
+    - 現在のstoriesは再生・リセットボタンと設定ボタン・設定モーダルです。p5の描画部品は、必要になった時点で追加します（p5を使うstoryは、切り替え時に `p.remove()` で後始末するデコレーターを共通化してください）。
+    - CIは `.github/workflows/storybook.yml` でパスフィルター付きのビルド検査を行います。
 
 ### パターン B — グローバルモード（旧実装・移行対象）
 

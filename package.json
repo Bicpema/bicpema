@@ -23,10 +23,13 @@
     "lint": "oxlint",
     "lint:md": "markdownlint-cli2 \"**/*.md\"",
     "lint:spell": "cspell \"**\" --no-progress",
-    "lint:yaml": "yamllint --strict ."
+    "lint:yaml": "yamllint --strict .",
+    "storybook": "storybook dev -p 6006",
+    "build:storybook": "storybook build -o storybook-static"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
+    "@storybook/html-vite": "^10.6.2",
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^26.6.2",
     "@types/p5": "^1.7.7",
@@ -38,6 +41,7 @@
     "oxlint": "^1.85.0",
     "playwright": "^1.63.0",
     "prettier": "3.9.8",
+    "storybook": "^10.6.2",
     "tailwindcss": "^4.3.3",
     "typescript": "^7.0.2",
     "vite": "^8.3.0",
