@@ -89,4 +89,3 @@ git push origin v1.2.0-Beta1
 - **品質チェック**: `verify` ジョブでリント・型チェック・ユニットテスト・テンプレート準拠チェック・記事リンク整合性チェックを実行し、すべて成功した場合のみ `deploy` ジョブが実行されます。失敗した場合は本番にデプロイされません。
 - **最小権限**: `permissions` で `contents: read` のみを許可しています（`check-article-links.yml` も同様）。
 - **同時実行制御**: `concurrency`（グループ `deploy-production`、`cancel-in-progress: false`）により、デプロイが同時に実行されず、実行中のデプロイは中断されません。
-- **Environment**: `deploy` ジョブは `environment: production` で実行されます。Firebase のサービスアカウント（`FIREBASE_SERVICE_ACCOUNT_BICPEMA`）は、リポジトリの Settings → Environments → `production` のシークレットに登録します。必要に応じて同画面で承認者（Required reviewers）も設定できます。
