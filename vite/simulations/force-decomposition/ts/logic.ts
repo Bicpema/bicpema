@@ -1,3 +1,4 @@
+import { drawArrow as drawSharedArrow } from "../../../ts/components/arrow.js";
 import { state } from "./state.js";
 import {
   V_W,
@@ -15,13 +16,7 @@ import { decomposeForce } from "./physics.js";
 // ── 共通ユーティリティ ──────────────────────────────────────────────
 
 /**
- * 矢印を描画する。
- * @param p -
- * @param x1 - 始点X
- * @param y1 - 始点Y
- * @param x2 - 終点X
- * @param y2 - 終点Y
- * @param col - 色
+ * 矢印を描画する（共通コンポーネントのラッパー）。
  * @param sw - strokeWeight（省略時: 3）
  */
 export function drawArrow(
@@ -33,24 +28,7 @@ export function drawArrow(
   col: p5.Color,
   sw = 3
 ) {
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const len = p.sqrt(dx * dx + dy * dy);
-  if (len < 2) return;
-
-  const headSize = 12;
-  const angle = p.atan2(dy, dx);
-
-  p.stroke(col);
-  p.strokeWeight(sw);
-  p.fill(col);
-  p.line(x1, y1, x2, y2);
-  p.push();
-  p.translate(x2, y2);
-  p.rotate(angle);
-  p.noStroke();
-  p.triangle(0, 0, -headSize, headSize / 2.2, -headSize, -headSize / 2.2);
-  p.pop();
+  drawSharedArrow(p, x1, y1, x2, y2, col, { weight: sw });
 }
 
 /**
