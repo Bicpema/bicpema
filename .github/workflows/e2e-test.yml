@@ -2,26 +2,15 @@
 name: シミュレーションのE2Eテスト（Playwright）
 
 "on":
+  # PRでは変更されたシミュレーションのテストのみ実行する（全体のE2Eテストはタグ作成時・デプロイ時に実行する）
+  # Requiredなステータスチェックでマージできなくなることを避けるため、パスフィルターではなくジョブ内で実行範囲を判定する
   pull_request:
-    paths:
-      - "vite/**"
-      - "test/e2e/**"
-      - "playwright.config.js"
-      - "vite.config.js"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/e2e-test.yml"
   push:
-    branches:
-      - main
-    paths:
-      - "vite/**"
-      - "test/e2e/**"
-      - "playwright.config.js"
-      - "vite.config.js"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/e2e-test.yml"
+    tags:
+      - "v*.*.*"
+      - "v*.*.*-Beta*"
+  # deploy.ymlからデプロイ前に全体のE2Eテストを実行するために呼び出す
+  workflow_call:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -35,6 +24,8 @@ jobs:
     steps:
       - name: リポジトリのチェックアウト
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 0  # PRの変更ファイルを判定するため全履歴を取得する
 
       - name: Node.jsのセットアップ
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020  # v7.0.0
@@ -46,7 +37,21 @@ jobs:
       - name: 依存パッケージのインストール
         run: npm ci
 
+      # PR以外（タグ・デプロイ）は全テストを実行する
+      - name: 実行するテストの判定
+        id: detect
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if [[ "${EVENT_NAME}" == "pull_request" ]]; then
+            node scripts/detect-changed-tests.js "${BASE_SHA}" "${GITHUB_SHA}"
+          else
+            { echo "scope=all"; echo "run-e2e=true"; } >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Playwrightブラウザーのキャッシュ
+        if: steps.detect.outputs.run-e2e == 'true'
         id: playwright-cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
         with:
@@ -54,18 +59,25 @@ jobs:
           key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Playwrightブラウザーのインストール
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        if: steps.detect.outputs.run-e2e == 'true' && steps.playwright-cache.outputs.cache-hit != 'true'
         run: npx playwright install --with-deps chromium
 
       - name: Playwrightシステム依存パッケージのインストール
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        if: steps.detect.outputs.run-e2e == 'true' && steps.playwright-cache.outputs.cache-hit == 'true'
         run: npx playwright install-deps chromium
 
-      - name: シミュレーションのE2Eテスト
+      - name: シミュレーションのE2Eテスト（全体）
+        if: steps.detect.outputs.scope == 'all'
         run: npm run test:e2e
 
+      - name: シミュレーションのE2Eテスト（変更されたシミュレーションのみ）
+        if: steps.detect.outputs.scope == 'simulations' && steps.detect.outputs.e2e-targets != ''
+        env:
+          TARGETS: ${{ steps.detect.outputs.e2e-targets }}
+        run: npm run test:e2e -- ${TARGETS}
+
       - name: テストレポートのアップロード
-        if: ${{ !cancelled() }}
+        if: ${{ !cancelled() && steps.detect.outputs.run-e2e == 'true' }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a  # v7.0.1
         with:
           name: playwright-report

@@ -2,18 +2,14 @@
 name: スクリプト・シミュレーションのユニットテスト（Vitest）
 
 "on":
+  # Requiredなステータスチェックでマージできなくなることを避けるため、パスフィルターではなくジョブ内で実行範囲を判定する
   pull_request:
-    paths:
-      - "vite/**"
-      - "vite.config.js"
-      - "package.json"
-      - "package-lock.json"
-      - ".github/workflows/unit-test.yml"
   push:
     branches:
       - main
     paths:
       - "vite/**"
+      - "test/**"
       - "vite.config.js"
       - "package.json"
       - "package-lock.json"
@@ -31,6 +27,8 @@ jobs:
     steps:
       - name: リポジトリのチェックアウト
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          fetch-depth: 0  # PRの変更ファイルを判定するため全履歴を取得する
 
       - name: Node.jsのセットアップ
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020  # v7.0.0
@@ -42,5 +40,25 @@ jobs:
       - name: 依存パッケージのインストール
         run: npm ci
 
-      - name: スクリプト・シミュレーションのユニットテスト
+      # PRでは変更されたシミュレーションのテストのみ実行し、共通コード・設定の変更時と `main` へのpush時は全テストを実行する
+      - name: 実行するテストの判定
+        id: detect
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if [[ "${EVENT_NAME}" == "pull_request" ]]; then
+            node scripts/detect-changed-tests.js "${BASE_SHA}" "${GITHUB_SHA}"
+          else
+            echo "scope=all" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: スクリプト・シミュレーションのユニットテスト（全体）
+        if: steps.detect.outputs.scope == 'all'
         run: npm test
+
+      - name: スクリプト・シミュレーションのユニットテスト（変更されたシミュレーションのみ）
+        if: steps.detect.outputs.scope == 'simulations' && steps.detect.outputs.unit-targets != ''
+        env:
+          TARGETS: ${{ steps.detect.outputs.unit-targets }}
+        run: npm test -- ${TARGETS}

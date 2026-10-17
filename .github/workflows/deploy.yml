@@ -46,8 +46,12 @@ jobs:
       - name: 記事とシミュレーションのリンク整合性チェック
         run: npm run check:article-links
 
+  # デプロイ前に全シミュレーションのE2Eテストを実行する（PRでは変更されたシミュレーションのみ実行しているため）
+  e2e-test:
+    uses: ./.github/workflows/e2e-test.yml
+
   deploy:
-    needs: verify
+    needs: [verify, e2e-test]
     runs-on: ubuntu-latest
     steps:
       - name: リポジトリのチェックアウト
