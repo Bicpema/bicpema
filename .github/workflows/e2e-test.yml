@@ -29,7 +29,7 @@ jobs:
           persist-credentials: false
 
       - name: Node.jsのセットアップと依存パッケージのインストール
-        uses: ./.github/actions/setup-node-deps
+        uses: $/.github/actions/setup-node-deps
         with:
           cache: "false"  # タグ・デプロイでの実行時にキャッシュ汚染を避ける
 

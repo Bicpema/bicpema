@@ -34,7 +34,7 @@ jobs:
           persist-credentials: false
 
       - name: Node.jsのセットアップと依存パッケージのインストール
-        uses: ./.github/actions/setup-node-deps
+        uses: $/.github/actions/setup-node-deps
 
       # PRでは変更されたシミュレーションのテストのみ実行し、共通コード・設定の変更時と `main` へのpush時は全テストを実行する
       - name: 実行するテストの判定
