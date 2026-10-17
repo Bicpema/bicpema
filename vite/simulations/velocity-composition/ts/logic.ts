@@ -1,3 +1,4 @@
+import { drawArrow as drawSharedArrow } from "../../../ts/components/arrow.js";
 import { state } from "./state.js";
 import { V_W, V_H, RIVER_BOTTOM } from "./constants.js";
 
@@ -31,23 +32,7 @@ export function drawArrow(
   toY: number,
   col: p5.Color
 ) {
-  const headSize = 11;
-  const dx = toX - fromX;
-  const dy = toY - fromY;
-  const len = p.sqrt(dx * dx + dy * dy);
-  if (len < 2) return;
-
-  p.stroke(col);
-  p.strokeWeight(3);
-  p.fill(col);
-  p.line(fromX, fromY, toX, toY);
-
-  const angle = p.atan2(dy, dx);
-  p.push();
-  p.translate(toX, toY);
-  p.rotate(angle);
-  p.triangle(0, 0, -headSize, headSize / 2, -headSize, -headSize / 2);
-  p.pop();
+  drawSharedArrow(p, fromX, fromY, toX, toY, col, { headSize: 11 });
 }
 
 /**

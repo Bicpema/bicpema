@@ -1,4 +1,5 @@
 import type p5 from "p5";
+import { drawArrow as drawSharedArrow } from "../../../ts/components/arrow.js";
 import { state } from "./state.js";
 import { BASE_W, BASE_H, TANK_BOTTOM_Y } from "./init.js";
 import type { Cylinder } from "./cylinder.js";
@@ -62,30 +63,12 @@ function drawArrow(
   ly: number,
   lAlignH: p5.HORIZ_ALIGN
 ) {
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const angle = Math.atan2(dy, dx);
-
   p.push();
-  p.stroke(col[0], col[1], col[2]);
-  p.fill(col[0], col[1], col[2]);
-  p.strokeWeight(ARROW_STROKE_WEIGHT);
-  p.line(x1, y1, x2, y2);
-
-  // 矢頭
-  p.push();
-  p.translate(x2, y2);
-  p.rotate(angle);
-  p.noStroke();
-  p.triangle(
-    0,
-    0,
-    -ARROW_HEAD_SIZE,
-    -ARROW_HEAD_SIZE * 0.4,
-    -ARROW_HEAD_SIZE,
-    ARROW_HEAD_SIZE * 0.4
-  );
-  p.pop();
+  drawSharedArrow(p, x1, y1, x2, y2, p.color(col[0], col[1], col[2]), {
+    weight: ARROW_STROKE_WEIGHT,
+    headSize: ARROW_HEAD_SIZE,
+    headWidthDivisor: 2.5
+  });
 
   // ラベル
   if (label) {
