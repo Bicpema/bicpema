@@ -27,6 +27,8 @@ concurrency:
 
 jobs:
   check-article-links:
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     steps:
       - name: リポジトリのチェックアウト

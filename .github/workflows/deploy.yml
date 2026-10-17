@@ -4,8 +4,50 @@ name: Firebase Hostingへのデプロイ
 "on":
   workflow_dispatch:
 
+# 権限は最小限（リポジトリの読み取りのみ）にする。デプロイにはFirebaseのサービスアカウントを使うためGITHUB_TOKENの追加権限は不要
+permissions:
+  contents: read
+
+# 本番への同時デプロイを避けるため直列化する。実行中のデプロイは中断しない
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
 jobs:
+  # 対象コミットが品質チェックを通過した場合のみデプロイするため、デプロイ前にリント・型チェック・テストを実行する
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリのチェックアウト
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+
+      - name: Node.jsのセットアップ
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020  # v7.0.0
+        with:
+          node-version: "24"
+          cache: "npm"
+          cache-dependency-path: "package-lock.json"
+
+      - name: 依存パッケージのインストール
+        run: npm ci
+
+      - name: リント
+        run: npm run lint
+
+      - name: 型チェック
+        run: npm run typecheck
+
+      - name: ユニットテスト
+        run: npm test
+
+      - name: テンプレート準拠チェック
+        run: npm run check:template-compliance
+
+      - name: 記事とシミュレーションのリンク整合性チェック
+        run: npm run check:article-links
+
   deploy:
+    needs: verify
     runs-on: ubuntu-latest
     steps:
       - name: リポジトリのチェックアウト
@@ -43,7 +85,6 @@ jobs:
       - name: Firebase Hostingへのデプロイ
         uses: FirebaseExtended/action-hosting-deploy@500ac625ca2dd40cbd15f7659af953801858032a  # v0
         with:
-          repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_BICPEMA }}"
           channelId: live
           projectId: bicpema
