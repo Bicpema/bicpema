@@ -1,7 +1,6 @@
 import { GRID_STEP } from "./constants.js";
 
 export const state: {
-  font: p5.Font | null;
   f1TipX: number;
   f1TipY: number;
   f2TipX: number;
@@ -9,7 +8,6 @@ export const state: {
   dragging: "f1" | "f2" | null;
 } = {
   // --- ロードアセット ---
-  font: null,
 
   // --- F1/F2 矢印先端座標（原点からの相対位置、グリッドスナップ済み） ---
   f1TipX: 3 * GRID_STEP, // 3 格子右

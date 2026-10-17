@@ -798,8 +798,6 @@ export function drawSimulation(p: p5) {
   p.background(220);
   p.scale(p.width / V_W);
 
-  if (state.font) p.textFont(state.font);
-
   calcEquilibrium();
   drawPhysicsPanel(p);
   drawForceTrianglePanel(p);

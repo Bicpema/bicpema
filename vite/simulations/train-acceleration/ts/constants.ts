@@ -42,13 +42,6 @@ export const COLOR = {
   decelerating: "#ff9a9a"
 } as const;
 
-/** 文字のフォント（Zen Maru Gothic の読み込みが完了するまでの代替を含む） */
-export const FONT_FAMILY =
-  "'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', sans-serif";
-/** 他のシミュレーションと共通の丸ゴシックのフォントファイル */
-export const FONT_URL =
-  "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580";
-
 /** v-tグラフのx軸の初期最大値と下限 (s) */
 export const CHART_X_MIN_MAX = 10;
 /** v-tグラフのy軸の初期最大値と下限 (m/s) */

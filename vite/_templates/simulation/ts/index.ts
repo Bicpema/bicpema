@@ -31,9 +31,9 @@ const sketch = (p: p5) => {
   const components = new ComponentGroup(() => false);
   components.add(demoArrow);
 
-  // /** フォントなどの素材を読み込む。 */
+  // /** 画像などの素材を読み込む。 */
   // p.preload = () => {
-  //   font = p.loadFont("...");
+  //   image = p.loadImage("...");
   // };
 
   /** キャンバスを生成し、初期設定を行う。 */

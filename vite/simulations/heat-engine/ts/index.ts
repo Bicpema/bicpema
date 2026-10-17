@@ -30,7 +30,6 @@ const sketch = (p: p5) => {
   p.setup = () => {
     canvasController.fullScreen(p);
     elementPositionInit(p);
-    p.textFont("sans-serif");
   };
 
   let isFirstDraw = true;

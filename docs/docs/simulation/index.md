@@ -360,9 +360,9 @@ vite/simulations/{name}/
 - 設定モーダル・操作ボタン・フォーム部品などシミュレーション間で共通のUIパーツは、ユーティリティクラスを個別に並べる前に `vite/css/tailwind.css` の `@layer components`（`.modal-panel` / `.btn-settings-modal-open` / `.form-control` 等）に既存のコンポーネントクラスがないか確認し、再利用する
 - 再生・停止ボタンは左下に配置する
 - 設定表示ボタンは右上に配置する
-- 重いファイル（フォント、画像等）は [Firebase Storage](https://console.firebase.google.com/project/bicpema/storage) にアップロードし、URL で参照する
+- 重いファイル（画像等）は [Firebase Storage](https://console.firebase.google.com/project/bicpema/storage) にアップロードし、URL で参照する
 - 既存シミュレーションのフォルダー名（URL）を変更する場合は、`firebase.json` に旧URLからのリダイレクトを必ず追加する（[掲載URLの維持とリダイレクト](../development-flow.md#掲載urlの維持とリダイレクト)）
-- フォントは `setup()` 内で `loadFont()` を使って非同期ロードし、Firebase Storage が到達不能でもスケッチ起動をブロックしないようにする
+- フォントは個別に読み込まず、ブラウザ・OSのデフォルトフォントを使う（`loadFont()` / `textFont()` は呼ばない）。WEBGLモードの `p.text()` はp5.js 1.xでは読み込み済みフォントがないと描画されないため、`vite/ts/webgl-text.ts` の `drawWebglText()` を使う
 - `.ts` ファイルのドキュメントコメントは [TSDoc](https://tsdoc.org/) 記法で書く。`npm run lint` の `tsdoc/syntax` ルールで検査される
     - 型はTypeScriptの型注釈で表すため、`@param {number} x` のような `{型}` は書かず、`@param x - 説明` の形式にする
     - 戻り値は `@returns 説明` と書く（`{型}` は書かない）。`@type` / `@constructor` などJSDoc固有のタグは使わない
@@ -428,7 +428,7 @@ vite/simulations/{name}/
 
 ### 毎フレームの生成物を避ける
 
-- 配列・オブジェクト・画像・フォント・`p.createGraphics()`によるオフスクリーンキャンバスなどは、可能な限り`preload()`/`setup()`で一度だけ生成し、`draw()`内での再生成は避けてください。
+- 配列・オブジェクト・画像・`p.createGraphics()`によるオフスクリーンキャンバスなどは、可能な限り`preload()`/`setup()`で一度だけ生成し、`draw()`内での再生成は避けてください。
 - リサイズなどキャンバスサイズに依存する生成物は、`windowResized`のタイミングでのみ再生成してください。
 
 ### 計測方法
