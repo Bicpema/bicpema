@@ -5,6 +5,7 @@ import { state, SPRING_Y, ATTACH_X, NATURAL_LENGTH } from "./state.js";
 import { Spring } from "./class.js";
 import { onSpringConstantChange, onReset } from "./element-function.js";
 import { initModal } from "../../../ts/bicpema-modal-controller.js";
+import { bindResetControl } from "../../../ts/bicpema-controls-controller.js";
 
 const FPS = 30;
 
@@ -17,7 +18,7 @@ export function elCreate(p: p5) {
   state.springConstantDisplay = p.select("#springConstantDisplay");
 
   state.springConstantInput!.input(() => onSpringConstantChange());
-  p.select("#resetButton")!.mousePressed(() => onReset());
+  bindResetControl(p, { resetSelector: "#resetButton", onReset });
 
   initModal({
     openSelectors: "#toggleModal",
