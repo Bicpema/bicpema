@@ -9,7 +9,10 @@ export const COMPONENT_FUNCTION_NAMES = [
   "drawDashed",
   "drawDashedLine",
   "drawGrid",
-  "drawAxes"
+  "drawAxes",
+  "drawGraph",
+  "drawPlotArea",
+  "drawPolyline"
 ];
 
 const SOURCE_EXTENSIONS = [".ts", ".js"];
