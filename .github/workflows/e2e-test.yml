@@ -32,8 +32,6 @@ jobs:
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020  # v7.0.0
         with:
           node-version-file: ".nvmrc"
-          cache: "npm"
-          cache-dependency-path: "package-lock.json"
 
       - name: 依存パッケージのインストール
         run: npm ci
@@ -51,21 +49,9 @@ jobs:
             { echo "scope=all"; echo "run-e2e=true"; } >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Playwrightブラウザーのキャッシュ
-        if: steps.detect.outputs.run-e2e == 'true'
-        id: playwright-cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9  # v6.1.0
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
-
       - name: Playwrightブラウザーのインストール
-        if: steps.detect.outputs.run-e2e == 'true' && steps.playwright-cache.outputs.cache-hit != 'true'
+        if: steps.detect.outputs.run-e2e == 'true'
         run: npx playwright install --with-deps chromium
-
-      - name: Playwrightシステム依存パッケージのインストール
-        if: steps.detect.outputs.run-e2e == 'true' && steps.playwright-cache.outputs.cache-hit == 'true'
-        run: npx playwright install-deps chromium
 
       - name: シミュレーションのE2Eテスト（全体）
         if: steps.detect.outputs.scope == 'all'
@@ -75,7 +61,9 @@ jobs:
         if: steps.detect.outputs.scope == 'simulations' && steps.detect.outputs.e2e-targets != ''
         env:
           TARGETS: ${{ steps.detect.outputs.e2e-targets }}
-        run: npm run test:e2e -- ${TARGETS}
+        run: |
+          read -ra targets <<< "${TARGETS}"
+          npm run test:e2e -- "${targets[@]}"
 
       - name: テストレポートのアップロード
         if: ${{ !cancelled() && steps.detect.outputs.run-e2e == 'true' }}

@@ -62,4 +62,6 @@ jobs:
         if: steps.detect.outputs.scope == 'simulations' && steps.detect.outputs.unit-targets != ''
         env:
           TARGETS: ${{ steps.detect.outputs.unit-targets }}
-        run: npm test -- ${TARGETS}
+        run: |
+          read -ra targets <<< "${TARGETS}"
+          npm test -- "${targets[@]}"
