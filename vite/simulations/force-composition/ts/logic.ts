@@ -1,8 +1,5 @@
-import { drawDashedLine as drawSharedDashedLine } from "../../../ts/components/dashed-line.js";
-import {
-  drawArrow as drawSharedArrow,
-  drawArrowWithLabel as drawSharedArrowWithLabel
-} from "../../../ts/components/arrow.js";
+import { drawDashedLine } from "../../../ts/components/dashed-line.js";
+import { drawArrowWithLabel } from "../../../ts/components/arrow.js";
 import { drawAxes } from "../../../ts/components/axes.js";
 import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
 import { state } from "./state.js";
@@ -28,78 +25,14 @@ const COORDINATE_SYSTEM = new CoordinateSystem({
   originY: ORIGIN_Y
 });
 
-/**
- * 矢印を描画する。
- * @param p - p5インスタンス
- * @param fromX - 始点のX座標
- * @param fromY - 始点のY座標
- * @param toX - 終点のX座標
- * @param toY - 終点のY座標
- * @param col - 矢印の色
- * @param weight - 線の太さ
- * @param headSize - 矢印の頭の大きさ
- */
-export function drawArrow(
-  p: p5,
-  fromX: number,
-  fromY: number,
-  toX: number,
-  toY: number,
-  col: p5.Color,
-  weight = 3,
-  headSize = 12
-) {
-  drawSharedArrow(p, fromX, fromY, toX, toY, col, {
-    weight,
-    headSize,
-    headWidthDivisor: 2.5
-  });
-}
+/** 矢印（ラベル付き）の見た目 */
+const ARROW_STYLE = {
+  headWidthDivisor: 2.5,
+  labelFontSize: LABEL_FONT_SIZE
+};
 
-/**
- * 矢印とラベルをまとめて描画する。
- * @param p - p5インスタンス
- * @param fromX - 始点のX座標
- * @param fromY - 始点のY座標
- * @param toX - 終点のX座標
- * @param toY - 終点のY座標
- * @param col - 矢印とラベルの色
- * @param label - 表示するテキスト
- */
-export function drawArrowWithLabel(
-  p: p5,
-  fromX: number,
-  fromY: number,
-  toX: number,
-  toY: number,
-  col: p5.Color,
-  label: string
-) {
-  drawSharedArrowWithLabel(p, fromX, fromY, toX, toY, col, label, {
-    headWidthDivisor: 2.5,
-    labelFontSize: LABEL_FONT_SIZE
-  });
-}
-
-/**
- * 破線を描画する。
- * @param p - p5インスタンス
- * @param x1 - 始点X
- * @param y1 - 始点Y
- * @param x2 - 終点X
- * @param y2 - 終点Y
- * @param col - 色
- */
-export function drawDashedLine(
-  p: p5,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  col: p5.Color
-) {
-  drawSharedDashedLine(p, x1, y1, x2, y2, col, { dashLength: 10 });
-}
+/** 補助線（破線）の見た目 */
+const DASHED_STYLE = { dashLength: 10 };
 
 /**
  * グリッドを描画する。
@@ -234,7 +167,8 @@ export function drawScene(p: p5) {
     ORIGIN_Y + f2y,
     ORIGIN_X + frx,
     ORIGIN_Y + fry,
-    dashCol
+    dashCol,
+    DASHED_STYLE
   );
   drawDashedLine(
     p,
@@ -242,7 +176,8 @@ export function drawScene(p: p5) {
     ORIGIN_Y + f1y,
     ORIGIN_X + frx,
     ORIGIN_Y + fry,
-    dashCol
+    dashCol,
+    DASHED_STYLE
   );
 
   // 合力（赤）
@@ -253,7 +188,8 @@ export function drawScene(p: p5) {
     ORIGIN_X + frx,
     ORIGIN_Y + fry,
     p.color(220, 50, 50),
-    "合力 F"
+    "合力 F",
+    ARROW_STYLE
   );
 
   // F₁（黒）
@@ -264,7 +200,8 @@ export function drawScene(p: p5) {
     ORIGIN_X + f1x,
     ORIGIN_Y + f1y,
     p.color(0),
-    "F1"
+    "F1",
+    ARROW_STYLE
   );
 
   // F₂（黒）
@@ -275,7 +212,8 @@ export function drawScene(p: p5) {
     ORIGIN_X + f2x,
     ORIGIN_Y + f2y,
     p.color(0),
-    "F2"
+    "F2",
+    ARROW_STYLE
   );
 
   // 情報パネル

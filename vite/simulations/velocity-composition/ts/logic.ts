@@ -1,4 +1,4 @@
-import { drawArrow as drawSharedArrow } from "../../../ts/components/arrow.js";
+import { drawArrow } from "../../../ts/components/arrow.js";
 import { state } from "./state.js";
 import { V_W, V_H, RIVER_BOTTOM } from "./constants.js";
 
@@ -16,27 +16,7 @@ const BOAT_COLOR = [80, 240, 100] as const;
 const COMPOSITE_COLOR = [110, 170, 255] as const;
 
 /**
- * 矢印を描画する。
- * @param p - p5インスタンス
- * @param fromX - 始点のX座標
- * @param fromY - 始点のY座標
- * @param toX - 終点のX座標
- * @param toY - 終点のY座標
- * @param col - 矢印の色
- */
-export function drawArrow(
-  p: p5,
-  fromX: number,
-  fromY: number,
-  toX: number,
-  toY: number,
-  col: p5.Color
-) {
-  drawSharedArrow(p, fromX, fromY, toX, toY, col, { headSize: 11 });
-}
-
-/**
- * 矢印とラベルをまとめて描画する。
+ * 矢印と、背景付きの速度ラベルをまとめて描画する。
  * 矢印がゼロ長のときはラベルのみを始点の右に表示する。
  * @param p - p5インスタンス
  * @param fromX - 始点のX座標
@@ -46,7 +26,7 @@ export function drawArrow(
  * @param col - 矢印とラベルの色
  * @param label - 表示するテキスト
  */
-export function drawArrowWithLabel(
+export function drawVelocityArrow(
   p: p5,
   fromX: number,
   fromY: number,
@@ -55,7 +35,7 @@ export function drawArrowWithLabel(
   col: p5.Color,
   label: string
 ) {
-  drawArrow(p, fromX, fromY, toX, toY, col);
+  drawArrow(p, fromX, fromY, toX, toY, col, { headSize: 11 });
   p.noStroke();
   p.textSize(15);
   let tx;

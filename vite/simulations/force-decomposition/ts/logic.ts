@@ -1,4 +1,4 @@
-import { drawArrow as drawSharedArrow } from "../../../ts/components/arrow.js";
+import { drawArrow } from "../../../ts/components/arrow.js";
 import { drawAxes } from "../../../ts/components/axes.js";
 import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
 import { drawDashedLine } from "../../../ts/components/dashed-line.js";
@@ -23,22 +23,6 @@ const COORDINATE_SYSTEM = new CoordinateSystem({
 });
 
 // ── 共通ユーティリティ ──────────────────────────────────────────────
-
-/**
- * 矢印を描画する（共通コンポーネントのラッパー）。
- * @param sw - strokeWeight（省略時: 3）
- */
-export function drawArrow(
-  p: p5,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  col: p5.Color,
-  sw = 3
-) {
-  drawSharedArrow(p, x1, y1, x2, y2, col, { weight: sw });
-}
 
 /**
  * ラベル付きテキストを半透明背景で描画する。
@@ -128,7 +112,7 @@ export function drawXYScene(p: p5) {
     p.color(50, 100, 220)
   );
   // 力 F（黒）
-  drawArrow(p, ORIGIN_X, ORIGIN_Y, tipX, tipY, p.color(0), 4);
+  drawArrow(p, ORIGIN_X, ORIGIN_Y, tipX, tipY, p.color(0), { weight: 4 });
 
   // 角度弧
   drawAngleArc(p, ORIGIN_X, ORIGIN_Y, (state.forceAngle * Math.PI) / 180, 50);
