@@ -18,7 +18,7 @@
     >
       <!-- 左：シミュレーション -->
       <div
-        class="relative h-full flex-[0_0_60%] overflow-hidden bg-black max-md:flex-[0_0_55%]"
+        class="relative h-full w-full flex-1 overflow-hidden bg-black [container-type:size]"
         id="simPanel"
       >
         <div class="flex h-full w-full justify-center" id="p5Canvas"></div>
@@ -73,18 +73,22 @@
 
         <!-- 右上コントロール -->
         <bicpema-settings-button id="toggleModal"></bicpema-settings-button>
-      </div>
 
-      <!-- 右：グラフパネル -->
-      <div
-        class="flex flex-1 flex-col gap-2 overflow-hidden bg-[#1a1a2e] p-2 max-md:flex-row"
-        id="graphPanel"
-      >
-        <div class="relative min-h-0 flex-1 rounded-lg bg-white/92 p-2">
-          <canvas id="vtCanvas" class="block h-full w-full"></canvas>
-        </div>
-        <div class="relative min-h-0 flex-1 rounded-lg bg-white/92 p-2">
-          <canvas id="ytCanvas" class="block h-full w-full"></canvas>
+        <!-- グラフパネル（シミュレーション枠内。PC幅は右側、スマートフォン幅はビルより上に配置） -->
+        <div
+          class="absolute top-14 right-2 bottom-[20cqw] z-10 flex w-[36%] flex-col gap-2 max-md:right-2 max-md:bottom-[calc(47cqw+0.5rem)] max-md:left-2 max-md:w-auto max-md:flex-row"
+          id="graphPanel"
+        >
+          <div
+            class="relative min-h-0 min-w-0 flex-1 rounded-lg bg-white/92 p-2"
+          >
+            <canvas id="vtCanvas" class="block h-full w-full"></canvas>
+          </div>
+          <div
+            class="relative min-h-0 min-w-0 flex-1 rounded-lg bg-white/92 p-2"
+          >
+            <canvas id="ytCanvas" class="block h-full w-full"></canvas>
+          </div>
         </div>
       </div>
     </div>
