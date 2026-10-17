@@ -1,0 +1,47 @@
+---
+name: コードのセキュリティ解析（CodeQL）
+
+"on":
+  pull_request:
+    paths:
+      - "vite/**"
+      - "scripts/**"
+      - "test/**"
+      - ".github/workflows/codeql.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "vite/**"
+      - "scripts/**"
+      - "test/**"
+      - ".github/workflows/codeql.yml"
+  schedule:
+    - cron: "0 3 * * 1"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  codeql:
+    permissions:
+      contents: read
+      security-events: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリのチェックアウト
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: CodeQLの初期化
+        uses: github/codeql-action/init@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee  # v4.39.0
+        with:
+          languages: javascript-typescript
+          build-mode: none
+
+      - name: コードのセキュリティ解析
+        uses: github/codeql-action/analyze@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee  # v4.39.0
+        with:
+          category: "/language:javascript-typescript"
