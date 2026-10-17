@@ -128,6 +128,17 @@ Actions画面やPRのチェック一覧で何を検査しているかを判別�
 | `e2e-test.yml`                  | シミュレーションのE2Eテスト（Playwright）              | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | `npm run test:e2e`                                          |
 | `verify-runtime.yml`            | シミュレーションの起動チェック（Playwright）           | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | Vite ビルド → `npm run verify:runtime`                      |
 
+### Hugoのバージョン管理
+
+CIとデプロイで使うHugoのバージョンは、リポジトリ直下の `.hugo-version` で一元管理しています。`deploy.yml` と `check-published-urls.yml` は、このファイルを読み取って `peaceiris/actions-hugo` に渡します。Dependabotは `.hugo-version` を検知できないため、更新は手動で行います。
+
+Hugoのバージョンを更新する手順は以下のとおりです。
+
+1. [Hugoのリリース](https://github.com/gohugoio/hugo/releases)で更新内容（非推奨機能の削除などの破壊的変更）を確認します。
+1. `.hugo-version` を新しいバージョン（例: `0.168.0`。先頭の `v` は付けない）に書き換えます。
+1. ローカルのHugoを同じバージョンに更新し、`npm run build` → `hugo --minify` でビルドが通ることを確認します。
+1. READMEの `hugo version` の例が古くなっている場合は更新し、Pull Requestを作成します。CIの `check-published-urls.yml` でも新しいバージョンでのビルドを確認できます。
+
 ## ラベル一覧
 
 | ラベル                                             | 用途                                   |
