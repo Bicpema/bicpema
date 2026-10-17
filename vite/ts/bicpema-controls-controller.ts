@@ -144,3 +144,29 @@ export function bindToggleControls(
 
   return { toggleButton, resetButton };
 }
+
+interface ResetControlOptions {
+  /** リセットボタンのCSSセレクタ */
+  resetSelector: string;
+  /** リセットボタン押下時の処理 */
+  onReset: () => void;
+  /** リセットボタンのaria-label（未指定時は既定値） */
+  resetAriaLabel?: string;
+}
+
+/**
+ * 再生・停止ボタンを持たず、リセットボタンのみを持つシミュレーション向けの共通バインディング。
+ * @param p - p5インスタンス
+ * @returns p.select()で取得したリセットボタン要素
+ */
+export function bindResetControl(
+  p: any,
+  { resetSelector, onReset, resetAriaLabel }: ResetControlOptions
+): { resetButton: any } {
+  const resetButton = p.select(resetSelector);
+
+  ensureAriaLabel(resetButton, resetAriaLabel ?? DEFAULT_ARIA_LABELS.reset);
+  bindClick(resetButton, onReset);
+
+  return { resetButton };
+}

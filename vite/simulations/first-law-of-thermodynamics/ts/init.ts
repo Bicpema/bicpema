@@ -4,6 +4,7 @@ import { state } from "./state.js";
 import { Molecule } from "./class.js";
 import { onResetButtonClick, onQRadioChange } from "./element-function.js";
 import { initModal } from "../../../ts/bicpema-modal-controller.js";
+import { bindResetControl } from "../../../ts/bicpema-controls-controller.js";
 import { setCheckedRadioByValue } from "../../../ts/bicpema-dom.js";
 import {
   PISTON_INIT_X,
@@ -49,7 +50,10 @@ export function initValue(p: p5) {
  * @param p - p5 インスタンス
  */
 export function elCreate(p: p5) {
-  p.select("#resetButton")!.mousePressed(() => onResetButtonClick());
+  bindResetControl(p, {
+    resetSelector: "#resetButton",
+    onReset: onResetButtonClick
+  });
 
   initModal({
     openSelectors: "#toggleModal",

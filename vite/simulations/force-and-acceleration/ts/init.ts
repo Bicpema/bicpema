@@ -5,6 +5,7 @@ import { Cart } from "./class.js";
 import { onMassChange, onReset, onClearMax } from "./element-function.js";
 import { INITIAL_CART_X } from "./constants.js";
 import { initModal } from "../../../ts/bicpema-modal-controller.js";
+import { bindResetControl } from "../../../ts/bicpema-controls-controller.js";
 import type { BicpemaCanvasController } from "../../../ts/bicpema-canvas-controller.js";
 
 export const FPS = 60;
@@ -38,7 +39,7 @@ export function elementSelectInit(p: p5) {
 export function elementPositionInit(p: p5) {
   // elementSelectInit()で取得済みのため呼び出し時点でnullになりえない
   state.massInput!.input(onMassChange);
-  state.resetButton!.mousePressed(onReset);
+  bindResetControl(p, { resetSelector: "#resetButton", onReset });
   if (state.clearMaxButton) state.clearMaxButton.mousePressed(onClearMax);
 
   initModal({
