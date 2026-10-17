@@ -1,6 +1,5 @@
 /** シミュレーションの共有状態 */
 export const state: {
-  font: p5.Font | null;
   slopeAngle: number;
   mass: number;
   groundImg: p5.Image | null;
@@ -9,8 +8,6 @@ export const state: {
   massInput: p5.Element | null;
   massValue: p5.Element | null;
 } = {
-  /** フォント */
-  font: null,
   /** 斜面の角度（度） */
   slopeAngle: 30,
   /** 斜面モードの質量（kg） */

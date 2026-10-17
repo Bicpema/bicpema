@@ -295,15 +295,11 @@ export function drawRecordingTape(p: p5, marks: number[], recInterval: number) {
  * @param cart - 台車オブジェクト
  */
 export function drawInfoPanel(p: p5, cart: SlopeCart) {
-  drawInfoPanelComponent(
-    p,
-    [
-      { label: "時刻 t", value: cart.time.toFixed(2), unit: "s" },
-      { label: "変位 s", value: cart.s.toFixed(3), unit: "m" },
-      { label: "速度 v", value: cart.v.toFixed(2), unit: "m/s" },
-      { label: "加速度 a", value: cart.accel.toFixed(2), unit: "m/s²" },
-      { label: "傾斜角 θ", value: String(cart.angleDeg), unit: "°" }
-    ],
-    { font: state.font ?? undefined }
-  );
+  drawInfoPanelComponent(p, [
+    { label: "時刻 t", value: cart.time.toFixed(2), unit: "s" },
+    { label: "変位 s", value: cart.s.toFixed(3), unit: "m" },
+    { label: "速度 v", value: cart.v.toFixed(2), unit: "m/s" },
+    { label: "加速度 a", value: cart.accel.toFixed(2), unit: "m/s²" },
+    { label: "傾斜角 θ", value: String(cart.angleDeg), unit: "°" }
+  ]);
 }

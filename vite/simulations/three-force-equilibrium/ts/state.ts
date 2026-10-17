@@ -44,7 +44,6 @@ export const INIT_WEIGHT = 20;
 // 共有状態
 // ────────────────────────────────────────────
 export const state: {
-  font: p5.Font | null;
   anchorA: { x: number; y: number };
   anchorB: { x: number; y: number };
   ring: { x: number; y: number };
@@ -58,8 +57,6 @@ export const state: {
   weightInput: p5.Element | null;
   weightDisplay: p5.Element | null;
 } = {
-  /** 日本語フォント */
-  font: null,
   /** アンカーA（左側の天井固定点） */
   anchorA: { ...INIT_ANCHOR_A },
   /** アンカーB（右側の天井固定点） */

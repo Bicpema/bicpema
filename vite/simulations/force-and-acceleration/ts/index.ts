@@ -47,20 +47,12 @@ const sketch = (p: p5) => {
     );
   };
 
-  /** キャンバスを生成して初期設定を行い、フォントを非同期で読み込む。 */
+  /** キャンバスを生成して初期設定を行う。 */
   p.setup = () => {
     settingInit(p, canvasController);
     elementSelectInit(p);
     elementPositionInit(p);
     valueInit(p);
-    // フォントを非同期で読み込む（失敗してもシミュレーションは動作する）
-    p.loadFont(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
-      (f: p5.Font) => {
-        state.font = f;
-      },
-      () => {}
-    );
   };
 
   let isFirstDraw = true;
@@ -197,7 +189,6 @@ function drawForceArrow(p: p5, x1: number, y: number, x2: number) {
 
   p.fill(...FORCE_ARROW_COLOR);
   p.noStroke();
-  if (state.font) p.textFont(state.font);
   p.textSize(22);
   p.textAlign(p.CENTER, p.BOTTOM);
   p.text("F", (x1 + x2) / 2, y - 8);
@@ -230,7 +221,6 @@ function drawDragHint(p: p5, x: number, y: number) {
 
   p.fill(120);
   p.noStroke();
-  if (state.font) p.textFont(state.font);
   p.textSize(18);
   p.textAlign(p.LEFT, p.BOTTOM);
   p.text("右にドラッグして引っ張る", x + 10, y - 10);
@@ -280,7 +270,7 @@ function drawInfoPanel(
       { label: "速度 v", value: v.toFixed(2), unit: "m/s" },
       { label: "m × a最大", value: fFromAMax.toFixed(2), unit: "N" }
     ],
-    { font: state.font ?? undefined, labelWidth: 130 }
+    { labelWidth: 130 }
   );
 }
 

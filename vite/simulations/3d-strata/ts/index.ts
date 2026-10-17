@@ -4,13 +4,7 @@ import "../../../css/tailwind.css";
 import p5 from "p5";
 import { hideLoadingSpinner } from "../../../ts/bicpema-loading-spinner.js";
 import { BicpemaCanvasController } from "../../../ts/bicpema-canvas-controller.js";
-import {
-  elCreate,
-  elInit,
-  uiInit,
-  initValue,
-  loadJapaneseFont
-} from "./init.js";
+import { elCreate, elInit, uiInit, initValue } from "./init.js";
 import { drawSimulation } from "./logic.js";
 import {
   loadTestDataButtonFunction,
@@ -45,7 +39,7 @@ const sketch = (p: p5) => {
   /** 子ウィンドウから呼び出され、3つ目の地点の選択を反映する。 */
   window.thirdPlaceSelectFunction = () => thirdPlaceSelectFunction(p);
 
-  /** キャンバスを生成し、DOM要素・初期値・テストデータ読み込みボタンを設定して日本語フォントを読み込む。 */
+  /** キャンバスを生成し、DOM要素・初期値・テストデータ読み込みボタンを設定する。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
@@ -53,7 +47,6 @@ const sketch = (p: p5) => {
     initValue(p);
     loadTestDataButtonFunction(p);
     uiInit();
-    loadJapaneseFont(p);
   };
 
   let isFirstDraw = true;

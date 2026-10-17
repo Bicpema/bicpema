@@ -54,7 +54,6 @@ export function initValue(p: p5) {
   p.frameRate(FPS);
   p.textAlign(p.CENTER, p.CENTER);
   // preload()でロード済みのため呼び出し時点でnullになりえない
-  p.textFont(state.font!);
   p.textSize(16);
 
   // elCreate()で取得済みのため呼び出し時点でnullになりえない

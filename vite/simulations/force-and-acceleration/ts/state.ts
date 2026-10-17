@@ -4,8 +4,6 @@ import type { Cart } from "./class.js";
 export const state = {
   /** 台車オブジェクト（init()で生成するまでnull） */
   cart: null as Cart | null,
-  /** 読み込み済みフォント */
-  font: null as p5.Font | null,
   /** 地面画像（読み込み完了までnull） */
   groundImg: null as p5.Image | null,
   /** 台車画像（読み込み完了までnull） */

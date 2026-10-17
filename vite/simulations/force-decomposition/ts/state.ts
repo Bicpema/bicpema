@@ -1,6 +1,5 @@
 /** シミュレーションの共有状態 */
 export const state: {
-  font: p5.Font | null;
   forceMag: number;
   forceAngle: number;
   isDragging: boolean;
@@ -9,8 +8,6 @@ export const state: {
   angleInput: p5.Element | null;
   angleValue: p5.Element | null;
 } = {
-  /** フォント */
-  font: null,
   /** 力の大きさ（N） */
   forceMag: 3,
   /** 力の向き（度, 0=右向き, 90=上向き） */

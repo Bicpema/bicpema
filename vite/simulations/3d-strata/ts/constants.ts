@@ -7,7 +7,7 @@ export const CAMERA_EYE_Y = -500;
 /** 初期カメラの視点位置Z座標 */
 export const CAMERA_EYE_Z = 800;
 
-/** 日本語フォント読み込み後の基本文字サイズ */
+/** WEBGLのテキスト（地層名・座標ラベルなど）の基本文字サイズ */
 export const JA_FONT_SIZE = 25;
 
 /** ワールド座標系の下限値（経度・緯度方向のマッピング先、格子線・柱状図の座標計算で共通使用） */

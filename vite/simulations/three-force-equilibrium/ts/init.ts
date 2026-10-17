@@ -31,6 +31,4 @@ export function elCreate(p: p5) {
  * シミュレーションの初期値を設定する。
  * @param p - p5 インスタンス
  */
-export function initValue(p: p5) {
-  p.textFont("sans-serif");
-}
+export function initValue(p: p5) {}

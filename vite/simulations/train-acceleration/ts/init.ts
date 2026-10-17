@@ -3,8 +3,7 @@
 import type p5 from "p5";
 import { initModal } from "../../../ts/bicpema-modal-controller.js";
 import { bindToggleControls } from "../../../ts/bicpema-controls-controller.js";
-import { state } from "./state.js";
-import { FPS, FONT_FAMILY, FONT_URL } from "./constants.js";
+import { FPS } from "./constants.js";
 import {
   onPlayPause,
   onReset,
@@ -18,16 +17,6 @@ import {
 export function settingInit(p: p5): void {
   p.frameRate(FPS);
   p.textAlign(p.CENTER, p.CENTER);
-  p.textFont(FONT_FAMILY);
-  // 他のシミュレーションと共通のフォントを読み込む（失敗時は代替フォントのまま）
-  p.loadFont(
-    FONT_URL,
-    (font: p5.Font) => {
-      p.textFont(font);
-      state.needsRedraw = true;
-    },
-    () => {}
-  );
 }
 
 /**
