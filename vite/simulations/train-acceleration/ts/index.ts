@@ -1,105 +1,73 @@
+// index.ts はメインのメソッドを呼び出すためのエントリーポイントです。
+
 import p5 from "p5";
-import { hideLoadingSpinner } from "../../../ts/bicpema-loading-spinner.js";
 import "../../../css/tailwind.css";
 import { BicpemaCanvasController } from "../../../ts/bicpema-canvas-controller.js";
+import { hideLoadingSpinner } from "../../../ts/bicpema-loading-spinner.js";
+import { settingInit, elementSelectInit } from "./init.js";
 import { state } from "./state.js";
-import {
-  FPS,
-  V_W,
-  PX_PER_METER,
-  settingInit,
-  elCreate,
-  initValue
-} from "./init.js";
-import { drawTrack, drawTrain, drawInfoPanel } from "./function.js";
-import { initChart, updateChart } from "./graph.js";
-import {
-  GRAPH_UPDATE_INTERVAL,
-  GROUND_Y_RATIO,
-  GROUND_FILL_Y_OFFSET
-} from "./constants.js";
+import { updateGraph } from "./graph.js";
+import { drawScenery, drawTrain, drawInfoPanel } from "./function.js";
+import { FPS, V_W, GROUND_Y_RATIO, SAMPLE_EVERY_FRAMES } from "./constants.js";
+
+/** 1フレーム分、運動を進め、一定間隔でv-t図へ点を追加する。 */
+const advance = () => {
+  state.stepCount++;
+  state.train.step(1 / FPS, state.acceleration);
+  if (state.stepCount % SAMPLE_EVERY_FRAMES === 0) {
+    state.vtData.push({
+      x: state.stepCount / FPS,
+      y: state.train.velocity
+    });
+    updateGraph();
+  }
+};
 
 /**
  * シミュレーションのスケッチを定義する。
  * @param p - p5インスタンス
  */
 const sketch = (p: p5) => {
-  const canvasController = new BicpemaCanvasController({
-    heightMode: "half"
-  });
-
-  /** キャンバスを生成し、初期設定とグラフの初期化を行う。 */
-  p.setup = () => {
-    settingInit(p, canvasController);
-    elCreate(p);
-    initValue(p);
-    initChart();
-  };
-
+  // 上半分をp5キャンバス、下半分をv-t図にする
+  const canvasController = new BicpemaCanvasController({ heightMode: "half" });
   let isFirstDraw = true;
 
-  /** 毎フレーム、電車の運動とv-tグラフを更新し、背景・線路・電車・情報パネルを描画する。 */
+  /** キャンバスを生成し、初期設定とグラフの生成を行う。 */
+  p.setup = () => {
+    canvasController.fullScreen(p);
+    settingInit(p);
+    elementSelectInit(p);
+    updateGraph();
+  };
+
+  /** 毎フレームの更新と描画を行う。一時停止中は状態が変わったときだけ再描画する。 */
   p.draw = () => {
+    if (state.isPlaying) advance();
+    else if (!state.needsRedraw) return;
+    state.needsRedraw = false;
+
+    p.scale(p.width / V_W);
+    const vh = V_W * (p.height / p.width);
+    const groundY = vh * GROUND_Y_RATIO;
+    drawScenery(p, groundY, vh, state.train.position);
+    drawTrain(p, groundY);
+    drawInfoPanel(
+      p,
+      state.train.velocity,
+      state.stepCount / FPS,
+      state.acceleration
+    );
+
     if (isFirstDraw) {
       isFirstDraw = false;
       hideLoadingSpinner();
     }
-
-    p.scale(p.width / V_W);
-
-    /** 仮想キャンバス高さ */
-    const VH = V_W * (p.height / p.width);
-    /** 地面y座標（仮想ピクセル） */
-    const GROUND_Y = VH * GROUND_Y_RATIO;
-
-    const { train } = state;
-    if (!train) return;
-
-    if (state.isPlaying) {
-      const dt = 1 / FPS;
-      state.elapsedTime += dt;
-      train.update(dt, state.acceleration, PX_PER_METER, V_W);
-
-      // グラフデータを一定間隔で追記
-      state.lastGraphUpdate += dt;
-      if (state.lastGraphUpdate >= GRAPH_UPDATE_INTERVAL) {
-        state.lastGraphUpdate = 0;
-        const v = parseFloat(train.velocity.toFixed(3));
-        if (v > state.maxObservedVelocity) state.maxObservedVelocity = v;
-        state.vtData.push({
-          x: parseFloat(state.elapsedTime.toFixed(2)),
-          y: v
-        });
-        updateChart();
-      }
-    }
-
-    // 空背景
-    p.background(135, 206, 235);
-
-    // 地面
-    p.fill(80, 130, 60);
-    p.noStroke();
-    p.rect(
-      0,
-      GROUND_Y + GROUND_FILL_Y_OFFSET,
-      V_W,
-      VH - GROUND_Y - GROUND_FILL_Y_OFFSET
-    );
-
-    // 線路
-    drawTrack(p, GROUND_Y, train.trackOffset, V_W);
-
-    // 電車
-    drawTrain(p, train.x, GROUND_Y);
-
-    // 情報パネル
-    drawInfoPanel(p, train.velocity, state.elapsedTime, state.acceleration);
   };
 
-  /** ウィンドウサイズの変更に合わせてキャンバスを再設定する。 */
+  /** ウィンドウサイズの変更に合わせてキャンバスを再設定し、再描画する。 */
   p.windowResized = () => {
     canvasController.resizeScreen(p);
+    state.needsRedraw = true;
   };
 };
 

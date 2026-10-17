@@ -1,58 +1,51 @@
-// element-function.js は仮想DOMメソッド管理専用のファイルです。
+// element-function.ts は仮想DOMメソッド管理専用のファイルです。
 
 import { state } from "./state.js";
-import { updateChart } from "./graph.js";
+import { resetGraph } from "./graph.js";
 
-/**
- * 再生・停止ボタンのラベルを更新する。
- */
+/** 再生・一時停止ボタンの表示を、再生状態と経過の有無に合わせて更新する。 */
 const updatePlayPauseButton = () => {
-  const btn = document.getElementById("playPauseButton");
-  if (!btn) return;
+  const button = document.getElementById("playPauseButton");
+  if (!button) return;
   if (state.isPlaying) {
-    btn.innerHTML = "⏸ 一時停止";
-    btn.classList.remove("btn-primary");
-    btn.classList.add("btn-warning");
+    button.textContent = "⏸ 一時停止";
   } else {
-    btn.innerHTML = "▶ 開始";
-    btn.classList.remove("btn-warning");
-    btn.classList.add("btn-primary");
+    button.textContent = state.stepCount === 0 ? "▶ 開始" : "▶ 再開";
   }
 };
 
-/**
- * 再生・停止ボタンが押されたときの処理。
- */
+/** 加速度の表示値（設定パネル内）を更新する。 */
+const updateAccelerationLabel = () => {
+  const label = document.getElementById("accelerationValue");
+  if (label) label.textContent = state.acceleration.toFixed(1);
+};
+
+/** 再生・一時停止ボタンが押されたときの処理。 */
 export const onPlayPause = () => {
   state.isPlaying = !state.isPlaying;
   updatePlayPauseButton();
 };
 
-/**
- * リセットボタンが押されたときの処理。
- */
+/** リセットボタンが押されたときの処理。電車・経過時間・v-t図を初期状態に戻す。 */
 export const onReset = () => {
   state.isPlaying = false;
-  updatePlayPauseButton();
-  state.elapsedTime = 0;
-  state.lastGraphUpdate = 0;
-  state.maxObservedVelocity = 0;
-  state.train!.reset();
+  state.stepCount = 0;
+  state.train.reset();
   state.vtData.length = 0;
-  state.vtData.push({ x: 0, y: 0 });
-  updateChart();
+  resetGraph();
+  state.needsRedraw = true;
+  updatePlayPauseButton();
 };
 
-/**
- * 加速度入力が変更されたときの処理。
- */
-export const onAccelerationChange = () => {
+/** 加速度スライダーが操作されたときの処理。再生中でも反映される。 */
+export const onAccelerationInput = () => {
   const input = document.getElementById(
     "accelerationInput"
   ) as HTMLInputElement | null;
   if (!input) return;
-  const val = parseFloat(input.value);
-  if (!Number.isNaN(val)) {
-    state.acceleration = val;
-  }
+  const value = parseFloat(input.value);
+  if (Number.isNaN(value)) return;
+  state.acceleration = value;
+  state.needsRedraw = true;
+  updateAccelerationLabel();
 };

@@ -1,31 +1,33 @@
-import type { Train } from "./class.js";
+// state.ts はシミュレーションの共有可変状態を管理するファイルです。
+
+import { Train } from "./class.js";
 import { DEFAULT_ACCELERATION } from "./constants.js";
 
-// グローバル状態管理オブジェクト
+/** v-tグラフの1点 */
+export interface VtPoint {
+  x: number;
+  y: number;
+}
+
+/** シミュレーションの共有状態 */
 export const state: {
   /** 再生中かどうか */
   isPlaying: boolean;
-  /** 経過時間 (s) */
-  elapsedTime: number;
   /** 加速度 (m/s²) */
   acceleration: number;
-  /** 電車オブジェクト */
-  train: Train | null;
-  /** v-t グラフ用データ配列 */
-  vtData: { x: number; y: number }[];
-  /** グラフ更新カウンタ */
-  lastGraphUpdate: number;
-  /** v-t グラフで記録した速さの最大値（y軸上限計算用） */
-  maxObservedVelocity: number;
-  /** 読み込み済みフォント */
-  font: p5.Font | null;
+  /** 再生開始からの更新ステップ数（経過時間 = stepCount / FPS。誤差を累積させない） */
+  stepCount: number;
+  /** 一時停止中に再描画が必要かどうか（設定変更・リセット・リサイズ時にtrue） */
+  needsRedraw: boolean;
+  /** 電車 */
+  train: Train;
+  /** v-tグラフ用データ（ChartLineが参照を保持する） */
+  vtData: VtPoint[];
 } = {
   isPlaying: false,
-  elapsedTime: 0,
   acceleration: DEFAULT_ACCELERATION,
-  train: null,
-  vtData: [],
-  lastGraphUpdate: 0,
-  maxObservedVelocity: 0,
-  font: null
+  stepCount: 0,
+  needsRedraw: true,
+  train: new Train(),
+  vtData: [{ x: 0, y: 0 }]
 };

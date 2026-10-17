@@ -1,179 +1,138 @@
-// function.js はその他のメソッド管理専用のファイルです。
+// function.ts は描画などのその他のメソッド管理専用のファイルです。
 
-import { state } from "./state.js";
+import type p5 from "p5";
 import {
+  V_W,
+  PX_PER_METER,
+  TRAIN_X,
   TRAIN_HALF_W,
-  TRAIN_STROKE_WEIGHT,
   TRAIN_BODY_COLOR_RGB,
-  TRAIN_LIGHT_OFFSET_X,
-  TRAIN_LIGHT_OFFSET_Y,
-  TRAIN_LIGHT_WIDTH,
-  TRAIN_LIGHT_HEIGHT,
-  WHEEL_OUTER_COLOR,
-  WHEEL_OUTER_STROKE_COLOR,
-  WHEEL_HUB_COLOR,
-  WHEEL_HUB_DIAMETER_RATIO,
-  INFO_PANEL_PRIMARY_TEXT_SIZE,
-  INFO_PANEL_SECONDARY_TEXT_SIZE
+  TIE_SPACING,
+  MARKER_SPACING
 } from "./constants.js";
 
 /**
- * 線路（レールと枕木）を描画する。
- * @param p - p5インスタンス。
- * @param groundY - 地面上部のy座標（仮想ピクセル）
- * @param trackOffset - 線路スクロールオフセット（仮想ピクセル）
- * @param vw - 仮想キャンバス幅
+ * 背景に流れる要素（枕木・距離標）の、画面上のx座標を左端から順に列挙して処理する。
+ * 電車の移動距離 offset の分だけ、背景は左へ流れる。
+ * @param offset - 電車の移動距離（仮想ピクセル）
+ * @param spacing - 要素の間隔（仮想ピクセル）
+ * @param callback - 画面上のx座標と、その要素の位置 (m) を受け取る処理
  */
-export const drawTrack = (
+const forEachScrolling = (
+  offset: number,
+  spacing: number,
+  callback: (screenX: number, meters: number) => void
+) => {
+  const first = Math.floor((offset - TRAIN_X) / spacing) * spacing;
+  for (
+    let world = first;
+    world - offset + TRAIN_X < V_W + spacing;
+    world += spacing
+  ) {
+    callback(world - offset + TRAIN_X, world / PX_PER_METER);
+  }
+};
+
+/**
+ * 空・地面・線路・距離標を描画する。
+ * @param p - p5インスタンス
+ * @param groundY - レール上端のy座標（仮想ピクセル）
+ * @param vh - 仮想キャンバス高さ
+ * @param positionM - 電車の移動距離 (m)
+ */
+export const drawScenery = (
   p: p5,
   groundY: number,
-  trackOffset: number,
-  vw: number
+  vh: number,
+  positionM: number
 ) => {
-  const TIE_SPACING = 40;
-  const TIE_W = 30;
-  const TIE_H = 8;
-  const RAIL_H = 6;
-  const RAIL_Y1 = groundY + 4;
-  const RAIL_Y2 = groundY + 16;
+  const offset = positionM * PX_PER_METER;
+  p.background(135, 206, 235);
+  p.noStroke();
+  p.fill(80, 130, 60);
+  p.rect(0, groundY + 28, V_W, vh - groundY - 28);
 
   // 枕木
   p.fill(120, 80, 40);
-  p.noStroke();
-  // trackOffset が負になった場合も正の剰余に正規化し、枕木が途切れないようにする
-  const offset = ((trackOffset % TIE_SPACING) + TIE_SPACING) % TIE_SPACING;
-  for (
-    let x = -TIE_SPACING + (TIE_SPACING - offset);
-    x < vw + TIE_SPACING;
-    x += TIE_SPACING
-  ) {
-    p.rect(x - TIE_W / 2, groundY, TIE_W, TIE_H);
-  }
-
-  // レール（上）
+  forEachScrolling(offset, TIE_SPACING, (x) => {
+    p.rect(x - 15, groundY, 30, 8);
+  });
+  // レール
   p.fill(160);
-  p.noStroke();
-  p.rect(0, RAIL_Y1, vw, RAIL_H);
+  p.rect(0, groundY + 4, V_W, 6);
+  p.rect(0, groundY + 16, V_W, 6);
 
-  // レール（下）
-  p.rect(0, RAIL_Y2, vw, RAIL_H);
+  // 距離標（出発点を0 mとし、右を正、左を負とする）
+  p.textSize(14);
+  forEachScrolling(offset, MARKER_SPACING, (x, meters) => {
+    p.fill(255);
+    p.rect(x - 1.5, groundY + 30, 3, 14);
+    p.text(`${Math.round(meters)} m`, x, groundY + 56);
+  });
 };
 
 /**
  * 電車を描画する。
- * @param p - p5インスタンス。
- * @param trainX - 電車の中心x座標（仮想ピクセル）
- * @param groundY - 地面上部のy座標（仮想ピクセル）
+ * @param p - p5インスタンス
+ * @param groundY - レール上端のy座標（仮想ピクセル）
  */
-export const drawTrain = (p: p5, trainX: number, groundY: number) => {
-  const BODY_W = TRAIN_HALF_W * 2;
-  const BODY_H = 60;
-  const WHEEL_R = 14;
-  const WHEEL_OFFSET = 30;
-  const BODY_Y = groundY - BODY_H - WHEEL_R * 2;
-  const ROOF_H = 14;
-  const WIN_W = 22;
-  const WIN_H = 18;
+export const drawTrain = (p: p5, groundY: number) => {
+  const bodyW = TRAIN_HALF_W * 2;
+  const bodyH = 60;
+  const wheelR = 14;
+  const bodyY = groundY - bodyH - wheelR * 2;
+  const left = TRAIN_X - TRAIN_HALF_W;
 
-  // 車体
   p.fill(...TRAIN_BODY_COLOR_RGB);
   p.stroke(20, 60, 140);
-  p.strokeWeight(TRAIN_STROKE_WEIGHT);
-  p.rect(trainX - BODY_W / 2, BODY_Y, BODY_W, BODY_H, 4, 4, 0, 0);
+  p.strokeWeight(2);
+  p.rect(left, bodyY, bodyW, bodyH, 4, 4, 0, 0);
 
-  // 屋根
-  p.fill(20, 70, 160);
   p.noStroke();
-  p.rect(trainX - BODY_W / 2, BODY_Y - ROOF_H, BODY_W, ROOF_H, 6, 6, 0, 0);
-
-  // 窓
   p.fill(200, 230, 255);
-  p.noStroke();
-  const winY = BODY_Y + 10;
-  const numWindows = 4;
-  const winSpacing = BODY_W / (numWindows + 1);
-  for (let i = 1; i <= numWindows; i++) {
-    p.rect(
-      trainX - BODY_W / 2 + winSpacing * i - WIN_W / 2,
-      winY,
-      WIN_W,
-      WIN_H,
-      3
-    );
+  for (let i = 1; i <= 4; i++) {
+    p.rect(left + (bodyW / 5) * i - 11, bodyY + 10, 22, 18, 3);
   }
-
-  // 前面ライト（右側）
+  // 進行方向（右）を前照灯で示す
   p.fill(255, 255, 150);
-  p.noStroke();
-  p.ellipse(
-    trainX + BODY_W / 2 - TRAIN_LIGHT_OFFSET_X,
-    BODY_Y + BODY_H - TRAIN_LIGHT_OFFSET_Y,
-    TRAIN_LIGHT_WIDTH,
-    TRAIN_LIGHT_HEIGHT
-  );
+  p.ellipse(left + bodyW - 6, bodyY + bodyH - 10, 10, 8);
 
-  // 後面ライト（左側）
-  p.fill(255, 80, 80);
+  p.fill(60);
+  p.stroke(40);
+  p.strokeWeight(2);
+  p.circle(left + 30, groundY + wheelR - 2, wheelR * 2);
+  p.circle(left + bodyW - 30, groundY + wheelR - 2, wheelR * 2);
   p.noStroke();
-  p.ellipse(
-    trainX - BODY_W / 2 + TRAIN_LIGHT_OFFSET_X,
-    BODY_Y + BODY_H - TRAIN_LIGHT_OFFSET_Y,
-    TRAIN_LIGHT_WIDTH,
-    TRAIN_LIGHT_HEIGHT
-  );
-
-  // 車輪（左）
-  p.fill(WHEEL_OUTER_COLOR);
-  p.stroke(WHEEL_OUTER_STROKE_COLOR);
-  p.strokeWeight(TRAIN_STROKE_WEIGHT);
-  p.circle(trainX - BODY_W / 2 + WHEEL_OFFSET, groundY + WHEEL_R, WHEEL_R * 2);
-  p.fill(WHEEL_HUB_COLOR);
-  p.noStroke();
-  p.circle(
-    trainX - BODY_W / 2 + WHEEL_OFFSET,
-    groundY + WHEEL_R,
-    WHEEL_R * WHEEL_HUB_DIAMETER_RATIO
-  );
-
-  // 車輪（右）
-  p.fill(WHEEL_OUTER_COLOR);
-  p.stroke(WHEEL_OUTER_STROKE_COLOR);
-  p.strokeWeight(TRAIN_STROKE_WEIGHT);
-  p.circle(trainX + BODY_W / 2 - WHEEL_OFFSET, groundY + WHEEL_R, WHEEL_R * 2);
-  p.fill(WHEEL_HUB_COLOR);
-  p.noStroke();
-  p.circle(
-    trainX + BODY_W / 2 - WHEEL_OFFSET,
-    groundY + WHEEL_R,
-    WHEEL_R * WHEEL_HUB_DIAMETER_RATIO
-  );
 };
 
 /**
- * 速さと経過時間の情報パネルを描画する。
- * @param p - p5インスタンス。
- * @param v - 速さ (m/s)
- * @param t - 経過時間 (s)
- * @param a - 加速度 (m/s²)
+ * 現在の速さ・経過時間・加速度と、左右の向きの目安を描画する。
+ * @param p - p5インスタンス
+ * @param velocity - 速さ (m/s)
+ * @param elapsed - 経過時間 (s)
+ * @param acceleration - 加速度 (m/s²)
  */
-export const drawInfoPanel = (p: p5, v: number, t: number, a: number) => {
-  // パネル背景
-  p.fill(0, 0, 0, 180);
-  p.stroke(255, 255, 255, 60);
-  p.strokeWeight(1);
-  p.rect(16, 16, 250, 100, 8);
-
+export const drawInfoPanel = (
+  p: p5,
+  velocity: number,
+  elapsed: number,
+  acceleration: number
+) => {
+  p.fill(0, 0, 0, 140);
+  p.rect(10, 10, 280, 96, 8);
   p.fill(255);
-  p.noStroke();
-  if (state.font) p.textFont(state.font);
-  p.textAlign(p.LEFT, p.TOP);
-
-  p.textSize(INFO_PANEL_PRIMARY_TEXT_SIZE);
-  p.text(`速さ  v = ${v.toFixed(2)} m/s`, 30, 26);
-  p.text(`時間  t = ${t.toFixed(1)} s`, 30, 58);
-
-  p.textSize(INFO_PANEL_SECONDARY_TEXT_SIZE);
-  p.fill(200);
-  const aDir = a >= 0 ? "+" : "";
-  p.text(`加速度 a = ${aDir}${a.toFixed(1)} m/s²`, 30, 94);
+  p.textAlign(p.LEFT, p.CENTER);
+  p.textSize(22);
+  p.text(`速さ v = ${velocity.toFixed(1)} m/s`, 24, 34);
+  p.text(`経過時間 t = ${elapsed.toFixed(1)} s`, 24, 62);
+  p.textSize(18);
+  p.text(
+    `加速度 a = ${acceleration > 0 ? "+" : ""}${acceleration.toFixed(1)} m/s²`,
+    24,
+    90
+  );
+  p.textAlign(p.CENTER, p.CENTER);
+  p.textSize(14);
+  p.fill(0, 0, 0, 160);
+  p.text("← 負の向き　　正の向き →", V_W / 2, 20);
 };
