@@ -142,7 +142,7 @@ const canvasController = new BicpemaCanvasController({
 - **部品のまとめ管理**: `vite/ts/components/component-group.ts` の `ComponentGroup` が複数の `SimComponent` を束ね、`update()` / `draw(p)` / `reset()` / `dispose()` を一括で呼びます。コンストラクターに「一時停止中か」を返す関数を渡すと、一時停止中は `update()` をスキップして `draw(p)` のみ実行します（`new ComponentGroup(() => !isPlaying)` のように使います）。
 - **設定値の反映**: 設定パネルの値は、呼び出し側（`onChange` 等のハンドラー）が部品のプロパティへ直接代入します（例: `arrow.color = ...`）。イベントバスやリアクティブ化は行いません。
 - **配置場所**: 1ファイル1コンポーネント（ケバブケース）で `vite/ts/components/` に置きます。シミュレーション固有の部品は従来どおり各シミュレーションの `ts/class.ts` に置きます。
-- **提供済みの部品**: 矢印（`arrow.ts`）・点線（`dashed-line.ts`）・座標系（`coordinate-system.ts`、p5非依存の物理座標とピクセルの変換）。使用例は`npm run new:simulation`が生成するひな形の`ts/index.ts`にあります。再生・停止ボタンのバインディングは従来どおり `vite/ts/bicpema-controls-controller.ts` が担います。
+- **提供済みの部品**: 矢印（`arrow.ts`）・点線（`dashed-line.ts`）・座標系（`coordinate-system.ts`、p5非依存の物理座標とピクセルの変換）・Chart.jsのグラフ（`chart-line.ts`、[ChartLineの使い方](#chartlineの使い方)）。使用例は`npm run new:simulation`が生成するひな形の`ts/index.ts`にあります。再生・停止ボタンのバインディングは従来どおり `vite/ts/bicpema-controls-controller.ts` が担います。
 - **描画状態の規約**: 部品は描画の前後で`stroke`・`strokeWeight`・`fill`・`textSize`・`textAlign`などの描画状態を呼び出し側へ残さないよう、内部で`push()`/`pop()`により閉じます。呼び出し側は、部品の描画後に前の描画状態へ依存せず、必要な`stroke`/`fill`を自分で設定してください（例: 矢印の後にテキストを描く場合は`fill`を明示する）。
 - **関数とクラスの選び方**: 関数は、引数だけで描画が決まり、フレームをまたいで保持すべき状態がない場合に使います。クラスは、座標や色などを保持して更新・再描画する場合に使います。どちらの場合も上記の描画状態の規約に従います。
 - **既存シミュレーションの移行**: 一括移行はせず、修正するタイミングで段階的に移行します。移行済み: `force-decomposition` / `slope-force-decomposition` / `force-composition` / `archimedes-principle` / `three-force-equilibrium` / `velocity-composition` / `tate-yoko-wave`（矢印）。
@@ -222,6 +222,40 @@ const canvasController = new BicpemaCanvasController({
 1. 軸・目盛りは別部品として扱います（上記のとおり `axes.ts` / `grid.ts` を再利用）。Chart.js版は軸をChart.js自身が描くため、軸の共通化はp5版のみが対象です。
 
 **移行順の推奨**: 等加速度運動系（`free-fall` / `uniformly-accelerated-linear-motion` / `vertical-throw-down` / `slope-cart-motion` / `train-acceleration`）→ `cellophane-color-2` など → p5版（`elastic-force` → 温度グラフ2件）の順に、各部品のPRで1件以上を移行します。
+
+#### ChartLineの使い方
+
+`vite/ts/components/chart-line.ts` の `ChartLine` は、Chart.jsの折れ線・散布図を扱う `SimComponent` です（[Issue #855](https://github.com/Bicpema/bicpema/issues/855)）。
+
+- コンストラクターに canvas の ID（`canvasId`）・`type`（`scatter` / `line`、省略時は `scatter`）・軸設定（`axes`、複数軸可）・データセット設定（`datasets`）を渡します。`title`・`showLegend` も指定できます。
+- データ配列は参照渡しです。シミュレーション側で配列へ点を追加し、`update()` を呼ぶと `data` と `scales.*.max` だけを更新して `chart.update("none")` を呼びます（`destroy()` による再生成はしません）。
+- 軸に `maxRatio` を指定すると、`update()` のたびに最大値を「実データの最大値 × `maxRatio`」へ自動調整します（下限は `minMax`、省略時は初期の `max`）。2軸の場合は、データセットの `yAxisID` が一致する軸だけで最大値を求めます。
+- Chart.jsは `createLazyImporter` で遅延読み込みします。初回の `update()` で読み込みを始め、完了後にチャートを生成します。読み込みに失敗した場合は再試行せず、ログのみ出力します。
+- `reset()` はデータ配列を空にして軸の最大値を初期値へ戻し、`dispose()` はチャートを `destroy()` します。`draw(p)` は何もしません（Chart.js自身が描画するため）。
+- v-t / y-t のように複数の canvas が必要な場合は、`ChartLine` を canvas ごとに生成します。
+
+```ts
+const vtGraph = new ChartLine({
+    canvasId: "vtCanvas",
+    title: "v-t グラフ",
+    axes: [
+        { id: "x", direction: "x", title: "時間 t [s]", max: 5 },
+        {
+            id: "y",
+            direction: "y",
+            title: "速度 v [m/s]",
+            color: "rgb(220, 60, 60)",
+            max: 10,
+            maxRatio: 1.2
+        }
+    ],
+    datasets: [
+        { label: "速度 v (m/s)", color: "rgb(220, 60, 60)", data: vtData }
+    ]
+});
+// 毎フレーム（再生中のみ）
+vtGraph.update();
+```
 
 #### 重複定義の検査
 
