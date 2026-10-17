@@ -31,9 +31,6 @@ export function elCreate(p: p5) {
 export function initValue(p: p5) {
   p.frameRate(FPS);
   p.textAlign(p.CENTER, p.CENTER);
-  if (state.font) {
-    p.textFont(state.font);
-  }
   p.textSize(LABEL_FONT_SIZE);
   syncUIFromState();
 }

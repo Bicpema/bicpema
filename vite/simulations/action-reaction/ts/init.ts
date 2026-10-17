@@ -22,7 +22,6 @@ const DIM_ALPHA = 70;
  */
 export function settingInit(p: p5): void {
   p.frameRate(FPS);
-  p.textFont("sans-serif");
 }
 
 /**

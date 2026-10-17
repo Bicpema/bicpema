@@ -5,12 +5,11 @@ import { bindStartStopControls } from "../../../ts/bicpema-controls-controller.j
 export const FPS = 30;
 
 /**
- * フレームレートとフォントを設定する。
+ * フレームレートを設定する。
  * @param p - p5インスタンス
  */
 export function settingInit(p: p5) {
   p.frameRate(FPS);
-  p.textFont("sans-serif");
 }
 
 /**

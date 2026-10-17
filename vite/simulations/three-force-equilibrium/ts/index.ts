@@ -16,21 +16,11 @@ import { startDrag, updateDrag, stopDrag } from "./element-function.js";
 const sketch = (p: p5) => {
   const canvasController = new BicpemaCanvasController();
 
-  /** キャンバスとDOM要素を生成して初期値を設定し、フォントを非同期で読み込む。 */
+  /** キャンバスとDOM要素を生成して初期値を設定する。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
     initValue(p);
-    // Firebase Storage が到達不能でもブロックしないよう setup 内で非同期読み込み
-    p.loadFont(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
-      (f: p5.Font) => {
-        state.font = f;
-      },
-      () => {
-        state.font = null;
-      }
-    );
   };
 
   let isFirstDraw = true;

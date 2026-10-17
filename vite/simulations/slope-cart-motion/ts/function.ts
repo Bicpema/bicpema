@@ -366,7 +366,7 @@ export function drawInfoPanel(p: p5, cart: SlopeCart) {
     p.textSize(INFO_PANEL_VALUE_SIZE);
     p.text(value, valueRightX, centerY);
     p.textStyle(p.NORMAL);
-    if (state.font) p.textFont(state.font);
+    p.textFont("sans-serif");
 
     // 単位
     p.fill(INFO_PANEL_MUTED_COLOR);

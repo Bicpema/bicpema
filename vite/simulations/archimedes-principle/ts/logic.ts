@@ -74,7 +74,6 @@ function drawLabeledArrow(
   if (label) {
     p.noStroke();
     p.fill(col[0], col[1], col[2]);
-    p.textFont("sans-serif");
     p.textSize(ARROW_LABEL_FONT_SIZE);
     p.textAlign(lAlignH ?? p.CENTER, p.CENTER);
     p.text(label, lx ?? (x1 + x2) / 2, ly ?? (y1 + y2) / 2);
