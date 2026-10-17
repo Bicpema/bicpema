@@ -191,6 +191,38 @@ const canvasController = new BicpemaCanvasController({
 
 見た目の統一が必要になった場合は、`@layer components`へのクラス追加を先に検討してください。
 
+#### グラフ描画の共通コンポーネント化の設計（推奨案）
+
+[Issue #847](https://github.com/Bicpema/bicpema/issues/847) で `graph.ts` / `drawGraph` の差分を調査した結果と、推奨する設計です。実装は後続Issueで行います。
+
+**調査結果**
+
+- Chart.js版は、`getCanvasElement` → `createLazyImporter`（遅延読み込み）→ `new Chart(ctx, { type: "scatter" | "line", ... })` の骨格が共通です。差分は主に次の4点です。
+    - 描画方式: `free-fall` / `uniformly-accelerated-linear-motion` / `slope-cart-motion` / `train-acceleration` / `cellophane-color-2` は更新のたびに `destroy()` して作り直す方式、`vertical-throw-down` は `Chart` を使い回して `data` と `scales.*.max` だけを更新する方式（`update("none")`）です。
+    - 軸: `free-fall` は左右2軸（`y` と `y1`）、`vertical-throw-down` は v-t / y-t の2つのcanvas、他は1軸です。
+    - 軸の最大値: 実データの最大値に倍率（1.05〜1.2）や余白（0.5秒）を掛けるルールが、シミュレーションごとに少しずつ異なります。
+    - 固定の見た目: 凡例・タイトル・フォントサイズ・`animation: false`・`maintainAspectRatio: false` はほぼ同じです。
+- 参考に `cellophane` は `line` 型で2つのグラフ、`spring` は `line` 型でばね1・ばね2の2つのグラフ（`logic.ts` 内に定義）を持ち、`graph.ts` の構造とは異なります。
+- p5版の `drawGraph` のうち `cellophane-color-2` / `cellophane-color-2d-animation` は、実際にはp5ではなくChart.js（スペクトル）の描画です。p5で描いているのは `elastic-force`（直線 F = kx、固定レンジ±50）と、`conservation-of-heat-and-specific-heat` / `visualization-of-heat-transfer`（温度の時間変化）の3件のみです。
+- p5版は背景矩形・グリッド・軸・目盛り・凡例・データ線を直接ピクセル座標で書いており、座標変換（`p.map` や `pxPerCm`）と軸・グリッドの描画がグラフごとに重複しています。これは `CoordinateSystem`・`drawGrid`・`drawAxes` で置き換えられる範囲です。
+
+**採用する設計**
+
+1. Chart.js版とp5版は統合しません。描画エンジン・更新方法・サイズ指定が異なり、1つのインターフェースにするとオプションが肥大化するためです。
+1. Chart.js版は `components/chart-line.ts`（仮称）に切り出します。
+    - 形: 状態を持つためクラス（`ChartLine`）とします。コンストラクターで canvas の ID・`type`・軸設定（軸ID・タイトル・色・初期の最大値）・データセット設定（ラベル・色・データ配列の参照）を受け取ります。
+    - メソッド: `setData` 相当は不要で、データ配列を参照渡しにして `update()` で `data` の再設定と `scales.*.max` の自動調整（実データの最大値 × 倍率）を行います。`draw(p)` は何もしません（Chart.js自身が描画するため）。`reset()` でデータを空に戻し、`dispose()` で `destroy()` します。
+    - `update()` は `chart.update("none")` を使い、`destroy()` → 再生成はしません（`vertical-throw-down` の方式に揃え、毎フレームの生成物を避ける[パフォーマンス方針](#パフォーマンス方針)に合わせます）。
+    - 遅延読み込みは `createLazyImporter` を内部で使い、失敗後に再試行しないフラグも部品側で持ちます。
+    - `SimComponent` に載せます。ただし Chart.js は p5 の描画ループの外で描くため、`draw(p)` は空とし、`ComponentGroup` へ入れるかは任意です（一時停止中の `update()` 抑制を一括管理したいときに入れます）。
+    - 2軸（`free-fall`）は軸設定を複数渡せる形で対応し、v-t / y-t のように複数canvasが必要な場合は、`ChartLine` を2つ生成して扱います。
+1. p5版は、まず `CoordinateSystem`・`drawGrid`・`drawAxes`（提供済み）への移行を優先します。グラフ特有の部分だけを `components/plot-area.ts`（仮称）として関数で切り出します。
+    - 範囲: 背景矩形、目盛りの値ラベル、軸ラベル、凡例、折れ線（`drawPolyline` 相当）。
+    - 形: 状態を持たない関数（`drawPlotArea(p, cs, style)` など）とし、`SimComponent` には載せません。データ点の配列を受け取って線を引くだけで、毎フレームの更新は呼び出し側のシミュレーションが行います。
+1. 軸・目盛りは別部品として扱います（上記のとおり `axes.ts` / `grid.ts` を再利用）。Chart.js版は軸をChart.js自身が描くため、軸の共通化はp5版のみが対象です。
+
+**移行順の推奨**: 等加速度運動系（`free-fall` / `uniformly-accelerated-linear-motion` / `vertical-throw-down` / `slope-cart-motion` / `train-acceleration`）→ `cellophane-color-2` など → p5版（`elastic-force` → 温度グラフ2件）の順に、各部品のPRで1件以上を移行します。
+
 #### 重複定義の検査
 
 `npm run check:duplicate-components`（CIの`check-duplicate-components.yml`でも実行）が、`vite/simulations/` 内で `drawArrow` / `drawArrowWithLabel` / `drawDashed` / `drawDashedLine` を独自に定義していないかを検査します。未移行の既存分は `scripts/duplicate-components-allowlist.json` に `シミュレーション名:関数名` 形式で登録します（現在は全件移行済みで空です）。新しい重複はCIで失敗し、移行して解消済みなのに許可リストへ残っているエントリも失敗するため、移行時は許可リストから削除してください。検査対象の関数名を増やす場合は `scripts/_lib/checkDuplicateComponents.js` の `COMPONENT_FUNCTION_NAMES` に追加します。
