@@ -108,7 +108,7 @@ npm run build
 シミュレーションの実装方法・開発フロー・テスト方針などの開発者向けドキュメントを[`docs/`](./docs/)（[Zensical](https://zensical.org/)）で管理している。Markdownは[`docs/docs/`](./docs/docs/)にあり、GitHub上でもそのまま読める。ローカルで閲覧する場合は以下を実行し、<http://localhost:8000/>を開く。
 
 ```bash
-pip install zensical
+pip install -r requirements-dev.txt
 cd docs
 zensical serve
 ```
