@@ -169,6 +169,19 @@ const canvasController = new BicpemaCanvasController({
 | ボタンのマークアップ         | 再生・リセットボタンのHTML（Tailwindクラス）が各`index.html`にコピーされている                                                                                                                                                                                                | `<bicpema-*>`タグ（`vite/_build/bicpemaComponents.js`）として共通化する案                 | 調査済み。共通化しない（[判断](#再生リセットボタンのマークアップの共通化判断)を参照）                                                                                                                                                                                                                                                                                                                                                                                              |
 | 初期化・イベントハンドラー群 | `drawSimulation`（30件）、`elCreate`（29件）、`initValue`（27件）、`settingInit`（15件）、`onReset`（13件）、`onPlayPause`（11件）などが同名で各シミュレーションに存在する                                                                                                    | 中身はシミュレーション固有のため、共通化の対象外（ひな形の構成で揃っている）              | 対象外                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
 
+#### p5版グラフの軸を`drawAxes`へ統合する判断
+
+[Issue #870](https://github.com/Bicpema/bicpema/issues/870)で、`conservation-of-heat-and-specific-heat` / `visualization-of-heat-transfer`のL字軸・三角形の矢印を`drawAxes`で置き換えられるかを調べた結果です。結論は**見送り（`axes.ts`は変更しない）**です。
+
+| 観点               | 調査結果                                                                                                                                                                                                                 |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| L字の配置          | `drawAxes`の原点（グラフ左下）と`extent`で表せるため、問題ありません                                                                                                                                                     |
+| 矢印の頭の大きさ   | 両軸で違います。`conservation-of-heat-and-specific-heat`はY軸が長さ16・半幅8、X軸が長さ21・半幅7、`visualization-of-heat-transfer`はY軸が長さ7・半幅3、X軸が長さ9・半幅3です。`drawAxes`は両軸で同じ`headSize`を使います |
+| 頭の輪郭と線の太さ | `conservation-of-heat-and-specific-heat`は線幅2の黒い輪郭付きの三角形で、`drawArrow`の輪郭なしの頭より約1px大きくなります。`visualization-of-heat-transfer`は線幅1です                                                   |
+| `drawGraph`の削除  | 軸を移行しても、背景・凡例・目盛り・データ線を描く`drawGraph`は残るため、許可リストからは外せません                                                                                                                      |
+
+見た目を保つには軸別の頭サイズ・輪郭のオプションが必要で、軸だけのために`drawAxes`のオプションを増やす効果は小さいと判断しました。許可リストから外すには`drawPlotArea`で背景・グリッド・軸をまとめて置き換える必要があり、その際に見た目の差（約1pxの頭の大きさなど）を許容して統合する方針とします。
+
 #### 再生・リセットボタンのマークアップの共通化判断
 
 [Issue #848](https://github.com/Bicpema/bicpema/issues/848)（2026-10-17時点）の調査結果です。`vite/simulations/`（45件）のうち、リセットボタンを持つのは27件です。
