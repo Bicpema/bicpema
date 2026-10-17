@@ -1,0 +1,5 @@
+---
+rules:
+  # actionlintが`$/...`記法に未対応で、`./...`との両立ができないため、ローカルのcomposite action参照（`./...`）を許容する。
+  self-repository:
+    disable: true
