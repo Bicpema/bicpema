@@ -33,7 +33,7 @@ jobs:
           persist-credentials: false
 
       - name: Node.jsのセットアップと依存パッケージのインストール
-        uses: $/.github/actions/setup-node-deps
+        uses: ./.github/actions/setup-node-deps
 
       - name: Markdownのリントチェック
         run: npm run lint:md

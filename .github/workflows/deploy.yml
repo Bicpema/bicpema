@@ -24,7 +24,7 @@ jobs:
           persist-credentials: false
 
       - name: Node.jsのセットアップと依存パッケージのインストール
-        uses: $/.github/actions/setup-node-deps
+        uses: ./.github/actions/setup-node-deps
 
       - name: リント
         run: npm run lint
@@ -68,7 +68,7 @@ jobs:
           extended: true
 
       - name: Node.jsのセットアップと依存パッケージのインストール
-        uses: $/.github/actions/setup-node-deps
+        uses: ./.github/actions/setup-node-deps
 
       - name: Viteのビルド
         run: npm run build
