@@ -45,7 +45,7 @@ export function onReset() {
   const boatSpeed = parseFloat(String(state.boatSpeedInput.value()));
   const riverSpeed = parseFloat(String(state.riverSpeedInput.value()));
   state.boat.reset(boatSpeed, riverSpeed);
-  if (state.playPauseButton) state.playPauseButton.html("開始");
+  if (state.playPauseButton) state.playPauseButton.html("▶ 開始");
 }
 
 /**
@@ -55,9 +55,9 @@ export function onPlayPause() {
   if (!state.boat || !state.playPauseButton) return;
   if (state.boat.isMoving) {
     state.boat.isMoving = false;
-    state.playPauseButton.html("再開");
+    state.playPauseButton.html("▶ 再開");
   } else {
     state.boat.isMoving = true;
-    state.playPauseButton.html("一時停止");
+    state.playPauseButton.html("⏸ 一時停止");
   }
 }
