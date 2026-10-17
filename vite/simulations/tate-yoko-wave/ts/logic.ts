@@ -1,4 +1,6 @@
 import { drawArrow as drawSharedArrow } from "../../../ts/components/arrow.js";
+import { drawAxes } from "../../../ts/components/axes.js";
+import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
 import { state } from "./state.js";
 import { computeWaveDisplacement, computeArrivalTime } from "./physics.js";
 import {
@@ -11,6 +13,11 @@ import {
   FOCUS_ORIGIN_COLOR,
   ARROW_COLOR
 } from "./constants.js";
+
+/** 横軸の原点（`translate`済みの座標系で、軸の始点をX方向のみずらした位置）を表す座標系 */
+const AXIS_COORDINATE_SYSTEM = new CoordinateSystem({
+  originX: AXIS_RIGHT_MARGIN
+});
 
 /**
  * 現在時刻における、つり合いの位置x0の媒質の変位を計算します。
@@ -50,22 +57,20 @@ function drawArrow(p: p5, x1: number, y1: number, x2: number, y2: number) {
  * @param title - 軸に表示するタイトル
  */
 function drawAxis(p: p5, title: string) {
-  p.stroke(0);
-  p.strokeWeight(1);
-  p.line(AXIS_RIGHT_MARGIN, 0, p.width - AXIS_RIGHT_MARGIN, 0);
-  p.fill(0);
-  p.triangle(
-    p.width - AXIS_RIGHT_MARGIN,
-    0,
-    p.width - AXIS_RIGHT_MARGIN - ARROW_LENGTH,
-    -4,
-    p.width - AXIS_RIGHT_MARGIN - ARROW_LENGTH,
-    4
-  );
+  drawAxes(p, AXIS_COORDINATE_SYSTEM, {
+    showYAxis: false,
+    extent: { right: p.width - AXIS_RIGHT_MARGIN },
+    weight: 1,
+    headSize: ARROW_LENGTH,
+    headWidthDivisor: ARROW_LENGTH / 4
+  });
+  p.push();
   p.noStroke();
+  p.fill(0);
   p.textSize(20);
   p.textAlign(p.LEFT, p.BOTTOM);
   p.text(title, WAVE_ORIGIN_X, -60);
+  p.pop();
 }
 
 /**

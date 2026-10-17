@@ -3,6 +3,8 @@ import {
   drawArrow as drawSharedArrow,
   drawArrowWithLabel as drawSharedArrowWithLabel
 } from "../../../ts/components/arrow.js";
+import { drawAxes } from "../../../ts/components/axes.js";
+import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
 import { state } from "./state.js";
 import {
   V_W,
@@ -19,6 +21,12 @@ import {
   computeForceMagnitude,
   computeForceAngleDeg
 } from "./physics.js";
+
+/** 軸の原点を表す座標系 */
+const COORDINATE_SYSTEM = new CoordinateSystem({
+  originX: ORIGIN_X,
+  originY: ORIGIN_Y
+});
 
 /**
  * 矢印を描画する。
@@ -111,62 +119,17 @@ export function drawGrid(p: p5) {
     p.line(0, y, V_W, y);
   }
 
-  // X/Y 軸（黒色矢印、両方向）
-  const axisColor = p.color(0);
-  const axisWeight = 2;
-  const axisHeadSize = 10;
-  drawArrow(
-    p,
-    ORIGIN_X,
-    ORIGIN_Y,
-    V_W - 10,
-    ORIGIN_Y,
-    axisColor,
-    axisWeight,
-    axisHeadSize
-  );
-  drawArrow(
-    p,
-    ORIGIN_X,
-    ORIGIN_Y,
-    10,
-    ORIGIN_Y,
-    axisColor,
-    axisWeight,
-    axisHeadSize
-  );
-  drawArrow(
-    p,
-    ORIGIN_X,
-    ORIGIN_Y,
-    ORIGIN_X,
-    10,
-    axisColor,
-    axisWeight,
-    axisHeadSize
-  );
-  drawArrow(
-    p,
-    ORIGIN_X,
-    ORIGIN_Y,
-    ORIGIN_X,
-    V_H - 10,
-    axisColor,
-    axisWeight,
-    axisHeadSize
-  );
-
-  // 軸ラベル
-  p.noStroke();
-  p.fill(0);
-  p.textSize(AXIS_LABEL_FONT_SIZE);
-  p.textAlign(p.CENTER, p.CENTER);
-  p.text("x", V_W - 8, ORIGIN_Y + 20);
-  p.text("y", ORIGIN_X - 20, 10);
-
-  // 原点ラベル「O」
-  p.textSize(LABEL_FONT_SIZE);
-  p.text("O", ORIGIN_X - 14, ORIGIN_Y + 14);
+  // X/Y 軸（黒色矢印、両方向）と原点ラベル
+  drawAxes(p, COORDINATE_SYSTEM, {
+    xLabel: "x",
+    yLabel: "y",
+    originLabel: "O",
+    bothDirections: true,
+    extent: { left: 10, right: V_W - 10, top: 10, bottom: V_H - 10 },
+    labelFontSize: AXIS_LABEL_FONT_SIZE,
+    originLabelFontSize: LABEL_FONT_SIZE,
+    headWidthDivisor: 2.5
+  });
 }
 
 /**

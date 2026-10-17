@@ -1,4 +1,6 @@
 import { drawArrow as drawSharedArrow } from "../../../ts/components/arrow.js";
+import { drawAxes } from "../../../ts/components/axes.js";
+import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
 import { drawDashedLine } from "../../../ts/components/dashed-line.js";
 import { state } from "./state.js";
 import {
@@ -13,6 +15,12 @@ import {
   AXIS_LABEL_FONT_SIZE
 } from "./constants.js";
 import { decomposeForce } from "./physics.js";
+
+/** 軸の原点を表す座標系 */
+const COORDINATE_SYSTEM = new CoordinateSystem({
+  originX: ORIGIN_X,
+  originY: ORIGIN_Y
+});
 
 // ── 共通ユーティリティ ──────────────────────────────────────────────
 
@@ -65,7 +73,17 @@ function drawLabel(
 export function drawXYScene(p: p5) {
   p.background(255, 255, 255);
   drawGrid(p);
-  drawAxes(p, ORIGIN_X, ORIGIN_Y);
+  drawAxes(p, COORDINATE_SYSTEM, {
+    xLabel: "x",
+    yLabel: "y",
+    originLabel: "O",
+    bothDirections: true,
+    extent: { left: 10, right: V_W - 10, top: 10, bottom: V_H - 10 },
+    labelFontSize: AXIS_LABEL_FONT_SIZE,
+    originLabelFontSize: LABEL_FONT_SIZE,
+    headSize: 12,
+    headWidthDivisor: 2.2
+  });
 
   const F = state.forceMag * FORCE_SCALE;
   const { x: Fx, y: Fy } = decomposeForce(F, state.forceAngle); // y軸反転（下が正）
@@ -136,33 +154,6 @@ function drawGrid(p: p5) {
   for (let y = ORIGIN_Y - GRID_STEP; y >= 0; y -= GRID_STEP) {
     p.line(0, y, V_W, y);
   }
-}
-
-/**
- * X・Y軸を描画する。
- * @param p -
- * @param ox - 原点X
- * @param oy - 原点Y
- */
-function drawAxes(p: p5, ox: number, oy: number) {
-  const axisColor = p.color(0);
-  const axisWeight = 2;
-  drawArrow(p, ox, oy, V_W - 10, oy, axisColor, axisWeight);
-  drawArrow(p, ox, oy, 10, oy, axisColor, axisWeight);
-  drawArrow(p, ox, oy, ox, 10, axisColor, axisWeight);
-  drawArrow(p, ox, oy, ox, V_H - 10, axisColor, axisWeight);
-
-  // 軸ラベル
-  p.noStroke();
-  p.fill(0);
-  p.textSize(AXIS_LABEL_FONT_SIZE);
-  p.textAlign(p.CENTER, p.CENTER);
-  p.text("x", V_W - 8, oy + 20);
-  p.text("y", ox - 20, 10);
-
-  // 原点ラベル『O』
-  p.textSize(LABEL_FONT_SIZE);
-  p.text("O", ox - 14, oy + 14);
 }
 
 /**
