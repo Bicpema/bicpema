@@ -34,6 +34,13 @@ npm run new:simulation
 
 実行後、`vite/simulations/doppler/` に基本テンプレートが生成されます。
 
+生成された `ts/index.ts` には、共通コンポーネント（`vite/ts/components/`）の使用例が含まれており、ビルドするとサンプルの矢印・点線が表示されます。
+
+- `Arrow`（`SimComponent`）: `update()` / `draw(p)` で更新・描画する、状態を持つ矢印
+- `drawDashedLine` / `drawArrowWithLabel`: 状態を持たない描画関数
+
+実装を始める際は、`index.ts` 内の「共通コンポーネントの使用例」ブロックと `demoArrow` を削除し、必要な部品に置き換えてください。
+
 ## 実装パターン
 
 シミュレーションには **2 つの実装パターン** がありますが、[Issue #512](https://github.com/Bicpema/bicpema/issues/512) により **パターン A（p5 インスタンスモード）に統一する方針** が決定しています。新規シミュレーションは必ずパターン A で実装してください。
@@ -134,7 +141,7 @@ const canvasController = new BicpemaCanvasController({
 - **共通インターフェース**: `vite/ts/components/sim-component.ts` の `SimComponent`（`update()` で状態更新、`draw(p)` で描画）。一時停止中は `update()` を呼ばず `draw(p)` のみ呼ぶことで、[パフォーマンス方針](#パフォーマンス方針)の描画抑制に沿えます。
 - **配置場所**: 1ファイル1コンポーネント（ケバブケース）で `vite/ts/components/` に置きます。シミュレーション固有の部品は従来どおり各シミュレーションの `ts/class.ts` に置きます。
 - **関数とクラスの使い分け**: 状態を持たない描画は関数（例: `drawArrow`）、状態を持ち毎フレーム更新するものは `SimComponent` を実装するクラス（例: `Arrow`）で提供します。
-- **提供済みの部品**: 矢印（`arrow.ts`）。再生・停止ボタンのバインディングは従来どおり `vite/ts/bicpema-controls-controller.ts` が担います。
+- **提供済みの部品**: 矢印（`arrow.ts`）・点線（`dashed-line.ts`）。使用例は`npm run new:simulation`が生成するひな形の`ts/index.ts`にあります。再生・停止ボタンのバインディングは従来どおり `vite/ts/bicpema-controls-controller.ts` が担います。
 - **既存シミュレーションの移行**: 一括移行はせず、修正するタイミングで段階的に移行します。移行済み: `force-decomposition` / `slope-force-decomposition`。
 - **Storybook**: UI部品の確認用に導入しています（`@storybook/html-vite`）。`npm run storybook` で起動し（`http://localhost:6006`）、`npm run build:storybook` で静的ビルドします。設定は `.storybook/`、storiesはシミュレーションのビルド対象（`vite/`）に混ざらないよう、リポジトリ直下の `stories/` に `*.stories.js` として置きます。
     - `.storybook/preview.js` で `vite/css/tailwind.css` を読み込み、本番と同じ見た目で確認できます。
