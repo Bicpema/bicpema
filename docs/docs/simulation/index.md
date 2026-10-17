@@ -140,7 +140,7 @@ const canvasController = new BicpemaCanvasController({
     - `.storybook/preview.js` で `vite/css/tailwind.css` を読み込み、本番と同じ見た目で確認できます。
     - `.storybook/main.js` の `viteFinal` で、Viteのroot（`./vite`）をリポジトリ直下に戻し、Tailwindのプラグインを追加しています。
     - storiesから `?bicpema` 付きでimportしたHTML（例: `import html from "./settings-modal.html?bicpema"`）は、`<bicpema-*>` タグがシミュレーションのビルドと同じ処理で展開されます。
-    - 現在のstoriesは再生・リセットボタンと設定ボタン・設定モーダルです。p5の描画部品は、必要になった時点で追加します（p5を使うstoryは、切り替え時に `p.remove()` で後始末するデコレーターを共通化してください）。
+    - 現在のstoriesは再生・リセットボタン、設定ボタン・設定モーダル、矢印（`Arrow`）です。p5を使うstoryは `stories/p5-decorator.js` の `createP5Story()` で作成してください。storyの切り替え（要素の取り外し）時に `p.remove()` で後始末されます。
     - CIは `.github/workflows/storybook.yml` でパスフィルター付きのビルド検査を行います。
 
 ### パターン B — グローバルモード（旧実装・移行対象）
