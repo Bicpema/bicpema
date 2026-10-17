@@ -10,7 +10,8 @@ const indexTs = readFileSync(
 describe("シミュレーションのひな形（ts/index.ts）", () => {
   it.each([
     "../../../ts/components/arrow.js",
-    "../../../ts/components/dashed-line.js"
+    "../../../ts/components/dashed-line.js",
+    "../../../ts/components/component-group.js"
   ])("共通コンポーネント（%s）をimportしている", (path) => {
     expect(indexTs).toContain(`from "${path}"`);
   });
@@ -19,5 +20,6 @@ describe("シミュレーションのひな形（ts/index.ts）", () => {
     expect(indexTs).toContain("new Arrow(");
     expect(indexTs).toContain("drawDashedLine(");
     expect(indexTs).toContain("drawArrowWithLabel(");
+    expect(indexTs).toContain("new ComponentGroup(");
   });
 });

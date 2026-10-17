@@ -105,6 +105,13 @@ export function drawArrowWithLabel(
  * 座標を毎フレーム書き換える使い方（ドラッグ操作など）を想定している。
  */
 export class Arrow implements SimComponent {
+  private readonly initial: {
+    fromX: number;
+    fromY: number;
+    toX: number;
+    toY: number;
+  };
+
   /**
    * @param fromX - 始点のX座標
    * @param fromY - 始点のY座標
@@ -120,7 +127,9 @@ export class Arrow implements SimComponent {
     public toY = 0,
     public color: p5.Color | null = null,
     public style: ArrowStyle = {}
-  ) {}
+  ) {
+    this.initial = { fromX, fromY, toX, toY };
+  }
 
   /** 始点と終点を設定する */
   set(fromX: number, fromY: number, toX: number, toY: number): void {
@@ -133,6 +142,17 @@ export class Arrow implements SimComponent {
   /** 矢印は自発的に状態を変えないため何もしない（SimComponentの要件を満たすためのメソッド） */
   // oxlint-disable-next-line class-methods-use-this
   update(): void {}
+
+  /** 始点と終点をコンストラクターで指定した値に戻す（色と見た目は変更しない） */
+  reset(): void {
+    const { fromX, fromY, toX, toY } = this.initial;
+    this.set(fromX, fromY, toX, toY);
+  }
+
+  /** 色の参照を手放す。以降は色を再設定するまで描画しない */
+  dispose(): void {
+    this.color = null;
+  }
 
   /**
    * 矢印を描画する。
