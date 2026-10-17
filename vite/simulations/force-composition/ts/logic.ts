@@ -1,6 +1,7 @@
 import { drawDashedLine } from "../../../ts/components/dashed-line.js";
 import { drawArrowWithLabel } from "../../../ts/components/arrow.js";
 import { drawAxes } from "../../../ts/components/axes.js";
+import { drawGrid } from "../../../ts/components/grid.js";
 import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
 import { state } from "./state.js";
 import {
@@ -35,22 +36,16 @@ const ARROW_STYLE = {
 const DASHED_STYLE = { dashLength: 10 };
 
 /**
- * グリッドを描画する。
+ * グリッドと座標軸を描画する。
  * @param p - p5インスタンス
  */
-export function drawGrid(p: p5) {
-  p.strokeWeight(1);
-  p.stroke(168, 206, 221);
-
+export function drawGridAndAxes(p: p5) {
   // 中心(ORIGIN)を起点に外側へグリッド線を引く
-  for (let x = ORIGIN_X; x <= V_W; x += GRID_STEP) p.line(x, 0, x, V_H);
-  for (let x = ORIGIN_X - GRID_STEP; x >= 0; x -= GRID_STEP) {
-    p.line(x, 0, x, V_H);
-  }
-  for (let y = ORIGIN_Y; y <= V_H; y += GRID_STEP) p.line(0, y, V_W, y);
-  for (let y = ORIGIN_Y - GRID_STEP; y >= 0; y -= GRID_STEP) {
-    p.line(0, y, V_W, y);
-  }
+  drawGrid(p, COORDINATE_SYSTEM, {
+    stepX: GRID_STEP,
+    stepY: GRID_STEP,
+    bounds: { left: 0, top: 0, right: V_W, bottom: V_H }
+  });
 
   // X/Y 軸（黒色矢印、両方向）と原点ラベル
   drawAxes(p, COORDINATE_SYSTEM, {
@@ -151,7 +146,7 @@ export function drawInfoPanel(
  */
 export function drawScene(p: p5) {
   p.background(255, 255, 255);
-  drawGrid(p);
+  drawGridAndAxes(p);
 
   const f1x = state.f1TipX;
   const f1y = state.f1TipY;
