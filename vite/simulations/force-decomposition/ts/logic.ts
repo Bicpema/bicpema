@@ -1,3 +1,7 @@
+import {
+  drawInfoPanel as drawInfoPanelComponent,
+  INFO_PANEL_STYLE
+} from "../../../ts/components/info-panel.js";
 import { drawArrow } from "../../../ts/components/arrow.js";
 import { drawAxes } from "../../../ts/components/axes.js";
 import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
@@ -209,57 +213,39 @@ function drawXYInfoPanel(p: p5, Fx: number, Fy: number) {
   const fxN = Fx / FORCE_SCALE;
   const fyN = -Fy / FORCE_SCALE; // 物理のy（上正）
   const fN = state.forceMag;
-  const θStr = `${state.forceAngle.toFixed(1)}°`;
 
-  const panelW = 248;
-  const panelH = 118;
-  const panelX = V_W - panelW - 10;
-  const panelY = V_H - panelH - 10;
-
-  p.fill(255);
-  p.stroke(0);
-  p.strokeWeight(1.5);
-  p.rect(panelX, panelY, panelW, panelH, 8);
-
-  const colLabel = panelX + 16;
-  const colMag = panelX + panelW - 86;
-  const colAngle = panelX + panelW - 14;
-  const cy1 = panelY + 24; // F
-  const divY = panelY + 44; // 区切り線（F と Fx の間）
-  const cy2 = panelY + 68; // Fx
-  const cy3 = panelY + 96; // Fy
-
-  // 区切り線（F と Fx の間）— テキストより先に描いて文字が前面に
-  p.stroke(0, 60);
-  p.strokeWeight(1);
-  p.line(colLabel, divY, panelX + panelW - 16, divY);
-  p.noStroke();
-
-  p.textSize(14);
-
-  // F
-  p.fill(0);
-  p.textAlign(p.LEFT, p.CENTER);
-  p.text("F", colLabel, cy1);
-  p.textAlign(p.RIGHT, p.CENTER);
-  p.text(`${fN.toFixed(1)} N`, colMag, cy1);
-  p.text(θStr, colAngle, cy1);
-
-  // Fx
-  p.fill(220, 50, 50);
-  p.textAlign(p.LEFT, p.CENTER);
-  p.text("Fx", colLabel, cy2);
-  p.textAlign(p.RIGHT, p.CENTER);
-  p.text(`${fxN.toFixed(1)} N`, colMag, cy2);
-
-  // Fy
-  p.fill(50, 100, 220);
-  p.textAlign(p.LEFT, p.CENTER);
-  p.text("Fy", colLabel, cy3);
-  p.textAlign(p.RIGHT, p.CENTER);
-  p.text(`${fyN.toFixed(1)} N`, colMag, cy3);
-
-  p.textAlign(p.CENTER, p.CENTER);
+  drawInfoPanelComponent(
+    p,
+    [
+      {
+        label: "F",
+        value: fN.toFixed(1),
+        unit: "N",
+        secondValue: state.forceAngle.toFixed(1),
+        secondUnit: "°"
+      },
+      {
+        label: "Fx",
+        value: fxN.toFixed(1),
+        unit: "N",
+        color: "rgb(220, 50, 50)",
+        dividerAbove: true
+      },
+      {
+        label: "Fy",
+        value: fyN.toFixed(1),
+        unit: "N",
+        color: "rgb(50, 100, 220)"
+      }
+    ],
+    {
+      x: V_W - INFO_PANEL_STYLE.margin,
+      y: V_H - INFO_PANEL_STYLE.margin,
+      anchorX: "right",
+      anchorY: "bottom",
+      labelWidth: 50
+    }
+  );
 }
 
 /**

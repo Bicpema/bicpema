@@ -18,50 +18,43 @@
       <!-- 情報パネル（HTML 表示） -->
       <div
         id="infoPanel"
-        class="absolute top-2.5 left-2.5 z-[1000] w-[360px] rounded-[9px] border-2 border-[rgba(0,0,0,0.12)] bg-white/98 px-3.5 py-3 text-[#222] shadow-[0_8px_20px_rgba(0,0,0,0.25)]"
+        class="info-panel absolute top-2.5 left-2.5 z-[1000] w-[340px]"
         role="region"
         aria-label="情報パネル"
       >
-        <div class="mb-1.5 flex items-baseline justify-between gap-2">
-          <span class="text-sm text-[#333]">質量 m = </span
-          ><span id="info-mass" class="text-[15px] font-bold text-[#111]"
-            >0.5 kg</span
-          >
+        <div class="info-panel-row">
+          <span class="info-panel-label">質量 m</span>
+          <span id="info-mass" class="info-panel-value">0.5</span>
+          <span class="info-panel-unit">kg</span>
         </div>
-        <div class="mb-1.5 flex items-baseline justify-between gap-2">
-          <span class="text-sm text-[#333]">初速度 v₀ = </span
-          ><span id="info-v0" class="text-[15px] font-bold text-[#111]"
-            >2.0 m/s</span
-          >
+        <div class="info-panel-row">
+          <span class="info-panel-label">初速度 v₀</span>
+          <span id="info-v0" class="info-panel-value">2.0</span>
+          <span class="info-panel-unit">m/s</span>
         </div>
-        <div class="mb-1.5 flex items-baseline justify-between gap-2">
-          <span class="text-sm text-[#333]">抵抗力 F = </span
-          ><span id="info-F" class="text-[15px] font-bold text-[#111]"
-            >5 N</span
-          >
+        <div class="info-panel-row">
+          <span class="info-panel-label">抵抗力 F</span>
+          <span id="info-F" class="info-panel-value">5</span>
+          <span class="info-panel-unit">N</span>
         </div>
-        <hr />
-        <div class="mb-1.5 flex items-baseline justify-between gap-2">
-          <span class="text-sm text-[#333]">初期運動エネルギー KE₀ = </span
-          ><span id="info-ke0" class="text-[15px] font-bold text-[#111]"
-            >0.000 J</span
-          >
+        <div class="info-panel-row info-panel-row-divided">
+          <span class="info-panel-label">初期運動エネルギー KE₀</span>
+          <span id="info-ke0" class="info-panel-value">0.000</span>
+          <span class="info-panel-unit">J</span>
         </div>
-        <div class="mb-1.5 flex items-baseline justify-between gap-2">
-          <span class="text-sm text-[#333]">めり込み距離 d = </span
-          ><span id="info-d" class="text-[15px] font-bold text-[#111]"
-            >0.000 m</span
-          >
+        <div class="info-panel-row">
+          <span class="info-panel-label">めり込み距離 d</span>
+          <span id="info-d" class="info-panel-value">0.000</span>
+          <span class="info-panel-unit">m</span>
         </div>
-        <div class="mb-1.5 flex items-baseline justify-between gap-2">
-          <span class="text-sm text-[#333]">仕事 W = </span
-          ><span id="info-W" class="text-[15px] font-bold text-[#111]"
-            >0.000 J</span
-          >
+        <div class="info-panel-row">
+          <span class="info-panel-label">仕事 W</span>
+          <span id="info-W" class="info-panel-value">0.000</span>
+          <span class="info-panel-unit">J</span>
         </div>
-        <div id="info-status" class="mt-2 text-[13px]">
+        <div id="info-status" class="info-panel-note mt-1">
           <div id="status-critical" class="hidden">
-            <span class="text-[#d84c4c] font-bold"
+            <span class="font-bold text-[#d84c4c]"
               >⚠ 臨界値以上（ものさしは完全に本の中）</span
             ><br />
             <small
@@ -69,13 +62,13 @@
             >
           </div>
           <div id="status-stopped" class="hidden">
-            <span class="text-[#0b6] font-bold"
+            <span class="font-bold text-[#0b6]"
               >✓ W = ½ m v₀² = <span id="status-ke0">0.000</span> J</span
             ><br />
             <small>台車が静止 → 仕事 = 初期運動エネルギー</small>
           </div>
           <div id="status-running">
-            <span class="text-[#2c4dff] font-semibold"
+            <span class="font-semibold text-[#2c4dff]"
               >現在の運動エネルギー = ½ m v² =
               <span id="status-ke">0.000</span> J</span
             >

@@ -19,11 +19,9 @@ import {
   CART_RESET_MARGIN,
   MIN_ARROW_DRAG_DISTANCE,
   FORCE_ARROW_COLOR,
-  DRAG_HINT_COLOR,
-  INFO_PANEL_MUTED_TEXT_COLOR,
-  INFO_PANEL_PRIMARY_TEXT_COLOR,
-  INFO_PANEL_BORDER_COLOR
+  DRAG_HINT_COLOR
 } from "./constants.js";
+import { drawInfoPanel as drawInfoPanelComponent } from "../../../ts/components/info-panel.js";
 
 /** キャンバスの論理幅 */
 const W = CANVAS_WIDTH;
@@ -230,7 +228,7 @@ function drawDragHint(p: p5, x: number, y: number) {
 
 /**
  * 情報パネルを描画する。
- * 主要値（F・a）を大きく、最大値・質量・速度を補助値として小さく表示する。
+ * 現在の力・加速度に続けて、最大値・質量・速度を並べる。
  * @param p - p5インスタンス
  * @param F - 現在の力 (N)
  * @param a - 現在の加速度 (m/s²)
@@ -250,61 +248,30 @@ function drawInfoPanel(
   maxA: number,
   massAtMaxA: number
 ) {
-  const panelX = 20;
-  const panelY = 20;
-  const panelW = 340;
-  const panelH = 158;
-  const padding = 20;
-  const leftX = panelX + padding;
-  const rightX = panelX + panelW - padding;
-
-  // カード背景（白地・淡い罫線）と左端のアクセントバー
-  p.fill(255, 255, 255, 235);
-  p.stroke(INFO_PANEL_BORDER_COLOR);
-  p.strokeWeight(1);
-  p.rect(panelX, panelY, panelW, panelH, 12);
-  p.noStroke();
-  p.fill(...FORCE_ARROW_COLOR);
-  p.rect(panelX, panelY + 12, 5, panelH - 24, 3);
-
-  // 主要値（F・a）と、その最大値
-  const rows = [
-    { label: "力 F", value: F, unit: "N", max: maxF },
-    { label: "加速度 a", value: a, unit: "m/s²", max: maxA }
-  ];
-  rows.forEach((row, i) => {
-    const top = panelY + 14 + i * 46;
-    p.textAlign(p.LEFT, p.TOP);
-    p.fill(INFO_PANEL_MUTED_TEXT_COLOR);
-    p.textSize(13);
-    p.text(row.label, leftX, top);
-    p.fill(INFO_PANEL_PRIMARY_TEXT_COLOR);
-    p.textSize(28);
-    p.text(`${row.value.toFixed(2)} ${row.unit}`, leftX, top + 14);
-
-    p.textAlign(p.RIGHT, p.TOP);
-    p.fill(INFO_PANEL_MUTED_TEXT_COLOR);
-    p.textSize(13);
-    p.text("最大", rightX, top);
-    p.textSize(17);
-    p.text(`${row.max.toFixed(2)} ${row.unit}`, rightX, top + 18);
-  });
-
-  // 区切り線
-  const dividerY = panelY + 112;
-  p.stroke(INFO_PANEL_BORDER_COLOR);
-  p.line(leftX, dividerY, rightX, dividerY);
-  p.noStroke();
-
-  // 補助値（m・v・最大加速度に対する m × a_max）
   const fFromAMax = massAtMaxA && maxA ? massAtMaxA * maxA : 0;
-  p.textAlign(p.LEFT, p.TOP);
-  p.fill(INFO_PANEL_MUTED_TEXT_COLOR);
-  p.textSize(17);
-  p.text(`m = ${m.toFixed(1)} kg`, leftX, dividerY + 10);
-  p.text(`v = ${v.toFixed(2)} m/s`, leftX + 130, dividerY + 10);
-  p.textSize(13);
-  p.text(`m × a_max = ${fFromAMax.toFixed(2)} N`, leftX, dividerY + 32);
+  drawInfoPanelComponent(
+    p,
+    [
+      {
+        label: "力 F",
+        value: F.toFixed(2),
+        unit: "N",
+        color: `rgb(${FORCE_ARROW_COLOR.join(", ")})`
+      },
+      { label: "加速度 a", value: a.toFixed(2), unit: "m/s²" },
+      {
+        label: "最大の力 F",
+        value: maxF.toFixed(2),
+        unit: "N",
+        dividerAbove: true
+      },
+      { label: "最大の加速度 a", value: maxA.toFixed(2), unit: "m/s²" },
+      { label: "質量 m", value: m.toFixed(1), unit: "kg", dividerAbove: true },
+      { label: "速度 v", value: v.toFixed(2), unit: "m/s" },
+      { label: "m × a最大", value: fFromAMax.toFixed(2), unit: "N" }
+    ],
+    { labelWidth: 130 }
+  );
 }
 
 new p5(sketch);

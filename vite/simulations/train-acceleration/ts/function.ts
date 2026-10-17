@@ -10,6 +10,7 @@ import {
   MARKER_SPACING,
   COLOR
 } from "./constants.js";
+import { drawInfoPanel as drawInfoPanelComponent } from "../../../ts/components/info-panel.js";
 
 /** 地面の高さに依存する、使い回すグラデーション */
 const cache: { vh: number; ground: CanvasGradient | null } = {
@@ -216,29 +217,6 @@ export const drawAccelerationArrow = (
 };
 
 /**
- * 数値パネルの1行を描画する。ラベルは左揃え、値は右揃え。
- * @param p - p5インスタンス
- * @param y - 行の中心y座標
- * @param label - 項目名
- * @param value - 値と単位の文字列
- * @param valueColor - 値の色
- */
-const drawRow = (
-  p: p5,
-  y: number,
-  label: string,
-  value: string,
-  valueColor: string
-) => {
-  p.textAlign(p.LEFT, p.CENTER);
-  p.fill(COLOR.panelText);
-  p.text(label, 36, y);
-  p.textAlign(p.RIGHT, p.CENTER);
-  p.fill(valueColor);
-  p.text(value, 330, y);
-};
-
-/**
  * 現在の速さ・経過時間・加速度を数値パネルで描画する。
  * @param p - p5インスタンス
  * @param velocity - 速さ (m/s)
@@ -252,7 +230,7 @@ export const drawInfoPanel = (
   acceleration: number
 ) => {
   let state = "等速";
-  let color: string = COLOR.panelMuted;
+  let color: string | undefined;
   if (velocity === 0 && acceleration <= 0) {
     state = "停止中";
   } else if (acceleration > 0) {
@@ -266,18 +244,18 @@ export const drawInfoPanel = (
   if (acceleration > 0) sign = "+";
   else if (acceleration < 0) sign = "−";
 
-  p.noStroke();
-  p.fill(COLOR.panel);
-  p.rect(20, 14, 326, 104, 12);
-  p.textSize(18);
-  drawRow(p, 36, "速さ v", `${velocity.toFixed(1)} m/s`, COLOR.panelMuted);
-  drawRow(p, 66, "経過時間 t", `${elapsed.toFixed(1)} s`, COLOR.panelMuted);
-  drawRow(
+  drawInfoPanelComponent(
     p,
-    96,
-    `加速度 a（${state}）`,
-    `${sign}${Math.abs(acceleration).toFixed(1)} m/s²`,
-    color
+    [
+      { label: "速さ v", value: velocity.toFixed(1), unit: "m/s" },
+      { label: "経過時間 t", value: elapsed.toFixed(1), unit: "s" },
+      {
+        label: `加速度 a（${state}）`,
+        value: `${sign}${Math.abs(acceleration).toFixed(1)}`,
+        unit: "m/s²",
+        color
+      }
+    ],
+    { labelWidth: 130 }
   );
-  p.textAlign(p.CENTER, p.CENTER);
 };

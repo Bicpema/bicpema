@@ -142,7 +142,7 @@ const canvasController = new BicpemaCanvasController({
 - **部品のまとめ管理**: `vite/ts/components/component-group.ts` の `ComponentGroup` が複数の `SimComponent` を束ね、`update()` / `draw(p)` / `reset()` / `dispose()` を一括で呼びます。コンストラクターに「一時停止中か」を返す関数を渡すと、一時停止中は `update()` をスキップして `draw(p)` のみ実行します（`new ComponentGroup(() => !isPlaying)` のように使います）。
 - **設定値の反映**: 設定パネルの値は、呼び出し側（`onChange` 等のハンドラー）が部品のプロパティへ直接代入します（例: `arrow.color = ...`）。イベントバスやリアクティブ化は行いません。
 - **配置場所**: 1ファイル1コンポーネント（ケバブケース）で `vite/ts/components/` に置きます。シミュレーション固有の部品は従来どおり各シミュレーションの `ts/class.ts` に置きます。
-- **提供済みの部品**: 矢印（`arrow.ts`）・点線（`dashed-line.ts`）・座標系（`coordinate-system.ts`、p5非依存の物理座標とピクセルの変換）・Chart.jsのグラフ（`chart-line.ts`、[ChartLineの使い方](#chartlineの使い方)）。使用例は`npm run new:simulation`が生成するひな形の`ts/index.ts`にあります。再生・停止ボタンのバインディングは従来どおり `vite/ts/bicpema-controls-controller.ts` が担います。
+- **提供済みの部品**: 矢印（`arrow.ts`）・点線（`dashed-line.ts`）・情報パネル（`info-panel.ts`、[情報パネルの使い方](#情報パネルの使い方)）・座標系（`coordinate-system.ts`、p5非依存の物理座標とピクセルの変換）・Chart.jsのグラフ（`chart-line.ts`、[ChartLineの使い方](#chartlineの使い方)）。使用例は`npm run new:simulation`が生成するひな形の`ts/index.ts`にあります。再生・停止ボタンのバインディングは従来どおり `vite/ts/bicpema-controls-controller.ts` が担います。
 - **描画状態の規約**: 部品は描画の前後で`stroke`・`strokeWeight`・`fill`・`textSize`・`textAlign`などの描画状態を呼び出し側へ残さないよう、内部で`push()`/`pop()`により閉じます。呼び出し側は、部品の描画後に前の描画状態へ依存せず、必要な`stroke`/`fill`を自分で設定してください（例: 矢印の後にテキストを描く場合は`fill`を明示する）。
 - **関数とクラスの選び方**: 関数は、引数だけで描画が決まり、フレームをまたいで保持すべき状態がない場合に使います。クラスは、座標や色などを保持して更新・再描画する場合に使います。どちらの場合も上記の描画状態の規約に従います。
 - **既存シミュレーションの移行**: 一括移行はせず、修正するタイミングで段階的に移行します。移行済み: `force-decomposition` / `slope-force-decomposition` / `force-composition` / `archimedes-principle` / `three-force-equilibrium` / `velocity-composition` / `tate-yoko-wave`（矢印）。
@@ -163,6 +163,7 @@ const canvasController = new BicpemaCanvasController({
 | 矢印（用途別の派生）         | `drawArrowWithLabel`（`velocity-composition` / `force-composition`）、`drawForceArrow`（`cart-work-ruler` / `force-and-acceleration`）、`drawFlowArrow`（`magnetic-field-straight`）、`arrow`（`normal-force`）など                                                           | `components/arrow.ts`にラベル付きの描画を追加し、派生は共通の矢印を呼ぶ形にする           | `drawArrowWithLabel`を提供済み。`force-composition`は共通の関数を直接呼ぶ形に移行済み（`velocity-composition`のラベル付き矢印は背景付きの独自ラベルのため`drawVelocityArrow`として残している）。`cart-work-ruler`（`drawForceArrow`）も移行済み。残すもの: `force-and-acceleration`（線を矢印の頭の手前で止める・太さ5で、共通の矢印だと先端がはみ出して見た目が変わる）、`magnetic-field-straight`（WEBGLの円錐で描く3D矢印）、`normal-force`（斜面の角度に応じた頭だけの三角形） |
 | グラフ（Chart.js）           | `ts/graph.ts`を持つ: `cellophane` / `cellophane-color-2` / `free-fall` / `slope-cart-motion` / `train-acceleration` / `uniformly-accelerated-linear-motion` / `vertical-throw-down`。Chart.js利用は他にも`spring` / `uniform-linear-motion` / `cellophane-color-2d-animation` | `components/`配下にChart.jsのグラフを生成・更新する部品                                   | 移行済み（等加速度運動系5件は[Issue #856](https://github.com/Bicpema/bicpema/issues/856)で`ChartLine`へ移行）。`cellophane` / `cellophane-color-2` / `cellophane-color-2d-animation` / `spring` は[移行しない](#chartlineへ移行しないchartjs利用箇所)。`uniform-linear-motion`は`logic.ts`で毎回`destroy()`して作り直す構造のため、未移行（移行対象外の判断は未確定）                                                                                                              |
 | グラフ（p5描画）             | `drawGraph`を独自定義: `elastic-force` / `conservation-of-heat-and-specific-heat` / `visualization-of-heat-transfer`                                                                                                                                                          | 上記Chart.js版と統合できるか、軸・目盛りの描画を別部品にするかを後続Issueで判断する       | 提供済み（`components/plot-area.ts`の`drawPlotArea`）。`elastic-force`は`drawPlotArea`、`conservation-of-heat-and-specific-heat` / `visualization-of-heat-transfer`は`CoordinateSystem`・`drawPolyline`へ移行済み（[Issue #859](https://github.com/Bicpema/bicpema/issues/859)）。`drawGraph`の独自定義が残る5件は`scripts/duplicate-components-allowlist.json`と一致（上記3件は関数名のみ残存、`cellophane-color-2` / `cellophane-color-2d-animation`は未移行）                   |
+| 情報パネル                   | 各シミュレーションが`drawInfoPanel`・`drawXYInfoPanel`・`drawSlopeInfoPanel`やDOMの`#infoPanel`を個別に実装していた（文字サイズが11〜39で混在）                                                                                                                               | `components/info-panel.ts`（p5版）と`vite/css/tailwind.css`の`.info-panel*`（DOM版）      | 提供済み。p5版7件・DOM版2件を移行済み                                                                                                                                                                                                                                                                                                                                                                                                                                              |
 | 座標軸・グリッド             | `drawGrid`・`drawAxes`（いずれも移行済み。独自定義は`check:duplicate-components`で検出）                                                                                                                                                                                      | `components/coordinate-system.ts`（座標変換）→ `components/grid.ts`・`components/axes.ts` | `CoordinateSystem`（原点・スケール・Y軸反転・原点基準のグリッド値）と、それを使う`drawGrid`（`grid.ts`）を提供済み。`wave-reflection`・`standing-wave`・`force-composition`・`oscilloscope`・`force-decomposition`の`drawGrid`も移行済み。`axes.ts`（`drawAxes`）も提供済みで、`force-decomposition`・`force-composition`・`half-life`・`tate-yoko-wave`は軸を移行済み                                                                                                             |
 | 点線                         | `drawDashed`: `force-decomposition` / `slope-force-decomposition`（同一実装）。同様の処理: `force-composition` / `lens` / `normal-force`                                                                                                                                      | `components/dashed-line.ts`                                                               | 提供済み。`force-decomposition`・`slope-force-decomposition`・`force-composition`・`lens`は移行済み。`normal-force`は一点鎖線（`[10, 5, 2, 5]`）で、`drawDashedLine`の等間隔の点線では表現できないため残す                                                                                                                                                                                                                                                                         |
 | 再生・停止・リセットボタン   | 全件が`bindToggleControls` / `bindStartStopControls`を利用済み（リセットボタンのみのシミュレーションは`bindResetControl`）                                                                                                                                                    | 既存の`bicpema-controls-controller.ts`を継続（クラス化は不要）                            | 移行済み                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
@@ -235,6 +236,45 @@ const canvasController = new BicpemaCanvasController({
 1. 軸・目盛りは別部品として扱います（上記のとおり `axes.ts` / `grid.ts` を再利用）。Chart.js版は軸をChart.js自身が描くため、軸の共通化はp5版のみが対象です。
 
 **移行順の推奨**: 等加速度運動系（`free-fall` / `uniformly-accelerated-linear-motion` / `vertical-throw-down` / `slope-cart-motion` / `train-acceleration`）→ `cellophane-color-2` など → p5版（`elastic-force` → 温度グラフ2件）の順に、各部品のPRで1件以上を移行します。
+
+#### 情報パネルの使い方
+
+`components/info-panel.ts` は、数値を一覧で見せる情報パネルを状態を持たない関数として提供します（[Issue #883](https://github.com/Bicpema/bicpema/issues/883)）。シミュレーションごとに`drawInfoPanel`を独自実装せず、「ラベル・数値・単位の行リスト」と表示位置だけを渡します。
+
+- `drawInfoPanel(p, rows, options)`: 影つきの白いカードに行を並べて描画し、配置結果（`x` / `y` / `width` / `height`）を返します。シミュレーション側に同名の関数がある場合は、`import { drawInfoPanel as drawInfoPanelComponent }` のように別名で読み込みます。
+- 行（`InfoPanelRow`）は `label` / `value`（整形済みの文字列）/ `unit` が基本です。同じ行に角度などを並べたい場合は `secondValue` / `secondUnit`、数値の色は `color`、グループの区切りは `dividerAbove` で指定します。
+- 位置は `x` / `y` と `anchorX`（`"left"` / `"right"`）・`anchorY`（`"top"` / `"bottom"`）で指定します。長いラベルがある場合は `labelWidth` で広げます。
+- **文字サイズは3段階**（ラベル13・数値20・単位13）です。数値は等幅フォントの太字で右揃えにするため、値が変わっても桁がぶれません。サイズ・色・余白・角丸・影・行間は `INFO_PANEL_STYLE` に集約しているので、見た目を変える場合はここだけを編集します。
+- 描画状態は `push()` / `pop()` で閉じています。`font` オプションには、ラベルと単位に使うp5のフォントを渡せます（既定は現在のフォント）。
+- 位置・サイズの計算だけが必要な場合は、p5に依存しない `layoutInfoPanel(rows, options)` を使います。
+- **DOM版**: HTMLで情報パネルを作るシミュレーションは、`vite/css/tailwind.css` の `.info-panel` / `.info-panel-row` / `.info-panel-row-divided` / `.info-panel-label` / `.info-panel-value` / `.info-panel-unit` / `.info-panel-note` を使います（p5版と同じ見た目になるよう値を揃えています）。JavaScriptからは `.info-panel-value` の要素に数値だけを書き込みます。
+- 移行済み: `force-and-acceleration` / `velocity-composition` / `slope-cart-motion` / `train-acceleration` / `force-composition` / `force-decomposition` / `slope-force-decomposition`（p5版）、`cart-work-ruler` / `magnetic-field-straight`（DOM版）。
+
+```ts
+import {
+    drawInfoPanel,
+    INFO_PANEL_STYLE
+} from "../../../ts/components/info-panel.js";
+
+drawInfoPanel(
+    p,
+    [
+        { label: "速度 v", value: v.toFixed(2), unit: "m/s" },
+        {
+            label: "加速度 a",
+            value: a.toFixed(2),
+            unit: "m/s²",
+            color: "rgb(220, 50, 50)"
+        }
+    ],
+    {
+        x: V_W - INFO_PANEL_STYLE.margin,
+        y: V_H - INFO_PANEL_STYLE.margin,
+        anchorX: "right",
+        anchorY: "bottom"
+    }
+);
+```
 
 #### drawPlotArea の使い方
 
@@ -480,7 +520,7 @@ npm run new:component
 
 - 単体テストは `test/components/<name>.test.js` に置きます（命名は本体と同じケバブケース）。
 - storyは `stories/<name>.stories.js` に置きます。`<bicpema-*>` タグを使うUI部品のstoryは、`stories/<name>.html` を `?bicpema` 付きでimportします（例: `stories/settings-modal.stories.js`）。
-- 既存のstories: 再生・リセットボタン / 設定ボタンと設定モーダル / ナビバー / ローディングスピナー / フォーム部品（`.form-label`・`.form-control`）/ 矢印 / 点線 / グリッド / グラフ枠。
+- 既存のstories: 再生・リセットボタン / 設定ボタンと設定モーダル / ナビバー / ローディングスピナー / フォーム部品（`.form-label`・`.form-control`）/ 矢印 / 点線 / グリッド / グラフ枠 / 情報パネル。
 
 ### 5. 必須チェックリスト
 

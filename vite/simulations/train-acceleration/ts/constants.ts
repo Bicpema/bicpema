@@ -35,11 +35,8 @@ export const COLOR = {
   marker: "#c9a14a",
   text: "#444",
   textMuted: "#777",
-  panel: "rgba(85, 85, 85, 0.92)",
-  panelText: "#eef2fb",
-  panelMuted: "#b7c2dc",
-  accelerating: "#7be09a",
-  decelerating: "#ff9a9a"
+  accelerating: "#16a34a",
+  decelerating: "#dc2626"
 } as const;
 
 /** v-tグラフのx軸の初期最大値と下限 (s) */
