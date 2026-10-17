@@ -150,7 +150,7 @@ const canvasController = new BicpemaCanvasController({
     - `.storybook/preview.js` で `vite/css/tailwind.css` を読み込み、本番と同じ見た目で確認できます。
     - `.storybook/main.js` の `viteFinal` で、Viteのroot（`./vite`）をリポジトリ直下に戻し、Tailwindのプラグインを追加しています。
     - storiesから `?bicpema` 付きでimportしたHTML（例: `import html from "./settings-modal.html?bicpema"`）は、`<bicpema-*>` タグがシミュレーションのビルドと同じ処理で展開されます。
-    - 現在のstoriesは再生・リセットボタン、設定ボタン・設定モーダル、ナビバー、ローディングスピナー、フォーム部品、矢印（`Arrow`）、点線、グリッドです。追加手順は[コンポーネント追加手順](#コンポーネント追加手順)を参照してください。p5を使うstoryは `stories/p5-decorator.js` の `createP5Story()` で作成してください。storyの切り替え（要素の取り外し）時に `p.remove()` で後始末されます。
+    - 現在のstoriesは再生・リセットボタン、設定ボタン・設定モーダル、ナビバー、ローディングスピナー、フォーム部品、矢印（`Arrow`）、点線、グリッド、グラフ枠（`drawPlotArea`）です。追加手順は[コンポーネント追加手順](#コンポーネント追加手順)を参照してください。p5を使うstoryは `stories/p5-decorator.js` の `createP5Story()` で作成してください。storyの切り替え（要素の取り外し）時に `p.remove()` で後始末されます。
     - CIは `.github/workflows/storybook.yml` でパスフィルター付きのビルド検査を行います。
 
 #### 重複している部品の候補一覧
@@ -162,7 +162,7 @@ const canvasController = new BicpemaCanvasController({
 | 矢印                         | `drawArrow`を独自定義していた7件（`archimedes-principle` / `three-force-equilibrium` / `velocity-composition` / `force-composition` / `tate-yoko-wave` / `slope-force-decomposition` / `force-decomposition`）は、ラッパーを除去して共通の`drawArrow`を直接呼ぶ形に移行済み   | `components/arrow.ts`                                                                     | 提供済み。`force-decomposition`・`slope-force-decomposition`・`force-composition`・`archimedes-principle`・`three-force-equilibrium`・`velocity-composition`・`tate-yoko-wave`は移行済み                                                                                                                                                                                                                                                                                           |
 | 矢印（用途別の派生）         | `drawArrowWithLabel`（`velocity-composition` / `force-composition`）、`drawForceArrow`（`cart-work-ruler` / `force-and-acceleration`）、`drawFlowArrow`（`magnetic-field-straight`）、`arrow`（`normal-force`）など                                                           | `components/arrow.ts`にラベル付きの描画を追加し、派生は共通の矢印を呼ぶ形にする           | `drawArrowWithLabel`を提供済み。`force-composition`は共通の関数を直接呼ぶ形に移行済み（`velocity-composition`のラベル付き矢印は背景付きの独自ラベルのため`drawVelocityArrow`として残している）。`cart-work-ruler`（`drawForceArrow`）も移行済み。残すもの: `force-and-acceleration`（線を矢印の頭の手前で止める・太さ5で、共通の矢印だと先端がはみ出して見た目が変わる）、`magnetic-field-straight`（WEBGLの円錐で描く3D矢印）、`normal-force`（斜面の角度に応じた頭だけの三角形） |
 | グラフ（Chart.js）           | `ts/graph.ts`を持つ: `cellophane` / `cellophane-color-2` / `free-fall` / `slope-cart-motion` / `train-acceleration` / `uniformly-accelerated-linear-motion` / `vertical-throw-down`。Chart.js利用は他にも`spring` / `uniform-linear-motion` / `cellophane-color-2d-animation` | `components/`配下にChart.jsのグラフを生成・更新する部品                                   | 未着手（等加速度運動系の`graph.ts`が近い構造のため、先に差分を確認する）                                                                                                                                                                                                                                                                                                                                                                                                           |
-| グラフ（p5描画）             | `drawGraph`を独自定義: `cellophane-color-2` / `cellophane-color-2d-animation` / `elastic-force` / `conservation-of-heat-and-specific-heat` / `visualization-of-heat-transfer`                                                                                                 | 上記Chart.js版と統合できるか、軸・目盛りの描画を別部品にするかを後続Issueで判断する       | 未着手                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| グラフ（p5描画）             | `drawGraph`を独自定義: `cellophane-color-2` / `cellophane-color-2d-animation` / `elastic-force` / `conservation-of-heat-and-specific-heat` / `visualization-of-heat-transfer`                                                                                                 | 上記Chart.js版と統合できるか、軸・目盛りの描画を別部品にするかを後続Issueで判断する       | 提供済み（`components/plot-area.ts`の`drawPlotArea`。シミュレーションの移行は未着手）                                                                                                                                                                                                                                                                                                                                                                                              |
 | 座標軸・グリッド             | `drawGrid`・`drawAxes`（いずれも移行済み。独自定義は`check:duplicate-components`で検出）                                                                                                                                                                                      | `components/coordinate-system.ts`（座標変換）→ `components/grid.ts`・`components/axes.ts` | `CoordinateSystem`（原点・スケール・Y軸反転・原点基準のグリッド値）と、それを使う`drawGrid`（`grid.ts`）を提供済み。`wave-reflection`・`standing-wave`・`force-composition`・`oscilloscope`・`force-decomposition`の`drawGrid`も移行済み。`axes.ts`（`drawAxes`）も提供済みで、`force-decomposition`・`force-composition`・`half-life`・`tate-yoko-wave`は軸を移行済み                                                                                                             |
 | 点線                         | `drawDashed`: `force-decomposition` / `slope-force-decomposition`（同一実装）。同様の処理: `force-composition` / `lens` / `normal-force`                                                                                                                                      | `components/dashed-line.ts`                                                               | 提供済み。`force-decomposition`・`slope-force-decomposition`・`force-composition`・`lens`は移行済み。`normal-force`は一点鎖線（`[10, 5, 2, 5]`）で、`drawDashedLine`の等間隔の点線では表現できないため残す                                                                                                                                                                                                                                                                         |
 | 再生・停止・リセットボタン   | 全件が`bindToggleControls` / `bindStartStopControls`を利用済み（リセットボタンのみのシミュレーションは`bindResetControl`）                                                                                                                                                    | 既存の`bicpema-controls-controller.ts`を継続（クラス化は不要）                            | 移行済み                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
@@ -222,6 +222,51 @@ const canvasController = new BicpemaCanvasController({
 1. 軸・目盛りは別部品として扱います（上記のとおり `axes.ts` / `grid.ts` を再利用）。Chart.js版は軸をChart.js自身が描くため、軸の共通化はp5版のみが対象です。
 
 **移行順の推奨**: 等加速度運動系（`free-fall` / `uniformly-accelerated-linear-motion` / `vertical-throw-down` / `slope-cart-motion` / `train-acceleration`）→ `cellophane-color-2` など → p5版（`elastic-force` → 温度グラフ2件）の順に、各部品のPRで1件以上を移行します。
+
+#### drawPlotArea の使い方
+
+`components/plot-area.ts` は、p5版グラフの共通部分を状態を持たない関数として提供します（[Issue #858](https://github.com/Bicpema/bicpema/issues/858)）。`SimComponent` には載せず、データの更新は呼び出し側が毎フレーム行います。
+
+- `drawPlotArea(p, cs, style)`: 背景矩形 → グリッド → 折れ線 → 軸線 → 目盛りの値ラベル → 軸タイトル・グラフタイトル → 凡例の順に重ねて描画します。座標変換は `CoordinateSystem`、グリッドは `drawGrid` を使います。
+- `drawPolyline(p, cs, points, color, weight)`: 物理座標の点列を折れ線で描画します。`drawPlotArea` の `series` を使わず単体でも呼べます。
+- `style.bounds` 以外はすべて省略可能です。`gridStepX` / `gridStepY` / `axisLine` / `ticks` / `labels` / `legend` は、指定したものだけ描画します。
+- 矢印付きの軸が必要な場合は、`drawPlotArea` の後に `drawAxes` を呼びます。
+- 描画状態は `push()` / `pop()` で閉じており、呼び出し側へ残しません。
+
+```ts
+import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
+import { drawPlotArea } from "../../../ts/components/plot-area.js";
+
+// 枠の中心を原点にして x: ±50 cm, y: ±50 N を枠いっぱいに対応させる
+const bounds = { left: 60, top: 40, right: 380, bottom: 280 };
+const cs = new CoordinateSystem({
+    originX: 220,
+    originY: 160,
+    scaleX: 160 / 50,
+    scaleY: 120 / 50
+});
+
+drawPlotArea(p, cs, {
+    bounds,
+    gridStepX: 10,
+    gridStepY: 10,
+    series: [
+        {
+            points: [
+                { x: -50, y: -50 },
+                { x: 50, y: 50 }
+            ],
+            color: p.color(30, 100, 220),
+            weight: 2.5,
+            label: "F = kx"
+        }
+    ],
+    axisLine: {},
+    ticks: { stepX: 10, stepY: 10 },
+    labels: { xTitle: "x (cm)", yTitle: "F (N)", title: "フックの法則" },
+    legend: {}
+});
+```
 
 #### ChartLineの使い方
 
@@ -401,7 +446,7 @@ npm run new:component
 
 - 単体テストは `test/components/<name>.test.js` に置きます（命名は本体と同じケバブケース）。
 - storyは `stories/<name>.stories.js` に置きます。`<bicpema-*>` タグを使うUI部品のstoryは、`stories/<name>.html` を `?bicpema` 付きでimportします（例: `stories/settings-modal.stories.js`）。
-- 既存のstories: 再生・リセットボタン / 設定ボタンと設定モーダル / ナビバー / ローディングスピナー / フォーム部品（`.form-label`・`.form-control`）/ 矢印 / 点線。
+- 既存のstories: 再生・リセットボタン / 設定ボタンと設定モーダル / ナビバー / ローディングスピナー / フォーム部品（`.form-label`・`.form-control`）/ 矢印 / 点線 / グリッド / グラフ枠。
 
 ### 5. 必須チェックリスト
 
