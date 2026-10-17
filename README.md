@@ -9,7 +9,7 @@
 
 ## Requirements
 
-- [Hugo](https://gohugo.io/installation/)（extended、最新版。CIは`latest`を使用）
+- [Hugo](https://gohugo.io/installation/)（extended、[.hugo-version](.hugo-version) に記載のバージョン。CIも同じバージョンを使用）
 - [Node.js](https://nodejs.org/ja/download/) 24.x（CIと同じバージョン）
 - npm 11.x（Node.jsに同梱）
 - Python 3.x・pip（YAMLのリントに使うyamllint、開発者ドキュメントのZensicalで使用）
@@ -18,7 +18,7 @@
 
 ```bash
 hugo version
-# hugo v0.1xx.x+extended ...
+# hugo v0.168.0+extended ...
 
 node -v
 # v24.x.x
