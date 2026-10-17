@@ -1,3 +1,5 @@
+import { drawGrid } from "../../../ts/components/grid.js";
+import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
 import { state } from "./state.js";
 import {
   computeRightWaveDisplacement,
@@ -17,7 +19,7 @@ export function drawSimulation(p: p5) {
   p.translate(state.margin, state.margin);
   p.noStroke();
   p.rect(0, 0, state.innerW, state.innerH);
-  drawGrid(p);
+  drawBackgroundGrid(p);
   drawXAxis(p);
   drawRightWave(p);
   drawLeftWave(p);
@@ -40,25 +42,18 @@ export function drawSimulation(p: p5) {
  * キャンバス中央を起点に、波長に応じた間隔でグリッド線を描画する。
  * @param p - p5インスタンス
  */
-function drawGrid(p: p5) {
-  p.stroke(200);
-  p.strokeWeight(1);
-  const yCenter = state.innerH / 2;
-  const gridUnitY = state.wavelength / GRID_LINES_PER_WAVELENGTH;
-  for (let y = yCenter; y <= state.innerH; y += gridUnitY) {
-    p.line(0, y, state.innerW, y);
-  }
-  for (let y = yCenter; y >= 0; y -= gridUnitY) {
-    p.line(0, y, state.innerW, y);
-  }
-  const xCenter = state.innerW / 2;
-  const gridUnitX = state.wavelength / GRID_LINES_PER_WAVELENGTH;
-  for (let x = xCenter; x <= state.innerW; x += gridUnitX) {
-    p.line(x, 0, x, state.innerH);
-  }
-  for (let x = xCenter; x >= 0; x -= gridUnitX) {
-    p.line(x, 0, x, state.innerH);
-  }
+function drawBackgroundGrid(p: p5) {
+  const cs = new CoordinateSystem({
+    originX: state.innerW / 2,
+    originY: state.innerH / 2
+  });
+  const step = state.wavelength / GRID_LINES_PER_WAVELENGTH;
+  drawGrid(p, cs, {
+    stepX: step,
+    stepY: step,
+    color: p.color(200),
+    bounds: { left: 0, top: 0, right: state.innerW, bottom: state.innerH }
+  });
 }
 
 /**
