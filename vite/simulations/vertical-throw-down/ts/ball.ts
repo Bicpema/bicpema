@@ -12,6 +12,7 @@ import {
   HEIGHT_SCALE,
   LABEL_TEXT_SIZE,
   STATUS_TEXT_SIZE,
+  STATUS_BLOCK_HEIGHT,
   SCALE_LINE_DASH,
   LINE_STROKE_WEIGHT,
   ARROW_LENGTH_VELOCITY_SCALE,
@@ -208,11 +209,17 @@ export class Ball {
     p.noStroke();
     p.textAlign(p.RIGHT, p.TOP);
     p.textSize(STATUS_TEXT_SIZE);
-    const rightX = canvasHeight * (16 / 9) - 20;
-    p.text(`時間: ${this.time.toFixed(2)} s`, rightX, 20);
-    p.text(`高さ: ${this.height.toFixed(2)} m`, rightX, 50);
-    p.text(`速度: ${this.velocity.toFixed(2)} m/s`, rightX, 80);
-    p.text(`初速: ${this.initialVelocity.toFixed(1)} m/s`, rightX, 110);
+    // 右下（グラフの下、地面の上）に表示し、グラフ・イラストと重ならないようにする
+    const rightX = CANVAS_VIRTUAL_WIDTH - 20;
+    const statusTop = canvasHeight - GROUND_HEIGHT - STATUS_BLOCK_HEIGHT;
+    p.text(`時間: ${this.time.toFixed(2)} s`, rightX, statusTop);
+    p.text(`高さ: ${this.height.toFixed(2)} m`, rightX, statusTop + 30);
+    p.text(`速度: ${this.velocity.toFixed(2)} m/s`, rightX, statusTop + 60);
+    p.text(
+      `初速: ${this.initialVelocity.toFixed(1)} m/s`,
+      rightX,
+      statusTop + 90
+    );
   }
 
   /**

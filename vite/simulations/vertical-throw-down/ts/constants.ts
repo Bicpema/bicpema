@@ -24,7 +24,7 @@ export const GROUND_HEIGHT = 50;
 /** 建物の高さ (px)。MAX_HEIGHT_INPUT (m) に対応する見た目上の高さ */
 export const BUILDING_HEIGHT = 400;
 /** 建物の中心X座標 (px) */
-export const BUILDING_CENTER_X = 400;
+export const BUILDING_CENTER_X = 150;
 /** 高さ (m) をピクセルに換算する係数 */
 export const HEIGHT_SCALE = BUILDING_HEIGHT / MAX_HEIGHT_INPUT;
 
@@ -32,6 +32,8 @@ export const HEIGHT_SCALE = BUILDING_HEIGHT / MAX_HEIGHT_INPUT;
 export const LABEL_TEXT_SIZE = 16;
 /** 状態表示テキストのサイズ (px) */
 export const STATUS_TEXT_SIZE = 18;
+/** 状態表示ブロックの高さ (px)。地面の上に4行を表示する */
+export const STATUS_BLOCK_HEIGHT = 130;
 /** 目盛り線の破線パターン */
 export const SCALE_LINE_DASH = [10, 10];
 /** 線の太さ (px) */
