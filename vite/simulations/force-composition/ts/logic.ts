@@ -1,3 +1,8 @@
+import { drawDashedLine as drawSharedDashedLine } from "../../../ts/components/dashed-line.js";
+import {
+  drawArrow as drawSharedArrow,
+  drawArrowWithLabel as drawSharedArrowWithLabel
+} from "../../../ts/components/arrow.js";
 import { state } from "./state.js";
 import {
   V_W,
@@ -36,23 +41,11 @@ export function drawArrow(
   weight = 3,
   headSize = 12
 ) {
-  const dx = toX - fromX;
-  const dy = toY - fromY;
-  const len = p.sqrt(dx * dx + dy * dy);
-  if (len < 2) return;
-
-  p.stroke(col);
-  p.strokeWeight(weight);
-  p.fill(col);
-  p.line(fromX, fromY, toX, toY);
-
-  const angle = p.atan2(dy, dx);
-  p.push();
-  p.translate(toX, toY);
-  p.rotate(angle);
-  p.noStroke();
-  p.triangle(0, 0, -headSize, headSize / 2.5, -headSize, -headSize / 2.5);
-  p.pop();
+  drawSharedArrow(p, fromX, fromY, toX, toY, col, {
+    weight,
+    headSize,
+    headWidthDivisor: 2.5
+  });
 }
 
 /**
@@ -74,28 +67,10 @@ export function drawArrowWithLabel(
   col: p5.Color,
   label: string
 ) {
-  drawArrow(p, fromX, fromY, toX, toY, col);
-
-  const dx = toX - fromX;
-  const dy = toY - fromY;
-  const len = p.sqrt(dx * dx + dy * dy);
-  if (len < 2) return;
-
-  // ラベル位置：矢印の中点から法線方向に少しオフセット
-  const mx = (fromX + toX) / 2;
-  const my = (fromY + toY) / 2;
-  const nx = -dy / len;
-  const ny = dx / len;
-  const offset = 18;
-  const tx = mx + nx * offset;
-  const ty = my + ny * offset;
-
-  p.noStroke();
-  p.textSize(LABEL_FONT_SIZE);
-  p.textAlign(p.CENTER, p.CENTER);
-
-  p.fill(col);
-  p.text(label, tx, ty);
+  drawSharedArrowWithLabel(p, fromX, fromY, toX, toY, col, label, {
+    headWidthDivisor: 2.5,
+    labelFontSize: LABEL_FONT_SIZE
+  });
 }
 
 /**
@@ -115,28 +90,7 @@ export function drawDashedLine(
   y2: number,
   col: p5.Color
 ) {
-  const dashLen = 10;
-  const gapLen = 6;
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const total = p.sqrt(dx * dx + dy * dy);
-  const ux = dx / total;
-  const uy = dy / total;
-
-  p.stroke(col);
-  p.strokeWeight(1.5);
-
-  let dist = 0;
-  let drawing = true;
-  while (dist < total) {
-    const segLen = drawing ? dashLen : gapLen;
-    const end = p.min(dist + segLen, total);
-    if (drawing) {
-      p.line(x1 + ux * dist, y1 + uy * dist, x1 + ux * end, y1 + uy * end);
-    }
-    dist = end;
-    drawing = !drawing;
-  }
+  drawSharedDashedLine(p, x1, y1, x2, y2, col, { dashLength: 10 });
 }
 
 /**

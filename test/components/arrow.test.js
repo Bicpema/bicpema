@@ -1,5 +1,9 @@
 import { describe, it, expect, vi } from "vitest";
-import { drawArrow, Arrow } from "../../vite/ts/components/arrow.js";
+import {
+  drawArrow,
+  drawArrowWithLabel,
+  Arrow
+} from "../../vite/ts/components/arrow.js";
 
 /** @returns {any} p5インスタンスのモック */
 function createMockP() {
@@ -13,7 +17,11 @@ function createMockP() {
     translate: vi.fn(),
     rotate: vi.fn(),
     noStroke: vi.fn(),
-    triangle: vi.fn()
+    triangle: vi.fn(),
+    textSize: vi.fn(),
+    textAlign: vi.fn(),
+    text: vi.fn(),
+    CENTER: "center"
   };
 }
 
@@ -68,5 +76,37 @@ describe("Arrow", () => {
     arrow.update();
     arrow.draw(p);
     expect(p.line).toHaveBeenCalledWith(10, 20, 110, 20);
+  });
+});
+
+describe("drawArrowWithLabel", () => {
+  it("長さが2px未満の場合は矢印もラベルも描画しない", () => {
+    const p = createMockP();
+    drawArrowWithLabel(p, 0, 0, 1, 0, /** @type {any} */ ("red"), "F");
+    expect(p.line).not.toHaveBeenCalled();
+    expect(p.text).not.toHaveBeenCalled();
+  });
+
+  it("ラベルは中点から法線方向に既定18pxずらして描画する", () => {
+    const p = createMockP();
+    drawArrowWithLabel(p, 0, 0, 100, 0, /** @type {any} */ ("red"), "F");
+    expect(p.line).toHaveBeenCalledTimes(1);
+    expect(p.textSize).toHaveBeenCalledWith(16);
+    expect(p.text).toHaveBeenCalledWith("F", 50, 18);
+  });
+
+  it("オプションで文字サイズ・ずれ・矢印の太さを変更できる", () => {
+    const p = createMockP();
+    drawArrowWithLabel(p, 0, 0, 0, 100, /** @type {any} */ ("red"), "G", {
+      labelFontSize: 20,
+      labelOffset: 10,
+      weight: 5
+    });
+    expect(p.textSize).toHaveBeenCalledWith(20);
+    expect(p.strokeWeight).toHaveBeenCalledWith(5);
+    const [label, x, y] = p.text.mock.calls[0];
+    expect(label).toBe("G");
+    expect(x).toBeCloseTo(-10);
+    expect(y).toBeCloseTo(50);
   });
 });
