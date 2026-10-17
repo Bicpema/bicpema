@@ -15,4 +15,4 @@ ignore: |
 rules:
   # SHA固定の uses: 行（例: `uses: <action>@<SHA40桁>  # vX.Y.Z`）が80文字を超えるため緩和する
   line-length:
-    max: 100
+    max: 110
