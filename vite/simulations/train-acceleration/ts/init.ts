@@ -1,48 +1,40 @@
-// init.js は初期処理専用のファイルです。
+// init.ts は初期処理専用のファイルです。
 
+import type p5 from "p5";
+import { initModal } from "../../../ts/bicpema-modal-controller.js";
+import { bindToggleControls } from "../../../ts/bicpema-controls-controller.js";
 import { state } from "./state.js";
-import { Train } from "./class.js";
+import { FPS, FONT_FAMILY, FONT_URL } from "./constants.js";
 import {
   onPlayPause,
   onReset,
-  onAccelerationChange
+  onAccelerationInput
 } from "./element-function.js";
-import { DEFAULT_ACCELERATION, TRAIN_START_X_DIVISOR } from "./constants.js";
-import { initModal } from "../../../ts/bicpema-modal-controller.js";
-import { bindToggleControls } from "../../../ts/bicpema-controls-controller.js";
-import type { BicpemaCanvasController } from "../../../ts/bicpema-canvas-controller.js";
-
-/** フレームレート */
-export const FPS = 60;
-/** 仮想キャンバス幅 */
-export const V_W = 1000;
-/** 仮想ピクセル/メートル（1m = 50 仮想px） */
-export const PX_PER_METER = 50;
 
 /**
- * キャンバスとp5.jsの基本設定を行う。
- * @param p - p5インスタンス。
- * @param canvasController - BicpemaCanvasControllerインスタンス。
+ * シミュレーションそのものの設定を行います。
+ * @param p - p5インスタンス
  */
-export function settingInit(p: p5, canvasController: BicpemaCanvasController) {
+export function settingInit(p: p5): void {
+  p.frameRate(FPS);
+  p.textAlign(p.CENTER, p.CENTER);
+  p.textFont(FONT_FAMILY);
+  // 他のシミュレーションと共通のフォントを読み込む（失敗時は代替フォントのまま）
   p.loadFont(
-    "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
-    (f: p5.Font) => {
-      state.font = f;
+    FONT_URL,
+    (font: p5.Font) => {
+      p.textFont(font);
+      state.needsRedraw = true;
     },
     () => {}
   );
-  canvasController.fullScreen(p);
-  p.frameRate(FPS);
-  p.textAlign(p.CENTER, p.CENTER);
-  p.textSize(16);
 }
 
 /**
- * DOM要素を取得し、イベントを設定する。
- * @param p - p5インスタンス。
+ * 仮想DOMを読み込み、イベントを設定します。
+ * @param p - p5インスタンス
  */
-export function elCreate(p: p5) {
+export function elementSelectInit(p: p5): void {
   bindToggleControls(p, {
     toggleSelector: "#playPauseButton",
     resetSelector: "#resetButton",
@@ -54,22 +46,5 @@ export function elCreate(p: p5) {
     modalSelector: "#settingsModal",
     closeSelectors: "#settingsModal .modal-close"
   });
-  p.select("#accelerationInput")!.input(onAccelerationChange);
-}
-
-/**
- * シミュレーション変数の初期化。
- * @param p - p5インスタンス。
- */
-export function initValue(p: p5) {
-  state.isPlaying = false;
-  state.elapsedTime = 0;
-  state.lastGraphUpdate = 0;
-  state.maxObservedVelocity = 0;
-  state.acceleration =
-    parseFloat(String(p.select("#accelerationInput")!.value())) ||
-    DEFAULT_ACCELERATION;
-  state.train = new Train(V_W / TRAIN_START_X_DIVISOR);
-  state.vtData.length = 0;
-  state.vtData.push({ x: 0, y: 0 });
+  p.select("#accelerationInput")?.input(onAccelerationInput);
 }

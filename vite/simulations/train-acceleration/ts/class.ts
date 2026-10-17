@@ -1,54 +1,36 @@
-// class.js はクラス管理専用のファイルです。
-
-import { TRAIN_HALF_W } from "./constants.js";
+// class.ts はクラス管理専用のファイルです。
 
 /**
  * Trainクラス
- * 電車の物理状態（速度・位置）を管理する。
+ * 等加速度直線運動をする電車の速さと位置を管理する。速さは負にならない（後退しない）。
  */
 export class Train {
-  startX: number;
-  x: number;
-  velocity: number;
-  trackOffset: number;
+  /** 速さ v (m/s)。0以上 */
+  velocity = 0;
+  /** 初期位置からの移動距離 x (m)。右が正 */
+  position = 0;
 
   /**
-   * @param startX - 初期表示x座標（仮想ピクセル）
-   */
-  constructor(startX: number) {
-    this.startX = startX;
-    this.x = startX;
-    /** 速度 (m/s) — 0以上 */
-    this.velocity = 0;
-    /** 線路スクロールオフセット（仮想ピクセル） */
-    this.trackOffset = 0;
-  }
-
-  /**
-   * 位置と速度を1ステップ更新する。
-   * 速度は 0 以上に制限される（電車は後退しない）。
+   * 時間 dt だけ運動を進める（v = v0 + at）。
+   * 減速の途中で速さが0になる場合は、その時点で停止し、以降は動かない。
    * @param dt - 時間ステップ (s)
-   * @param acceleration - 加速度 (m/s²)
-   * @param pxPerMeter - 仮想ピクセル/メートル
-   * @param vw - 仮想キャンバス幅（ラップ用）
+   * @param acceleration - 加速度 (m/s²)。正で加速、負で減速
    */
-  update(dt: number, acceleration: number, pxPerMeter: number, vw: number) {
-    this.velocity = Math.max(0, this.velocity + acceleration * dt);
-    const dx = this.velocity * pxPerMeter * dt;
-    this.x += dx;
-    this.trackOffset += dx;
-    // 電車が右端を超えたら左端に折り返す
-    if (this.x > vw + TRAIN_HALF_W) {
-      this.x = -TRAIN_HALF_W;
+  step(dt: number, acceleration: number): void {
+    const next = this.velocity + acceleration * dt;
+    if (next >= 0) {
+      this.position += ((this.velocity + next) / 2) * dt;
+      this.velocity = next;
+      return;
     }
+    // dt の途中で停止する（acceleration < 0）。停止までの距離は v² / 2|a|
+    this.position += (this.velocity * this.velocity) / (2 * -acceleration);
+    this.velocity = 0;
   }
 
-  /**
-   * 電車を初期状態にリセットする。
-   */
-  reset() {
-    this.x = this.startX;
+  /** 初期状態（位置0・速さ0）へ戻す */
+  reset(): void {
     this.velocity = 0;
-    this.trackOffset = 0;
+    this.position = 0;
   }
 }
