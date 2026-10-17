@@ -1,4 +1,5 @@
 import { drawArrow as drawSharedArrow } from "../../../ts/components/arrow.js";
+import { drawDashedLine } from "../../../ts/components/dashed-line.js";
 import { state } from "./state.js";
 import {
   V_W,
@@ -29,50 +30,6 @@ export function drawArrow(
   sw = 3
 ) {
   drawSharedArrow(p, x1, y1, x2, y2, col, { weight: sw });
-}
-
-/**
- * 点線を描画する。
- * @param p -
- * @param x1 -
- * @param y1 -
- * @param x2 -
- * @param y2 -
- * @param col -
- */
-function drawDashed(
-  p: p5,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  col: p5.Color
-) {
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const len = p.sqrt(dx * dx + dy * dy);
-  if (len < 1) return;
-  const dashLen = 8;
-  const gapLen = 6;
-  const ux = dx / len;
-  const uy = dy / len;
-  let d = 0;
-  let drawing = true;
-  p.stroke(col);
-  p.strokeWeight(1.5);
-  while (d < len) {
-    const segLen = p.min(drawing ? dashLen : gapLen, len - d);
-    if (drawing) {
-      p.line(
-        x1 + ux * d,
-        y1 + uy * d,
-        x1 + ux * (d + segLen),
-        y1 + uy * (d + segLen)
-      );
-    }
-    d += segLen;
-    drawing = !drawing;
-  }
 }
 
 /**
@@ -117,7 +74,7 @@ export function drawXYScene(p: p5) {
   const tipY = ORIGIN_Y + Fy;
 
   // 補助破線（平行四辺形の辺）
-  drawDashed(
+  drawDashedLine(
     p,
     ORIGIN_X,
     ORIGIN_Y + Fy,
@@ -125,7 +82,7 @@ export function drawXYScene(p: p5) {
     tipY,
     p.color(100, 100, 100, 120)
   );
-  drawDashed(
+  drawDashedLine(
     p,
     ORIGIN_X + Fx,
     ORIGIN_Y,
