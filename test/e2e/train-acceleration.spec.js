@@ -36,6 +36,11 @@ test("開始/一時停止/再開ボタンの表示が切り替わる", async ({ 
 
 test("再生すると電車の表示が変化し、リセットで元に戻る", async ({ page }) => {
   const canvas = page.locator(CANVAS);
+  // フォントを外部URLから非同期に読み込むため、完了を待ってから初期表示を撮る
+  // （待たないと初期表示がフォールバックフォント、リセット後が読込済みフォントになり一致しない）
+  await page.waitForLoadState("networkidle");
+  await page.locator("#resetButton").click();
+  await page.waitForTimeout(500);
   const initial = await canvas.screenshot();
 
   await page.locator("#playPauseButton").click();
