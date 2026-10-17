@@ -2,7 +2,7 @@
 
 import { state } from "./state.js";
 import {
-  TRAIN_BODY_COLOR_RGB,
+  COLOR,
   CHART_X_MIN_MAX,
   CHART_Y_MIN_MAX,
   CHART_MAX_RATIO
@@ -11,8 +11,6 @@ import {
   ChartLine,
   type ChartLineAxis
 } from "../../../ts/components/chart-line.js";
-
-const BODY_COLOR = `rgb(${TRAIN_BODY_COLOR_RGB.join(", ")})`;
 
 const timeAxis: ChartLineAxis = {
   id: "x",
@@ -39,13 +37,15 @@ const velocityAxis: ChartLineAxis = {
 const chartLine = new ChartLine({
   canvasId: "graphCanvas",
   type: "line",
-  title: "v-t 図",
+  title: "v-tグラフ",
   titleFontSize: 16,
+  showLegend: true,
+  legendFontSize: 13,
   axes: [timeAxis, velocityAxis],
   datasets: [
     {
       label: "速さ v",
-      color: BODY_COLOR,
+      color: COLOR.train,
       data: state.vtData,
       pointRadius: 0
     }

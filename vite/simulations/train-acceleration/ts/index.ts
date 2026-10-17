@@ -7,8 +7,24 @@ import { hideLoadingSpinner } from "../../../ts/bicpema-loading-spinner.js";
 import { settingInit, elementSelectInit } from "./init.js";
 import { state } from "./state.js";
 import { updateGraph } from "./graph.js";
-import { drawScenery, drawTrain, drawInfoPanel } from "./function.js";
-import { FPS, V_W, GROUND_Y_RATIO, SAMPLE_EVERY_FRAMES } from "./constants.js";
+import {
+  drawScenery,
+  drawTrain,
+  drawAccelerationArrow,
+  drawInfoPanel
+} from "./function.js";
+import {
+  FPS,
+  V_W,
+  GROUND_Y_RATIO,
+  SAMPLE_EVERY_FRAMES,
+  TRAIN_X
+} from "./constants.js";
+
+/** 幅の狭い画面とみなすキャンバス幅 (px) */
+const NARROW_WIDTH = 700;
+/** 幅の狭い画面での電車・数値表示の拡大率 */
+const NARROW_SCALE = 1.4;
 
 /** 1フレーム分、運動を進め、一定間隔でv-t図へ点を追加する。 */
 const advance = () => {
@@ -49,14 +65,26 @@ const sketch = (p: p5) => {
     p.scale(p.width / V_W);
     const vh = V_W * (p.height / p.width);
     const groundY = vh * GROUND_Y_RATIO;
+    // 幅の狭い画面では電車と数値表示を拡大する
+    const narrow = p.width < NARROW_WIDTH;
+    const k = narrow ? NARROW_SCALE : 1;
     drawScenery(p, groundY, vh, state.train.position);
-    drawTrain(p, groundY);
+    p.push();
+    p.translate(TRAIN_X, groundY);
+    p.scale(k);
+    p.translate(-TRAIN_X, -groundY);
+    drawTrain(p, groundY, state.train.position);
+    drawAccelerationArrow(p, groundY, state.acceleration);
+    p.pop();
+    p.push();
+    p.scale(k);
     drawInfoPanel(
       p,
       state.train.velocity,
       state.stepCount / FPS,
       state.acceleration
     );
+    p.pop();
 
     if (isFirstDraw) {
       isFirstDraw = false;

@@ -15,16 +15,39 @@ export const SAMPLE_EVERY_FRAMES = FPS / 10;
 /** 電車の中心x座標（仮想ピクセル）。電車は画面中央に固定し、背景が流れる */
 export const TRAIN_X = V_W / 2;
 /** 電車の半幅（仮想ピクセル） */
-export const TRAIN_HALF_W = 100;
-/** 地面（レール上端）のy座標を仮想キャンバス高さに対する比率で表した値 */
-export const GROUND_Y_RATIO = 0.72;
-/** 電車の車体色 [R, G, B]。v-tグラフの線色にも使用し、両者の色を一致させる */
-export const TRAIN_BODY_COLOR_RGB = [30, 100, 200] as const;
+export const TRAIN_HALF_W = 120;
+/** レール上端のy座標を仮想キャンバス高さに対する比率で表した値 */
+export const GROUND_Y_RATIO = 0.7;
 
-/** 枕木の間隔（仮想ピクセル。4m） */
-export const TIE_SPACING = 40;
+/** 枕木の間隔（仮想ピクセル。2.4m） */
+export const TIE_SPACING = 24;
 /** 距離標の間隔（仮想ピクセル。20m） */
 export const MARKER_SPACING = 200;
+
+/** 配色。他のシミュレーションと揃えた白背景の配色で、v-t図の線色と電車の車体色を揃える */
+export const COLOR = {
+  train: "rgb(60, 150, 255)",
+  outline: "#2b3440",
+  ground: "#6b4423",
+  groundLight: "#c9a98a",
+  sleeper: "#7a5230",
+  rail: "#8a8f98",
+  marker: "#c9a14a",
+  text: "#444",
+  textMuted: "#777",
+  panel: "rgba(85, 85, 85, 0.92)",
+  panelText: "#eef2fb",
+  panelMuted: "#b7c2dc",
+  accelerating: "#7be09a",
+  decelerating: "#ff9a9a"
+} as const;
+
+/** 文字のフォント（Zen Maru Gothic の読み込みが完了するまでの代替を含む） */
+export const FONT_FAMILY =
+  "'Zen Maru Gothic', 'Hiragino Maru Gothic ProN', sans-serif";
+/** 他のシミュレーションと共通の丸ゴシックのフォントファイル */
+export const FONT_URL =
+  "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580";
 
 /** v-tグラフのx軸の初期最大値と下限 (s) */
 export const CHART_X_MIN_MAX = 10;
