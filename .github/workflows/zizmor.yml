@@ -5,11 +5,13 @@ name: ワークフローのセキュリティチェック（zizmor）
   pull_request:
     paths:
       - ".github/workflows/**"
+      - ".github/actions/**"
   push:
     branches:
       - main
     paths:
       - ".github/workflows/**"
+      - ".github/actions/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
