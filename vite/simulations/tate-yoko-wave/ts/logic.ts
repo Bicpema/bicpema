@@ -1,3 +1,4 @@
+import { drawArrow as drawSharedArrow } from "../../../ts/components/arrow.js";
 import { state } from "./state.js";
 import { computeWaveDisplacement, computeArrivalTime } from "./physics.js";
 import {
@@ -37,19 +38,10 @@ function displacement(p: p5, x0: number) {
  * @param y2 - 終点のY座標
  */
 function drawArrow(p: p5, x1: number, y1: number, x2: number, y2: number) {
-  if (p.dist(x1, y1, x2, y2) < 1) return;
-  p.stroke(...ARROW_COLOR);
-  p.strokeWeight(2);
-  p.line(x1, y1, x2, y2);
-  const angle = p.atan2(y2 - y1, x2 - x1);
-  const s = 8;
-  p.push();
-  p.translate(x2, y2);
-  p.rotate(angle);
-  p.fill(...ARROW_COLOR);
-  p.noStroke();
-  p.triangle(0, 0, -s, s / 2, -s, -s / 2);
-  p.pop();
+  drawSharedArrow(p, x1, y1, x2, y2, p.color(...ARROW_COLOR), {
+    weight: 2,
+    headSize: 8
+  });
 }
 
 /**

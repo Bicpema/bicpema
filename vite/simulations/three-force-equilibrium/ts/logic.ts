@@ -1,5 +1,6 @@
 // logic.js はシミュレーションの描画ロジックと物理計算を管理するファイルです。
 
+import { drawArrow as drawSharedArrow } from "../../../ts/components/arrow.js";
 import {
   state,
   V_W,
@@ -99,30 +100,11 @@ function drawArrow(
   sw = 3,
   hs = 11
 ) {
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const len = Math.hypot(dx, dy);
-  if (len < 1) return;
-
-  const ux = dx / len;
-  const uy = dy / len;
-
-  // 軸（矢頭の手前まで）
-  p.stroke(col[0], col[1], col[2]);
-  p.strokeWeight(sw);
-  p.line(x1, y1, x2 - ux * hs, y2 - uy * hs);
-
-  // 矢頭
-  p.fill(col[0], col[1], col[2]);
-  p.noStroke();
-  p.triangle(
-    x2,
-    y2,
-    x2 - ux * hs - uy * hs * 0.5,
-    y2 - uy * hs + ux * hs * 0.5,
-    x2 - ux * hs + uy * hs * 0.5,
-    y2 - uy * hs - ux * hs * 0.5
-  );
+  drawSharedArrow(p, x1, y1, x2, y2, p.color(col[0], col[1], col[2]), {
+    weight: sw,
+    headSize: hs,
+    headWidthDivisor: 2
+  });
 }
 
 /**
