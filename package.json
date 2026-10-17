@@ -12,6 +12,7 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
     "new:simulation": "node scripts/new-simulation.js",
+    "new:component": "node scripts/new-component.js",
     "verify:runtime": "node scripts/verify-simulation-runtime.js",
     "pretest:e2e": "npm run build",
     "test:e2e": "playwright test",
