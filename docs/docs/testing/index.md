@@ -26,7 +26,7 @@ Bicpema のテストは以下の 2 種類を行います。
 - **ユーティリティ関数**（ビルドスクリプト等）はユニットテストで検証します
 - **UIの動作確認**（ボタン、スライダー、キャンバスの表示）は Playwright による E2E テストで検証します
 
-シミュレーションのロジックをユニットテスト可能にするには、p5インスタンスや実DOM要素に直接依存せず、`state` の読み書きだけで完結する関数として切り出してください（設計の考え方は [p5js-simulation-testing スキル](../../../.claude/skills/p5js-simulation-testing/SKILL.md) を参照）。
+シミュレーションのロジックをユニットテスト可能にするには、p5インスタンスや実DOM要素に直接依存せず、`state` の読み書きだけで完結する関数として切り出してください（設計の考え方は [p5js-simulation-testing スキル](https://github.com/Bicpema/bicpema/blob/main/.claude/skills/p5js-simulation-testing/SKILL.md) を参照）。
 
 ## テストの実行
 

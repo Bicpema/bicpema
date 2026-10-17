@@ -1,2 +1,5 @@
-# 開発用のPythonツール（CIの yamllint ワークフローで使用）
+# 開発用のPythonツール（CIの yamllint・docs-build ワークフローで使用）
 yamllint==1.38.0
+
+# 開発者ドキュメント（docs/）のビルドで使用（CIの docs-build ワークフローと同じバージョン）
+zensical==0.0.71

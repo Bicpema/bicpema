@@ -30,7 +30,7 @@ export function updateVelocity(p, state) {
 }
 ```
 
-設計の考え方の詳細は [p5js-simulation-testing スキル](../../../.claude/skills/p5js-simulation-testing/SKILL.md) を参照してください。
+設計の考え方の詳細は [p5js-simulation-testing スキル](https://github.com/Bicpema/bicpema/blob/main/.claude/skills/p5js-simulation-testing/SKILL.md) を参照してください。
 
 ## テストの実行
 

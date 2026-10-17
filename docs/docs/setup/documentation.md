@@ -10,7 +10,7 @@
 ## Zensical のインストール
 
 ```bash
-pip install zensical
+pip install -r requirements-dev.txt
 ```
 
 または仮想環境を使用する場合:
@@ -18,7 +18,7 @@ pip install zensical
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install zensical
+pip install -r requirements-dev.txt
 ```
 
 ## ローカルサーバーの起動
@@ -31,6 +31,19 @@ zensical serve
 ```
 
 ブラウザで <http://localhost:8000/> を開くとドキュメントが表示されます。
+
+## ビルドの確認
+
+CIと同じ条件（警告をエラー扱い）でビルドを確認するには、以下を実行します。`docs/` を変更したPull Requestでは、CI（`docs-build.yml`）でも同じビルドが実行されます。
+
+```bash
+cd docs
+zensical build --clean --strict
+```
+
+## 公開方針
+
+開発者ドキュメントはリポジトリ内の開発者向け資料のため、Webサイトとしての公開（GitHub Pages等へのデプロイ）は行いません。Markdownは `docs/docs/` にあり、GitHub上でそのまま閲覧できます。公開が必要になった場合は、別途Issueで検討してください。
 
 ## ドキュメントの編集
 

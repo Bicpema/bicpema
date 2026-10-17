@@ -122,6 +122,7 @@ Actions画面やPRのチェック一覧で何を検査しているかを判別�
 | `format.yml`                    | コードのフォーマットチェック（Prettier）               | Pull Request、`main` へのプッシュ                                       | `npm run format:check`                                      |
 | `markdownlint.yml`              | Markdownのリントチェック（markdownlint）               | Markdownファイル変更時のPull Request、`main` へのプッシュ               | `npm run lint:md`                                           |
 | `oxlint.yml`                    | TypeScript/JavaScriptのリントチェック（oxlint）        | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | `npm run lint`                                              |
+| `docs-build.yml`                | 開発者ドキュメントのビルドチェック（Zensical）         | `docs/` 変更時のPull Request、`main` へのプッシュ                       | `zensical build --strict`（リンク切れ・設定ミスを検知）     |
 | `yamllint.yml`                  | YAMLのリントチェック（yamllint）                       | YAMLファイル変更時のPull Request、`main` へのプッシュ                   | yamllint によるYAMLファイルのリントチェック                 |
 | `typecheck.yml`                 | TypeScriptの型チェック（tsc）                          | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | `npm run typecheck`                                         |
 | `unit-test.yml`                 | スクリプト・シミュレーションのユニットテスト（Vitest） | Vite関連ファイル変更時のPull Request、`main` へのプッシュ               | `npm test`                                                  |
