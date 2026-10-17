@@ -50,7 +50,8 @@ jobs:
 
   # デプロイ前に全シミュレーションのE2Eテストを実行する（PRでは変更されたシミュレーションのみ実行しているため）
   e2e-test:
-    uses: $/.github/workflows/e2e-test.yml
+    # actionlintが `$/` 構文に未対応のため、zizmorのself-repository指摘は抑制する
+    uses: ./.github/workflows/e2e-test.yml  # zizmor: ignore[self-repository]
 
   deploy:
     needs: [verify, e2e-test]
