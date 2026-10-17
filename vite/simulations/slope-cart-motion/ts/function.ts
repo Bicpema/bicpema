@@ -2,6 +2,26 @@
 
 import { state } from "./state.js";
 import type { SlopeCart } from "./slope-cart.js";
+import {
+  INFO_PANEL_X,
+  INFO_PANEL_Y,
+  INFO_PANEL_W,
+  INFO_PANEL_RADIUS,
+  INFO_PANEL_PADDING_X,
+  INFO_PANEL_PADDING_Y,
+  INFO_PANEL_ROW_H,
+  INFO_PANEL_LABEL_SIZE,
+  INFO_PANEL_VALUE_SIZE,
+  INFO_PANEL_UNIT_SIZE,
+  INFO_PANEL_UNIT_W,
+  INFO_PANEL_NUMBER_FONT,
+  INFO_PANEL_BG_COLOR,
+  INFO_PANEL_BORDER_COLOR,
+  INFO_PANEL_DIVIDER_COLOR,
+  INFO_PANEL_MUTED_COLOR,
+  INFO_PANEL_VALUE_COLOR,
+  INFO_PANEL_SHADOW
+} from "./constants.js";
 
 // ============================================================
 // レイアウト定数（仮想座標系: 1000×562）
@@ -290,44 +310,68 @@ export function drawRecordingTape(p: p5, marks: number[], recInterval: number) {
 
 /**
  * 情報パネルを描画する（左上）。
+ * ラベルを小さく控えめに、数値を等幅フォントで大きく表示する。
  * @param p - p5インスタンス
  * @param cart - 台車オブジェクト
  */
 export function drawInfoPanel(p: p5, cart: SlopeCart) {
-  const PANEL_W = 310;
-  const PANEL_H = 152;
-  const LEFT_X = 26;
-  const RIGHT_X = LEFT_X + PANEL_W - 16;
-  const START_Y = 18;
-  const LINE_H = 26;
-
-  // 背景
-  p.fill(0, 0, 0, 170);
-  p.noStroke();
-  p.rect(14, 14, PANEL_W, PANEL_H, 9);
-
-  p.fill(190, 215, 255);
-  p.noStroke();
-  p.textSize(15);
-
-  const t = cart.time.toFixed(2);
-  const s = cart.s.toFixed(3);
-  const v = cart.v.toFixed(2);
-  const a = cart.accel.toFixed(2);
-
   const rows = [
-    ["時刻  t", t + " s"],
-    ["変位  s", s + " m"],
-    ["速度  v", v + " m/s"],
-    ["加速度 a", a + " m/s²"],
-    ["傾斜角 θ", cart.angleDeg + " °"]
+    { label: "時刻 t", value: cart.time.toFixed(2), unit: "s" },
+    { label: "変位 s", value: cart.s.toFixed(3), unit: "m" },
+    { label: "速度 v", value: cart.v.toFixed(2), unit: "m/s" },
+    { label: "加速度 a", value: cart.accel.toFixed(2), unit: "m/s²" },
+    { label: "傾斜角 θ", value: String(cart.angleDeg), unit: "°" }
   ];
+  const panelH = rows.length * INFO_PANEL_ROW_H + INFO_PANEL_PADDING_Y * 2;
+  const leftX = INFO_PANEL_X + INFO_PANEL_PADDING_X;
+  const unitRightX = INFO_PANEL_X + INFO_PANEL_W - INFO_PANEL_PADDING_X;
+  const valueRightX = unitRightX - INFO_PANEL_UNIT_W;
+  const ctx = p.drawingContext as CanvasRenderingContext2D;
 
-  rows.forEach(([label, value], i) => {
-    const y = START_Y + i * LINE_H;
-    p.textAlign(p.LEFT, p.TOP);
-    p.text(label, LEFT_X, y);
-    p.textAlign(p.RIGHT, p.TOP);
-    p.text(value, RIGHT_X, y);
+  // 背景（影つきの白いカード）
+  p.push();
+  ctx.shadowColor = INFO_PANEL_SHADOW;
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetY = 2;
+  p.fill(INFO_PANEL_BG_COLOR);
+  p.stroke(INFO_PANEL_BORDER_COLOR);
+  p.strokeWeight(1);
+  p.rect(INFO_PANEL_X, INFO_PANEL_Y, INFO_PANEL_W, panelH, INFO_PANEL_RADIUS);
+  p.pop();
+
+  p.noStroke();
+  rows.forEach(({ label, value, unit }, i) => {
+    const top = INFO_PANEL_Y + INFO_PANEL_PADDING_Y + i * INFO_PANEL_ROW_H;
+    const centerY = top + INFO_PANEL_ROW_H / 2;
+
+    // 区切り線（最初の行の上には引かない）
+    if (i > 0) {
+      p.stroke(INFO_PANEL_DIVIDER_COLOR);
+      p.strokeWeight(1);
+      p.line(leftX, top, unitRightX, top);
+      p.noStroke();
+    }
+
+    // ラベル
+    p.fill(INFO_PANEL_MUTED_COLOR);
+    p.textAlign(p.LEFT, p.CENTER);
+    p.textSize(INFO_PANEL_LABEL_SIZE);
+    p.text(label, leftX, centerY);
+
+    // 数値（等幅フォントで桁ずれを防ぐ）
+    p.fill(INFO_PANEL_VALUE_COLOR);
+    p.textFont(INFO_PANEL_NUMBER_FONT);
+    p.textStyle(p.BOLD);
+    p.textAlign(p.RIGHT, p.CENTER);
+    p.textSize(INFO_PANEL_VALUE_SIZE);
+    p.text(value, valueRightX, centerY);
+    p.textStyle(p.NORMAL);
+    if (state.font) p.textFont(state.font);
+
+    // 単位
+    p.fill(INFO_PANEL_MUTED_COLOR);
+    p.textAlign(p.LEFT, p.CENTER);
+    p.textSize(INFO_PANEL_UNIT_SIZE);
+    p.text(unit, valueRightX + 6, centerY);
   });
 }
