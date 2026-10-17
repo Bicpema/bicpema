@@ -22,3 +22,4 @@ docs/.cache
 playwright-report/
 test-results/
 blob-report/
+storybook-static

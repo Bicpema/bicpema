@@ -54,6 +54,7 @@
     "**/node_modules/**",
     "public/**",
     "static/vite/**",
+    "storybook-static/**",
     "resources/**",
     "docs/site/**",
     "docs/.cache/**",
