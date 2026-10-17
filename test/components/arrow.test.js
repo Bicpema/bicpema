@@ -50,6 +50,18 @@ describe("drawArrow", () => {
     );
   });
 
+  it("描画状態をpush()/pop()で閉じ、呼び出し側へstroke等を残さない", () => {
+    const p = createMockP();
+    drawArrow(p, 0, 0, 100, 0, /** @type {any} */ ("red"));
+    expect(p.push.mock.calls.length).toBe(p.pop.mock.calls.length);
+    expect(p.push.mock.invocationCallOrder[0]).toBeLessThan(
+      p.stroke.mock.invocationCallOrder[0]
+    );
+    expect(p.pop.mock.invocationCallOrder.at(-1)).toBeGreaterThan(
+      p.triangle.mock.invocationCallOrder[0]
+    );
+  });
+
   it("styleで太さと頭の大きさを変更できる", () => {
     const p = createMockP();
     drawArrow(p, 0, 0, 0, 50, /** @type {any} */ ("blue"), {
@@ -114,6 +126,15 @@ describe("drawArrowWithLabel", () => {
     expect(p.line).toHaveBeenCalledTimes(1);
     expect(p.textSize).toHaveBeenCalledWith(16);
     expect(p.text).toHaveBeenCalledWith("F", 50, 18);
+  });
+
+  it("矢印とラベルの描画状態をpush()/pop()で閉じる", () => {
+    const p = createMockP();
+    drawArrowWithLabel(p, 0, 0, 100, 0, /** @type {any} */ ("red"), "F");
+    expect(p.push.mock.calls.length).toBe(p.pop.mock.calls.length);
+    expect(p.pop.mock.invocationCallOrder.at(-1)).toBeGreaterThan(
+      p.text.mock.invocationCallOrder[0]
+    );
   });
 
   it("オプションで文字サイズ・ずれ・矢印の太さを変更できる", () => {

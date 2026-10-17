@@ -16,7 +16,7 @@ const MIN_ARROW_LENGTH = 2;
 
 /**
  * 矢印（線分 + 三角形の頭）を描画する。長さが極端に短い場合は何も描画しない。
- * 描画後のstroke/strokeWeight/fillは変更されたまま残る（既存の各シミュレーションの挙動を踏襲）。
+ * 描画状態（stroke/strokeWeight/fill）は`push()`/`pop()`で閉じており、呼び出し側へ副作用を残さない。
  * @param p - p5インスタンス
  * @param fromX - 始点のX座標
  * @param fromY - 始点のY座標
@@ -38,12 +38,12 @@ export function drawArrow(
   const dy = toY - fromY;
   if (Math.hypot(dx, dy) < MIN_ARROW_LENGTH) return;
 
+  p.push();
   p.stroke(col);
   p.strokeWeight(weight);
   p.fill(col);
   p.line(fromX, fromY, toX, toY);
 
-  p.push();
   p.translate(toX, toY);
   p.rotate(Math.atan2(dy, dx));
   p.noStroke();
@@ -63,6 +63,7 @@ export interface ArrowLabelStyle extends ArrowStyle {
 /**
  * 矢印とラベルをまとめて描画する。ラベルは矢印の中点から法線方向にずらして矢印と同じ色で表示する。
  * 矢印が極端に短い場合はラベルも描画しない。
+ * 描画状態（stroke/fill/textSize/textAlignなど）は`push()`/`pop()`で閉じており、呼び出し側へ副作用を残さない。
  * @param p - p5インスタンス
  * @param fromX - 始点のX座標
  * @param fromY - 始点のY座標
@@ -87,6 +88,7 @@ export function drawArrowWithLabel(
   const len = Math.hypot(dx, dy);
   if (len < MIN_ARROW_LENGTH) return;
 
+  p.push();
   drawArrow(p, fromX, fromY, toX, toY, col, arrowStyle);
 
   p.noStroke();
@@ -98,6 +100,7 @@ export function drawArrowWithLabel(
     (fromX + toX) / 2 + (-dy / len) * labelOffset,
     (fromY + toY) / 2 + (dx / len) * labelOffset
   );
+  p.pop();
 }
 
 /**

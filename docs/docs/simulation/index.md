@@ -142,8 +142,9 @@ const canvasController = new BicpemaCanvasController({
 - **部品のまとめ管理**: `vite/ts/components/component-group.ts` の `ComponentGroup` が複数の `SimComponent` を束ね、`update()` / `draw(p)` / `reset()` / `dispose()` を一括で呼びます。コンストラクターに「一時停止中か」を返す関数を渡すと、一時停止中は `update()` をスキップして `draw(p)` のみ実行します（`new ComponentGroup(() => !isPlaying)` のように使います）。
 - **設定値の反映**: 設定パネルの値は、呼び出し側（`onChange` 等のハンドラー）が部品のプロパティへ直接代入します（例: `arrow.color = ...`）。イベントバスやリアクティブ化は行いません。
 - **配置場所**: 1ファイル1コンポーネント（ケバブケース）で `vite/ts/components/` に置きます。シミュレーション固有の部品は従来どおり各シミュレーションの `ts/class.ts` に置きます。
-- **関数とクラスの使い分け**: 状態を持たない描画は関数（例: `drawArrow`）、状態を持ち毎フレーム更新するものは `SimComponent` を実装するクラス（例: `Arrow`）で提供します。
 - **提供済みの部品**: 矢印（`arrow.ts`）・点線（`dashed-line.ts`）・座標系（`coordinate-system.ts`、p5非依存の物理座標とピクセルの変換）。使用例は`npm run new:simulation`が生成するひな形の`ts/index.ts`にあります。再生・停止ボタンのバインディングは従来どおり `vite/ts/bicpema-controls-controller.ts` が担います。
+- **描画状態の規約**: 部品は描画の前後で`stroke`・`strokeWeight`・`fill`・`textSize`・`textAlign`などの描画状態を呼び出し側へ残さないよう、内部で`push()`/`pop()`により閉じます。呼び出し側は、部品の描画後に前の描画状態へ依存せず、必要な`stroke`/`fill`を自分で設定してください（例: 矢印の後にテキストを描く場合は`fill`を明示する）。
+- **関数とクラスの選び方**: 関数は、引数だけで描画が決まり、フレームをまたいで保持すべき状態がない場合に使います。クラスは、座標や色などを保持して更新・再描画する場合に使います。どちらの場合も上記の描画状態の規約に従います。
 - **既存シミュレーションの移行**: 一括移行はせず、修正するタイミングで段階的に移行します。移行済み: `force-decomposition` / `slope-force-decomposition` / `force-composition` / `archimedes-principle` / `three-force-equilibrium` / `velocity-composition` / `tate-yoko-wave`（矢印）。
 - **Storybook**: UI部品の確認用に導入しています（`@storybook/html-vite`）。`npm run storybook` で起動し（`http://localhost:6006`）、`npm run build:storybook` で静的ビルドします。設定は `.storybook/`、storiesはシミュレーションのビルド対象（`vite/`）に混ざらないよう、リポジトリ直下の `stories/` に `*.stories.js` として置きます。
     - `.storybook/preview.js` で `vite/css/tailwind.css` を読み込み、本番と同じ見た目で確認できます。

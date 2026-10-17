@@ -6,7 +6,9 @@ function createMockP() {
   return {
     stroke: vi.fn(),
     strokeWeight: vi.fn(),
-    line: vi.fn()
+    line: vi.fn(),
+    push: vi.fn(),
+    pop: vi.fn()
   };
 }
 
@@ -16,6 +18,20 @@ describe("drawDashedLine", () => {
     drawDashedLine(p, 0, 0, 0.5, 0, /** @type {any} */ ("red"));
     expect(p.line).not.toHaveBeenCalled();
     expect(p.stroke).not.toHaveBeenCalled();
+    expect(p.push).not.toHaveBeenCalled();
+  });
+
+  it("描画状態をpush()/pop()で閉じ、呼び出し側へstroke等を残さない", () => {
+    const p = createMockP();
+    drawDashedLine(p, 0, 0, 100, 0, /** @type {any} */ ("red"));
+    expect(p.push).toHaveBeenCalledTimes(1);
+    expect(p.pop).toHaveBeenCalledTimes(1);
+    expect(p.push.mock.invocationCallOrder[0]).toBeLessThan(
+      p.stroke.mock.invocationCallOrder[0]
+    );
+    expect(p.pop.mock.invocationCallOrder[0]).toBeGreaterThan(
+      p.line.mock.invocationCallOrder.at(-1)
+    );
   });
 
   it("既定の太さは1.5で、指定した色で描画する", () => {
