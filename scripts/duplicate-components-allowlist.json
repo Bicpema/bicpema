@@ -1,1 +1,7 @@
-[]
+[
+  "cellophane-color-2:drawGraph",
+  "cellophane-color-2d-animation:drawGraph",
+  "conservation-of-heat-and-specific-heat:drawGraph",
+  "elastic-force:drawGraph",
+  "visualization-of-heat-transfer:drawGraph"
+]

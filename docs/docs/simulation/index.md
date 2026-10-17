@@ -325,7 +325,7 @@ vtGraph.update();
 
 #### 重複定義の検査
 
-`npm run check:duplicate-components`（CIの`check-duplicate-components.yml`でも実行）が、`vite/simulations/` 内で `drawArrow` / `drawArrowWithLabel` / `drawDashed` / `drawDashedLine` を独自に定義していないかを検査します。未移行の既存分は `scripts/duplicate-components-allowlist.json` に `シミュレーション名:関数名` 形式で登録します（現在は全件移行済みで空です）。新しい重複はCIで失敗し、移行して解消済みなのに許可リストへ残っているエントリも失敗するため、移行時は許可リストから削除してください。検査対象の関数名を増やす場合は `scripts/_lib/checkDuplicateComponents.js` の `COMPONENT_FUNCTION_NAMES` に追加します。
+`npm run check:duplicate-components`（CIの`check-duplicate-components.yml`でも実行）が、`vite/simulations/` 内で `drawArrow` / `drawArrowWithLabel` / `drawDashed` / `drawDashedLine` / `drawGrid` / `drawAxes` / `drawGraph` / `drawPlotArea` / `drawPolyline` を独自に定義していないかを検査します。未移行の既存分は `scripts/duplicate-components-allowlist.json` に `シミュレーション名:関数名` 形式で登録します（現在はグラフ描画の `drawGraph` 未移行の5件 `cellophane-color-2` / `cellophane-color-2d-animation` / `conservation-of-heat-and-specific-heat` / `elastic-force` / `visualization-of-heat-transfer` が登録されています。グラフ描画の移行が完了したら、エントリーを削除して許可リストを空にします）。新しい重複はCIで失敗し、移行して解消済みなのに許可リストへ残っているエントリも失敗するため、移行時は許可リストから削除してください。検査対象の関数名を増やす場合は `scripts/_lib/checkDuplicateComponents.js` の `COMPONENT_FUNCTION_NAMES` に追加します。
 
 優先度は、重複数と実装の同一性から、矢印の派生 → 点線 → 座標軸・グリッド → グラフの順を推奨します。
 
