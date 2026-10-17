@@ -1,4 +1,5 @@
 import p5 from "p5";
+import { drawDashedLine } from "../../../ts/components/dashed-line.js";
 import { hideLoadingSpinner } from "../../../ts/bicpema-loading-spinner.js";
 import { BicpemaCanvasController } from "../../../ts/bicpema-canvas-controller.js";
 import "../../../css/tailwind.css";
@@ -401,6 +402,9 @@ function baseDraw(p: p5) {
   );
 }
 
+/** 点線の色（白。初回描画時に生成して使い回す） */
+let dashedLineColor: p5.Color | null = null;
+
 /**
  * 2点間に点線を描画する。
  * @param p - p5インスタンス
@@ -410,9 +414,12 @@ function baseDraw(p: p5) {
  * @param bY - 終点のy座標
  */
 function dashedLine(p: p5, aX: number, aY: number, bX: number, bY: number) {
-  p.drawingContext.setLineDash([5, 5]);
-  p.line(aX, aY, bX, bY);
-  p.drawingContext.setLineDash([]);
+  dashedLineColor ??= p.color(255);
+  drawDashedLine(p, aX, aY, bX, bY, dashedLineColor, {
+    weight: 1,
+    dashLength: 5,
+    gapLength: 5
+  });
 }
 
 /**

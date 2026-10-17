@@ -1,5 +1,7 @@
 // logic.jsはシミュレーションの描画処理と物理更新専用のファイルです。
 
+import type p5 from "p5";
+import { drawArrow as drawSharedArrow } from "../../../ts/components/arrow.js";
 import { state } from "./state.js";
 import {
   FPS,
@@ -178,6 +180,9 @@ function drawVelocityArrow(p: p5, cartLeftX: number, v: number) {
   p.text("v = " + v.toFixed(2) + " m/s", arrowCenterX, arrowY - 4);
 }
 
+/** 抵抗力の矢印の色（初回描画時に生成して使い回す） */
+let forceColor: p5.Color | null = null;
+
 /**
  * 抵抗力の矢印を描画する（接触中のみ）
  * @param p - p5インスタンス
@@ -188,21 +193,15 @@ function drawForceArrow(p: p5, cartLeftX: number) {
   const arrowEndX = cartLeftX + 8;
   const arrowStartX = arrowEndX + 80;
 
-  p.stroke(...FORCE_COLOR);
-  p.strokeWeight(3);
-  p.line(arrowStartX, arrowY, arrowEndX, arrowY);
+  forceColor ??= p.color(...FORCE_COLOR);
+  drawSharedArrow(p, arrowStartX, arrowY, arrowEndX, arrowY, forceColor, {
+    weight: 3,
+    headSize: 13,
+    headWidthDivisor: 13 / 7
+  });
 
-  p.fill(...FORCE_COLOR);
+  // 共通の矢印は描画状態を戻すため、直後のテキスト描画に必要な状態を明示する
   p.noStroke();
-  p.triangle(
-    arrowEndX,
-    arrowY,
-    arrowEndX + 13,
-    arrowY - 7,
-    arrowEndX + 13,
-    arrowY + 7
-  );
-
   p.textAlign(p.LEFT, p.BOTTOM);
   p.textSize(14);
   p.fill(...FORCE_COLOR);
