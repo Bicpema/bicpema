@@ -149,7 +149,7 @@ const canvasController = new BicpemaCanvasController({
     - `.storybook/preview.js` で `vite/css/tailwind.css` を読み込み、本番と同じ見た目で確認できます。
     - `.storybook/main.js` の `viteFinal` で、Viteのroot（`./vite`）をリポジトリ直下に戻し、Tailwindのプラグインを追加しています。
     - storiesから `?bicpema` 付きでimportしたHTML（例: `import html from "./settings-modal.html?bicpema"`）は、`<bicpema-*>` タグがシミュレーションのビルドと同じ処理で展開されます。
-    - 現在のstoriesは再生・リセットボタン、設定ボタン・設定モーダル、矢印（`Arrow`）です。p5を使うstoryは `stories/p5-decorator.js` の `createP5Story()` で作成してください。storyの切り替え（要素の取り外し）時に `p.remove()` で後始末されます。
+    - 現在のstoriesは再生・リセットボタン、設定ボタン・設定モーダル、ナビバー、ローディングスピナー、フォーム部品、矢印（`Arrow`）、点線です。追加手順は[コンポーネント追加手順](#コンポーネント追加手順)を参照してください。p5を使うstoryは `stories/p5-decorator.js` の `createP5Story()` で作成してください。storyの切り替え（要素の取り外し）時に `p.remove()` で後始末されます。
     - CIは `.github/workflows/storybook.yml` でパスフィルター付きのビルド検査を行います。
 
 #### 重複している部品の候補一覧
@@ -275,6 +275,56 @@ npm run benchmark:performance -- --filter=free-fall,projectile-motion
 `--device-scale=3`のように`deviceScaleFactor`を上げると、高DPI環境を模したcanvasの実ピクセルサイズ（pixelDensityの上限が効いているか）も確認できます。
 
 なお、ペイント頻度は`requestAnimationFrame`ベースで計測しているため、`p.frameRate(...)`で間引いているシミュレーションでは実際の`draw()`実行頻度より高い値が出ます（p5内部では間引き中も画面更新のたびに`requestAnimationFrame`は呼ばれ続けるため）。低frameRateの効果を確認したい場合は、JSヒープ使用量の推移など他の指標と合わせて判断してください。
+
+## コンポーネント追加手順
+
+共通の描画部品を `vite/ts/components/` に追加するときの手順です（[Issue #833](https://github.com/Bicpema/bicpema/issues/833)）。背景は[描画・UI部品のコンポーネント化](#描画ui部品のコンポーネント化)を参照してください。
+
+### 1. 切り出す対象を決める
+
+- 2つ以上のシミュレーションで同じ実装が重複しているものを対象にします（候補は[重複している部品の候補一覧](#重複している部品の候補一覧)）。1つのシミュレーションでしか使わない部品は、そのシミュレーションの `ts/class.ts` に置きます。
+- 中身がシミュレーション固有のもの（`drawSimulation` / `settingInit` など）は共通化の対象外です。
+
+### 2. 命名と種類を決める
+
+- ファイル名は半角英小文字・数字のケバブケース（例: `grid-lines.ts`）で、1ファイル1コンポーネントとします。
+- 状態を持たない描画は関数にします。関数名は `draw` + パスカルケース（例: `drawGridLines`）、オプションは `<パスカルケース>Style` 型の最終引数にまとめます。
+- 毎フレーム状態を更新する部品はクラスにします。クラス名はパスカルケース（例: `GridLines`）で、`update()`（状態の更新）と `draw(p)`（描画のみ。状態は変更しない）を持たせ、`SimComponent`（`sim-component.ts`）と互換な形にします。一時停止中は `update()` を呼ばず `draw(p)` だけを呼びます。
+- p5はインスタンスモードで扱い、引数 `p` として受け取ります（グローバルの `p5` 関数は使いません）。描画後に変わる `stroke` / `fill` などの状態は、TSDocに明記します。
+
+### 3. ひな形を生成する
+
+```bash
+npm run new:component
+```
+
+コンポーネント名（ケバブケース）・Storybookの日本語名・種類（`function` / `class`）を入力すると、以下の3ファイルが生成されます。既存の名前と重複する場合はエラーになります。
+
+| ファイル                         | 内容                                                                        |
+| -------------------------------- | --------------------------------------------------------------------------- |
+| `vite/ts/components/<name>.ts`   | コンポーネント本体（関数またはクラス）                                      |
+| `test/components/<name>.test.js` | Vitestの単体テスト。p5はモック（`vi.fn()`）で差し替える                     |
+| `stories/<name>.stories.js`      | Storybookのstory。`stories/p5-decorator.js` の `createP5Story()` で描画する |
+
+生成された内容は仮実装です。コンポーネント本体を実装し、test・storyを内容に合わせて書き換えてください。
+
+### 4. test・storyの置き場所
+
+- 単体テストは `test/components/<name>.test.js` に置きます（命名は本体と同じケバブケース）。
+- storyは `stories/<name>.stories.js` に置きます。`<bicpema-*>` タグを使うUI部品のstoryは、`stories/<name>.html` を `?bicpema` 付きでimportします（例: `stories/settings-modal.stories.js`）。
+- 既存のstories: 再生・リセットボタン / 設定ボタンと設定モーダル / ナビバー / ローディングスピナー / フォーム部品（`.form-label`・`.form-control`）/ 矢印 / 点線。
+
+### 5. 必須チェックリスト
+
+新しい部品には、test と story を必須とします。PRを出す前に確認してください。
+
+- [ ] `vite/ts/components/<name>.ts` に本体があり、公開する関数・クラス・メソッドにTSDocがある
+- [ ] `test/components/<name>.test.js` がある（描画の呼び出し・オプションの既定値・境界値を検証している。クラスは `update()` と `draw()` の分離、`draw()` が状態を変更しないことも検証している）
+- [ ] `stories/<name>.stories.js` がある（コントロールでオプションを変更でき、`npm run storybook` で見た目を確認した）
+- [ ] 重複していたシミュレーションのうち、1件以上を共通部品へ移行した（または移行しない理由をPRに書いた）
+- [ ] [重複している部品の候補一覧](#重複している部品の候補一覧)の「状態」を更新した
+- [ ] `npm run lint` / `npm run typecheck` / `npm test` / `npm run format:check` が通る
+- [ ] `npm run lint:md`（docsを変更した場合）と `npm run build:storybook` が通る
 
 ## 記事の追加
 
