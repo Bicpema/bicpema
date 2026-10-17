@@ -20,7 +20,9 @@ import {
   MIN_ARROW_DRAG_DISTANCE,
   FORCE_ARROW_COLOR,
   DRAG_HINT_COLOR,
-  INFO_PANEL_MUTED_TEXT_COLOR
+  INFO_PANEL_MUTED_TEXT_COLOR,
+  INFO_PANEL_PRIMARY_TEXT_COLOR,
+  INFO_PANEL_BORDER_COLOR
 } from "./constants.js";
 
 /** キャンバスの論理幅 */
@@ -238,11 +240,15 @@ function drawDragHint(p: p5, x: number, y: number) {
 
 /**
  * 情報パネルを描画する。
+ * 主要値（F・a）を大きく、最大値・質量・速度を補助値として小さく表示する。
  * @param p - p5インスタンス
  * @param F - 現在の力 (N)
  * @param a - 現在の加速度 (m/s²)
  * @param m - 質量 (kg)
  * @param v - 現在の速度 (m/s)
+ * @param maxF - 力の最大値 (N)
+ * @param maxA - 加速度の最大値 (m/s²)
+ * @param massAtMaxA - 最大加速度を記録したときの質量 (kg)
  */
 function drawInfoPanel(
   p: p5,
@@ -254,45 +260,63 @@ function drawInfoPanel(
   maxA: number,
   massAtMaxA: number
 ) {
-  p.fill(0, 0, 0, 180);
-  p.stroke(255, 255, 255, 60);
-  p.strokeWeight(1);
   const panelX = 20;
   const panelY = 20;
-  const panelW = 330;
-  const panelH = 150;
-  p.rect(panelX, panelY, panelW, panelH, 10);
+  const panelW = 340;
+  const panelH = 158;
+  const padding = 20;
+  const leftX = panelX + padding;
+  const rightX = panelX + panelW - padding;
 
-  p.fill(255);
+  // カード背景（白地・淡い罫線）と左端のアクセントバー
+  p.fill(255, 255, 255, 235);
+  p.stroke(INFO_PANEL_BORDER_COLOR);
+  p.strokeWeight(1);
+  p.rect(panelX, panelY, panelW, panelH, 12);
   p.noStroke();
+  p.fill(...FORCE_ARROW_COLOR);
+  p.rect(panelX, panelY + 12, 5, panelH - 24, 3);
+
   if (state.font) p.textFont(state.font);
 
-  const leftX = panelX + 18;
-  const maxX = panelX + panelW - 18;
+  // 主要値（F・a）と、その最大値
+  const rows = [
+    { label: "力 F", value: F, unit: "N", max: maxF },
+    { label: "加速度 a", value: a, unit: "m/s²", max: maxA }
+  ];
+  rows.forEach((row, i) => {
+    const top = panelY + 14 + i * 46;
+    p.textAlign(p.LEFT, p.TOP);
+    p.fill(INFO_PANEL_MUTED_TEXT_COLOR);
+    p.textSize(13);
+    p.text(row.label, leftX, top);
+    p.fill(INFO_PANEL_PRIMARY_TEXT_COLOR);
+    p.textSize(28);
+    p.text(`${row.value.toFixed(2)} ${row.unit}`, leftX, top + 14);
 
-  p.textAlign(p.LEFT, p.TOP);
-  p.textSize(26);
-  p.text(`F = ${F.toFixed(2)} N`, leftX, panelY + 14);
-  p.text(`a = ${a.toFixed(2)} m/s²`, leftX, panelY + 54);
+    p.textAlign(p.RIGHT, p.TOP);
+    p.fill(INFO_PANEL_MUTED_TEXT_COLOR);
+    p.textSize(13);
+    p.text("最大", rightX, top);
+    p.textSize(17);
+    p.text(`${row.max.toFixed(2)} ${row.unit}`, rightX, top + 18);
+  });
 
-  // 最大値を右側に表示
-  p.textSize(18);
-  p.fill(230);
-  p.textAlign(p.RIGHT, p.TOP);
-  p.text(`${maxF.toFixed(2)} N (max)`, maxX, panelY + 14);
-  p.text(`${maxA.toFixed(2)} m/s² (max)`, maxX, panelY + 54);
+  // 区切り線
+  const dividerY = panelY + 112;
+  p.stroke(INFO_PANEL_BORDER_COLOR);
+  p.line(leftX, dividerY, rightX, dividerY);
+  p.noStroke();
 
-  // F = m * a を示す補助表示（最大加速度に対する力）
-  p.textAlign(p.LEFT, p.TOP);
-  p.textSize(14);
-  p.fill(INFO_PANEL_MUTED_TEXT_COLOR);
+  // 補助値（m・v・最大加速度に対する m × a_max）
   const fFromAMax = massAtMaxA && maxA ? massAtMaxA * maxA : 0;
-  p.text(`m × a_max = ${fFromAMax.toFixed(2)} N`, leftX, panelY + 94);
-
-  p.textSize(20);
+  p.textAlign(p.LEFT, p.TOP);
   p.fill(INFO_PANEL_MUTED_TEXT_COLOR);
-  p.text(`m = ${m.toFixed(1)} kg`, leftX, panelY + 116);
-  p.text(`v = ${v.toFixed(2)} m/s`, leftX + 137, panelY + 116);
+  p.textSize(17);
+  p.text(`m = ${m.toFixed(1)} kg`, leftX, dividerY + 10);
+  p.text(`v = ${v.toFixed(2)} m/s`, leftX + 130, dividerY + 10);
+  p.textSize(13);
+  p.text(`m × a_max = ${fFromAMax.toFixed(2)} N`, leftX, dividerY + 32);
 }
 
 new p5(sketch);
