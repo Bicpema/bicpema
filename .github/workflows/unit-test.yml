@@ -10,6 +10,7 @@ name: スクリプト・シミュレーションのユニットテスト（Vites
     paths:
       - "vite/**"
       - "test/**"
+      - "scripts/**"
       - "vite.config.js"
       - "package.json"
       - "package-lock.json"

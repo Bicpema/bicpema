@@ -5,6 +5,8 @@ name: TypeScript/JavaScriptのリントチェック（oxlint）
   pull_request:
     paths:
       - "vite/**"
+      - "test/**"
+      - "scripts/**"
       - ".oxlintrc.json"
       - "package.json"
       - "package-lock.json"
@@ -14,6 +16,8 @@ name: TypeScript/JavaScriptのリントチェック（oxlint）
       - main
     paths:
       - "vite/**"
+      - "test/**"
+      - "scripts/**"
       - ".oxlintrc.json"
       - "package.json"
       - "package-lock.json"
