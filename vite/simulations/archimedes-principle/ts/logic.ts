@@ -51,7 +51,7 @@ function drawInfoText(cylinder: Cylinder, waterSurfaceY: number) {
  * @param ly - ラベルY座標
  * @param lAlignH - 水平アライメント（p.LEFT / p.CENTER / p.RIGHT）
  */
-function drawArrow(
+function drawLabeledArrow(
   p: p5,
   x1: number,
   y1: number,
@@ -102,7 +102,7 @@ function drawForceArrows(p: p5) {
 
   // ----- 1. 重力（↓, 円柱中心から下向き） -----
   const gravityLen = cylinder.density * FORCE_SCALE;
-  drawArrow(
+  drawLabeledArrow(
     p,
     cx - ARROW_OFFSET_X,
     centerY,
@@ -118,7 +118,7 @@ function drawForceArrows(p: p5) {
   // ----- 2. 浮力（↑, 円柱中心から上向き） -----
   if (subFrac > 0) {
     const buoyancyLen = subFrac * FORCE_SCALE;
-    drawArrow(
+    drawLabeledArrow(
       p,
       cx + ARROW_OFFSET_X,
       centerY,

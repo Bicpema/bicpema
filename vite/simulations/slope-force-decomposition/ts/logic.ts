@@ -1,4 +1,4 @@
-import { drawArrow as drawSharedArrow } from "../../../ts/components/arrow.js";
+import { drawArrow } from "../../../ts/components/arrow.js";
 import { drawDashedLine } from "../../../ts/components/dashed-line.js";
 import { state } from "./state.js";
 import {
@@ -15,22 +15,6 @@ import {
 import { decomposeGravityOnSlope } from "./physics.js";
 
 // ── 共通ユーティリティ ──────────────────────────────────────────────
-
-/**
- * 矢印を描画する（共通コンポーネントのラッパー）。
- * @param sw - strokeWeight（省略時: 3）
- */
-export function drawArrow(
-  p: p5,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  col: p5.Color,
-  sw = 3
-) {
-  drawSharedArrow(p, x1, y1, x2, y2, col, { weight: sw });
-}
 
 /**
  * ラベル付きテキストを描画する。
@@ -216,13 +200,14 @@ function drawSlopeVectors(
     baseY,
     tipPerpX,
     tipPerpY,
-    p.color(...PERPENDICULAR_COLOR),
-    3
+    p.color(...PERPENDICULAR_COLOR)
   );
   // F_parallel（赤）
-  drawArrow(p, baseX, baseY, tipParX, tipParY, p.color(...PARALLEL_COLOR), 3);
+  drawArrow(p, baseX, baseY, tipParX, tipParY, p.color(...PARALLEL_COLOR));
   // 重力 mg（緑）
-  drawArrow(p, baseX, baseY, tipGravX, tipGravY, p.color(...GRAVITY_COLOR), 4);
+  drawArrow(p, baseX, baseY, tipGravX, tipGravY, p.color(...GRAVITY_COLOR), {
+    weight: 4
+  });
 
   // ラベル
   drawLabel(

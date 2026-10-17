@@ -1,12 +1,1 @@
-[
-  "archimedes-principle:drawArrow",
-  "force-composition:drawArrow",
-  "force-composition:drawArrowWithLabel",
-  "force-composition:drawDashedLine",
-  "force-decomposition:drawArrow",
-  "slope-force-decomposition:drawArrow",
-  "tate-yoko-wave:drawArrow",
-  "three-force-equilibrium:drawArrow",
-  "velocity-composition:drawArrow",
-  "velocity-composition:drawArrowWithLabel"
-]
+[]

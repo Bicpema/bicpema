@@ -6,7 +6,7 @@ import {
   WATER_PARTICLE_MARGIN,
   BOAT_WRAP_MARGIN
 } from "./constants.js";
-import { drawArrowWithLabel } from "./logic.js";
+import { drawVelocityArrow } from "./logic.js";
 import { state } from "./state.js";
 
 /**
@@ -156,7 +156,7 @@ export class Boat {
     const y3 = -134;
 
     const rdx = -(this.riverSpeed * S);
-    drawArrowWithLabel(
+    drawVelocityArrow(
       p,
       0,
       y1,
@@ -171,7 +171,7 @@ export class Boat {
       Math.abs(this.boatSpeed) < 0.05
         ? "v船 0 m/s"
         : `v船 ${Math.abs(this.boatSpeed).toFixed(1)} m/s`;
-    drawArrowWithLabel(p, 0, y2, bdx, y2, p.color(30, 210, 60), boatLabel);
+    drawVelocityArrow(p, 0, y2, bdx, y2, p.color(30, 210, 60), boatLabel);
 
     const cs = this.compositeSpeed;
     const cdx = -(cs * S);
@@ -179,7 +179,7 @@ export class Boat {
       Math.abs(cs) < 0.05
         ? "v合 0 m/s（静止）"
         : `v合 ${Math.abs(cs).toFixed(1)} m/s`;
-    drawArrowWithLabel(p, 0, y3, cdx, y3, p.color(60, 130, 255), compLabel);
+    drawVelocityArrow(p, 0, y3, cdx, y3, p.color(60, 130, 255), compLabel);
   }
 
   /**
