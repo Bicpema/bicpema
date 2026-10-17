@@ -4,7 +4,14 @@ import {
   V_W,
   PX_PER_MPS,
   WATER_PARTICLE_MARGIN,
-  BOAT_WRAP_MARGIN
+  BOAT_WRAP_MARGIN,
+  RIVER_COLOR,
+  BOAT_COLOR,
+  COMPOSITE_COLOR,
+  WATER_LINE_COLOR,
+  HULL_COLOR,
+  CABIN_COLOR,
+  TEXT_MUTED_COLOR
 } from "./constants.js";
 import { drawVelocityArrow } from "./logic.js";
 import { state } from "./state.js";
@@ -31,7 +38,7 @@ export class WaterParticle {
     this.x = x;
     this.y = y;
     this.waveWidth = p.random(14, 34);
-    this.alpha = p.random(70, 155);
+    this.alpha = p.random(90, 190);
     this.speedFactor = p.random(0.8, 1.3);
   }
 
@@ -56,7 +63,7 @@ export class WaterParticle {
    */
   draw(p: p5) {
     p.noFill();
-    p.stroke(150, 210, 255, this.alpha);
+    p.stroke(...WATER_LINE_COLOR, this.alpha);
     p.strokeWeight(1.8);
     p.arc(this.x, this.y, this.waveWidth, 9, 0, p.PI);
   }
@@ -67,9 +74,8 @@ export class WaterParticle {
  * @param p - p5インスタンス
  */
 function drawBoatBody(p: p5) {
-  p.fill(139, 90, 43);
-  p.stroke(100, 60, 20);
-  p.strokeWeight(2);
+  p.noStroke();
+  p.fill(...HULL_COLOR);
   p.beginShape();
   p.vertex(-52, -10);
   p.vertex(52, -10);
@@ -77,18 +83,10 @@ function drawBoatBody(p: p5) {
   p.vertex(-36, 16);
   p.endShape(p.CLOSE);
 
-  p.fill(225, 225, 235);
-  p.stroke(170, 170, 180);
-  p.strokeWeight(1);
-  p.rect(-21, -30, 42, 22, 3);
-
-  p.stroke(80, 80, 80);
+  p.fill(...CABIN_COLOR);
+  p.stroke(...HULL_COLOR);
   p.strokeWeight(2);
-  p.line(6, -30, 6, -58);
-
-  p.fill(200, 50, 50);
-  p.noStroke();
-  p.triangle(6, -58, 6, -44, 28, -51);
+  p.rect(-21, -30, 42, 22, 4);
 }
 
 /**
@@ -162,7 +160,7 @@ export class Boat {
       y1,
       rdx,
       y1,
-      p.color(230, 60, 60),
+      RIVER_COLOR,
       `v川 ${this.riverSpeed.toFixed(1)} m/s`
     );
 
@@ -171,7 +169,7 @@ export class Boat {
       Math.abs(this.boatSpeed) < 0.05
         ? "v船 0 m/s"
         : `v船 ${Math.abs(this.boatSpeed).toFixed(1)} m/s`;
-    drawVelocityArrow(p, 0, y2, bdx, y2, p.color(30, 210, 60), boatLabel);
+    drawVelocityArrow(p, 0, y2, bdx, y2, BOAT_COLOR, boatLabel);
 
     const cs = this.compositeSpeed;
     const cdx = -(cs * S);
@@ -179,7 +177,7 @@ export class Boat {
       Math.abs(cs) < 0.05
         ? "v合 0 m/s（静止）"
         : `v合 ${Math.abs(cs).toFixed(1)} m/s`;
-    drawVelocityArrow(p, 0, y3, cdx, y3, p.color(60, 130, 255), compLabel);
+    drawVelocityArrow(p, 0, y3, cdx, y3, COMPOSITE_COLOR, compLabel);
   }
 
   /**
@@ -219,30 +217,22 @@ export class Person {
     p.push();
     p.translate(this.x, this.y);
 
-    p.fill(255, 220, 180);
-    p.stroke(80, 50, 30);
-    p.strokeWeight(2);
-    p.circle(0, -42, 28);
-
-    p.stroke(50, 80, 190);
+    p.stroke(...HULL_COLOR);
     p.strokeWeight(3);
-    p.line(0, -28, 0, 5);
-
-    p.stroke(50, 80, 190);
-    p.strokeWeight(2.5);
-    p.line(0, -20, -22, -8);
-    p.line(0, -20, 16, -32);
-
-    p.stroke(30, 30, 70);
-    p.strokeWeight(2.5);
-    p.line(0, 5, -12, 28);
-    p.line(0, 5, 12, 28);
+    p.strokeCap(p.ROUND);
+    p.fill(...CABIN_COLOR);
+    p.circle(0, -42, 26);
+    p.line(0, -29, 0, 5);
+    p.line(0, -20, -18, -6);
+    p.line(0, -20, 18, -6);
+    p.line(0, 5, -11, 28);
+    p.line(0, 5, 11, 28);
 
     p.noStroke();
-    p.fill(255, 255, 200);
+    p.fill(...TEXT_MUTED_COLOR);
     p.textSize(14);
     p.textAlign(p.CENTER, p.CENTER);
-    p.text("観測者", 0, 44);
+    p.text("観測者", 0, 46);
 
     p.pop();
   }
