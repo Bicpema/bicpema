@@ -11,7 +11,8 @@ flowchart LR
   C -- Yes --> D[プレリリースとして GitHub Release を作成]
   C -- No --> E[正式リリースとして GitHub Release を作成]
   E --> F[deploy.yml が起動]
-  F --> G[Vite ビルド + Hugo ビルド]
+  F --> V[リント・型チェック・テストなどの品質チェック]
+  V -- 成功 --> G[Vite ビルド + Hugo ビルド]
   G --> H[Firebase Hosting へデプロイ]
 ```
 
@@ -50,7 +51,7 @@ git push origin v1.2.0-Beta1
 [Actions タブ](https://github.com/Bicpema/bicpema/actions) で以下のワークフローが正常終了したことを確認します。
 
 1. `create-release-note.yml` — GitHub Release の作成
-2. `deploy.yml`（正式リリースのみ） — Firebase Hosting へのデプロイ
+2. `deploy.yml`（正式リリースのみ） — 品質チェック（`verify` ジョブ）の後、Firebase Hosting へのデプロイ
 
 ### 4. デプロイを確認する
 
@@ -80,3 +81,12 @@ git push origin v1.2.0-Beta1
 1. [Actions タブ](https://github.com/Bicpema/bicpema/actions/workflows/deploy.yml) を開く
 2. 「Run workflow」ボタンをクリックする
 3. ブランチ（通常は `main`）を選択して実行する
+
+## デプロイワークフローの保護
+
+`deploy.yml` には、本番環境を守るための以下の設定が入っています。
+
+- **品質チェック**: `verify` ジョブでリント・型チェック・ユニットテスト・テンプレート準拠チェック・記事リンク整合性チェックを実行し、すべて成功した場合のみ `deploy` ジョブが実行されます。失敗した場合は本番にデプロイされません。
+- **最小権限**: `permissions` で `contents: read` のみを許可しています（`check-article-links.yml` も同様）。
+- **同時実行制御**: `concurrency`（グループ `deploy-production`、`cancel-in-progress: false`）により、デプロイが同時に実行されず、実行中のデプロイは中断されません。
+- **Environment**: `deploy` ジョブは `environment: production` で実行されます。Firebase のサービスアカウント（`FIREBASE_SERVICE_ACCOUNT_BICPEMA`）は、リポジトリの Settings → Environments → `production` のシークレットに登録します。必要に応じて同画面で承認者（Required reviewers）も設定できます。
