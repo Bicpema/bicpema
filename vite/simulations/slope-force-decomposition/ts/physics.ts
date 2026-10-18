@@ -1,3 +1,5 @@
+import { computeSlopeGravityComponents } from "../../../ts/physics/mechanics.js";
+
 /**
  * 斜面上の物体にはたらく重力を、斜面方向・斜面垂直方向に分解する。
  * @param mass - 質量 (kg)
@@ -13,11 +15,10 @@ export function decomposeGravityOnSlope(
   gravity: number,
   angleDeg: number
 ) {
-  const theta = (angleDeg * Math.PI) / 180;
-  const mg = mass * gravity;
-  return {
-    gravity: mg,
-    parallel: mg * Math.sin(theta),
-    perpendicular: mg * Math.cos(theta)
-  };
+  const { parallel, perpendicular } = computeSlopeGravityComponents(
+    mass,
+    angleDeg,
+    gravity
+  );
+  return { gravity: mass * gravity, parallel, perpendicular };
 }

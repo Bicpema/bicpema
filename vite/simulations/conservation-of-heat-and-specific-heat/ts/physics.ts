@@ -1,3 +1,5 @@
+import { computeEquilibriumTemperature as computeSharedEquilibriumTemperature } from "../../../ts/physics/thermodynamics.js";
+
 /**
  * 高温物体と低温物体を接触させたときの熱平衡温度を、熱量の保存から計算する。
  * C_hot * (Thot0 - Teq) = C_cold * (Teq - Tcold0)
@@ -13,7 +15,7 @@ export function computeEquilibriumTemperature(
   thot0: number,
   tcold0: number
 ) {
-  return (cHot * thot0 + cCold * tcold0) / (cHot + cCold);
+  return computeSharedEquilibriumTemperature(cHot, thot0, cCold, tcold0);
 }
 
 /**

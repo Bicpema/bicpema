@@ -10,6 +10,21 @@ describe("waves", () => {
     expect(w.computeStandingWave(1, 4, 8, 2, 0)).toBeCloseTo(2);
   });
 
+  it("角波数表記の正弦波（進行方向）と波面", () => {
+    const k = Math.PI / 2;
+    const omega = Math.PI;
+    expect(w.computeSineWave(2, k, 1, omega, 0)).toBeCloseTo(2);
+    expect(w.computeSineWave(2, k, 1, omega, 0.5, 1)).toBeCloseTo(
+      2 * Math.sin(k - omega * 0.5)
+    );
+    expect(w.computeSineWave(2, k, 1, omega, 0.5, -1)).toBeCloseTo(
+      2 * Math.sin(k + omega * 0.5)
+    );
+    expect(w.computeWaveFrontDistance(2, 3, 10)).toBe(6);
+    expect(w.computeWaveFrontDistance(2, 30, 10)).toBe(10);
+    expect(w.computeWaveFrontDistance(2, 0, 10)).toBe(0);
+  });
+
   it("波の速さ・到達時間・ドップラー効果", () => {
     expect(w.computeWaveSpeed(2, 3)).toBe(6);
     expect(w.computeArrivalTime(10, 5)).toBe(2);

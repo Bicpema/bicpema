@@ -84,3 +84,37 @@ export function computeClosedTubeWavelength(length: number, mode: number) {
 export function computeOpenTubeWavelength(length: number, mode: number) {
   return (2 * length) / mode;
 }
+
+/**
+ * 角波数・角振動数で表した正弦波の変位。y = A sin(kx − ωt)（+x方向に進む）
+ * @param amplitude - 振幅 A
+ * @param k - 角波数 k = 2π/λ
+ * @param x - 位置
+ * @param omega - 角振動数 ω = 2π/T
+ * @param t - 時刻
+ * @param direction - 進行方向。1 で +x 方向、-1 で −x 方向
+ */
+export function computeSineWave(
+  amplitude: number,
+  k: number,
+  x: number,
+  omega: number,
+  t: number,
+  direction: 1 | -1 = 1
+) {
+  return amplitude * Math.sin(k * x - direction * omega * t);
+}
+
+/**
+ * 波面の進んだ距離。到達できる最大距離でクランプする。
+ * @param speed - 波の速さ v
+ * @param t - 経過時間
+ * @param maxFront - 最大距離
+ */
+export function computeWaveFrontDistance(
+  speed: number,
+  t: number,
+  maxFront: number
+) {
+  return Math.min(speed * t, maxFront);
+}
