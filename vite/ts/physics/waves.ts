@@ -1,0 +1,86 @@
+/** 波動の計算（副作用のない純粋関数）。 */
+
+/**
+ * 正弦波（進行波）の変位。y = A sin(2π(t/T − x/λ))（+x方向に進む）
+ * @param amplitude - 振幅 A
+ * @param period - 周期 T
+ * @param wavelength - 波長 λ
+ * @param x - 位置
+ * @param t - 時刻
+ */
+export function computeTravelingWave(
+  amplitude: number,
+  period: number,
+  wavelength: number,
+  x: number,
+  t: number
+) {
+  return amplitude * Math.sin(2 * Math.PI * (t / period - x / wavelength));
+}
+
+/**
+ * 定常波の変位。y = 2A sin(2πx/λ) cos(2πt/T)
+ */
+export function computeStandingWave(
+  amplitude: number,
+  period: number,
+  wavelength: number,
+  x: number,
+  t: number
+) {
+  return (
+    2 *
+    amplitude *
+    Math.sin((2 * Math.PI * x) / wavelength) *
+    Math.cos((2 * Math.PI * t) / period)
+  );
+}
+
+/**
+ * 波の基本式から速さを求める。v = f λ
+ */
+export function computeWaveSpeed(frequency: number, wavelength: number) {
+  return frequency * wavelength;
+}
+
+/**
+ * 距離を波が伝わるのに要する時間。t = d / v
+ * @returns 到達時間。速さが0以下のとき Infinity
+ */
+export function computeArrivalTime(distance: number, speed: number) {
+  return speed > 0 ? distance / speed : Infinity;
+}
+
+/**
+ * ドップラー効果で観測される振動数。
+ * f' = f (V − vo) / (V − vs)
+ * @param frequency - 音源の振動数 f
+ * @param soundSpeed - 音速 V
+ * @param observerVelocity - 観測者の速度 vo（音源から観測者へ向かう向きを正）
+ * @param sourceVelocity - 音源の速度 vs（音源から観測者へ向かう向きを正）
+ */
+export function computeDopplerFrequency(
+  frequency: number,
+  soundSpeed: number,
+  observerVelocity: number,
+  sourceVelocity: number
+) {
+  return (
+    (frequency * (soundSpeed - observerVelocity)) /
+    (soundSpeed - sourceVelocity)
+  );
+}
+
+/**
+ * 気柱の共鳴（閉管）の共鳴波長。λ = 4L / (2m − 1)（m = 1, 2, ...）
+ */
+export function computeClosedTubeWavelength(length: number, mode: number) {
+  return (4 * length) / (2 * mode - 1);
+}
+
+/**
+ * 気柱の共鳴（開管）の共鳴波長。λ = 2L / m（m = 1, 2, ...）
+ */
+export function computeOpenTubeWavelength(length: number, mode: number) {
+  return (2 * length) / mode;
+}

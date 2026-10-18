@@ -1,11 +1,13 @@
 // physics.ts は力の計算を描画から分離した純関数群です（p5.js・DOMに依存しません）。
 
+import { GRAVITY_ACCELERATION } from "../../../ts/physics/constants.js";
+
 /** 積める本の最大冊数 */
 export const MAX_BOOKS = 5;
 /** 本1冊の質量の既定値[kg] */
 export const DEFAULT_MASS = 1.0;
 /** 重力加速度の既定値[m/s^2] */
-export const DEFAULT_GRAVITY = 9.8;
+export const DEFAULT_GRAVITY = GRAVITY_ACCELERATION;
 
 /**
  * 力の種類。

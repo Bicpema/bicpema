@@ -1,3 +1,11 @@
+import {
+
+  SPECIFIC_HEAT_ALUMINUM,
+  SPECIFIC_HEAT_COPPER,
+  SPECIFIC_HEAT_IRON,
+  SPECIFIC_HEAT_SILVER,
+  SPECIFIC_HEAT_WATER
+} from "../../../ts/physics/constants.js";
 export const state = {
   // 初期温度 [K]
   Thot0: 273 + 95,
@@ -8,11 +16,11 @@ export const state = {
   C_cold: 0,
 
   // 比熱 [J/(g·K)]
-  c_Al: 0.901,
-  c_Fe: 0.448,
-  c_Cu: 0.386,
-  c_Ag: 0.236,
-  c_w: 4.2,
+  c_Al: SPECIFIC_HEAT_ALUMINUM,
+  c_Fe: SPECIFIC_HEAT_IRON,
+  c_Cu: SPECIFIC_HEAT_COPPER,
+  c_Ag: SPECIFIC_HEAT_SILVER,
+  c_w: SPECIFIC_HEAT_WATER,
   c_now: 0,
 
   // 質量 [g]

@@ -1,5 +1,7 @@
+import { GRAVITY_ACCELERATION } from "../../../ts/physics/constants.js";
+
 /** 重力加速度 (m/s^2) */
-export const GRAVITY = 9.8;
+export const GRAVITY = GRAVITY_ACCELERATION;
 /** ボール半径 (px) */
 export const BALL_RADIUS = 15;
 /** 初速度のデフォルト値 (m/s) */
