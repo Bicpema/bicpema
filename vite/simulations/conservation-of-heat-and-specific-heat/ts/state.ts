@@ -5,6 +5,7 @@ import {
   SPECIFIC_HEAT_SILVER,
   SPECIFIC_HEAT_WATER
 } from "../../../ts/physics/constants.js";
+
 export const state = {
   // 初期温度 [K]
   Thot0: 273 + 95,
