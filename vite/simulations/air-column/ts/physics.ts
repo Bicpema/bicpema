@@ -1,6 +1,11 @@
+import {
+  computeClosedTubeWavelength,
+  computeOpenTubeWavelength
+} from "../../../ts/physics/waves.js";
+
 /**
  * 気柱の両端の境界条件（閉管・開管）から定常波の波数に相当する定数を計算する。
- * 閉管: (m・π)/(2L)、開管: (n・π)/L
+ * 閉管: (m・π)/(2L)、開管: (n・π)/L（共通関数の共鳴波長 λ から 2π/λ で求める）
  * @param type - 管の種類
  * @param mn - 振動の次数 (閉管はm=1,3,5,...、開管はn=1,2,3,...)
  * @param pipeL - 管の長さ
@@ -11,9 +16,11 @@ export function computeFreqConst(
   mn: number,
   pipeL: number
 ) {
-  return type === "closed"
-    ? (mn * Math.PI) / (2 * pipeL)
-    : (mn * Math.PI) / pipeL;
+  const wavelength =
+    type === "closed"
+      ? computeClosedTubeWavelength(pipeL, (mn + 1) / 2)
+      : computeOpenTubeWavelength(pipeL, mn);
+  return (2 * Math.PI) / wavelength;
 }
 
 /**

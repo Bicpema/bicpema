@@ -1,3 +1,4 @@
+import { computePendulumPeriod } from "../../../ts/physics/mechanics.js";
 import { DEFAULT_FPS, LENGTH_TO_METER_DIVISOR } from "./constants.js";
 
 /**
@@ -20,7 +21,7 @@ export function computePendulumAngle(
 ) {
   const theta0 = (theta0Deg * Math.PI) / 180;
   const lengthM = stringLengthPx / LENGTH_TO_METER_DIVISOR;
-  const omega = Math.sqrt(gravity / lengthM);
+  const omega = (2 * Math.PI) / computePendulumPeriod(lengthM, gravity);
   return theta0 * Math.cos(omega * (count / fps));
 }
 

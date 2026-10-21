@@ -1,3 +1,5 @@
+import { computeHeatCapacity } from "../../../ts/physics/thermodynamics.js";
+
 /**
  * 熱量Qを加えたときの温度変化を計算する（Q = mcΔT）。
  * ΔT = Q / (m * c)
@@ -11,5 +13,5 @@ export function computeTemperatureChange(
   mass: number,
   specificHeat: number
 ) {
-  return heat / (mass * specificHeat);
+  return heat / computeHeatCapacity(mass, specificHeat);
 }

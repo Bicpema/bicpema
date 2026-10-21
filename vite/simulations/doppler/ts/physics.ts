@@ -1,3 +1,4 @@
+import { computeUniformAccelDisplacement } from "../../../ts/physics/mechanics.js";
 import { ORIGIN_X } from "./constants.js";
 
 /**
@@ -14,5 +15,5 @@ export function computeSourcePosition(
   fps: number,
   offset = ORIGIN_X
 ) {
-  return (speed * count) / fps + offset;
+  return offset + computeUniformAccelDisplacement(speed, 0, count / fps);
 }
