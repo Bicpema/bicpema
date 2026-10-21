@@ -1,3 +1,5 @@
+import { computeSineWave } from "../../../ts/physics/waves.js";
+
 /**
  * 右向きに進む正弦波の変位を計算する。 y = A sin(kx - ωt)
  * @param amplitude - 振幅 A
@@ -14,7 +16,7 @@ export function computeRightWaveDisplacement(
   omega: number,
   t: number
 ) {
-  return amplitude * Math.sin(k * x - omega * t);
+  return computeSineWave(amplitude, k, x, omega, t, 1);
 }
 
 /**
@@ -33,7 +35,7 @@ export function computeLeftWaveDisplacement(
   omega: number,
   t: number
 ) {
-  return amplitude * Math.sin(k * x + omega * t);
+  return computeSineWave(amplitude, k, x, omega, t, -1);
 }
 
 /**

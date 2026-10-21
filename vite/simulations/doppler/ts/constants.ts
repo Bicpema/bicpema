@@ -1,4 +1,5 @@
 // constants.ts は本シミュレーション内で共有する定数を管理するファイルです。
+import { SOUND_SPEED_IN_AIR } from "../../../ts/physics/constants.js";
 
 /** フレームレート */
 export const FPS = 60;
@@ -9,7 +10,7 @@ export const H = ((W * 9) / 16) * 0.9;
 /** 音源の初期X座標（背景グリッドの原点X座標でもある） */
 export const ORIGIN_X = 50;
 /** 音速 (m/s) */
-export const SOUND_SPEED = 340;
+export const SOUND_SPEED = SOUND_SPEED_IN_AIR;
 /** 背景グリッドの間隔(px) */
 export const GRID_STEP = 10;
 /** 太線を描画するグリッド間隔(px) */

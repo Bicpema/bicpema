@@ -1,6 +1,8 @@
 // 物理定数
+import { GRAVITY_ACCELERATION } from "../../../ts/physics/constants.js";
+
 /** 重力加速度 (m/s^2) */
-export const GRAVITY = 9.8;
+export const GRAVITY = GRAVITY_ACCELERATION;
 
 // 初期値・入力範囲
 /** 初期の高さの初期値 (m) */
