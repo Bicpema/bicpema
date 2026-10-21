@@ -70,3 +70,9 @@ describe("computeMagnification", () => {
     expect(computeMagnification(5, 10)).toBe(0.5);
   });
 });
+
+describe("焦点上の物体（異常入力）", () => {
+  it("凸レンズでは像が無限遠になり Infinity を返す", () => {
+    expect(computeConvexLensImageDistance(10, 10)).toBe(Infinity);
+  });
+});

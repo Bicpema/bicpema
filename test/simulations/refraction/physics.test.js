@@ -57,3 +57,9 @@ describe("computeRefractionAngle (スネルの法則)", () => {
     expect(theta2).toBeGreaterThan(theta1);
   });
 });
+
+describe("computeRefractionAngle (全反射)", () => {
+  it("屈折角が存在しないとき NaN を返す（共通関数の null を描画用に変換）", () => {
+    expect(computeRefractionAngle(Math.PI / 3, 1 / 1.5)).toBeNaN();
+  });
+});

@@ -34,3 +34,9 @@ describe("computeTemperatureChange", () => {
     expect(doubled).toBeCloseTo(base * 2, 10);
   });
 });
+
+describe("computeTemperatureChange (異常入力)", () => {
+  it("質量が0のとき Infinity を返す（共通関数と異なり0にしない）", () => {
+    expect(computeTemperatureChange(1000, 0, 900)).toBe(Infinity);
+  });
+});
