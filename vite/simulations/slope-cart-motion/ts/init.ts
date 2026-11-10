@@ -20,9 +20,6 @@ export function settingInit(p: p5, canvasController: BicpemaCanvasController) {
   canvasController.fullScreen(p);
   p.frameRate(FPS);
   p.textAlign(p.CENTER, p.CENTER);
-  if (state.font) {
-    p.textFont(state.font);
-  }
   p.textSize(15);
 }
 

@@ -1,6 +1,7 @@
 // state.js はシミュレーションの共有可変状態を管理するファイルです。
 
 import type { Material } from "./class.js";
+import { GRAVITY_ACCELERATION } from "../../../ts/physics/constants.js";
 
 /** ナビゲーションバーの高さ(px) */
 export const NAV_HEIGHT = 60;
@@ -23,7 +24,7 @@ export const DEFAULT_WEIGHT = 15;
 export const WEIGHT_MIN = 0;
 export const WEIGHT_MAX = 20;
 /** 重力加速度の初期値[m/s^2] */
-export const DEFAULT_GRAVITY = 9.8;
+export const DEFAULT_GRAVITY = GRAVITY_ACCELERATION;
 export const GRAVITY_MIN = 0;
 export const GRAVITY_MAX = 20;
 

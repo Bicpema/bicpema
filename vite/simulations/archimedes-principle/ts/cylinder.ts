@@ -1,8 +1,9 @@
 import type p5 from "p5";
 import { state } from "./state.js";
+import { WATER_DENSITY_G_PER_CM3 } from "../../../ts/physics/constants.js";
 
 /** 水の密度 (g/cm³) */
-const WATER_DENSITY = 1.0;
+const WATER_DENSITY = WATER_DENSITY_G_PER_CM3;
 /** シミュレーション用の重力加速度スケール */
 const G = 0.5;
 /** 速度の減衰係数（1フレームごとに掛け合わせる） */

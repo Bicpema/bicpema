@@ -33,22 +33,23 @@ describe("computeRightWaveDisplacement", () => {
 });
 
 describe("computeLeftWaveDisplacement", () => {
-  it("y = A sin(kx + ωt) の式に一致する", () => {
+  it("固定端反射波 y = A sin(k(x - 2L) + ωt) の式に一致する", () => {
     const A = 20;
     const k = 0.1;
     const x = 50;
     const omega = 0.2;
     const t = 3;
+    const innerW = 130;
 
-    expect(computeLeftWaveDisplacement(A, k, x, omega, t)).toBeCloseTo(
-      A * Math.sin(k * x + omega * t),
+    expect(computeLeftWaveDisplacement(A, k, x, omega, t, innerW)).toBeCloseTo(
+      A * Math.sin(k * (x - 2 * innerW) + omega * t),
       10
     );
   });
 });
 
 describe("computeStandingWaveDisplacement", () => {
-  it("右向き波と反射波の重ね合わせ（波の独立性）で計算される", () => {
+  it("右向き波と固定端反射波の重ね合わせ（波の独立性）で計算される", () => {
     const A = 10;
     const k = 0.1;
     const x = 40;
@@ -57,26 +58,52 @@ describe("computeStandingWaveDisplacement", () => {
     const innerW = 100;
 
     const expected =
-      A * Math.sin(k * x - omega * t) +
-      A * Math.sin(k * (innerW - x) - omega * t);
+      computeRightWaveDisplacement(A, k, x, omega, t) +
+      computeLeftWaveDisplacement(A, k, x, omega, t, innerW);
 
     expect(
       computeStandingWaveDisplacement(A, k, x, omega, t, innerW)
     ).toBeCloseTo(expected, 10);
   });
 
-  it("節（node）となる位置では常に変位が0になる", () => {
-    // k*innerW = π のとき、反射端 x=0 は全時刻で節になる
-    // (境界で右向き波と反射波が逆位相で打ち消し合う)
+  it("描画領域の幅が波長の整数倍でなくても、反射端 x=innerW は常に節になる", () => {
     const A = 15;
-    const innerW = 100;
-    const k = Math.PI / innerW;
+    const k = (2 * Math.PI) / 200;
     const omega = 0.4;
-    const nodeX = 0;
 
-    for (let t = 0; t <= 5; t += 1.3) {
-      const y = computeStandingWaveDisplacement(A, k, nodeX, omega, t, innerW);
-      expect(y).toBeCloseTo(0, 6);
+    for (const innerW of [333, 517, 802, 1000]) {
+      for (let t = 0; t <= 5; t += 1.3) {
+        const y = computeStandingWaveDisplacement(
+          A,
+          k,
+          innerW,
+          omega,
+          t,
+          innerW
+        );
+        expect(y).toBeCloseTo(0, 6);
+      }
+    }
+  });
+
+  it("節の位置は反射端から半波長ごとに並び、幅が変わっても保たれる", () => {
+    const A = 15;
+    const wavelength = 200;
+    const k = (2 * Math.PI) / wavelength;
+    const omega = 0.4;
+
+    for (const innerW of [450, 777]) {
+      for (let t = 0; t <= 5; t += 1.3) {
+        const y = computeStandingWaveDisplacement(
+          A,
+          k,
+          innerW - wavelength / 2,
+          omega,
+          t,
+          innerW
+        );
+        expect(y).toBeCloseTo(0, 6);
+      }
     }
   });
 });

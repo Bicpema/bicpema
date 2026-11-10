@@ -1,3 +1,8 @@
+import {
+  computeSineWave,
+  computeWaveFrontDistance
+} from "../../../ts/physics/waves.js";
+
 /**
  * 入射波の変位を計算する。 y = A sin(kx - ωt)
  * @param amplitude - 振幅 A
@@ -14,7 +19,7 @@ export function computeIncidentDisplacement(
   omega: number,
   t: number
 ) {
-  return amplitude * Math.sin(k * x - omega * t);
+  return computeSineWave(amplitude, k, x, omega, t);
 }
 
 /**
@@ -83,5 +88,5 @@ export function computeCombinedDisplacement(
  * @returns 波の先端位置
  */
 export function computeWaveFront(v: number, t: number, maxFront: number) {
-  return Math.min(v * t, maxFront);
+  return computeWaveFrontDistance(v, t, maxFront);
 }

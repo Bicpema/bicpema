@@ -6,8 +6,6 @@ export const state: {
   car: Car | null;
   /** 車の画像 */
   carImage: p5.Image | null;
-  /** フォント */
-  font: p5.Font | null;
   /** 地面画像 */
   groundImage: p5.Image | null;
   /** グラフオブジェクト */
@@ -33,7 +31,6 @@ export const state: {
 } = {
   car: null,
   carImage: null,
-  font: null,
   groundImage: null,
   graph: null,
   graphVisible: true,

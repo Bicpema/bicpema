@@ -23,15 +23,8 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Node.jsのセットアップ
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020  # v7.0.0
-        with:
-          node-version: "24"
-          cache: "npm"
-          cache-dependency-path: "package-lock.json"
-
-      - name: 依存パッケージのインストール
-        run: npm ci
+      - name: Node.jsのセットアップと依存パッケージのインストール
+        uses: ./.github/actions/setup-node-deps
 
       - name: リント
         run: npm run lint
@@ -74,15 +67,8 @@ jobs:
           hugo-version: ${{ steps.hugo-version.outputs.version }}
           extended: true
 
-      - name: Node.jsのセットアップ
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020  # v7.0.0
-        with:
-          node-version-file: ".nvmrc"
-          cache: "npm"
-          cache-dependency-path: "package-lock.json"
-
-      - name: 依存パッケージのインストール
-        run: npm ci
+      - name: Node.jsのセットアップと依存パッケージのインストール
+        uses: ./.github/actions/setup-node-deps
 
       - name: Viteのビルド
         run: npm run build

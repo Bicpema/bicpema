@@ -69,7 +69,6 @@ export function elCreate(p: p5) {
 export function initValue(p: p5) {
   p.frameRate(FPS);
   p.textAlign(p.CENTER, p.CENTER);
-  p.textFont(state.font);
   p.textSize(LABEL_TEXT_SIZE);
 
   const initialHeight = clampHeight(parseFloat(state.heightInput.value()));

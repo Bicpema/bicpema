@@ -17,6 +17,5 @@ export const ARTICLELESS_SIMULATION_ALLOWLIST = [
   "pendulum-wave",
   "projectile-motion",
   "refraction",
-  "spring",
-  "train-acceleration"
+  "spring"
 ];

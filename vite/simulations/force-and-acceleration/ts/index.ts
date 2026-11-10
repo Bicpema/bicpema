@@ -19,9 +19,9 @@ import {
   CART_RESET_MARGIN,
   MIN_ARROW_DRAG_DISTANCE,
   FORCE_ARROW_COLOR,
-  DRAG_HINT_COLOR,
-  INFO_PANEL_MUTED_TEXT_COLOR
+  DRAG_HINT_COLOR
 } from "./constants.js";
+import { drawInfoPanel as drawInfoPanelComponent } from "../../../ts/components/info-panel.js";
 
 /** キャンバスの論理幅 */
 const W = CANVAS_WIDTH;
@@ -47,20 +47,12 @@ const sketch = (p: p5) => {
     );
   };
 
-  /** キャンバスを生成して初期設定を行い、フォントを非同期で読み込む。 */
+  /** キャンバスを生成して初期設定を行う。 */
   p.setup = () => {
     settingInit(p, canvasController);
     elementSelectInit(p);
     elementPositionInit(p);
     valueInit(p);
-    // フォントを非同期で読み込む（失敗してもシミュレーションは動作する）
-    p.loadFont(
-      "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580",
-      (f: p5.Font) => {
-        state.font = f;
-      },
-      () => {}
-    );
   };
 
   let isFirstDraw = true;
@@ -197,7 +189,6 @@ function drawForceArrow(p: p5, x1: number, y: number, x2: number) {
 
   p.fill(...FORCE_ARROW_COLOR);
   p.noStroke();
-  if (state.font) p.textFont(state.font);
   p.textSize(22);
   p.textAlign(p.CENTER, p.BOTTOM);
   p.text("F", (x1 + x2) / 2, y - 8);
@@ -230,7 +221,6 @@ function drawDragHint(p: p5, x: number, y: number) {
 
   p.fill(120);
   p.noStroke();
-  if (state.font) p.textFont(state.font);
   p.textSize(18);
   p.textAlign(p.LEFT, p.BOTTOM);
   p.text("右にドラッグして引っ張る", x + 10, y - 10);
@@ -238,11 +228,15 @@ function drawDragHint(p: p5, x: number, y: number) {
 
 /**
  * 情報パネルを描画する。
+ * 現在の力・加速度に続けて、最大値・質量・速度を並べる。
  * @param p - p5インスタンス
  * @param F - 現在の力 (N)
  * @param a - 現在の加速度 (m/s²)
  * @param m - 質量 (kg)
  * @param v - 現在の速度 (m/s)
+ * @param maxF - 力の最大値 (N)
+ * @param maxA - 加速度の最大値 (m/s²)
+ * @param massAtMaxA - 最大加速度を記録したときの質量 (kg)
  */
 function drawInfoPanel(
   p: p5,
@@ -254,45 +248,30 @@ function drawInfoPanel(
   maxA: number,
   massAtMaxA: number
 ) {
-  p.fill(0, 0, 0, 180);
-  p.stroke(255, 255, 255, 60);
-  p.strokeWeight(1);
-  const panelX = 20;
-  const panelY = 20;
-  const panelW = 330;
-  const panelH = 150;
-  p.rect(panelX, panelY, panelW, panelH, 10);
-
-  p.fill(255);
-  p.noStroke();
-  if (state.font) p.textFont(state.font);
-
-  const leftX = panelX + 18;
-  const maxX = panelX + panelW - 18;
-
-  p.textAlign(p.LEFT, p.TOP);
-  p.textSize(26);
-  p.text(`F = ${F.toFixed(2)} N`, leftX, panelY + 14);
-  p.text(`a = ${a.toFixed(2)} m/s²`, leftX, panelY + 54);
-
-  // 最大値を右側に表示
-  p.textSize(18);
-  p.fill(230);
-  p.textAlign(p.RIGHT, p.TOP);
-  p.text(`${maxF.toFixed(2)} N (max)`, maxX, panelY + 14);
-  p.text(`${maxA.toFixed(2)} m/s² (max)`, maxX, panelY + 54);
-
-  // F = m * a を示す補助表示（最大加速度に対する力）
-  p.textAlign(p.LEFT, p.TOP);
-  p.textSize(14);
-  p.fill(INFO_PANEL_MUTED_TEXT_COLOR);
   const fFromAMax = massAtMaxA && maxA ? massAtMaxA * maxA : 0;
-  p.text(`m × a_max = ${fFromAMax.toFixed(2)} N`, leftX, panelY + 94);
-
-  p.textSize(20);
-  p.fill(INFO_PANEL_MUTED_TEXT_COLOR);
-  p.text(`m = ${m.toFixed(1)} kg`, leftX, panelY + 116);
-  p.text(`v = ${v.toFixed(2)} m/s`, leftX + 137, panelY + 116);
+  drawInfoPanelComponent(
+    p,
+    [
+      {
+        label: "力 F",
+        value: F.toFixed(2),
+        unit: "N",
+        color: `rgb(${FORCE_ARROW_COLOR.join(", ")})`
+      },
+      { label: "加速度 a", value: a.toFixed(2), unit: "m/s²" },
+      {
+        label: "最大の力 F",
+        value: maxF.toFixed(2),
+        unit: "N",
+        dividerAbove: true
+      },
+      { label: "最大の加速度 a", value: maxA.toFixed(2), unit: "m/s²" },
+      { label: "質量 m", value: m.toFixed(1), unit: "kg", dividerAbove: true },
+      { label: "速度 v", value: v.toFixed(2), unit: "m/s" },
+      { label: "m × a最大", value: fFromAMax.toFixed(2), unit: "N" }
+    ],
+    { labelWidth: 130 }
+  );
 }
 
 new p5(sketch);

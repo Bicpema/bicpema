@@ -1,7 +1,9 @@
 // constants.ts は本シミュレーション内で共有する定数を管理するファイルです。
 
+import { GRAVITY_ACCELERATION } from "../../../ts/physics/constants.js";
+
 /** 重力加速度 (m/s^2) */
-export const GRAVITY = 9.8;
+export const GRAVITY = GRAVITY_ACCELERATION;
 /** 振れ角計算のデフォルトフレームレート */
 export const DEFAULT_FPS = 60;
 /** 支点のY座標 = キャンバスの高さ × この値 */
