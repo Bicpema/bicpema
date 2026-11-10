@@ -2,4 +2,4 @@
 yamllint==1.38.0
 
 # 開発者ドキュメント（docs/）のビルドで使用（CIの docs-build ワークフローと同じバージョン）
-zensical==0.0.71
+zensical==0.0.74
