@@ -1,0 +1,49 @@
+---
+name: Storybookのビルド
+
+"on":
+  pull_request:
+    paths:
+      - "stories/**"
+      - ".storybook/**"
+      - "vite/ts/**"
+      - "vite/css/**"
+      - "vite/_build/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/storybook.yml"
+      - ".github/actions/**"
+  push:
+    branches:
+      - main
+    paths:
+      - "stories/**"
+      - ".storybook/**"
+      - "vite/ts/**"
+      - "vite/css/**"
+      - "vite/_build/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/storybook.yml"
+      - ".github/actions/**"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-storybook:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリのチェックアウト
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Node.jsのセットアップと依存パッケージのインストール
+        uses: ./.github/actions/setup-node-deps
+
+      - name: Storybookのビルド
+        run: npm run build:storybook

@@ -3,6 +3,29 @@
 @source "../_build/bicpemaComponents.js";
 
 @layer components {
+  /* 情報パネル（DOM版）。p5版の共通コンポーネント vite/ts/components/info-panel.ts の INFO_PANEL_STYLE と値を揃える */
+  .info-panel {
+    @apply rounded-xl border border-gray-300 bg-white px-4 py-2.5 text-gray-900 shadow-[0_2px_8px_rgba(0,0,0,0.18)];
+  }
+  .info-panel-row {
+    @apply flex min-h-8 items-center gap-1.5;
+  }
+  .info-panel-row-divided {
+    @apply border-t border-gray-200;
+  }
+  .info-panel-label {
+    @apply flex-1 text-[13px] text-gray-500;
+  }
+  .info-panel-value {
+    @apply min-w-[5.5rem] text-right font-mono text-xl font-bold text-gray-900 tabular-nums;
+  }
+  .info-panel-unit {
+    @apply w-11 text-[13px] text-gray-500;
+  }
+  .info-panel-note {
+    @apply border-t border-gray-200 pt-2 text-[13px] text-gray-500;
+  }
+
   /*
    * 各シミュレーション右上（または右下）の設定ボタンの共通スタイル。
    * 見た目を変える場合はこのクラス1箇所を変更すれば全シミュレーションに反映される。

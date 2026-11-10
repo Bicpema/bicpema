@@ -1,3 +1,12 @@
+import {
+  drawInfoPanel as drawInfoPanelComponent,
+  INFO_PANEL_STYLE
+} from "../../../ts/components/info-panel.js";
+import { drawArrow } from "../../../ts/components/arrow.js";
+import { drawAxes } from "../../../ts/components/axes.js";
+import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
+import { drawGrid } from "../../../ts/components/grid.js";
+import { drawDashedLine } from "../../../ts/components/dashed-line.js";
 import { state } from "./state.js";
 import {
   V_W,
@@ -12,90 +21,13 @@ import {
 } from "./constants.js";
 import { decomposeForce } from "./physics.js";
 
+/** 軸の原点を表す座標系 */
+const COORDINATE_SYSTEM = new CoordinateSystem({
+  originX: ORIGIN_X,
+  originY: ORIGIN_Y
+});
+
 // ── 共通ユーティリティ ──────────────────────────────────────────────
-
-/**
- * 矢印を描画する。
- * @param p -
- * @param x1 - 始点X
- * @param y1 - 始点Y
- * @param x2 - 終点X
- * @param y2 - 終点Y
- * @param col - 色
- * @param sw - strokeWeight（省略時: 3）
- */
-export function drawArrow(
-  p: p5,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  col: p5.Color,
-  sw = 3
-) {
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const len = p.sqrt(dx * dx + dy * dy);
-  if (len < 2) return;
-
-  const headSize = 12;
-  const angle = p.atan2(dy, dx);
-
-  p.stroke(col);
-  p.strokeWeight(sw);
-  p.fill(col);
-  p.line(x1, y1, x2, y2);
-  p.push();
-  p.translate(x2, y2);
-  p.rotate(angle);
-  p.noStroke();
-  p.triangle(0, 0, -headSize, headSize / 2.2, -headSize, -headSize / 2.2);
-  p.pop();
-}
-
-/**
- * 点線を描画する。
- * @param p -
- * @param x1 -
- * @param y1 -
- * @param x2 -
- * @param y2 -
- * @param col -
- */
-function drawDashed(
-  p: p5,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  col: p5.Color
-) {
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const len = p.sqrt(dx * dx + dy * dy);
-  if (len < 1) return;
-  const dashLen = 8;
-  const gapLen = 6;
-  const ux = dx / len;
-  const uy = dy / len;
-  let d = 0;
-  let drawing = true;
-  p.stroke(col);
-  p.strokeWeight(1.5);
-  while (d < len) {
-    const segLen = p.min(drawing ? dashLen : gapLen, len - d);
-    if (drawing) {
-      p.line(
-        x1 + ux * d,
-        y1 + uy * d,
-        x1 + ux * (d + segLen),
-        y1 + uy * (d + segLen)
-      );
-    }
-    d += segLen;
-    drawing = !drawing;
-  }
-}
 
 /**
  * ラベル付きテキストを半透明背景で描画する。
@@ -129,8 +61,23 @@ function drawLabel(
  */
 export function drawXYScene(p: p5) {
   p.background(255, 255, 255);
-  drawGrid(p);
-  drawAxes(p, ORIGIN_X, ORIGIN_Y);
+  // 原点を通るグリッド線
+  drawGrid(p, COORDINATE_SYSTEM, {
+    stepX: GRID_STEP,
+    stepY: GRID_STEP,
+    bounds: { left: 0, top: 0, right: V_W, bottom: V_H }
+  });
+  drawAxes(p, COORDINATE_SYSTEM, {
+    xLabel: "x",
+    yLabel: "y",
+    originLabel: "O",
+    bothDirections: true,
+    extent: { left: 10, right: V_W - 10, top: 10, bottom: V_H - 10 },
+    labelFontSize: AXIS_LABEL_FONT_SIZE,
+    originLabelFontSize: LABEL_FONT_SIZE,
+    headSize: 12,
+    headWidthDivisor: 2.2
+  });
 
   const F = state.forceMag * FORCE_SCALE;
   const { x: Fx, y: Fy } = decomposeForce(F, state.forceAngle); // y軸反転（下が正）
@@ -139,7 +86,7 @@ export function drawXYScene(p: p5) {
   const tipY = ORIGIN_Y + Fy;
 
   // 補助破線（平行四辺形の辺）
-  drawDashed(
+  drawDashedLine(
     p,
     ORIGIN_X,
     ORIGIN_Y + Fy,
@@ -147,7 +94,7 @@ export function drawXYScene(p: p5) {
     tipY,
     p.color(100, 100, 100, 120)
   );
-  drawDashed(
+  drawDashedLine(
     p,
     ORIGIN_X + Fx,
     ORIGIN_Y,
@@ -175,7 +122,7 @@ export function drawXYScene(p: p5) {
     p.color(50, 100, 220)
   );
   // 力 F（黒）
-  drawArrow(p, ORIGIN_X, ORIGIN_Y, tipX, tipY, p.color(0), 4);
+  drawArrow(p, ORIGIN_X, ORIGIN_Y, tipX, tipY, p.color(0), { weight: 4 });
 
   // 角度弧
   drawAngleArc(p, ORIGIN_X, ORIGIN_Y, (state.forceAngle * Math.PI) / 180, 50);
@@ -184,50 +131,6 @@ export function drawXYScene(p: p5) {
   drawXYLabels(p, Fx, Fy, tipX, tipY, (state.forceAngle * Math.PI) / 180);
   drawXYInfoPanel(p, Fx, Fy);
   drawInteractionHint(p, tipX, tipY);
-}
-
-/**
- * グリッドを描画する。
- * @param p -
- */
-function drawGrid(p: p5) {
-  p.strokeWeight(1);
-  p.stroke(168, 206, 221);
-  for (let x = ORIGIN_X; x <= V_W; x += GRID_STEP) p.line(x, 0, x, V_H);
-  for (let x = ORIGIN_X - GRID_STEP; x >= 0; x -= GRID_STEP) {
-    p.line(x, 0, x, V_H);
-  }
-  for (let y = ORIGIN_Y; y <= V_H; y += GRID_STEP) p.line(0, y, V_W, y);
-  for (let y = ORIGIN_Y - GRID_STEP; y >= 0; y -= GRID_STEP) {
-    p.line(0, y, V_W, y);
-  }
-}
-
-/**
- * X・Y軸を描画する。
- * @param p -
- * @param ox - 原点X
- * @param oy - 原点Y
- */
-function drawAxes(p: p5, ox: number, oy: number) {
-  const axisColor = p.color(0);
-  const axisWeight = 2;
-  drawArrow(p, ox, oy, V_W - 10, oy, axisColor, axisWeight);
-  drawArrow(p, ox, oy, 10, oy, axisColor, axisWeight);
-  drawArrow(p, ox, oy, ox, 10, axisColor, axisWeight);
-  drawArrow(p, ox, oy, ox, V_H - 10, axisColor, axisWeight);
-
-  // 軸ラベル
-  p.noStroke();
-  p.fill(0);
-  p.textSize(AXIS_LABEL_FONT_SIZE);
-  p.textAlign(p.CENTER, p.CENTER);
-  p.text("x", V_W - 8, oy + 20);
-  p.text("y", ox - 20, 10);
-
-  // 原点ラベル『O』
-  p.textSize(LABEL_FONT_SIZE);
-  p.text("O", ox - 14, oy + 14);
 }
 
 /**
@@ -310,57 +213,39 @@ function drawXYInfoPanel(p: p5, Fx: number, Fy: number) {
   const fxN = Fx / FORCE_SCALE;
   const fyN = -Fy / FORCE_SCALE; // 物理のy（上正）
   const fN = state.forceMag;
-  const θStr = `${state.forceAngle.toFixed(1)}°`;
 
-  const panelW = 248;
-  const panelH = 118;
-  const panelX = V_W - panelW - 10;
-  const panelY = V_H - panelH - 10;
-
-  p.fill(255);
-  p.stroke(0);
-  p.strokeWeight(1.5);
-  p.rect(panelX, panelY, panelW, panelH, 8);
-
-  const colLabel = panelX + 16;
-  const colMag = panelX + panelW - 86;
-  const colAngle = panelX + panelW - 14;
-  const cy1 = panelY + 24; // F
-  const divY = panelY + 44; // 区切り線（F と Fx の間）
-  const cy2 = panelY + 68; // Fx
-  const cy3 = panelY + 96; // Fy
-
-  // 区切り線（F と Fx の間）— テキストより先に描いて文字が前面に
-  p.stroke(0, 60);
-  p.strokeWeight(1);
-  p.line(colLabel, divY, panelX + panelW - 16, divY);
-  p.noStroke();
-
-  p.textSize(14);
-
-  // F
-  p.fill(0);
-  p.textAlign(p.LEFT, p.CENTER);
-  p.text("F", colLabel, cy1);
-  p.textAlign(p.RIGHT, p.CENTER);
-  p.text(`${fN.toFixed(1)} N`, colMag, cy1);
-  p.text(θStr, colAngle, cy1);
-
-  // Fx
-  p.fill(220, 50, 50);
-  p.textAlign(p.LEFT, p.CENTER);
-  p.text("Fx", colLabel, cy2);
-  p.textAlign(p.RIGHT, p.CENTER);
-  p.text(`${fxN.toFixed(1)} N`, colMag, cy2);
-
-  // Fy
-  p.fill(50, 100, 220);
-  p.textAlign(p.LEFT, p.CENTER);
-  p.text("Fy", colLabel, cy3);
-  p.textAlign(p.RIGHT, p.CENTER);
-  p.text(`${fyN.toFixed(1)} N`, colMag, cy3);
-
-  p.textAlign(p.CENTER, p.CENTER);
+  drawInfoPanelComponent(
+    p,
+    [
+      {
+        label: "F",
+        value: fN.toFixed(1),
+        unit: "N",
+        secondValue: state.forceAngle.toFixed(1),
+        secondUnit: "°"
+      },
+      {
+        label: "Fx",
+        value: fxN.toFixed(1),
+        unit: "N",
+        color: "rgb(220, 50, 50)",
+        dividerAbove: true
+      },
+      {
+        label: "Fy",
+        value: fyN.toFixed(1),
+        unit: "N",
+        color: "rgb(50, 100, 220)"
+      }
+    ],
+    {
+      x: V_W - INFO_PANEL_STYLE.margin,
+      y: V_H - INFO_PANEL_STYLE.margin,
+      anchorX: "right",
+      anchorY: "bottom",
+      labelWidth: 50
+    }
+  );
 }
 
 /**

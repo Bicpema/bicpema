@@ -1,4 +1,6 @@
 import type p5 from "p5";
+import { drawAxes } from "../../../ts/components/axes.js";
+import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
 import { state } from "./state.js";
 import { computeDecayFraction, computeRemainingCount } from "./physics.js";
 import {
@@ -38,7 +40,7 @@ export function drawSimulation(p: p5) {
   const topY = 100;
 
   drawHalfLifeGuides(p, padding, graphW, bottomY, topY);
-  drawAxes(p, padding, graphW, bottomY, topY);
+  drawGraphAxes(p, padding, graphW, bottomY, topY);
   drawDecayCurve(p, padding, graphW, bottomY, topY);
 
   const currentDecayRate = computeDecayFraction(
@@ -67,45 +69,29 @@ export function drawSimulation(p: p5) {
 }
 
 /**
- * X・Y 軸を描画する。
+ * X・Y 軸と軸ラベルを描画する。
  * @param p - p5インスタンス。
  * @param pad - 左右のパディング。
  * @param w - グラフの幅。
  * @param bY - グラフ下端のY座標。
  * @param tY - グラフ上端のY座標。
  */
-function drawAxes(p: p5, pad: number, w: number, bY: number, tY: number) {
-  p.stroke(0);
-  p.strokeWeight(2);
-  p.line(pad, bY, pad + w, bY);
-  p.noStroke();
-  p.fill(0);
-  p.triangle(pad + w, bY - 5, pad + w, bY + 5, pad + w + 10, bY);
-  p.stroke(0);
-  p.strokeWeight(2);
-  p.line(pad, bY, pad, tY - 30);
-  p.fill(0);
-  p.noStroke();
-  p.triangle(pad - 5, tY - 25, pad + 5, tY - 25, pad, tY - 35);
+function drawGraphAxes(p: p5, pad: number, w: number, bY: number, tY: number) {
+  const isIodine = state.halfLife === HALF_LIFE_IODINE_131;
+  const isCarbon = state.halfLife === HALF_LIFE_CARBON_14;
+  let yLabel: string | undefined;
+  if (isIodine) yLabel = "ヨウ素の量";
+  else if (isCarbon) yLabel = "炭素の量";
 
-  p.textAlign(p.CENTER);
-  p.textSize(13);
-  if (state.halfLife === HALF_LIFE_IODINE_131) {
-    p.text("経過日数 (日)", pad + w / 2, bY + 50);
-  } else {
-    p.text("経過年数 (年)", pad + w / 2, bY + 50);
-  }
-
-  p.push();
-  p.translate(pad - 50, (bY + tY) / 2);
-  p.textAlign(p.CENTER, p.CENTER);
-  p.textLeading(13);
-  if (state.halfLife === HALF_LIFE_IODINE_131) {
-    p.text("ヨ\nウ\n素\nの\n量", 0, 0);
-  } else if (state.halfLife === HALF_LIFE_CARBON_14) {
-    p.text("炭\n素\nの\n量", 0, 0);
-  }
-  p.pop();
+  drawAxes(p, new CoordinateSystem({ originX: pad, originY: bY }), {
+    xLabel: isIodine ? "経過日数 (日)" : "経過年数 (年)",
+    yLabel,
+    yLabelVertical: true,
+    extent: { right: pad + w + 10, top: tY - 35 },
+    labelFontSize: 13,
+    xLabelPosition: { x: pad + w / 2, y: bY + 50 },
+    yLabelPosition: { x: pad - 50, y: (bY + tY) / 2 }
+  });
 }
 
 /**

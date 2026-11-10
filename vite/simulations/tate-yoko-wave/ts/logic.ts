@@ -1,3 +1,6 @@
+import { drawArrow } from "../../../ts/components/arrow.js";
+import { drawAxes } from "../../../ts/components/axes.js";
+import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
 import { state } from "./state.js";
 import { computeWaveDisplacement, computeArrivalTime } from "./physics.js";
 import {
@@ -10,6 +13,11 @@ import {
   FOCUS_ORIGIN_COLOR,
   ARROW_COLOR
 } from "./constants.js";
+
+/** 横軸の原点（`translate`済みの座標系で、軸の始点をX方向のみずらした位置）を表す座標系 */
+const AXIS_COORDINATE_SYSTEM = new CoordinateSystem({
+  originX: AXIS_RIGHT_MARGIN
+});
 
 /**
  * 現在時刻における、つり合いの位置x0の媒質の変位を計算します。
@@ -28,29 +36,8 @@ function displacement(p: p5, x0: number) {
   );
 }
 
-/**
- * 始点から終点へ向かう矢印を描画します（長さが1未満の場合は描画しません）。
- * @param p - p5インスタンス
- * @param x1 - 始点のX座標
- * @param y1 - 始点のY座標
- * @param x2 - 終点のX座標
- * @param y2 - 終点のY座標
- */
-function drawArrow(p: p5, x1: number, y1: number, x2: number, y2: number) {
-  if (p.dist(x1, y1, x2, y2) < 1) return;
-  p.stroke(...ARROW_COLOR);
-  p.strokeWeight(2);
-  p.line(x1, y1, x2, y2);
-  const angle = p.atan2(y2 - y1, x2 - x1);
-  const s = 8;
-  p.push();
-  p.translate(x2, y2);
-  p.rotate(angle);
-  p.fill(...ARROW_COLOR);
-  p.noStroke();
-  p.triangle(0, 0, -s, s / 2, -s, -s / 2);
-  p.pop();
-}
+/** 波の進行方向・変位を示す矢印の見た目 */
+const ARROW_STYLE = { weight: 2, headSize: 8 };
 
 /**
  * 矢印付きの横軸とタイトルを描画します。
@@ -58,22 +45,20 @@ function drawArrow(p: p5, x1: number, y1: number, x2: number, y2: number) {
  * @param title - 軸に表示するタイトル
  */
 function drawAxis(p: p5, title: string) {
-  p.stroke(0);
-  p.strokeWeight(1);
-  p.line(AXIS_RIGHT_MARGIN, 0, p.width - AXIS_RIGHT_MARGIN, 0);
-  p.fill(0);
-  p.triangle(
-    p.width - AXIS_RIGHT_MARGIN,
-    0,
-    p.width - AXIS_RIGHT_MARGIN - ARROW_LENGTH,
-    -4,
-    p.width - AXIS_RIGHT_MARGIN - ARROW_LENGTH,
-    4
-  );
+  drawAxes(p, AXIS_COORDINATE_SYSTEM, {
+    showYAxis: false,
+    extent: { right: p.width - AXIS_RIGHT_MARGIN },
+    weight: 1,
+    headSize: ARROW_LENGTH,
+    headWidthDivisor: ARROW_LENGTH / 4
+  });
+  p.push();
   p.noStroke();
+  p.fill(0);
   p.textSize(20);
   p.textAlign(p.LEFT, p.BOTTOM);
   p.text(title, WAVE_ORIGIN_X, -60);
+  p.pop();
 }
 
 /**
@@ -106,7 +91,9 @@ function drawLongitudinal(p: p5) {
     fp.x0,
     state.xStart
   );
-  if (state.t > arrivalTime) drawArrow(p, fp.x0, 0, xNow, 0);
+  if (state.t > arrivalTime) {
+    drawArrow(p, fp.x0, 0, xNow, 0, p.color(...ARROW_COLOR), ARROW_STYLE);
+  }
   p.pop();
 }
 
@@ -148,7 +135,9 @@ function drawConvertedTransverse(p: p5) {
     fp.x0,
     state.xStart
   );
-  if (state.t > arrivalTime) drawArrow(p, fp.x0, 0, fp.x0, -fdy);
+  if (state.t > arrivalTime) {
+    drawArrow(p, fp.x0, 0, fp.x0, -fdy, p.color(...ARROW_COLOR), ARROW_STYLE);
+  }
   p.pop();
 }
 
