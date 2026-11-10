@@ -1,0 +1,24 @@
+---
+name: Node.jsのセットアップと依存パッケージのインストール
+description: .nvmrcに従ってNode.jsをセットアップし、npm ciで依存パッケージをインストールする（呼び出し前にcheckoutが必要）
+
+inputs:
+  cache:
+    description: npmのパッケージキャッシュを使用するか（タグ・デプロイなどキャッシュ汚染を避けたい場合は false）
+    required: false
+    default: "true"
+
+runs:
+  using: composite
+  steps:
+    - name: Node.jsのセットアップ
+      uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1  # v7.1.0
+      with:
+        node-version-file: ".nvmrc"
+        cache: ${{ inputs.cache == 'true' && 'npm' || '' }}
+        cache-dependency-path: "package-lock.json"
+        package-manager-cache: ${{ inputs.cache == 'true' }}
+
+    - name: 依存パッケージのインストール
+      shell: bash
+      run: npm ci

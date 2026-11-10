@@ -6,6 +6,7 @@
 
 - `.claude/` : Claude Code・GitHub Copilot Coding Agent共通のスキル（`skills/`）・サブエージェント（`agents/`）定義を格納するフォルダー
 - `.github/` : GitHub関連の設定ファイルを格納するフォルダー
+- `.storybook/` : Storybookの設定ファイルを格納するフォルダー
 - `.vscode/` : VSCode関連の設定ファイルを格納するフォルダー
 - `archetypes/` : コンテンツのアーキタイプ（テンプレート）を格納するフォルダー
 - `config/` : Hugoの設定ファイルを格納するフォルダー
@@ -15,6 +16,7 @@
 - `i18n/` : 多言語対応の翻訳ファイルを格納するフォルダー
 - `layouts/` : サイトのレイアウトテンプレートを格納するフォルダー
 - `scripts/` : シミュレーションの雛形生成・検証・ベンチマーク、開発環境の保守用のスクリプトを格納するフォルダー
+- `stories/` : Storybookのstories（UI部品の確認用）を格納するフォルダー
 - `static/` : CSS、JavaScript、画像などの静的ファイルを格納するフォルダー
 - `test/` : テストを格納するフォルダー
     - `e2e/` : PlaywrightによるE2Eテストを格納するフォルダー
@@ -33,6 +35,7 @@
 - `public/` : Hugoのビルド出力先
 - `resources/` : Hugoが生成するキャッシュ（`resources/_gen`）
 - `static/vite/` : Viteのビルド出力先
+- `storybook-static/` : Storybookのビルド出力先
 
 ## シミュレーションの実装手順
 

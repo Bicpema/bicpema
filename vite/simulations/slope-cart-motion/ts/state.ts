@@ -1,4 +1,3 @@
-import type { Chart } from "chart.js";
 import type { SlopeCart } from "./slope-cart.js";
 
 // グローバル状態管理オブジェクト
@@ -11,8 +10,6 @@ export const state = {
   slopeDeg: 20,
   /** 記録間隔 (s) */
   recInterval: 0.1,
-  /** グラフ Chart.js インスタンス（動的import・生成前はnull） */
-  graphChart: null as Chart<"scatter"> | null,
   /** 台車画像（読み込み完了までnull） */
   cartImage: null as p5.Image | null,
   /** 地面画像（読み込み完了までnull） */
@@ -27,8 +24,6 @@ export const state = {
   angleInput: null as p5.Element | null,
   /** 記録間隔入力（p.select()で取得するまではnull） */
   intervalInput: null as p5.Element | null,
-  /** 読み込み済みフォント */
-  font: null as p5.Font | null,
   /** v-tグラフの表示/非表示 */
   graphVisible: false,
   /** v-tグラフの記録データ点 */

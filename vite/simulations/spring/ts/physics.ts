@@ -1,3 +1,8 @@
+import {
+  computeParallelSpringConstant,
+  computeSeriesSpringConstant
+} from "../../../ts/physics/mechanics.js";
+
 /**
  * ばねの組み合わせ方（直列・並列）に応じた合成ばね定数を計算する。
  * @param k - 1本あたりのばね定数
@@ -11,8 +16,10 @@ export function computeEffectiveSpringConstant(
   const springConstant = Number(k);
   const combinationType = Number(combination);
   if (combinationType === 1) return springConstant;
-  if (combinationType === 2) return 2 * springConstant;
-  return springConstant / 2;
+  if (combinationType === 2) {
+    return computeParallelSpringConstant([springConstant, springConstant]);
+  }
+  return computeSeriesSpringConstant([springConstant, springConstant]);
 }
 
 /**

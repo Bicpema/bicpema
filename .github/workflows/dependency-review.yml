@@ -8,6 +8,7 @@ name: 依存関係のセキュリティチェック（dependency-review）
       - "package-lock.json"
       - "requirements-dev.txt"
       - ".github/workflows/**"
+      - ".github/actions/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

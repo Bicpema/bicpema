@@ -5,7 +5,6 @@ export const state: {
   massA: number;
   massB: number;
   burnerImg: any;
-  font: any;
   /** p.select()が返すp5.Elementインスタンス（物質A選択セレクト） */
   materialSelectA: any;
   /** p.select()が返すp5.Elementインスタンス（物質B選択セレクト） */
@@ -25,8 +24,6 @@ export const state: {
   massB: 0,
   /** バーナー画像 */
   burnerImg: null,
-  /** フォント */
-  font: null,
   /** 物質A選択セレクト */
   materialSelectA: null,
   /** 物質B選択セレクト */

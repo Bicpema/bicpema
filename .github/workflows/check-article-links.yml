@@ -10,6 +10,7 @@ name: 記事とシミュレーションのリンク整合性チェック
       - "scripts/articleless-simulation-allowlist.js"
       - "scripts/_lib/checkArticleSimulationLinks.js"
       - ".github/workflows/check-article-links.yml"
+      - ".github/actions/**"
   push:
     branches:
       - main
@@ -20,6 +21,7 @@ name: 記事とシミュレーションのリンク整合性チェック
       - "scripts/articleless-simulation-allowlist.js"
       - "scripts/_lib/checkArticleSimulationLinks.js"
       - ".github/workflows/check-article-links.yml"
+      - ".github/actions/**"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -36,15 +38,8 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Node.jsのセットアップ
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020  # v7.0.0
-        with:
-          node-version-file: ".nvmrc"
-          cache: "npm"
-          cache-dependency-path: "package-lock.json"
-
-      - name: 依存パッケージのインストール
-        run: npm ci
+      - name: Node.jsのセットアップと依存パッケージのインストール
+        uses: ./.github/actions/setup-node-deps
 
       - name: 記事とシミュレーションのリンク整合性チェック
         run: npm run check:article-links

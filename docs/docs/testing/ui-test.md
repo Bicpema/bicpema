@@ -77,4 +77,4 @@ test("スタートボタンの操作でシミュレーションが動き出す",
 
 ## CI での実行
 
-[.github/workflows/e2e-test.yml](../../../.github/workflows/e2e-test.yml) により、`vite/**` 等の変更を含む Pull Request で自動実行されます。
+[.github/workflows/e2e-test.yml](../../../.github/workflows/e2e-test.yml) により、Pull Request では変更されたシミュレーションのテストのみ（共通コード・設定の変更時は全テスト）、タグの push 時とデプロイ前には全シミュレーションのテストが自動実行されます。詳細は[テストの実行範囲](../development-flow.md#テストの実行範囲)を参照してください。

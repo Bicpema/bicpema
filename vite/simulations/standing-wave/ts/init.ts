@@ -1,4 +1,5 @@
 import { state } from "./state.js";
+import { computeWaveFronts } from "./physics.js";
 import { MARGIN, WAVELENGTH, PERIOD_FRAMES } from "./constants.js";
 import { bindToggleControls } from "../../../ts/bicpema-controls-controller.js";
 
@@ -37,6 +38,14 @@ export function elementPositionInit(p: p5) {
   state.margin = MARGIN;
   state.innerW = p.width - state.margin * 2;
   state.innerH = p.height - state.margin * 2;
+  // リサイズ後の描画領域幅に合わせて波の先端位置を再計算する
+  const { rightFront, leftFront } = computeWaveFronts(
+    state.v,
+    state.t,
+    state.innerW
+  );
+  state.rightFront = rightFront;
+  state.leftFront = leftFront;
 }
 
 /**

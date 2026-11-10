@@ -1,5 +1,6 @@
 // logic.js はシミュレーションの描画ロジックと物理計算を管理するファイルです。
 
+import { drawArrow } from "../../../ts/components/arrow.js";
 import {
   state,
   V_W,
@@ -79,51 +80,16 @@ export function calcEquilibrium() {
 // ────────────────────────────────────────────
 
 /**
- * 矢印を描画する（軸 + 三角形の矢頭）。
- * @param p - p5 インスタンス
- * @param x1 - 始点 X
- * @param y1 - 始点 Y
- * @param x2 - 終点 X
- * @param y2 - 終点 Y
- * @param col - [R, G, B]
- * @param sw - 線幅（px）
- * @param hs - 矢頭サイズ（px）
+ * 矢印の見た目を生成する。
+ * @param weight - 線幅（px）
+ * @param headSize - 矢頭サイズ（px）
+ * @returns 共通矢印コンポーネントへ渡すオプション
  */
-function drawArrow(
-  p: p5,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  col: readonly [number, number, number],
-  sw = 3,
-  hs = 11
-) {
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const len = Math.hypot(dx, dy);
-  if (len < 1) return;
-
-  const ux = dx / len;
-  const uy = dy / len;
-
-  // 軸（矢頭の手前まで）
-  p.stroke(col[0], col[1], col[2]);
-  p.strokeWeight(sw);
-  p.line(x1, y1, x2 - ux * hs, y2 - uy * hs);
-
-  // 矢頭
-  p.fill(col[0], col[1], col[2]);
-  p.noStroke();
-  p.triangle(
-    x2,
-    y2,
-    x2 - ux * hs - uy * hs * 0.5,
-    y2 - uy * hs + ux * hs * 0.5,
-    x2 - ux * hs + uy * hs * 0.5,
-    y2 - uy * hs - ux * hs * 0.5
-  );
-}
+const arrowStyle = (weight: number, headSize: number) => ({
+  weight,
+  headSize,
+  headWidthDivisor: 2
+});
 
 /**
  * ラベル同士の重なりを避けつつ、各ラベルの向き（法線側）を維持する。
@@ -335,9 +301,33 @@ function drawForceArrows(p: p5) {
   const wEndX = ring.x;
   const wEndY = ring.y + W * fScale;
 
-  drawArrow(p, ring.x, ring.y, t1EndX, t1EndY, T1_COLOR, 3, 11);
-  drawArrow(p, ring.x, ring.y, t2EndX, t2EndY, T2_COLOR, 3, 11);
-  drawArrow(p, ring.x, ring.y, wEndX, wEndY, W_COLOR, 3, 11);
+  drawArrow(
+    p,
+    ring.x,
+    ring.y,
+    t1EndX,
+    t1EndY,
+    p.color(...T1_COLOR),
+    arrowStyle(3, 11)
+  );
+  drawArrow(
+    p,
+    ring.x,
+    ring.y,
+    t2EndX,
+    t2EndY,
+    p.color(...T2_COLOR),
+    arrowStyle(3, 11)
+  );
+  drawArrow(
+    p,
+    ring.x,
+    ring.y,
+    wEndX,
+    wEndY,
+    p.color(...W_COLOR),
+    arrowStyle(3, 11)
+  );
 
   // T1/T2 ラベル（矢印の中点から法線方向にオフセット）
   const t1MX = (ring.x + t1EndX) / 2;
@@ -562,17 +552,33 @@ function drawForceTrianglePanel(p: p5) {
   p.textSize(13);
   p.textAlign(p.LEFT, p.CENTER);
 
-  drawArrow(p, lgX, lgY, lgX + 32, lgY, T1_COLOR, 2, 8);
+  drawArrow(p, lgX, lgY, lgX + 32, lgY, p.color(...T1_COLOR), arrowStyle(2, 8));
   p.fill(T1_COLOR[0], T1_COLOR[1], T1_COLOR[2]);
   p.noStroke();
   p.text("T1（糸1の張力）", lgX + 42, lgY);
 
-  drawArrow(p, lgX, lgY + 22, lgX + 32, lgY + 22, T2_COLOR, 2, 8);
+  drawArrow(
+    p,
+    lgX,
+    lgY + 22,
+    lgX + 32,
+    lgY + 22,
+    p.color(...T2_COLOR),
+    arrowStyle(2, 8)
+  );
   p.fill(T2_COLOR[0], T2_COLOR[1], T2_COLOR[2]);
   p.noStroke();
   p.text("T2（糸2の張力）", lgX + 42, lgY + 22);
 
-  drawArrow(p, lgX, lgY + 44, lgX + 32, lgY + 44, W_COLOR, 2, 8);
+  drawArrow(
+    p,
+    lgX,
+    lgY + 44,
+    lgX + 32,
+    lgY + 44,
+    p.color(...W_COLOR),
+    arrowStyle(2, 8)
+  );
   p.fill(W_COLOR[0], W_COLOR[1], W_COLOR[2]);
   p.noStroke();
   p.text("W（重力）", lgX + 42, lgY + 44);
@@ -633,9 +639,33 @@ function drawForceTrianglePanel(p: p5) {
   //   W:  P0 → P1（緑、下向き）
   //   T1: P1 → P2（青）
   //   T2: P2 → P0（赤）
-  drawArrow(p, P0.x, P0.y, P1.x, P1.y, W_COLOR, 3.5, 12);
-  drawArrow(p, P1.x, P1.y, P2.x, P2.y, T1_COLOR, 3.5, 12);
-  drawArrow(p, P2.x, P2.y, P0.x, P0.y, T2_COLOR, 3.5, 12);
+  drawArrow(
+    p,
+    P0.x,
+    P0.y,
+    P1.x,
+    P1.y,
+    p.color(...W_COLOR),
+    arrowStyle(3.5, 12)
+  );
+  drawArrow(
+    p,
+    P1.x,
+    P1.y,
+    P2.x,
+    P2.y,
+    p.color(...T1_COLOR),
+    arrowStyle(3.5, 12)
+  );
+  drawArrow(
+    p,
+    P2.x,
+    P2.y,
+    P0.x,
+    P0.y,
+    p.color(...T2_COLOR),
+    arrowStyle(3.5, 12)
+  );
 
   // ────────────── ラベル ──────────────
 
@@ -767,8 +797,6 @@ function updateCursor(p: p5, vmx: number, vmy: number) {
 export function drawSimulation(p: p5) {
   p.background(220);
   p.scale(p.width / V_W);
-
-  if (state.font) p.textFont(state.font);
 
   calcEquilibrium();
   drawPhysicsPanel(p);

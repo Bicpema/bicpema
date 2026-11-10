@@ -23,15 +23,8 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Node.jsのセットアップ
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020  # v7.0.0
-        with:
-          node-version: "24"
-          cache: "npm"
-          cache-dependency-path: "package-lock.json"
-
-      - name: 依存パッケージのインストール
-        run: npm ci
+      - name: Node.jsのセットアップと依存パッケージのインストール
+        uses: ./.github/actions/setup-node-deps
 
       - name: リント
         run: npm run lint
@@ -48,8 +41,13 @@ jobs:
       - name: 記事とシミュレーションのリンク整合性チェック
         run: npm run check:article-links
 
+  # デプロイ前に全シミュレーションのE2Eテストを実行する（PRでは変更されたシミュレーションのみ実行しているため）
+  e2e-test:
+    # actionlintが `$/` 構文に未対応のため、zizmorのself-repository指摘は抑制する
+    uses: ./.github/workflows/e2e-test.yml  # zizmor: ignore[self-repository]
+
   deploy:
-    needs: verify
+    needs: [verify, e2e-test]
     runs-on: ubuntu-latest
     steps:
       - name: リポジトリのチェックアウト
@@ -69,15 +67,8 @@ jobs:
           hugo-version: ${{ steps.hugo-version.outputs.version }}
           extended: true
 
-      - name: Node.jsのセットアップ
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020  # v7.0.0
-        with:
-          node-version-file: ".nvmrc"
-          cache: "npm"
-          cache-dependency-path: "package-lock.json"
-
-      - name: 依存パッケージのインストール
-        run: npm ci
+      - name: Node.jsのセットアップと依存パッケージのインストール
+        uses: ./.github/actions/setup-node-deps
 
       - name: Viteのビルド
         run: npm run build
