@@ -23,6 +23,11 @@ updates:
     labels:
       - "依存関係"
       - "github actions"
+    # codeql-action の init と analyze は同じバージョンで揃える必要があるため、1つのPRにまとめる
+    groups:
+      codeql-action:
+        patterns:
+          - "github/codeql-action/*"
 
   # Python（yamllint 等の開発ツール）の依存関係
   - package-ecosystem: "pip"
