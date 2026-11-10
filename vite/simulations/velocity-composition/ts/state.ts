@@ -4,7 +4,6 @@ export const state: {
   boat: Boat | null;
   waterParticles: WaterParticle[];
   person: Person | null;
-  font: p5.Font | null;
   boatSpeedInput: p5.Element | null;
   riverSpeedInput: p5.Element | null;
   boatSpeedValue: p5.Element | null;
@@ -15,7 +14,6 @@ export const state: {
   boat: null,
   waterParticles: [],
   person: null,
-  font: null,
   boatSpeedInput: null,
   riverSpeedInput: null,
   boatSpeedValue: null,

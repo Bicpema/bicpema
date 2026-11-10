@@ -2,6 +2,7 @@
 
 import { state } from "./state.js";
 import type { SlopeCart } from "./slope-cart.js";
+import { drawInfoPanel as drawInfoPanelComponent } from "../../../ts/components/info-panel.js";
 
 // ============================================================
 // レイアウト定数（仮想座標系: 1000×562）
@@ -294,40 +295,11 @@ export function drawRecordingTape(p: p5, marks: number[], recInterval: number) {
  * @param cart - 台車オブジェクト
  */
 export function drawInfoPanel(p: p5, cart: SlopeCart) {
-  const PANEL_W = 310;
-  const PANEL_H = 152;
-  const LEFT_X = 26;
-  const RIGHT_X = LEFT_X + PANEL_W - 16;
-  const START_Y = 18;
-  const LINE_H = 26;
-
-  // 背景
-  p.fill(0, 0, 0, 170);
-  p.noStroke();
-  p.rect(14, 14, PANEL_W, PANEL_H, 9);
-
-  p.fill(190, 215, 255);
-  p.noStroke();
-  p.textSize(15);
-
-  const t = cart.time.toFixed(2);
-  const s = cart.s.toFixed(3);
-  const v = cart.v.toFixed(2);
-  const a = cart.accel.toFixed(2);
-
-  const rows = [
-    ["時刻  t", t + " s"],
-    ["変位  s", s + " m"],
-    ["速度  v", v + " m/s"],
-    ["加速度 a", a + " m/s²"],
-    ["傾斜角 θ", cart.angleDeg + " °"]
-  ];
-
-  rows.forEach(([label, value], i) => {
-    const y = START_Y + i * LINE_H;
-    p.textAlign(p.LEFT, p.TOP);
-    p.text(label, LEFT_X, y);
-    p.textAlign(p.RIGHT, p.TOP);
-    p.text(value, RIGHT_X, y);
-  });
+  drawInfoPanelComponent(p, [
+    { label: "時刻 t", value: cart.time.toFixed(2), unit: "s" },
+    { label: "変位 s", value: cart.s.toFixed(3), unit: "m" },
+    { label: "速度 v", value: cart.v.toFixed(2), unit: "m/s" },
+    { label: "加速度 a", value: cart.accel.toFixed(2), unit: "m/s²" },
+    { label: "傾斜角 θ", value: String(cart.angleDeg), unit: "°" }
+  ]);
 }

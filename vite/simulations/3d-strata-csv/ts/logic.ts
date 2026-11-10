@@ -4,6 +4,7 @@ import type p5 from "p5";
 import { state, STRATA_COLORS } from "./state.js";
 import { computeCoordinateBounds, computeSquareBounds } from "./physics.js";
 import { requireElementById } from "./element-function.js";
+import { drawWebglText } from "../../../ts/webgl-text.js";
 import {
   WORLD_MIN,
   WORLD_MAX,
@@ -22,7 +23,8 @@ import {
   STRATA_COLUMN_SIZE,
   PLACE_MARKER_COLOR,
   PLACE_MARKER_VERTICAL_OFFSET,
-  ROTATION_INCREMENT_DEG
+  ROTATION_INCREMENT_DEG,
+  TEXT_SIZE
 } from "./constants.js";
 
 /**
@@ -151,7 +153,7 @@ function backgroundSetting(
         p.float(xMax as unknown as string)
       );
       if (xMin === xMax) xMap = x / GRID_LABEL_STEP;
-      if (state.jaFont) p.text(p.nf(xMap, 1, 4), x, -10);
+      drawWebglText(p, p.nf(xMap, 1, 4), x, -10, 0, { size: TEXT_SIZE });
       p.pop();
     }
   }
@@ -166,13 +168,13 @@ function backgroundSetting(
       p.translate(0, 0, WORLD_MIN);
       let zMap = p.map(z, 0, WORLD_MAX, zMin, zMax);
       if (zMin === zMax) zMap = z;
-      if (state.jaFont) p.text(p.nf(zMap, 1, 4), WORLD_MIN, z);
+      drawWebglText(p, p.nf(zMap, 1, 4), WORLD_MIN, z, 0, { size: TEXT_SIZE });
       p.pop();
     }
   }
   p.push();
   p.translate(0, 0, WORLD_MIN);
-  if (state.jaFont) p.text("深さ", -550, 250, 0);
+  drawWebglText(p, "深さ", -550, 250, 0, { size: TEXT_SIZE });
   p.pop();
   for (let y = 0; y <= WORLD_SIZE; y += GRID_STEP) {
     p.line(WORLD_MIN, 0, y + WORLD_MIN, WORLD_MAX, 0, y + WORLD_MIN);
@@ -184,7 +186,7 @@ function backgroundSetting(
       if (yMin === yMax) yMap = (WORLD_SIZE - y) / GRID_LABEL_STEP;
       p.rotateY(p.PI / 2);
       p.translate(-y + WORLD_MAX, 0, WORLD_MAX);
-      if (state.jaFont) p.text(p.nf(yMap, 1, 4), 0, -10);
+      drawWebglText(p, p.nf(yMap, 1, 4), 0, -10, 0, { size: TEXT_SIZE });
       p.pop();
     }
   }
@@ -200,12 +202,12 @@ function backgroundSetting(
   }
   p.push();
   p.translate(0, 0, WORLD_MAX);
-  if (state.jaFont) p.text(xLabel, 0, -50);
+  drawWebglText(p, xLabel, 0, -50, 0, { size: TEXT_SIZE });
   p.pop();
   p.push();
   p.rotateY(p.PI / 2);
   p.translate(0, -50, WORLD_MAX);
-  if (state.jaFont) p.text(yLabel, 0, -10);
+  drawWebglText(p, yLabel, 0, -10, 0, { size: TEXT_SIZE });
   p.pop();
 }
 
@@ -222,12 +224,11 @@ function drawDirMark(p: p5, x: number, y: number) {
   p.line(x + 20, y - 50, x - 20, y - 50);
   p.line(x, y - 100, x, y + 100);
   p.line(x, y - 100, x - 20, y - 50);
-  if (state.jaFont) {
-    p.text("東", x + 70, y + 8);
-    p.text("西", x - 70, y + 8);
-    p.text("南", x, y + 70 + 60);
-    p.text("北", x, y - 70 - 40);
-  }
+  const opt = { size: TEXT_SIZE };
+  drawWebglText(p, "東", x + 70, y + 8, 0, opt);
+  drawWebglText(p, "西", x - 70, y + 8, 0, opt);
+  drawWebglText(p, "南", x, y + 70 + 60, 0, opt);
+  drawWebglText(p, "北", x, y - 70 - 40, 0, opt);
   p.pop();
 }
 
@@ -328,7 +329,7 @@ function drawStrata(
     );
     p.translate(100, 10, 0);
     p.fill(0);
-    if (state.jaFont) p.text(kind, 0, 0);
+    drawWebglText(p, kind, 0, 0, 0, { size: TEXT_SIZE });
     p.pop();
     p.fill(0);
     p.push();
@@ -336,14 +337,15 @@ function drawStrata(
     // 許容されないが、挙動を変えないためそのまま呼び出しを維持する。
     // @ts-expect-error 元実装の挙動を維持するため、意図的に引数なしで呼び出している
     p.translate();
-    if (state.jaFont) {
-      p.text(
-        kind,
-        x,
-        p.map(z, zMin, zMax, 0, WORLD_MAX) +
-          p.map(zLength, 0, zMax - zMin, 0, WORLD_MAX) / 2
-      );
-    }
+    drawWebglText(
+      p,
+      kind,
+      x,
+      p.map(z, zMin, zMax, 0, WORLD_MAX) +
+        p.map(zLength, 0, zMax - zMin, 0, WORLD_MAX) / 2,
+      0,
+      { size: TEXT_SIZE }
+    );
     p.pop();
   }
   p.fill(0);
@@ -358,7 +360,7 @@ function drawStrata(
   if (p.min(zArr) > 0) {
     p.translate(0, PLACE_MARKER_VERTICAL_OFFSET, 0);
   }
-  if (state.jaFont) p.text(name, 0, -55);
+  drawWebglText(p, name, 0, -55, 0, { size: TEXT_SIZE });
   p.fill(...PLACE_MARKER_COLOR);
   p.cone(10, 50, 10, 3, true);
   p.pop();

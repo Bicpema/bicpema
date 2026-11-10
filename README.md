@@ -82,26 +82,27 @@ npm run build
 
 ### npm scripts
 
-| コマンド                            | 内容                                                                                                             |
-| ----------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `npm run dev`                       | シミュレーションを監視ビルドする                                                                                 |
-| `npm run build`                     | シミュレーションをビルドする                                                                                     |
-| `npm run new:simulation`            | 雛形から新しいシミュレーションを生成する                                                                         |
-| `npm test`                          | Vitestで単体テストを実行する（`npm run test:watch`で監視実行）                                                   |
-| `npm run test:e2e`                  | PlaywrightでE2Eテストを実行する（事前に自動でビルドされる）                                                      |
-| `npm run typecheck`                 | TypeScriptの型チェックを実行する                                                                                 |
-| `npm run lint`                      | oxlintでJavaScript/TypeScriptをリントする                                                                        |
-| `npm run lint:md`                   | Markdownをリントする                                                                                             |
-| `npm run lint:yaml`                 | YAMLをリントする（yamllintが必要）                                                                               |
-| `npm run lint:spell`                | cspellでスペルチェックを実行する                                                                                 |
-| `npm run format`                    | Prettierで整形する                                                                                               |
-| `npm run format:check`              | Prettierの整形漏れをチェックする                                                                                 |
-| `npm run check:template-compliance` | 各シミュレーションが雛形の必須構成に沿っているかをチェックする                                                   |
-| `npm run check:article-links`       | 記事とシミュレーションのリンク整合性をチェックする                                                               |
-| `npm run check:published-urls`      | 掲載URLがビルド成果物からアクセス可能かをチェックする                                                            |
-| `npm run verify:runtime`            | 各シミュレーションをヘッドレスブラウザーで起動し、実行時エラーを検知する（事前に`npm run build`が必要）          |
-| `npm run benchmark:performance`     | シミュレーションのframeRate・メモリ使用量を計測する（例: `npm run benchmark:performance -- --filter=free-fall`） |
-| `npm run clean:worktrees`           | マージ済みPRに対応する`.claude/worktrees/`配下のworktreeを一覧表示する（`-- --delete`で削除）                    |
+| コマンド                             | 内容                                                                                                             |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------- |
+| `npm run dev`                        | シミュレーションを監視ビルドする                                                                                 |
+| `npm run build`                      | シミュレーションをビルドする                                                                                     |
+| `npm run new:simulation`             | 雛形から新しいシミュレーションを生成する                                                                         |
+| `npm test`                           | Vitestで単体テストを実行する（`npm run test:watch`で監視実行）                                                   |
+| `npm run test:e2e`                   | PlaywrightでE2Eテストを実行する（事前に自動でビルドされる）                                                      |
+| `npm run typecheck`                  | TypeScriptの型チェックを実行する                                                                                 |
+| `npm run lint`                       | oxlintでJavaScript/TypeScriptをリントする                                                                        |
+| `npm run lint:md`                    | Markdownをリントする                                                                                             |
+| `npm run lint:yaml`                  | YAMLをリントする（yamllintが必要）                                                                               |
+| `npm run lint:spell`                 | cspellでスペルチェックを実行する                                                                                 |
+| `npm run format`                     | Prettierで整形する                                                                                               |
+| `npm run format:check`               | Prettierの整形漏れをチェックする                                                                                 |
+| `npm run check:template-compliance`  | 各シミュレーションが雛形の必須構成に沿っているかをチェックする                                                   |
+| `npm run check:duplicate-components` | 共通コンポーネントと同種の関数の独自定義を検出する                                                               |
+| `npm run check:article-links`        | 記事とシミュレーションのリンク整合性をチェックする                                                               |
+| `npm run check:published-urls`       | 掲載URLがビルド成果物からアクセス可能かをチェックする                                                            |
+| `npm run verify:runtime`             | 各シミュレーションをヘッドレスブラウザーで起動し、実行時エラーを検知する（事前に`npm run build`が必要）          |
+| `npm run benchmark:performance`      | シミュレーションのframeRate・メモリ使用量を計測する（例: `npm run benchmark:performance -- --filter=free-fall`） |
+| `npm run clean:worktrees`            | マージ済みPRに対応する`.claude/worktrees/`配下のworktreeを一覧表示する（`-- --delete`で削除）                    |
 
 ### 開発者ドキュメント
 
@@ -191,7 +192,7 @@ p5.jsはインスタンスモード（`new p5(sketch)`）で実装する。実�
 
 - ソースコードには[MIT License](./LICENSE)が適用される。
 - 記事・画像・シミュレーションの画面などのコンテンツには、公開サイトの[利用規約](https://bicpema.com/terms/)が適用される（授業・自習での利用や改変は自由、出版物・商用教材への掲載は要連絡）。規約の本文は[`content/terms.md`](./content/terms.md)で管理する。
-- サードパーティライブラリ・フォントのライセンスは[`content/licenses.md`](./content/licenses.md)を参照。
+- サードパーティライブラリのライセンスは[`content/licenses.md`](./content/licenses.md)を参照。
 - サイトのテーマには[hugo-theme-tailwind](https://github.com/tomowang/hugo-theme-tailwind)（git submodule、`themes/hugo-theme-tailwind`）を使用しており、[MIT License](https://github.com/tomowang/hugo-theme-tailwind/blob/main/LICENSE)が適用される。ライセンス全文はsubmodule内の`themes/hugo-theme-tailwind/LICENSE`、または[`content/licenses.md`](./content/licenses.md)を参照。
 
 ## Others

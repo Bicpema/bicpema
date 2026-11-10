@@ -1,3 +1,12 @@
+import {
+  drawInfoPanel as drawInfoPanelComponent,
+  INFO_PANEL_STYLE
+} from "../../../ts/components/info-panel.js";
+import { drawDashedLine } from "../../../ts/components/dashed-line.js";
+import { drawArrowWithLabel } from "../../../ts/components/arrow.js";
+import { drawAxes } from "../../../ts/components/axes.js";
+import { drawGrid } from "../../../ts/components/grid.js";
+import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
 import { state } from "./state.js";
 import {
   V_W,
@@ -15,204 +24,44 @@ import {
   computeForceAngleDeg
 } from "./physics.js";
 
-/**
- * 矢印を描画する。
- * @param p - p5インスタンス
- * @param fromX - 始点のX座標
- * @param fromY - 始点のY座標
- * @param toX - 終点のX座標
- * @param toY - 終点のY座標
- * @param col - 矢印の色
- * @param weight - 線の太さ
- * @param headSize - 矢印の頭の大きさ
- */
-export function drawArrow(
-  p: p5,
-  fromX: number,
-  fromY: number,
-  toX: number,
-  toY: number,
-  col: p5.Color,
-  weight = 3,
-  headSize = 12
-) {
-  const dx = toX - fromX;
-  const dy = toY - fromY;
-  const len = p.sqrt(dx * dx + dy * dy);
-  if (len < 2) return;
+/** 軸の原点を表す座標系 */
+const COORDINATE_SYSTEM = new CoordinateSystem({
+  originX: ORIGIN_X,
+  originY: ORIGIN_Y
+});
 
-  p.stroke(col);
-  p.strokeWeight(weight);
-  p.fill(col);
-  p.line(fromX, fromY, toX, toY);
+/** 矢印（ラベル付き）の見た目 */
+const ARROW_STYLE = {
+  headWidthDivisor: 2.5,
+  labelFontSize: LABEL_FONT_SIZE
+};
 
-  const angle = p.atan2(dy, dx);
-  p.push();
-  p.translate(toX, toY);
-  p.rotate(angle);
-  p.noStroke();
-  p.triangle(0, 0, -headSize, headSize / 2.5, -headSize, -headSize / 2.5);
-  p.pop();
-}
+/** 補助線（破線）の見た目 */
+const DASHED_STYLE = { dashLength: 10 };
 
 /**
- * 矢印とラベルをまとめて描画する。
- * @param p - p5インスタンス
- * @param fromX - 始点のX座標
- * @param fromY - 始点のY座標
- * @param toX - 終点のX座標
- * @param toY - 終点のY座標
- * @param col - 矢印とラベルの色
- * @param label - 表示するテキスト
- */
-export function drawArrowWithLabel(
-  p: p5,
-  fromX: number,
-  fromY: number,
-  toX: number,
-  toY: number,
-  col: p5.Color,
-  label: string
-) {
-  drawArrow(p, fromX, fromY, toX, toY, col);
-
-  const dx = toX - fromX;
-  const dy = toY - fromY;
-  const len = p.sqrt(dx * dx + dy * dy);
-  if (len < 2) return;
-
-  // ラベル位置：矢印の中点から法線方向に少しオフセット
-  const mx = (fromX + toX) / 2;
-  const my = (fromY + toY) / 2;
-  const nx = -dy / len;
-  const ny = dx / len;
-  const offset = 18;
-  const tx = mx + nx * offset;
-  const ty = my + ny * offset;
-
-  p.noStroke();
-  p.textSize(LABEL_FONT_SIZE);
-  p.textAlign(p.CENTER, p.CENTER);
-
-  p.fill(col);
-  p.text(label, tx, ty);
-}
-
-/**
- * 破線を描画する。
- * @param p - p5インスタンス
- * @param x1 - 始点X
- * @param y1 - 始点Y
- * @param x2 - 終点X
- * @param y2 - 終点Y
- * @param col - 色
- */
-export function drawDashedLine(
-  p: p5,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  col: p5.Color
-) {
-  const dashLen = 10;
-  const gapLen = 6;
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const total = p.sqrt(dx * dx + dy * dy);
-  const ux = dx / total;
-  const uy = dy / total;
-
-  p.stroke(col);
-  p.strokeWeight(1.5);
-
-  let dist = 0;
-  let drawing = true;
-  while (dist < total) {
-    const segLen = drawing ? dashLen : gapLen;
-    const end = p.min(dist + segLen, total);
-    if (drawing) {
-      p.line(x1 + ux * dist, y1 + uy * dist, x1 + ux * end, y1 + uy * end);
-    }
-    dist = end;
-    drawing = !drawing;
-  }
-}
-
-/**
- * グリッドを描画する。
+ * グリッドと座標軸を描画する。
  * @param p - p5インスタンス
  */
-export function drawGrid(p: p5) {
-  p.strokeWeight(1);
-  p.stroke(168, 206, 221);
-
+export function drawGridAndAxes(p: p5) {
   // 中心(ORIGIN)を起点に外側へグリッド線を引く
-  for (let x = ORIGIN_X; x <= V_W; x += GRID_STEP) p.line(x, 0, x, V_H);
-  for (let x = ORIGIN_X - GRID_STEP; x >= 0; x -= GRID_STEP) {
-    p.line(x, 0, x, V_H);
-  }
-  for (let y = ORIGIN_Y; y <= V_H; y += GRID_STEP) p.line(0, y, V_W, y);
-  for (let y = ORIGIN_Y - GRID_STEP; y >= 0; y -= GRID_STEP) {
-    p.line(0, y, V_W, y);
-  }
+  drawGrid(p, COORDINATE_SYSTEM, {
+    stepX: GRID_STEP,
+    stepY: GRID_STEP,
+    bounds: { left: 0, top: 0, right: V_W, bottom: V_H }
+  });
 
-  // X/Y 軸（黒色矢印、両方向）
-  const axisColor = p.color(0);
-  const axisWeight = 2;
-  const axisHeadSize = 10;
-  drawArrow(
-    p,
-    ORIGIN_X,
-    ORIGIN_Y,
-    V_W - 10,
-    ORIGIN_Y,
-    axisColor,
-    axisWeight,
-    axisHeadSize
-  );
-  drawArrow(
-    p,
-    ORIGIN_X,
-    ORIGIN_Y,
-    10,
-    ORIGIN_Y,
-    axisColor,
-    axisWeight,
-    axisHeadSize
-  );
-  drawArrow(
-    p,
-    ORIGIN_X,
-    ORIGIN_Y,
-    ORIGIN_X,
-    10,
-    axisColor,
-    axisWeight,
-    axisHeadSize
-  );
-  drawArrow(
-    p,
-    ORIGIN_X,
-    ORIGIN_Y,
-    ORIGIN_X,
-    V_H - 10,
-    axisColor,
-    axisWeight,
-    axisHeadSize
-  );
-
-  // 軸ラベル
-  p.noStroke();
-  p.fill(0);
-  p.textSize(AXIS_LABEL_FONT_SIZE);
-  p.textAlign(p.CENTER, p.CENTER);
-  p.text("x", V_W - 8, ORIGIN_Y + 20);
-  p.text("y", ORIGIN_X - 20, 10);
-
-  // 原点ラベル「O」
-  p.textSize(LABEL_FONT_SIZE);
-  p.text("O", ORIGIN_X - 14, ORIGIN_Y + 14);
+  // X/Y 軸（黒色矢印、両方向）と原点ラベル
+  drawAxes(p, COORDINATE_SYSTEM, {
+    xLabel: "x",
+    yLabel: "y",
+    originLabel: "O",
+    bothDirections: true,
+    extent: { left: 10, right: V_W - 10, top: 10, bottom: V_H - 10 },
+    labelFontSize: AXIS_LABEL_FONT_SIZE,
+    originLabelFontSize: LABEL_FONT_SIZE,
+    headWidthDivisor: 2.5
+  });
 }
 
 /**
@@ -238,61 +87,41 @@ export function drawInfoPanel(
   const f2Angle = computeForceAngleDeg(f2x, f2y);
   const frAngle = computeForceAngleDeg(frx, fry);
 
-  const panelW = 248;
-  const panelH = 118;
-  const panelX = V_W - panelW - 10;
-  const panelY = V_H - panelH - 10;
-
-  p.fill(255);
-  p.stroke(0);
-  p.strokeWeight(1.5);
-  p.rect(panelX, panelY, panelW, panelH, 8);
-  p.noStroke();
-
-  // 列位置
-  const colLabel = panelX + 16; // ラベル（LEFT基準）
-  const colMag = panelX + panelW - 86; // 大きさ（RIGHT基準）
-  const colAngle = panelX + panelW - 14; // 角度（RIGHT基準）
-
-  // 行の中心Y
-  const cy1 = panelY + 20; // F1
-  const cy2 = panelY + 48; // F2
-  const divY = panelY + 66; // 区切り線
-  const cy3 = panelY + 92; // 合力
-
-  p.textSize(14);
-
-  // F1
-  p.fill(0);
-  p.textAlign(p.LEFT, p.CENTER);
-  p.text("F1", colLabel, cy1);
-  p.textAlign(p.RIGHT, p.CENTER);
-  p.text(`${f1Mag.toFixed(1)} N`, colMag, cy1);
-  p.text(`${f1Angle.toFixed(1)}°`, colAngle, cy1);
-
-  // F2
-  p.fill(0);
-  p.textAlign(p.LEFT, p.CENTER);
-  p.text("F2", colLabel, cy2);
-  p.textAlign(p.RIGHT, p.CENTER);
-  p.text(`${f2Mag.toFixed(1)} N`, colMag, cy2);
-  p.text(`${f2Angle.toFixed(1)}°`, colAngle, cy2);
-
-  // 区切り線
-  p.stroke(0, 60);
-  p.strokeWeight(1);
-  p.line(colLabel, divY, panelX + panelW - 16, divY);
-  p.noStroke();
-
-  // 合力
-  p.fill(220, 50, 50);
-  p.textAlign(p.LEFT, p.CENTER);
-  p.text("合力", colLabel, cy3);
-  p.textAlign(p.RIGHT, p.CENTER);
-  p.text(`${frMag.toFixed(1)} N`, colMag, cy3);
-  p.text(`${frAngle.toFixed(1)}°`, colAngle, cy3);
-
-  p.textAlign(p.CENTER, p.CENTER);
+  drawInfoPanelComponent(
+    p,
+    [
+      {
+        label: "F1",
+        value: f1Mag.toFixed(1),
+        unit: "N",
+        secondValue: f1Angle.toFixed(1),
+        secondUnit: "°"
+      },
+      {
+        label: "F2",
+        value: f2Mag.toFixed(1),
+        unit: "N",
+        secondValue: f2Angle.toFixed(1),
+        secondUnit: "°"
+      },
+      {
+        label: "合力",
+        value: frMag.toFixed(1),
+        unit: "N",
+        secondValue: frAngle.toFixed(1),
+        secondUnit: "°",
+        color: "rgb(220, 50, 50)",
+        dividerAbove: true
+      }
+    ],
+    {
+      x: V_W - INFO_PANEL_STYLE.margin,
+      y: V_H - INFO_PANEL_STYLE.margin,
+      anchorX: "right",
+      anchorY: "bottom",
+      labelWidth: 50
+    }
+  );
 }
 
 /**
@@ -301,7 +130,7 @@ export function drawInfoPanel(
  */
 export function drawScene(p: p5) {
   p.background(255, 255, 255);
-  drawGrid(p);
+  drawGridAndAxes(p);
 
   const f1x = state.f1TipX;
   const f1y = state.f1TipY;
@@ -317,7 +146,8 @@ export function drawScene(p: p5) {
     ORIGIN_Y + f2y,
     ORIGIN_X + frx,
     ORIGIN_Y + fry,
-    dashCol
+    dashCol,
+    DASHED_STYLE
   );
   drawDashedLine(
     p,
@@ -325,7 +155,8 @@ export function drawScene(p: p5) {
     ORIGIN_Y + f1y,
     ORIGIN_X + frx,
     ORIGIN_Y + fry,
-    dashCol
+    dashCol,
+    DASHED_STYLE
   );
 
   // 合力（赤）
@@ -336,7 +167,8 @@ export function drawScene(p: p5) {
     ORIGIN_X + frx,
     ORIGIN_Y + fry,
     p.color(220, 50, 50),
-    "合力 F"
+    "合力 F",
+    ARROW_STYLE
   );
 
   // F₁（黒）
@@ -347,7 +179,8 @@ export function drawScene(p: p5) {
     ORIGIN_X + f1x,
     ORIGIN_Y + f1y,
     p.color(0),
-    "F1"
+    "F1",
+    ARROW_STYLE
   );
 
   // F₂（黒）
@@ -358,7 +191,8 @@ export function drawScene(p: p5) {
     ORIGIN_X + f2x,
     ORIGIN_Y + f2y,
     p.color(0),
-    "F2"
+    "F2",
+    ARROW_STYLE
   );
 
   // 情報パネル

@@ -150,15 +150,15 @@ function drawFieldLines(p: p5, currentVal: number) {
  * @param currentVal - 電流の値（A）
  */
 function updateInfoPanel(currentVal: number) {
-  const fieldDirectionLabel = document.getElementById("fieldDirectionLabel");
-  if (fieldDirectionLabel) {
+  const fieldDirectionValue = document.getElementById("fieldDirectionValue");
+  if (fieldDirectionValue) {
     const direction = computeFieldDirection(currentVal);
     if (direction === "counterclockwise") {
-      fieldDirectionLabel.textContent = "現在の磁場の向き: 反時計回り";
+      fieldDirectionValue.textContent = "反時計回り";
     } else if (direction === "clockwise") {
-      fieldDirectionLabel.textContent = "現在の磁場の向き: 時計回り";
+      fieldDirectionValue.textContent = "時計回り";
     } else {
-      fieldDirectionLabel.textContent = "現在の磁場の向き: なし（I=0）";
+      fieldDirectionValue.textContent = "なし（I=0）";
     }
   }
 
@@ -167,7 +167,7 @@ function updateInfoPanel(currentVal: number) {
   if (bValueEl) {
     const rObs = 50;
     const bVal = computeMagneticFieldStrength(currentVal, rObs);
-    bValueEl.textContent = `相対磁場強度 (r=${rObs}): B ∝ |I|/r = ${bVal.toFixed(4)}`;
+    bValueEl.textContent = bVal.toFixed(4);
   }
 }
 

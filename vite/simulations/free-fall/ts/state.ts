@@ -4,8 +4,6 @@ import { BallGraph } from "./graph.js";
 export const state: {
   /** ボールクラス */
   ball: Ball | null;
-  /** フォント（プリロードされたp5.Fontインスタンス） */
-  font: any;
   /** ボール画像（プリロードされたp5.Imageインスタンス） */
   ballImage: any;
   /** 地面画像（プリロードされたp5.Imageインスタンス） */
@@ -31,8 +29,6 @@ export const state: {
 } = {
   /** ボールクラス */
   ball: null,
-  /** フォント */
-  font: null,
   /** ボール画像 */
   ballImage: null,
   /** 地面画像 */

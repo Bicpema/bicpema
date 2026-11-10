@@ -1,4 +1,4 @@
-import { state } from "./state.js";
+import { drawWebglText } from "../../../ts/webgl-text.js";
 import {
   GRAVITY,
   DEFAULT_INITIAL_HEIGHT,
@@ -321,29 +321,23 @@ export class Ball {
     p.pop();
 
     // === ラベル ===
-    if (state.font) {
-      p.textFont(state.font);
-      p.textAlign(p.CENTER, p.CENTER);
-      const labelSize = Math.max(MIN_3D_LABEL_SIZE, S * LABEL_SIZE_SCALE);
+    const labelSize = Math.round(
+      Math.max(MIN_3D_LABEL_SIZE, S * LABEL_SIZE_SCALE)
+    );
 
-      // x方向ラベル (緑)
-      p.push();
-      p.translate(bx, xBallY - BALL_R * 2.2, 0);
-      p.fill(...X_DIRECTION_LABEL_COLOR);
-      p.noStroke();
-      p.textSize(labelSize);
-      p.text("x方向", 0, 0);
-      p.pop();
+    // x方向ラベル (緑)
+    drawWebglText(p, "x方向", bx, xBallY - BALL_R * 2.2, 0, {
+      size: labelSize,
+      color: [...X_DIRECTION_LABEL_COLOR],
+      baseline: "middle"
+    });
 
-      // y方向ラベル (黄)
-      p.push();
-      p.translate(-BALL_R * 3.5, by, 0);
-      p.fill(245, 210, 60);
-      p.noStroke();
-      p.textSize(labelSize);
-      p.text("y方向", 0, 0);
-      p.pop();
-    }
+    // y方向ラベル (黄)
+    drawWebglText(p, "y方向", -BALL_R * 3.5, by, 0, {
+      size: labelSize,
+      color: [245, 210, 60],
+      baseline: "middle"
+    });
 
     p.pop(); // シーン変換終了
 
@@ -435,8 +429,6 @@ function drawArrow3D(
  * HUD テキスト (WebGL内でカメラ変換なしに描画)
  */
 function drawHUD(p: p5, ball: Ball) {
-  if (!state.font) return;
-
   p.push();
   // WebGL でHUDを描画: カメラをリセットして正射影風に
   p.ortho(-p.width / 2, p.width / 2, -p.height / 2, p.height / 2, -1000, 1000);
@@ -444,31 +436,46 @@ function drawHUD(p: p5, ball: Ball) {
 
   p.noLights();
   p.noStroke();
-  p.textFont(state.font);
-  p.textAlign(p.LEFT, p.TOP);
 
-  const fontSize = Math.max(MIN_HUD_FONT_SIZE, p.width * HUD_FONT_SIZE_RATIO);
-  p.textSize(fontSize);
+  const fontSize = Math.round(
+    Math.max(MIN_HUD_FONT_SIZE, p.width * HUD_FONT_SIZE_RATIO)
+  );
   const lineH = fontSize * HUD_LINE_HEIGHT_RATIO;
   const lx = -p.width / 2 + HUD_MARGIN;
   const ty = -p.height / 2 + HUD_MARGIN;
+  const left = { size: fontSize, align: "left", baseline: "top" } as const;
 
   // vx ラベル (緑)
-  p.fill(...X_DIRECTION_LABEL_COLOR);
-  p.text(`→ vx = ${ball.vx.toFixed(1)} m/s`, lx, ty);
+  drawWebglText(p, `→ vx = ${ball.vx.toFixed(1)} m/s`, lx, ty, 0, {
+    ...left,
+    color: [...X_DIRECTION_LABEL_COLOR],
+    slot: "hud-vx"
+  });
   // vy ラベル (黄)
-  p.fill(240, 205, 50);
-  p.text(`↓ vy = ${ball.vy.toFixed(1)} m/s`, lx, ty + lineH);
+  drawWebglText(p, `↓ vy = ${ball.vy.toFixed(1)} m/s`, lx, ty + lineH, 0, {
+    ...left,
+    color: [240, 205, 50],
+    slot: "hud-vy"
+  });
 
   // 右上: 情報
-  p.textAlign(p.RIGHT, p.TOP);
-  p.fill(220, 220, 230);
   const rx = p.width / 2 - HUD_MARGIN;
-  p.text(`時間: ${ball.time.toFixed(2)} s`, rx, ty);
-  p.text(`水平距離: ${ball.x.toFixed(2)} m`, rx, ty + lineH);
-  p.text(`高さ: ${ball.height.toFixed(2)} m`, rx, ty + lineH * 2);
-  p.text(`初速: ${ball.initialVelocity.toFixed(1)} m/s`, rx, ty + lineH * 3);
-  p.text(`初高さ: ${ball.initialHeight.toFixed(0)} m`, rx, ty + lineH * 4);
+  const info = [
+    `時間: ${ball.time.toFixed(2)} s`,
+    `水平距離: ${ball.x.toFixed(2)} m`,
+    `高さ: ${ball.height.toFixed(2)} m`,
+    `初速: ${ball.initialVelocity.toFixed(1)} m/s`,
+    `初高さ: ${ball.initialHeight.toFixed(0)} m`
+  ];
+  info.forEach((line, i) => {
+    drawWebglText(p, line, rx, ty + lineH * i, 0, {
+      size: fontSize,
+      color: [220, 220, 230],
+      align: "right",
+      baseline: "top",
+      slot: `hud-info-${i}`
+    });
+  });
 
   p.pop();
 }

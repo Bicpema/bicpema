@@ -1,6 +1,5 @@
 // グローバル状態管理オブジェクト
 export const state: {
-  font: p5.Font | null;
   bookImage: p5.Image | null;
   cartImage: p5.Image | null;
   groundImage: p5.Image | null;
@@ -31,8 +30,6 @@ export const state: {
   isRunning: boolean;
 } = {
   // --- ロードアセット ---
-  /** フォント */
-  font: null,
   /** 本の画像（読み込み完了までnull） */
   bookImage: null,
   /** 台車の画像（読み込み完了までnull） */

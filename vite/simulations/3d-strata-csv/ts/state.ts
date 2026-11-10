@@ -35,8 +35,6 @@ interface PlaceDataEntry {
 }
 
 export const state: {
-  /** 日本語フォント（非同期読み込み、失敗時はnullのまま） */
-  jaFont: any;
   /**
    * 地点データの連想配列。
    * ```
@@ -75,9 +73,6 @@ export const state: {
   unitSelect: any;
   strataFileInput: any;
 } = {
-  /** 日本語フォント（非同期読み込み、失敗時はnullのまま） */
-  jaFont: null,
-
   /**
    * 地点データの連想配列。
    * ```

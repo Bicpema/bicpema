@@ -1,5 +1,7 @@
 // constants.ts は本シミュレーション内で共有する定数を管理するファイルです。
 
+import { GRAVITY_ACCELERATION } from "../../../ts/physics/constants.js";
+
 /** 振り子（おもり）の個数 */
 export const BALL_COUNT = 100;
 /** フレームレート */
@@ -7,7 +9,7 @@ export const FPS = 60;
 /** 振り子の長さデータのCSV上の列インデックス */
 export const LENGTH_COLUMN = 3;
 /** 重力加速度 (m/s^2) */
-export const GRAVITY = 9.8;
+export const GRAVITY = GRAVITY_ACCELERATION;
 /** 振り子の長さ（データ上の単位）をメートルに変換する係数 */
 export const LENGTH_TO_METER_FACTOR = 0.25 / 300;
 /** おもり画像の表示幅 = キャンバス幅 / この値 */

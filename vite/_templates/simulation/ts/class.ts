@@ -9,3 +9,6 @@
 //   import { Arrow } from "../../../ts/components/arrow.js";
 //   const arrow = new Arrow(0, 0, 100, 0, p.color(255, 0, 0));
 //   arrow.draw(p);
+// 点線・ラベル付き矢印は関数として提供しています。
+//   import { drawDashedLine } from "../../../ts/components/dashed-line.js";
+//   import { drawArrowWithLabel } from "../../../ts/components/arrow.js";
