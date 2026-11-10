@@ -81,7 +81,7 @@ export function findSimulationTemplateIssues(simulationDir) {
   if (!entryScriptRelPath) {
     issues.push("missing-entry-script");
   } else {
-    const scriptTags = html.match(/<script[^>]*>/g) ?? [];
+    const scriptTags = html.match(/<script[^>]*>/gi) ?? [];
     const isLoadedAsModule = scriptTags.some(
       (tag) =>
         tag.includes('type="module"') &&
