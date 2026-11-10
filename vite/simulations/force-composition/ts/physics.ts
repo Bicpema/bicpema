@@ -1,3 +1,5 @@
+import { composeForces as sharedComposeForces } from "../../../ts/physics/mechanics.js";
+
 /**
  * 2つの力ベクトルの合力を計算する（力の合成）。
  * @param f1x - F1のx成分
@@ -12,7 +14,8 @@ export function composeForces(
   f2x: number,
   f2y: number
 ) {
-  return { x: f1x + f2x, y: f1y + f2y };
+  const { x, y } = sharedComposeForces({ x: f1x, y: f1y }, { x: f2x, y: f2y });
+  return { x, y };
 }
 
 /**

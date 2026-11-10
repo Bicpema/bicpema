@@ -4,6 +4,8 @@ import {
   computeTemperatureAtTime
 } from "./physics.js";
 import { getCheckedRadioValue } from "../../../ts/bicpema-dom.js";
+import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
+import { drawPolyline } from "../../../ts/components/plot-area.js";
 
 /** 冷却の緩和係数の係数 G（k_eff = G / C_hot） */
 const COOLING_RATE_CONSTANT = 1.8;
@@ -318,25 +320,20 @@ function drawGraph(p: p5) {
     p.noFill();
     p.strokeWeight(3);
 
-    // 高温曲線
-    p.stroke(...HOT_COLOR);
-    p.beginShape();
-    for (let tt = 0; tt <= state.tMax; tt++) {
-      const k_eff = COOLING_RATE_CONSTANT / state.C_hot;
-      const T = computeTemperatureAtTime(state.Teq, state.Thot0, k_eff, tt);
-      p.vertex(tx(p, tt), ty(p, T));
-    }
-    p.endShape();
-
-    // 低温曲線
-    p.stroke(...COLD_COLOR);
-    p.beginShape();
-    for (let tt = 0; tt <= state.tMax; tt++) {
-      const k_eff = COOLING_RATE_CONSTANT / state.C_hot;
-      const T = computeTemperatureAtTime(state.Teq, state.Tcold0, k_eff, tt);
-      p.vertex(tx(p, tt), ty(p, T));
-    }
-    p.endShape();
+    // 温度曲線（高温・低温）
+    const k_eff = COOLING_RATE_CONSTANT / state.C_hot;
+    /**
+     * 初期温度から平衡温度へ向かう温度変化の点列を作る。
+     * @param T0 - 初期温度
+     * @returns 時刻と温度の点列
+     */
+    const curve = (T0: number) =>
+      Array.from({ length: state.tMax + 1 }, (_, tt) => ({
+        x: tt,
+        y: computeTemperatureAtTime(state.Teq, T0, k_eff, tt)
+      }));
+    drawPolyline(p, graphCs(), curve(state.Thot0), p.color(...HOT_COLOR), 3);
+    drawPolyline(p, graphCs(), curve(state.Tcold0), p.color(...COLD_COLOR), 3);
 
     // 現在温度点
     const t_now = p.min(state.t, state.tMax);
@@ -386,13 +383,28 @@ function drawGraph(p: p5) {
 }
 
 /**
+ * グラフ枠（横: 経過時間 0〜tMax、縦: 温度 Tmin〜Tmax）の座標系を返す。
+ * 物理座標の値（時間・温度）をそのままピクセルへ変換できるよう、原点を温度0の位置に置く。
+ * @returns グラフ用の座標系
+ */
+function graphCs(): CoordinateSystem {
+  const scaleY = state.gh / (state.Tmax - state.Tmin);
+  return new CoordinateSystem({
+    originX: state.gx,
+    originY: state.gy + state.gh + state.Tmin * scaleY,
+    scaleX: state.gw / state.tMax,
+    scaleY
+  });
+}
+
+/**
  * 時間をグラフ上のx座標に変換する。
  * @param p - p5インスタンス
  * @param t - 経過時間
  * @returns グラフ上のx座標
  */
 function tx(p: p5, t: number) {
-  return p.map(t, 0, state.tMax, state.gx, state.gx + state.gw);
+  return graphCs().toPxX(t);
 }
 
 /**
@@ -402,7 +414,7 @@ function tx(p: p5, t: number) {
  * @returns グラフ上のy座標
  */
 function ty(p: p5, T: number) {
-  return p.map(T, state.Tmin, state.Tmax, state.gy + state.gh, state.gy);
+  return graphCs().toPxY(T);
 }
 
 /**

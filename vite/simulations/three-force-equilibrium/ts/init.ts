@@ -3,6 +3,7 @@
 import { state } from "./state.js";
 import { onWeightChange, onReset } from "./element-function.js";
 import { initModal } from "../../../ts/bicpema-modal-controller.js";
+import { bindResetControl } from "../../../ts/bicpema-controls-controller.js";
 
 const FPS = 30;
 
@@ -15,7 +16,7 @@ export function elCreate(p: p5) {
   state.weightDisplay = p.select("#weightDisplay");
 
   state.weightInput?.input(() => onWeightChange());
-  p.select("#resetButton")?.mousePressed(() => onReset());
+  bindResetControl(p, { resetSelector: "#resetButton", onReset });
 
   initModal({
     openSelectors: "#toggleModal",
@@ -30,6 +31,4 @@ export function elCreate(p: p5) {
  * シミュレーションの初期値を設定する。
  * @param p - p5 インスタンス
  */
-export function initValue(p: p5) {
-  p.textFont("sans-serif");
-}
+export function initValue(p: p5) {}

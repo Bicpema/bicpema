@@ -8,8 +8,6 @@ import { state, V_W } from "./state.js";
 import { elCreate, initValue } from "./init.js";
 import { drawSimulation } from "./logic.js";
 
-const FONT_URL =
-  "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Ffont%2FZenMaruGothic-Regular.ttf?alt=media&token=9b248da2-ed3a-46a3-b447-46a98775d580";
 const GROUND_IMG_URL =
   "https://firebasestorage.googleapis.com/v0/b/bicpema.firebasestorage.app/o/public%2Fassets%2Fimg%2Fcommon%2Fground.png?alt=media&token=b86c838e-5bb3-4ff5-9e1a-befd7f8c5810";
 
@@ -25,14 +23,11 @@ const sketch = (p: p5) => {
     state.wallImg = p.loadImage(GROUND_IMG_URL);
   };
 
-  /** キャンバスを生成し、初期設定を行う。フォントは非同期で読み込んで適用する。 */
+  /** キャンバスを生成し、初期設定を行う。 */
   p.setup = () => {
     canvasController.fullScreen(p);
     elCreate(p);
     initValue(p);
-    p.loadFont(FONT_URL, (f: p5.Font) => {
-      p.textFont(f);
-    });
   };
 
   let isFirstDraw = true;

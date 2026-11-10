@@ -1,4 +1,5 @@
 import type p5 from "p5";
+import { drawArrow as drawSharedArrow } from "../../../ts/components/arrow.js";
 import { state } from "./state.js";
 import { BASE_W, BASE_H, TANK_BOTTOM_Y } from "./init.js";
 import type { Cylinder } from "./cylinder.js";
@@ -50,7 +51,7 @@ function drawInfoText(cylinder: Cylinder, waterSurfaceY: number) {
  * @param ly - ラベルY座標
  * @param lAlignH - 水平アライメント（p.LEFT / p.CENTER / p.RIGHT）
  */
-function drawArrow(
+function drawLabeledArrow(
   p: p5,
   x1: number,
   y1: number,
@@ -62,35 +63,17 @@ function drawArrow(
   ly: number,
   lAlignH: p5.HORIZ_ALIGN
 ) {
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const angle = Math.atan2(dy, dx);
-
   p.push();
-  p.stroke(col[0], col[1], col[2]);
-  p.fill(col[0], col[1], col[2]);
-  p.strokeWeight(ARROW_STROKE_WEIGHT);
-  p.line(x1, y1, x2, y2);
-
-  // 矢頭
-  p.push();
-  p.translate(x2, y2);
-  p.rotate(angle);
-  p.noStroke();
-  p.triangle(
-    0,
-    0,
-    -ARROW_HEAD_SIZE,
-    -ARROW_HEAD_SIZE * 0.4,
-    -ARROW_HEAD_SIZE,
-    ARROW_HEAD_SIZE * 0.4
-  );
-  p.pop();
+  drawSharedArrow(p, x1, y1, x2, y2, p.color(col[0], col[1], col[2]), {
+    weight: ARROW_STROKE_WEIGHT,
+    headSize: ARROW_HEAD_SIZE,
+    headWidthDivisor: 2.5
+  });
 
   // ラベル
   if (label) {
     p.noStroke();
-    p.textFont("sans-serif");
+    p.fill(col[0], col[1], col[2]);
     p.textSize(ARROW_LABEL_FONT_SIZE);
     p.textAlign(lAlignH ?? p.CENTER, p.CENTER);
     p.text(label, lx ?? (x1 + x2) / 2, ly ?? (y1 + y2) / 2);
@@ -118,7 +101,7 @@ function drawForceArrows(p: p5) {
 
   // ----- 1. 重力（↓, 円柱中心から下向き） -----
   const gravityLen = cylinder.density * FORCE_SCALE;
-  drawArrow(
+  drawLabeledArrow(
     p,
     cx - ARROW_OFFSET_X,
     centerY,
@@ -134,7 +117,7 @@ function drawForceArrows(p: p5) {
   // ----- 2. 浮力（↑, 円柱中心から上向き） -----
   if (subFrac > 0) {
     const buoyancyLen = subFrac * FORCE_SCALE;
-    drawArrow(
+    drawLabeledArrow(
       p,
       cx + ARROW_OFFSET_X,
       centerY,

@@ -1,3 +1,5 @@
+import { drawGrid } from "../../../ts/components/grid.js";
+import { CoordinateSystem } from "../../../ts/components/coordinate-system.js";
 import { state } from "./state.js";
 import {
   computeIncidentDisplacement,
@@ -21,7 +23,7 @@ const DASH_PATTERN = [6, 6];
  */
 export function drawSimulation(p: p5) {
   p.background(255);
-  drawGrid(p);
+  drawBackgroundGrid(p);
   drawReflectWall(p);
   p.noFill();
 
@@ -162,27 +164,18 @@ export function drawSimulation(p: p5) {
  * 反射壁の位置とキャンバス中央を起点にグリッド線を描画し、中央に基準線を引く。
  * @param p - p5インスタンス
  */
-function drawGrid(p: p5) {
-  p.stroke(142, 216, 236);
-  p.strokeWeight(1);
+function drawBackgroundGrid(p: p5) {
   const wavelength = p.TWO_PI / state.k;
-  const gridX = wavelength / 8;
-  // 壁位置（state.reflectX）を起点に左右へグリッド線を引く
-  for (let x = state.reflectX; x <= p.width; x += gridX) {
-    p.line(x, 0, x, p.height);
-  }
-  for (let x = state.reflectX - gridX; x >= 0; x -= gridX) {
-    p.line(x, 0, x, p.height);
-  }
-  // 中央（p.height/2）を起点に上下へグリッド線を引く
-  const y0 = p.height / 2;
-  const gridY = state.A / 2;
-  for (let y = y0; y <= p.height; y += gridY) {
-    p.line(0, y, p.width, y);
-  }
-  for (let y = y0 - gridY; y >= 0; y -= gridY) {
-    p.line(0, y, p.width, y);
-  }
+  // 壁位置（state.reflectX）とキャンバス中央（p.height/2）を原点に、左右・上下へグリッド線を引く
+  const cs = new CoordinateSystem({
+    originX: state.reflectX,
+    originY: p.height / 2
+  });
+  drawGrid(p, cs, {
+    stepX: wavelength / 8,
+    stepY: state.A / 2,
+    color: p.color(142, 216, 236)
+  });
   p.stroke(0);
   p.strokeWeight(2);
   p.line(0, p.height / 2, p.width, p.height / 2);

@@ -3,7 +3,6 @@ import type { BallGraph } from "./graph.js";
 
 export const state: {
   ball: Ball | null;
-  font: p5.Font | null;
   ballImage: p5.Image | null;
   groundImage: p5.Image | null;
   tallBuildingImage: p5.Image | null;
@@ -20,7 +19,6 @@ export const state: {
   ytData: { x: number; y: number }[];
 } = {
   ball: null,
-  font: null,
   ballImage: null,
   groundImage: null,
   tallBuildingImage: null,

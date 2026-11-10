@@ -37,5 +37,3 @@ export const MIN_ARROW_DRAG_DISTANCE = 5;
 export const FORCE_ARROW_COLOR = [200, 40, 40] as const;
 /** ドラッグ操作ヒントの線・矢印の色（グレースケール） */
 export const DRAG_HINT_COLOR = 160;
-/** 情報パネル内の補足テキストの色（グレースケール） */
-export const INFO_PANEL_MUTED_TEXT_COLOR = 200;

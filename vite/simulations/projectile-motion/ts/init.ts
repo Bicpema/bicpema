@@ -1,6 +1,7 @@
 // init.jsは初期処理専用のファイルです。
 
 import { state } from "./state.js";
+import { GRAVITY_ACCELERATION } from "../../../ts/physics/constants.js";
 
 /** ヘッダーの高さ[px] */
 export const NAV_HEIGHT = 60;
@@ -32,7 +33,7 @@ export const BALL_RADIUS_DIVISOR = 50;
 /** ボールの発射位置のx座標 */
 export const BALL_START_X = 50;
 /** 重力加速度[m/s^2] */
-export const GRAVITY = 9.8;
+export const GRAVITY = GRAVITY_ACCELERATION;
 export const SPEED_INPUT_STEP = 0.1;
 export const FPS = 60;
 

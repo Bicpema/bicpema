@@ -3,6 +3,7 @@ import { Tank } from "./tank.js";
 import { Cylinder } from "./cylinder.js";
 import { state } from "./state.js";
 import { updateDensityLabel } from "./element-function.js";
+import { bindResetControl } from "../../../ts/bicpema-controls-controller.js";
 
 export const FPS = 60;
 
@@ -53,12 +54,11 @@ export function initValue(p?: p5) {
  * @param p - p5インスタンス。
  */
 export function elCreate(p: p5) {
-  const resetBtn = document.getElementById("resetButton");
-  if (resetBtn) {
-    resetBtn.addEventListener("click", () => {
-      initValue(p);
-    });
-  }
+  bindResetControl(p, {
+    resetSelector: "#resetButton",
+    /** リセットボタンが押されたときに初期状態へ戻す。 */
+    onReset: () => initValue(p)
+  });
 
   const densitySlider = document.getElementById(
     "densitySlider"

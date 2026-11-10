@@ -1,4 +1,9 @@
-import { drawArrow as drawSharedArrow } from "../../../ts/components/arrow.js";
+import {
+  drawInfoPanel as drawInfoPanelComponent,
+  INFO_PANEL_STYLE
+} from "../../../ts/components/info-panel.js";
+import { drawArrow } from "../../../ts/components/arrow.js";
+import { drawDashedLine } from "../../../ts/components/dashed-line.js";
 import { state } from "./state.js";
 import {
   V_W,
@@ -14,60 +19,6 @@ import {
 import { decomposeGravityOnSlope } from "./physics.js";
 
 // ── 共通ユーティリティ ──────────────────────────────────────────────
-
-/**
- * 矢印を描画する（共通コンポーネントのラッパー）。
- * @param sw - strokeWeight（省略時: 3）
- */
-export function drawArrow(
-  p: p5,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  col: p5.Color,
-  sw = 3
-) {
-  drawSharedArrow(p, x1, y1, x2, y2, col, { weight: sw });
-}
-
-/**
- * 点線を描画する。
- */
-function drawDashed(
-  p: p5,
-  x1: number,
-  y1: number,
-  x2: number,
-  y2: number,
-  col: p5.Color
-) {
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const len = p.sqrt(dx * dx + dy * dy);
-  if (len < 1) return;
-  const dashLen = 8;
-  const gapLen = 6;
-  const ux = dx / len;
-  const uy = dy / len;
-  let d = 0;
-  let drawing = true;
-  p.stroke(col);
-  p.strokeWeight(1.5);
-  while (d < len) {
-    const segLen = p.min(drawing ? dashLen : gapLen, len - d);
-    if (drawing) {
-      p.line(
-        x1 + ux * d,
-        y1 + uy * d,
-        x1 + ux * (d + segLen),
-        y1 + uy * (d + segLen)
-      );
-    }
-    d += segLen;
-    drawing = !drawing;
-  }
-}
 
 /**
  * ラベル付きテキストを描画する。
@@ -229,8 +180,22 @@ function drawSlopeVectors(
   const tipPerpY = baseY + fnLen * cosT;
 
   // 補助破線（平行四辺形：各成分先端から重力先端へ）
-  drawDashed(p, tipPerpX, tipPerpY, tipGravX, tipGravY, p.color(150, 150, 150));
-  drawDashed(p, tipParX, tipParY, tipGravX, tipGravY, p.color(150, 150, 150));
+  drawDashedLine(
+    p,
+    tipPerpX,
+    tipPerpY,
+    tipGravX,
+    tipGravY,
+    p.color(150, 150, 150)
+  );
+  drawDashedLine(
+    p,
+    tipParX,
+    tipParY,
+    tipGravX,
+    tipGravY,
+    p.color(150, 150, 150)
+  );
 
   // F_perp（青）
   drawArrow(
@@ -239,13 +204,14 @@ function drawSlopeVectors(
     baseY,
     tipPerpX,
     tipPerpY,
-    p.color(...PERPENDICULAR_COLOR),
-    3
+    p.color(...PERPENDICULAR_COLOR)
   );
   // F_parallel（赤）
-  drawArrow(p, baseX, baseY, tipParX, tipParY, p.color(...PARALLEL_COLOR), 3);
+  drawArrow(p, baseX, baseY, tipParX, tipParY, p.color(...PARALLEL_COLOR));
   // 重力 mg（緑）
-  drawArrow(p, baseX, baseY, tipGravX, tipGravY, p.color(...GRAVITY_COLOR), 4);
+  drawArrow(p, baseX, baseY, tipGravX, tipGravY, p.color(...GRAVITY_COLOR), {
+    weight: 4
+  });
 
   // ラベル
   drawLabel(
@@ -313,45 +279,43 @@ function drawRightAngleMark(
  * @param mg - N
  */
 function drawSlopeInfoPanel(p: p5, mg: number) {
-  const panelW = 290;
-  const panelH = 130;
-  const panelX = V_W - panelW - 10;
-  const panelY = V_H - panelH - 10;
-  const lineH = 26;
-
-  p.fill(255);
-  p.stroke(0);
-  p.strokeWeight(1.5);
-  p.rect(panelX, panelY, panelW, panelH, 8);
-  p.noStroke();
-
   const { parallel, perpendicular } = decomposeGravityOnSlope(
     state.mass,
     GRAVITY,
     state.slopeAngle
   );
-  const mgStr = mg.toFixed(1);
-  const fpStr = parallel.toFixed(1);
-  const fnStr = perpendicular.toFixed(1);
-  const θStr = `${state.slopeAngle.toFixed(1)}°`;
 
-  p.textSize(14);
-  p.textAlign(p.LEFT, p.CENTER);
-
-  p.fill(...GRAVITY_COLOR);
-  p.text(`mg        = ${mgStr} N`, panelX + 16, panelY + lineH * 0.6);
-  p.fill(...PARALLEL_COLOR);
-  p.text(
-    `mg sinθ  = ${fpStr} N（斜面方向）`,
-    panelX + 16,
-    panelY + lineH * 1.7
+  drawInfoPanelComponent(
+    p,
+    [
+      {
+        label: "mg（重力）",
+        value: mg.toFixed(1),
+        unit: "N",
+        color: `rgb(${GRAVITY_COLOR.join(", ")})`
+      },
+      {
+        label: "mg sinθ（斜面方向）",
+        value: parallel.toFixed(1),
+        unit: "N",
+        color: `rgb(${PARALLEL_COLOR.join(", ")})`
+      },
+      {
+        label: "mg cosθ（垂直方向）",
+        value: perpendicular.toFixed(1),
+        unit: "N",
+        color: `rgb(${PERPENDICULAR_COLOR.join(", ")})`
+      },
+      { label: "θ（斜面角）", value: state.slopeAngle.toFixed(1), unit: "°" }
+    ],
+    {
+      x: V_W - INFO_PANEL_STYLE.margin,
+      y: V_H - INFO_PANEL_STYLE.margin,
+      anchorX: "right",
+      anchorY: "bottom",
+      labelWidth: 150
+    }
   );
-  p.fill(...PERPENDICULAR_COLOR);
-  p.text(`mg cosθ = ${fnStr} N（垂直方向）`, panelX + 16, panelY + lineH * 2.8);
-  p.fill(0);
-  p.text(`θ（斜面角）= ${θStr}`, panelX + 16, panelY + lineH * 3.9);
-
-  p.textAlign(p.CENTER, p.CENTER);
 }
 
 /**

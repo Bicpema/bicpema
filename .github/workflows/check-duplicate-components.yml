@@ -1,0 +1,45 @@
+---
+name: 共通コンポーネントの重複定義チェック
+
+"on":
+  pull_request:
+    paths:
+      - "vite/simulations/**"
+      - "vite/ts/components/**"
+      - "scripts/check-duplicate-components.js"
+      - "scripts/duplicate-components-allowlist.json"
+      - "scripts/_lib/checkDuplicateComponents.js"
+      - ".github/workflows/check-duplicate-components.yml"
+      - ".github/actions/**"
+  push:
+    branches:
+      - main
+    paths:
+      - "vite/simulations/**"
+      - "vite/ts/components/**"
+      - "scripts/check-duplicate-components.js"
+      - "scripts/duplicate-components-allowlist.json"
+      - "scripts/_lib/checkDuplicateComponents.js"
+      - ".github/workflows/check-duplicate-components.yml"
+      - ".github/actions/**"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-duplicate-components:
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリのチェックアウト
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Node.jsのセットアップと依存パッケージのインストール
+        uses: ./.github/actions/setup-node-deps
+
+      - name: 共通コンポーネントの重複定義チェック
+        run: npm run check:duplicate-components
