@@ -122,7 +122,8 @@ function drawLeftWave(p: p5) {
         state.k,
         x,
         state.omega,
-        state.t
+        state.t,
+        state.innerW
       );
       p.vertex(x, state.innerH / 2 + y);
     }
