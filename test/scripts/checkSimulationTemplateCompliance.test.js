@@ -1,3 +1,11 @@
+import {
+  cpSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync
+} from "node:fs";
+import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 import { describe, it, expect } from "vitest";
@@ -60,6 +68,24 @@ describe("findSimulationTemplateIssues", () => {
     expect(
       findSimulationTemplateIssues(resolve(simulationsDir, "inline-ui-parts"))
     ).toEqual(INLINE_UI_PARTS_ISSUES);
+  });
+
+  it("scriptタグが大文字でも読み込みを検出して誤検知しない", () => {
+    const tmpDir = mkdtempSync(resolve(tmpdir(), "template-compliance-"));
+    try {
+      cpSync(resolve(simulationsDir, "compliant-sim"), tmpDir, {
+        recursive: true
+      });
+      const htmlPath = resolve(tmpDir, "index.html");
+      const html = readFileSync(htmlPath, "utf-8")
+        .replace("<script", "<SCRIPT")
+        .replace("</script>", "</SCRIPT>");
+      writeFileSync(htmlPath, html);
+
+      expect(findSimulationTemplateIssues(tmpDir)).toEqual([]);
+    } finally {
+      rmSync(tmpDir, { recursive: true, force: true });
+    }
   });
 
   it("共通コントローラをシングルクォートでimportしていても誤検知しない", () => {
