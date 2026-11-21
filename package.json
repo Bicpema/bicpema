@@ -41,7 +41,7 @@
     "eslint-plugin-tsdoc": "^0.5.4",
     "markdownlint-cli2": "^0.24.0",
     "oxlint": "^1.90.0",
-    "playwright": "^1.63.0",
+    "playwright": "^1.65.1",
     "prettier": "3.9.10",
     "storybook": "^10.6.2",
     "tailwindcss": "^4.3.4",
